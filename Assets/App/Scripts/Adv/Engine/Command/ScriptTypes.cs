@@ -1,0 +1,43 @@
+﻿//
+// ScriptTypes.cs
+// ProductName Ling
+//
+// Created by toshiki sakamoto on 2019.04.21
+//
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
+
+
+namespace Ling.Adv.Engine.Command
+{
+	/// <summary>
+	/// コマンドのタイプ
+	/// </summary>
+    public enum ScriptType
+    {
+        NONE,
+
+        LABEL_CMD,
+        SET_VALUE_CMD,
+        GOTO_CMD,
+
+        IF_TRUE_CMD,
+        IF_FALSE_CMD,
+        IF_BIGGER_CMD,
+        IF_SMALLER_CMD,
+        IF_BIGGER_EQU_CMD,
+        IF_SMALLER_EQU_CMD,
+
+        LOAD_CMD,
+        CLEAR_CMD,
+        CLEAR_TEXT_CMD,
+
+        TEXT_CMD,
+
+    };
+}
