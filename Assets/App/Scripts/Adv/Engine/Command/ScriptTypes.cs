@@ -24,6 +24,7 @@ namespace Ling.Adv.Engine.Command
 
         LABEL_CMD,
         SET_VALUE_CMD,
+        CALC_VALUE_CMD,
         GOTO_CMD,
 
         IF_TRUE_CMD,
@@ -39,5 +40,8 @@ namespace Ling.Adv.Engine.Command
 
         TEXT_CMD,
 
+        WAIT_CMD,
+
+        END_CMD,
     };
 }

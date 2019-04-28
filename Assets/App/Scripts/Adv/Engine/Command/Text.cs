@@ -90,6 +90,9 @@ namespace Ling.Adv.Engine.Command
 
             instance.Message = work;
 
+
+            creator.AddCommand(instance);
+
             return instance;
         }
 

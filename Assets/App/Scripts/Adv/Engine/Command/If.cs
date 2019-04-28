@@ -69,8 +69,6 @@ namespace Ling.Adv.Engine.Command
         /// <returns>The create.</returns>
         public static If Create(Creator creator, Lexer lexer, uint isElseIfIndex = 0)
         {
-            var instance = new If();
-
             Creator.ValueOrNumber val1;
             Creator.ValueOrNumber val2;
 
@@ -83,6 +81,9 @@ namespace Ling.Adv.Engine.Command
                 Log.Error("構文エラー(if)");
                 return null;
             }
+
+            var instance = new If();
+            creator.AddCommand(instance);
 
             instance._scriptType = creator.BoolOp(op);
             instance.Flag = 0;
@@ -136,10 +137,14 @@ namespace Ling.Adv.Engine.Command
 
             // ジャンプ先
             instance.Goto = Label.Create();
-
             creator.FindLabel(label, instance.Goto);
 
             return instance;
+        }
+
+        public override string ToString()
+        {
+            return "if";
         }
 
         #endregion

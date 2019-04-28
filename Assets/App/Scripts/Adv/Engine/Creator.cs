@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Adv.Engine.Command
+namespace Ling.Adv.Engine
 {
     /// <summary>
     /// 
@@ -22,7 +22,9 @@ namespace Ling.Adv.Engine.Command
     {
         #region 定数, class, enum
 
-
+        /// <summary>
+        /// 定数か変数か判断する
+        /// </summary>
         public struct ValueOrNumber
         {
             public bool isValue;
@@ -39,10 +41,10 @@ namespace Ling.Adv.Engine.Command
 
         #region private 変数
 
-        private Manager _manager = null;
+        private Command.Manager _manager = null;
         private Reader _reader = null;
 
-        private List<Label> _label = new List<Label>();
+        private List<Command.Label> _label = new List<Command.Label>();
         private List<string> _valueName = new List<string>();
 
         private uint _thenIndex = 0;
@@ -58,6 +60,16 @@ namespace Ling.Adv.Engine.Command
         /// <value>The reader.</value>
         public Reader Reader { get { return _reader; } }
 
+        /// <summary>
+        /// コマンド管理者
+        /// </summary>
+        /// <value>The cmd manager.</value>
+        public Command.Manager CmdManager { get { return _manager; } }
+
+        /// <summary>
+        /// If...then のラベル管理
+        /// </summary>
+        /// <value>The then nest.</value>
         public Stack<uint> ThenNest { get; private set; } = new Stack<uint>();
 
         #endregion
@@ -65,9 +77,12 @@ namespace Ling.Adv.Engine.Command
 
         #region コンストラクタ, デストラクタ
 
-        public Creator(Manager manager)
+        public Creator(Command.Manager manager)
         {
             _manager = manager;
+
+            // テーブルにコマンドを格納する
+            _manager.Setup();
         }
 
         #endregion
@@ -130,7 +145,7 @@ namespace Ling.Adv.Engine.Command
             }
             else
             {
-
+                ParseCommand(lexer);
             }
         }
 
@@ -139,16 +154,15 @@ namespace Ling.Adv.Engine.Command
         /// </summary>
         /// <returns>The command.</returns>
         /// <param name="lexer">Lexer.</param>
-        private Command.Base ParseCommand(Lexer lexer)
+        private void ParseCommand(Lexer lexer)
         {
             var cmd = lexer.GetString(0);
 
             var cmdManager = _manager;
 
-            var cmdInstance = cmdManager.Create(cmd, lexer);
-            if (cmdInstance != null)
+            if (cmdManager.Create(cmd, this, lexer))
             {
-                return cmdInstance;
+                return;
             }
 
             // set, calc の省略形か
@@ -164,12 +178,12 @@ namespace Ling.Adv.Engine.Command
                     case "+":
                     case "-":
                     case "=":
-                        return Command.Set.Create(this, lexer);
+                        Command.Set.Create(this, lexer);
+                        return;
                 }
             }
 
-            Log.Error("syntax error (command syntax)");
-            return null;
+            Log.Error("構文エラー (知らないコマンド {0})", cmd);
         }
 
 
@@ -246,7 +260,7 @@ namespace Ling.Adv.Engine.Command
         /// ラベルの参照
         /// </summary>
         /// <param name="label">Label.</param>
-        public void FindLabel(string label, Label labelCmd)
+        public void FindLabel(string label, Command.Label labelCmd)
         {
             foreach (var elm in _label)
             {
@@ -259,7 +273,7 @@ namespace Ling.Adv.Engine.Command
                 if (elm.IsPredefined)
                 {
                     // 参照に追加(Gotoコマンド）
-                    elm.Reference = new Label.Ref(labelCmd, elm.Reference);
+                    elm.Reference = new Command.Label.Ref(labelCmd, elm.Reference);
                 }
                 else
                 {
@@ -271,7 +285,7 @@ namespace Ling.Adv.Engine.Command
             }
 
             // 新しいラベルを参照として登録
-            var chain = new Label.Ref(labelCmd, null);
+            var chain = new Command.Label.Ref(labelCmd, null);
 
             labelCmd.Name = label;
             labelCmd.Reference = chain;
@@ -320,27 +334,27 @@ namespace Ling.Adv.Engine.Command
         /// </summary>
         /// <returns>The op.</returns>
         /// <param name="op">Op.</param>
-        public ScriptType BoolOp(string op)
+        public Command.ScriptType BoolOp(string op)
         {
             switch (op)
             {
                 case "==":
-                    return ScriptType.IF_TRUE_CMD;
+                    return Command.ScriptType.IF_TRUE_CMD;
 
                 case "!=":
-                    return ScriptType.IF_FALSE_CMD;
+                    return Command.ScriptType.IF_FALSE_CMD;
 
                 case "<=":
-                    return ScriptType.IF_SMALLER_EQU_CMD;
+                    return Command.ScriptType.IF_SMALLER_EQU_CMD;
 
                 case ">=":
-                    return ScriptType.IF_BIGGER_EQU_CMD;
+                    return Command.ScriptType.IF_BIGGER_EQU_CMD;
 
                 case "<":
-                    return ScriptType.IF_SMALLER_CMD;
+                    return Command.ScriptType.IF_SMALLER_CMD;
 
                 case ">":
-                    return ScriptType.IF_BIGGER_CMD;
+                    return Command.ScriptType.IF_BIGGER_CMD;
 
                 default:
                     break;
@@ -348,7 +362,7 @@ namespace Ling.Adv.Engine.Command
 
             Log.Error("構文エラー(比較演算子)");
 
-            return ScriptType.NONE;
+            return Command.ScriptType.NONE;
         }
 
         /// <summary>
@@ -356,27 +370,27 @@ namespace Ling.Adv.Engine.Command
         /// </summary>
         /// <returns>The op.</returns>
         /// <param name="op">Op.</param>
-        public ScriptType NegBoolOp(string op)
+        public Command.ScriptType NegBoolOp(string op)
         {
             switch (op)
             {
                 case "==":
-                    return ScriptType.IF_FALSE_CMD;
+                    return Command.ScriptType.IF_FALSE_CMD;
 
                 case "!=":
-                    return ScriptType.IF_TRUE_CMD;
+                    return Command.ScriptType.IF_TRUE_CMD;
 
                 case "<=":
-                    return ScriptType.IF_BIGGER_CMD;
+                    return Command.ScriptType.IF_BIGGER_CMD;
 
                 case ">=":
-                    return ScriptType.IF_SMALLER_CMD;
+                    return Command.ScriptType.IF_SMALLER_CMD;
 
                 case "<":
-                    return ScriptType.IF_BIGGER_EQU_CMD;
+                    return Command.ScriptType.IF_BIGGER_EQU_CMD;
 
                 case ">":
-                    return ScriptType.IF_SMALLER_EQU_CMD;
+                    return Command.ScriptType.IF_SMALLER_EQU_CMD;
 
                 default:
                     break;
@@ -384,7 +398,7 @@ namespace Ling.Adv.Engine.Command
 
             Log.Error("構文エラー(比較演算子)");
 
-            return ScriptType.NONE;
+            return Command.ScriptType.NONE;
         }
 
         /// <summary>
@@ -410,17 +424,21 @@ namespace Ling.Adv.Engine.Command
              return string.Format("#endif#{0}", index);
         }
 
-        #endregion
-
-
-        #region private 関数
+        /// <summary>
+        /// コマンドを追加する
+        /// </summary>
+        /// <param name="instance">Instance.</param>
+        public void AddCommand(Command.Base instance)
+        {
+            _manager.AddCommand(instance);
+        }
 
         /// <summary>
         /// 変数テーブルから変数の参照
         /// </summary>
         /// <returns>The value.</returns>
         /// <param name="value">Value.</param>
-        private int FindValue(string value)
+        public int FindValue(string value)
         {
             for (int i = 0; i < _valueName.Count; ++i)
             {
@@ -438,6 +456,11 @@ namespace Ling.Adv.Engine.Command
 
             return _valueName.Count - 1;
         }
+
+        #endregion
+
+
+        #region private 関数
 
         private void LabelCheck()
         {

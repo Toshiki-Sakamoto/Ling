@@ -55,8 +55,18 @@ namespace Ling.Adv.Engine
 
         public void Load(string filename)
         {
-            var creator = new Command.Creator(Cmd);
+            var creator = new Creator(Cmd);
             creator.Read(filename);
+            
+            // 読み込んだコマンドを表示する
+            Utility.Log.Print("-------- Command ------");
+
+            foreach (var elm in Cmd.Command)
+            {
+	            Utility.Log.Print("{0}", elm.ToString());
+            }
+            
+            Utility.Log.Print("-------- Command ------");
         }
 
         #endregion

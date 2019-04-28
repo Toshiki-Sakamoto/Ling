@@ -1,8 +1,8 @@
 ﻿//
-// Load.cs
+// Wait.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2019.04.26
+// Created by toshiki sakamoto on 2019.04.28
 //
 
 using System;
@@ -18,7 +18,7 @@ namespace Ling.Adv.Engine.Command
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Load : Base
+    public class Wait : Base
     {
         #region 定数, class, enum
 
@@ -41,7 +41,7 @@ namespace Ling.Adv.Engine.Command
         /// コマンドタイプ
         /// </summary>
         /// <value>The type.</value>
-        public override ScriptType Type { get { return ScriptType.LOAD_CMD; } }
+        public override ScriptType Type { get { return ScriptType.WAIT_CMD; } }
 
         #endregion
 
@@ -53,24 +53,17 @@ namespace Ling.Adv.Engine.Command
 
         #region public, protected 関数
 
-        public Load Create(Lexer lexer)
+        /// <summary>
+        /// コマンド作成
+        /// </summary>
+        /// <returns>The create.</returns>
+        public static Wait Create(Creator creator, Lexer lexer)
         {
-            var instance = new Load();
+            var instance = new Wait();
 
-            var str1 = lexer.GetString();
-            var str2 = lexer.GetString();
+            creator.AddCommand(instance);
 
-            if (string.IsNullOrEmpty(str1) || string.IsNullOrEmpty(str2) ||
-                !string.IsNullOrEmpty(lexer.GetString()))
-            {
-                Log.Error("構文エラー(load)");
-                return null; 
-            }
-
-
-
-
-            return instance; 
+            return instance;
         }
 
         #endregion

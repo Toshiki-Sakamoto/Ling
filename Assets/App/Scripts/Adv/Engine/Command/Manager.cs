@@ -32,13 +32,14 @@ namespace Ling.Adv.Engine.Command
 
         #region private 変数
 
-        private Dictionary<string, System.Func<Lexer, Base>> _dictCreator = new Dictionary<string, Func<Lexer, Base>>();
-        private List<Base> _commands = new List<Base>();
+        private Dictionary<string, System.Func<Creator, Lexer, Base>> _dictCreator = new Dictionary<string, Func<Creator, Lexer, Base>>();
 
         #endregion
 
 
         #region プロパティ
+        
+        public List<Base> Command { get; private set; } = new List<Base>();
 
         #endregion
 
@@ -50,13 +51,33 @@ namespace Ling.Adv.Engine.Command
 
         #region public, protected 関数
 
+        /// <summary>
+        /// 初期化する
+        /// </summary>
+        public void Setup()
+        {
+            _dictCreator.Clear();
+            Command.Clear();
+            
+            // コマンドを登録する
+            SetCmd("set", (c_, l_) => Set.Create(c_, l_));
+            SetCmd("calc", (c_, l_) => Set.Create(c_, l_));
+            SetCmd("text", (c_, l_) => Text.Create(c_, l_));
+            SetCmd("goto", (c_, l_) => Goto.Create(c_, l_));
+            SetCmd("if", (c_, l_) => If.Create(c_, l_));
+            SetCmd("else", (c_, l_) => Else.Create(c_, l_));
+            SetCmd("endif", (c_, l_) => EndIf.Create(c_, l_));
+            SetCmd("wait", (c_, l_) => Wait.Create(c_, l_));
+
+            SetCmd("end", (c_, l_) => End.Create(c_, l_));
+        }
 
         /// <summary>
         /// タイプ登録
         /// </summary>
         /// <param name="type">Type.</param>
         /// <param name="instance">Instance.</param>
-        public void Set(string key, System.Func<Lexer, Base> funcCreator)
+        public void SetCmd(string key, System.Func<Creator, Lexer, Base> funcCreator)
         {
             _dictCreator[key] = funcCreator;
         }
@@ -67,14 +88,15 @@ namespace Ling.Adv.Engine.Command
         /// </summary>
         /// <returns>The create.</returns>
         /// <param name="key">Key.</param>
-        public Base Create(string key, Lexer lexer)
+        public bool Create(string key, Creator creator, Lexer lexer)
         {
             if (!_dictCreator.ContainsKey(key))
             {
-                return null;
+                return false;
             }
 
-            return _dictCreator[key](lexer);
+            var instance = _dictCreator[key](creator, lexer);
+            return true;
         }
 
         /// <summary>
@@ -83,7 +105,7 @@ namespace Ling.Adv.Engine.Command
         /// <param name="command">Command.</param>
         public void AddCommand(Base command)
         {
-            _commands.Add(command);
+            Command.Add(command);
         }
 
 

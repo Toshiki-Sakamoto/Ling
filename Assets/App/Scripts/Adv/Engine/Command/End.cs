@@ -1,8 +1,8 @@
 ﻿//
-// Clear.cs
+// End.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2019.04.26
+// Created by toshiki sakamoto on 2019.04.28
 //
 
 using System;
@@ -18,7 +18,7 @@ namespace Ling.Adv.Engine.Command
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Clear : Base
+    public class End : Base
     {
         #region 定数, class, enum
 
@@ -32,18 +32,15 @@ namespace Ling.Adv.Engine.Command
 
         #region private 変数
 
-        private ScriptType _scriptType = ScriptType.CLEAR_CMD;
-
         #endregion
 
 
         #region プロパティ
-
         /// <summary>
         /// コマンドタイプ
         /// </summary>
         /// <value>The type.</value>
-        public override ScriptType Type { get { return _scriptType; } }
+        public override ScriptType Type { get { return ScriptType.END_CMD; } }
 
         #endregion
 
@@ -55,35 +52,22 @@ namespace Ling.Adv.Engine.Command
 
         #region public, protected 関数
 
-        public Clear Create(Creator creator, Lexer lexer)
+        /// <summary>
+        /// コマンド作成
+        /// </summary>
+        /// <returns>The create.</returns>
+        public static End Create(Creator creator, Lexer lexer)
         {
-            var str = lexer.GetString();
+            var instance = new End();
 
-            if (string.IsNullOrEmpty(str) || !string.IsNullOrEmpty(lexer.GetString()))
-            {
-                Log.Error("構文エラー(clear)");
-                return null; 
-            }
-
-            var instance = new Clear();
             creator.AddCommand(instance);
-
-            if (str == "text")
-            {
-                instance._scriptType = ScriptType.CLEAR_TEXT_CMD;
-            }
-            else
-            {
-                 
-            }
 
             return instance;
         }
 
-
         public override string ToString()
         {
-            return "Clear";
+            return "end";
         }
 
         #endregion

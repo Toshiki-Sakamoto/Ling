@@ -89,6 +89,11 @@ namespace Ling.Adv.Engine.Command
             return null;
         }
 
+        public override string ToString()
+        {
+            return "endif";
+        }
+
         #endregion
 
 

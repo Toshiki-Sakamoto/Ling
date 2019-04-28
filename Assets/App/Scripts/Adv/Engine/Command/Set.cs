@@ -32,6 +32,8 @@ namespace Ling.Adv.Engine.Command
 
         #region private 変数
 
+        private ScriptType _scriptType = ScriptType.NONE;
+
         #endregion
 
 
@@ -41,7 +43,21 @@ namespace Ling.Adv.Engine.Command
         /// コマンドタイプ
         /// </summary>
         /// <value>The type.</value>
-        public override ScriptType Type { get { return ScriptType.SET_VALUE_CMD; } }
+        public override ScriptType Type { get { return _scriptType; } }
+
+        public int ValueIndex { get; protected set; }
+
+        /// <summary>
+        /// そのまま代入される値
+        /// </summary>
+        /// <value>The set value.</value>
+        public int SetValue { get; protected set; }
+
+        /// <summary>
+        /// たされる値
+        /// </summary>
+        /// <value>The add value.</value>
+        public int AddValue { get; protected set; }
 
         #endregion
 
@@ -80,18 +96,37 @@ namespace Ling.Adv.Engine.Command
                 case "=":
                     {
                         var instance = new Set();
+                        instance._scriptType = ScriptType.SET_VALUE_CMD;
+                        instance.ValueIndex = creator.FindValue(str1);
+                        instance.SetValue = value;
+
+                        creator.AddCommand(instance);
 
                         return instance;
                     }
 
                 case "+":
                     {
-                        return null;
+                        var instance = new Set();
+                        instance._scriptType = ScriptType.CALC_VALUE_CMD;
+                        instance.ValueIndex = creator.FindValue(str1);
+                        instance.AddValue = value;
+
+                        creator.AddCommand(instance);
+
+                        return instance;
                     }
 
                 case "-":
                     {
-                        return null; 
+                        var instance = new Set();
+                        instance._scriptType = ScriptType.CALC_VALUE_CMD;
+                        instance.ValueIndex = creator.FindValue(str1);
+                        instance.AddValue = -value; // これで足すだけでいい
+
+                        creator.AddCommand(instance);
+
+                        return instance;
                     }
 
                 default:

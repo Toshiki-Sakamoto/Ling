@@ -77,6 +77,8 @@ namespace Ling.Adv.Engine.Command
             var elseLabel = creator.FormatThenLabel(index);
 
             var instance = new Else();
+            creator.AddCommand(instance);
+
             creator.ThenNest.Push(index + 1);   // 1 - 1 のようなラベル付け
 
             // 最後に飛ぶラベルを作る
@@ -100,6 +102,7 @@ namespace Ling.Adv.Engine.Command
             {
                 // ifコマンドを作成
                 var elseIfInstance = If.Create(creator, lexer, index + 1);
+                creator.AddCommand(elseIfInstance);
             }
             else
             {
@@ -107,7 +110,13 @@ namespace Ling.Adv.Engine.Command
                 return null; 
             }
 
-            return instance;
+            return null;
+        }
+
+
+        public override string ToString()
+        {
+            return "else";
         }
 
         #endregion

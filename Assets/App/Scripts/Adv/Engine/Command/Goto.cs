@@ -71,11 +71,18 @@ namespace Ling.Adv.Engine.Command
             }
 
             var instance = new Goto();
+            creator.AddCommand(instance);
+
             instance.Label = Label.Create(lexer);
 
             creator.FindLabel(labeName, instance.Label);
 
             return instance;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("goto labelName:{0}", Label.Name);
         }
 
         #endregion
