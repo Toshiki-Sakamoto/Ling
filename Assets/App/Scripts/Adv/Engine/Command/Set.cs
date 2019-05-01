@@ -45,19 +45,23 @@ namespace Ling.Adv.Engine.Command
         /// <value>The type.</value>
         public override ScriptType Type { get { return _scriptType; } }
 
-        public int ValueIndex { get; protected set; }
+        /// <summary>
+        /// 足し合わされる値
+        /// </summary>
+        /// <value>The value data.</value>
+        public Value.ValueInt ValueData { get; protected set; }
 
         /// <summary>
         /// そのまま代入される値
         /// </summary>
         /// <value>The set value.</value>
-        public int SetValue { get; protected set; }
+        public Value.Data SetValue { get; protected set; }
 
         /// <summary>
         /// たされる値
         /// </summary>
         /// <value>The add value.</value>
-        public int AddValue { get; protected set; }
+        public Value.Data AddValue { get; protected set; }
 
         #endregion
 
@@ -78,9 +82,9 @@ namespace Ling.Adv.Engine.Command
             string str1 = lexer.GetString();
             string str2 = lexer.GetString();
 
-            int value;
+            var value = new Value.ValueInt();
 
-            bool isSuccess = lexer.GetValue(out value);
+            bool isSuccess = lexer.GetValue(value);
 
             if (string.IsNullOrEmpty(str1) || 
                 string.IsNullOrEmpty(str2) || 
@@ -91,13 +95,15 @@ namespace Ling.Adv.Engine.Command
                 return null; 
             }
 
-            switch(str2)
+            var valueManager = creator.ValueManager;
+
+            switch (str2)
             {
                 case "=":
                     {
                         var instance = new Set();
                         instance._scriptType = ScriptType.SET_VALUE_CMD;
-                        instance.ValueIndex = creator.FindValue(str1);
+                        instance.ValueData = valueManager.FindValue<Value.ValueInt>(str1);
                         instance.SetValue = value;
 
                         creator.AddCommand(instance);
@@ -109,7 +115,7 @@ namespace Ling.Adv.Engine.Command
                     {
                         var instance = new Set();
                         instance._scriptType = ScriptType.CALC_VALUE_CMD;
-                        instance.ValueIndex = creator.FindValue(str1);
+                        instance.ValueData = valueManager.FindValue<Value.ValueInt>(str1);
                         instance.AddValue = value;
 
                         creator.AddCommand(instance);
@@ -121,8 +127,12 @@ namespace Ling.Adv.Engine.Command
                     {
                         var instance = new Set();
                         instance._scriptType = ScriptType.CALC_VALUE_CMD;
-                        instance.ValueIndex = creator.FindValue(str1);
-                        instance.AddValue = -value; // これで足すだけでいい
+                        instance.ValueData = valueManager.FindValue<Value.ValueInt>(str1);
+
+                        // 符号を逆にする
+                        value.Change();
+
+                        instance.AddValue = value;
 
                         creator.AddCommand(instance);
 

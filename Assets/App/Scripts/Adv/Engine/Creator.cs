@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ling.Adv.Engine.Value;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +42,8 @@ namespace Ling.Adv.Engine
 
         #region private 変数
 
-        private Command.Manager _manager = null;
+        private Command.Manager _cmdManager = null;
+        private Value.Manager _valueManager = null;
         private Reader _reader = null;
 
         private List<Command.Label> _label = new List<Command.Label>();
@@ -64,7 +66,12 @@ namespace Ling.Adv.Engine
         /// コマンド管理者
         /// </summary>
         /// <value>The cmd manager.</value>
-        public Command.Manager CmdManager { get { return _manager; } }
+        public Command.Manager CmdManager { get { return _cmdManager; } }
+        
+        /// <summary>
+        /// 変数管理者
+        /// </summary>
+        public Value.Manager ValueManager { get { return _valueManager; } }
 
         /// <summary>
         /// If...then のラベル管理
@@ -77,12 +84,10 @@ namespace Ling.Adv.Engine
 
         #region コンストラクタ, デストラクタ
 
-        public Creator(Command.Manager manager)
+        public Creator(Command.Manager cmdManager, Value.Manager valueManager)
         {
-            _manager = manager;
-
-            // テーブルにコマンドを格納する
-            _manager.Setup();
+            _cmdManager = cmdManager;
+            _valueManager = valueManager;
         }
 
         #endregion
@@ -158,9 +163,7 @@ namespace Ling.Adv.Engine
         {
             var cmd = lexer.GetString(0);
 
-            var cmdManager = _manager;
-
-            if (cmdManager.Create(cmd, this, lexer))
+            if (_cmdManager.Create(cmd, this, lexer))
             {
                 return;
             }
@@ -246,14 +249,14 @@ namespace Ling.Adv.Engine
                 }
 
                 // コマンドとして追加
-                _manager.AddCommand(labelCmd);
+                _cmdManager.AddCommand(labelCmd);
 
                 return;
             }
 
 
             // コマンドとして追加
-            _manager.AddCommand(labelCmd);
+            _cmdManager.AddCommand(labelCmd);
         }
 
         /// <summary>
@@ -298,31 +301,33 @@ namespace Ling.Adv.Engine
         /// </summary>
         /// <param name="value">Value.</param>
         /// <param name="lexer">Lexer.</param>
-        public bool GetValueOrNumber(out ValueOrNumber value, Lexer lexer)
+        public bool GetValue(out Value.Data value, Lexer lexer)
         {
-            value = new ValueOrNumber();
-
             var type = lexer.GetTokenType();
 
             if (type == Lexer.TokenType.IsString)
             {
+                // 文字列
                 var str = lexer.GetString();
                 if (string.IsNullOrEmpty(str))
                 {
+                    value = new ValueNone();
                     return false;
                 }
 
-                value.value = FindValue(str);
-                value.isValue = false;
+                var strValue = _valueManager.FindValue<ValueString>(str);
+                value = strValue;
             }
             else
             {
-                if (!lexer.GetValue(out value.value))
+                // とりあえず int 型としてだけ今は見てみる
+                var intValue = _valueManager.Create<ValueInt>();
+                value = intValue;
+
+                if (!lexer.GetValue(intValue))
                 {
                     return false; 
                 }
-
-                value.isValue = true;
             }
 
             return true;
@@ -430,32 +435,9 @@ namespace Ling.Adv.Engine
         /// <param name="instance">Instance.</param>
         public void AddCommand(Command.Base instance)
         {
-            _manager.AddCommand(instance);
+            _cmdManager.AddCommand(instance);
         }
 
-        /// <summary>
-        /// 変数テーブルから変数の参照
-        /// </summary>
-        /// <returns>The value.</returns>
-        /// <param name="value">Value.</param>
-        public int FindValue(string value)
-        {
-            for (int i = 0; i < _valueName.Count; ++i)
-            {
-                if (value != _valueName[i])
-                {
-                    continue;
-                }
-
-                // 変数があったのでインデックスを返す
-                return i;
-            }
-
-            // 変数を追加
-            _valueName.Add(value);
-
-            return _valueName.Count - 1;
-        }
 
         #endregion
 

@@ -54,6 +54,8 @@ namespace Ling
 
         public void Awake()
         {
+            Utility.Event.Create();
+
             Adv.Engine.Manager.Instance.Load("test.txt");
         }
 

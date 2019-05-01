@@ -53,6 +53,9 @@ namespace Ling.Adv.Engine.Command
         /// <value>The jump label.</value>
         public Label Goto { get; set; }
 
+        public Value.Data Value1 { get; private set; }
+        public Value.Data Value2 { get; private set; }
+
         #endregion
 
 
@@ -69,12 +72,12 @@ namespace Ling.Adv.Engine.Command
         /// <returns>The create.</returns>
         public static If Create(Creator creator, Lexer lexer, uint isElseIfIndex = 0)
         {
-            Creator.ValueOrNumber val1;
-            Creator.ValueOrNumber val2;
+            Value.Data val1 = null;
+            Value.Data val2 = null;
 
-            bool isValue1 = creator.GetValueOrNumber(out val1, lexer);
+            bool isValue1 = creator.GetValue(out val1, lexer);
             var op = lexer.GetString();
-            bool isValue2 = creator.GetValueOrNumber(out val2, lexer);
+            bool isValue2 = creator.GetValue(out val2, lexer);
 
             if (!isValue1 || !isValue2 || string.IsNullOrEmpty(op))
             {
@@ -88,17 +91,8 @@ namespace Ling.Adv.Engine.Command
             instance._scriptType = creator.BoolOp(op);
             instance.Flag = 0;
 
-            if (val1.isValue)
-            {
-                instance.Flag |= 1; 
-            }
-            instance.Value1 = val1.value;
-
-            if (val2.isValue)
-            {
-                instance.Flag |= 2; 
-            }
-            instance.Value2 = val2.value;
+            instance.Value1 = val1;
+            instance.Value2 = val2;
 
             var str = lexer.GetString();
             var label = string.Empty; //lexer.GetString();
@@ -147,11 +141,11 @@ namespace Ling.Adv.Engine.Command
             return "if";
         }
 
-        #endregion
+#endregion
 
 
-        #region private 関数
+#region private 関数
 
-        #endregion
+#endregion
     }
 }

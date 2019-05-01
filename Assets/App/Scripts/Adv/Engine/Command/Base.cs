@@ -45,10 +45,6 @@ namespace Ling.Adv.Engine.Command
 
         public int Flag { get; protected set; }
 
-        public int Value1 { get; protected set; }
-
-        public int Value2 { get; protected set; }
-
         #endregion
 
 

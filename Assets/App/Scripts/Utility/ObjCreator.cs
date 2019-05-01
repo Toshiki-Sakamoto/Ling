@@ -65,7 +65,7 @@ namespace Ling.Utility
             var gob = Resources.Load<T>(GetPrefabName());
             if (gob == null)
             {
-
+                return null;
             }
 
             var instance = Instantiate<T>(gob, root);

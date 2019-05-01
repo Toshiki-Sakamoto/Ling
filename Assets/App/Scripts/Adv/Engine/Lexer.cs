@@ -197,10 +197,8 @@ namespace Ling.Adv.Engine
         /// <returns><c>true</c>, if value was gotten, <c>false</c> otherwise.</returns>
         /// <param name="value">Value.</param>
         /// <param name="index">Index.</param>
-        public bool GetValue(out int value, int index = -1)
+        public bool GetValue(Value.ValueInt value, int index = -1)
         {
-            value = 0;
-
             bool isMinus = false;
 
             var type = GetTokenType(index);
@@ -230,7 +228,7 @@ namespace Ling.Adv.Engine
                 return false; 
             }
 
-            value = isMinus ? -result : result;
+            value.Value = isMinus ? -result : result;
 
             return true;
         }

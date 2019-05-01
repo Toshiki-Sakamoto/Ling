@@ -18,7 +18,7 @@ namespace Ling.Utility
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Singleton<T> where T : class, new()
+    public class Singleton<T> where T : Singleton<T>, new()
     {
         #region 定数, class, enum
 
@@ -85,7 +85,16 @@ namespace Ling.Utility
 
         public static void Destroy()
         {
+            if (_instance != null)
+            {
+                _instance.OnDestroy();
+            }
+
             _instance = null;
+        }
+
+        public virtual void OnDestroy()
+        { 
         }
 
         #endregion

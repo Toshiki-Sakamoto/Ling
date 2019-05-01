@@ -42,6 +42,11 @@ namespace Ling.Adv.Engine
         /// </summary>
         /// <value>The command.</value>
         public Command.Manager Cmd { get; private set; } = new Command.Manager();
+        
+        /// <summary>
+        /// 変数管理者
+        /// </summary>
+        public Value.Manager Value { get; private set; } = new Value.Manager();
 
         #endregion
 
@@ -53,9 +58,16 @@ namespace Ling.Adv.Engine
 
         #region public, protected 関数
 
+        /// <summary>
+        /// ファイルからスクリプトを読み出す
+        /// </summary>
+        /// <param name="filename">Filename.</param>
         public void Load(string filename)
         {
-            var creator = new Creator(Cmd);
+            // テーブルにコマンドを格納する
+            Cmd.Setup();
+	        
+            var creator = new Creator(Cmd, Value);
             creator.Read(filename);
             
             // 読み込んだコマンドを表示する
@@ -67,6 +79,22 @@ namespace Ling.Adv.Engine
             }
             
             Utility.Log.Print("-------- Command ------");
+        }
+
+        /// <summary>
+        /// アドベンチャーを開始する
+        /// </summary>
+        public void Start()
+        {
+            Utility.Event.SafeTrigger(new EventStart());
+        }
+
+        /// <summary>
+        /// コマンドを進める
+        /// </summary>
+        public void Step()
+        {
+
         }
 
         #endregion
