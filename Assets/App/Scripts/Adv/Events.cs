@@ -23,6 +23,13 @@ namespace Ling.Adv
     };
 
     /// <summary>
+    /// アドベンチャー終了
+    /// </summary>
+    public class EventStop : Utility.EventBase
+    { 
+    };
+
+    /// <summary>
     /// 読み込み終了
     /// </summary>
     public class EventLoad : Utility.EventBase

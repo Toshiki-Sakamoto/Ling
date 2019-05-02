@@ -29,10 +29,16 @@ namespace Ling.Main
 
         #region private 変数
 
+        [SerializeField] private View _view = null;
+
+        private Utility.PhaseObj<Const.State> _phaseObj = new Utility.PhaseObj<Const.State>();
+
         #endregion
 
 
         #region プロパティ
+
+        public View View { get { return _view; } }
 
         #endregion
 
@@ -54,6 +60,10 @@ namespace Ling.Main
         /// </summary>
         void Awake()
         {
+            _phaseObj.Add(Const.State.Adv, Phase.Creator<Phase.Adv>.Create(this));
+            _phaseObj.Add(Const.State.Start, Phase.Creator<Phase.Start>.Create(this));
+
+            _phaseObj.Change(Const.State.Start);
         }
 
         /// <summary>
@@ -68,6 +78,7 @@ namespace Ling.Main
         /// </summary>
         void Update()
         {
+            _phaseObj.Update();
         }
 
         /// <summary>

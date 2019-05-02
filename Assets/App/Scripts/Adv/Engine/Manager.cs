@@ -48,6 +48,12 @@ namespace Ling.Adv.Engine
         /// </summary>
         public Value.Manager Value { get; private set; } = new Value.Manager();
 
+        /// <summary>
+        /// 再生中
+        /// </summary>
+        /// <value><c>true</c> if is playing; otherwise, <c>false</c>.</value>
+        public bool IsPlaying { get; private set; }
+
         #endregion
 
 
@@ -87,6 +93,8 @@ namespace Ling.Adv.Engine
         public void Start()
         {
             Utility.Event.SafeTrigger(new EventStart());
+
+            IsPlaying = true;
         }
 
         /// <summary>
@@ -95,6 +103,16 @@ namespace Ling.Adv.Engine
         public void Step()
         {
 
+        }
+
+        /// <summary>
+        /// アドベンチャー終わり
+        /// </summary>
+        public void Stop()
+        {
+            IsPlaying = false;
+
+            Utility.Event.SafeTrigger(new EventStop());
         }
 
         #endregion
