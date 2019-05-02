@@ -18,7 +18,7 @@ namespace Ling.Adv.Engine
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Manager : Utility.Singleton<Manager>
+    public class Manager : MonoBehaviour
     {
         #region 定数, class, enum
 
@@ -27,15 +27,22 @@ namespace Ling.Adv.Engine
 
         #region public, protected 変数
 
+
         #endregion
 
 
         #region private 変数
 
+        [SerializeField] private Transform _trsWindowRoot = null;
+
+        private Window.View _view = null;
+
         #endregion
 
 
         #region プロパティ
+
+        public static Manager Instance { get; private set; }
 
         /// <summary>
         /// コマンド管理者
@@ -115,10 +122,42 @@ namespace Ling.Adv.Engine
             Utility.Event.SafeTrigger(new EventStop());
         }
 
+
+        public void Update()
+        {
+            if (IsPlaying)
+            {
+                return;
+            } 
+        }
+
         #endregion
 
 
         #region private 関数
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Destroy(Instance);
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+            // View 
+            _view = Window.View.Create(_trsWindowRoot);
+            _view.Setup();
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
 
         #endregion
     }

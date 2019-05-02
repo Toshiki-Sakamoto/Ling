@@ -42,6 +42,11 @@ namespace Ling.Adv.Window
 
         #region public, protected 関数
 
+        public void Setup()
+        {
+            _txtMain.text = "";
+        }
+
         #endregion
 
 

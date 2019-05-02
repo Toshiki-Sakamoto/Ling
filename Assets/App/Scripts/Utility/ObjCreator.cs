@@ -46,6 +46,7 @@ namespace Ling.Utility
             var prefabName = type.InvokeMember("PrefabName",
                                                System.Reflection.BindingFlags.InvokeMethod,
                                                null, null, null);
+
             return (string)prefabName;
         }
 
@@ -68,9 +69,33 @@ namespace Ling.Utility
                 return null;
             }
 
-            var instance = Instantiate<T>(gob, root);
+            var type = typeof(T);
 
-            return instance;
+            // 生成時、非アクティブ状態にするか
+            var awakeActiveMethod = type.GetMethod("IsAwakeActive");
+            if (awakeActiveMethod != null && !(bool)awakeActiveMethod.Invoke(null, null))
+            {
+                bool isInitActive = gob.gameObject.activeSelf;
+                if (isInitActive)
+                {
+                    gob.gameObject.SetActive(false);
+                }
+
+                var instance = Instantiate<T>(gob, root);
+
+                if (isInitActive)
+                {
+                    gob.gameObject.SetActive(true);
+                }
+
+                return instance;
+            }
+            else
+            {
+                var instance = Instantiate<T>(gob, root);
+
+                return instance;
+            }
         }
 
 

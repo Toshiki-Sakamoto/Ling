@@ -101,6 +101,8 @@ namespace Ling.Startup
         /// </summary>
         void Awake()
         {
+            Utility.Event.Create();
+
             _phase = Utility.Phase<State>.Create(this, State.Start);
         }
 

@@ -42,6 +42,10 @@ namespace Ling.Adv.Window
 
         #region public, protected 関数
 
+        public void Setup()
+        {
+        }
+
         #endregion
 
 

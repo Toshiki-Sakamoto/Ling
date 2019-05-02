@@ -51,6 +51,7 @@ namespace Ling.Main.Phase
         public override void Init()
         {
             var arg = new Adv.Argment();
+            arg.AdvFilename = "test.txt";
 
             Change(Const.State.Adv, arg);
         }

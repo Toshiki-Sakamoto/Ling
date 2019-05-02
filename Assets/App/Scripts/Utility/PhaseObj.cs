@@ -28,11 +28,13 @@ namespace Ling.Utility
 
         public abstract class Base
         {
-            private PhaseArgBase _arg = null;
-
-
             public PhaseObj<T> PhaseObj { get; set; }
+            public PhaseArgBase Arg { get; set; }
 
+            /// <summary>
+            /// 生成されたとき
+            /// </summary>
+            public virtual void Awake() { }
 
             public virtual void Init() { }
             public virtual void Proc() { }
@@ -44,20 +46,11 @@ namespace Ling.Utility
             /// <param name="type">Type.</param>
             public void Change(T type)
             {
-                _arg = null;
-
-                PhaseObj.Change(type);
+                PhaseObj.Change(type, null);
             }
             public void Change(T type, PhaseArgBase arg)
             {
-                _arg = arg;
-
-                PhaseObj.Change(type); 
-            }
-
-            public TArg Arg<TArg>() where TArg : PhaseArgBase
-            {
-                return (TArg)_arg;
+                PhaseObj.Change(type, arg); 
             }
         }
 
@@ -103,19 +96,22 @@ namespace Ling.Utility
         /// 開始処理
         /// </summary>
         /// <param name="type">Type.</param>
-        public void Start(T type)
+        public void Start(T type, PhaseArgBase arg = null)
         { 
             foreach(var elm in _dict)
             {
                 elm.Value.PhaseObj = this;
+                elm.Value.Awake();
             }
+
+            Change(type, arg);
         }
 
         /// <summary>
         /// 入れ替える
         /// </summary>
         /// <param name="type">Type.</param>
-        public void Change(T type)
+        public void Change(T type, PhaseArgBase arg)
         {
             Base next = null;
 
@@ -129,6 +125,7 @@ namespace Ling.Utility
                 _current.Term();
             }
 
+            next.Arg = arg;
             next.Init();
 
             _current = next;

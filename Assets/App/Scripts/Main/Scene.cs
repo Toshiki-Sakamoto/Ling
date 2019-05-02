@@ -63,7 +63,7 @@ namespace Ling.Main
             _phaseObj.Add(Const.State.Adv, Phase.Creator<Phase.Adv>.Create(this));
             _phaseObj.Add(Const.State.Start, Phase.Creator<Phase.Start>.Create(this));
 
-            _phaseObj.Change(Const.State.Start);
+            _phaseObj.Start(Const.State.Start);
         }
 
         /// <summary>

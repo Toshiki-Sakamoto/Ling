@@ -30,7 +30,6 @@ namespace Ling.Adv.Window
         #region private 変数
 
         [SerializeField] private Window _window = null;
-        [SerializeField] private MenuView _menu = null;
 
         #endregion
 
@@ -42,13 +41,20 @@ namespace Ling.Adv.Window
 
         #region public, protected 関数
 
-        public static string PrefabName
+        public static string PrefabName()
         {
-            get { return Common.GetResourcePath("AdvMain"); } 
+            return Common.GetResourcePath("AdvMain");
         }
 
+        public static bool IsAwakeActive()
+        {
+            return false; 
+        }
+
+
         public override void Setup()
-        { 
+        {
+            _window.Setup();
         }
 
         #endregion

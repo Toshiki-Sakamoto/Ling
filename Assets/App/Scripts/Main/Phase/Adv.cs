@@ -38,6 +38,8 @@ namespace Ling.Main.Phase
 
         #region private 変数
 
+        Ling.Adv.Engine.Manager _advManager = null;
+
         #endregion
 
 
@@ -53,9 +55,14 @@ namespace Ling.Main.Phase
 
         #region public, protected 関数
 
+        public override void Awake()
+        {
+            _advManager = Ling.Adv.Engine.Manager.Instance;
+        }
+
         public override void Init()
         {
-            var arg = Arg<Argment>();
+            var arg = Arg as Argment;
             if (arg == null)
             {
                 // エラー
@@ -64,6 +71,11 @@ namespace Ling.Main.Phase
             }
 
             var filename = arg.AdvFilename;
+
+            Utility.Log.Print("アドベンチャー開始 {0}", filename);
+
+            _advManager.Load(filename);
+            _advManager.Start();
         }
 
         public override void Proc()

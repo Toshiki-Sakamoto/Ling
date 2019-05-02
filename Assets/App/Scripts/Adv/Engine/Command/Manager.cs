@@ -107,7 +107,20 @@ namespace Ling.Adv.Engine.Command
         {
             Command.Add(command);
         }
+        /*
+        /// <summary>
+        /// コマンドを進める
+        /// </summary>
+        /// <returns>The step.</returns>
+        public IEnumerator Step()
+        {  
+            if (Command.Count == 0)
+            {
+                yield break; 
+            }
 
+            yield return null;
+        }*/
 
 
         #endregion

@@ -36,6 +36,7 @@ namespace Ling.Utility.Scene
         private object _argment = null;
         private bool _isStart = false;
 
+
         #endregion
 
 

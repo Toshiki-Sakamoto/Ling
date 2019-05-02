@@ -43,7 +43,10 @@ namespace Ling.Adv.Window
         #region public 関数
 
         public void Setup()
-        { 
+        {
+            _txtName.text = "";
+
+            gameObject.SetActive(false);
         }
 
         #endregion
