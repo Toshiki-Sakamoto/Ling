@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,7 +36,7 @@ namespace Ling.Adv.Engine
 
         [SerializeField] private Transform _trsWindowRoot = null;
 
-        private Window.View _view = null;
+        private int _cmdIndex = 0;  // 現在再生中のコマンドインデックス
 
         #endregion
 
@@ -60,6 +61,18 @@ namespace Ling.Adv.Engine
         /// </summary>
         /// <value><c>true</c> if is playing; otherwise, <c>false</c>.</value>
         public bool IsPlaying { get; private set; }
+
+        /// <summary>
+        /// Viewを返す
+        /// </summary>
+        /// <value>The view.</value>
+        public Window.View View { get; private set; }
+
+        /// <summary>
+        /// Windowインスタンス
+        /// </summary>
+        /// <value>The window.</value>
+        public Window.Window Win { get { return View.Win; } }
 
         #endregion
 
@@ -92,6 +105,13 @@ namespace Ling.Adv.Engine
             }
             
             Utility.Log.Print("-------- Command ------");
+
+            // 終了時
+            Cmd.ActCmdFinish = 
+                () =>
+                {
+                    Stop(); 
+                };
         }
 
         /// <summary>
@@ -101,15 +121,20 @@ namespace Ling.Adv.Engine
         {
             Utility.Event.SafeTrigger(new EventStart());
 
+            // 処理を開始する
+            if (Cmd.Command.Count == 0)
+            {
+                Stop();
+                return;
+            }
+
+            _cmdIndex = 0;
             IsPlaying = true;
-        }
 
-        /// <summary>
-        /// コマンドを進める
-        /// </summary>
-        public void Step()
-        {
+            // 事前読み込み処理
+            Cmd.Load();
 
+            StartCoroutine(Process());
         }
 
         /// <summary>
@@ -119,22 +144,41 @@ namespace Ling.Adv.Engine
         {
             IsPlaying = false;
 
+            StopAllCoroutines();
+
             Utility.Event.SafeTrigger(new EventStop());
         }
 
-
-        public void Update()
-        {
-            if (IsPlaying)
-            {
-                return;
-            } 
-        }
 
         #endregion
 
 
         #region private 関数
+
+        /// <summary>
+        /// 実装する
+        /// </summary>
+        /// <returns>The proecss.</returns>
+        private IEnumerator Process()
+        {
+            do
+            {
+                if (_cmdIndex >= Cmd.Command.Count)
+                {
+                    break;
+                }
+
+                // コマンドを進める
+                var cmd = Cmd.Command[_cmdIndex++];
+
+                var process = cmd.Process();
+                while (process.MoveNext())
+                {
+                    yield return null; 
+                }
+
+            } while (true); 
+        }
 
         private void Awake()
         {
@@ -146,13 +190,26 @@ namespace Ling.Adv.Engine
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
+            // Event管理者
+            Command.EventManager.Instance.Setup();
+
             // View 
-            _view = Window.View.Create(_trsWindowRoot);
-            _view.Setup();
+            View = Window.View.Create(_trsWindowRoot);
+            View.Setup();
+        }
+
+        private void Update()
+        {
+            if (!IsPlaying)
+            {
+                return;
+            }
         }
 
         private void OnDestroy()
         {
+            Cmd.OnDestory();
+
             if (Instance == this)
             {
                 Instance = null;

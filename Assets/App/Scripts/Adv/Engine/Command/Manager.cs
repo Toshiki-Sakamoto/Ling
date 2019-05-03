@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,9 +16,9 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Engine.Command
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public class Manager
     {
         #region 定数, class, enum
@@ -38,8 +39,14 @@ namespace Ling.Adv.Engine.Command
 
 
         #region プロパティ
-        
+
         public List<Base> Command { get; private set; } = new List<Base>();
+
+        /// <summary>
+        /// 終了時呼び出し
+        /// </summary>
+        /// <value>The act end.</value>
+        public System.Action ActCmdFinish { get; set; }
 
         #endregion
 
@@ -58,18 +65,18 @@ namespace Ling.Adv.Engine.Command
         {
             _dictCreator.Clear();
             Command.Clear();
-            
-            // コマンドを登録する
-            SetCmd("set", (c_, l_) => Set.Create(c_, l_));
-            SetCmd("calc", (c_, l_) => Set.Create(c_, l_));
-            SetCmd("text", (c_, l_) => Text.Create(c_, l_));
-            SetCmd("goto", (c_, l_) => Goto.Create(c_, l_));
-            SetCmd("if", (c_, l_) => If.Create(c_, l_));
-            SetCmd("else", (c_, l_) => Else.Create(c_, l_));
-            SetCmd("endif", (c_, l_) => EndIf.Create(c_, l_));
-            SetCmd("wait", (c_, l_) => Wait.Create(c_, l_));
 
-            SetCmd("end", (c_, l_) => End.Create(c_, l_));
+            // コマンドを登録する
+            Regist("set", (c_, l_) => Set.Create(c_, l_));
+            Regist("calc", (c_, l_) => Set.Create(c_, l_));
+            Regist("text", (c_, l_) => Text.Create(c_, l_));
+            Regist("goto", (c_, l_) => Goto.Create(c_, l_));
+            Regist("if", (c_, l_) => If.Create(c_, l_));
+            Regist("else", (c_, l_) => Else.Create(c_, l_));
+            Regist("endif", (c_, l_) => EndIf.Create(c_, l_));
+            Regist("wait", (c_, l_) => Wait.Create(c_, l_));
+
+            Regist("end", (c_, l_) => End.Create(c_, l_));
         }
 
         /// <summary>
@@ -77,7 +84,7 @@ namespace Ling.Adv.Engine.Command
         /// </summary>
         /// <param name="type">Type.</param>
         /// <param name="instance">Instance.</param>
-        public void SetCmd(string key, System.Func<Creator, Lexer, Base> funcCreator)
+        public void Regist(string key, System.Func<Creator, Lexer, Base> funcCreator)
         {
             _dictCreator[key] = funcCreator;
         }
@@ -105,29 +112,54 @@ namespace Ling.Adv.Engine.Command
         /// <param name="command">Command.</param>
         public void AddCommand(Base command)
         {
+            command.CmdManager = this;
+
             Command.Add(command);
         }
-        /*
+
+        /// <summary>
+        /// 先行して読み込むものがある場合
+        /// </summary>
+        public void Load()
+        {
+        }
+
+#if false
         /// <summary>
         /// コマンドを進める
         /// </summary>
         /// <returns>The step.</returns>
         public IEnumerator Step()
-        {  
+        {
             if (Command.Count == 0)
             {
-                yield break; 
+                if (ActCmdFinish != null)
+                {
+                    ActCmdFinish();
+                }
+
+                yield break;
             }
 
             yield return null;
-        }*/
+
+            if (ActCmdFinish != null)
+            {
+                ActCmdFinish();
+            }
+        }
+#endif
+
+        public void OnDestory()
+        {
+            EventManager.Destroy();
+        }
+
+#endregion
 
 
-        #endregion
+#region private 関数
 
-
-        #region private 関数
-
-        #endregion
+#endregion
     }
 }

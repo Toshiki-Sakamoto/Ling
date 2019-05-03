@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,6 +39,12 @@ namespace Ling.Adv.Engine.Command
         #region プロパティ
 
         /// <summary>
+        /// コマンド管理者
+        /// </summary>
+        /// <value>The cmd manager.</value>
+        public Manager CmdManager { get; set; }
+
+        /// <summary>
         /// コマンドタイプ
         /// </summary>
         /// <value>The type.</value>
@@ -54,6 +61,14 @@ namespace Ling.Adv.Engine.Command
 
 
         #region public, protected 関数
+
+        /// <summary>
+        /// コマンド実行
+        /// </summary>
+        public virtual IEnumerator Process() 
+        {
+            yield break;
+        }
 
         #endregion
 

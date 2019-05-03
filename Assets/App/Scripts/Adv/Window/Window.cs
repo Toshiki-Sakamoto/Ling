@@ -38,6 +38,10 @@ namespace Ling.Adv.Window
 
         #region プロパティ
 
+        public MainView Main { get { return _main; } }
+        public MenuView Menu { get { return _menu; } }
+        public NameView Name { get { return _name; } }
+
         #endregion
 
 

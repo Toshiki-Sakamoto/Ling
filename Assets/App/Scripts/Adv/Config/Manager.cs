@@ -1,8 +1,8 @@
 ﻿//
-// #SCRIPTNAME#.cs
-// ProductName #PRODUCTNAME#
+// Manager.cs
+// ProductName Ling
 //
-// Created by #AUTHOR# on #DATA#
+// Created by toshiki sakamoto on 2019.05.02
 //
 
 using System;
@@ -14,12 +14,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace #NAMESPACE#
+namespace Ling.Adv.Config
 {
 	/// <summary>
-	/// #SUMMARY#
+	/// 
 	/// </summary>
-    public class #SCRIPTNAME#
+    public class Manager : Utility.Singleton<Manager>
     {
         #region 定数, class, enum
 
@@ -37,6 +37,13 @@ namespace #NAMESPACE#
 
 
         #region プロパティ
+
+        /// <summary>
+        /// テキストの速度 : 0.1 ~ 1.0 
+        /// 1.0 が一瞬
+        /// </summary>
+        /// <value>The text speed.</value>
+        public float TextSpeed { get; private set; } = 0.5f;
 
         #endregion
 

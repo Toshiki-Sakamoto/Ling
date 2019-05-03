@@ -36,6 +36,8 @@ namespace Ling.Adv.Window
 
         #region プロパティ
 
+        public Window Win { get { return _window; } }
+
         #endregion
 
 

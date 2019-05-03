@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -94,6 +95,19 @@ namespace Ling.Adv.Engine.Command
             creator.AddCommand(instance);
 
             return instance;
+        }
+
+        /// <summary>
+        /// コマンド実行
+        /// </summary>
+        public override IEnumerator Process() 
+        {
+            // Windowをクリア
+            EventManager.SafeTrigger<EventWindowClear>();
+
+            // 速度によって送るスピードが変わる
+
+            yield break;
         }
 
         #endregion

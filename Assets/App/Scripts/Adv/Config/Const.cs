@@ -1,8 +1,8 @@
 ﻿//
-// #SCRIPTNAME#.cs
-// ProductName #PRODUCTNAME#
+// Const.cs
+// ProductName Ling
 //
-// Created by #AUTHOR# on #DATA#
+// Created by toshiki sakamoto on 2019.05.02
 //
 
 using System;
@@ -14,12 +14,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace #NAMESPACE#
+namespace Ling.Adv.Config
 {
 	/// <summary>
-	/// #SUMMARY#
+	/// 
 	/// </summary>
-    public class #SCRIPTNAME#
+    public class Const
     {
         #region 定数, class, enum
 
