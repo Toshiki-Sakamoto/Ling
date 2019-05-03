@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -52,6 +53,16 @@ namespace Ling.Adv.Window
             _main.Setup();
             _menu.Setup();
             _name.Setup();
+        }
+
+        /// <summary>
+        /// 背景タップ
+        /// </summary>
+        public void OnClickedBackGround()
+        {
+            Utility.Log.Print("アドベンチャー背景タップ");
+
+            EventManager.SafeTrigger<EventWindowTap>();
         }
 
         #endregion

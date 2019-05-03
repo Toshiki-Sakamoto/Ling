@@ -102,12 +102,40 @@ namespace Ling.Adv.Engine.Command
         /// </summary>
         public override IEnumerator Process() 
         {
+            // Windowを開く
+            EventManager.SafeTrigger<Window.EventWindowOpen>();
+
             // Windowをクリア
-            EventManager.SafeTrigger<EventWindowClear>();
+            EventManager.SafeTrigger<Window.EventWindowClear>();
 
             // 速度によって送るスピードが変わる
+            var config = Config.Manager.Instance;
+            var speed = config.TextSpeed;
 
-            yield break;
+            if (speed >= 1.0f)
+            {
+                // 一瞬
+                EventManager.SafeTrigger<EventAddText>((obj_) =>
+                    {
+                        obj_.Text = Message;
+                    });
+
+                yield break;
+            }
+
+            // スピード送り
+//            int index = 0;
+
+
+        }
+
+        /// <summary>
+        /// 終了時タップ待機するかどうか
+        /// </summary>
+        /// <returns><c>true</c>, if end wait was ised, <c>false</c> otherwise.</returns>
+        public override bool IsTapWait()
+        {
+            return true;
         }
 
         #endregion

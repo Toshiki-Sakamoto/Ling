@@ -63,6 +63,12 @@ namespace Ling.Adv.Engine
         public bool IsPlaying { get; private set; }
 
         /// <summary>
+        /// タップされたらtrue
+        /// </summary>
+        /// <value><c>true</c> if is tap; otherwise, <c>false</c>.</value>
+        public bool IsTap { get; private set; }
+
+        /// <summary>
         /// Viewを返す
         /// </summary>
         /// <value>The view.</value>
@@ -177,6 +183,19 @@ namespace Ling.Adv.Engine
                     yield return null; 
                 }
 
+                // タップ待機するか
+                if (cmd.IsTapWait())
+                {
+                    IsTap = false;
+
+                    // オート設定なってたら別
+
+                    while (!IsTap)
+                    {
+                        yield return null; 
+                    }
+                }
+
             } while (true); 
         }
 
@@ -191,11 +210,26 @@ namespace Ling.Adv.Engine
             DontDestroyOnLoad(gameObject);
 
             // Event管理者
-            Command.EventManager.Instance.Setup();
+            EventManager.Instance.Setup();
 
             // View 
             View = Window.View.Create(_trsWindowRoot);
             View.Setup();
+
+
+            // 画面がタップされた
+            Utility.Event.SafeAdd<Window.EventWindowTap>(this,
+                (ev_) => 
+                {
+                    IsTap = true;
+                });
+
+            // Window開く
+            Utility.Event.SafeAdd<Window.EventWindowOpen>(this,
+                (obj_) =>
+                {
+                    View.SetActive(true);
+                });
         }
 
         private void Update()

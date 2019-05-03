@@ -22,7 +22,8 @@ namespace Ling.Utility
     /// <summary>
     /// 
     /// </summary>
-    public class Event : Utility.Singleton<Event>
+    [DefaultExecutionOrder(-50)]    // 実行速度を早くする
+    public class Event : MonoBehaviour
     {
         #region 定数, class, enum
 
@@ -130,6 +131,8 @@ namespace Ling.Utility
 
         #region private 変数
 
+        private static Event Instance = null;
+
         private Dictionary<UnityEngine.Object, List<IEventListener>> _dictListeners = 
             new Dictionary<UnityEngine.Object, List<IEventListener>>();
 
@@ -140,6 +143,8 @@ namespace Ling.Utility
 
 
         #region プロパティ
+
+        public static bool IsNull() { return Instance == null; }
 
         #endregion
 
@@ -224,25 +229,11 @@ namespace Ling.Utility
             DoAllRemove(listener);
         }
 
-        public override void OnDestroy()
-        {
-            foreach(var elm in _dictListeners)
-            {
-                var list = elm.Value;
-
-                foreach(var elm2 in list)
-                {
-                    elm2.SafeDestroy(isForce: true);
-                }
-            }
-        }
-
-
 
 
         public static void SafeAdd<TEvent>(UnityEngine.Object listener, System.Action<TEvent> act) where TEvent : EventBase
         { 
-            if (IsNull)
+            if (IsNull())
             {
                 return; 
             }
@@ -252,7 +243,7 @@ namespace Ling.Utility
 
         public static void SafeTrigger<TEvent>(TEvent ev) where TEvent : EventBase
         {
-            if (IsNull)
+            if (IsNull())
             {
                 return;
             }
@@ -262,7 +253,7 @@ namespace Ling.Utility
 
         public static void SafeAllRemove<TListener>(TListener listener) where TListener : UnityEngine.Object
         {
-            if (IsNull)
+            if (IsNull())
             {
                 return;
             }
@@ -298,6 +289,36 @@ namespace Ling.Utility
             }
 
             _dictListeners.Remove(listener);
+        }
+
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Destroy(Instance); 
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+
+        private void OnDestory()
+        {
+            if (Instance == this)
+            {
+                foreach (var elm in _dictListeners)
+                {
+                    var list = elm.Value;
+
+                    foreach (var elm2 in list)
+                    {
+                        elm2.SafeDestroy(isForce: true);
+                    }
+                }
+
+                Instance = null;
+            }
         }
 
         #endregion

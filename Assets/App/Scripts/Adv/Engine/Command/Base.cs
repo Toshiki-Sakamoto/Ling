@@ -70,6 +70,15 @@ namespace Ling.Adv.Engine.Command
             yield break;
         }
 
+        /// <summary>
+        /// 終了時タップ待機するかどうか
+        /// </summary>
+        /// <returns><c>true</c>, if end wait was ised, <c>false</c> otherwise.</returns>
+        public virtual bool IsTapWait()
+        {
+            return false; 
+        }
+
         #endregion
 
 
