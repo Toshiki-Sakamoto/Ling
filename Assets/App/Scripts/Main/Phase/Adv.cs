@@ -75,7 +75,7 @@ namespace Ling.Main.Phase
             Utility.Log.Print("アドベンチャー開始 {0}", filename);
 
             _advManager.Load(filename);
-            _advManager.Start();
+            _advManager.AdvStart();
         }
 
         public override void Proc()

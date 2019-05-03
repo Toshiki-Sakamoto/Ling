@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 namespace Ling.Adv
 {
-    public class EventStackBase : Utility.EventBase
+    public class EventStackBase : Utility.Event.Base
     {
         public virtual void Clear() { }
     }
@@ -24,21 +24,21 @@ namespace Ling.Adv
     /// <summary>
     /// アドベンチャー開始
     /// </summary>
-    public class EventStart : Utility.EventBase
+    public class EventStart : Utility.Event.Base
     { 
     };
 
     /// <summary>
     /// アドベンチャー終了
     /// </summary>
-    public class EventStop : Utility.EventBase
+    public class EventStop : Utility.Event.Base
     { 
     };
 
     /// <summary>
     /// 読み込み終了
     /// </summary>
-    public class EventLoad : Utility.EventBase
+    public class EventLoad : Utility.Event.Base
     { 
     };
 
@@ -58,6 +58,14 @@ namespace Ling.Adv
             Add(new Window.EventWindowClear());
             Add(new Window.EventWindowOpen());
             Add(new Window.EventWindowTap());
+
+            /*
+            var ins = new EventStackBase();
+
+            Type t = typeof(Window.EventWindowOpen);
+
+            var aa = (t)ins;
+            */
         }
 
         /// <summary>
@@ -98,7 +106,7 @@ namespace Ling.Adv
             act?.Invoke((TEvent)eventInstance);
 
             // イベント発行
-            Utility.Event.SafeTrigger(eventInstance);
+            Utility.Event.SafeTrigger((TEvent)eventInstance);
         }
 
         /// <summary>

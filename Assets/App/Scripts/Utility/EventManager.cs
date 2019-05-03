@@ -15,21 +15,37 @@ using UnityEngine.UI;
 
 namespace Ling.Utility
 {
-    public class EventBase
-    { 
+    [DefaultExecutionOrder(-50)]    // 実行速度を早くする
+    public class EventManager : MonoBehaviour
+    {
+        private void Awake()
+        {
+            Event.Create();
+
+            DontDestroyOnLoad(this);
+        }
+
+        private void OnDestroy()
+        {
+            Event.Destroy();
+        }
     }
 
     /// <summary>
     /// 
     /// </summary>
-    [DefaultExecutionOrder(-50)]    // 実行速度を早くする
-    public class Event : MonoBehaviour
+    public class Event : Singleton<Event>
     {
         #region 定数, class, enum
 
+        public class Base
+        {
+        }
+
+
         public interface IEventListener
         {
-            void Remove(UnityEngine.Object listener);
+            void Remove(System.Object listener);
 
             void SafeDestroy(bool isForce = false);
         }
@@ -37,27 +53,39 @@ namespace Ling.Utility
         /// <summary>
         /// ひとつのイベントに対するリスナークラス
         /// </summary>
-        public class Listener<TEvent> : IEventListener where TEvent : EventBase
+        public class Listener<T> : IEventListener where T : Base
         {
-            private static Listener<TEvent> _instance = null;
+            private static Listener<T> _instance;
 
-            public Dictionary<UnityEngine.Object, Action<TEvent>> _listeners = 
-                new Dictionary<UnityEngine.Object, Action<TEvent>>();
+            private Dictionary<System.Object, Action<T>> _listeners = 
+                new Dictionary<System.Object, Action<T>>();
 
 
-            public static Listener<TEvent> Instance
+            public static Listener<T> Instance
             {
                 get
                 {
                     if (_instance == null)
                     {
-                        _instance = new Listener<TEvent>();
+                        _instance = new Listener<T>();
                     }
+
                     return _instance;
                 }
             }
 
-            public static bool IsNull { get { return _instance == null; } }
+            public static bool IsNull
+            {
+                get
+                {
+                    return _instance == null;
+                }
+            }
+
+            public static void Destroy()
+            {
+                _instance = null;
+            }
 
 
             /// <summary>
@@ -65,7 +93,7 @@ namespace Ling.Utility
             /// </summary>
             /// <param name="listener">Listener.</param>
             /// <param name="act">Act.</param>
-            public bool Add(UnityEngine.Object listener, Action<TEvent> act)
+            public bool Add(System.Object listener, Action<T> act)
             {
                 // 重複チェック
                 if (_listeners.ContainsKey(listener))
@@ -81,7 +109,7 @@ namespace Ling.Utility
             /// リスナーを削除
             /// </summary>
             /// <param name="listener">Listener.</param>
-            public void Remove(UnityEngine.Object listener)
+            public void Remove(System.Object listener)
             {
                 _listeners.Remove(listener);
             }
@@ -90,7 +118,7 @@ namespace Ling.Utility
             /// イベント発行
             /// </summary>
             /// <param name="ev">Ev.</param>
-            public void Trigger(TEvent ev)
+            public void Trigger(T ev)
             { 
                 foreach(var elm in _listeners)
                 {
@@ -114,11 +142,6 @@ namespace Ling.Utility
                     Destroy();
                 }
             }
-
-            public static void Destroy()
-            {
-                _instance = null;
-            }
         };
 
         #endregion
@@ -131,20 +154,17 @@ namespace Ling.Utility
 
         #region private 変数
 
-        private static Event Instance = null;
-
-        private Dictionary<UnityEngine.Object, List<IEventListener>> _dictListeners = 
-            new Dictionary<UnityEngine.Object, List<IEventListener>>();
+        private Dictionary<System.Object, List<IEventListener>> _dictListeners = 
+            new Dictionary<System.Object, List<IEventListener>>();
 
         private bool _isTrigger = false;
-        private List<UnityEngine.Object> _removeList = new List<UnityEngine.Object>();
+        private List<System.Object> _removeList = new List<System.Object>();
 
         #endregion
 
 
         #region プロパティ
 
-        public static bool IsNull() { return Instance == null; }
 
         #endregion
 
@@ -162,7 +182,7 @@ namespace Ling.Utility
         /// <param name="listener">Listener.</param>
         /// <param name="act">Act.</param>
         /// <typeparam name="TEvent">The 1st type parameter.</typeparam>
-        public void Add<TEvent>(UnityEngine.Object listener, System.Action<TEvent> act) where TEvent : EventBase
+        public void Add<TEvent>(System.Object listener, System.Action<TEvent> act) where TEvent : Event.Base
         {
             var instance = Listener<TEvent>.Instance;
             if (!instance.Add(listener, act))
@@ -188,7 +208,7 @@ namespace Ling.Utility
         /// </summary>
         /// <param name="ev">Ev.</param>
         /// <typeparam name="TEvent">The 1st type parameter.</typeparam>
-        public void Trigger<TEvent>(TEvent ev) where TEvent : EventBase
+        public void Trigger<TEvent>(TEvent ev) where TEvent : Event.Base
         {
             if (Listener<TEvent>.IsNull)
             {
@@ -217,7 +237,7 @@ namespace Ling.Utility
         /// </summary>
         /// <param name="listener">Listener.</param>
         /// <typeparam name="TListener">The 1st type parameter.</typeparam>
-        public void AllRemove<TListener>(TListener listener) where TListener : UnityEngine.Object
+        public void AllRemove(System.Object listener)
         {
             // 追加中ならずらす
             if (_isTrigger)
@@ -231,9 +251,9 @@ namespace Ling.Utility
 
 
 
-        public static void SafeAdd<TEvent>(UnityEngine.Object listener, System.Action<TEvent> act) where TEvent : EventBase
+        public static void SafeAdd<TEvent>(System.Object listener, System.Action<TEvent> act) where TEvent : Event.Base
         { 
-            if (IsNull())
+            if (IsNull)
             {
                 return; 
             }
@@ -241,9 +261,9 @@ namespace Ling.Utility
             Instance.Add(listener, act);
         }
 
-        public static void SafeTrigger<TEvent>(TEvent ev) where TEvent : EventBase
+        public static void SafeTrigger<TEvent>(TEvent ev) where TEvent : Event.Base
         {
-            if (IsNull())
+            if (IsNull)
             {
                 return;
             }
@@ -251,9 +271,9 @@ namespace Ling.Utility
             Instance.Trigger(ev);
         }
 
-        public static void SafeAllRemove<TListener>(TListener listener) where TListener : UnityEngine.Object
+        public static void SafeAllRemove(System.Object listener)
         {
-            if (IsNull())
+            if (IsNull)
             {
                 return;
             }
@@ -273,7 +293,7 @@ namespace Ling.Utility
         /// </summary>
         /// <param name="listener">Listener.</param>
         /// <typeparam name="TListener">The 1st type parameter.</typeparam>
-        private void DoAllRemove<TListener>(TListener listener) where TListener : UnityEngine.Object
+        private void DoAllRemove(System.Object listener)
         {
             List<IEventListener> list = null;
             if (!_dictListeners.TryGetValue(listener, out list))
@@ -291,7 +311,7 @@ namespace Ling.Utility
             _dictListeners.Remove(listener);
         }
 
-
+        /*
         private void Awake()
         {
             if (Instance != null)
@@ -303,9 +323,14 @@ namespace Ling.Utility
             DontDestroyOnLoad(this);
         }
 
-        private void OnDestory()
+        private void Update()
         {
-            if (Instance == this)
+
+        }*/
+
+        public void OnDestory()
+        {
+//            if (Instance == this)
             {
                 foreach (var elm in _dictListeners)
                 {
@@ -316,8 +341,6 @@ namespace Ling.Utility
                         elm2.SafeDestroy(isForce: true);
                     }
                 }
-
-                Instance = null;
             }
         }
 

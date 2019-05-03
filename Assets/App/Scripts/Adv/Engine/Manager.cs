@@ -116,21 +116,21 @@ namespace Ling.Adv.Engine
             Cmd.ActCmdFinish = 
                 () =>
                 {
-                    Stop(); 
+                    AdvStop(); 
                 };
         }
 
         /// <summary>
         /// アドベンチャーを開始する
         /// </summary>
-        public void Start()
+        public void AdvStart()
         {
             Utility.Event.SafeTrigger(new EventStart());
 
             // 処理を開始する
             if (Cmd.Command.Count == 0)
             {
-                Stop();
+                AdvStop();
                 return;
             }
 
@@ -146,7 +146,7 @@ namespace Ling.Adv.Engine
         /// <summary>
         /// アドベンチャー終わり
         /// </summary>
-        public void Stop()
+        public void AdvStop()
         {
             IsPlaying = false;
 
