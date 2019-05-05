@@ -1,12 +1,29 @@
+import test2.txt
+
+
 *test
 
 text
-Aaa
+てすとですよ。これがうまくいくか
+どうか
 
 if 1 == 1 then
 
-text
-BBB
+text　名前1
+次の文章に
+うまく移れてる
+かの確認
+
+text　
+次の文章に
+うまく移れてる
+かの確認
+
+text ""
+そんなこと
+
+text "" only
+あるかな
 
 endif
 

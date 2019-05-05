@@ -16,17 +16,5 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Engine.Command
 {
-    /// <summary>
-    /// テキスト追加
-    /// </summary>
-    public class EventAddText : EventStackBase
-    { 
-        public string Text { get; set; }
-
-        public override void Clear()
-        {
-            Text = string.Empty;
-        }
-    }
 
 }

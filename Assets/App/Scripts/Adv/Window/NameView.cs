@@ -47,6 +47,23 @@ namespace Ling.Adv.Window
             _txtName.text = "";
 
             gameObject.SetActive(false);
+
+
+            // Window消す
+            Utility.Event.SafeAdd<EventNameWindowHide>(this, 
+                (ev_) => 
+                {
+                    gameObject.SetActive(false);
+                });
+
+            // 名前を設定する
+            Utility.Event.SafeAdd<EventNameSet>(this, 
+                (ev_) => 
+                {
+                    gameObject.SetActive(true);
+
+                    _txtName.text = ev_.Text;
+                });
         }
 
         #endregion

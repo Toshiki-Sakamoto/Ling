@@ -26,12 +26,38 @@ namespace Ling.Adv.Window
     /// Windowを開く
     /// </summary>
     public class EventWindowOpen : EventStackBase
-    { }
+    {}
 
     /// <summary>
     /// 画面がタップされた
     /// </summary>
     public class EventWindowTap : EventStackBase
-    { 
+    {}
+
+    /// <summary>
+    /// テキスト追加
+    /// </summary>
+    public class EventAddText : EventStackBase
+    {
+        public string Text { get; set; }
+
+        public override void Clear()
+        {
+            Text = string.Empty;
+        }
+    }
+
+    /// <summary>
+    /// 名前を非表示にする
+    /// </summary>
+    public class EventNameWindowHide : EventStackBase
+    { }
+
+    /// <summary>
+    /// 名前を設定する
+    /// </summary>
+    public class EventNameSet : EventStackBase
+    {
+        public string Text { get; set; } 
     }
 }

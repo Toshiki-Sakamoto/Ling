@@ -52,12 +52,15 @@ namespace Ling.Adv.Engine.Value
         #endregion
 
 
-		#region コンストラクタ, デストラクタ
+        #region コンストラクタ, デストラクタ
 
-		#endregion
+        #endregion
 
 
         #region public, protected 関数
+
+        public virtual void Set(Data src) { }
+        public virtual void Add(Data src) { }
 
         #endregion
 
@@ -78,14 +81,34 @@ namespace Ling.Adv.Engine.Value
 		public override ValueType Type { get { return ValueType.String; } }
 		
 		public string Value { get; set; }
-	}
+
+
+        public override void Set(Data src) 
+        { 
+            if (src.Type != ValueType.String)
+            {
+                return; 
+            }
+
+            Value = ((ValueString)src).Value;
+        }
+
+        public override void Add(Data src) 
+        {
+            if (src.Type != ValueType.String)
+            {
+                return;
+            }
+
+            Value += ((ValueString)src).Value;
+        }
+    }
 	
 	public class ValueInt : Data
 	{
 		public override ValueType Type { get { return ValueType.Int; } }
 
         public int Value { get; set; }
-
 
         /// <summary>
         /// 符号をマイナスにする
@@ -94,14 +117,62 @@ namespace Ling.Adv.Engine.Value
         {
             Value *= -1;
         }
-	}
+
+        public override void Set(Data src)
+        {
+            if (src.Type != ValueType.Int)
+            {
+                return;
+            }
+
+            Value = ((ValueInt)src).Value;
+        }
+
+        public override void Add(Data src)
+        {
+            if (src.Type != ValueType.Int)
+            {
+                return;
+            }
+
+            Value = ((ValueInt)src).Value;
+        }
+    }
 	
 	public class ValueFloat : Data
 	{
 		public override ValueType Type { get { return ValueType.Float; } }
 
         public float Value { get; set; }
-	}
+
+        /// <summary>
+        /// 符号をマイナスにする
+        /// </summary>
+        public void Change()
+        {
+            Value *= -1;
+        }
+
+        public override void Set(Data src)
+        {
+            if (src.Type != ValueType.Float)
+            {
+                return;
+            }
+
+            Value = ((ValueFloat)src).Value;
+        }
+
+        public override void Add(Data src)
+        {
+            if (src.Type != ValueType.Float)
+            {
+                return;
+            }
+
+            Value = ((ValueFloat)src).Value;
+        }
+    }
 	
 	public class Value : Data
 	{

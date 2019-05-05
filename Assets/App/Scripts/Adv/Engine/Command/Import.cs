@@ -1,11 +1,12 @@
 ﻿//
-// End.cs
+// Import.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2019.04.28
+// Created by toshiki sakamoto on 2019.05.05
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Ling.Adv.Engine.Command
 	/// <summary>
 	/// 
 	/// </summary>
-    public class End : Base
+    public class Import : Base
     {
         #region 定数, class, enum
 
@@ -36,11 +37,12 @@ namespace Ling.Adv.Engine.Command
 
 
         #region プロパティ
+
         /// <summary>
         /// コマンドタイプ
         /// </summary>
         /// <value>The type.</value>
-        public override ScriptType Type { get { return ScriptType.END_CMD; } }
+        public override ScriptType Type { get { return ScriptType.IMPORT_CMD; } }
 
         #endregion
 
@@ -56,24 +58,26 @@ namespace Ling.Adv.Engine.Command
         /// コマンド作成
         /// </summary>
         /// <returns>The create.</returns>
-        public static End Create(Creator creator, Lexer lexer)
+        public static Import Create(Creator creator, Lexer lexer)
         {
-            // import先の場合はEndCommandはいれない
-            if (creator.IsImportReader)
+            string textName = lexer.GetString();
+
+            if (string.IsNullOrEmpty(textName))
             {
                 return null; 
             }
 
-            var instance = new End();
+            // この時点での読み込み
+            creator.Read(textName);
 
-            creator.AddCommand(instance);
-
-            return instance;
+            return null;
         }
 
-        public override string ToString()
+        public override IEnumerator Process()
         {
-            return "end";
+
+
+            yield break;
         }
 
         #endregion

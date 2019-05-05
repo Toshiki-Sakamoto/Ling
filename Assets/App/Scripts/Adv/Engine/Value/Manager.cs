@@ -71,12 +71,17 @@ namespace Ling.Adv.Engine.Value
         /// 確認する
         /// </summary>
         /// <returns></returns>
-        public T FindValue<T>(string value) where T : Data, new()
+        public T FindValue<T>(string value, bool isAdd = true) where T : Data, new()
         {
             Data data = null;
 
             if (!_values.TryGetValue(value, out data))
             {
+                if (!isAdd)
+                {
+                    return null; 
+                }
+
                 var instance = Create<T>();
 
                 _values.Add(value, instance);
@@ -84,15 +89,38 @@ namespace Ling.Adv.Engine.Value
             }
 
             // 型があってなかったらエラー
-#if DEBUG
             if (data.GetType() != typeof(T))
             {
-                Log.Error("変数の型があっていない {0}", value);
                 return null; 
             }
-#endif
 
             return data as T;
+        }
+        public Data FindValue(Data.ValueType type, string valueName, bool isAdd = true)
+        {
+            Data data = null;
+
+            if (!_values.TryGetValue(valueName, out data))
+            {
+                if (!isAdd)
+                {
+                    return null;
+                }
+
+                var instance = Create(type);
+
+                _values.Add(valueName, instance);
+                return instance;
+            }
+
+            // 型があってなかったらエラー
+            if (data.Type != type)
+            {
+                Log.Warning("Data.FindValue(型があっていない)");
+                return null;
+            }
+
+            return data;
         }
 
         /// <summary>
@@ -104,6 +132,28 @@ namespace Ling.Adv.Engine.Value
         {
             return new T();
         }
+
+        public Data Create(Data.ValueType type)
+        {
+            switch (type)
+            {
+                case Data.ValueType.Int:
+                    return new ValueInt();
+
+                case Data.ValueType.Float:
+                    return new ValueFloat();
+
+                case Data.ValueType.String:
+                    return new ValueString();
+
+                case Data.ValueType.Value:
+                    return new Value();
+
+                default:
+                    return null;
+            } 
+        }
+
 
         #endregion
 

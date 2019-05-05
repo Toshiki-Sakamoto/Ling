@@ -42,6 +42,8 @@ namespace Ling.Adv.Engine.Command
 
         WAIT_CMD,
 
+        IMPORT_CMD,
+
         END_CMD,
     };
 }

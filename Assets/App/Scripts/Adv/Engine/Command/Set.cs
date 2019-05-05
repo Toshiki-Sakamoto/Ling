@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,7 +50,7 @@ namespace Ling.Adv.Engine.Command
         /// 足し合わされる値
         /// </summary>
         /// <value>The value data.</value>
-        public Value.ValueInt ValueData { get; protected set; }
+        public Value.Data ValueData { get; protected set; }
 
         /// <summary>
         /// そのまま代入される値
@@ -82,16 +83,15 @@ namespace Ling.Adv.Engine.Command
             string str1 = lexer.GetString();
             string str2 = lexer.GetString();
 
-            var value = new Value.ValueInt();
 
-            bool isSuccess = lexer.GetValue(value);
+            var value = lexer.GetValue();
 
             if (string.IsNullOrEmpty(str1) || 
-                string.IsNullOrEmpty(str2) || 
-                !isSuccess ||
+                string.IsNullOrEmpty(str2) ||
+                value == null ||
                 !string.IsNullOrEmpty(lexer.GetString()))
             {
-                Log.Error("syntax error");
+                Log.Error("構文エラー（Set）");
                 return null; 
             }
 
@@ -103,7 +103,7 @@ namespace Ling.Adv.Engine.Command
                     {
                         var instance = new Set();
                         instance._scriptType = ScriptType.SET_VALUE_CMD;
-                        instance.ValueData = valueManager.FindValue<Value.ValueInt>(str1);
+                        instance.ValueData = valueManager.FindValue(value.Type, str1);
                         instance.SetValue = value;
 
                         creator.AddCommand(instance);
@@ -113,9 +113,16 @@ namespace Ling.Adv.Engine.Command
 
                 case "+":
                     {
+                        if (value.Type != Value.Data.ValueType.Int &&
+                            value.Type != Value.Data.ValueType.Float)
+                        {
+                            Log.Error("構文エラー（足し合わせるのが数値ではない）");
+                            return null;
+                        }
+
                         var instance = new Set();
                         instance._scriptType = ScriptType.CALC_VALUE_CMD;
-                        instance.ValueData = valueManager.FindValue<Value.ValueInt>(str1);
+                        instance.ValueData = valueManager.FindValue(value.Type, str1);
                         instance.AddValue = value;
 
                         creator.AddCommand(instance);
@@ -125,12 +132,26 @@ namespace Ling.Adv.Engine.Command
 
                 case "-":
                     {
+                        if (value.Type != Value.Data.ValueType.Int &&
+                            value.Type != Value.Data.ValueType.Float)
+                        {
+                            Log.Error("構文エラー（引くのが数値ではない）");
+                            return null;
+                        }
+
                         var instance = new Set();
                         instance._scriptType = ScriptType.CALC_VALUE_CMD;
-                        instance.ValueData = valueManager.FindValue<Value.ValueInt>(str1);
+                        instance.ValueData = valueManager.FindValue(value.Type, str1);
 
                         // 符号を逆にする
-                        value.Change();
+                        if (value.Type == Value.Data.ValueType.Int)
+                        {
+                            ((Value.ValueInt)value).Change();
+                        }
+                        else if (value.Type == Value.Data.ValueType.Float)
+                        {
+                            ((Value.ValueFloat)value).Change();
+                        }
 
                         instance.AddValue = value;
 
@@ -143,6 +164,29 @@ namespace Ling.Adv.Engine.Command
                     Log.Error("syntax error");
                     return null;
             }
+        }
+
+        public override IEnumerator Process()
+        {
+            switch (_scriptType)
+            {
+                case ScriptType.SET_VALUE_CMD:
+                    {
+                        ValueData.Set(SetValue);
+                    }
+                    break;
+
+                case ScriptType.CALC_VALUE_CMD:
+                    {
+                        ValueData.Add(AddValue);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            yield break;
         }
 
         #endregion

@@ -54,18 +54,12 @@ namespace Ling.Adv
 
         public void Setup()
         {
-            Add(new Engine.Command.EventAddText());
+            Add(new Window.EventAddText());
             Add(new Window.EventWindowClear());
             Add(new Window.EventWindowOpen());
             Add(new Window.EventWindowTap());
-
-            /*
-            var ins = new EventStackBase();
-
-            Type t = typeof(Window.EventWindowOpen);
-
-            var aa = (t)ins;
-            */
+            Add(new Window.EventNameWindowHide());
+            Add(new Window.EventNameSet());
         }
 
         /// <summary>

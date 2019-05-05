@@ -44,7 +44,35 @@ namespace Ling.Adv.Engine.Command
         /// <value>The type.</value>
         public override ScriptType Type { get { return ScriptType.TEXT_CMD; } }
 
+        /// <summary>
+        /// 表示文字
+        /// </summary>
+        /// <value>The message.</value>
         public string Message { get; private set; }
+
+        /// <summary>
+        /// 発言者
+        /// </summary>
+        /// <value>The name.</value>
+        public string Name { get; private set; } = "";
+
+        /// <summary>
+        /// 発言者（変数）
+        /// </summary>
+        /// <value>The name value.</value>
+        public Value.ValueString NameValue { get; private set; } = null;
+
+        /// <summary>
+        /// 発言時、名前を出さないか
+        /// </summary>
+        /// <value><c>true</c> if is name hide; otherwise, <c>false</c>.</value>
+        public bool IsNameHide { get; private set; }
+
+        /// <summary>
+        /// 発言時、立ち絵を出さないか
+        /// </summary>
+        /// <value><c>true</c> if is text only; otherwise, <c>false</c>.</value>
+        public bool IsTextOnly { get; private set; }
 
         #endregion
 
@@ -58,20 +86,80 @@ namespace Ling.Adv.Engine.Command
 
         public static Text Create(Creator creator, Lexer lexer)
         {
-            if (!lexer.IsNextStringNullOrEmpty())
+            var instance = new Text();
+
+            System.Func<string, bool> funcTextOnly = 
+                (txt_) =>
+                {
+                    // only ？
+                    if (Common.IsShortTextCheck(txt_, "only"))
+                    {
+                        instance.IsTextOnly = true;
+                        return true;
+                    }
+
+                    return false;
+                };
+
+            System.Action<string> actNameCheck =
+                (txt_) =>
+                {
+                    // 空の場合、名前を出さない
+                    if (txt_.Length == 0)
+                    {
+                        instance.IsNameHide = true;
+                        return;
+                     }
+
+                    // 名前かどうか調べる
+                    var valueString = creator.ValueManager.FindValue<Value.ValueString>(txt_, isAdd: false);
+                    if (valueString != null)
+                    {
+                        instance.NameValue = valueString;
+//                        instance.Name = valueString.Value;
+                    }
+                    else
+                    {
+                        instance.Name = txt_;
+                    }
+                };
+
+
+            // text の後に続くものがあるか
+            if (lexer.NumToken == 2)
             {
-                Log.Error("構文エラー(text)");
-                return null;
+                // 発言者
+                var name = lexer.GetString();
+
+                // textのみか調べて、じゃない場合名前
+                if (!funcTextOnly(name))
+                {
+                    actNameCheck(name);
+                }
             }
 
-            var instance = new Text();
+            if (lexer.NumToken >= 3)
+            {
+                // 発言者
+                var name = lexer.GetString();
+
+                actNameCheck(name);
+
+                // 立ち絵を出さない
+                var only = lexer.GetString();
+
+                if (!string.IsNullOrEmpty(only))
+                {
+                    funcTextOnly(only);
+                }
+            }
 
             string work = string.Empty;
 
             do
             {
                 // 一行読み取る
-                string str = creator.Reader.GetString();
+                string str = creator.Reader.GetString(isAddEnd: false);
 
                 if (string.IsNullOrEmpty(str))
                 {
@@ -108,14 +196,36 @@ namespace Ling.Adv.Engine.Command
             // Windowをクリア
             EventManager.SafeTrigger<Window.EventWindowClear>();
 
+            // 名前を変えるかどうか
+            if (IsNameHide)
+            {
+                // 名前ウィンドウを非表示
+                EventManager.SafeTrigger<Window.EventNameWindowHide>();
+            }
+            else if (NameValue != null || !string.IsNullOrEmpty(Name))
+            {
+                // 名前変更 
+                EventManager.SafeTrigger<Window.EventNameSet>((ev_) => 
+                    {
+                        if (NameValue != null)
+                        {
+                            ev_.Text = NameValue.Value;
+                        }
+                        else
+                        {
+                            ev_.Text = Name;
+                        }
+                    });
+            }
+
+
             // 速度によって送るスピードが変わる
             var config = Config.Manager.Instance;
-            var speed = config.TextSpeed;
 
-            if (speed >= 1.0f)
+            if (config.TextSpeed >= 1.0f)
             {
                 // 一瞬
-                EventManager.SafeTrigger<EventAddText>((obj_) =>
+                EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
                     {
                         obj_.Text = Message;
                     });
@@ -124,9 +234,32 @@ namespace Ling.Adv.Engine.Command
             }
 
             // スピード送り
-//            int index = 0;
+            int index = 0;
 
+            // 0.1 は 0.5秒に一文字出すくらい
+            // 0.9 は 0.1秒に一文字出すくらい
+            float time = 0.0f;
+            float msgTime = 0.05f;
 
+            do
+            {
+                if (time >= msgTime)
+                {
+                    time -= msgTime;
+
+                    EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
+                        {
+                            obj_.Text = Message[index++].ToString();
+                        });
+                }
+                else
+                {
+                    time += Time.deltaTime;
+
+                    yield return null;
+                }
+
+            } while (index < Message.Length);
         }
 
         /// <summary>

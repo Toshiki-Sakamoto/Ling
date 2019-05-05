@@ -62,6 +62,19 @@ namespace Ling.Adv.Window
         /// </summary>
         void Awake()
         {
+            // テキストを追加
+            Utility.Event.SafeAdd<EventAddText>(this, 
+                (ev_) => 
+                {
+                    _txtMain.text += ev_.Text;
+                });
+
+            // Window削除
+            Utility.Event.SafeAdd<EventWindowClear>(this,
+                (ev_) =>
+                {
+                    _txtMain.text = ""; 
+                });
         }
 
         /// <summary>

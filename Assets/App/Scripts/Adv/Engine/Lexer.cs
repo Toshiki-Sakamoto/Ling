@@ -117,7 +117,6 @@ namespace Ling.Adv.Engine
 
                 if (type == TokenType.IsQuotation)
                 {
-                    /*
                     // " 囲まれている
                     value.Type = TokenType.IsString;
 
@@ -125,8 +124,15 @@ namespace Ling.Adv.Engine
 
                     while (CharType(text[_index]) != TokenType.IsQuotation)
                     {
-                         
-                    }*/
+                        value.Value += text[_index++];
+                    }
+
+                    if (value.Value == null)
+                    {
+                        value.Value = "";
+                    }
+
+                    ++_index;
                 }
                 else
                 {
@@ -197,6 +203,63 @@ namespace Ling.Adv.Engine
         /// <returns><c>true</c>, if value was gotten, <c>false</c> otherwise.</returns>
         /// <param name="value">Value.</param>
         /// <param name="index">Index.</param>
+        public Value.Data GetValue(/*Value.ValueInt value, */int index = -1)
+        {
+            bool isMinus = false;
+
+
+            var type = GetTokenType(index);
+            switch(type)
+            {
+                case TokenType.IsMinus:
+                case TokenType.IsNumber:
+                    {
+                        var value = new Value.ValueInt();
+
+                        if (type == TokenType.IsMinus)
+                        {
+                            isMinus = true;
+
+                            NextToken();
+
+                            type = GetTokenType();
+                        }
+
+                        if (type != TokenType.IsNumber)
+                        {
+                            return null;
+                        }
+
+                        var str = GetString();
+                        if (string.IsNullOrEmpty(str))
+                        {
+                            return null;
+                        }
+
+                        int result = 0;
+                        if (!int.TryParse(str, out result))
+                        {
+                            return null;
+                        }
+
+                        value.Value = isMinus ? -result : result;
+
+                        return value;
+                    }
+
+                case TokenType.IsString:
+                    {
+                        var value = new Value.ValueString();
+
+                        value.Value = GetString();
+
+                        return value; 
+                    }
+
+                default:
+                    return null;
+            }
+        }
         public bool GetValue(Value.ValueInt value, int index = -1)
         {
             bool isMinus = false;
@@ -213,19 +276,19 @@ namespace Ling.Adv.Engine
 
             if (type != TokenType.IsNumber)
             {
-                return false; 
+                return false;
             }
 
             var str = GetString();
             if (string.IsNullOrEmpty(str))
             {
-                return false; 
+                return false;
             }
 
             int result = 0;
             if (!int.TryParse(str, out result))
             {
-                return false; 
+                return false;
             }
 
             value.Value = isMinus ? -result : result;

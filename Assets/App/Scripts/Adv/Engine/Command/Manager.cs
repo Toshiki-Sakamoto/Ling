@@ -75,6 +75,7 @@ namespace Ling.Adv.Engine.Command
             Regist("else", (c_, l_) => Else.Create(c_, l_));
             Regist("endif", (c_, l_) => EndIf.Create(c_, l_));
             Regist("wait", (c_, l_) => Wait.Create(c_, l_));
+            Regist("import", (c_, l_) => Import.Create(c_, l_));
 
             Regist("end", (c_, l_) => End.Create(c_, l_));
         }

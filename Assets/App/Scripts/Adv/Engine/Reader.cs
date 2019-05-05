@@ -85,7 +85,7 @@ namespace Ling.Adv.Engine
 
             try
             {
-                _streamReader = new StreamReader(fileInfo.OpenRead(), Encoding.GetEncoding("Shift_JIS"));
+                _streamReader = new StreamReader(fileInfo.OpenRead()/*, Encoding.GetEncoding("Shift_JIS")*/);
             }
             catch (FileNotFoundException ex)
             {
@@ -102,7 +102,7 @@ namespace Ling.Adv.Engine
         /// ファイルからテキストを一行読み出す
         /// </summary>
         /// <returns>The string.</returns>
-        public string GetString()
+        public string GetString(bool isAddEnd = true)
         {
             if (_streamReader.EndOfStream)
             {
@@ -112,7 +112,17 @@ namespace Ling.Adv.Engine
             ++LineNo;
 
             Text = _streamReader.ReadLine();
-            Text += '\0';
+            /*
+            if (Text.Length > 0 && Text[Text.Length - 1] == '\n')
+            {
+                Text = Text.TrimEnd('\n');
+                Text += '\0';
+            }
+            */
+            if (isAddEnd)
+            {
+                Text += '\0';
+            }
 
             return Text;
         }

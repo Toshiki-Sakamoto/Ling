@@ -44,6 +44,7 @@ namespace Ling.Adv.Engine
 
         private Command.Manager _cmdManager = null;
         private Value.Manager _valueManager = null;
+        private Stack<Reader> _stackReader = new Stack<Reader>();
         private Reader _reader = null;
 
         private List<Command.Label> _label = new List<Command.Label>();
@@ -79,6 +80,12 @@ namespace Ling.Adv.Engine
         /// <value>The then nest.</value>
         public Stack<uint> ThenNest { get; private set; } = new Stack<uint>();
 
+        /// <summary>
+        /// Import処理でReadされているかどうか
+        /// </summary>
+        /// <value><c>true</c> if is import process; otherwise, <c>false</c>.</value>
+        public bool IsImportReader { get { return _stackReader.Count > 1; } }
+
         #endregion
 
 
@@ -107,9 +114,11 @@ namespace Ling.Adv.Engine
 
             if (!_reader.Open(name))
             {
-
+                Log.Error("ファイルが開けない {0}", name);
                 return;
             }
+
+            _stackReader.Push(_reader);
 
             try
             {
@@ -122,6 +131,14 @@ namespace Ling.Adv.Engine
             catch (Exception e)
             {
                 Log.Error("{0}", e.Message);
+            }
+
+            // ポップ
+            _stackReader.Pop();
+
+            if (_stackReader.Count > 0)
+            {
+                _reader = _stackReader.Peek();
             }
         }
 
