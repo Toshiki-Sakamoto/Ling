@@ -1,13 +1,21 @@
 import test2.txt
 
 
+value = 2
+
 *test
 
 text
 てすとですよ。これがうまくいくか
 どうか
 
-if 1 == 1 then
+select SelectResult1
+選択肢１
+あああ
+えええ
+end
+
+if SelectResult1 == 1 then
 
 text　名前1
 次の文章に
@@ -26,5 +34,8 @@ text "" only
 あるかな
 
 endif
+
+text
+おわり
 
 end

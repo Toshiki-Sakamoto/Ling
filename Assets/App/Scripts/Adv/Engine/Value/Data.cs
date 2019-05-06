@@ -59,8 +59,52 @@ namespace Ling.Adv.Engine.Value
 
         #region public, protected 関数
 
+        public static bool operator ==(Data v1, Data v2)
+        {
+            if (object.ReferenceEquals(v1, v2))
+            {
+                return true; 
+            }
+
+            // どちらかがnullか 
+            // v1 == null は無限ループする
+            if (((object)v1 == null) || ((object)v2 == null))
+            {
+                return false; 
+            }
+
+            return v1.OpTrue(v2); 
+        }
+        public static bool operator !=(Data v1, Data v2)
+        {
+            return !(v1 == v2);
+        }
+
+        public static bool operator >(Data v1, Data v2)
+        {
+            return v1.OpBigger(v2);
+        }
+        public static bool operator <(Data v1, Data v2)
+        {
+            return !(v1 > v2);
+        }
+
+        public static bool operator >=(Data v1, Data v2)
+        {
+            return v1.OpBiggerEqu(v2);
+        }
+        public static bool operator <=(Data v1, Data v2)
+        {
+            return !(v1 >= v2); 
+        }
+
+
         public virtual void Set(Data src) { }
         public virtual void Add(Data src) { }
+
+        protected virtual bool OpTrue(Data v) { return false; }
+        protected virtual bool OpBigger(Data v) { return false; }
+        protected virtual bool OpBiggerEqu(Data v) { return false; }
 
         #endregion
 
@@ -102,6 +146,22 @@ namespace Ling.Adv.Engine.Value
 
             Value += ((ValueString)src).Value;
         }
+
+
+        protected override bool OpTrue(Data v) 
+        { 
+            return Value == ((ValueString)v).Value; 
+        }
+        protected override bool OpBigger(Data v) 
+        {
+            Utility.Log.Warning("文字列は > 演算子を使用できない"); 
+            return false;
+        }
+        protected override bool OpBiggerEqu(Data v)
+        {
+            Utility.Log.Warning("文字列は >= 演算子を使用できない");
+            return false; 
+        }
     }
 	
 	public class ValueInt : Data
@@ -137,6 +197,19 @@ namespace Ling.Adv.Engine.Value
 
             Value = ((ValueInt)src).Value;
         }
+
+        protected override bool OpTrue(Data v)
+        {
+            return Value == ((ValueInt)v).Value;
+        }
+        protected override bool OpBigger(Data v)
+        {
+            return Value > ((ValueInt)v).Value;
+        }
+        protected override bool OpBiggerEqu(Data v)
+        {
+            return Value >= ((ValueInt)v).Value;
+        }
     }
 	
 	public class ValueFloat : Data
@@ -171,6 +244,19 @@ namespace Ling.Adv.Engine.Value
             }
 
             Value = ((ValueFloat)src).Value;
+        }
+
+        protected override bool OpTrue(Data v)
+        {
+            return Value.Equals(((ValueFloat)v).Value);
+        }
+        protected override bool OpBigger(Data v)
+        {
+            return Value > ((ValueFloat)v).Value;
+        }
+        protected override bool OpBiggerEqu(Data v)
+        {
+            return Value >= ((ValueFloat)v).Value;
         }
     }
 	

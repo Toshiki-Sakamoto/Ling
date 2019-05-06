@@ -48,6 +48,7 @@ namespace Ling.Adv.Engine
         private Reader _reader = null;
 
         private List<Command.Label> _label = new List<Command.Label>();
+        private List<Command.LabelRef> _labelRef = new List<Command.LabelRef>();
         private List<string> _valueName = new List<string>();
 
         private uint _thenIndex = 0;
@@ -231,10 +232,6 @@ namespace Ling.Adv.Engine
         /// <param name="label">Label.</param>
         public void AddLabel(string label)
         {
-            var labelCmd = new Command.Label();
-            labelCmd.Name = label;
-            labelCmd.Line = _reader.LineNo;
-
             foreach (var elm in _label)
             {
                 // すでに登録されているか
@@ -243,6 +240,11 @@ namespace Ling.Adv.Engine
                     continue;
                 }
 
+                // すでに定義済み 
+                Log.Error("ラベルが二重に定義されてます {0}, line:{1}", elm.Name, elm.Line);
+                return;
+
+                /*
                 if (elm.IsPredefined)
                 {
                     // すでに定義済み 
@@ -268,9 +270,40 @@ namespace Ling.Adv.Engine
                 // コマンドとして追加
                 _cmdManager.AddCommand(labelCmd);
 
-                return;
+                return;*/
             }
 
+            var labelCmd = new Command.Label();
+            labelCmd.Name = label;
+            labelCmd.Line = _reader.LineNo;
+
+            Command.LabelRef removeRef = null;
+
+            foreach (var elm in _labelRef)
+            {
+                if (elm.Name != label)
+                {
+                    continue; 
+                }
+
+                elm.Jump = labelCmd;
+
+                var chain = elm.Next;
+                while (chain != null)
+                {
+                    chain.Jump = labelCmd;
+                    chain = chain.Next;
+                }
+
+                removeRef = elm;
+
+                break;
+            }
+
+            if (removeRef != null)
+            {
+                _labelRef.Remove(removeRef); 
+            }
 
             // コマンドとして追加
             _cmdManager.AddCommand(labelCmd);
@@ -280,8 +313,10 @@ namespace Ling.Adv.Engine
         /// ラベルの参照
         /// </summary>
         /// <param name="label">Label.</param>
-        public void FindLabel(string label, Command.Label labelCmd)
+        public void FindLabel(string label, Command.LabelRef labelRef)
         {
+            labelRef.Name = label;
+
             foreach (var elm in _label)
             {
                 if (elm.Name != label)
@@ -289,6 +324,7 @@ namespace Ling.Adv.Engine
                     continue;
                 }
 
+                /*
                 // ラベルが参照されている
                 if (elm.IsPredefined)
                 {
@@ -299,18 +335,36 @@ namespace Ling.Adv.Engine
                 {
                     // ラベルが登録されている
                     labelCmd.Jump = elm;
+                }*/
+                labelRef.Jump = elm;
+
+                return;
+            }
+
+            // 参照があるか
+            foreach (var elm in _labelRef)
+            {
+                if (elm.Name != label)
+                {
+                    continue; 
                 }
+
+                labelRef.Next = elm.Next;
+                elm.Next = labelRef;
 
                 return;
             }
 
             // 新しいラベルを参照として登録
+            _labelRef.Add(labelRef);
+
+            /*
             var chain = new Command.Label.Ref(labelCmd, null);
 
             labelCmd.Name = label;
             labelCmd.Reference = chain;
 
-            _label.Add(labelCmd);
+            _label.Add(labelCmd);*/
         }
 
         /// <summary>
@@ -332,7 +386,7 @@ namespace Ling.Adv.Engine
                     return false;
                 }
 
-                var strValue = _valueManager.FindValue<ValueString>(str);
+                var strValue = _valueManager.FindValue(str);
                 value = strValue;
             }
             else
@@ -463,12 +517,9 @@ namespace Ling.Adv.Engine
 
         private void LabelCheck()
         {
-            foreach (var elm in _label)
+            foreach (var elm in _labelRef)
             {
-                if (elm.Reference != null)
-                {
-                    Log.Error("参照が解決されてないラベルがあります {0}", elm.Name); 
-                }
+                Log.Error("参照が解決されてないラベルがあります {0}", elm.Name); 
             } 
         }
 

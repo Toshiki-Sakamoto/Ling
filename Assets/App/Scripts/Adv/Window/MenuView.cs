@@ -82,6 +82,7 @@ namespace Ling.Adv.Window
         /// </summary>
         void OnDestoroy()
         {
+            Utility.Event.SafeAllRemove(this);
         }
 
         #endregion

@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,7 +52,7 @@ namespace Ling.Adv.Engine.Command
         /// ジャンプ先
         /// </summary>
         /// <value>The jump label.</value>
-        public Label Goto { get; set; }
+        public LabelRef Goto { get; set; }
 
         public Value.Data Value1 { get; private set; }
         public Value.Data Value2 { get; private set; }
@@ -130,7 +131,7 @@ namespace Ling.Adv.Engine.Command
             }
 
             // ジャンプ先
-            instance.Goto = Label.Create();
+            instance.Goto = new LabelRef();
             creator.FindLabel(label, instance.Goto);
 
             return instance;
@@ -141,11 +142,79 @@ namespace Ling.Adv.Engine.Command
             return "if";
         }
 
-#endregion
+        /// <summary>
+        /// 条件を見て分岐
+        /// </summary>
+        /// <returns>The process.</returns>
+        public override IEnumerator Process()
+        {
+            var manager = Engine.Manager.Instance;
+
+            switch (_scriptType)
+            {
+                case ScriptType.IF_TRUE_CMD:
+                    {
+                        if (Value1 == Value2)
+                        {
+                            manager.GotoLabel(Goto);
+                        }
+                    }
+                    break;
+
+                case ScriptType.IF_FALSE_CMD:
+                    {
+                        if (Value1 != Value2)
+                        {
+                            manager.GotoLabel(Goto); 
+                        } 
+                    }
+                    break;
+
+                case ScriptType.IF_BIGGER_CMD:
+                    {
+                        if (Value1 > Value2)
+                        {
+                            manager.GotoLabel(Goto);
+                        }
+                    }
+                    break;
+
+                case ScriptType.IF_SMALLER_CMD:
+                    {
+                        if (Value1 < Value2)
+                        {
+                            manager.GotoLabel(Goto);
+                        }
+                    }
+                    break;
+
+                case ScriptType.IF_BIGGER_EQU_CMD:
+                    {
+                        if (Value1 >= Value2)
+                        {
+                            manager.GotoLabel(Goto);
+                        }
+                    }
+                    break;
+
+                case ScriptType.IF_SMALLER_EQU_CMD:
+                    {
+                        if (Value1 <= Value2)
+                        {
+                            manager.GotoLabel(Goto);
+                        }
+                    }
+                    break;
+            }
+
+            yield break;
+        }
+
+        #endregion
 
 
-#region private 関数
+        #region private 関数
 
-#endregion
+        #endregion
     }
 }

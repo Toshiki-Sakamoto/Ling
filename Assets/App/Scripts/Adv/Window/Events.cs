@@ -48,6 +48,19 @@ namespace Ling.Adv.Window
     }
 
     /// <summary>
+    /// テキスト設定
+    /// </summary>
+    public class EventSetText : EventStackBase
+    {
+        public string Text { get; set; }
+
+        public override void Clear()
+        {
+            Text = string.Empty;
+        }
+    }
+
+    /// <summary>
     /// 名前を非表示にする
     /// </summary>
     public class EventNameWindowHide : EventStackBase

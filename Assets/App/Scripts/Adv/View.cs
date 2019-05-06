@@ -1,8 +1,8 @@
 ﻿// 
-// NameView.cs  
+// View.cs  
 // ProductName Ling
 //  
-// Create by toshiki sakamoto on 2019.04.21.
+// Create by toshiki sakamoto on 2019.04.30.
 // 
 using System.Collections;
 using System.Collections.Generic;
@@ -10,14 +10,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Adv.Window
+namespace Ling.Adv
 {
     /// <summary>
-    /// 名前Window
+    /// 
     /// </summary>
-    public class NameView : MonoBehaviour
+    public class View : Utility.ObjCreator<View> 
     {
-        #region 定数
+        #region 定数, class, enum
 
         #endregion
 
@@ -29,40 +29,55 @@ namespace Ling.Adv.Window
 
         #region private 変数
 
-        [SerializeField] private Text _txtName = null;
-        [SerializeField] private Image _img = null;
+        [SerializeField] private Window.View _window = null;
+        [SerializeField] private Select.View _select = null;
+
+        private System.Action<int> _actOnSelect = null;
 
         #endregion
 
 
         #region プロパティ
 
+        public Window.View Win { get { return _window; } }
+
         #endregion
 
 
-        #region public 関数
+        #region public, protected 関数
 
-        public void Setup()
+        public static string PrefabName()
         {
-            _txtName.text = "";
+            return Common.GetResourcePath("AdvMain");
+        }
 
-            gameObject.SetActive(false);
+        public static bool IsAwakeActive()
+        {
+            return false; 
+        }
 
 
-            // Window消す
-            Utility.Event.SafeAdd<EventNameWindowHide>(this, 
+        public override void Setup()
+        {
+            _window.Setup();
+            _select.Setup();
+
+            // 選択肢を出す
+            Utility.Event.SafeAdd<Select.EventSelect>(this, 
                 (ev_) => 
                 {
-                    gameObject.SetActive(false);
+                    _select.Show(ev_.SelectList);
+                    _actOnSelect = ev_.ActOnSelect;
                 });
 
-            // 名前を設定する
-            Utility.Event.SafeAdd<EventNameSet>(this, 
+            // 選択肢が選ばれた
+            Utility.Event.SafeAdd<Select.EventSelected>(this,
                 (ev_) => 
                 {
-                    gameObject.SetActive(true);
+                    _select.Hide();
 
-                    _txtName.text = ev_.Text;
+                    _actOnSelect?.Invoke(ev_.SelectIndex);
+                    _actOnSelect = null;
                 });
         }
 

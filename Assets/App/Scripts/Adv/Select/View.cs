@@ -1,22 +1,22 @@
 ﻿// 
-// Window.cs  
+// View.cs  
 // ProductName Ling
 //  
-// Create by toshiki sakamoto on 2019.04.21.
+// Create by toshiki sakamoto on 2019.05.05.
 // 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Linq;
 
 
-namespace Ling.Adv.Window
+namespace Ling.Adv.Select
 {
     /// <summary>
     /// 
     /// </summary>
-    public class Window : MonoBehaviour 
+    public class View : MonoBehaviour 
     {
         #region 定数, class, enum
 
@@ -30,18 +30,12 @@ namespace Ling.Adv.Window
 
         #region private 変数
 
-        [SerializeField] private MainView _main = null;
-        [SerializeField] private MenuView _menu = null;
-        [SerializeField] private NameView _name = null;
+        [SerializeField] List<SelectItemView> _selectItemList = null;
 
         #endregion
 
 
         #region プロパティ
-
-        public MainView Main { get { return _main; } }
-        public MenuView Menu { get { return _menu; } }
-        public NameView Name { get { return _name; } }
 
         #endregion
 
@@ -50,19 +44,38 @@ namespace Ling.Adv.Window
 
         public void Setup()
         {
-            _main.Setup();
-            _menu.Setup();
-            _name.Setup();
+            foreach(var elm in _selectItemList)
+            {
+                elm.Setup(); 
+            }
         }
 
         /// <summary>
-        /// 背景タップ
+        /// 選択肢表示
         /// </summary>
-        public void OnClickedBackGround()
+        public void Show(List<Engine.Command.Select.Item> items)
         {
-            Utility.Log.Print("アドベンチャー背景タップ");
+            gameObject.SetActive(true);
 
-            EventManager.SafeTrigger<EventWindowTap>();
+            if (items.Count > _selectItemList.Count)
+            {
+                Utility.Log.Error("選択肢の数が多すぎる");
+                return; 
+            }
+
+            foreach(var elm in _selectItemList)
+            {
+                elm.gameObject.SetActive(false); 
+            }
+
+            var item = _selectItemList[items.Count - 1];
+
+            item.SetText(items.Select((arg_) => arg_.Str).ToList());
+        }
+
+        public void Hide()
+        {
+            gameObject.SetActive(false);
         }
 
         #endregion

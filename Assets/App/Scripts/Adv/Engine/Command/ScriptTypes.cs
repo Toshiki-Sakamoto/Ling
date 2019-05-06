@@ -37,12 +37,10 @@ namespace Ling.Adv.Engine.Command
         LOAD_CMD,
         CLEAR_CMD,
         CLEAR_TEXT_CMD,
-
         TEXT_CMD,
-
         WAIT_CMD,
-
         IMPORT_CMD,
+        SELECT_CMD,
 
         END_CMD,
     };

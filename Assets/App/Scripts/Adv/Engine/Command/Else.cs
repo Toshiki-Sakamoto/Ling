@@ -48,7 +48,7 @@ namespace Ling.Adv.Engine.Command
         /// ジャンプ先
         /// </summary>
         /// <value>The jump label.</value>
-        public Label Goto { get; set; }
+        public LabelRef Goto { get; set; }
 
         #endregion
 
@@ -84,6 +84,7 @@ namespace Ling.Adv.Engine.Command
             // 最後に飛ぶラベルを作る
             var gotoLabel = creator.FormatThenLabel(index | 0xffff);
 
+            instance.Goto = new LabelRef();
             creator.FindLabel(gotoLabel, instance.Goto);
 
             // 作成したelseラベルを登録

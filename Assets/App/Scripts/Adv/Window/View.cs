@@ -1,12 +1,13 @@
 ﻿// 
-// View.cs  
+// Window.cs  
 // ProductName Ling
 //  
-// Create by toshiki sakamoto on 2019.04.30.
+// Create by toshiki sakamoto on 2019.04.21.
 // 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
@@ -15,7 +16,7 @@ namespace Ling.Adv.Window
     /// <summary>
     /// 
     /// </summary>
-    public class View : Utility.ObjCreator<View> 
+    public class View : MonoBehaviour 
     {
         #region 定数, class, enum
 
@@ -29,34 +30,39 @@ namespace Ling.Adv.Window
 
         #region private 変数
 
-        [SerializeField] private Window _window = null;
+        [SerializeField] private MainView _main = null;
+        [SerializeField] private MenuView _menu = null;
+        [SerializeField] private NameView _name = null;
 
         #endregion
 
 
         #region プロパティ
 
-        public Window Win { get { return _window; } }
+        public MainView Main { get { return _main; } }
+        public MenuView Menu { get { return _menu; } }
+        public NameView Name { get { return _name; } }
 
         #endregion
 
 
         #region public, protected 関数
 
-        public static string PrefabName()
+        public void Setup()
         {
-            return Common.GetResourcePath("AdvMain");
+            _main.Setup();
+            _menu.Setup();
+            _name.Setup();
         }
 
-        public static bool IsAwakeActive()
+        /// <summary>
+        /// 背景タップ
+        /// </summary>
+        public void OnClickedBackGround()
         {
-            return false; 
-        }
+            Utility.Log.Print("アドベンチャー背景タップ");
 
-
-        public override void Setup()
-        {
-            _window.Setup();
+            EventManager.SafeTrigger<EventWindowTap>();
         }
 
         #endregion
@@ -95,6 +101,7 @@ namespace Ling.Adv.Window
         /// </summary>
         void OnDestoroy()
         {
+            Utility.Event.SafeAllRemove(this);
         }
 
         #endregion

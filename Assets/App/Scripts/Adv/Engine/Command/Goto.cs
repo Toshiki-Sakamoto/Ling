@@ -44,7 +44,7 @@ namespace Ling.Adv.Engine.Command
         /// <value>The type.</value>
         public override ScriptType Type { get { return ScriptType.GOTO_CMD; } }
 
-        public Label Label { get; private set; }
+        public LabelRef LabelRef { get; private set; }
 
         #endregion
 
@@ -73,16 +73,16 @@ namespace Ling.Adv.Engine.Command
             var instance = new Goto();
             creator.AddCommand(instance);
 
-            instance.Label = Label.Create(lexer);
+            instance.LabelRef = new LabelRef();
 
-            creator.FindLabel(labeName, instance.Label);
+            creator.FindLabel(labeName, instance.LabelRef);
 
             return instance;
         }
 
         public override string ToString()
         {
-            return string.Format("goto labelName:{0}", Label.Name);
+            return string.Format("goto labelName:{0}", LabelRef.Name);
         }
 
         #endregion

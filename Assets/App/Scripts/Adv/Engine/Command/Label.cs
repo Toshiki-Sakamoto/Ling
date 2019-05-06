@@ -15,6 +15,23 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Engine.Command
 {
+    public class LabelRef
+    {
+        public LabelRef Next { get; set; }
+
+        /// <summary>
+        /// ジャンプ先
+        /// </summary>
+        /// <value>The jump label.</value>
+        public Label Jump { get; set; }
+
+        /// <summary>
+        /// ラベル名
+        /// </summary>
+        /// <value>The name.</value>
+        public string Name { get; set; }
+    }
+
 	/// <summary>
 	/// 
 	/// </summary>
@@ -22,17 +39,17 @@ namespace Ling.Adv.Engine.Command
     {
         #region 定数, class, enum
 
+        /*
         public class Ref
         {
             public Label LabelRef { get; private set; }
-            public Ref Next { get; private set; } 
 
             public Ref(Label labelRef, Ref reference)
             {
                 LabelRef = labelRef;
                 Next = reference; 
             }
-        }
+        }*/
 
         #endregion
 
@@ -68,23 +85,7 @@ namespace Ling.Adv.Engine.Command
         /// <value>The line.</value>
         public int Line { get; set; }
 
-        /// <summary>
-        /// 定義済みかどうか
-        /// </summary>
-        /// <value><c>true</c> if is predefined; otherwise, <c>false</c>.</value>
-        public bool IsPredefined { get { return Reference == null; } }
 
-        /// <summary>
-        /// ジャンプ先
-        /// </summary>
-        /// <value>The jump label.</value>
-        public Label Jump { get; set; }
-
-        /// <summary>
-        /// 参照している次のラベル
-        /// </summary>
-        /// <value>The next.</value>
-        public Ref Reference { get; set; }
 
         #endregion
 
@@ -101,7 +102,7 @@ namespace Ling.Adv.Engine.Command
         /// コマンド作成
         /// </summary>
         /// <returns>The create.</returns>
-        public static Label Create(Lexer lexer)
+        public static Label Create(Creator creator, Lexer lexer)
         {
             var instance = new Label();
 
@@ -110,7 +111,10 @@ namespace Ling.Adv.Engine.Command
 
         public static Label Create()
         {
-            return new Label(); 
+            var instance = new Label();
+
+
+            return instance;
         }
 
         #endregion

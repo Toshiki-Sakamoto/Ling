@@ -55,11 +55,14 @@ namespace Ling.Adv
         public void Setup()
         {
             Add(new Window.EventAddText());
+            Add(new Window.EventSetText());
             Add(new Window.EventWindowClear());
             Add(new Window.EventWindowOpen());
             Add(new Window.EventWindowTap());
             Add(new Window.EventNameWindowHide());
             Add(new Window.EventNameSet());
+            Add(new Select.EventSelect());
+            Add(new Select.EventSelected());
         }
 
         /// <summary>

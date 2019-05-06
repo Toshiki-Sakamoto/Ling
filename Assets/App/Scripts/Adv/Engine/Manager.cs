@@ -72,13 +72,13 @@ namespace Ling.Adv.Engine
         /// Viewを返す
         /// </summary>
         /// <value>The view.</value>
-        public Window.View View { get; private set; }
+        public View View { get; private set; }
 
         /// <summary>
         /// Windowインスタンス
         /// </summary>
         /// <value>The window.</value>
-        public Window.Window Win { get { return View.Win; } }
+        public Window.View Win { get { return View.Win; } }
 
         #endregion
 
@@ -155,6 +155,32 @@ namespace Ling.Adv.Engine
             Utility.Event.SafeTrigger(new EventStop());
         }
 
+        /// <summary>
+        /// 指定したラベルまで移動する
+        /// </summary>
+        public void GotoLabel(Command.LabelRef labelRef)
+        { 
+            // ジャンプがあるか
+            if (labelRef.Jump == null)
+            {
+                Utility.Log.Error("ジャンプ先がない {0}", labelRef.Name);
+                return; 
+            }
+
+            for (int i = 0; i < Cmd.Command.Count; ++i)
+            {
+                if (Cmd.Command[i] != labelRef.Jump)
+                {
+                    continue; 
+                }
+
+                _cmdIndex = i;
+
+                return;
+            }
+
+            Utility.Log.Error("ジャンプ先のラベルが見つからない {0}", labelRef.Name);
+        }
 
         #endregion
 
@@ -169,6 +195,8 @@ namespace Ling.Adv.Engine
         {
             do
             {
+                IsTap = false;
+
                 if (_cmdIndex >= Cmd.Command.Count)
                 {
                     break;
@@ -180,6 +208,8 @@ namespace Ling.Adv.Engine
                 var process = cmd.Process();
                 while (process.MoveNext())
                 {
+                    IsTap = false;
+
                     yield return null; 
                 }
 
@@ -213,7 +243,7 @@ namespace Ling.Adv.Engine
             EventManager.Instance.Setup();
 
             // View 
-            View = Window.View.Create(_trsWindowRoot);
+            View = View.Create(_trsWindowRoot);
             View.Setup();
 
 

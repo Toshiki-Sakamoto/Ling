@@ -69,6 +69,12 @@ namespace Ling.Adv.Window
                     _txtMain.text += ev_.Text;
                 });
 
+            Utility.Event.SafeAdd<EventSetText>(this,
+                (ev_) =>
+                {
+                    _txtMain.text = ev_.Text; 
+                });
+
             // Window削除
             Utility.Event.SafeAdd<EventWindowClear>(this,
                 (ev_) =>
@@ -96,6 +102,7 @@ namespace Ling.Adv.Window
         /// </summary>
         void OnDestoroy()
         {
+            Utility.Event.SafeAllRemove(this);
         }
 
         #endregion

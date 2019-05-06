@@ -225,7 +225,7 @@ namespace Ling.Adv.Engine.Command
             if (config.TextSpeed >= 1.0f)
             {
                 // 一瞬
-                EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
+                EventManager.SafeTrigger<Window.EventSetText>((obj_) =>
                     {
                         obj_.Text = Message;
                     });
@@ -243,6 +243,18 @@ namespace Ling.Adv.Engine.Command
 
             do
             {
+                // 途中でタップがあったら一瞬で
+                if (Engine.Manager.Instance.IsTap)
+                {
+                    // 一瞬
+                    EventManager.SafeTrigger<Window.EventSetText>((obj_) =>
+                    {
+                        obj_.Text = Message;
+                    });
+
+                    break;
+                }
+
                 if (time >= msgTime)
                 {
                     time -= msgTime;
