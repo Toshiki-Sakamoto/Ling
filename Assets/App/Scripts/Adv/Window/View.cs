@@ -65,6 +65,14 @@ namespace Ling.Adv.Window
             EventManager.SafeTrigger<EventWindowTap>();
         }
 
+        public void Show()
+        { 
+        }
+
+        public void Hide()
+        { 
+        }
+
         #endregion
 
 

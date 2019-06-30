@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,6 +32,8 @@ namespace Ling.Adv.Engine.Command
 
 
         #region private 変数
+
+        private Value.Data _waitValue = null;
 
         #endregion
 
@@ -59,11 +62,52 @@ namespace Ling.Adv.Engine.Command
         /// <returns>The create.</returns>
         public static Wait Create(Creator creator, Lexer lexer)
         {
+            var value = lexer.GetValue();
+
+            if (value == null || 
+                (value.Type != Value.Data.ValueType.Float && value.Type != Value.Data.ValueType.Int))
+            {
+                Log.Error("構文エラー(wait)");
+                return null;
+            }
+
             var instance = new Wait();
+
+            instance._waitValue = value;
 
             creator.AddCommand(instance);
 
             return instance;
+        }
+
+        public override IEnumerator Process()
+        {
+            float time = 0.0f;
+
+            float waitTime = 0.0f;
+
+            if (_waitValue is Value.ValueInt)
+            {
+                waitTime = ((Value.ValueInt)_waitValue).Value;
+            }
+            else if (_waitValue is Value.ValueFloat)
+            {
+                waitTime = ((Value.ValueFloat)_waitValue).Value; 
+            }
+
+            if (waitTime <= 0.0f)
+            {
+                yield break; 
+            }
+
+            while (time < waitTime)
+            {
+                yield return null;
+
+                time += Time.deltaTime;
+            }
+
+            yield break;
         }
 
         #endregion

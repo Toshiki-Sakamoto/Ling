@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,9 +63,9 @@ namespace Ling.Adv.Engine.Command
         /// <returns>The create.</returns>
         public static Goto Create(Creator creator, Lexer lexer)
         {
-            var labeName = lexer.GetString();
+            var labelName = lexer.GetString();
 
-            if (string.IsNullOrEmpty(labeName) || !string.IsNullOrEmpty(lexer.GetString()))
+            if (string.IsNullOrEmpty(labelName) || !string.IsNullOrEmpty(lexer.GetString()))
             {
                 Log.Error("書式がおかしい(goto)");
                 return null; 
@@ -75,7 +76,19 @@ namespace Ling.Adv.Engine.Command
 
             instance.LabelRef = new LabelRef();
 
-            creator.FindLabel(labeName, instance.LabelRef);
+            creator.FindLabel(labelName, instance.LabelRef);
+
+            return instance;
+        }
+
+        public static Goto Create(Creator creator, string labelName)
+        {
+            var instance = new Goto();
+            creator.AddCommand(instance);
+
+            instance.LabelRef = new LabelRef();
+
+            creator.FindLabel(labelName, instance.LabelRef);
 
             return instance;
         }
@@ -83,6 +96,15 @@ namespace Ling.Adv.Engine.Command
         public override string ToString()
         {
             return string.Format("goto labelName:{0}", LabelRef.Name);
+        }
+
+        public override IEnumerator Process()
+        {
+            var manager = Engine.Manager.Instance;
+
+            manager.GotoLabel(LabelRef);
+
+            yield break;
         }
 
         #endregion

@@ -5,17 +5,52 @@ value = 2
 
 *test
 
-text
-てすとですよ。これがうまくいくか
-どうか
+;text
+;遂に...
 
-select SelectResult1
-選択肢１
-あああ
-えええ
+;text
+;遂にできた..！
+
+;text
+;GW前から細々と作成してきたアドベンチャーエンジンが！！
+
+;text
+;作ってみると以外にも面白く
+;夜中も手が止められず、次の日の眠くて仕事に影響が出てしまったこともあった。
+
+;text
+;ここまで一つのことにめり込んで開発したのは久しぶりだ。
+
+;text
+;なにか形あるものを世に出したい気持ちが完成まで持っていったのだと感じる。
+
+;text
+;そしてこのアドベンチャーエンジンの作成うまく行ったと思う！
+
+;text
+;まぁ、スクリプトは書きづらい見づらい部分はあるけど..
+;色々と機能は作れた。
+
+;text
+;条件分岐もできるし、選択肢だって出せる。
+;拡張性がある作りにもできた。
+
+;text
+;これを作った俺は天才か？
+
+text
+さて...
+
+text
+これからどうしよう
+
+select SelectResult
+作り込む
+更に自分を褒める
+壊す
 end
 
-if SelectResult1 == 1 then
+if SelectResult == 1 then
 
 text　名前1
 次の文章に
@@ -24,7 +59,7 @@ text　名前1
 
 text　
 次の文章に
-うまく移れてる
+<size=30><color=#ff0000>うまく</color></size>移れてる
 かの確認
 
 text ""
@@ -32,6 +67,20 @@ text ""
 
 text "" only
 あるかな
+
+else if SelectResult == 2 then
+
+else if SelectResult == 3 then
+
+hide adv
+
+wait 2
+
+text
+...
+
+text
+<slow>..?</slow>
 
 endif
 

@@ -29,7 +29,7 @@ namespace Ling.Adv.Window
 
         #region private 変数
 
-        [SerializeField] private Text _txtMain = null;
+        [SerializeField] private AdvText _txtMain = null;
         [SerializeField] private Image _img = null;
 
         #endregion
@@ -72,7 +72,8 @@ namespace Ling.Adv.Window
             Utility.Event.SafeAdd<EventSetText>(this,
                 (ev_) =>
                 {
-                    _txtMain.text = ev_.Text; 
+                    // 
+
                 });
 
             // Window削除

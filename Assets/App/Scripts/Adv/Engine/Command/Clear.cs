@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,7 +56,7 @@ namespace Ling.Adv.Engine.Command
 
         #region public, protected 関数
 
-        public Clear Create(Creator creator, Lexer lexer)
+        public static Clear Create(Creator creator, Lexer lexer)
         {
             var str = lexer.GetString();
 
@@ -72,9 +73,9 @@ namespace Ling.Adv.Engine.Command
             {
                 instance._scriptType = ScriptType.CLEAR_TEXT_CMD;
             }
-            else
+            else if (str == "window")
             {
-                 
+                instance._scriptType = ScriptType.CLEAR_WINDOW_CMD;
             }
 
             return instance;
@@ -84,6 +85,32 @@ namespace Ling.Adv.Engine.Command
         public override string ToString()
         {
             return "Clear";
+        }
+
+        public override IEnumerator Process()
+        {
+            switch (_scriptType)
+            {
+                case ScriptType.CLEAR_TEXT_CMD:
+                    {
+                        EventManager.SafeTrigger<Window.EventNameSet>((obj_) => 
+                            {
+                                obj_.Text = ""; 
+                            }); 
+                    }
+                    break;
+
+                case ScriptType.CLEAR_WINDOW_CMD:
+                    {
+                        EventManager.SafeTrigger<Window.EventWindowClear>();
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+            yield break;
         }
 
         #endregion

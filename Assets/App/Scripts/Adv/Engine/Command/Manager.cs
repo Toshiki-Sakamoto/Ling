@@ -77,7 +77,8 @@ namespace Ling.Adv.Engine.Command
             Regist("wait", (c_, l_) => Wait.Create(c_, l_));
             Regist("import", (c_, l_) => Import.Create(c_, l_));
             Regist("select", (c_, l_) => Select.Create(c_, l_));
-
+            Regist("clear", (c_, l_) => Clear.Create(c_, l_));
+            Regist("hide", (c_, l_) => Hide.Create(c_, l_));
             Regist("end", (c_, l_) => End.Create(c_, l_));
         }
 

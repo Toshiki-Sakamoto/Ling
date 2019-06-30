@@ -27,6 +27,9 @@ namespace Ling.Adv.Engine.Command
         CALC_VALUE_CMD,
         GOTO_CMD,
 
+        HIDE_ADV_CMD,
+        HIDE_WINDOW_CMD,
+
         IF_TRUE_CMD,
         IF_FALSE_CMD,
         IF_BIGGER_CMD,
@@ -36,6 +39,7 @@ namespace Ling.Adv.Engine.Command
 
         LOAD_CMD,
         CLEAR_CMD,
+        CLEAR_WINDOW_CMD,
         CLEAR_TEXT_CMD,
         TEXT_CMD,
         WAIT_CMD,

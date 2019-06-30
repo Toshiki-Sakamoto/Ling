@@ -258,7 +258,14 @@ namespace Ling.Adv.Engine
             Utility.Event.SafeAdd<Window.EventWindowOpen>(this,
                 (obj_) =>
                 {
-                    View.SetActive(true);
+                    View.Show();
+                });
+
+            // 閉じる
+            Utility.Event.SafeAdd<Window.EventHide>(this,
+                (ev_) =>
+                {
+                    View.Hide(ev_);
                 });
         }
 

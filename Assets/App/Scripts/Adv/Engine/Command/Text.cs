@@ -51,6 +51,12 @@ namespace Ling.Adv.Engine.Command
         public string Message { get; private set; }
 
         /// <summary>
+        /// Messageをタグ解釈したもの
+        /// </summary>
+        /// <value>The message document.</value>
+        public Document MsgDocument { get; private set; } = new Document();
+
+        /// <summary>
         /// 発言者
         /// </summary>
         /// <value>The name.</value>
@@ -178,11 +184,20 @@ namespace Ling.Adv.Engine.Command
             } while (true);
 
             instance.Message = work;
-
+            instance.MsgDocument.Load(work);
+            instance.CreateCharacters();
 
             creator.AddCommand(instance);
 
             return instance;
+        }
+
+        private void CreateCharacters()
+        {
+            while (!MsgDocument.IsEnd)
+            {
+                var c = MsgDocument.GetChar();
+            }
         }
 
         /// <summary>
@@ -225,16 +240,17 @@ namespace Ling.Adv.Engine.Command
             if (config.TextSpeed >= 1.0f)
             {
                 // 一瞬
-                EventManager.SafeTrigger<Window.EventSetText>((obj_) =>
+                EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
                     {
-                        obj_.Text = Message;
+                        //obj_.Text = Message;
+                        obj_.Text = MsgDocument.GetAll();
                     });
 
                 yield break;
             }
 
             // スピード送り
-            int index = 0;
+            //int index = 0;
 
             // 0.1 は 0.5秒に一文字出すくらい
             // 0.9 は 0.1秒に一文字出すくらい
@@ -247,9 +263,10 @@ namespace Ling.Adv.Engine.Command
                 if (Engine.Manager.Instance.IsTap)
                 {
                     // 一瞬
-                    EventManager.SafeTrigger<Window.EventSetText>((obj_) =>
+                    EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
                     {
-                        obj_.Text = Message;
+                        //obj_.Text = Message;
+                        obj_.Text = MsgDocument.GetAll();
                     });
 
                     break;
@@ -261,7 +278,8 @@ namespace Ling.Adv.Engine.Command
 
                     EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
                         {
-                            obj_.Text = Message[index++].ToString();
+                            //obj_.Text = Message[index++].ToString();
+                            obj_.Text = MsgDocument.GetText();
                         });
                 }
                 else
@@ -271,7 +289,7 @@ namespace Ling.Adv.Engine.Command
                     yield return null;
                 }
 
-            } while (index < Message.Length);
+            } while (!MsgDocument.IsEnd/*index < Message.Length*/);
         }
 
         /// <summary>

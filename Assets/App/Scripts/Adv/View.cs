@@ -81,6 +81,24 @@ namespace Ling.Adv
                 });
         }
 
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Hide(Window.EventHide eventHide)
+        {
+            if (eventHide.IsAdv)
+            {            
+                gameObject.SetActive(false);
+            }
+
+            if (eventHide.IsWindow)
+            {
+                _window.Hide(); 
+            }
+        }
+
         #endregion
 
 

@@ -387,6 +387,11 @@ namespace Ling.Adv.Engine
                 }
 
                 var strValue = _valueManager.FindValue(str);
+                if (strValue == null)
+                {
+                    Utility.Log.Warning("変数が定義されていない {0}", str); 
+                }
+
                 value = strValue;
             }
             else

@@ -44,12 +44,6 @@ namespace Ling.Adv.Engine.Command
         /// <value>The type.</value>
         public override ScriptType Type { get { return ScriptType.GOTO_CMD; } }
 
-        /// <summary>
-        /// ジャンプ先
-        /// </summary>
-        /// <value>The jump label.</value>
-        public LabelRef Goto { get; set; }
-
         #endregion
 
 
@@ -76,16 +70,11 @@ namespace Ling.Adv.Engine.Command
 
             var elseLabel = creator.FormatThenLabel(index);
 
-            var instance = new Else();
-            creator.AddCommand(instance);
-
             creator.ThenNest.Push(index + 1);   // 1 - 1 のようなラベル付け
 
             // 最後に飛ぶラベルを作る
             var gotoLabel = creator.FormatThenLabel(index | 0xffff);
-
-            instance.Goto = new LabelRef();
-            creator.FindLabel(gotoLabel, instance.Goto);
+            Goto.Create(creator, gotoLabel);
 
             // 作成したelseラベルを登録
             creator.AddLabel(elseLabel);
@@ -96,7 +85,7 @@ namespace Ling.Adv.Engine.Command
 
             if (string.IsNullOrEmpty(str))
             {
-                return instance; 
+                return null; 
             }
 
             if (str == "if")

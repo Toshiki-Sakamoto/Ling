@@ -29,6 +29,21 @@ namespace Ling.Adv.Window
     {}
 
     /// <summary>
+    /// 閉じる
+    /// </summary>
+    public class EventHide : EventStackBase
+    { 
+        public bool IsAdv { get; set; }
+        public bool IsWindow { get; set; }
+
+        public override void Clear()
+        {
+            IsAdv = false;
+            IsWindow = false;
+        }
+    }
+
+    /// <summary>
     /// 画面がタップされた
     /// </summary>
     public class EventWindowTap : EventStackBase
@@ -52,11 +67,11 @@ namespace Ling.Adv.Window
     /// </summary>
     public class EventSetText : EventStackBase
     {
-        public string Text { get; set; }
+        public Document Document { get; set; }
 
         public override void Clear()
         {
-            Text = string.Empty;
+            Document = null;
         }
     }
 

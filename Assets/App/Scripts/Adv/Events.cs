@@ -61,6 +61,7 @@ namespace Ling.Adv
             Add(new Window.EventWindowTap());
             Add(new Window.EventNameWindowHide());
             Add(new Window.EventNameSet());
+            Add(new Window.EventHide());
             Add(new Select.EventSelect());
             Add(new Select.EventSelected());
         }
