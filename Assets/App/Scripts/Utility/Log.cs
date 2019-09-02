@@ -59,7 +59,7 @@ namespace Ling.Utility
 
         public static void Error(string format, params object[] args)
         {
-            Debug.LogWarningFormat(format, args);
+            Debug.LogErrorFormat(format, args);
         }
 
         #endregion

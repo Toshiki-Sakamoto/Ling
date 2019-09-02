@@ -196,7 +196,8 @@ namespace Ling.Adv.Engine.Command
         {
             while (!MsgDocument.IsEnd)
             {
-                var c = MsgDocument.GetChar();
+                // 一時消してる
+                //////var c = MsgDocument.GetChar();
             }
         }
 
@@ -234,16 +235,29 @@ namespace Ling.Adv.Engine.Command
             }
 
 
+            // テキストを送る
+            EventManager.SafeTrigger<Window.EventSetText>((obj_) =>
+                {
+                    obj_.Text = Message;
+                    obj_.Document = MsgDocument;
+                });
+
             // 速度によって送るスピードが変わる
             var config = Config.Manager.Instance;
 
             if (config.TextSpeed >= 1.0f)
             {
+                /*
                 // 一瞬
                 EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
                     {
                         //obj_.Text = Message;
                         obj_.Text = MsgDocument.GetAll();
+                    });
+*/
+                EventManager.SafeTrigger<Window.EventNextText>((obj_) =>
+                    {
+                        obj_.next = -1; // 全て送る
                     });
 
                 yield break;
@@ -257,17 +271,26 @@ namespace Ling.Adv.Engine.Command
             float time = 0.0f;
             float msgTime = 0.05f;
 
+            int length = 0;
+
             do
             {
                 // 途中でタップがあったら一瞬で
                 if (Engine.Manager.Instance.IsTap)
                 {
-                    // 一瞬
-                    EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
-                    {
-                        //obj_.Text = Message;
-                        obj_.Text = MsgDocument.GetAll();
-                    });
+
+                    /*
+                        // 一瞬
+                        EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
+                        {
+                            //obj_.Text = Message;
+                            obj_.Text = MsgDocument.GetAll();
+                        });*/
+
+                    EventManager.SafeTrigger<Window.EventNextText>((obj_) =>
+                        {
+                            obj_.next = -1; // 全て送る
+                        });
 
                     break;
                 }
@@ -276,10 +299,19 @@ namespace Ling.Adv.Engine.Command
                 {
                     time -= msgTime;
 
-                    EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
+
+                    /*
+                        EventManager.SafeTrigger<Window.EventAddText>((obj_) =>
+                            {
+                                //obj_.Text = Message[index++].ToString();
+                                obj_.Text = MsgDocument.GetText();
+                            });
+                            */
+
+                    EventManager.SafeTrigger<Window.EventNextText>((obj_) =>
                         {
-                            //obj_.Text = Message[index++].ToString();
-                            obj_.Text = MsgDocument.GetText();
+                            // 送る
+                            obj_.next = ++length;
                         });
                 }
                 else

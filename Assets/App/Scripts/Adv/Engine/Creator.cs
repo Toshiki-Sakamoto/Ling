@@ -121,9 +121,9 @@ namespace Ling.Adv.Engine
 
             _stackReader.Push(_reader);
 
+            string str;
             try
             {
-                string str;
                 while (!string.IsNullOrEmpty(str = _reader.GetString()))
                 {
                     Parser(str);

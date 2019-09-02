@@ -60,7 +60,7 @@ namespace Ling.Adv.Window
         /// </summary>
         public void OnClickedBackGround()
         {
-            Utility.Log.Print("アドベンチャー背景タップ");
+            Ling.Utility.Log.Print("アドベンチャー背景タップ");
 
             EventManager.SafeTrigger<EventWindowTap>();
         }
@@ -109,7 +109,7 @@ namespace Ling.Adv.Window
         /// </summary>
         void OnDestoroy()
         {
-            Utility.Event.SafeAllRemove(this);
+            Ling.Utility.Event.SafeAllRemove(this);
         }
 
         #endregion

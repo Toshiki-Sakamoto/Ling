@@ -67,11 +67,26 @@ namespace Ling.Adv.Window
     /// </summary>
     public class EventSetText : EventStackBase
     {
+        public string Text { get; set; }
         public Document Document { get; set; }
 
         public override void Clear()
         {
+            Text = "";
             Document = null;
+        }
+    }
+
+    /// <summary>
+    /// テキストを次に進める
+    /// </summary>
+    public class EventNextText : EventStackBase
+    {
+        public int next = 1;
+
+        public override void Clear()
+        {
+            next = 1;
         }
     }
 

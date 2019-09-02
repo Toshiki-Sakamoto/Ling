@@ -15,7 +15,7 @@ namespace Ling.Adv.Window
     /// <summary>
     /// 
     /// </summary>
-    public class TextConfig : MonoBehaviour 
+    public class TextConfig : MonoBehaviour
     {
         #region 定数, class, enum
 
@@ -30,35 +30,171 @@ namespace Ling.Adv.Window
         #region private 変数
 
         [SerializeField] private AdvText _text = null;
+        [SerializeField] private int _bmpFontSize = 0;
+        [SerializeField] private float _letterSpaceSize = 1;    // 文字間(px)
+        [SerializeField] private float _space = -1;             // スペースの幅(px)
+        [SerializeField] private Utility.WordProcessor _wordProcessor = null;
+        [SerializeField] private char _dashChar = '—';
+        [SerializeField] private int _lengthOfView = -1;        // 表示する文字の長さ
 
         #endregion
 
 
         #region プロパティ
 
+        /// <summary>
+        /// テキストインスタンス
+        /// </summary>
         public AdvText Text { get { return _text; } }
-        public Common Cmn { get; private set; } = new Common();
+
+        /// <summary>
+        /// 実際の頂点情報の計算など
+        /// </summary>
+        public ConfigInfo Info { get; private set; }
+
+        /// <summary>
+        /// </summary>
+        public RectTransform CachedRectTransform { get; private set; }
+
+        /// <summary>
+        /// 使用しているフォント
+        /// </summary>
+        public Font Font { get { return Text.font; } }
+
+        /// <summary>
+        /// 横線
+        /// </summary>
+        public char DashChar { get { return (_dashChar == 0) ? Const.Dash : _dashChar; } }
+
+        /// <summary>
+        /// ビットマップフォントを使用しているときのサイズ
+        /// </summary>
+        public int BmgFontSize
+        {
+            get
+            {
+                if (Text.font != null && !Text.font.dynamic)
+                {
+                    if (_bmpFontSize <= 0)
+                    {
+                        return 1;
+                    }
+                }
+
+                return _bmpFontSize;
+            }
+        }
+
+        /// <summary>
+        /// 現在の表示する文字の長さ
+        /// </summary>
+        public int CurrentLengthOfView { get { return (_lengthOfView < 0) ? int.MaxValue : _lengthOfView; } }
+
+        /// <summary>
+        /// スペースの幅(px)
+        /// </summary>
+        public float Space
+        {
+            get { return _space; }
+            set { _space = value; }
+        }
+
+        /// <summary>
+        /// 文字間のサイズ
+        /// </summary>
+        public float LetterSpaceSize
+        {
+            get { return _letterSpaceSize; }
+            set { _letterSpaceSize = value; }
+        }
+
+        /// <summary>
+        /// 禁則処理
+        /// </summary>
+        public Utility.WordProcessor WordProcessor { get { return _wordProcessor; } }
 
         #endregion
 
 
         #region public, protected 関数
 
-        public void GetUIVertex(List<UIVertex> list)
+        /// <summary>
+        /// 頂点情報作成
+        /// </summary>
+        /// <param name="list"></param>
+        public void CreateVertex(List<UIVertex> verts)
         {
+            if (Info == null)
+            {
+                return;
+            }
 
+            Info.CreateVertex(verts);
         }
 
 
-        public void Process()
+
+        /// <summary>
+        /// フォントテクスチャを生成する
+        /// </summary>
+        /// <param name="font"></param>
+        public void OnTextureRebuild(Font font)
         {
-            
+            if (Info == null)
+            {
+                return;
+            }
+
+            Info.RebuildFontTexture(font);
+        }
+
+        /// <summary>
+        /// 頂点変更時に呼び出される
+        /// </summary>
+        public void OnDirtyVerts()
+        {
+            Refresh();
+        }
+
+        /// <summary>
+        /// 描画する文字数を設定する
+        /// </summary>
+        public void SetLengthOfView(int length)
+        {
+            _lengthOfView = length;
+
+            Manager.Instance.Text.SetVericesOnlyDirty();
+        }
+
+        public void AddLengthOfView(int length)
+        {
+            if (_lengthOfView < 0)
+            {
+                _lengthOfView = 0;
+            }
+
+            SetLengthOfView(_lengthOfView + length);
         }
 
         #endregion
 
 
         #region private 関数
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void Refresh()
+        {
+            if (Info == null)
+            {
+                return;
+            }
+
+            Info.BuildCharacters();
+            Info.BuildTextArea(CachedRectTransform);
+        }
+
 
         #endregion
 
@@ -70,6 +206,13 @@ namespace Ling.Adv.Window
         /// </summary>
         void Awake()
         {
+            if (Manager.Instance != null)
+            {
+                Manager.Instance.Config = this;
+
+                Info = new ConfigInfo(this);
+                CachedRectTransform = GetComponent<RectTransform>();
+            }
         }
 
         /// <summary>

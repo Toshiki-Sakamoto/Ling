@@ -25,6 +25,8 @@ namespace Ling.Adv
         public const string PrefabPath = "Prefabs/Adv/";
         public const string ImagePath = "Images/Adv/";
 
+        public const char Dash = '—';
+
         #endregion
 
 
