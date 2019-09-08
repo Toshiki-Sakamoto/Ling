@@ -38,6 +38,8 @@ namespace Ling.Adv.Engine.Command
         IF_SMALLER_EQU_CMD,
 
         LOAD_CMD,
+        LOAD_CHARA_CMD,
+
         CLEAR_CMD,
         CLEAR_WINDOW_CMD,
         CLEAR_TEXT_CMD,

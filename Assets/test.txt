@@ -1,3 +1,4 @@
+import CharacterSetting.txt
 import test2.txt
 
 

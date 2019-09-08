@@ -23,6 +23,9 @@ namespace Ling.Adv.Engine.Command
 	/// </summary>
     public class Common
     {
+        private List<string> _simpleParse = new List<string>();   // 簡易的な文字解析に使われる
+
+
         /// <summary>
         /// 短縮語がただしいかチェック
         /// </summary>
@@ -57,5 +60,37 @@ namespace Ling.Adv.Engine.Command
                     return false;
             }
         }
+
+
+        /// <summary>
+        /// 空白で文字列を区切るだけ
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public List<string> WhiteSpaceParse(string text)
+        {
+            _simpleParse.Clear();
+
+            string word = string.Empty;
+
+            foreach(var elm in text)
+            {
+                if (elm == ' ')
+                {
+                    if (!string.IsNullOrEmpty(word))
+                    {
+                        _simpleParse.Add(word);
+                    }
+
+                    word = string.Empty;
+                    continue;
+                }
+
+                word += elm;
+            }
+
+            return _simpleParse;
+        }
+
     }
 }

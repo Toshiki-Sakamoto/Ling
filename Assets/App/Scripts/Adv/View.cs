@@ -31,6 +31,7 @@ namespace Ling.Adv
 
         [SerializeField] private Window.View _window = null;
         [SerializeField] private Select.View _select = null;
+        [SerializeField] private Chara.View _chara = null;
 
         private System.Action<int> _actOnSelect = null;
 

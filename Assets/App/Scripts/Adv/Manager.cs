@@ -29,6 +29,10 @@ namespace Ling.Adv
 
         #region private 変数
 
+        [SerializeField] private Transform _trsWindowRoot = null;   // アドベンチャーウィンドウが置かれるルート
+
+        private View _view = null;
+
         #endregion
 
 
@@ -50,6 +54,7 @@ namespace Ling.Adv
         /// 文字情報を解析し、情報を持っているクラス
         /// </summary>
         public Document Document { get; private set; }
+
 
         /// <summary>
         /// 
@@ -88,6 +93,30 @@ namespace Ling.Adv
             }
 
             Instance = this;
+
+            DontDestroyOnLoad(gameObject);
+
+            // Event管理者
+            EventManager.Instance.Setup();
+
+            // View 
+            _view = View.Create(_trsWindowRoot);
+            _view.Setup();
+
+
+            // Window開く
+            Utility.Event.SafeAdd<Window.EventWindowOpen>(this,
+                (obj_) =>
+                {
+                    _view.Show();
+                });
+
+            // 閉じる
+            Utility.Event.SafeAdd<Window.EventHide>(this,
+                (ev_) =>
+                {
+                    _view.Hide(ev_);
+                });
         }
 
         /// <summary>

@@ -132,6 +132,11 @@ namespace Ling.Adv.Window
         {
             base.Awake();
 
+            if (Manager.Instance == null)
+            {
+                return;
+            }
+
             Manager.Instance.Text = this;
 
             _config = GetComponent<TextConfig>();

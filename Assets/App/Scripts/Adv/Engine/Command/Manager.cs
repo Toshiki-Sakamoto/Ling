@@ -40,6 +40,8 @@ namespace Ling.Adv.Engine.Command
 
         #region プロパティ
 
+        public Common Cmn { get; private set; } = new Common();
+
         public List<Base> Command { get; private set; } = new List<Base>();
 
         /// <summary>
@@ -80,6 +82,8 @@ namespace Ling.Adv.Engine.Command
             Regist("clear", (c_, l_) => Clear.Create(c_, l_));
             Regist("hide", (c_, l_) => Hide.Create(c_, l_));
             Regist("end", (c_, l_) => End.Create(c_, l_));
+            Regist("load", (c_, l_) => Load.Create(c_, l_));
+            Regist("loadChara", (c_, l_) => LoadChara.Create(c_, l_));
         }
 
         /// <summary>
@@ -120,12 +124,6 @@ namespace Ling.Adv.Engine.Command
             Command.Add(command);
         }
 
-        /// <summary>
-        /// 先行して読み込むものがある場合
-        /// </summary>
-        public void Load()
-        {
-        }
 
 #if false
         /// <summary>

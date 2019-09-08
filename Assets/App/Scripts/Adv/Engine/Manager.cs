@@ -34,7 +34,7 @@ namespace Ling.Adv.Engine
 
         #region private 変数
 
-        [SerializeField] private Transform _trsWindowRoot = null;
+        [SerializeField] private View _view = null;
 
         private int _cmdIndex = 0;  // 現在再生中のコマンドインデックス
 
@@ -57,6 +57,24 @@ namespace Ling.Adv.Engine
         public Value.Manager Value { get; private set; } = new Value.Manager();
 
         /// <summary>
+        /// キャラ管理者
+        /// </summary>
+        public Chara.Manager Chara { get; private set; } = new Chara.Manager();
+
+        /// <summary>
+        /// リソース管理者
+        /// </summary>
+        public ResourceManager Resource { get; private set; } = new ResourceManager();
+
+
+        /// <summary>
+        /// Windowインスタンス
+        /// </summary>
+        /// <value>The window.</value>
+        public Window.View Win { get { return _view.Win; } }
+
+
+        /// <summary>
         /// 再生中
         /// </summary>
         /// <value><c>true</c> if is playing; otherwise, <c>false</c>.</value>
@@ -68,17 +86,6 @@ namespace Ling.Adv.Engine
         /// <value><c>true</c> if is tap; otherwise, <c>false</c>.</value>
         public bool IsTap { get; private set; }
 
-        /// <summary>
-        /// Viewを返す
-        /// </summary>
-        /// <value>The view.</value>
-        public View View { get; private set; }
-
-        /// <summary>
-        /// Windowインスタンス
-        /// </summary>
-        /// <value>The window.</value>
-        public Window.View Win { get { return View.Win; } }
 
         #endregion
 
@@ -138,7 +145,7 @@ namespace Ling.Adv.Engine
             IsPlaying = true;
 
             // 事前読み込み処理
-            Cmd.Load();
+            //Cmd.Load();
 
             StartCoroutine(Process());
         }
@@ -237,14 +244,6 @@ namespace Ling.Adv.Engine
             }
 
             Instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            // Event管理者
-            EventManager.Instance.Setup();
-
-            // View 
-            View = View.Create(_trsWindowRoot);
-            View.Setup();
 
 
             // 画面がタップされた
@@ -252,20 +251,6 @@ namespace Ling.Adv.Engine
                 (ev_) => 
                 {
                     IsTap = true;
-                });
-
-            // Window開く
-            Utility.Event.SafeAdd<Window.EventWindowOpen>(this,
-                (obj_) =>
-                {
-                    View.Show();
-                });
-
-            // 閉じる
-            Utility.Event.SafeAdd<Window.EventHide>(this,
-                (ev_) =>
-                {
-                    View.Hide(ev_);
                 });
         }
 

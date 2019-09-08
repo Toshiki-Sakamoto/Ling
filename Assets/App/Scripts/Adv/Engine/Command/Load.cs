@@ -15,9 +15,9 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Engine.Command
 {
-	/// <summary>
-	/// 
-	/// </summary>
+    /// <summary>
+    /// 
+    /// </summary>
     public class Load : Base
     {
         #region 定数, class, enum
@@ -31,6 +31,8 @@ namespace Ling.Adv.Engine.Command
 
 
         #region private 変数
+
+        private string _filename;   // 読み込むファイル名
 
         #endregion
 
@@ -53,7 +55,7 @@ namespace Ling.Adv.Engine.Command
 
         #region public, protected 関数
 
-        public Load Create(Lexer lexer)
+        public static Load Create(Creator creator, Lexer lexer)
         {
             var instance = new Load();
 
@@ -64,14 +66,24 @@ namespace Ling.Adv.Engine.Command
                 !string.IsNullOrEmpty(lexer.GetString()))
             {
                 Log.Error("構文エラー(load)");
-                return null; 
+                return null;
             }
 
 
+            creator.AddCommand(instance);
 
 
-            return instance; 
+            return instance;
         }
+
+        /*
+        /// <summary>
+        /// コマンド実行
+        /// </summary>
+        public override IEnumerator Process()
+        {
+            yield break;
+        }*/
 
         #endregion
 
