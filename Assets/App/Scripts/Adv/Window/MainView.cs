@@ -72,10 +72,12 @@ namespace Ling.Adv.Window
             Ling.Utility.Event.SafeAdd<EventSetText>(this,
                 (ev_) =>
                 {
-                    _txtMain.text = ev_.Text;
-
                     // 
                     Manager.Instance.SetDocument(ev_.Document);
+
+                    _txtMain.SetLengthOfView(0);
+                    _txtMain.text = ev_.Text;
+
                 });
 
             Ling.Utility.Event.SafeAdd<EventNextText>(this,

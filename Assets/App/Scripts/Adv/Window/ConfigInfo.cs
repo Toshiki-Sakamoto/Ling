@@ -58,11 +58,6 @@ namespace Ling.Adv.Window
         /// </summary>
         public Vector3 EndPos { get; private set; }
 
-        /// <summary>
-        /// メッセージ内容
-        /// </summary>
-        public Document Document { get; private set; }
-
 
         /// <summary>
         /// 表示の参照となる高さ
@@ -95,6 +90,7 @@ namespace Ling.Adv.Window
         public float Width { get; private set; }
 
 
+
         #endregion
 
 
@@ -120,6 +116,11 @@ namespace Ling.Adv.Window
             var manager = Manager.Instance;
             var document = manager.Document;
 
+            if (document == null)
+            {
+                return;
+            }
+
             // TextData作成
 
             document.BuildCharacters();
@@ -143,6 +144,13 @@ namespace Ling.Adv.Window
         public void BuildTextArea(RectTransform rectTransform)
         {
             var manager = Manager.Instance;
+            var document = manager.Document;
+
+            if (document == null)
+            {
+                return;
+            }
+
 
             // 描画範囲
             var rect = rectTransform.rect;
@@ -151,7 +159,7 @@ namespace Ling.Adv.Window
 
             // 文字のX座標を計算
             // 自動改行も行う
-            ApplyXPosition(Document.WindowCharas, maxW);
+            ApplyXPosition(document.WindowCharas, maxW);
 
             // 行ごとの文字データを作成
             LineDataList = CreateLineList(CharaDataList, maxH);
@@ -202,6 +210,12 @@ namespace Ling.Adv.Window
                 //CharaList.Add(chara);
             }
 #endif
+            // 更新がなにもないので何もしない
+            if (LineDataList == null)
+            {
+                return;
+            }
+
             CreateVertexList(uIVertices, Config.CurrentLengthOfView);
         }
 

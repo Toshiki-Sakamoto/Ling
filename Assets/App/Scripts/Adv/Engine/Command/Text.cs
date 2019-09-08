@@ -194,11 +194,12 @@ namespace Ling.Adv.Engine.Command
 
         private void CreateCharacters()
         {
+            /*
             while (!MsgDocument.IsEnd)
             {
                 // 一時消してる
                 //////var c = MsgDocument.GetChar();
-            }
+            }*/
         }
 
         /// <summary>
@@ -238,8 +239,8 @@ namespace Ling.Adv.Engine.Command
             // テキストを送る
             EventManager.SafeTrigger<Window.EventSetText>((obj_) =>
                 {
-                    obj_.Text = Message;
                     obj_.Document = MsgDocument;
+                    obj_.Text = Message;
                 });
 
             // 速度によって送るスピードが変わる
@@ -313,6 +314,9 @@ namespace Ling.Adv.Engine.Command
                             // 送る
                             obj_.next = ++length;
                         });
+
+                    // 一文字すすめる
+                    MsgDocument.NextTextIndex();
                 }
                 else
                 {

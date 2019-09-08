@@ -85,10 +85,19 @@ namespace Ling.Adv.Window
 
         /// <summary>
         /// 頂点情報だけ書き換え
+        /// 描画文字数だけを更新する場合など
         /// </summary>
-        public void SetVericesOnlyDirty()
+        public void SetVeriticesOnlyDirty()
         {
-            ///
+            Config.ChangeVertexOnly();
+
+            base.SetVerticesDirty();
+        }
+
+        public override void SetVerticesDirty()
+        {
+            // 更新させる
+            Config.ChangeAll();
 
             base.SetVerticesDirty();
         }
@@ -123,6 +132,8 @@ namespace Ling.Adv.Window
         {
             base.Awake();
 
+            Manager.Instance.Text = this;
+
             _config = GetComponent<TextConfig>();
 
             m_OnDirtyVertsCallback += 
@@ -139,8 +150,6 @@ namespace Ling.Adv.Window
         protected override void Start()
         {
             base.Start();
-
-            Manager.Instance.Text = this;
         }
 
         /// <summary>

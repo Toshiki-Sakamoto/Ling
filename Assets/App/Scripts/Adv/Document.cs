@@ -98,6 +98,20 @@ namespace Ling.Adv
                 return result;
             }
 
+            /// <summary>
+            /// 文章を次に進める
+            /// </summary>
+            public void NextTextIndex()
+            {
+                if (TextIndex >= Text.Count())
+                {
+                    IsEnd = true;
+                    return;
+                }
+
+                ++TextIndex;
+            }
+
             public string GetBeginTag()
             {
                 string result = "";
@@ -158,6 +172,10 @@ namespace Ling.Adv
                 return result;
             }
 
+            /// <summary>
+            /// タグを含めたすべての文字列を取得する
+            /// </summary>
+            /// <returns></returns>
             public string GetAll()
             {
                 string result = "";
@@ -185,12 +203,142 @@ namespace Ling.Adv
                 return result;
             }
 
+
+            /// <summary>
+            /// タグの処理を行う
+            /// </summary>
+            public bool ParseTag(Data.Chara.CustomInfo customInfo, bool isBegin)
+            {
+                int result = 0;
+
+                // サイズ指定
+                System.Func<string, bool> funcSize = 
+                    (arg_) =>
+                    {
+                        customInfo.IsSize = int.TryParse(arg_, out result);
+                        customInfo.Size = result;
+
+                        return customInfo.IsSize;
+                    };
+
+                // 色指定
+                System.Func<string, bool> funcColor =
+                    (arg_) =>
+                    {
+                        if (string.IsNullOrEmpty(arg_))
+                        {
+                            return false;
+                        }
+
+                        Color color = Color.white;
+
+                        if (arg_[0] == '#')
+                        {
+                            // 16進数指定
+                            var value = arg_.Substring(1);
+
+                            try
+                            {
+                                if (value.Length == 6)
+                                {
+                                    int num = System.Convert.ToInt32(value, 16);
+                                    float r = ((num & 0xff0000) >> 16) / 255f;
+                                    float g = ((num & 0x00ff00) >> 8) / 255f;
+                                    float b = ((num & 0x0000ff)) / 255f;
+                                    color = new Color(r, g, b);
+                                }
+                                else if (value.Length == 8)
+                                {
+                                    int num = System.Convert.ToInt32(value, 16);
+                                    float r = ((num & 0xff000000) >> 24) / 255f;
+                                    float g = ((num & 0x00ff0000) >> 16) / 255f;
+                                    float b = ((num & 0x0000ff00) >> 8) / 255f;
+                                    float a = ((num & 0x000000ff)) / 255f;
+                                    color = new Color(r, g, b, a);
+                                }
+                                else
+                                {
+                                    return false;
+                                }
+                            }
+                            catch (Exception)
+                            {
+                                return false;
+                            }
+                        }
+                        else
+                        {
+                            // 対応するカラー名で処理
+                            switch(arg_)
+                            {
+                                case "white": color = Color.white; break;
+
+                                default: return false;
+                            }
+                        }
+
+                        customInfo.IsColor = true;
+                        customInfo.Color = color;
+
+                        return true;
+                    };
+
+
+                switch (Name)
+                {
+                    // サイズ
+                    case "size":
+                        {
+                            if (isBegin)
+                            {
+                                return funcSize(Attributes[0].Value);
+                            }
+                            else
+                            {
+                                customInfo.IsSize = false;
+                                return true;
+                            }
+                        }
+
+                    // カラー
+                    case "color":
+                        {
+                            if (isBegin)
+                            {
+                                return funcColor(Attributes[0].Value);
+                            }
+                            else
+                            {
+                                customInfo.IsColor = false;
+                                return true;
+                            }
+                        }
+                }
+
+                return false;
+            }
+
+#if false
+            /// <summary>
+            /// タグからテキストにする
+            /// </summary>
+            public void ChangeTextFromTag(bool isBegin)
+            {
+                string text = string.Empty;
+                if (isBegin)
+                {
+                    text = string.Format("<{0}={1}>", Attributes[0].Value);
+                }
+            }
+#endif
             /// <summary>
             /// 文字情報として追加する
             /// </summary>
             /// <param name="c"></param>
             public void AddCharData(char c)
             {
+                Text += c;
+
                 var data = new Data.Chara(c);
 
                 Charas.Add(data);
@@ -199,12 +347,36 @@ namespace Ling.Adv
             /// <summary>
             /// 描画用の文字情報に変換する
             /// </summary>
-            public void BuildCharacters()
+            public void BuildCharacters(Data.Chara.CustomInfo customInfo)
             {
-                foreach(var elm in Charas)
+                // タグの場合は情報保持クラスに格納していく
+                if (Type == Type.Begin)
                 {
-                    elm.BuildChara();
+                   if (ParseTag(customInfo, true))
+                   {
+                        return;
+                   }
+
+                   // タグで処理できなかったのでテキストにする
                 }
+                else if (Type == Type.End)
+                {
+                    if (ParseTag(customInfo, false))
+                    {
+                        return;
+                    }
+
+                    // タグで処理できなかったのでテキストにする
+                }
+
+                // 正規のタグではなかったらテキストとして処理をする
+
+                // テキストがある場合
+                foreach (var elm in Charas)
+                {
+                    elm.BuildChara(customInfo);
+                }
+
             }
 
             public void GetBuildCharacters(List<Window.Info.Chara> charas)
@@ -360,6 +532,12 @@ namespace Ling.Adv
         public List<Element> Elements { get; private set; } = new List<Element>();
         public int Current { get; private set; }
         public bool IsEnd { get { return Current >= Elements.Count(); } }
+
+        /// <summary>
+        /// タグを処理した結果、色の変更やサイズ変更の値を保持するクラス
+        /// こいつを渡していく
+        /// </summary>
+        public Data.Chara.CustomInfo CustomInfo { get; private set; } = new Data.Chara.CustomInfo();
 
         /// <summary>
         /// 描画情報をリストにまとめたもの
@@ -550,6 +728,36 @@ namespace Ling.Adv
         }
 
         /// <summary>
+        /// テキストIndexをすすめる
+        /// </summary>
+        public void NextTextIndex()
+        {
+            Element elm = null;
+
+            while (Current < Elements.Count)
+            {
+                elm = Elements[Current];
+
+                if (elm.Type == Type.Text)
+                {
+                    elm.NextTextIndex();
+
+                    if (elm.IsEnd)
+                    {
+                        ++Current;
+                    }
+
+                    break;
+                }
+                else
+                {
+                    ++Current;
+                }
+            }
+        }
+
+
+        /// <summary>
         /// 残りすべて取得する
         /// </summary>
         /// <returns>The all.</returns>
@@ -570,11 +778,13 @@ namespace Ling.Adv
         /// </summary>
         public void BuildCharacters()
         {
+            CustomInfo.Reset();
+
             WindowCharas.Clear();
 
             foreach (var elm in Elements)
             {
-                elm.BuildCharacters();
+                elm.BuildCharacters(CustomInfo);
 
                 elm.GetBuildCharacters(WindowCharas);
             }

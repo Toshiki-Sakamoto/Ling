@@ -284,7 +284,7 @@ namespace Utage
 
 		//頂点のみ変更
 		internal void ChangeVertsOnly()
-		{
+		{  
 			if (CurrentChangeType == ChagneType.All) return;
 
 			CurrentChangeType = ChagneType.VertexOnly;

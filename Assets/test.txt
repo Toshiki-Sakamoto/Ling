@@ -5,7 +5,7 @@ value = 2
 
 
 text
-さて...
+さ<size=20>て</size>...
 
 text
 これからどうしよう
@@ -18,7 +18,7 @@ end
 
 if SelectResult == 1 then
 
-text　名前1
+text　名前A
 次の文章に
 うまく移れてる
 かの確認

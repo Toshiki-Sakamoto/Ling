@@ -210,9 +210,11 @@ namespace Ling.Adv.Window.Info
 
 
             // 頂点カラーの設定
+            var color = Data.Info.GetCustomedColor(defaultColor);
+
             for (int i = 0; i < Verts.Length; ++i)
             {
-                Verts[i].color = defaultColor;
+                Verts[i].color = color;
             }
 
             // 座標の設定
@@ -388,7 +390,7 @@ namespace Ling.Adv.Window.Info
             uvBottomLeft = _info.uvBottomLeft;
             uvBottomRight = _info.uvBottomRight;
             uvTopLeft = _info.uvTopLeft;
-            uvTopRight = _info.uvBottomRight;
+            uvTopRight = _info.uvTopRight;
 
             // 座標の設定
             Verts[0].position.x = Verts[3].position.x = minX + PosX;

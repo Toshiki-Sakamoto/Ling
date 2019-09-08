@@ -19,6 +19,13 @@ namespace Ling.Adv.Window
     {
         #region 定数, class, enum
 
+        public enum ChangeType
+        {
+            None,
+            VertexOnly,
+            All,
+        }
+
         #endregion
 
 
@@ -88,7 +95,21 @@ namespace Ling.Adv.Window
         /// <summary>
         /// 現在の表示する文字の長さ
         /// </summary>
-        public int CurrentLengthOfView { get { return (_lengthOfView < 0) ? int.MaxValue : _lengthOfView; } }
+        public int CurrentLengthOfView
+        {
+            get
+            {
+                return (_lengthOfView < 0) ? int.MaxValue : _lengthOfView;
+            }
+            set
+            {
+                if (_lengthOfView != value)
+                {
+                    _lengthOfView = value;
+                    Text.SetVeriticesOnlyDirty();
+                }
+            }
+        }
 
         /// <summary>
         /// スペースの幅(px)
@@ -113,6 +134,11 @@ namespace Ling.Adv.Window
         /// </summary>
         public Utility.WordProcessor WordProcessor { get { return _wordProcessor; } }
 
+        /// <summary>
+        /// テキストを更新させる
+        /// </summary>
+        public ChangeType CurrentChangeType { get; set; }
+
         #endregion
 
 
@@ -125,6 +151,12 @@ namespace Ling.Adv.Window
         public void CreateVertex(List<UIVertex> verts)
         {
             if (Info == null)
+            {
+                return;
+            }
+
+            // 更新がまだ入ってないときは何もしない
+            if (CurrentChangeType != ChangeType.None)
             {
                 return;
             }
@@ -163,7 +195,7 @@ namespace Ling.Adv.Window
         {
             _lengthOfView = length;
 
-            Manager.Instance.Text.SetVericesOnlyDirty();
+            Manager.Instance.Text.SetVeriticesOnlyDirty();
         }
 
         public void AddLengthOfView(int length)
@@ -174,6 +206,24 @@ namespace Ling.Adv.Window
             }
 
             SetLengthOfView(_lengthOfView + length);
+        }
+
+        /// <summary>
+        /// テキストを更新させる
+        /// </summary>
+        public void ChangeAll()
+        {
+            CurrentChangeType = ChangeType.All;
+        }
+
+        public void ChangeVertexOnly()
+        {
+            if (CurrentChangeType == ChangeType.All)
+            {
+                return;
+            }
+
+            CurrentChangeType = ChangeType.VertexOnly;
         }
 
         #endregion
@@ -191,8 +241,19 @@ namespace Ling.Adv.Window
                 return;
             }
 
-            Info.BuildCharacters();
-            Info.BuildTextArea(CachedRectTransform);
+            switch (CurrentChangeType)
+            {
+                case ChangeType.All:
+                    Info.BuildCharacters();
+                    Info.BuildTextArea(CachedRectTransform);
+                    break;
+
+                case ChangeType.VertexOnly:
+                case ChangeType.None:
+                    break;
+            }
+
+            CurrentChangeType = ChangeType.None;
         }
 
 

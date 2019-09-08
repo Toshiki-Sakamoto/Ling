@@ -37,6 +37,16 @@ namespace Ling.Adv.Data
             public int DashSize { get; set; }
 
             /// <summary>
+            /// カラーが設定されているか
+            /// </summary>
+            public bool IsColor { get; set; }
+
+            /// <summary>
+            /// 指定されたカラーの値
+            /// </summary>
+            public Color Color { get; set; }
+
+            /// <summary>
             /// サイズが指定されているか
             /// </summary>
             public bool IsSize { get; set; }
@@ -58,6 +68,25 @@ namespace Ling.Adv.Data
 
 
             /// <summary>
+            /// 保持しているものを初期化する
+            /// </summary>
+            public void Reset()
+            {
+                IsColor = false;
+                IsSize = false;
+            }
+
+            /// <summary>
+            /// 同じ情報を持ったクローンを生成する
+            /// </summary>
+            /// <returns></returns>
+            public CustomInfo Clone()
+            {
+                return (CustomInfo)MemberwiseClone();
+            }
+
+
+            /// <summary>
             /// カスタム設定したサイズの取得
             /// </summary>
             /// <param name="defaultSize"></param>
@@ -65,6 +94,16 @@ namespace Ling.Adv.Data
             public int GetCustomedSize(int defaultSize)
             {
                 return IsSize ? Size : defaultSize;
+            }
+
+            /// <summary>
+            /// カスタム設定したカラーの取得
+            /// </summary>
+            /// <param name="defaultColor"></param>
+            /// <returns></returns>
+            public Color GetCustomedColor(Color defaultColor)
+            {
+                return IsColor ? Color : defaultColor;
             }
 
             /// <summary>
@@ -112,7 +151,10 @@ namespace Ling.Adv.Data
         /// </summary>
         public bool IsBr { get { return (Char == '\n' || Char == '\r'); } }
 
-        public CustomInfo Info { get; } = new CustomInfo();
+        /// <summary>
+        /// タグなどの解析結果から得られた情報
+        /// </summary>
+        public CustomInfo Info { get; private set; }
 
         #endregion
 
@@ -127,8 +169,10 @@ namespace Ling.Adv.Data
         /// <summary>
         /// 描画用のデータを生成する
         /// </summary>
-        public void BuildChara()
+        public void BuildChara(Data.Chara.CustomInfo customInfo)
         {
+            Info = customInfo.Clone();
+
             WindowChara = new Window.Info.Chara(this);
         }
 
