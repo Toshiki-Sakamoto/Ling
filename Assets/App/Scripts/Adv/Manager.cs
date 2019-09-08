@@ -101,6 +101,8 @@ namespace Ling.Adv
 
             // View 
             _view = View.Create(_trsWindowRoot);
+            _view.SetActive(true);
+            _view.SetActive(false);
             _view.Setup();
 
 

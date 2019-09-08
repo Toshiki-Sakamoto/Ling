@@ -89,6 +89,11 @@ namespace Ling.Adv.Engine.Command
                 word += elm;
             }
 
+            if (!string.IsNullOrEmpty(word))
+            {
+                _simpleParse.Add(word);
+            }
+
             return _simpleParse;
         }
 

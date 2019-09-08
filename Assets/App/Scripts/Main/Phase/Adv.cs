@@ -57,11 +57,12 @@ namespace Ling.Main.Phase
 
         public override void Awake()
         {
-            _advManager = Ling.Adv.Engine.Manager.Instance;
         }
 
         public override void Init()
         {
+            _advManager = Ling.Adv.Engine.Manager.Instance;
+
             var arg = Arg as Argment;
             if (arg == null)
             {
