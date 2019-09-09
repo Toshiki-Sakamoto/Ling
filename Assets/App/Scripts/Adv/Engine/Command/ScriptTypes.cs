@@ -48,6 +48,8 @@ namespace Ling.Adv.Engine.Command
         IMPORT_CMD,
         SELECT_CMD,
 
+        CHARA_CMD,
+
         END_CMD,
     };
 }

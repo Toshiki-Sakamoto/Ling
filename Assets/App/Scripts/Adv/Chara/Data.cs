@@ -77,6 +77,13 @@ namespace Ling.Adv.Chara
         public void LoadFace(string name, Dictionary<string, string> face)
         {
             _dictFace = face;
+
+            var resource = Engine.Manager.Instance.Resource;
+
+            foreach (var elm in _dictFace)
+            {
+                resource.LoadSprite(elm.Value);
+            }
         }
 
         /// <summary>

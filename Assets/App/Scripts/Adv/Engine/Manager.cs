@@ -132,6 +132,8 @@ namespace Ling.Adv.Engine
         /// </summary>
         public void AdvStart()
         {
+            gameObject.SetActive(true);
+
             Utility.Event.SafeTrigger(new EventStart());
 
             // 処理を開始する

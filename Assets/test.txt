@@ -4,9 +4,14 @@ import test2.txt
 
 value = 2
 
+chara 
+さちこ 通常 left
 
 text
 さ<size=20>て</size>...
+
+chara
+さちこ 笑い
 
 text
 これからどうしよう
