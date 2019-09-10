@@ -24,6 +24,9 @@ end
 
 if SelectResult == 1 then
 
+chara hide
+さちこ
+
 text　名前A
 次の文章に
 うまく移れてる

@@ -33,6 +33,8 @@ namespace Ling.Adv.Engine.Command
 
         #region private 変数
 
+        private List<string> _values = null;
+
         #endregion
 
 
@@ -67,7 +69,7 @@ namespace Ling.Adv.Engine.Command
 
             var instance = new Chara();
 
-            var texts = cmn.WhiteSpaceParse(str);
+            instance._values = cmn.WhiteSpaceParse(str);
 
 
             creator.AddCommand(instance);
@@ -76,14 +78,45 @@ namespace Ling.Adv.Engine.Command
             return instance;
         }
 
-        /*
+
         /// <summary>
         /// コマンド実行
         /// </summary>
         public override IEnumerator Process()
         {
+            if (_values.Count < 2)
+            {
+                yield break;
+            }
+
+            var charaManager = Engine.Manager.Instance.Chara;
+
+            // 指定したキャラが居るか
+            var charaName = _values[0];
+
+            var data = charaManager.GetData(charaName);
+            if (data == null)
+            {
+                yield break;
+            }
+
+            // 表情を変える
+            var faceFilename = data.GetFaceFilename(_values[1]);
+            if (string.IsNullOrEmpty(faceFilename))
+            {
+                // デフォルトを使用する
+            }
+
+            string position = string.Empty;
+
+            if (_values.Count >= 3)
+            {
+                position = _values[2];
+            }
+            
+
             yield break;
-        }*/
+        }
 
         #endregion
 

@@ -63,6 +63,18 @@ namespace Ling.Adv.Chara
             data.LoadFace(name, face);
         }
 
+        public Data GetData(string name)
+        {
+            Data data = null;
+
+            if (!_dictChara.TryGetValue(name, out data))
+            {
+                return null;
+            }
+
+            return data;
+        }
+
         #endregion
 
 

@@ -48,6 +48,11 @@ namespace Ling.Adv.Chara
         /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// 一番目の値を使用する
+        /// </summary>
+        public string DefaultFace { get { return _dictFace.FirstOrDefault().Value; } }
+
         #endregion
 
 
@@ -68,6 +73,22 @@ namespace Ling.Adv.Chara
             _dictFace[key] = filename;
         }
 
+        /// <summary>
+        /// 指定した表情からファイル名を検索する
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public string GetFaceFilename(string key)
+        {
+            string filename = "";
+
+            if (!_dictFace.TryGetValue(key, out filename))
+            {
+                return string.Empty;
+            }
+
+            return filename;
+        }
 
         /// <summary>
         /// 一気に表情も渡す
