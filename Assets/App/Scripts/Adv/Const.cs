@@ -27,6 +27,18 @@ namespace Ling.Adv
 
         public const char Dash = '—';
 
+
+        /// <summary>
+        /// キャラクタの立ち位置
+        /// </summary>
+        public enum CharaPos
+        {
+            None,
+            Left,
+            Center,
+            Right,
+        }
+
         #endregion
 
 
@@ -51,6 +63,24 @@ namespace Ling.Adv
 
 
         #region public, protected 関数
+
+        public static CharaPos CharaPosFromStr(string str)
+        {
+            switch(str)
+            {
+                case "Left":
+                    return CharaPos.Left;
+
+                case "Center":
+                    return CharaPos.Center;
+
+                case "Right":
+                    return CharaPos.Right;
+
+                default:
+                    return CharaPos.None;
+            }
+        }
 
         #endregion
 

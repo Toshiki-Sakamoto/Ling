@@ -26,6 +26,12 @@ namespace Ling.Adv.Chara
         {
             [SerializeField] private Transform _trs = null; // 配置場所
             [SerializeField] private Image _img = null;     // 立ち絵
+            [SerializeField] private Const.CharaPos _pos = Const.CharaPos.None;
+
+            /// <summary>
+            /// 今表示中のキャラデータ
+            /// </summary>
+            public Data CurrentData { get; set; }
         }
 
         #endregion
@@ -51,6 +57,15 @@ namespace Ling.Adv.Chara
 
 
         #region public, protected 関数
+
+        public void Setup()
+        {
+            // キャラクタを表示する
+            Utility.Event.SafeAdd<Chara.EventCharaShow>(this,
+                (ev_) =>
+                {
+                });
+        }
 
         #endregion
 
@@ -89,6 +104,7 @@ namespace Ling.Adv.Chara
         /// </summary>
         void OnDestoroy()
         {
+            Ling.Utility.Event.SafeAllRemove(this);
         }
 
         #endregion

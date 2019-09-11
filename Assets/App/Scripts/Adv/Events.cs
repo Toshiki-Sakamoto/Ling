@@ -65,6 +65,7 @@ namespace Ling.Adv
             Add(new Window.EventNextText());
             Add(new Select.EventSelect());
             Add(new Select.EventSelected());
+            Add(new Chara.EventCharaShow());
         }
 
         /// <summary>

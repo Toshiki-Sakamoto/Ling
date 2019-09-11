@@ -113,9 +113,14 @@ namespace Ling.Adv.Engine.Command
             {
                 position = _values[2];
             }
-            
 
-            yield break;
+
+            EventManager.SafeTrigger<Adv.Chara.EventCharaShow>((obj_) =>
+                {
+                    obj_.Data = data;
+                    obj_.CharaFilename = faceFilename;
+                    obj_.CharaPos = Const.CharaPosFromStr(position);
+                });
         }
 
         #endregion

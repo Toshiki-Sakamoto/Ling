@@ -1311,12 +1311,15 @@ MonoBehaviour:
   _left:
     _trs: {fileID: 3486242033160685239}
     _img: {fileID: 5190699739620792074}
+    _pos: 1
   _center:
     _trs: {fileID: 3411500555999944763}
     _img: {fileID: 4002210857584196073}
+    _pos: 2
   _right:
     _trs: {fileID: 3006404272338005716}
     _img: {fileID: 6624455578053353758}
+    _pos: 3
 --- !u!1 &2903744452206598457
 GameObject:
   m_ObjectHideFlags: 0

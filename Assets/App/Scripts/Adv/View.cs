@@ -62,6 +62,7 @@ namespace Ling.Adv
         {
             _window.Setup();
             _select.Setup();
+            _chara.Setup();
 
             // 選択肢を出す
             Utility.Event.SafeAdd<Select.EventSelect>(this, 
