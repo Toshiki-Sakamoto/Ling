@@ -33,4 +33,13 @@ namespace Ling.Adv.Chara
         /// </summary>
         public string CharaFilename { get; set; }
     }
+
+
+    /// <summary>
+    /// キャラクタを非表示する
+    /// </summary>
+    public class EventCharaHide : EventStackBase
+    {
+        public Data Data { get; set; }
+    };
 }

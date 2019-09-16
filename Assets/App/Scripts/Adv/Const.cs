@@ -64,17 +64,35 @@ namespace Ling.Adv
 
         #region public, protected 関数
 
+        /// <summary>
+        /// キャラの立ち絵がおいてある場所のパス
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
+        public static string CharFilepath(string filename)
+        {
+            return "Image/Chara/" + filename;
+        }
+
+        /// <summary>
+        /// 文字列からキャラを配置する列挙型に変化する
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static CharaPos CharaPosFromStr(string str)
         {
             switch(str)
             {
                 case "Left":
+                case "left":
                     return CharaPos.Left;
 
                 case "Center":
+                case "center":
                     return CharaPos.Center;
 
                 case "Right":
+                case "right":
                     return CharaPos.Right;
 
                 default:

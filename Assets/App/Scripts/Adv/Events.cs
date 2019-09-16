@@ -66,6 +66,7 @@ namespace Ling.Adv
             Add(new Select.EventSelect());
             Add(new Select.EventSelected());
             Add(new Chara.EventCharaShow());
+            Add(new Chara.EventCharaHide());
         }
 
         /// <summary>
@@ -90,15 +91,23 @@ namespace Ling.Adv
         /// 保持しているインスタンスのイベントを発行する
         /// </summary>
         /// <typeparam name="TEvent">The 1st type parameter.</typeparam>
-        public void Trigger<TEvent>(Action<TEvent> act = null) where TEvent : EventStackBase
+        public void Trigger<TEvent>(Action<TEvent> act = null, bool isAutoAdd = true) where TEvent : EventStackBase, new()
         {
             var type = typeof(TEvent);
             EventStackBase eventInstance = null;
 
             if (!_dictEvents.TryGetValue(type, out eventInstance))
             {
-                Utility.Log.Warning("イベントが登録されていない {0}", type.Name);
-                return;
+                if (!isAutoAdd)
+                {
+                    Utility.Log.Warning("イベントが登録されていない {0}", type.Name);
+                    return;
+                }
+
+                // 自動登録する
+                eventInstance = new TEvent();
+
+                _dictEvents.Add(type, eventInstance);
             }
 
             eventInstance.Clear();
@@ -114,14 +123,14 @@ namespace Ling.Adv
         /// </summary>
         /// <param name="act">Act.</param>
         /// <typeparam name="TEvent">The 1st type parameter.</typeparam>
-        public static void SafeTrigger<TEvent>(Action<TEvent> act = null) where TEvent : EventStackBase
+        public static void SafeTrigger<TEvent>(Action<TEvent> act = null, bool isAutoAdd = true) where TEvent : EventStackBase, new()
         {
             if (IsNull)
             {
                 return;
             }
 
-            Instance.Trigger(act);
+            Instance.Trigger(act, isAutoAdd);
         }
     }
 }

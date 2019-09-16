@@ -34,6 +34,7 @@ namespace Ling.Adv.Engine.Command
         #region private 変数
 
         private List<string> _values = null;
+        private bool _isHide = false;   // 隠す
 
         #endregion
 
@@ -69,7 +70,22 @@ namespace Ling.Adv.Engine.Command
 
             var instance = new Chara();
 
-            instance._values = cmn.WhiteSpaceParse(str);
+            // chara の後に続くものがあるか
+            if (lexer.NumToken == 2)
+            {
+                var value = lexer.GetString();
+
+                // この後が特殊なものなら
+                switch (value)
+                {
+                    case "Hide":
+                    case "hide":
+                        instance._isHide = true;
+                        break;
+                }
+            }
+
+            instance._values = cmn.WhiteSpaceParse(str).ToList();
 
 
             creator.AddCommand(instance);
@@ -84,11 +100,6 @@ namespace Ling.Adv.Engine.Command
         /// </summary>
         public override IEnumerator Process()
         {
-            if (_values.Count < 2)
-            {
-                yield break;
-            }
-
             var charaManager = Engine.Manager.Instance.Chara;
 
             // 指定したキャラが居るか
@@ -96,6 +107,25 @@ namespace Ling.Adv.Engine.Command
 
             var data = charaManager.GetData(charaName);
             if (data == null)
+            {
+                yield break;
+            }
+
+
+            // 隠す
+            if (_isHide)
+            {
+                EventManager.SafeTrigger<Adv.Chara.EventCharaHide>((obj_)=>
+                    {
+                        obj_.Data = data;
+                    });
+
+                yield break;
+            }
+
+
+            // 表情を変える
+            if (_values.Count < 2)
             {
                 yield break;
             }

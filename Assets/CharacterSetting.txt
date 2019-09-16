@@ -1,16 +1,16 @@
 
 ; キャラ設定ファイル
 loadChara さちこ
-通常 girl/normal.png
-笑い girl/normal.png
-ため息 girl/normal.png
-照れ girl/normal.png
+通常 girl/normal
+笑い girl/smile
+ため息 girl/sigh
+照れ girl/shy
 
 loadChara しゅん
-通常 girl/normal.png
-笑い girl/normal.png
-ため息 girl/normal.png
-照れ girl/normal.png
+通常 boy/normal
+笑い boy/smile
+ため息 boy/sigh
+照れ boy/shy
 
 
 

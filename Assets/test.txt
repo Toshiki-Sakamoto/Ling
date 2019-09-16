@@ -10,6 +10,9 @@ chara
 text
 さ<size=20>て</size>...
 
+chara 
+しゅん 通常 right
+
 chara
 さちこ 笑い
 
@@ -24,8 +27,11 @@ end
 
 if SelectResult == 1 then
 
-chara hide
-さちこ
+chara 
+しゅん 笑い
+
+chara 
+さちこ 照れ
 
 text　名前A
 次の文章に
@@ -39,6 +45,10 @@ text　
 
 text ""
 そんなこと
+
+
+chara hide
+さちこ
 
 text "" only
 あるかな

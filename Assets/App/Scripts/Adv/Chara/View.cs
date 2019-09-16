@@ -32,6 +32,30 @@ namespace Ling.Adv.Chara
             /// 今表示中のキャラデータ
             /// </summary>
             public Data CurrentData { get; set; }
+
+            /// <summary>
+            /// 表示位置
+            /// </summary>
+            public Const.CharaPos CharaPos { get { return _pos; } }
+
+
+            public void SetActive(bool isActive)
+            {
+                _trs.gameObject.SetActive(isActive);
+
+                if (!isActive)
+                {
+                    CurrentData = null;
+                }
+            }
+
+            public void SetImage(string filename)
+            {
+                SetActive(true);
+
+                _img.sprite = Engine.Manager.Instance.Resource.LoadSprite(filename);
+                _img.SetNativeSize();
+            }
         }
 
         #endregion
@@ -44,9 +68,7 @@ namespace Ling.Adv.Chara
 
         #region private 変数
 
-        [SerializeField] private Pos _left = null;     // 立ち位置左
-        [SerializeField] private Pos _center = null;   // 立ち位置中央
-        [SerializeField] private Pos _right = null;    // 立ち位置右
+        [SerializeField] private List<Pos> _pos = null;     // 立ち位置
 
         #endregion
 
@@ -64,6 +86,25 @@ namespace Ling.Adv.Chara
             Utility.Event.SafeAdd<Chara.EventCharaShow>(this,
                 (ev_) =>
                 {
+                    // 表示する
+                    // 何も指定がない場合は一瞬で出す
+                    if (ev_.CharaPos == Const.CharaPos.None)
+                    {
+                        // 前回と同じ位置にだす
+                        ReplacePos(ev_.Data, ev_.CharaFilename);
+                    }
+                    else
+                    {
+                        // 位置を設定する
+                        SetPos(ev_.Data, ev_.CharaPos, ev_.CharaFilename);
+                    }
+                });
+
+            Utility.Event.SafeAdd<Chara.EventCharaHide>(this,
+                (ev_) =>
+                {
+                    // 非表示にする
+                    RemovePos(ev_.Data);
                 });
         }
 
@@ -72,32 +113,72 @@ namespace Ling.Adv.Chara
 
         #region private 関数
 
+        /// <summary>
+        /// 指定したDataをもつキャラを消す
+        /// </summary>
+        /// <param name="data"></param>
+        private void RemovePos(Data data)
+        {
+            foreach(var elm in _pos)
+            {
+                if (elm.CurrentData != data)
+                {
+                    continue;
+                }
+
+                elm.SetActive(false);
+            }
+        }
+
+        /// <summary>
+        /// 指定したDataを入れ替える
+        /// </summary>
+        /// <param name="data"></param>
+        private void ReplacePos(Data data, string filename)
+        {
+            foreach (var elm in _pos)
+            {
+                if (elm.CurrentData != data)
+                {
+                    continue;
+                }
+
+                elm.SetImage(filename);
+                elm.CurrentData = data;
+
+                break;
+            }
+        }
+
+        /// <summary>
+        /// 位置を置き換える。設定する
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="pos"></param>
+        /// <param name="filename"></param>
+        private void SetPos(Data data, Const.CharaPos pos, string filename)
+        {
+            RemovePos(data);
+
+            foreach (var elm in _pos)
+            {
+                if (elm.CharaPos != pos)
+                {
+                    continue;
+                }
+
+                elm.SetImage(filename);
+                elm.CurrentData = data;
+
+                break;
+            }
+        }
+
 
         #endregion
 
 
         #region MonoBegaviour
-
-        /// <summary>
-        /// 初期処理
-        /// </summary>
-        void Awake()
-        {
-        }
-
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
-
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-        }
 
         /// <summary>
         /// 終了処理

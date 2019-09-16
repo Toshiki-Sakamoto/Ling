@@ -84,6 +84,7 @@ namespace Ling.Adv.Engine.Command
             Regist("end", (c_, l_) => End.Create(c_, l_));
             Regist("load", (c_, l_) => Load.Create(c_, l_));
             Regist("loadChara", (c_, l_) => LoadChara.Create(c_, l_));
+            Regist("chara", (c_, l_) => Chara.Create(c_, l_));
         }
 
         /// <summary>

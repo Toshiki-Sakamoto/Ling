@@ -61,7 +61,15 @@ namespace Ling.Adv.Engine
 
             if (!_dictSprites.TryGetValue(filename, out sprite))
             {
-                sprite = Resources.Load<Sprite>(filename);
+                var fullPath = Const.CharFilepath(filename);
+
+                sprite = Resources.Load<Sprite>(fullPath);
+                if (sprite == null)
+                {
+                    return null;
+                }
+
+                _dictSprites.Add(filename, sprite);
             }
 
             return sprite;

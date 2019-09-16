@@ -91,6 +91,8 @@ namespace Ling.Adv.Chara
             if (!_dictChara.TryGetValue(name, out data))
             {
                 data = new Data(name);
+
+                _dictChara.Add(name, data);
             }
 
             return data;
