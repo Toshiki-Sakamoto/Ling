@@ -431,7 +431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abdd5a451ca02b4f9bb362c583cf9f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _vecPos: {x: 0, y: 0, z: 0}
+  _animator: {fileID: 648801540}
+  _vecCellPos: {x: 0, y: 0}
 --- !u!1 &937429076
 GameObject:
   m_ObjectHideFlags: 0
