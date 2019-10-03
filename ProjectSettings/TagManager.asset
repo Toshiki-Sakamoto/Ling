@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Fire
   layers:
   - Default
   - TransparentFX
@@ -40,4 +41,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: TileMap
+    uniqueID: 896133625
+    locked: 0
+  - name: TileChara
+    uniqueID: 2227776659
+    locked: 0
+  - name: TileMapFront
+    uniqueID: 608214077
     locked: 0

@@ -1,8 +1,8 @@
 ﻿// 
-// AnimationStateController.cs  
+// Player.cs  
 // ProductName Ling
 //  
-// Create by toshiki sakamoto on 2019.09.18.
+// Create by toshiki sakamoto on 2019.09.22.
 // 
 using System.Collections;
 using System.Collections.Generic;
@@ -10,12 +10,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Common.Chara
+namespace Ling.Map.Chara
 {
     /// <summary>
     /// 
     /// </summary>
-    public class AnimationStateController : MonoBehaviour 
+    public class Player : Base 
     {
         #region 定数, class, enum
 
@@ -29,15 +29,19 @@ namespace Ling.Common.Chara
 
         #region private 変数
 
+        private MoveController _moveController;
+
         #endregion
 
 
         #region プロパティ
 
+
         #endregion
 
 
         #region public, protected 関数
+
 
         #endregion
 
@@ -54,6 +58,8 @@ namespace Ling.Common.Chara
         /// </summary>
         void Awake()
         {
+            _moveController = GetComponent<MoveController>();
+            _moveController.SetModel(this);
         }
 
         /// <summary>

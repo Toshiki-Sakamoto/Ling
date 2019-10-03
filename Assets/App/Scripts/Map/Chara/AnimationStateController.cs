@@ -1,8 +1,8 @@
 ﻿// 
-// MoveController.cs  
+// AnimationStateController.cs  
 // ProductName Ling
 //  
-// Create by toshiki sakamoto on 2019.09.16.
+// Create by toshiki sakamoto on 2019.09.18.
 // 
 using System.Collections;
 using System.Collections.Generic;
@@ -10,13 +10,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Common.Chara
+namespace Ling.Map.Chara
 {
     /// <summary>
     /// 
     /// </summary>
-    [RequireComponent(typeof(Rigidbody2D))]
-    public class MoveController : MonoBehaviour 
+    public class AnimationStateController : MonoBehaviour 
     {
         #region 定数, class, enum
 
@@ -30,10 +29,8 @@ namespace Ling.Common.Chara
 
         #region private 変数
 
-        [SerializeField] private float _speed = 1.0f;
-        [SerializeField] private Rigidbody2D _rigidBody = null;
-
-        private Vector2 _inputAxis;
+        [SerializeField] private Animator _animator = null;
+        [SerializeField] private Rigidbody2D _rigidbody = null;
 
         #endregion
 
@@ -50,26 +47,34 @@ namespace Ling.Common.Chara
 
         #region private 関数
 
+        private void SetStateToAnimator(Vector2? vec)
+        {
+            if (!vec.HasValue || vec == Vector2.zero)
+            {
+                //_animator.speed = 0.0f;
+                return;
+            }
+
+//            _animator.speed = 1.0f;
+            _animator.SetFloat("x", vec.Value.x);
+            _animator.SetFloat("y", vec.Value.y);
+        }
+
         #endregion
 
 
         #region MonoBegaviour
-
 
         /// <summary>
         /// 更新処理
         /// </summary>
         void Update()
         {
-            // x, y の入力
-            // 関連付けはInput Managerで行っている
-            _inputAxis.x = Input.GetAxis("Horizontal");
-            _inputAxis.y = Input.GetAxis("Vertical");
-        }
+            // RigidBodyのvelocityから向きを求める
+            var velocity = _rigidbody.velocity;
 
-        private void FixedUpdate()
-        {
-            _rigidBody.velocity = _inputAxis.normalized * _speed;
+
+            SetStateToAnimator(velocity);
         }
 
         /// <summary>
