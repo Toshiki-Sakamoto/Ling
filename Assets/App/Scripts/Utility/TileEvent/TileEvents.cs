@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using System.Linq;
 
 
 namespace Ling.Utility.TileEvent
@@ -46,10 +47,131 @@ namespace Ling.Utility.TileEvent
 
         #region プロパティ
 
+        /// <summary>
+        /// すべてのイベントが含まれる
+        /// </summary>
+        public List<TileEvent> Tiles { get; private set; } = new List<TileEvent>();
+
         #endregion
 
 
         #region public, protected 関数
+
+        public void SetDeleted(bool isEditor = false)
+        {
+            Init(isEditor);
+
+            foreach(var elm in Tiles)
+            {
+                elm.Deleted = true;
+            }
+        }
+
+        /// <summary>
+        /// タイルリストを作成する
+        /// </summary>
+        /// <param name="isEditor"></param>
+        public void CreateTilesList(bool isEditor = false)
+        {
+            Init(isEditor);
+
+            var bounds = _eventsMap.cellBounds;
+            var offsetX = bounds.x - _lastMapBounds.x;
+            var offsetY = bounds.y - _lastMapBounds.y;
+
+            _lastMapBounds = bounds;
+            var allTiles = _eventsMap.GetTilesBlock(_eventsMap.cellBounds);
+
+            if (offsetX != 0 || offsetY != 0)
+            {
+                foreach(var elm in Tiles)
+                {
+                    elm.SetPosition(_eventsMap, elm.PosX - offsetX, elm.PosY - offsetY);
+                }
+            }
+
+            bool isAdd = false;
+            for (var x = 0; x < bounds.size.x; ++x)
+            {
+                for (var y = 0; y < bounds.size.y; y++)
+                {
+                    var tile = allTiles[x + y * bounds.size.x];
+                    if (tile == null || Contains(x, y))
+                    {
+                        continue;
+                    }
+
+                    Tiles.Add(TileEvent.CreateEvent(tile, _eventsMap, x, y));
+                    isAdd = true;
+                }
+            }
+
+            if (isAdd)
+            {
+                Tiles = Tiles.OrderBy(t => t.PosX).ThenBy(t => t.PosY).ToList();
+            }
+        }
+
+
+        /// <summary>
+        /// リストに含まれているか確認
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public bool Contains(int x, int y)
+        {
+            foreach(var tile in Tiles)
+            {
+                if (tile.PosX == x && tile.PosY == y)
+                {
+                    tile.Deleted = false;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 削除するタイルをすべて消す
+        /// </summary>
+        /// <param name="isEditor"></param>
+        public void RemoveDeleteTiles(bool isEditor = false)
+        {
+            Init(isEditor);
+
+            var bounds = _eventsMap.cellBounds;
+            var offsetX = bounds.x - _lastMapBounds.x;
+            var offsetY = bounds.y - _lastMapBounds.y;
+
+            _lastMapBounds = bounds;
+
+            var allTiles = _eventsMap.GetTilesBlock(bounds);
+
+            if (offsetX != 0 || offsetY != 0)
+            {
+                foreach(var elm in Tiles)
+                {
+                    elm.SetPosition(_eventsMap, elm.PosX - offsetX, elm.PosY - offsetY);
+                }
+            }
+
+            for (int x = 0; x < bounds.size.x; ++x)
+            {
+                for (int y = 0; y < bounds.size.y; ++y)
+                {
+                    var tile = allTiles[x + y * bounds.size.x];
+
+                    if (tile != null)
+                    {
+                        Contains(x, y);
+                    }
+                }
+            }
+
+            Tiles.RemoveAll(tile => tile.Deleted);
+        }
 
         #endregion
 
@@ -76,15 +198,8 @@ namespace Ling.Utility.TileEvent
 
             _eventsCollider = GetComponent<TilemapCollider2D>();
 
-            // 
-
+            // イベントマップがプレイヤーの移動をブロックしなくなる
             _eventsCollider.isTrigger = true;
-
-            /*
-            if (Tiles == null)
-            {
-
-            }*/
 
             _isInitialized = true;
         }
@@ -93,6 +208,53 @@ namespace Ling.Utility.TileEvent
 
 
         #region MonoBegaviour
+
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            foreach (var tile in Tiles)
+            {
+                var position = new Vector3(tile.WorldX, tile.WorldY + _eventsMap.cellSize.y);
+                var bounds = new Bounds(position, _eventsMap.cellSize);
+
+                if (!bounds.Intersects(collision.bounds))
+                {
+                    continue;
+                }
+
+                if (tile.OnEvent == null)
+                {
+                    continue;
+                }
+
+                switch (tile.Trigger)
+                {
+                    case EventTriggerType.OnEnterCollision:
+                        if (tile.InteractibleTag == string.Empty ||
+                            tile.InteractibleTag == collision.tag)
+                        {
+                            tile.OnEvent.Invoke();
+                        }
+                        break;
+
+                    case EventTriggerType.OnInteraction:
+                        if (tile.InteractibleTag == string.Empty ||
+                            tile.InteractibleTag == collision.tag)
+                        {
+                            tile.SetInsteractible(true);
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            foreach(var elm in Tiles)
+            {
+                elm.SetInsteractible(false);
+            }
+        }
 
         /// <summary>
         /// 初期処理
@@ -106,6 +268,7 @@ namespace Ling.Utility.TileEvent
         /// </summary>
         void Start()
         {
+            Init();
         }
 
         /// <summary>
@@ -113,6 +276,12 @@ namespace Ling.Utility.TileEvent
         /// </summary>
         void Update()
         {
+            // イベントタイルを見えなくなる
+            // ゲームモード時
+            _eventsRenderer.sortingLayerName = "Default";
+
+            // イベントがプレイヤーをブロックしなくなる
+            _eventsCollider.isTrigger = true;
         }
 
         /// <summary>
