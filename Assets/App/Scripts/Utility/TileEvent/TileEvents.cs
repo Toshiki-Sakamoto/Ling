@@ -40,7 +40,7 @@ namespace Ling.Utility.TileEvent
         private TilemapRenderer _eventsRenderer;
         private TilemapCollider2D _eventsCollider;
 
-        //private List<EventTile> _tiles = new List<EventTile>();
+        [SerializeField] private List<TileEvent> _tiles = new List<TileEvent>();
 
         #endregion
 

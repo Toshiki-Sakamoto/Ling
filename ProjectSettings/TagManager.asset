@@ -51,3 +51,6 @@ TagManager:
   - name: TileMapFront
     uniqueID: 608214077
     locked: 0
+  - name: TileEvents
+    uniqueID: 2589904777
+    locked: 0

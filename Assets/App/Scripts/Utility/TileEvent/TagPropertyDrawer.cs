@@ -12,7 +12,7 @@ using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 
-namespace Ling.Utility.TileEvent.UI
+namespace Ling.Utility.TileEvent
 {
     /// <summary>
     /// 
@@ -61,14 +61,15 @@ namespace Ling.Utility.TileEvent.UI
 
                     index = EditorGUI.Popup(position, label.text, index, tagList.ToArray());
 
-                    if (index <= 0)
-                    {
-                        property.stringValue = "";
-                    }
-                    else if (index >= 1)
+                    if (index >= 1)
                     {
                         property.stringValue = tagList[index];
                     }
+                    else
+                    {
+                        property.stringValue = "";
+                    }
+
                 }
 
                 EditorGUI.EndProperty();

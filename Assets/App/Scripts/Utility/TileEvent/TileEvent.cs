@@ -47,7 +47,7 @@ namespace Ling.Utility.TileEvent
         [SerializeField] private string _name = null;  // タイル名
         [SerializeField] private EventTriggerType _trigger;
         [SerializeField] private UnityEvent _onEvent;
-        [SerializeField] private string _interactibleTag = null;    // イベントを識別するタグ
+        [SerializeField, Tag] private string _interactibleTag = null;    // イベントを識別するタグ
         
 
         private TileBase _tile = null;
@@ -103,6 +103,7 @@ namespace Ling.Utility.TileEvent
         {
             var instance = new TileEvent { _tile = tile };
             instance._name = "Tile " + x + ":" + y;
+            instance.SetPosition(eventsMap, x, y);
 
             return instance;
         }
