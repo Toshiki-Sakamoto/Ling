@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731294, g: 0.3807478, b: 0.3587239, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 716641741}
   m_Layer: 0
   m_Name: TileEvents
-  m_TagString: Untagged
+  m_TagString: EventTileNormal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -604,7 +604,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d1d100de9a64d94caeae59a604293d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _tiles: []
+  _tiles:
+  - _name: 
+    _trigger: 0
+    _onEvent:
+      m_PersistentCalls:
+        m_Calls: []
+    _interactibleTag: EventTileNormal
 --- !u!19719996 &716641742
 TilemapCollider2D:
   m_ObjectHideFlags: 0

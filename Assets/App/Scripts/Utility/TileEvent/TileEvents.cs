@@ -173,6 +173,22 @@ namespace Ling.Utility.TileEvent
             Tiles.RemoveAll(tile => tile.Deleted);
         }
 
+        /// <summary>
+        /// イベントを叩く
+        /// </summary>
+        public void FireInteractible()
+        {
+            foreach (var elm in Tiles)
+            {
+                if (elm.Trigger != EventTriggerType.OnInteraction)
+                {
+                    continue;
+                }
+
+                elm.Interact();
+            }
+        }
+
         #endregion
 
 
@@ -278,10 +294,10 @@ namespace Ling.Utility.TileEvent
         {
             // イベントタイルを見えなくなる
             // ゲームモード時
-            _eventsRenderer.sortingLayerName = "Default";
+            //_eventsRenderer.sortingLayerName = "Default";
 
             // イベントがプレイヤーをブロックしなくなる
-            _eventsCollider.isTrigger = true;
+            //_eventsCollider.isTrigger = true;
         }
 
         /// <summary>

@@ -74,6 +74,9 @@ namespace Ling.Utility.TileEvent
 
         public EventTriggerType Trigger { get { return _trigger; } }
 
+        /// <summary>
+        /// イベント識別するタグ名
+        /// </summary>
         public string InteractibleTag { get { return _interactibleTag; } }
 
         /// <summary>
