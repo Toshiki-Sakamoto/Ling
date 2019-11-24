@@ -80,6 +80,8 @@ namespace Ling.Utility.TileEvent
             var offsetY = bounds.y - _lastMapBounds.y;
 
             _lastMapBounds = bounds;
+
+            // GetTilesBlock : 指定された範囲に存在するタイルを配列で返す
             var allTiles = _eventsMap.GetTilesBlock(_eventsMap.cellBounds);
 
             if (offsetX != 0 || offsetY != 0)
@@ -230,13 +232,19 @@ namespace Ling.Utility.TileEvent
         {
             foreach (var tile in Tiles)
             {
-                var position = new Vector3(tile.WorldX, tile.WorldY + _eventsMap.cellSize.y);
-                var bounds = new Bounds(position, _eventsMap.cellSize);
+                var cellSize = _eventsMap.cellSize.Multiple(_eventsMap.transform.lossyScale);
+
+                var position = new Vector3(tile.WorldX, tile.WorldY/* + cellSize.y*/);
+                var bounds = new Bounds(position, cellSize);
 
                 if (!bounds.Intersects(collision.bounds))
                 {
                     continue;
                 }
+
+#if DEBUG
+                Utility.Log.Print(tile.ToString());
+#endif
 
                 if (tile.OnEvent == null)
                 {
@@ -307,6 +315,6 @@ namespace Ling.Utility.TileEvent
         {
         }
 
-        #endregion
+#endregion
     }
 }

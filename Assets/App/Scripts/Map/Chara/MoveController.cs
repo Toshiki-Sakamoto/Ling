@@ -74,7 +74,7 @@ namespace Ling.Map.Chara
         #region private 関数
 
         /// <summary>
-        /// 動く
+        /// 動きの処理
         /// </summary>
         /// <returns></returns>
         private IEnumerator Move()

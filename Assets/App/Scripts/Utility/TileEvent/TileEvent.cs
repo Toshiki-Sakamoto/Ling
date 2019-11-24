@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -44,9 +45,9 @@ namespace Ling.Utility.TileEvent
 
         #region private 変数
 
-        [SerializeField] private string _name = null;  // タイル名
-        [SerializeField] private EventTriggerType _trigger;
-        [SerializeField] private UnityEvent _onEvent;
+        [SerializeField] private string _name = null;   // タイル名
+        [SerializeField] private EventTriggerType _trigger = EventTriggerType.OnEnterCollision;
+        [SerializeField] private UnityEvent _onEvent;   // イベント発行
         [SerializeField, Tag] private string _interactibleTag = null;    // イベントを識別するタグ
         
 
@@ -69,6 +70,12 @@ namespace Ling.Utility.TileEvent
         /// </summary>
         public float WorldX { get; private set; }
         public float WorldY { get; private set; }
+
+        /// <summary>
+        /// world座標でCenter
+        /// </summary>
+        public float WorldCenterX { get; private set; }
+        public float WorldCenterY { get; private set; }
 
         public UnityEvent OnEvent { get { return _onEvent; } set { _onEvent = value; } }
 
@@ -114,11 +121,11 @@ namespace Ling.Utility.TileEvent
         public void SetPosition(Tilemap eventsMap, int x, int y)
         {
             var place = eventsMap.CellToWorld(new Vector3Int(x + eventsMap.cellBounds.x, y, eventsMap.cellBounds.z));
-            var position = new Vector3(place.x + 1, place.y - 1, place.z);
+            var position = new Vector3(place.x/* + 1*/, place.y/* - 1*/, place.z);
 
             PosX = x;
             PosY = y;
-            WorldX = position.x;
+            WorldX = position.x + eventsMap.cellSize.x;
             WorldY = position.y;
         }
 
@@ -142,6 +149,11 @@ namespace Ling.Utility.TileEvent
             {
                 _onEvent.Invoke();
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format($"Name:{_name}, Pos:x{PosX},y{PosY}, WorldPos:x{WorldX},y{WorldY}");
         }
 
         #endregion
