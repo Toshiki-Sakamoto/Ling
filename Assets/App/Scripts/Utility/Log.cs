@@ -62,6 +62,11 @@ namespace Ling.Utility
             Debug.LogErrorFormat(format, args);
         }
 
+        public static void Assert(bool condition, string format, params object[] args)
+        {
+            Debug.AssertFormat(condition, format, args);
+        }
+
         #endregion
 
 
