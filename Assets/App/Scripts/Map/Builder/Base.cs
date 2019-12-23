@@ -70,6 +70,8 @@ namespace Ling.Map.Builder
         {
             Width = width;
             Height = height;
+
+            _tileData = new TileData[width * height];
         }
 
         /// <summary>
@@ -88,12 +90,19 @@ namespace Ling.Map.Builder
         /// <summary>
         /// 処理を実行する
         /// </summary>
-        public abstract void Execute();
+        public void Execute()
+        {
+            // 最初はすべて壁にする
+
+            ExecuteInternal();
+        }
 
         #endregion
 
 
         #region private 関数
+
+        protected abstract void ExecuteInternal();
 
         #endregion
     }
