@@ -1,27 +1,22 @@
 ﻿// 
-// Inspector.cs  
+// View.cs  
 // ProductName Ling
 //  
-// Create by toshiki sakamoto on 2019.10.17.
+// Create by toshiki sakamoto on 2019.04.30.
 // 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
-#if UNITY_EDITOR
-namespace Ling.Utility.TileEvent
+namespace Ling.Main
 {
     /// <summary>
     /// 
     /// </summary>
-    [CustomEditor(typeof(TileEvents))]
-    public class Inspector : UnityEditor.Editor
-	{
+    public class View : MonoBehaviour 
+    {
         #region 定数, class, enum
 
         #endregion
@@ -54,18 +49,34 @@ namespace Ling.Utility.TileEvent
 
         #region MonoBegaviour
 
-        public override void OnInspectorGUI()
+        /// <summary>
+        /// 初期処理
+        /// </summary>
+        void Awake()
         {
-            var map = (TileEvents)target;
+        }
 
-            map.SetDeleted(true);
-            map.CreateTilesList(true);
-            map.RemoveDeleteTiles(true);
+        /// <summary>
+        /// 更新前処理
+        /// </summary>
+        void Start()
+        {
+        }
 
-            DrawDefaultInspector();
+        /// <summary>
+        /// 更新処理
+        /// </summary>
+        void Update()
+        {
+        }
+
+        /// <summary>
+        /// 終了処理
+        /// </summary>
+        void OnDestoroy()
+        {
         }
 
         #endregion
     }
 }
-#endif
