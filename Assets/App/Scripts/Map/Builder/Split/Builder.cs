@@ -58,15 +58,15 @@ namespace Ling.Map.Builder.Split
         /// <summary>
         /// 処理を実行する
         /// </summary>
-        public override void Execute()
-        { 
-        }
+        protected override void ExecuteInternal()
+        {
+		}
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region private 関数
 
-        #endregion
-    }
+		#endregion
+	}
 }

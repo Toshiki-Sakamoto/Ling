@@ -17,7 +17,7 @@ using UnityEngine.UI;
 namespace Ling.Map.Builder.Split
 {
 	/// <summary>
-	/// 
+	/// 部屋に分割する役目
 	/// </summary>
     public interface ISplittable
     {
