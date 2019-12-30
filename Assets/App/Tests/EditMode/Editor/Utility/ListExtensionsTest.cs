@@ -21,8 +21,8 @@ namespace Ling.Tests.Utility
 	/// <summary>
 	/// Listの拡張メソッドのテスト
 	/// </summary>
-    public class ListExtensionsTest
-    {
+	public class ListExtensionsTest
+	{
 		#region 定数, class, enum
 
 		#endregion

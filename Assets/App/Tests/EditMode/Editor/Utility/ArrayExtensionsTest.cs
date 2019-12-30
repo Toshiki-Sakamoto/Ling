@@ -12,8 +12,8 @@ namespace Ling.Tests.Utility
 	/// <summary>
 	/// Arrayの拡張メソッドのテスト
 	/// </summary>
-    public class ArrayExtensionsTest
-    {
+	public class ArrayExtensionsTest
+	{
 		int[] _arrayOrdered;
 
 
@@ -27,9 +27,9 @@ namespace Ling.Tests.Utility
 		/// <summary>
 		/// ForEachが正常に動作するか
 		/// </summary>
-        [Test]
-        public void ArrayExtensions_ForEach()
-        {
+		[Test]
+		public void ArrayExtensions_ForEach()
+		{
 			int count = 0;
 
 			_arrayOrdered.ForEach(_num => { ++count; });
@@ -69,5 +69,5 @@ namespace Ling.Tests.Utility
 		{
 			_arrayOrdered = new int[] { 0, 1, 2, 3, 4 };
 		}
-    }
+	}
 }
