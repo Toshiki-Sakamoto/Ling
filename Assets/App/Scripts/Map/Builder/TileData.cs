@@ -21,32 +21,56 @@ namespace Ling.Map.Builder
 	/// </summary>
 	public struct TileData
 	{
-		public bool isWall;     // 壁ならtrue
-		public bool isStepUp;   // 上階段ならtrue
-	}
+		// タイルデータが持つフラグ
+		private Const.TileFlag _flag;
 
 
-	/// <summary>
-	/// TileData拡張機能
-	/// </summary>
-	public static class TileDataExtensions
-	{
 		/// <summary>
-		/// 初期化する
+		/// 壁ならtrue
 		/// </summary>
-		/// <param name="tileData"></param>
-		public static void Initialize(this TileData tileData)
+		public bool IsWall { get { return HasFlag(Const.TileFlag.Wall); } }
+
+		/// <summary>
+		/// 上階段ならtrue
+		/// </summary>
+		public bool IsStepUp { get { return HasFlag(Const.TileFlag.StepUp); } }
+
+
+		/// <summary>
+		/// 初期化
+		/// </summary>
+		public void Initialize()
 		{
-			tileData.isStepUp = false;
-			tileData.isWall = false;
+			_flag = Const.TileFlag.None;
 		}
 
 		/// <summary>
 		/// 壁にする
 		/// </summary>
-		public static void SetWall(this TileData tileData)
+		public void SetWall()
 		{
-			
+			// 壁にするときに初期化する
+			Initialize();
+
+			AddFlag(Const.TileFlag.Wall);
+		}
+
+		/// <summary>
+		/// フラグとして情報を追加する
+		/// </summary>
+		/// <param name="tileFlag"></param>
+		public void AddFlag(Const.TileFlag tileFlag)
+		{
+			_flag |= tileFlag;
+		}
+
+		/// <summary>
+		/// 指定したフラグを持っているか
+		/// </summary>
+		/// <returns></returns>
+		public bool HasFlag(Const.TileFlag tileFlag)
+		{
+			return _flag.HasFlag(tileFlag);
 		}
 	}
 }
