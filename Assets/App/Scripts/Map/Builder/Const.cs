@@ -28,7 +28,7 @@ namespace Ling.Map.Builder
 		/// タイル情報のフラグ定数
 		/// </summary>
 		[System.Flags]
-		public enum TileFlag
+		public enum TileFlag : long
 		{
 			None		= 0,		// なにもない
 
