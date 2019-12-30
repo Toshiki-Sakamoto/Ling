@@ -21,9 +21,10 @@ namespace Ling.Map.Builder
 	/// </summary>
 	public struct TileData
 	{
-		// タイルデータが持つフラグ
-		private Const.TileFlag _flag;
-
+		/// <summary>
+		/// タイルデータがもつフラグ
+		/// </summary>
+		public Const.TileFlag Flag { get; private set; }
 
 		/// <summary>
 		/// 壁ならtrue
@@ -41,7 +42,7 @@ namespace Ling.Map.Builder
 		/// </summary>
 		public void Initialize()
 		{
-			_flag = Const.TileFlag.None;
+			Flag = Const.TileFlag.None;
 		}
 
 		/// <summary>
@@ -61,7 +62,7 @@ namespace Ling.Map.Builder
 		/// <param name="tileFlag"></param>
 		public void AddFlag(Const.TileFlag tileFlag)
 		{
-			_flag |= tileFlag;
+			Flag |= tileFlag;
 		}
 
 		/// <summary>
@@ -70,7 +71,7 @@ namespace Ling.Map.Builder
 		/// <returns></returns>
 		public bool HasFlag(Const.TileFlag tileFlag)
 		{
-			return _flag.HasFlag(tileFlag);
+			return Flag.HasFlag(tileFlag);
 		}
 	}
 }
