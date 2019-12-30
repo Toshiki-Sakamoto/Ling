@@ -7,10 +7,11 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using Ling.Utility.Extensions;
+
+using NUnit.Framework;
 
 using Assert = UnityEngine.Assertions.Assert;
 
