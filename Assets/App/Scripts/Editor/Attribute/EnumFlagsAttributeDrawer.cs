@@ -29,6 +29,8 @@ namespace Ling.Editor.Attribute
 
 	/// <summary>
 	/// 列挙型をInspectorから簡単に設定できるように
+	/// PropertyDrawerはCunstomEditorと違い、特定のクラス全体の見た目をカスタマイズ
+	/// するのではなく、特定のプロパティの見た目をカスタマイズする
 	/// </summary>
 	/// <remarks>
 	/// 参考サイト
@@ -39,6 +41,8 @@ namespace Ling.Editor.Attribute
 	public class EnumFlagsAttributeDrawer : PropertyDrawer
 	{
 		#region 定数, class, enum
+
+		public const int ButtonMinWidth = 80;
 
 		#endregion
 
@@ -51,6 +55,7 @@ namespace Ling.Editor.Attribute
 		#region private 変数
 
 		private bool[] _buttonPressed = default;
+		private int _buttonLineNum = 0;	// ボタンの行数
 
 		#endregion
 
@@ -64,10 +69,17 @@ namespace Ling.Editor.Attribute
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			var buttonsIntValue = 0;
-			var enumLength = property.enumNames.Length;
 			var labelWidth = EditorGUIUtility.labelWidth;
-			var buttonWidth = (position.width - labelWidth) / enumLength;
+
+			if ((position.width - labelWidth) < 0) return;
+
+			var buttonsValue = 0L;
+			var enumLength = property.enumNames.Length;
+			var buttonHeight = EditorGUIUtility.singleLineHeight;
+			var buttonWidth = Mathf.Max((position.width - labelWidth) / enumLength, ButtonMinWidth);
+			var buttonLineElmNum = (int)((position.width - labelWidth) / ButtonMinWidth);
+
+			_buttonLineNum = Mathf.Max(enumLength / buttonLineElmNum + 1, 1);
 
 			if (_buttonPressed == null || _buttonPressed.Length != enumLength)
 			{
@@ -83,21 +95,35 @@ namespace Ling.Editor.Attribute
 			{
 				_buttonPressed[i] = (property.intValue & 1 << i) != 0;
 
-				var buttonPos = new Rect(position.x + labelWidth + buttonWidth, position.y, buttonWidth, position.height);
+				var buttonPosY = position.y + buttonHeight * (i / buttonLineElmNum);
+				var buttonPos = new Rect(position.x + labelWidth + buttonWidth * (i % buttonLineElmNum), buttonPosY, buttonWidth, buttonHeight);
 
 				_buttonPressed[i] = GUI.Toggle(buttonPos, _buttonPressed[i], property.enumNames[i], "Button");
 
 				if (_buttonPressed[i])
 				{
-					buttonsIntValue += 1 << i;
+					buttonsValue += 1L << i;
 				}
 			}
 
 			// 変更があれば上書きを行う
 			if (EditorGUI.EndChangeCheck())
 			{
-				property.intValue = buttonsIntValue;
+				property.longValue = buttonsValue;
 			}
+		}
+
+
+
+		/// <summary>
+		/// 指定プロパティの高さを決める
+		/// </summary>
+		/// <param name="property"></param>
+		/// <param name="label"></param>
+		/// <returns></returns>
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			return EditorGUIUtility.singleLineHeight * _buttonLineNum;
 		}
 
 		#endregion
@@ -107,38 +133,6 @@ namespace Ling.Editor.Attribute
 
 		#endregion
 
-
-		#region MonoBegaviour
-
-		/// <summary>
-		/// 初期処理
-		/// </summary>
-		void Awake()
-		{
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestoroy()
-		{
-		}
-
-		#endregion
 	}
 #endif
 }
