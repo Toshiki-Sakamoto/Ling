@@ -17,7 +17,8 @@ using UnityEngine.UI;
 namespace Ling.Map.Builder
 {
 	/// <summary>
-	/// 
+	/// ビルダーベースクラス
+	/// すべてのビルダーはこれを継承して使用する
 	/// </summary>
     public abstract class Base
     {

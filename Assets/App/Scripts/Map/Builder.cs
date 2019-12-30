@@ -14,7 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map
+namespace Ling.Map.Split
 {
 	/// <summary>
 	/// 

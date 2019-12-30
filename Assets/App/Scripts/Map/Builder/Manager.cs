@@ -17,7 +17,7 @@ using UnityEngine.UI;
 namespace Ling.Map.Builder
 {
     /// <summary>
-    /// 
+    /// ビルダーを管理する
     /// </summary>
     public class Manager
     {
