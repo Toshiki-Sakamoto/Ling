@@ -14,7 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Utility.Extensions
+namespace Ling
 {
 	/// <summary>
 	/// Array 拡張クラス
@@ -29,6 +29,7 @@ namespace Ling.Utility.Extensions
 		#region public, protected 変数
 
 		public delegate void RefAction<T>(ref T item);
+		public delegate void InAction<T>(in T item);
 
 		#endregion
 
@@ -79,6 +80,22 @@ namespace Ling.Utility.Extensions
 			for (int i = 0, count = array.Length; i < count; ++i)
 			{
 				action?.Invoke(ref array[i]);
+			}
+		}
+
+		/// <summary>
+		/// inを使った構造体への作用
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="array"></param>
+		/// <param name="action"></param>
+		public static void ForEach<T>(this T[] array, InAction<T> action)
+		{
+			if (action == null) { throw new ArgumentNullException(nameof(action)); }
+
+			for (int i = 0, count = array.Length; i < count; ++i)
+			{
+				action?.Invoke(in array[i]);
 			}
 		}
 
