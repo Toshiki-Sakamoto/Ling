@@ -76,6 +76,29 @@ namespace Ling.Tests.Map.Builder
 			Assert.IsTrue((_tileData.Flag | Const.TileFlag.Wall) != 0, "AddFlagでWallフラグが追加されているか");
 		}
 
+		[Test]
+		public void TileData_RemoveFlag()
+		{
+			_tileData.Initialize();
+
+			// 何もしてないときは 0(None)のはず
+			Assert.AreEqual(_tileData.Flag, Const.TileFlag.None, "何もしてないときはNone");
+
+			_tileData.AddFlag(Const.TileFlag.Wall);
+			_tileData.RemoveFlag(Const.TileFlag.Wall);
+
+			// Removeしたので 0のはず
+			Assert.AreEqual(_tileData.Flag, Const.TileFlag.None, "RemoveしたのでNone");
+
+			_tileData.AddFlag(Const.TileFlag.Wall);
+			_tileData.AddFlag(Const.TileFlag.StepUp);
+
+			_tileData.RemoveFlag(Const.TileFlag.Wall);
+
+			Assert.IsTrue(_tileData.HasFlag(Const.TileFlag.StepUp), "WallをRemoveしたがStepUpはある");
+			Assert.IsFalse(_tileData.HasFlag(Const.TileFlag.Wall), "WallをRemoveしたので無い");
+		}
+
 		/// <summary>
 		/// HasFlagのチェック
 		/// </summary>
