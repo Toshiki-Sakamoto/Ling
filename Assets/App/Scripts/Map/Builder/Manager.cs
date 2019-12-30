@@ -1,8 +1,8 @@
 ﻿//
-// Builder.cs
+// Manager.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2019.12.08
+// Created by toshiki sakamoto on 2019.12.22
 //
 
 using System;
@@ -14,12 +14,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Split
+namespace Ling.Map.Builder
 {
-	/// <summary>
-	/// 
-	/// </summary>
-    public abstract class Builder
+    /// <summary>
+    /// ビルダーを管理する
+    /// </summary>
+    public class Manager
     {
         #region 定数, class, enum
 
@@ -33,6 +33,8 @@ namespace Ling.Map.Split
 
         #region private 変数
 
+        private Base _builder = null;   // 現在のビルダー
+
         #endregion
 
 
@@ -41,14 +43,22 @@ namespace Ling.Map.Split
         #endregion
 
 
-		#region コンストラクタ, デストラクタ
+        #region コンストラクタ, デストラクタ
 
-		#endregion
+        #endregion
 
 
         #region public, protected 関数
 
-//        public abstract void Create
+
+        public void Builder()
+        {
+        }
+
+        public void SetBuilder(Base builder)
+        {
+
+        }
 
         #endregion
 

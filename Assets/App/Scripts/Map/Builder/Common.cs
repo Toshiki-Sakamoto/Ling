@@ -1,8 +1,8 @@
 ﻿//
-// Builder.cs
+// Common.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2019.12.08
+// Created by toshiki sakamoto on 2019.12.23
 //
 
 using System;
@@ -14,12 +14,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Split
+namespace Ling.Map.Builder
 {
 	/// <summary>
 	/// 
 	/// </summary>
-    public abstract class Builder
+    public class Common
     {
         #region 定数, class, enum
 
@@ -47,8 +47,6 @@ namespace Ling.Map.Split
 
 
         #region public, protected 関数
-
-//        public abstract void Create
 
         #endregion
 
