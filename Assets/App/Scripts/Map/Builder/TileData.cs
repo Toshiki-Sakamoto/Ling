@@ -46,23 +46,21 @@ namespace Ling.Map.Builder
 		}
 
 		/// <summary>
-		/// 壁にする
-		/// </summary>
-		public void SetWall()
-		{
-			// 壁にするときに初期化する
-			Initialize();
-
-			AddFlag(Const.TileFlag.Wall);
-		}
-
-		/// <summary>
 		/// フラグとして情報を追加する
 		/// </summary>
 		/// <param name="tileFlag"></param>
 		public void AddFlag(Const.TileFlag tileFlag)
 		{
 			Flag |= tileFlag;
+		}
+
+		/// <summary>
+		/// フラグを削除する
+		/// </summary>
+		/// <param name="tileFlag"></param>
+		public void RemoveFlag(Const.TileFlag tileFlag)
+		{
+			Flag &= ~tileFlag;
 		}
 
 		/// <summary>
@@ -73,5 +71,18 @@ namespace Ling.Map.Builder
 		{
 			return Flag.HasFlag(tileFlag);
 		}
+
+
+		/// <summary>
+		/// 壁にする
+		/// </summary>
+		public void SetWall()
+		{
+			// 壁にするときに初期化する
+			Initialize();
+
+			AddFlag(Const.TileFlag.Wall);
+		}
+
 	}
 }
