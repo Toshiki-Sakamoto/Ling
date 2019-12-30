@@ -17,7 +17,7 @@ using UnityEngine.UI;
 namespace Ling
 {
 	/// <summary>
-	/// 
+	/// Vector3拡張メソッド
 	/// </summary>
     public static class Vector3Extensions
     {
