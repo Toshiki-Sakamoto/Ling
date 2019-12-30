@@ -17,11 +17,25 @@ using UnityEngine.UI;
 namespace Ling.Map.Builder
 {
 	/// <summary>
-	/// 
+	/// 定数
 	/// </summary>
     public class Const
     {
-        #region 定数, class, enum
+		#region 定数, class, enum
+
+
+		/// <summary>
+		/// タイル情報のフラグ定数
+		/// </summary>
+		[System.Flags]
+		public enum TileFlag : long
+		{
+			None		= 0,		// なにもない
+
+			Wall		= 1 << 1,	// 壁
+			StepUp		= 1 << 2,	// 上り階段
+			StepDown	= 1 << 3,   // 下り階段
+		}
 
         #endregion
 
