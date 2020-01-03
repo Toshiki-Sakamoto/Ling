@@ -19,8 +19,11 @@ namespace Ling.Map.Builder.Split
 	/// <summary>
 	/// 部屋に分割する役目
 	/// </summary>
-    public interface ISplittable
-    {
-        void SplitRect();
+    public interface ISplitter
+	{
+		/// <summary>
+		/// 矩形を分割するとき呼び出される
+		/// </summary>
+        void SplitRect(MapRect mapRect);
     }
 }
