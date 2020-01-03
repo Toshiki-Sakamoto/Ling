@@ -1,8 +1,8 @@
 ﻿//
-// Data.cs
+// Const.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2019.12.23
+// Created by toshiki sakamoto on 2019.12.31
 //
 
 using System;
@@ -14,14 +14,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Builder
+namespace Ling.Map.Builder.Split
 {
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Data
+	public class Const
     {
 		#region 定数, class, enum
+
+		public const int MaxRectNum = 20;	// 最大の区画数
 
 		#endregion
 
@@ -32,8 +34,6 @@ namespace Ling.Map.Builder
 
 
 		#region private 変数
-
-		[SerializeField] private int _roomMinSize = 3;
 
 		#endregion
 
@@ -49,11 +49,6 @@ namespace Ling.Map.Builder
 
 
 		#region public, protected 関数
-
-		/// <summary>
-		/// 部屋の最小サイズ
-		/// </summary>
-		public int RoomMinSize => _roomMinSize;
 
 		#endregion
 
