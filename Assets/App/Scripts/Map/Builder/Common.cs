@@ -19,7 +19,7 @@ namespace Ling.Map.Builder
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Common
+    public static class Common
     {
         #region 定数, class, enum
 
@@ -47,6 +47,7 @@ namespace Ling.Map.Builder
 
 
         #region public, protected 関数
+
 
         #endregion
 

@@ -22,20 +22,20 @@ namespace Ling.Map.Builder
 	/// </summary>
     public abstract class Base
     {
-        #region 定数, class, enum
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        protected TileData[] _tileData = null;  // タイル情報
-        protected int _rectCount = 0;           // 区画の数
+		#endregion
+
+
+		#region private 変数
+
+		protected TileData[] _tileData = null;  // タイル情報
+		protected Data _data = null;			// ビルダー情報
 
         #endregion
 
@@ -75,6 +75,12 @@ namespace Ling.Map.Builder
             _tileData = new TileData[width * height];
         }
 
+		/// <summary>
+		/// ビルダー情報を設定する
+		/// </summary>
+		/// <param name="data"></param>
+		public void SetData(Data data) => _data = data;
+
         /// <summary>
         /// [x, y] から指定したタイル情報を返す
         /// </summary>
@@ -93,10 +99,12 @@ namespace Ling.Map.Builder
         /// </summary>
         public void Execute()
         {
-            // 最初はすべて壁にする
+			// 最初はすべて壁にする
+			_tileData.ForEach((in TileData tileData_) => tileData_.SetWall());
 
-            ExecuteInternal();
+			ExecuteInternal();
         }
+
 
         #endregion
 

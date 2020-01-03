@@ -19,47 +19,60 @@ namespace Ling.Map.Builder.Split
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Builder : Base
-    {
-        #region 定数, class, enum
+	public class Builder : Base
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        private ISplittable _splittable = null;     // 部屋の分割担当
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		private ISplitter _splitter = null;     // 部屋の分割担当
+		private MapRect _mapRect = null;		// 区画情報
 
-
-        #region コンストラクタ, デストラクタ
-
-        public Builder(ISplittable splittable)
-        {
-            _splittable = splittable;
-        }
-
-        #endregion
+		#endregion
 
 
-        #region public, protected 関数
+		#region プロパティ
 
-        /// <summary>
-        /// 処理を実行する
-        /// </summary>
-        protected override void ExecuteInternal()
-        {
+		#endregion
+
+
+		#region コンストラクタ, デストラクタ
+
+		public Builder(ISplitter splitter)
+		{
+			_splitter = splitter;
+
+			_mapRect = new MapRect();
+		}
+
+
+		#endregion
+
+
+		#region public, protected 関数
+
+		/// <summary>
+		/// 処理を実行する
+		/// </summary>
+		protected override void ExecuteInternal()
+		{
+			// まずは区画を作る
+		}
+
+		/// <summary>
+		/// 分割していく
+		/// </summary>
+		private void SplitRect()
+		{
+			_splitter?.SplitRect(_mapRect);
 		}
 
 		#endregion
