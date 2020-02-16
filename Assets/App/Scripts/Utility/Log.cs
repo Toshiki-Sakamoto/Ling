@@ -47,6 +47,7 @@ namespace Ling.Utility
 
         #region public, protected 関数
 
+		[System.Diagnostics.Conditional("DEBUG")]
         public static void Print(string format, params object[] args)
         {
             Debug.LogFormat(format, args);
