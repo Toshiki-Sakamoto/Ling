@@ -120,7 +120,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '"Utage" is built around a <color=orange> "let''s just make it" </color> concept.'
+      - '"Utage" is built around a <color=orange> "let''s just make it" </color>
+        concept.'
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -2050,8 +2051,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - For ordinary text, leave Command, Arg1, etc. blank and write text in the Text
-        string.
+      - For ordinary text, leave Command, Arg1, etc. blank and write text in the
+        Text string.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -2160,8 +2161,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Japanese has specific restrictions on the way lines can end. Line breaks are
-        not permitted where they would break a particular type of syntax.
+      - Japanese has specific restrictions on the way lines can end. Line breaks
+        are not permitted where they would break a particular type of syntax.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -2256,8 +2257,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - For ellipses (...) and other special characters that repeat, the program can
-        be set to ignore space intervals between characters.
+      - For ellipses (...) and other special characters that repeat, the program
+        can be set to ignore space intervals between characters.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -2400,8 +2401,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - <color=red>A red tag sample</color>. This is the same as Unity's default <color=#99ff00ff>rich
-        text</color>.
+      - <color=red>A red tag sample</color>. This is the same as Unity's default
+        <color=#99ff00ff>rich text</color>.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -2946,8 +2947,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Utage conforms to Japanese word wrapping conventions when creating a new line.
-        If you want to suppress the creation of a line break, you can use grouped
+      - Utage conforms to Japanese word wrapping conventions when creating a new
+        line. If you want to suppress the creation of a line break, you can use grouped
         characters.
       isEmpty: 0
       isCommentOut: 0
@@ -3094,8 +3095,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - This is used for displaying things like flags, affinity values, and user names
-        within the message window.
+      - This is used for displaying things like flags, affinity values, and user
+        names within the message window.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -3602,7 +3603,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - You can also change between message windows with the ChangeMessageWindow command.
+      - You can also change between message windows with the ChangeMessageWindow
+        command.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -3841,8 +3843,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - When importing the scenario, the program runs a check to see whether the text
-        fits within the message window, and this may fail.
+      - When importing the scenario, the program runs a check to see whether the
+        text fits within the message window, and this may fail.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -3860,8 +3862,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - The issue is that the program cannot determine which page is using which message
-        window;
+      - The issue is that the program cannot determine which page is using which
+        message window;
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -4265,8 +4267,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - When the message window is hidden, the next time text is called, it will automatically
-        come into view again.
+      - When the message window is hidden, the next time text is called, it will
+        automatically come into view again.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -4369,8 +4371,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Note that, generally, when an effect immediately follows a new page, the message
-        window is automatically hidden.
+      - Note that, generally, when an effect immediately follows a new page, the
+        message window is automatically hidden.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -4812,8 +4814,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - that character's default pattern (the uppermost pattern on the Character sheet)
-        is used.
+      - that character's default pattern (the uppermost pattern on the Character
+        sheet) is used.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -4979,8 +4981,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If a character of the same name is already displayed, the layer argument can
-        be left blank.
+      - If a character of the same name is already displayed, the layer argument
+        can be left blank.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -5005,8 +5007,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If the layer argument for a newly displayed character is left blank, the layer
-        defined in the uppermost line of the Character sheet will be used.
+      - If the layer argument for a newly displayed character is left blank, the
+        layer defined in the uppermost line of the Character sheet will be used.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -5042,7 +5044,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - To specify display coordinates in detail, use Arg4 and Arg5 for X and Y, respectively.
+      - To specify display coordinates in detail, use Arg4 and Arg5 for X and Y,
+        respectively.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -5104,7 +5107,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If the Text argument is omitted, only the character's expression will be displayed.
+      - If the Text argument is omitted, only the character's expression will be
+        displayed.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -5141,8 +5145,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - so this functionality can be used when multiple characters appear at the start
-        of a scene, among other uses.
+      - so this functionality can be used when multiple characters appear at the
+        start of a scene, among other uses.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -5498,8 +5502,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If you are in an event CG display mode (described later), all characters will
-        be automatically hidden.
+      - If you are in an event CG display mode (described later), all characters
+        will be automatically hidden.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -5619,8 +5623,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - By entering a description for NameText on the Character sheet, the given name
-        will become the character's displayed name.
+      - By entering a description for NameText on the Character sheet, the given
+        name will become the character's displayed name.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -5985,7 +5989,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - The character sheet allows for configuring characters who do not have an image.
+      - The character sheet allows for configuring characters who do not have an
+        image.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -6385,8 +6390,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Even if the character name or image changes on an already-read page, the page
-        will remain as read.
+      - Even if the character name or image changes on an already-read page, the
+        page will remain as read.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -6850,8 +6855,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Like the Bg command, displaying a new asset causes the previous asset to automatically
-        fade out.
+      - Like the Bg command, displaying a new asset causes the previous asset to
+        automatically fade out.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -7461,8 +7466,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - You can also draw sprites by specifying characters and background layers and
-        adding them to characters and backgrounds.
+      - You can also draw sprites by specifying characters and background layers
+        and adding them to characters and backgrounds.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -7932,8 +7937,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - You must use the Bgm command to specify the music launched in that scene in
-        order to do so.
+      - You must use the Bgm command to specify the music launched in that scene
+        in order to do so.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -7982,8 +7987,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - The previous track fades out and the next track fades in and plays. Time is
-        set with Arg5 and Arg6.
+      - The previous track fades out and the next track fades in and plays. Time
+        is set with Arg5 and Arg6.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -8001,8 +8006,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - To stop playback, use the StopBgm command. Fade out time can also be set with
-        Arg6.
+      - To stop playback, use the StopBgm command. Fade out time can also be set
+        with Arg6.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -8439,7 +8444,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '...'
+      - ...
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -8662,8 +8667,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - As an alternative to the usual text display system command, you can also play
-        the voice from the command.
+      - As an alternative to the usual text display system command, you can also
+        play the voice from the command.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -9122,7 +9127,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - It is a volume different from the volume specified by the sound playback command.
+      - It is a volume different from the volume specified by the sound playback
+        command.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -9699,8 +9705,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Use in conjunction with the Bg command for convenient scene transitions. Give
-        it a try.
+      - Use in conjunction with the Bg command for convenient scene transitions.
+        Give it a try.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -10177,8 +10183,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - However, setting a wait type for Arg6 allows the next command to execute without
-        waiting for the animation to complete.
+      - However, setting a wait type for Arg6 allows the next command to execute
+        without waiting for the animation to complete.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -10209,7 +10215,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Setting PageWait will wait for effects to conclude before creating a new page.
+      - Setting PageWait will wait for effects to conclude before creating a new
+        page.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -10276,8 +10283,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - However, loading will fail to function when saving during an effect that spans
-        pages,
+      - However, loading will fail to function when saving during an effect that
+        spans pages,
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -10313,8 +10320,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - The Shake command also does not support saving and loading, so it can be used
-        with NoWait.
+      - The Shake command also does not support saving and loading, so it can be
+        used with NoWait.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -14254,8 +14261,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Scenario labels are usually written as "* scenario label name", with one asterisk
-        at the beginning.
+      - Scenario labels are usually written as "* scenario label name", with one
+        asterisk at the beginning.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -15362,8 +15369,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Selections are normally automatically displayed as a stack in the center of
-        the screen.
+      - Selections are normally automatically displayed as a stack in the center
+        of the screen.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -15381,8 +15388,8 @@ MonoBehaviour:
       - Next
       - 
       - 
-      - To change the position of a selection, use Arg5 for the X coordinate and Arg6
-        for the Y coordinate.
+      - To change the position of a selection, use Arg5 for the X coordinate and
+        Arg6 for the Y coordinate.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -15752,8 +15759,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - so it helps when creating escape games, etc., that involve tapping to go through
-        a branching route.
+      - so it helps when creating escape games, etc., that involve tapping to go
+        through a branching route.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -17427,8 +17434,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Like the Jump command, you can set a conditional expression to determine whether
-        the jump takes place.
+      - Like the Jump command, you can set a conditional expression to determine
+        whether the jump takes place.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -30928,7 +30935,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '"Utage" is built around a <color=orange> "let''s just make it" </color> concept.'
+      - '"Utage" is built around a <color=orange> "let''s just make it" </color>
+        concept.'
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -33066,8 +33074,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - For ordinary text, leave Command, Arg1, etc. blank and write text in the Text
-        string.
+      - For ordinary text, leave Command, Arg1, etc. blank and write text in the
+        Text string.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -33202,8 +33210,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Japanese has specific restrictions on the way lines can end. Line breaks are
-        not permitted where they would break a particular type of syntax.
+      - Japanese has specific restrictions on the way lines can end. Line breaks
+        are not permitted where they would break a particular type of syntax.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -33304,8 +33312,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - For ellipses (...) and other special characters that repeat, the program can
-        be set to ignore space intervals between characters.
+      - For ellipses (...) and other special characters that repeat, the program
+        can be set to ignore space intervals between characters.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -33478,8 +33486,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - <color=red>A red tag sample</color>. This is the same as Unity's default <color=#99ff00ff>rich
-        text</color>.
+      - <color=red>A red tag sample</color>. This is the same as Unity's default
+        <color=#99ff00ff>rich text</color>.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -34192,8 +34200,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Utage conforms to Japanese word wrapping conventions when creating a new line.
-        If you want to suppress the creation of a line break, you can use grouped
+      - Utage conforms to Japanese word wrapping conventions when creating a new
+        line. If you want to suppress the creation of a line break, you can use grouped
         characters.
       isEmpty: 0
       isCommentOut: 0
@@ -34388,8 +34396,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - This is used for displaying things like flags, affinity values, and user names
-        within the message window.
+      - This is used for displaying things like flags, affinity values, and user
+        names within the message window.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -34942,7 +34950,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - You can also change between message windows with the ChangeMessageWindow command.
+      - You can also change between message windows with the ChangeMessageWindow
+        command.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -35199,8 +35208,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - When importing the scenario, the program runs a check to see whether the text
-        fits within the message window, and this may fail.
+      - When importing the scenario, the program runs a check to see whether the
+        text fits within the message window, and this may fail.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -35218,8 +35227,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - The issue is that the program cannot determine which page is using which message
-        window;
+      - The issue is that the program cannot determine which page is using which
+        message window;
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -35633,8 +35642,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - When the message window is hidden, the next time text is called, it will automatically
-        come into view again.
+      - When the message window is hidden, the next time text is called, it will
+        automatically come into view again.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -35737,8 +35746,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Note that, generally, when an effect immediately follows a new page, the message
-        window is automatically hidden.
+      - Note that, generally, when an effect immediately follows a new page, the
+        message window is automatically hidden.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -36226,8 +36235,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - that character's default pattern (the uppermost pattern on the Character sheet)
-        is used.
+      - that character's default pattern (the uppermost pattern on the Character
+        sheet) is used.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -36423,8 +36432,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If a character of the same name is already displayed, the layer argument can
-        be left blank.
+      - If a character of the same name is already displayed, the layer argument
+        can be left blank.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -36449,8 +36458,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If the layer argument for a newly displayed character is left blank, the layer
-        defined in the uppermost line of the Character sheet will be used.
+      - If the layer argument for a newly displayed character is left blank, the
+        layer defined in the uppermost line of the Character sheet will be used.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -36528,7 +36537,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - To specify display coordinates in detail, use Arg4 and Arg5 for X and Y, respectively.
+      - To specify display coordinates in detail, use Arg4 and Arg5 for X and Y,
+        respectively.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -36596,7 +36606,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If the Text argument is omitted, only the character's expression will be displayed.
+      - If the Text argument is omitted, only the character's expression will be
+        displayed.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -36633,8 +36644,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - so this functionality can be used when multiple characters appear at the start
-        of a scene, among other uses.
+      - so this functionality can be used when multiple characters appear at the
+        start of a scene, among other uses.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -37036,8 +37047,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If you are in an event CG display mode (described later), all characters will
-        be automatically hidden.
+      - If you are in an event CG display mode (described later), all characters
+        will be automatically hidden.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -37185,8 +37196,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - By entering a description for NameText on the Character sheet, the given name
-        will become the character's displayed name.
+      - By entering a description for NameText on the Character sheet, the given
+        name will become the character's displayed name.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -37587,7 +37598,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - The character sheet allows for configuring characters who do not have an image.
+      - The character sheet allows for configuring characters who do not have an
+        image.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -38015,8 +38027,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Even if the character name or image changes on an already-read page, the page
-        will remain as read.
+      - Even if the character name or image changes on an already-read page, the
+        page will remain as read.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -38494,8 +38506,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Like the Bg command, displaying a new asset causes the previous asset to automatically
-        fade out.
+      - Like the Bg command, displaying a new asset causes the previous asset to
+        automatically fade out.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -39139,8 +39151,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - You can also draw sprites by specifying characters and background layers and
-        adding them to characters and backgrounds.
+      - You can also draw sprites by specifying characters and background layers
+        and adding them to characters and backgrounds.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -39656,8 +39668,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - You must use the Bgm command to specify the music launched in that scene in
-        order to do so.
+      - You must use the Bgm command to specify the music launched in that scene
+        in order to do so.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -39712,8 +39724,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - The previous track fades out and the next track fades in and plays. Time is
-        set with Arg5 and Arg6.
+      - The previous track fades out and the next track fades in and plays. Time
+        is set with Arg5 and Arg6.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -39731,8 +39743,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - To stop playback, use the StopBgm command. Fade out time can also be set with
-        Arg6.
+      - To stop playback, use the StopBgm command. Fade out time can also be set
+        with Arg6.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -40205,7 +40217,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '...'
+      - ...
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -40434,8 +40446,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - As an alternative to the usual text display system command, you can also play
-        the voice from the command.
+      - As an alternative to the usual text display system command, you can also
+        play the voice from the command.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -40954,7 +40966,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - It is a volume different from the volume specified by the sound playback command.
+      - It is a volume different from the volume specified by the sound playback
+        command.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -41599,8 +41612,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Use in conjunction with the Bg command for convenient scene transitions. Give
-        it a try.
+      - Use in conjunction with the Bg command for convenient scene transitions.
+        Give it a try.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -42085,8 +42098,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - However, setting a wait type for Arg6 allows the next command to execute without
-        waiting for the animation to complete.
+      - However, setting a wait type for Arg6 allows the next command to execute
+        without waiting for the animation to complete.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -42117,7 +42130,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Setting PageWait will wait for effects to conclude before creating a new page.
+      - Setting PageWait will wait for effects to conclude before creating a new
+        page.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -42184,8 +42198,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - However, loading will fail to function when saving during an effect that spans
-        pages,
+      - However, loading will fail to function when saving during an effect that
+        spans pages,
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -42221,8 +42235,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - The Shake command also does not support saving and loading, so it can be used
-        with NoWait.
+      - The Shake command also does not support saving and loading, so it can be
+        used with NoWait.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -46768,8 +46782,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Scenario labels are usually written as "* scenario label name", with one asterisk
-        at the beginning.
+      - Scenario labels are usually written as "* scenario label name", with one
+        asterisk at the beginning.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -48066,8 +48080,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Selections are normally automatically displayed as a stack in the center of
-        the screen.
+      - Selections are normally automatically displayed as a stack in the center
+        of the screen.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -48085,8 +48099,8 @@ MonoBehaviour:
       - Next
       - 
       - 
-      - To change the position of a selection, use Arg5 for the X coordinate and Arg6
-        for the Y coordinate.
+      - To change the position of a selection, use Arg5 for the X coordinate and
+        Arg6 for the Y coordinate.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -48502,8 +48516,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - so it helps when creating escape games, etc., that involve tapping to go through
-        a branching route.
+      - so it helps when creating escape games, etc., that involve tapping to go
+        through a branching route.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -50593,8 +50607,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Like the Jump command, you can set a conditional expression to determine whether
-        the jump takes place.
+      - Like the Jump command, you can set a conditional expression to determine
+        whether the jump takes place.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
