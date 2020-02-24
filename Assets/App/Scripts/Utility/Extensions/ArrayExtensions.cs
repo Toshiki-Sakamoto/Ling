@@ -115,6 +115,19 @@ namespace Ling
 			}
 		}
 
+		/// <summary>
+		/// Null or Emptyの時true
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="array"></param>
+		/// <returns></returns>
+		public static bool IsNullOrEmpty<T>(this T[] array)
+		{
+			if (array == null) return true;
+
+			return array.Length <= 0;
+		}
+
 		#endregion
 
 
