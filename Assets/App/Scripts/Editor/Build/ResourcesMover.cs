@@ -15,7 +15,7 @@ using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
-
+using UnityEditor;
 
 namespace Ling.Editor.Build
 {
@@ -35,6 +35,8 @@ namespace Ling.Editor.Build
 
 
 		#region private 変数
+
+		private ResourcesMoverSetting _setting;
 
 		#endregion
 
@@ -57,21 +59,46 @@ namespace Ling.Editor.Build
 
 		#region public, protected 関数
 
+		/// <summary>
+		/// 設定が保存されているScriptableObjectのインスタンスを取得する
+		/// </summary>
+		/// <returns></returns>
+		public static ResourcesMoverSetting GetSetting()
+		{
+			var guid = AssetDatabase.FindAssets("t:" + nameof(ResourcesMoverSetting)).FirstOrDefault();
+			var filePath = AssetDatabase.GUIDToAssetPath(guid);
+			if (filePath == null)
+			{
+				throw new System.IO.FileNotFoundException("MyScriptableObject does not found");
+			}
+
+			return AssetDatabase.LoadAssetAtPath<ResourcesMoverSetting>(filePath);
+		}
+
 
 		public void OnPostprocessBuild(BuildReport report)
 		{
 			if (IsDevelopment(report)) return;
 
-			Directory.Move("", "");
-			File.Move(".meta", ".meta");
+			_setting = GetSetting();
+
+			if (_setting == null) return;
+
+			foreach(var elm in _setting.sourceFolders)
+			{
+
+			}
+
+//			Directory.Move("", "");
+//			File.Move(".meta", ".meta");
 		}
 
 		public void OnPreprocessBuild(BuildReport report)
 		{
 			if (IsDevelopment(report)) return;
 
-			Directory.Move("", "");
-			File.Move(".meta", ".meta");
+//			Directory.Move("", "");
+//			File.Move(".meta", ".meta");
 		}
 
 		#endregion

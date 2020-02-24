@@ -44,6 +44,8 @@ namespace Ling.Editor.Build
 
 		#region private 変数
 
+		private string _saveTime;
+
 		#endregion
 
 
@@ -64,17 +66,8 @@ namespace Ling.Editor.Build
 		{
 			GetWindow<ResourcesMoverEditorWindow>();
 
-			//Utility.Log.Print(sourceFilePath);
-			//			setting = AssetDatabase.LoadAssetAtPath<ResourcesMoverSetting>("");
-
-			var guid = AssetDatabase.FindAssets("t:" + nameof(ResourcesMoverSetting)).FirstOrDefault();
-			filePath = AssetDatabase.GUIDToAssetPath(guid);
-			if (filePath == null)
-			{
-				return;
-			}
-
-			setting = AssetDatabase.LoadAssetAtPath<ResourcesMoverSetting>(filePath);
+			setting = ResourcesMover.GetSetting();
+			filePath = AssetDatabase.GetAssetPath(setting);
 		}
 
 		#endregion
@@ -98,9 +91,12 @@ namespace Ling.Editor.Build
 
 			using (new GUILayout.VerticalScope(GUI.skin.box))
 			{
+				GUILayout.Label($"移動先フォルダ");
+
 				using (new GUILayout.HorizontalScope())
 				{
-					GUILayout.Label($"移動先フォルダ");
+					GUILayout.Label(setting.destinationPath, labelStyle);
+					GUILayout.FlexibleSpace();
 
 					if (GUILayout.Button("選択"))
 					{
@@ -112,7 +108,6 @@ namespace Ling.Editor.Build
 					}
 				}
 
-				GUILayout.Label(setting.destinationPath, labelStyle);
 			}
 
 			GUILayout.Space(20);
@@ -121,7 +116,7 @@ namespace Ling.Editor.Build
 			{
 				GUILayout.Label($"移動フォルダリスト");
 
-				var sourceDirectories = setting.sourceDirectories;
+				var sourceDirectories = setting.sourceFolders;
 
 				for (int i = 0; i < sourceDirectories.Count; ++i)
 				{
@@ -130,7 +125,6 @@ namespace Ling.Editor.Build
 					using (new GUILayout.HorizontalScope(GUI.skin.box))
 					{
 						GUILayout.Label(path);
-
 						GUILayout.FlexibleSpace();
 
 						if (GUILayout.Button("選択"))
@@ -150,7 +144,10 @@ namespace Ling.Editor.Build
 				{
 					var path = ToAssetPath(EditorUtility.OpenFolderPanel("選択", "Assets", ""));
 
-					sourceDirectories.Add(path);
+					if (!string.IsNullOrEmpty(path))
+					{
+						sourceDirectories.Add(path);
+					}
 				}
 			}
 
@@ -162,6 +159,13 @@ namespace Ling.Editor.Build
 				EditorUtility.SetDirty(setting);
 
 				AssetDatabase.SaveAssets();
+
+				_saveTime = DateTime.Now.ToLongTimeString();
+			}
+
+			if (!string.IsNullOrEmpty(_saveTime))
+			{
+				GUILayout.Label($"保存成功 {_saveTime}");
 			}
 		}
 

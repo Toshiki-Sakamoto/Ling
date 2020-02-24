@@ -34,8 +34,8 @@ namespace Ling.Editor.Build
 
 		#region private 変数
 
-		public string destinationPath;
-		public List<string> sourceDirectories;
+		public string destinationPath;		// 移動先フォルダ
+		public List<string> sourceFolders;	// 移動するフォルダリスト
 
 		#endregion
 
