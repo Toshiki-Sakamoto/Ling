@@ -34,11 +34,14 @@ namespace Ling.Editor.Build
 
 		#region private 変数
 
+		public string destinationPath;
+		public List<string> sourceDirectories;
 
 		#endregion
 
 
 		#region プロパティ
+
 
 		#endregion
 
