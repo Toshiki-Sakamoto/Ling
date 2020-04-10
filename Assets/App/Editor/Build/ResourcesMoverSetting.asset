@@ -12,3 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecac56ba3964f044db1fb08dd5600d31, type: 3}
   m_Name: ResourcesMoverSetting
   m_EditorClassIdentifier: 
+  destinationPath: Assets/Plugins
+  sourceDirectories:
+  - Assets/Plugins
+  - Assets/App
+  - Assets/Utage

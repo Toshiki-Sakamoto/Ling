@@ -67,7 +67,7 @@ namespace Ling.Editor.Build
 		{
 			var guid = AssetDatabase.FindAssets("t:" + nameof(ResourcesMoverSetting)).FirstOrDefault();
 			var filePath = AssetDatabase.GUIDToAssetPath(guid);
-			if (filePath == null)
+			if (string.IsNullOrEmpty(filePath))
 			{
 				throw new System.IO.FileNotFoundException("MyScriptableObject does not found");
 			}
@@ -75,6 +75,14 @@ namespace Ling.Editor.Build
 			return AssetDatabase.LoadAssetAtPath<ResourcesMoverSetting>(filePath);
 		}
 
+
+		public void OnPreprocessBuild(BuildReport report)
+		{
+			if (IsDevelopment(report)) return;
+
+//			Directory.Move("", "");
+//			File.Move(".meta", ".meta");
+		}
 
 		public void OnPostprocessBuild(BuildReport report)
 		{
@@ -88,14 +96,6 @@ namespace Ling.Editor.Build
 			{
 
 			}
-
-//			Directory.Move("", "");
-//			File.Move(".meta", ".meta");
-		}
-
-		public void OnPreprocessBuild(BuildReport report)
-		{
-			if (IsDevelopment(report)) return;
 
 //			Directory.Move("", "");
 //			File.Move(".meta", ".meta");
