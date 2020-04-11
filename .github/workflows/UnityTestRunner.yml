@@ -1,9 +1,8 @@
 name: UnityTestRunner
 
 on:
-  push:
-    branches-ignore:
-    - master
+  pull_request:
+    types: synchronize
 
 jobs:
   editorTestJob:
