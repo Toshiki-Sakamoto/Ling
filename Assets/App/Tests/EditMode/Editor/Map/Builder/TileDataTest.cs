@@ -107,7 +107,6 @@ namespace Ling.Tests.Map.Builder
 		{
 			_tileData.Initialize();
 
-
 			// HasFlagのチェック
 			_tileData.AddFlag(Const.TileFlag.Wall);
 
