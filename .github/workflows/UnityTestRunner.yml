@@ -3,7 +3,7 @@ name: UnityTestRunner
 on:
   push:
     branches:
-    - master
+    - '!master'
 
 jobs:
   editorTestJob:
