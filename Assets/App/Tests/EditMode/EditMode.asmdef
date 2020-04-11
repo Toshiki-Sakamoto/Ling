@@ -4,7 +4,10 @@
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Scripts",
-        "Zenject"
+        "Zenject",
+        "Zenject-TestFramework",
+        "UniRx",
+        "ZString"
     ],
     "includePlatforms": [
         "Editor"
