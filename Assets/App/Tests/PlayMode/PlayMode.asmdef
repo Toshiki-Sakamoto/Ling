@@ -3,7 +3,10 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Zenject"
+        "Zenject",
+        "UniRx",
+        "UniRx.Async",
+        "ZString"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

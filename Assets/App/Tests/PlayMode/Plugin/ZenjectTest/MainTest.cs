@@ -68,15 +68,15 @@ namespace Ling.Tests.PlayMode.Plugin.ZenjectTest
 
 		#region public, protected 関数
 
-		[SetUp]
-		public void Setup()
+		[OneTimeSetUp]
+		public void OneTimeSetUp()
 		{
 			// あるシーンのテストは1フレーム待たないとFindできなかった。
 			SceneManager.LoadScene("ZenjectTestScene");
 		}
 
 		[UnityTest]
-		public IEnumerator MonoInstallerInjectTest()
+		public IEnumerator MonoInstallerInject()
 		{
 			// InjectTestClass をまずは探す
 			_injectTextClass = GameObject.FindObjectOfType<InjectTestClass>();
@@ -88,7 +88,6 @@ namespace Ling.Tests.PlayMode.Plugin.ZenjectTest
 			Assert.IsNotNull(_injectTextClass.MethodInjection, "メソッドに対して依存性の注入がされた");
 
 			yield return null;
-
 		}
 
 		#endregion

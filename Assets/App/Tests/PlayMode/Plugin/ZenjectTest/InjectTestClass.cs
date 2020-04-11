@@ -59,11 +59,12 @@ namespace Ling.Tests.PlayMode.Plugin.ZenjectTest
 		#region public, protected 関数
 
 		/// <summary>
-		/// Monobehabioursはコンストラクタを持てないので[Inject]メソッドを使用して
+		/// MonoBehaviourはコンストラクタを持てないので[Inject]メソッドを使用して
 		/// 依存関係を注入するのが推奨
 		/// </summary>
 		/// <param name="example"></param>
-		[Inject] public void InitializableManager(IExample example)
+		[Inject] 
+		public void InitializableManager(IExample example)
 		{
 			_methodInjection = example;
 		}

@@ -27,17 +27,6 @@ namespace Ling.Tests.Plugin.ZenjectTest
 	{
 		#region 定数, class, enum
 
-		/// <summary>
-		/// IInitializableのテスト
-		/// 初期化時に Initialize() が呼ばれることになる
-		/// </summary>
-		public class ExampleInitializable : IInitializable
-		{
-			public bool IsValid { get; private set; }
-
-			public void Initialize() { Debug.Log("SSS"); IsValid = true; }
-		}
-
 		#endregion
 
 
@@ -89,17 +78,6 @@ namespace Ling.Tests.Plugin.ZenjectTest
 			Assert.AreEqual(2, all.Count, "配列の数は一致している");
 			Assert.AreEqual("hoge", all[0], "配列の一番目の解決が一致");
 			Assert.AreEqual("fuga", all[1], "配列の二番目の解決が一致");
-		}
-
-		[Test]
-		public void IInitializable()
-		{
-			var container = new DiContainer();
-			container.BindInterfacesAndSelfTo<ExampleInitializable>().AsSingle();
-
-			var instance = container.Resolve<ExampleInitializable>();
-
-			Assert.IsNotNull(instance);
 		}
 
 		#endregion
