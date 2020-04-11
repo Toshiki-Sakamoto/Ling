@@ -2,8 +2,8 @@ name: UnityTestRunner
 
 on:
   push:
-    branches:
-    - '!master'
+    branches-ignore:
+    - master
 
 jobs:
   editorTestJob:
