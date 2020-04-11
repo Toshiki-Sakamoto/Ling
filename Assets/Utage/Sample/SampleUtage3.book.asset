@@ -6615,8 +6615,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If you are using "dicing", you can set sprite animation to the character display
-        pattern.
+      - If you are using "dicing", you can set sprite animation to the character
+        display pattern.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -6687,8 +6687,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Since the texture to use tends to become bloated, please use it as short as
-        possible.
+      - Since the texture to use tends to become bloated, please use it as short
+        as possible.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -13926,8 +13926,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - so it helps when creating escape games, etc., that involve tapping to go through
-        a branching route.
+      - so it helps when creating escape games, etc., that involve tapping to go
+        through a branching route.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -13989,8 +13989,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Also, it can not be used when using RenderTexture, so it is not suitable for
-        Avatar.
+      - Also, it can not be used when using RenderTexture, so it is not suitable
+        for Avatar.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -16839,7 +16839,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '... thread terminated'
+      - ... thread terminated
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -16927,7 +16927,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '... thread terminated'
+      - ... thread terminated
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -17024,7 +17024,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '... Use this when you want to erase all threads after the thread ends.'
+      - ... Use this when you want to erase all threads after the thread ends.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -25438,8 +25438,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - For some image effects, you can apply effects while fading by specifying time
-        for Ag 6.
+      - For some image effects, you can apply effects while fading by specifying
+        time for Ag 6.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -39904,8 +39904,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - If you are using "dicing", you can set sprite animation to the character display
-        pattern.
+      - If you are using "dicing", you can set sprite animation to the character
+        display pattern.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -39998,8 +39998,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Since the texture to use tends to become bloated, please use it as short as
-        possible.
+      - Since the texture to use tends to become bloated, please use it as short
+        as possible.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -56776,8 +56776,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - so it helps when creating escape games, etc., that involve tapping to go through
-        a branching route.
+      - so it helps when creating escape games, etc., that involve tapping to go
+        through a branching route.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -56839,8 +56839,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - Also, it can not be used when using RenderTexture, so it is not suitable for
-        Avatar.
+      - Also, it can not be used when using RenderTexture, so it is not suitable
+        for Avatar.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -61031,7 +61031,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '... thread terminated'
+      - ... thread terminated
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -61143,7 +61143,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '... thread terminated'
+      - ... thread terminated
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -61240,7 +61240,7 @@ MonoBehaviour:
       - 
       - 
       - 
-      - '... Use this when you want to erase all threads after the thread ends.'
+      - ... Use this when you want to erase all threads after the thread ends.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
@@ -67001,8 +67001,8 @@ MonoBehaviour:
       - 
       - 
       - 
-      - For some image effects, you can apply effects while fading by specifying time
-        for Ag 6.
+      - For some image effects, you can apply effects while fading by specifying
+        time for Ag 6.
       isEmpty: 0
       isCommentOut: 0
       debugInfo: 
