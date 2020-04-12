@@ -60,7 +60,7 @@ namespace Ling.Utility.Scene
 
             _isStart = true;
 
-            StartCoroutine(StartScenInternal(_nextSceneID));
+            StartCoroutine(StartSceneInternal(_nextSceneID));
         }
 
         #endregion
@@ -73,7 +73,7 @@ namespace Ling.Utility.Scene
         /// </summary>
         /// <returns>The start scene.</returns>
         /// <param name="nextSceneName">Next scene name.</param>
-        private IEnumerator StartScenInternal(Common.Scene.ID sceneID)
+        private IEnumerator StartSceneInternal(Common.Scene.ID sceneID)
         {
             yield return SceneManager.LoadSceneAsync(Common.Scene.GetNameByID(sceneID));
 
