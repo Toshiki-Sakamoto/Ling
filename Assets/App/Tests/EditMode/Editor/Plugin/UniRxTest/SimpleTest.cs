@@ -22,7 +22,7 @@ namespace Ling.Tests.Plugin.UniRxTest
 {
 	/// <summary>
 	/// UniRxを使ってみる
-	/// 単純なテスト
+	/// 単純なテスト 
 	/// </summary>
 	public class SimpleTest
     {
