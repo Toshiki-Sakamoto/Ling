@@ -32,7 +32,7 @@ namespace Ling.Utility.Scene
 
         #region private 変数
 
-        private string _nextSceneName = null;
+        private Common.Scene.ID _nextSceneID = Common.Scene.ID.None;
         private object _argment = null;
         private bool _isStart = false;
 
@@ -47,20 +47,20 @@ namespace Ling.Utility.Scene
 
         #region public, protected 関数
 
-        public void Change(string name, object arg = null)
+        public void Change(Common.Scene.ID sceneID, object arg = null)
         {
             if (_isStart)
             {
-                Utility.Log.Warning("シーンがすでに開始されています {0}", name);
+                Utility.Log.Warning($"シーンがすでに開始されています {sceneID.ToString()}");
                 return; 
             }
 
-            _nextSceneName = name;
+			_nextSceneID = sceneID;
             _argment = arg;
 
             _isStart = true;
 
-            StartCoroutine(DoStartScene(_nextSceneName));
+            StartCoroutine(StartScenInternal(_nextSceneID));
         }
 
         #endregion
@@ -73,9 +73,9 @@ namespace Ling.Utility.Scene
         /// </summary>
         /// <returns>The start scene.</returns>
         /// <param name="nextSceneName">Next scene name.</param>
-        private IEnumerator DoStartScene(string nextSceneName)
+        private IEnumerator StartScenInternal(Common.Scene.ID sceneID)
         {
-            yield return SceneManager.LoadSceneAsync(_nextSceneName);
+            yield return SceneManager.LoadSceneAsync(Common.Scene.GetNameByID(sceneID));
 
             _isStart = false;
         }

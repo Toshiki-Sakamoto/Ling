@@ -79,7 +79,7 @@ namespace Ling.Startup
             _view.ActOnClick = 
                 () =>
                 {
-                    Utility.Scene.Manager.Instance.Change("Main");   
+                    Utility.Scene.Manager.Instance.Change(Common.SceneID.Battle);   
                 };
         }
 
