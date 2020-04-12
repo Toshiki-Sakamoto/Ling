@@ -35,7 +35,7 @@ namespace Ling.Map.Builder
 		#region private 変数
 
 		protected TileData[] _tileData = null;  // タイル情報
-		protected Data _data = null;			// ビルダー情報
+		protected BuilderData _data = null;			// ビルダー情報
 
         #endregion
 
@@ -79,7 +79,7 @@ namespace Ling.Map.Builder
 		/// ビルダー情報を設定する
 		/// </summary>
 		/// <param name="data"></param>
-		public void SetData(Data data) => _data = data;
+		public void SetData(BuilderData data) => _data = data;
 
         /// <summary>
         /// [x, y] から指定したタイル情報を返す

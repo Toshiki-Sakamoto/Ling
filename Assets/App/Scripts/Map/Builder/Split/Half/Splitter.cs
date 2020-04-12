@@ -33,6 +33,8 @@ namespace Ling.Map.Builder.Split.Half
 
 		#region private 変数
 
+		[Zenject.Inject] private IManager _manager;
+
 		private MapRect _mapRect;
 
 		#endregion
@@ -74,7 +76,7 @@ namespace Ling.Map.Builder.Split.Half
 		{
 			// 分ける区画情報を取得
 			ref var parentRect = ref parentData.rect;
-			var data = Manager.Instance.Data;
+			var data = _manager.Data;
 
 			int pointA, pointB, distance, point;
 

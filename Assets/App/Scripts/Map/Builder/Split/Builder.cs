@@ -65,15 +65,9 @@ namespace Ling.Map.Builder.Split
 		protected override void ExecuteInternal()
 		{
 			// まずは区画を作る
-		}
-
-		/// <summary>
-		/// 分割していく
-		/// </summary>
-		private void SplitRect()
-		{
 			_splitter?.SplitRect(_mapRect);
 		}
+
 
 		#endregion
 

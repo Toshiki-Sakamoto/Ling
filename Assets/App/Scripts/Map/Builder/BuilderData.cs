@@ -17,9 +17,9 @@ using UnityEngine.UI;
 namespace Ling.Map.Builder
 {
 	/// <summary>
-	/// 
+	/// マップ作成時に必要となるデータ
 	/// </summary>
-    public class Data
+    public class BuilderData
     {
 		#region 定数, class, enum
 
@@ -33,7 +33,7 @@ namespace Ling.Map.Builder
 
 		#region private 変数
 
-		[SerializeField] private int _roomMinSize = 3;
+		private int _roomMinSize = 3;
 
 		#endregion
 
