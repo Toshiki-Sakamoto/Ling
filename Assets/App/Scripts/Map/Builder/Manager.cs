@@ -17,9 +17,26 @@ using UnityEngine.UI;
 namespace Ling.Map.Builder
 {
 	/// <summary>
+	/// ビルダーを管理するマネージャ
+	/// </summary>
+	public interface IManager
+	{
+		/// <summary>
+		/// ビルダー本体
+		/// </summary>
+		Base Builder { get; }
+
+		/// <summary>
+		/// ビルド時に使用するビルダデータ
+		/// </summary>
+		BuilderData Data { get; }
+	}
+
+
+	/// <summary>
 	/// ビルダーを管理する
 	/// </summary>
-	public class Manager : Utility.Singleton<Manager>
+	public class Manager : IManager
 	{
 		#region 定数, class, enum
 
@@ -33,7 +50,7 @@ namespace Ling.Map.Builder
 
 		#region private 変数
 
-		private Data _data = null;		// データ
+		private BuilderData _data = null;		// データ
 		private Base _builder = null;   // 現在のビルダー
 
 		#endregion
@@ -49,7 +66,7 @@ namespace Ling.Map.Builder
 		/// <summary>
 		/// ビルダー情報を返す
 		/// </summary>
-		public Data Data => _data;
+		public BuilderData Data => _data;
 
 		#endregion
 
@@ -61,7 +78,7 @@ namespace Ling.Map.Builder
 
 		#region public, protected 関数
 
-		public void SetData(Data data)
+		public void SetData(BuilderData data)
 		{
 			_data = data;
 			_builder?.SetData(data);
