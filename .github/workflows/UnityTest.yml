@@ -17,6 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           lfs: true
     
       # Cache
@@ -32,7 +33,7 @@ jobs:
           unityVersion: 2019.3.8f1
 
       # Output 
-      - uses: actions/upload-artifact@v1
-        with:
-          name: Build
-          path: build
+      #- uses: actions/upload-artifact@v1
+      #  with:
+      #    name: Build
+      #    path: build
