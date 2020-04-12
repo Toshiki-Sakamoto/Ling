@@ -31,7 +31,6 @@ jobs:
         uses: webbertakken/unity-test-runner@v1.4
         id: unity-test-runner
         with:
-          testMode: All
           unityVersion: 2019.3.8f1
           artifactsPath: all-artifacts
           
