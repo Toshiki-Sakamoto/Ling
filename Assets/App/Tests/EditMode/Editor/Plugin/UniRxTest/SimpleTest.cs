@@ -23,7 +23,7 @@ namespace Ling.Tests.Plugin.UniRxTest
 	/// <summary>
 	/// UniRxを使ってみる
 	/// 単純なテスト
-	/// </summary>
+	/// </summary> 
 	public class SimpleTest
     {
 		#region 定数, class, enum
