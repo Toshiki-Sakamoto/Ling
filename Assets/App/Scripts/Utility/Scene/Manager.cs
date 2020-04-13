@@ -6,6 +6,7 @@
 // 
 using System.Collections;
 using System.Collections.Generic;
+using UniRx.Async;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -60,7 +61,7 @@ namespace Ling.Utility.Scene
 
             _isStart = true;
 
-            StartCoroutine(StartSceneInternal(_nextSceneID));
+			StartSceneInternal(_nextSceneID);
         }
 
         #endregion
@@ -73,9 +74,11 @@ namespace Ling.Utility.Scene
         /// </summary>
         /// <returns>The start scene.</returns>
         /// <param name="nextSceneName">Next scene name.</param>
-        private IEnumerator StartSceneInternal(Common.Scene.ID sceneID)
+        private async void StartSceneInternal(Common.Scene.ID sceneID)
         {
-            yield return SceneManager.LoadSceneAsync(Common.Scene.GetNameByID(sceneID));
+			var request = SceneManager.LoadSceneAsync(Common.Scene.GetNameByID(sceneID));
+
+			await request;
 
             _isStart = false;
         }
