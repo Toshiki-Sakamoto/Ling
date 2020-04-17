@@ -63,13 +63,13 @@ namespace Ling.Adv.Window
         void Awake()
         {
             // テキストを追加
-            Ling.Utility.Event.SafeAdd<EventAddText>(this, 
+            Ling.Utility.EventManager.SafeAdd<EventAddText>(this, 
                 (ev_) => 
                 {
                     _txtMain.text += ev_.Text;
                 });
 
-            Ling.Utility.Event.SafeAdd<EventSetText>(this,
+            Ling.Utility.EventManager.SafeAdd<EventSetText>(this,
                 (ev_) =>
                 {
                     // 
@@ -80,14 +80,14 @@ namespace Ling.Adv.Window
 
                 });
 
-            Ling.Utility.Event.SafeAdd<EventNextText>(this,
+            Ling.Utility.EventManager.SafeAdd<EventNextText>(this,
                 (ev_) =>
                 {
                     _txtMain.SetLengthOfView(ev_.next);
                 });
 
             // Window削除
-            Ling.Utility.Event.SafeAdd<EventWindowClear>(this,
+            Ling.Utility.EventManager.SafeAdd<EventWindowClear>(this,
                 (ev_) =>
                 {
                     _txtMain.text = ""; 
@@ -113,7 +113,7 @@ namespace Ling.Adv.Window
         /// </summary>
         void OnDestoroy()
         {
-            Ling.Utility.Event.SafeAllRemove(this);
+            Ling.Utility.EventManager.SafeAllRemove(this);
         }
 
         #endregion

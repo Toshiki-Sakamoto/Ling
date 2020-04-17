@@ -107,14 +107,14 @@ namespace Ling.Adv
 
 
             // Window開く
-            Utility.Event.SafeAdd<Window.EventWindowOpen>(this,
+            Utility.EventManager.SafeAdd<Window.EventWindowOpen>(this,
                 (obj_) =>
                 {
                     _view.Show();
                 });
 
             // 閉じる
-            Utility.Event.SafeAdd<Window.EventHide>(this,
+            Utility.EventManager.SafeAdd<Window.EventHide>(this,
                 (ev_) =>
                 {
                     _view.Hide(ev_);

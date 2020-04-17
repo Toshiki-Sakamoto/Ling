@@ -134,7 +134,7 @@ namespace Ling.Adv.Engine
         {
             gameObject.SetActive(true);
 
-            Utility.Event.SafeTrigger(new EventStart());
+            Utility.EventManager.SafeTrigger(new EventStart());
 
             // 処理を開始する
             if (Cmd.Command.Count == 0)
@@ -161,7 +161,7 @@ namespace Ling.Adv.Engine
 
             StopAllCoroutines();
 
-            Utility.Event.SafeTrigger(new EventStop());
+            Utility.EventManager.SafeTrigger(new EventStop());
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Ling.Adv.Engine
 
 
             // 画面がタップされた
-            Utility.Event.SafeAdd<Window.EventWindowTap>(this,
+            Utility.EventManager.SafeAdd<Window.EventWindowTap>(this,
                 (ev_) => 
                 {
                     IsTap = true;

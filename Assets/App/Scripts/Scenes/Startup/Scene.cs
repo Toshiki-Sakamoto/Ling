@@ -15,15 +15,9 @@ namespace Ling.Startup
     /// <summary>
     /// 
     /// </summary>
-    public class Scene : MonoBehaviour 
-    {
+    public class Scene : Common.Scene.Base
+	{
         #region 定数, class, enum
-
-        private enum State
-        {
-            Start,
-            Main, 
-        }
 
         #endregion
 
@@ -36,8 +30,6 @@ namespace Ling.Startup
         #region private 変数
 
         [SerializeField] private View _view = null;
-
-        private Utility.Phase<State> _phase = null;
 
         #endregion
 
@@ -54,22 +46,6 @@ namespace Ling.Startup
 
         #region private 関数
 
-        /// <summary>
-        /// 開始処理
-        /// </summary>
-        private void StateStartInit()
-        { 
-        }
-
-        private void StateStartProc()
-        {
-            _phase.Set(State.Main);
-        }
-
-        private void StateStartTerm()
-        { 
-        }
-
 
         /// <summary>
         /// 更新処理
@@ -79,7 +55,7 @@ namespace Ling.Startup
             _view.ActOnClick = 
                 () =>
                 {
-                    Utility.Scene.Manager.Instance.Change(Common.Scene.ID.Battle);   
+                    Common.Scene.Manager.Instance.Change(Common.Scene.SceneID.Battle);   
                 };
         }
 
@@ -101,7 +77,8 @@ namespace Ling.Startup
         /// </summary>
         void Awake()
         {
-            _phase = Utility.Phase<State>.Create(this, State.Start);
+			// Scene.Managerに登録をする
+			Common.Scene.Manager.Instance.StartScene(this);
         }
 
         /// <summary>
@@ -116,7 +93,6 @@ namespace Ling.Startup
         /// </summary>
         void Update()
         {
-            _phase.Update();
         }
 
         /// <summary>
