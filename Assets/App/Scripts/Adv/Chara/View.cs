@@ -83,7 +83,7 @@ namespace Ling.Adv.Chara
         public void Setup()
         {
             // キャラクタを表示する
-            Utility.Event.SafeAdd<Chara.EventCharaShow>(this,
+            Utility.EventManager.SafeAdd<Chara.EventCharaShow>(this,
                 (ev_) =>
                 {
                     // 表示する
@@ -100,7 +100,7 @@ namespace Ling.Adv.Chara
                     }
                 });
 
-            Utility.Event.SafeAdd<Chara.EventCharaHide>(this,
+            Utility.EventManager.SafeAdd<Chara.EventCharaHide>(this,
                 (ev_) =>
                 {
                     // 非表示にする
@@ -185,7 +185,7 @@ namespace Ling.Adv.Chara
         /// </summary>
         void OnDestoroy()
         {
-            Ling.Utility.Event.SafeAllRemove(this);
+            Ling.Utility.EventManager.SafeAllRemove(this);
         }
 
         #endregion

@@ -65,7 +65,7 @@ namespace Ling.Adv
             _chara.Setup();
 
             // 選択肢を出す
-            Utility.Event.SafeAdd<Select.EventSelect>(this, 
+            Utility.EventManager.SafeAdd<Select.EventSelect>(this, 
                 (ev_) => 
                 {
                     _select.Show(ev_.SelectList);
@@ -73,7 +73,7 @@ namespace Ling.Adv
                 });
 
             // 選択肢が選ばれた
-            Utility.Event.SafeAdd<Select.EventSelected>(this,
+            Utility.EventManager.SafeAdd<Select.EventSelected>(this,
                 (ev_) => 
                 {
                     _select.Hide();
@@ -137,7 +137,7 @@ namespace Ling.Adv
         /// </summary>
         void OnDestoroy()
         {
-            Utility.Event.SafeAllRemove(this);
+            Utility.EventManager.SafeAllRemove(this);
         }
 
         #endregion

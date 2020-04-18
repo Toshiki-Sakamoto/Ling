@@ -50,14 +50,14 @@ namespace Ling.Adv.Window
 
 
             // Window消す
-            Ling.Utility.Event.SafeAdd<EventNameWindowHide>(this, 
+            Ling.Utility.EventManager.SafeAdd<EventNameWindowHide>(this, 
                 (ev_) => 
                 {
                     gameObject.SetActive(false);
                 });
 
             // 名前を設定する
-            Ling.Utility.Event.SafeAdd<EventNameSet>(this, 
+            Ling.Utility.EventManager.SafeAdd<EventNameSet>(this, 
                 (ev_) => 
                 {
                     gameObject.SetActive(true);
@@ -102,7 +102,7 @@ namespace Ling.Adv.Window
         /// </summary>
         void OnDestoroy()
         {
-            Ling.Utility.Event.SafeAllRemove(this);
+            Ling.Utility.EventManager.SafeAllRemove(this);
         }
 
         #endregion

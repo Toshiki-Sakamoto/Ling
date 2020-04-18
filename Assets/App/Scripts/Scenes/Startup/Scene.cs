@@ -15,15 +15,9 @@ namespace Ling.Startup
     /// <summary>
     /// 
     /// </summary>
-    public class Scene : MonoBehaviour 
-    {
+    public class Scene : Common.Scene.Base
+	{
         #region 定数, class, enum
-
-        private enum State
-        {
-            Start,
-            Main, 
-        }
 
         #endregion
 
@@ -34,10 +28,6 @@ namespace Ling.Startup
 
 
         #region private 変数
-
-        [SerializeField] private View _view = null;
-
-        private Utility.Phase<State> _phase = null;
 
         #endregion
 
@@ -54,42 +44,6 @@ namespace Ling.Startup
 
         #region private 関数
 
-        /// <summary>
-        /// 開始処理
-        /// </summary>
-        private void StateStartInit()
-        { 
-        }
-
-        private void StateStartProc()
-        {
-            _phase.Set(State.Main);
-        }
-
-        private void StateStartTerm()
-        { 
-        }
-
-
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        private void StateMainInit()
-        {
-            _view.ActOnClick = 
-                () =>
-                {
-                    Utility.Scene.Manager.Instance.Change("Main");   
-                };
-        }
-
-        private void StateMainProc()
-        {
-        }
-
-        private void StateMainTerm()
-        { 
-        }
 
         #endregion
 
@@ -100,23 +54,23 @@ namespace Ling.Startup
         /// 初期処理
         /// </summary>
         void Awake()
-        {
-            _phase = Utility.Phase<State>.Create(this, State.Start);
-        }
+		{
+			// 最初に遷移するSceneを選ぶ
+			_sceneManager.StartScene(this, Common.Scene.SceneID.Title);
+		}
 
         /// <summary>
         /// 更新前処理
         /// </summary>
         void Start()
-        {
-        }
+		{
+		}
 
         /// <summary>
         /// 更新処理
         /// </summary>
         void Update()
         {
-            _phase.Update();
         }
 
         /// <summary>

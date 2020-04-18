@@ -1,8 +1,8 @@
 ﻿//
-// Builder.cs
+// Argument.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2019.12.22
+// Created by toshiki sakamoto on 2020.04.16
 //
 
 using System;
@@ -14,13 +14,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Builder.Split
+namespace Ling.Common.Scene
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class Builder : Base
-	{
+	public class Argument
+    {
 		#region 定数, class, enum
 
 		#endregion
@@ -28,13 +28,15 @@ namespace Ling.Map.Builder.Split
 
 		#region public, protected 変数
 
+		/// <summary>
+		/// シーンスタックをクリアする`
+		/// </summary>
+		public bool IsStackClear { get; set; }
+
 		#endregion
 
 
 		#region private 変数
-
-		private ISplitter _splitter = null;     // 部屋の分割担当
-		private MapRect _mapRect = null;		// 区画情報
 
 		#endregion
 
@@ -46,28 +48,13 @@ namespace Ling.Map.Builder.Split
 
 		#region コンストラクタ, デストラクタ
 
-		public Builder(ISplitter splitter)
-		{
-			_splitter = splitter;
-
-			_mapRect = new MapRect();
-		}
-
-
 		#endregion
 
 
 		#region public, protected 関数
 
-		/// <summary>
-		/// 処理を実行する
-		/// </summary>
-		protected override void ExecuteInternal()
-		{
-			// まずは区画を作る
-			_splitter?.SplitRect(_mapRect);
-		}
-
+		public static Argument Create() =>
+			new Argument();
 
 		#endregion
 

@@ -1,8 +1,8 @@
 ﻿//
-// Builder.cs
+// Const.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2019.12.22
+// Created by toshiki sakamoto on 2019.12.31
 //
 
 using System;
@@ -19,9 +19,11 @@ namespace Ling.Map.Builder.Split
 	/// <summary>
 	/// 
 	/// </summary>
-	public class Builder : Base
-	{
+	public class Const
+    {
 		#region 定数, class, enum
+
+		public const int MaxRectNum = 20;	// 最大の区画数
 
 		#endregion
 
@@ -33,9 +35,6 @@ namespace Ling.Map.Builder.Split
 
 		#region private 変数
 
-		private ISplitter _splitter = null;     // 部屋の分割担当
-		private MapRect _mapRect = null;		// 区画情報
-
 		#endregion
 
 
@@ -46,28 +45,10 @@ namespace Ling.Map.Builder.Split
 
 		#region コンストラクタ, デストラクタ
 
-		public Builder(ISplitter splitter)
-		{
-			_splitter = splitter;
-
-			_mapRect = new MapRect();
-		}
-
-
 		#endregion
 
 
 		#region public, protected 関数
-
-		/// <summary>
-		/// 処理を実行する
-		/// </summary>
-		protected override void ExecuteInternal()
-		{
-			// まずは区画を作る
-			_splitter?.SplitRect(_mapRect);
-		}
-
 
 		#endregion
 

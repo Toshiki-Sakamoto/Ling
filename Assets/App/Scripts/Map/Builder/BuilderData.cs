@@ -1,8 +1,8 @@
 ﻿//
-// Builder.cs
+// Data.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2019.12.22
+// Created by toshiki sakamoto on 2019.12.23
 //
 
 using System;
@@ -14,13 +14,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Builder.Split
+namespace Ling.Map.Builder
 {
 	/// <summary>
-	/// 
+	/// マップ作成時に必要となるデータ
 	/// </summary>
-	public class Builder : Base
-	{
+    public class BuilderData
+    {
 		#region 定数, class, enum
 
 		#endregion
@@ -33,8 +33,7 @@ namespace Ling.Map.Builder.Split
 
 		#region private 変数
 
-		private ISplitter _splitter = null;     // 部屋の分割担当
-		private MapRect _mapRect = null;		// 区画情報
+		private int _roomMinSize = 3;
 
 		#endregion
 
@@ -46,28 +45,15 @@ namespace Ling.Map.Builder.Split
 
 		#region コンストラクタ, デストラクタ
 
-		public Builder(ISplitter splitter)
-		{
-			_splitter = splitter;
-
-			_mapRect = new MapRect();
-		}
-
-
 		#endregion
 
 
 		#region public, protected 関数
 
 		/// <summary>
-		/// 処理を実行する
+		/// 部屋の最小サイズ
 		/// </summary>
-		protected override void ExecuteInternal()
-		{
-			// まずは区画を作る
-			_splitter?.SplitRect(_mapRect);
-		}
-
+		public int RoomMinSize => _roomMinSize;
 
 		#endregion
 
