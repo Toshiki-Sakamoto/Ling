@@ -41,7 +41,7 @@ namespace Ling.Utility
 	}
 
 
-	[DefaultExecutionOrder(-50)]    // 実行速度を早くする
+	[DefaultExecutionOrder(Common.ExcutionOrders.EventManager)]
 	public class EventManager : MonoBehaviour, IEventManager
 	{
 		public interface IEventListener

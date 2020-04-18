@@ -15,7 +15,7 @@ namespace Ling.Scenes.Battle
 	/// <summary>
 	/// 
 	/// </summary>
-	public class Scene : MonoBehaviour 
+	public class Scene : Common.Scene.Base 
     {
 		#region 定数, class, enum
 

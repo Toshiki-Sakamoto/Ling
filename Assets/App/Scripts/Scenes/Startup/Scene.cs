@@ -29,8 +29,6 @@ namespace Ling.Startup
 
         #region private 変数
 
-        [SerializeField] private View _view = null;
-
         #endregion
 
 
@@ -47,26 +45,6 @@ namespace Ling.Startup
         #region private 関数
 
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        private void StateMainInit()
-        {
-            _view.ActOnClick = 
-                () =>
-                {
-                    Common.Scene.Manager.Instance.Change(Common.Scene.SceneID.Battle);   
-                };
-        }
-
-        private void StateMainProc()
-        {
-        }
-
-        private void StateMainTerm()
-        { 
-        }
-
         #endregion
 
 
@@ -76,17 +54,17 @@ namespace Ling.Startup
         /// 初期処理
         /// </summary>
         void Awake()
-        {
-			// Scene.Managerに登録をする
-			Common.Scene.Manager.Instance.StartScene(this);
-        }
+		{
+			// 最初に遷移するSceneを選ぶ
+			_sceneManager.StartScene(this, Common.Scene.SceneID.Title);
+		}
 
         /// <summary>
         /// 更新前処理
         /// </summary>
         void Start()
-        {
-        }
+		{
+		}
 
         /// <summary>
         /// 更新処理

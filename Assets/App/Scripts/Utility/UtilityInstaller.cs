@@ -10,8 +10,8 @@ namespace Ling.Utility
 			Container
 				.Bind<IEventManager>()
 				.To<EventManager>()
+				.FromComponentInHierarchy()
 				.AsSingle();
-	
 		}
 	}
 }

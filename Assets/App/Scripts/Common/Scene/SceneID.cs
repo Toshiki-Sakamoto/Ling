@@ -19,7 +19,10 @@ namespace Ling.Common.Scene
 	public enum SceneID
 	{
 		None,
-		StartUp, Main, Battle
+		StartUp, 
+		Title,
+		Main, 
+		Battle
 	}
 
 	/// <summary>
@@ -31,6 +34,7 @@ namespace Ling.Common.Scene
 			new Dictionary<SceneID, string> 
 				{
 					[SceneID.StartUp] = "StartUp",
+					[SceneID.Title] = "Title",
 					[SceneID.Main] = "Main",
 					[SceneID.Battle] = "Battle",
 				};

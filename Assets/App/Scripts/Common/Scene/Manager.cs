@@ -18,15 +18,18 @@ namespace Ling.Common.Scene
 {
 	public interface IManager
 	{
-		void StartScene(Base initScene);
+		void StartScene(Base instance, SceneID sceneID);
 
-		void Change(SceneID sceneID, Argument argument);
+		void ChangeScene(SceneID sceneID, Argument argument);
+
+		void AddScene(SceneID sceneID, Argument argument);
 	}
 
 
 	/// <summary>
 	/// 
 	/// </summary>
+	[DefaultExecutionOrder(Common.ExcutionOrders.SceneManager)]
 	public class Manager : MonoBehaviour, IManager
 	{
 		#region 定数, class, enum
@@ -65,15 +68,11 @@ namespace Ling.Common.Scene
 		/// まず初回に起動するシーンはここを呼び出す
 		/// </summary>
 		/// <param name="sceneID"></param>
-		public void StartScene(Base initScene)
+		public void StartScene(Base instance, SceneID sceneID)
 		{
-			if (initScene == null)
-			{
-				throw new System.NullReferenceException("初回シーンがNull");
-			}
+			_sceneInstance = instance;
 
-			_sceneInstance = initScene;
-			_sceneInstance.transform.SetParent(_sceneRoot);
+			ChangeScene(sceneID, Argument.Create());
 		}
 
 		/// <summary>
@@ -81,7 +80,7 @@ namespace Ling.Common.Scene
 		/// </summary>
 		/// <param name="sceneID"></param>
 		/// <param name="arg"></param>
-		public void Change(SceneID sceneID, Argument argument)
+		public void ChangeScene(SceneID sceneID, Argument argument = null)
 		{
 			SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Single).Forget();
 		}
@@ -91,7 +90,7 @@ namespace Ling.Common.Scene
 		/// </summary>
 		/// <param name="scene"></param>
 		/// <param name="argument"></param>
-		public void AddScene(SceneID sceneID, Argument argument)
+		public void AddScene(SceneID sceneID, Argument argument = null)
 		{
 			SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Additive).Forget();
 		}
@@ -104,6 +103,12 @@ namespace Ling.Common.Scene
 		private async UniTask SceneChangeInternalAsync(SceneID sceneID, Argument argument, LoadSceneMode mode)
 		{
 			_nextSceneID = sceneID;
+
+			// デフォルト生成
+			if (argument == null)
+			{
+				argument = Argument.Create();
+			}
 
 			// 遷移前処理
 			await _sceneInstance.SceneStopAsync(argument);
@@ -145,7 +150,7 @@ namespace Ling.Common.Scene
 					// 準備が整うまで非アクティブ
 					scene.gameObject.SetActive(false);
 
-					return scene.ScenePrepareAsync().Do(_ =>
+					return scene.ScenePrepareAsync().Do(unit_ =>
 						{
 							// 事前準備が終わったのでここで始める`
 							scene.gameObject.SetActive(true);

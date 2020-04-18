@@ -38,6 +38,10 @@ namespace Ling.Common.Scene
 
 		#region プロパティ
 
+		public SceneID SceneID { get; set; }
+
+		public Argument Argument { get; set; }
+
 		#endregion
 
 

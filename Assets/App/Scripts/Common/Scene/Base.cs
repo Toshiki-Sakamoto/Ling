@@ -13,7 +13,7 @@ using System.Text;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Zenject;
 
 namespace Ling.Common.Scene
 {
@@ -34,7 +34,8 @@ namespace Ling.Common.Scene
 
 		#region private 変数
 
-		[Zenject.Inject] private Common.Scene.Manager _sceneManager = null;
+		[Inject] protected Common.Scene.IManager _sceneManager = null;
+		[Inject] protected Utility.IEventManager _eventManager = null;
 
 		#endregion
 
