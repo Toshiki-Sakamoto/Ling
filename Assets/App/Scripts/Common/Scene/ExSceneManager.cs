@@ -114,6 +114,8 @@ namespace Ling.Common.Scene
 				_sceneInstance.StopScene();
 
 				await _sceneInstance.SceneStopAsync(argument);
+
+				GameObject.Destroy(_sceneInstance.gameObject);
 			}
 
 			var sceneData = new SceneData() { SceneID = sceneID, Argument = argument };
@@ -169,6 +171,8 @@ namespace Ling.Common.Scene
 
 					return scene.ScenePrepareAsync().Do(unit_ =>
 						{
+							_sceneInstance = scene;
+
 							// 事前準備が終わったのでここで始める`
 							scene.gameObject.SetActive(true);
 
