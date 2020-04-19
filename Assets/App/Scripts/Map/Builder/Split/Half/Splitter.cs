@@ -21,13 +21,19 @@ namespace Ling.Map.Builder.Split.Half
 	/// 半分の半分の半分.. と矩形を分割していく
 	/// </summary>
 	public class Splitter : ISplitter
-    {
+	{
 		#region 定数, class, enum
+
+		/// <summary>
+		/// Zenject Factory
+		/// </summary>
+		public class Factory : PlaceholderFactory<Splitter> { }
 
 		#endregion
 
 
 		#region public, protected 変数
+
 
 		#endregion
 
@@ -60,7 +66,7 @@ namespace Ling.Map.Builder.Split.Half
 		{
 			_mapRect = mapRect;
 
-			SplitRect(ref _mapRect.LatestData, isVertical: true);
+			SplitRect(ref _mapRect[0], isVertical: true);
 		}
 
 		#endregion

@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 
 namespace Ling.Map.Builder.Split
@@ -19,9 +20,14 @@ namespace Ling.Map.Builder.Split
 	/// <summary>
 	/// 
 	/// </summary>
-	public class Builder : Base
+	public class Builder<TSplitter> : BuilderBase 
+		where TSplitter : ISplitter, new()
 	{
 		#region 定数, class, enum
+
+		public class Factory : PlaceholderFactory<IBuilder>
+		{ 
+		}
 
 		#endregion
 
@@ -34,7 +40,7 @@ namespace Ling.Map.Builder.Split
 		#region private 変数
 
 		private ISplitter _splitter = null;     // 部屋の分割担当
-		private MapRect _mapRect = null;		// 区画情報
+		private MapRect _mapRect = null;        // 区画情報
 
 		#endregion
 
@@ -45,6 +51,11 @@ namespace Ling.Map.Builder.Split
 
 
 		#region コンストラクタ, デストラクタ
+
+		public Builder()
+			: this(new TSplitter())
+		{
+		}
 
 		public Builder(ISplitter splitter)
 		{
