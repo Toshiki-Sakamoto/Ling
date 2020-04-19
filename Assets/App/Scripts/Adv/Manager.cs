@@ -94,8 +94,6 @@ namespace Ling.Adv
 
             Instance = this;
 
-            DontDestroyOnLoad(gameObject);
-
             // Event管理者
             EventManager.Instance.Setup();
 
