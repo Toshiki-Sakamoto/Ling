@@ -9,8 +9,8 @@ namespace Ling.Common
 		public override void InstallBindings()
 		{
 			Container
-				.Bind<Scene.IManager>()
-				.To<Scene.Manager>()
+				.Bind<Scene.IExSceneManager>()
+				.To<Scene.ExSceneManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
 		}

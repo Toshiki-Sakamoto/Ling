@@ -317,8 +317,6 @@ namespace Ling.Utility
 
 				Instance = this;
 			}
-
-			DontDestroyOnLoad(this);
 		}
 
 		private void OnDestroy()
