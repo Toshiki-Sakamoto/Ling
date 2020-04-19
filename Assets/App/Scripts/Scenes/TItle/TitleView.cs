@@ -1,21 +1,23 @@
 ﻿// 
-// Scene.cs  
+// View.cs  
 // ProductName Ling
 //  
-// Created by toshiki sakamoto on 2020.04.13
+// Created by toshiki sakamoto on 2020.04.18
 // 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
+using Zenject;
+using System;
 
-
-namespace Ling.Scenes.Battle
+namespace Ling.Scenes.TItle
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class Scene : Common.Scene.Base 
+	public class TitleView : MonoBehaviour 
     {
 		#region 定数, class, enum
 
@@ -29,10 +31,14 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
+		[SerializeField] private Button _buttonStart = null;
+
 		#endregion
 
 
 		#region プロパティ
+
+		public System.Action OnClickGotoBattle { get; set; }
 
 		#endregion
 
@@ -54,6 +60,7 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		void Awake()
 		{
+			_buttonStart.OnClickAsObservable().Subscribe(_ => OnClickGotoBattle?.Invoke());
 		}
 
 		/// <summary>

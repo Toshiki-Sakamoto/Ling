@@ -34,7 +34,7 @@ namespace Ling.Common.Scene
 
 		#region private 変数
 
-		[Inject] protected Common.Scene.IManager _sceneManager = null;
+		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 		[Inject] protected Utility.IEventManager _eventManager = null;
 
 		#endregion
@@ -45,7 +45,7 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// シーン遷移時に渡される引数
 		/// </summary>
-		public Argument Argumect { get; set; }
+		public Argument Argument { get; set; }
 
 		#endregion
 
@@ -61,19 +61,25 @@ namespace Ling.Common.Scene
 		/// 遷移後まずは呼び出される
 		/// </summary>
 		/// <returns></returns>
-		public virtual IObservable<Unit> ScenePrepareAsync()
-		{
-			return Observable.Return(Unit.Default);
-		}
+		public virtual IObservable<Unit> ScenePrepareAsync() =>
+			Observable.Return(Unit.Default);
+
+		/// <summary>
+		/// シーンが開始される時
+		/// </summary>
+		public virtual void StartScene() { }
+
+		/// <summary>
+		/// シーン終了時
+		/// </summary>
+		public virtual void StopScene() { }
 
 		/// <summary>
 		/// シーン遷移前に呼び出される
 		/// </summary>
 		/// <returns></returns>
-		public virtual IObservable<Unit> SceneStopAsync(Argument nextArgument)
-		{
-			return Observable.Return(Unit.Default);
-		}
+		public virtual IObservable<Unit> SceneStopAsync(Argument nextArgument) =>
+			Observable.Return(Unit.Default);
 
 		#endregion
 

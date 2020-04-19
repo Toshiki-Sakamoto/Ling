@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 
 namespace Ling.Map.Builder.Split.Half
@@ -33,7 +34,7 @@ namespace Ling.Map.Builder.Split.Half
 
 		#region private 変数
 
-		[Zenject.Inject] private IManager _manager;
+		[Inject] private IManager _manager = null;
 
 		private MapRect _mapRect;
 

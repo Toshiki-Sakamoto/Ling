@@ -16,13 +16,13 @@ using UnityEngine.UI;
 
 namespace Ling.Common.Scene
 {
-	public interface IManager
+	public interface IExSceneManager
 	{
-		void StartScene(Base instance, SceneID sceneID);
+		void StartScene(SceneID sceneID);
 
-		void ChangeScene(SceneID sceneID, Argument argument);
+		void ChangeScene(SceneID sceneID, Argument argument = null);
 
-		void AddScene(SceneID sceneID, Argument argument);
+		void AddScene(SceneID sceneID, Argument argument = null);
 	}
 
 
@@ -30,7 +30,7 @@ namespace Ling.Common.Scene
 	/// 
 	/// </summary>
 	[DefaultExecutionOrder(Common.ExcutionOrders.SceneManager)]
-	public class Manager : MonoBehaviour, IManager
+	public class ExSceneManager : MonoBehaviour, IExSceneManager
 	{
 		#region 定数, class, enum
 
@@ -39,7 +39,7 @@ namespace Ling.Common.Scene
 
 		#region public 変数
 
-		public static Manager Instance { get; private set; }
+		public static ExSceneManager Instance { get; private set; }
 
 		#endregion
 
@@ -68,10 +68,8 @@ namespace Ling.Common.Scene
 		/// まず初回に起動するシーンはここを呼び出す
 		/// </summary>
 		/// <param name="sceneID"></param>
-		public void StartScene(Base instance, SceneID sceneID)
+		public void StartScene(SceneID sceneID)
 		{
-			_sceneInstance = instance;
-
 			ChangeScene(sceneID, Argument.Create());
 		}
 
@@ -111,7 +109,12 @@ namespace Ling.Common.Scene
 			}
 
 			// 遷移前処理
-			await _sceneInstance.SceneStopAsync(argument);
+			if (_sceneInstance != null)
+			{
+				_sceneInstance.StopScene();
+
+				await _sceneInstance.SceneStopAsync(argument);
+			}
 
 			var sceneData = new SceneData() { SceneID = sceneID, Argument = argument };
 
@@ -121,6 +124,13 @@ namespace Ling.Common.Scene
 			}
 			else
 			{
+				for (int i = 1; i < SceneManager.sceneCount; ++i)
+				{
+					var scene = SceneManager.GetSceneAt(i);
+
+					await SceneManager.UnloadSceneAsync(scene);
+				}
+
 				// AddSceneすべて削除
 				_addSceneData.Clear();
 
@@ -134,7 +144,7 @@ namespace Ling.Common.Scene
 			}
 
 			// シーン遷移処理
-			await LoadSceneAsync(sceneID.GetName(), argument, mode);
+			await LoadSceneAsync(sceneID.GetName(), argument, LoadSceneMode.Additive);
 		}
 
 
@@ -145,7 +155,14 @@ namespace Ling.Common.Scene
 				.SelectMany(_ =>
 				{
 					var scene = GameObject.FindObjectOfType<Base>();
-					scene.Argumect = argument;
+					if (scene == null)
+					{
+						Utility.Log.Error($"Scene.Base クラスが見つかりません {typeof(Base).ToString()}");
+						return Observable.Return(Unit.Default);
+					}
+
+					scene.transform.SetParent(_sceneRoot);
+					scene.Argument = argument;
 
 					// 準備が整うまで非アクティブ
 					scene.gameObject.SetActive(false);
@@ -154,6 +171,8 @@ namespace Ling.Common.Scene
 						{
 							// 事前準備が終わったのでここで始める`
 							scene.gameObject.SetActive(true);
+
+							scene.StartScene();
 						});
 				});
 		}
@@ -182,7 +201,6 @@ namespace Ling.Common.Scene
 			}
 
 			Instance = this;
-			DontDestroyOnLoad(gameObject);
 
 			// 起動時rootがNullの場合は自分につく
 			if (_sceneRoot == null)

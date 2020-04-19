@@ -1,5 +1,5 @@
 ﻿// 
-// View.cs  
+// Scene.cs  
 // ProductName Ling
 //  
 // Created by toshiki sakamoto on 2020.04.13
@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 
 namespace Ling.Scenes.Battle
@@ -15,7 +16,7 @@ namespace Ling.Scenes.Battle
 	/// <summary>
 	/// 
 	/// </summary>
-	public class View : MonoBehaviour 
+	public class BattleScene : Common.Scene.Base 
     {
 		#region 定数, class, enum
 
@@ -44,6 +45,8 @@ namespace Ling.Scenes.Battle
 
 		#region private 関数
 
+		[Inject] private Map.Builder.Manager _builderManager = null;
+
 		#endregion
 
 
@@ -54,6 +57,8 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		void Awake()
 		{
+			int i = 0;
+			i = i;
 		}
 
 		/// <summary>
