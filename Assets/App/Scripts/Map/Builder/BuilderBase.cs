@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -126,13 +127,12 @@ namespace Ling.Map.Builder
 			ExecuteInternal();
         }
 
+		#endregion
 
-        #endregion
 
+		#region private 関数
 
-        #region private 関数
-
-        protected abstract void ExecuteInternal();
+		protected abstract UniTask ExecuteInternal();
 
         #endregion
     }

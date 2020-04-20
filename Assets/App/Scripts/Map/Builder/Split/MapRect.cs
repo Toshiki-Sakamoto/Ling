@@ -26,7 +26,7 @@ namespace Ling.Map.Builder.Split
 		/// <summary>
 		/// 区画情報
 		/// </summary>
-		public struct Data
+		public class Data
 		{
 			public RectInt rect;   // 区画範囲
 			public RectInt room;   // 部屋範囲

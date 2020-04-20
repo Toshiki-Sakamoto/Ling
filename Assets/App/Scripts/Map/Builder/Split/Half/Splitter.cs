@@ -13,7 +13,8 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
-
+using UniRx;
+using UniRx.Async;
 
 namespace Ling.Map.Builder.Split.Half
 {
@@ -62,11 +63,14 @@ namespace Ling.Map.Builder.Split.Half
 		/// <summary>
 		/// 矩形を分割するとき呼び出される
 		/// </summary>
-		public void SplitRect(MapRect mapRect)
+		public IEnumerator SplitRect(MapRect mapRect)
 		{
-			_mapRect = mapRect;
+			var enumerator = SplitRect(_mapRect[0], isVertical: true);
 
-			SplitRect(ref _mapRect[0], isVertical: true);
+			while (enumerator.MoveNext())
+			{
+				yield return null;
+			}
 		}
 
 		#endregion
@@ -79,10 +83,10 @@ namespace Ling.Map.Builder.Split.Half
 		/// </summary>
 		/// <param name="parentData"></param>
 		/// <param name="isVertical"></param>
-		private void SplitRect(ref MapRect.Data parentData, bool isVertical)
+		private IEnumerator SplitRect(MapRect.Data parentData, bool isVertical)
 		{
 			// 分ける区画情報を取得
-			ref var parentRect = ref parentData.rect;
+			var parentRect = parentData.rect;
 			var data = _manager.Data;
 
 			int pointA, pointB, distance, point;
@@ -94,7 +98,7 @@ namespace Ling.Map.Builder.Split.Half
 
 				if (parentRect.height < (data.RoomMinSize + 3) * 2 + 1)
 				{
-					return;
+					yield break;
 				}
 
 				// 上部のA点を求める
@@ -123,7 +127,7 @@ namespace Ling.Map.Builder.Split.Half
 				if (parentRect.width < (data.RoomMinSize + 3) * 2 + 1)
 				{
 					// 分割できるほど広くないので終了
-					return;
+					yield break;
 				}
 
 				// 左端のA点を求める
@@ -145,14 +149,16 @@ namespace Ling.Map.Builder.Split.Half
 				parentRect.width = childRect.rect.x;
 			}
 
+			yield return null;
+
 			// 最新のRectを返すか一個前のRectを返すかをランダムで決める
 			if (UnityEngine.Random.Range(0, 2) == 1)
 			{
-				SplitRect(ref _mapRect.LatestData, isVertical: !isVertical);
+				SplitRect(_mapRect.LatestData, isVertical: !isVertical);
 			}
 			else
 			{
-				SplitRect(ref parentData, isVertical: !isVertical);
+				SplitRect(parentData, isVertical: !isVertical);
 			}
 		}
 

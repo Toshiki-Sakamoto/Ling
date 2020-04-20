@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,7 @@ namespace Ling.Map.Builder.Split
 		/// <summary>
 		/// 矩形を分割するとき呼び出される
 		/// </summary>
-        void SplitRect(MapRect mapRect);
-    }
+		IEnumerator SplitRect(MapRect mapRect);
+
+	}
 }

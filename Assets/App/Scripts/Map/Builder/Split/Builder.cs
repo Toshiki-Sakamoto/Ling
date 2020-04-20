@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -74,7 +75,7 @@ namespace Ling.Map.Builder.Split
 		/// <summary>
 		/// 処理を実行する
 		/// </summary>
-		protected override void ExecuteInternal()
+		protected override UniTask ExecuteInternal()
 		{
 			_splitter = _splitFactory.Create();
 
