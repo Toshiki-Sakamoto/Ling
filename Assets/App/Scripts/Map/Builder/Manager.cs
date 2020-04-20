@@ -12,26 +12,19 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 
 namespace Ling.Map.Builder
 {
-	/// <summary>
-	/// ビルダーを管理するマネージャ
-	/// </summary>
 	public interface IManager
 	{
-		/// <summary>
-		/// ビルダー本体
-		/// </summary>
-		Base Builder { get; }
-
-		/// <summary>
-		/// ビルド時に使用するビルダデータ
-		/// </summary>
+		IBuilder Builder { get; }
 		BuilderData Data { get; }
-	}
 
+		void SetData(BuilderData data);
+		void SetBuilder(IBuilder builder);
+	}
 
 	/// <summary>
 	/// ビルダーを管理する
@@ -51,7 +44,7 @@ namespace Ling.Map.Builder
 		#region private 変数
 
 		private BuilderData _data = null;		// データ
-		private Base _builder = null;   // 現在のビルダー
+		private IBuilder _builder = null;   // 現在のビルダー
 
 		#endregion
 
@@ -61,7 +54,7 @@ namespace Ling.Map.Builder
 		/// <summary>
 		/// ビルダー本体を返す
 		/// </summary>
-		public Base Builder => _builder;
+		public IBuilder Builder => _builder;
 
 		/// <summary>
 		/// ビルダー情報を返す
@@ -84,12 +77,11 @@ namespace Ling.Map.Builder
 			_builder?.SetData(data);
 		}
 
-		public void SetBuilder(Base builder)
+		public void SetBuilder(IBuilder builder)
 		{
 			_builder = builder;
 			_builder?.SetData(_data);
 		}
-
 		#endregion
 
 

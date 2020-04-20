@@ -7,9 +7,6 @@ namespace Ling.Map
 	{
 		public override void InstallBindings()
 		{
-			Container
-				.Bind<Builder.Manager>()
-				.AsSingle();
 		}
 	}
 }

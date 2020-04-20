@@ -11,6 +11,14 @@ namespace Ling.Map.Builder
 				.Bind<IManager>()
 				.To<Manager>()
 				.AsSingle();
+
+
+			Container
+				.BindFactory<Split.Builder, Split.Builder.Factory>();
+
+			Container
+				.BindFactory<Const.BuilderType, IBuilder, BuilderFactory>()
+				.FromFactory<CustomBuilderFactory>();
 		}
 	}
 }

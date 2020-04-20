@@ -37,6 +37,16 @@ namespace Ling.Map.Builder
 			StepDown	= 1 << 3,   // 下り階段
 		}
 
+		/// <summary>
+		/// ビルダーの種類
+		/// </summary>
+		public enum BuilderType
+		{ 
+			None	= 0,
+
+			Split,
+		}
+
         #endregion
 
 

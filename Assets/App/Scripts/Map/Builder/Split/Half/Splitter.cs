@@ -21,13 +21,19 @@ namespace Ling.Map.Builder.Split.Half
 	/// 半分の半分の半分.. と矩形を分割していく
 	/// </summary>
 	public class Splitter : ISplitter
-    {
+	{
 		#region 定数, class, enum
+
+		/// <summary>
+		/// Zenject Factory
+		/// </summary>
+		public class Factory : PlaceholderFactory<Splitter> { }
 
 		#endregion
 
 
 		#region public, protected 変数
+
 
 		#endregion
 
@@ -60,7 +66,7 @@ namespace Ling.Map.Builder.Split.Half
 		{
 			_mapRect = mapRect;
 
-			SplitRect(ref _mapRect.LatestData, isVertical: true);
+			SplitRect(ref _mapRect[0], isVertical: true);
 		}
 
 		#endregion
@@ -104,7 +110,10 @@ namespace Ling.Map.Builder.Split.Half
 				point = pointA + UnityEngine.Random.Range(0, distance + 1);
 
 				// 新しく右の区画を作成する 
-				_mapRect.CreateRect(parentRect.x, parentRect.y + point, parentRect.width, parentRect.height);
+				var childRect = _mapRect.CreateRect(parentRect.x, parentRect.y + point, parentRect.width, parentRect.height);
+
+				// 元の区画の下をpointに移動させて、上側の区間とする
+				parentRect.height = childRect.rect.y;
 			}
 			else
 			{
@@ -130,7 +139,10 @@ namespace Ling.Map.Builder.Split.Half
 				point = pointA + UnityEngine.Random.Range(0, distance + 1);
 
 				// 新しく右の区画を作成する 
-				_mapRect.CreateRect(parentRect.x + point, parentRect.y, parentRect.width, parentRect.height);
+				var childRect = _mapRect.CreateRect(parentRect.x + point, parentRect.y, parentRect.width, parentRect.height);
+
+				// 元の区画の右をpointに移動させて、左側の区間とする
+				parentRect.width = childRect.rect.x;
 			}
 
 			// 最新のRectを返すか一個前のRectを返すかをランダムで決める

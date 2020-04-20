@@ -62,6 +62,8 @@ namespace Ling.Map.Builder.Split
 		/// </summary>
 		public ref Data LatestData => ref _data[_rectCount - 1];
 
+		public ref Data this[int index] => ref _data[index];
+
 		#endregion
 
 

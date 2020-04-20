@@ -16,12 +16,33 @@ using UnityEngine.UI;
 
 namespace Ling.Map.Builder
 {
+	public interface IBuilder
+	{
+		void Initialize(int width, int height);
+
+		void SetData(BuilderData data);
+
+		/// <summary>
+		/// [x, y] から指定したタイル情報を返す
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		ref TileData GetTile(int x, int y);
+
+		/// <summary>
+		/// 処理を実行する
+		/// </summary>
+		void Execute();
+	}
+
+
 	/// <summary>
 	/// ビルダーベースクラス
 	/// すべてのビルダーはこれを継承して使用する
 	/// </summary>
-    public abstract class Base
-    {
+    public abstract class BuilderBase : IBuilder
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -100,7 +121,7 @@ namespace Ling.Map.Builder
         public void Execute()
         {
 			// 最初はすべて壁にする
-			_tileData.ForEach((in TileData tileData_) => tileData_.SetWall());
+			_tileData.ForEach((ref TileData tileData_) => tileData_.SetWall());
 
 			ExecuteInternal();
         }
