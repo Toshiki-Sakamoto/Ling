@@ -20,12 +20,11 @@ namespace Ling.Map.Builder.Split
 	/// <summary>
 	/// 
 	/// </summary>
-	public class Builder<TSplitter> : BuilderBase 
-		where TSplitter : ISplitter, new()
+	public class Builder : BuilderBase 
 	{
 		#region 定数, class, enum
 
-		public class Factory : PlaceholderFactory<IBuilder>
+		public class Factory : PlaceholderFactory<Builder>
 		{ 
 		}
 
@@ -39,7 +38,8 @@ namespace Ling.Map.Builder.Split
 
 		#region private 変数
 
-		private ISplitter _splitter = null;     // 部屋の分割担当
+		[Inject] private SplitBuilderFactory _splitFactory = null;     // 部屋の分割担当
+		private ISplitter _splitter = null;
 		private MapRect _mapRect = null;        // 区画情報
 
 		#endregion
@@ -52,6 +52,7 @@ namespace Ling.Map.Builder.Split
 
 		#region コンストラクタ, デストラクタ
 
+#if false
 		public Builder()
 			: this(new TSplitter())
 		{
@@ -63,7 +64,7 @@ namespace Ling.Map.Builder.Split
 
 			_mapRect = new MapRect();
 		}
-
+#endif
 
 		#endregion
 
@@ -75,7 +76,14 @@ namespace Ling.Map.Builder.Split
 		/// </summary>
 		protected override void ExecuteInternal()
 		{
-			// まずは区画を作る
+			_splitter = _splitFactory.Create();
+
+			_mapRect = new MapRect();
+
+			// 全体を一つの区画にする
+			_mapRect.CreateRect(0, 0, Width - 1, Height - 1);
+
+			// 区画を作る
 			_splitter?.SplitRect(_mapRect);
 		}
 

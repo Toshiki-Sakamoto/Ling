@@ -46,7 +46,8 @@ namespace Ling.Scenes.Battle
 		#region private 関数
 
 		[Inject] private Map.Builder.IManager _builderManager = null;
-		[Inject] private PlaceholderFactory<Map.Builder.Const.BuilderType, Map.Builder.IBuilder> _builderFactory;
+		//[Inject] private PlaceholderFactory<Map.Builder.Const.BuilderType, Map.Builder.IBuilder> _builderFactory = null;
+		[Inject] private Map.Builder.BuilderFactory _builderFactory = null;
 
 		#endregion
 

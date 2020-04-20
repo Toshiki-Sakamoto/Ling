@@ -50,7 +50,7 @@ namespace Ling.Map.Builder
 
 		#region コンストラクタ, デストラクタ
 
-		public CustomBuilderFactory(Split.Builder<Split.Half.Splitter>.Factory splitFactory)
+		public CustomBuilderFactory(Split.Builder.Factory splitFactory)
 		{
 			_builderFactories[Const.BuilderType.Split] = splitFactory;
 		}
