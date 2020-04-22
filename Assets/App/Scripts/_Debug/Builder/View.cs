@@ -59,6 +59,8 @@ namespace Ling._Debug.Builder
 
 		public System.Action<Setting> OnExecute { get; set; }
 
+		public MapDrawView MapDrawView => _drawView;
+
 		#endregion
 
 

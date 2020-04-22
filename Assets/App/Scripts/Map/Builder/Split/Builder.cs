@@ -40,6 +40,7 @@ namespace Ling.Map.Builder.Split
 		#region private 変数
 
 		[Inject] private SplitBuilderFactory _splitFactory = null;     // 部屋の分割担当
+
 		private ISplitter _splitter = null;
 		private MapRect _mapRect = null;        // 区画情報
 
@@ -47,6 +48,8 @@ namespace Ling.Map.Builder.Split
 
 
 		#region プロパティ
+
+		public MapRect MapRect => _mapRect;
 
 		#endregion
 
@@ -75,7 +78,7 @@ namespace Ling.Map.Builder.Split
 		/// <summary>
 		/// 処理を実行する
 		/// </summary>
-		protected override UniTask ExecuteInternal()
+		protected override IEnumerator<float> ExecuteInternal()
 		{
 			_splitter = _splitFactory.Create();
 
@@ -85,7 +88,11 @@ namespace Ling.Map.Builder.Split
 			_mapRect.CreateRect(0, 0, Width - 1, Height - 1);
 
 			// 区画を作る
-			_splitter?.SplitRect(_mapRect);
+			var enumerator = _splitter?.SplitRect(_mapRect);
+			while (enumerator.MoveNext())
+			{
+				yield return enumerator.Current;
+			}
 		}
 
 

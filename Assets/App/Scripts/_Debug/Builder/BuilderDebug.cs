@@ -34,6 +34,9 @@ namespace Ling._Debug.Builder
 		[Inject] private Map.Builder.IManager _builderManager = null;
 		[Inject] private Map.Builder.BuilderFactory _builderFactory = null;
 
+		private Map.Builder.IBuilder _builder;
+		private IEnumerator<float> _buildeEnumerator = null;
+
 		#endregion
 
 
@@ -61,14 +64,14 @@ namespace Ling._Debug.Builder
 		void Awake()
 		{
 			_view.OnExecute = (setting_) =>
-			{
-				var builderData = new Map.Builder.BuilderData();
+				{
+					var builderData = new Map.Builder.BuilderData();
 
-				var builder = _builderFactory.Create(Map.Builder.Const.BuilderType.Split);
-				builder.Initialize(setting_.Width, setting_.Height);
+					_builder = _builderFactory.Create(Map.Builder.Const.BuilderType.Split);
+					_builder.Initialize(setting_.Width, setting_.Height);
 
-				builder.Execute();
-			};
+					_buildeEnumerator = _builder.ExecuteDebug();
+				};
 		}
 
 		/// <summary>
@@ -83,6 +86,9 @@ namespace Ling._Debug.Builder
 		/// </summary>
 		void Update()
 		{
+			if (_builder == null || _buildeEnumerator == null) return;
+
+			_view.MapDrawView.DrawUpdate();
 		}
 
 		/// <summary>

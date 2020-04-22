@@ -29,12 +29,12 @@ namespace Ling.Map.Builder
 		/// <summary>
 		/// 壁ならtrue
 		/// </summary>
-		public bool IsWall { get { return HasFlag(Const.TileFlag.Wall); } }
+		public bool IsWall => HasFlag(Const.TileFlag.Wall);
 
 		/// <summary>
 		/// 上階段ならtrue
 		/// </summary>
-		public bool IsStepUp { get { return HasFlag(Const.TileFlag.StepUp); } }
+		public bool IsStepUp => HasFlag(Const.TileFlag.StepUp);
 
 
 		/// <summary>
