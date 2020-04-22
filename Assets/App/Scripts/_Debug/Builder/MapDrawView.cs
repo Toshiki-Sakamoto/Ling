@@ -29,12 +29,14 @@ namespace Ling._Debug.Builder
 
 		#region private 変数
 
-		[SerializeField] private Sprite _mapRectSprite = null;	// 区画
-		[SerializeField] private Sprite _floorSprite = null;	// 床`
+		[SerializeField] private Transform _root = null;
+		[SerializeField] private SpriteRenderer _mapSprite = null;  // 
+		[SerializeField] private Color[] _colors = null;
 
 		private int _width, _height;
-		private GameObject[] _drawObjects;
+		private SpriteRenderer[] _drawSprites;
 		private Map.Builder.Const.BuilderType _builderType;
+		private Coroutine _coroutine;
 
 		#endregion
 
@@ -48,10 +50,24 @@ namespace Ling._Debug.Builder
 
 		public void Setup(int width, int height, Map.Builder.Const.BuilderType builderType)
 		{
+			if (_coroutine != null)
+			{
+				StopCoroutine(_coroutine);
+				_coroutine = null;
+			}
+
+			if (_drawSprites != null)
+			{
+				foreach (var obj in _drawSprites)
+				{
+					GameObject.Destroy(obj.gameObject);
+				}
+			}
+
 			_width = width;
 			_height = height;
 			_builderType = builderType;
-			_drawObjects = new GameObject[width * height];
+			_drawSprites = new SpriteRenderer[width * height];
 
 			switch (_builderType)
 			{
@@ -64,12 +80,12 @@ namespace Ling._Debug.Builder
 			}
 		}
 
-		public void DrawUpdate(Map.Builder.BuilderBase builder)
+		public void DrawUpdate(Map.Builder.IBuilder builder)
 		{
 			switch (_builderType)
 			{
 				case Map.Builder.Const.BuilderType.Split:
-					DrawUpdate_Split(builder);
+					_coroutine = StartCoroutine(DrawUpdate_Split(builder));
 					break;
 
 				default:
@@ -84,16 +100,65 @@ namespace Ling._Debug.Builder
 
 		private void SetUp_Split()
 		{
+			var width = _mapSprite.bounds.size.x;
+			var height = _mapSprite.bounds.size.y;
 
+			Utility.Log.Print($"Width {width}, Height{height}");
+
+			var startVector = new Vector2(width * (_width * -0.5f) + width * 0.5f,
+										  height * (_height * 0.5f) + height * 0.5f);
+
+			// 全てのオブジェクトをSpriteにする
+			for (int i = 0; i < _width * _height; ++i)
+			{
+				var x = i % _width;
+				var y = i / _height;
+
+				var drawSprite = _drawSprites[i] = GameObject.Instantiate(_mapSprite, _root);
+				drawSprite.transform.localPosition = new Vector3(startVector.x + x * width, startVector.y - y * height, 0.0f);
+				drawSprite.gameObject.SetActive(true);
+
+				drawSprite.color = _colors[0];
+			}
 		}
 
-		private void DrawUpdate_Split(Map.Builder.BuilderBase builder)
+		private IEnumerator DrawUpdate_Split(Map.Builder.IBuilder builder)
 		{
 			var splitBuilder = builder as Map.Builder.Split.Builder;
-			if (splitBuilder == null) return;
+			if (splitBuilder == null) yield break;
 
-			// 区画情報
-			var mapRect = splitBuilder.MapRect;
+			void Draw(RectInt rect, int colorIndex)
+			{ 
+				for (int y = rect.y; y < rect.height; ++y)
+				{
+					for (int x = rect.x; x < rect.width; ++x)
+					{
+						var index = y * _width + x;
+
+						var draw = _drawSprites[index];
+						draw.color = _colors[colorIndex];
+					}
+				}
+			}
+
+			// 一つ先にすすめる
+			var enumerator = builder.ExecuteDebug();
+
+			while (enumerator.MoveNext())
+			{
+				// 区画情報
+				var mapRect = splitBuilder.MapRect;
+
+				for (int i = 0; i < mapRect.RectCount; ++i)
+				{
+					var data = mapRect[i];
+
+					// 区画から処理
+					Draw(data.rect, i);
+				}
+
+				yield return new WaitForSeconds(enumerator.Current);
+			}
 		}
 
 		#endregion

@@ -63,6 +63,8 @@ namespace Ling._Debug.Builder
 		/// </summary>
 		void Awake()
 		{
+			_view.Setup();
+
 			_view.OnExecute = (setting_) =>
 				{
 					var builderData = new Map.Builder.BuilderData();
@@ -70,7 +72,12 @@ namespace Ling._Debug.Builder
 					_builder = _builderFactory.Create(Map.Builder.Const.BuilderType.Split);
 					_builder.Initialize(setting_.Width, setting_.Height);
 
+					_builder.SetData(builderData);
+
 					_buildeEnumerator = _builder.ExecuteDebug();
+
+					_view.MapDrawView.Setup(setting_.Width, setting_.Height, Map.Builder.Const.BuilderType.Split);
+					_view.MapDrawView.DrawUpdate(_builder);
 				};
 		}
 
@@ -87,8 +94,6 @@ namespace Ling._Debug.Builder
 		void Update()
 		{
 			if (_builder == null || _buildeEnumerator == null) return;
-
-			_view.MapDrawView.DrawUpdate();
 		}
 
 		/// <summary>

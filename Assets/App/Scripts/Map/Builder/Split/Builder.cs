@@ -88,7 +88,7 @@ namespace Ling.Map.Builder.Split
 			_mapRect.CreateRect(0, 0, Width - 1, Height - 1);
 
 			// 区画を作る
-			var enumerator = _splitter?.SplitRect(_mapRect);
+			var enumerator = _splitter?.SplitRect(_data, _mapRect);
 			while (enumerator.MoveNext())
 			{
 				yield return enumerator.Current;

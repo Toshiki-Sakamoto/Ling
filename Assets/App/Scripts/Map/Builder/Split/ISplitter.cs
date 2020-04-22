@@ -25,7 +25,7 @@ namespace Ling.Map.Builder.Split
 		/// <summary>
 		/// 矩形を分割するとき呼び出される
 		/// </summary>
-		IEnumerator<float> SplitRect(MapRect mapRect);
+		IEnumerator<float> SplitRect(BuilderData builderData, MapRect mapRect);
 
 	}
 }

@@ -49,7 +49,6 @@ namespace Ling.Map.Builder.Split
 
 		#region private 変数
 
-		private int _rectCount = 0;			// 区画の数
 		private Data[] _data = null;        // 区画データ
 
 		#endregion
@@ -60,9 +59,14 @@ namespace Ling.Map.Builder.Split
 		/// <summary>
 		/// 現在の最新の区画データを返す
 		/// </summary>
-		public ref Data LatestData => ref _data[_rectCount - 1];
+		public ref Data LatestData => ref _data[RectCount - 1];
 
 		public ref Data this[int index] => ref _data[index];
+
+		/// <summary>
+		/// 区画の数
+		/// </summary>
+		public int RectCount { get; private set; }
 
 		#endregion
 
@@ -73,6 +77,11 @@ namespace Ling.Map.Builder.Split
 		{
 			// 最大の区画分しか作らない(使い回しを考える)
 			_data = new Data[Const.MaxRectNum];
+
+			for (int i = 0; i < Const.MaxRectNum; ++i)
+			{
+				_data[i] = new Data();
+			}
 		}
 
 		#endregion
@@ -88,12 +97,12 @@ namespace Ling.Map.Builder.Split
 		/// </summary>
 		public ref Data CreateRect(int left, int top, int right, int bottom)
 		{
-			ref var rect = ref _data[_rectCount];
+			ref var rect = ref _data[RectCount];
 			rect.Initialize();
 
 			rect.rect = new RectInt(left, top, right, bottom);
 
-			++_rectCount;
+			++RectCount;
 
 			return ref rect;
 		}

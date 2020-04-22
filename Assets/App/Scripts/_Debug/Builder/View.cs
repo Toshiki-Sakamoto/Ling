@@ -68,6 +68,8 @@ namespace Ling._Debug.Builder
 
 		public void Setup()
 		{
+			_setting.Setup();
+
 			_setting.OnExecute = () => OnExecute?.Invoke(_setting);
 		}
 

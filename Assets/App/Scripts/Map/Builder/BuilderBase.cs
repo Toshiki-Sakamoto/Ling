@@ -61,7 +61,6 @@ namespace Ling.Map.Builder
 
 		#region private 変数
 
-		protected TileDataMap _map;						// タイル情報等を持つ
 		protected BuilderData _data = null;		// ビルダー情報
 
         #endregion
@@ -87,7 +86,7 @@ namespace Ling.Map.Builder
 		/// <summary>
 		/// マップデータを取得する
 		/// </summary>
-		public TileDataMap TileDataMap => _map;
+		public TileDataMap TileDataMap { get; } = new TileDataMap();
 
 		#endregion
 
@@ -106,7 +105,7 @@ namespace Ling.Map.Builder
 		/// <param name="height"></param>
 		public void Initialize(int width, int height)
         {
-			_map.Initialize(width, height);
+			TileDataMap.Initialize(width, height);
 			Width = width;
             Height = height;
         }
@@ -123,7 +122,7 @@ namespace Ling.Map.Builder
         public async UniTask Execute()
         {
 			// 最初はすべて壁にする
-			_map.AllTilesSetWall();
+			TileDataMap.AllTilesSetWall();
 
 			IsExecuting = true;
 
@@ -135,11 +134,9 @@ namespace Ling.Map.Builder
 		public IEnumerator<float> ExecuteDebug()
 		{
 			// 最初はすべて壁にする
-			_map.AllTilesSetWall();
+			TileDataMap.AllTilesSetWall();
 
 			IsExecuting = true;
-
-			yield return 0f;
 
 			var enumerator = ExecuteInternal();
 			while (enumerator.MoveNext())

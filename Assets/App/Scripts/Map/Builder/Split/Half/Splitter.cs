@@ -41,9 +41,8 @@ namespace Ling.Map.Builder.Split.Half
 
 		#region private 変数
 
-		[Inject] private IManager _manager = null;
-
 		private MapRect _mapRect;
+		private BuilderData _builderData;
 
 		#endregion
 
@@ -63,8 +62,11 @@ namespace Ling.Map.Builder.Split.Half
 		/// <summary>
 		/// 矩形を分割するとき呼び出される
 		/// </summary>
-		public IEnumerator<float> SplitRect(MapRect mapRect)
+		public IEnumerator<float> SplitRect(BuilderData builderData, MapRect mapRect)
 		{
+			_builderData = builderData;
+			_mapRect = mapRect;
+
 			var enumerator = SplitRect(_mapRect[0], isVertical: true);
 
 			while (enumerator.MoveNext())
@@ -87,7 +89,7 @@ namespace Ling.Map.Builder.Split.Half
 		{
 			// 分ける区画情報を取得
 			var parentRect = parentData.rect;
-			var data = _manager.Data;
+			var data = _builderData;
 
 			int pointA, pointB, distance, point;
 
@@ -154,11 +156,19 @@ namespace Ling.Map.Builder.Split.Half
 			// 最新のRectを返すか一個前のRectを返すかをランダムで決める
 			if (UnityEngine.Random.Range(0, 2) == 1)
 			{
-				SplitRect(_mapRect.LatestData, isVertical: !isVertical);
+				var enumerator = SplitRect(_mapRect.LatestData, isVertical: !isVertical);
+				while (enumerator.MoveNext())
+				{
+					yield return enumerator.Current;
+				}
 			}
 			else
 			{
-				SplitRect(parentData, isVertical: !isVertical);
+				var enumerator = SplitRect(parentData, isVertical: !isVertical);
+				while (enumerator.MoveNext())
+				{
+					yield return enumerator.Current;
+				}
 			}
 		}
 
