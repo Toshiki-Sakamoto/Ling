@@ -27,9 +27,11 @@ namespace Ling._Debug.Builder
 			[SerializeField] private InputField _heightInpuField = null;
 			[SerializeField] private Dropdown _builderTypeDropdown = null;
 			[SerializeField] private Button _executeButton = null;
+			[SerializeField] private InputField _randomSeed = null;
 
 			public int Width => int.Parse(_widthInputField.text);
 			public int Height => int.Parse(_heightInpuField.text);
+			public int RandomSeed => int.Parse(_randomSeed.text);
 			public Dropdown BuilderTypeDropdown => _builderTypeDropdown;
 			public System.Action OnExecute { get; set; }
 

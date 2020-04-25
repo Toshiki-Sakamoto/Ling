@@ -329,7 +329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneRoot: {fileID: 0}
-  _startSceneID: 2
 --- !u!1 &1877133192
 GameObject:
   m_ObjectHideFlags: 0

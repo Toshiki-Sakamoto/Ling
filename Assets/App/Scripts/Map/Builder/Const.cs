@@ -32,9 +32,10 @@ namespace Ling.Map.Builder
 		{
 			None		= 0,		// なにもない
 
-			Wall		= 1 << 1,	// 壁
-			StepUp		= 1 << 2,	// 上り階段
-			StepDown	= 1 << 3,   // 下り階段
+            Floor       = 1 << 1,   // 床
+			Wall		= 1 << 2,	// 壁
+			StepUp		= 1 << 3,	// 上り階段
+			StepDown	= 1 << 4,   // 下り階段
 		}
 
 		/// <summary>

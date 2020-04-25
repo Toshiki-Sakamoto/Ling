@@ -42,14 +42,13 @@ namespace Ling.Map.Builder.Split
 		[Inject] private SplitBuilderFactory _splitFactory = null;     // 部屋の分割担当
 
 		private ISplitter _splitter = null;
-		private MapRect _mapRect = null;        // 区画情報
 
 		#endregion
 
 
 		#region プロパティ
 
-		public MapRect MapRect => _mapRect;
+		public MapRect MapRect { get; private set; }
 
 		#endregion
 
@@ -82,13 +81,13 @@ namespace Ling.Map.Builder.Split
 		{
 			_splitter = _splitFactory.Create();
 
-			_mapRect = new MapRect();
+			MapRect = new MapRect();
 
 			// 全体を一つの区画にする
-			_mapRect.CreateRect(0, 0, Width - 1, Height - 1);
+			MapRect.CreateRect(0, 0, Width - 1, Height - 1);
 
 			// 区画を作る
-			var enumerator = _splitter?.SplitRect(_data, _mapRect);
+			var enumerator = _splitter?.SplitRect(_data, MapRect);
 			while (enumerator.MoveNext())
 			{
 				yield return enumerator.Current;
@@ -100,6 +99,50 @@ namespace Ling.Map.Builder.Split
 
 
 		#region private 関数
+
+		/// <summary>
+		/// 部屋を作成する
+		/// </summary>
+		/// <returns></returns>
+        private IEnumerator CreateRoom()
+        {
+            for (int i = 0; i < MapRect.RectCount; ++i)
+            {
+				var rectData = MapRect[i];
+				var rect = rectData.rect;
+
+				// 矩形の大きさを計算
+				var w = rect.width - 3;
+				var h = rect.height - 3;
+
+				// 区画に入る最小部屋の余裕を求める
+				var cw = w - _data.RoomMinSize;
+				var ch = h - _data.RoomMinSize;
+
+				// 部屋の大きさを決定する
+				var sw = UnityEngine.Random.Range(0, cw + 1);
+				var sh = UnityEngine.Random.Range(0, ch + 1);
+				var rw = w - sw;
+				var rh = h - sh;
+
+				// 部屋の位置を決定する
+				var rx = UnityEngine.Random.Range(0, sw + 1) + 2;
+				var ry = UnityEngine.Random.Range(0, sh + 1) + 2;
+
+				// 求めた結果から部屋の情報を設定
+				rectData.room.xMin = rect.xMin + rx;
+				rectData.room.yMin = rect.yMin + ry;
+				rectData.room.xMax = rect.xMin + rw;
+				rectData.room.yMax = rect.yMin + rh;
+
+				var room = rectData.room;
+
+                // 部屋を作る
+				TileDataMap.FillRect(room.xMin, room.yMin, room.xMax, room.yMax, Const.TileFlag.Floor);
+			}
+
+			yield return null;
+        }
 
 		#endregion
 	}

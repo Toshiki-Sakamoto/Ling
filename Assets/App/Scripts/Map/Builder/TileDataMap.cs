@@ -33,8 +33,6 @@ namespace Ling.Map.Builder
 
 		#region private 変数
 
-		private TileData[] _tileData;
-
 		#endregion
 
 
@@ -45,7 +43,7 @@ namespace Ling.Map.Builder
 
 		public int Size => Width * Height;
 
-		public TileData[] Tiles => _tileData;
+		public TileData[] Tiles { get; private set; }
 
 		#endregion
 
@@ -62,13 +60,28 @@ namespace Ling.Map.Builder
 			Width = width;
 			Height = height;
 
-			_tileData = new TileData[width * height];
+			Tiles = new TileData[width * height];
 		}
 
 		public void AllTilesSetWall()
 		{
-			_tileData.ForEach((ref TileData tileData_) => tileData_.SetWall());
+			Tiles.ForEach((ref TileData tileData_) => tileData_.SetWall());
 		}
+
+        /// <summary>
+        /// 指定区画を指定フラグで上書きする
+        /// </summary>
+        public void FillRect(int left, int top, int right, int bottom, Const.TileFlag flag)
+        {
+            for (int y = top; y <= bottom; ++y)
+            {
+                for (int x = left; x <= right; ++x)
+                {
+					ref var tileData = ref GetTile(x, y);
+					tileData.AddFlag(flag);
+                }
+            }
+        }
 
 		/// <summary>
 		/// [x, y] から指定したタイル情報を返す
@@ -80,7 +93,7 @@ namespace Ling.Map.Builder
 		{
 			Utility.Log.Assert(x >= 0 && x <= Width && y >= 0 && y <= Height, "範囲から飛び出してます");
 
-			return ref _tileData[y * Width + x];
+			return ref Tiles[y * Width + x];
 		}
 
 

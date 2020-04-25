@@ -129,12 +129,17 @@ namespace Ling._Debug.Builder
 
 			void Draw(RectInt rect, int colorIndex)
 			{ 
-				for (int y = rect.y; y < rect.height; ++y)
+				for (int y = rect.yMin; y <= rect.yMax; ++y)
 				{
-					for (int x = rect.x; x < rect.width; ++x)
+					for (int x = rect.xMin; x <= rect.xMax; ++x)
 					{
 						var index = y * _width + x;
 
+                        if (index >= _drawSprites.Length)
+                        {
+							int i = 0;
+							i = i;
+                        }
 						var draw = _drawSprites[index];
 						draw.color = _colors[colorIndex];
 					}

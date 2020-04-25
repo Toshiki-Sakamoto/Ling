@@ -76,6 +76,12 @@ namespace Ling._Debug.Builder
 
 					_buildeEnumerator = _builder.ExecuteDebug();
 
+					// ランダム値を変化させたい場合
+					if (setting_.RandomSeed > 0)
+					{
+                        Random.InitState(setting_.RandomSeed);
+					}
+
 					_view.MapDrawView.Setup(setting_.Width, setting_.Height, Map.Builder.Const.BuilderType.Split);
 					_view.MapDrawView.DrawUpdate(_builder);
 				};

@@ -83,7 +83,7 @@ namespace Ling.Map.Builder.Split.Half
 		/// <summary>
 		/// 区画を細かく分割する
 		/// </summary>
-		/// <param name="parentData"></param>
+		/// <param name="rparentData"></param>
 		/// <param name="isVertical"></param>
 		private IEnumerator<float> SplitRect(MapRect.Data parentData, bool isVertical)
 		{
@@ -116,10 +116,10 @@ namespace Ling.Map.Builder.Split.Half
 				point = pointA + UnityEngine.Random.Range(0, distance + 1);
 
 				// 新しく右の区画を作成する 
-				var childRect = _mapRect.CreateRect(parentRect.x, parentRect.y + point, parentRect.width, parentRect.height);
+				var childRect = _mapRect.CreateRect(parentRect.xMin, parentRect.yMin + point, parentRect.xMax, parentRect.yMax);
 
 				// 元の区画の下をpointに移動させて、上側の区間とする
-				parentRect.height = childRect.rect.y;
+				parentData.rect.yMax = childRect.rect.yMin;
 			}
 			else
 			{
@@ -145,10 +145,10 @@ namespace Ling.Map.Builder.Split.Half
 				point = pointA + UnityEngine.Random.Range(0, distance + 1);
 
 				// 新しく右の区画を作成する 
-				var childRect = _mapRect.CreateRect(parentRect.x + point, parentRect.y, parentRect.width, parentRect.height);
+				var childRect = _mapRect.CreateRect(parentRect.xMin + point, parentRect.yMin, parentRect.xMax, parentRect.yMax);
 
 				// 元の区画の右をpointに移動させて、左側の区間とする
-				parentRect.width = childRect.rect.x;
+				parentData.rect.xMax = childRect.rect.xMin;
 			}
 
 			yield return 0.5f;
