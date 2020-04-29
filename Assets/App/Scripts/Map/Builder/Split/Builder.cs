@@ -84,13 +84,29 @@ namespace Ling.Map.Builder.Split
 			MapRect = new MapRect();
 
 			// 全体を一つの区画にする
-			MapRect.CreateRect(0, 0, Width - 1, Height - 1);
+			// Width&Heightが20の場合
+			// (0, 0, 20, 20)になる。
+			// 区画が (0, 0, 10, 20), (10, 0, 20, 20)
+			// となった場合、引き算するだけで
+			// 10 - 0 = 10
+			// 20 - 10 = 10 
+			// とマスの幅が求まり
+			// 　　for (int x = 0; x < w; ++x)
+			// とすると区画のループ処理がかける
+			MapRect.CreateRect(0, 0, Width, Height);
 
 			// 区画を作る
-			var enumerator = _splitter?.SplitRect(_data, MapRect);
-			while (enumerator.MoveNext())
+			var splitEnumerator = _splitter?.SplitRect(_data, MapRect);
+			while (splitEnumerator.MoveNext())
 			{
-				yield return enumerator.Current;
+				yield return splitEnumerator.Current;
+			}
+
+			// 部屋を作る
+			var roomEnumerator = CreateRoom();
+			while (roomEnumerator.MoveNext())
+			{
+				yield return roomEnumerator.Current;
 			}
 		}
 
@@ -104,7 +120,7 @@ namespace Ling.Map.Builder.Split
 		/// 部屋を作成する
 		/// </summary>
 		/// <returns></returns>
-        private IEnumerator CreateRoom()
+        private IEnumerator<float> CreateRoom()
         {
             for (int i = 0; i < MapRect.RectCount; ++i)
             {
@@ -132,16 +148,16 @@ namespace Ling.Map.Builder.Split
 				// 求めた結果から部屋の情報を設定
 				rectData.room.xMin = rect.xMin + rx;
 				rectData.room.yMin = rect.yMin + ry;
-				rectData.room.xMax = rect.xMin + rw;
-				rectData.room.yMax = rect.yMin + rh;
+				rectData.room.xMax = rect.xMin + rx + rw;
+				rectData.room.yMax = rect.yMin + ry + rh;
 
 				var room = rectData.room;
 
                 // 部屋を作る
-				TileDataMap.FillRect(room.xMin, room.yMin, room.xMax, room.yMax, Const.TileFlag.Floor);
-			}
+				TileDataMap.FillRect(room.xMin, room.yMin, room.xMax, room.yMax, TileFlag.Floor);
 
-			yield return null;
+				yield return 0.5f;
+			}
         }
 
 		#endregion

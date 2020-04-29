@@ -19,9 +19,28 @@ namespace Ling.Map.Builder
 	/// <summary>
 	/// <see cref="TileData"/>を管理する
 	/// </summary>
-	public class TileDataMap
+	public class TileDataMap : IEnumerable<TileData>
     {
 		#region 定数, class, enum
+
+		public struct Enumerator : IEnumerator<TileData>
+		{
+			private readonly TileDataMap _list;
+			private int _index;
+
+
+			public Enumerator(TileDataMap list)
+			{
+				_list = list;
+				_index = -1;
+			}
+
+			public TileData Current => _list.GetTile(_index);
+			object IEnumerator.Current => _list.GetTile(_index);
+			public  void Dispose() {}
+			public bool MoveNext() => ++_index < _list.Size;
+			public void Reset() => _index = 0;
+		}
 
 		#endregion
 
@@ -55,12 +74,19 @@ namespace Ling.Map.Builder
 
 		#region public, protected 関数
 
+		public IEnumerator<TileData> GetEnumerator() => new Enumerator(this);
+		IEnumerator IEnumerable.GetEnumerator() => new Enumerator(this);
+
 		public void Initialize(int width, int height)
 		{
 			Width = width;
 			Height = height;
 
 			Tiles = new TileData[width * height];
+			for (int index = 0, size = Size; index < size; ++index)
+			{
+				Tiles[index].SetIndex(index);
+			}
 		}
 
 		public void AllTilesSetWall()
@@ -71,14 +97,14 @@ namespace Ling.Map.Builder
         /// <summary>
         /// 指定区画を指定フラグで上書きする
         /// </summary>
-        public void FillRect(int left, int top, int right, int bottom, Const.TileFlag flag)
+        public void FillRect(int left, int top, int right, int bottom, TileFlag flag)
         {
-            for (int y = top; y <= bottom; ++y)
+            for (int y = top; y < bottom; ++y)
             {
-                for (int x = left; x <= right; ++x)
+                for (int x = left; x < right; ++x)
                 {
 					ref var tileData = ref GetTile(x, y);
-					tileData.AddFlag(flag);
+					tileData.SetFlag(flag);
                 }
             }
         }
@@ -93,8 +119,11 @@ namespace Ling.Map.Builder
 		{
 			Utility.Log.Assert(x >= 0 && x <= Width && y >= 0 && y <= Height, "範囲から飛び出してます");
 
-			return ref Tiles[y * Width + x];
+			return ref GetTile(y * Width + x);
 		}
+
+		public ref TileData GetTile(int index) =>
+			ref Tiles[index];
 
 
 		#endregion
