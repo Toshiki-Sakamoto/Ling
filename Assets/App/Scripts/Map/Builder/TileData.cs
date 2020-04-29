@@ -24,17 +24,22 @@ namespace Ling.Map.Builder
 		/// <summary>
 		/// タイルデータがもつフラグ
 		/// </summary>
-		public Const.TileFlag Flag { get; private set; }
+		public TileFlag Flag { get; private set; }
+
+		public int X {get; private set;}
+		public int Y {get; private set;}
+		
+		public int Index { get; private set; }
 
 		/// <summary>
 		/// 壁ならtrue
 		/// </summary>
-		public bool IsWall { get { return HasFlag(Const.TileFlag.Wall); } }
+		public bool IsWall => HasFlag(TileFlag.Wall);
 
 		/// <summary>
 		/// 上階段ならtrue
 		/// </summary>
-		public bool IsStepUp { get { return HasFlag(Const.TileFlag.StepUp); } }
+		public bool IsStepUp => HasFlag(TileFlag.StepUp);
 
 
 		/// <summary>
@@ -42,23 +47,35 @@ namespace Ling.Map.Builder
 		/// </summary>
 		public void Initialize()
 		{
-			Flag = Const.TileFlag.None;
+			Flag = TileFlag.None;
 		}
+
+		public void SetPos(int x, int y) 
+		{
+			X = x;
+			Y = y;
+		}
+		public void SetIndex(int index) => Index = index;
 
 		/// <summary>
 		/// フラグとして情報を追加する
 		/// </summary>
 		/// <param name="tileFlag"></param>
-		public void AddFlag(Const.TileFlag tileFlag)
+		public void AddFlag(TileFlag tileFlag)
 		{
 			Flag |= tileFlag;
+		}
+
+		public void SetFlag(TileFlag tileFlag)
+		{
+			Flag = tileFlag;
 		}
 
 		/// <summary>
 		/// フラグを削除する
 		/// </summary>
 		/// <param name="tileFlag"></param>
-		public void RemoveFlag(Const.TileFlag tileFlag)
+		public void RemoveFlag(TileFlag tileFlag)
 		{
 			Flag &= ~tileFlag;
 		}
@@ -67,7 +84,7 @@ namespace Ling.Map.Builder
 		/// 指定したフラグを持っているか
 		/// </summary>
 		/// <returns></returns>
-		public bool HasFlag(Const.TileFlag tileFlag)
+		public bool HasFlag(TileFlag tileFlag)
 		{
 			return Flag.HasFlag(tileFlag);
 		}
@@ -81,7 +98,7 @@ namespace Ling.Map.Builder
 			// 壁にするときに初期化する
 			Initialize();
 
-			AddFlag(Const.TileFlag.Wall);
+			AddFlag(TileFlag.Wall);
 		}
 
 	}

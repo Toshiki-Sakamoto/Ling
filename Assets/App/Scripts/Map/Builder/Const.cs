@@ -23,20 +23,6 @@ namespace Ling.Map.Builder
     {
 		#region 定数, class, enum
 
-
-		/// <summary>
-		/// タイル情報のフラグ定数
-		/// </summary>
-		[System.Flags]
-		public enum TileFlag : long
-		{
-			None		= 0,		// なにもない
-
-			Wall		= 1 << 1,	// 壁
-			StepUp		= 1 << 2,	// 上り階段
-			StepDown	= 1 << 3,   // 下り階段
-		}
-
 		/// <summary>
 		/// ビルダーの種類
 		/// </summary>

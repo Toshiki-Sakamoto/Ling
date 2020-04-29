@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,22 +19,27 @@ namespace Ling.Map.Builder
 {
 	public interface IBuilder
 	{
+		/// <summary>
+		/// 実行中
+		/// </summary>
+		bool IsExecuting { get; }
+
+		/// <summary>
+		/// マップデータを取得する
+		/// </summary>
+		TileDataMap TileDataMap { get; }
+
+
 		void Initialize(int width, int height);
 
 		void SetData(BuilderData data);
 
 		/// <summary>
-		/// [x, y] から指定したタイル情報を返す
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <returns></returns>
-		ref TileData GetTile(int x, int y);
-
-		/// <summary>
 		/// 処理を実行する
 		/// </summary>
-		void Execute();
+		UniTask Execute();
+
+		IEnumerator<float> ExecuteDebug();
 	}
 
 
@@ -55,8 +61,7 @@ namespace Ling.Map.Builder
 
 		#region private 変数
 
-		protected TileData[] _tileData = null;  // タイル情報
-		protected BuilderData _data = null;			// ビルダー情報
+		protected BuilderData _data = null;		// ビルダー情報
 
         #endregion
 
@@ -73,27 +78,36 @@ namespace Ling.Map.Builder
         /// </summary>
         public int Height { get; private set; }
 
-        #endregion
+		/// <summary>
+		/// 実行中
+		/// </summary>
+		public bool IsExecuting { get; private set; }
+
+		/// <summary>
+		/// マップデータを取得する
+		/// </summary>
+		public TileDataMap TileDataMap { get; } = new TileDataMap();
+
+		#endregion
 
 
-        #region コンストラクタ, デストラクタ
+		#region コンストラクタ, デストラクタ
 
-        #endregion
+		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 関数
 
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        public void Initialize(int width, int height)
+		/// <summary>
+		/// 初期化
+		/// </summary>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
+		public void Initialize(int width, int height)
         {
-            Width = width;
+			TileDataMap.Initialize(width, height);
+			Width = width;
             Height = height;
-
-            _tileData = new TileData[width * height];
         }
 
 		/// <summary>
@@ -103,36 +117,42 @@ namespace Ling.Map.Builder
 		public void SetData(BuilderData data) => _data = data;
 
         /// <summary>
-        /// [x, y] から指定したタイル情報を返す
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public ref TileData GetTile(int x, int y)
-        {
-            Utility.Log.Assert(x >= 0 && x <= Width && y >= 0 && y <= Height, "範囲から飛び出してます");
-
-            return ref _tileData[y * Width + x];
-        }
-
-        /// <summary>
         /// 処理を実行する
         /// </summary>
-        public void Execute()
+        public async UniTask Execute()
         {
 			// 最初はすべて壁にする
-			_tileData.ForEach((ref TileData tileData_) => tileData_.SetWall());
+			TileDataMap.AllTilesSetWall();
 
-			ExecuteInternal();
-        }
+			IsExecuting = true;
+
+			await ExecuteInternal();
+
+			IsExecuting = false;
+		}
+
+		public IEnumerator<float> ExecuteDebug()
+		{
+			// 最初はすべて壁にする
+			TileDataMap.AllTilesSetWall();
+
+			IsExecuting = true;
+
+			var enumerator = ExecuteInternal();
+			while (enumerator.MoveNext())
+			{
+				yield return enumerator.Current;
+			}
+
+			IsExecuting = false;
+		}
+
+		#endregion
 
 
-        #endregion
+		#region private 関数
 
-
-        #region private 関数
-
-        protected abstract void ExecuteInternal();
+		protected abstract IEnumerator<float> ExecuteInternal();
 
         #endregion
     }

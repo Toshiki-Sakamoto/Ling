@@ -19,7 +19,7 @@ namespace Ling.Map.Builder.Split
 	/// <summary>
 	/// 
 	/// </summary>
-	public class Const
+	public class BuilderConst
     {
 		#region 定数, class, enum
 

@@ -68,12 +68,12 @@ namespace Ling.Tests.Map.Builder
 			_tileData.Initialize();
 
 			// 何もしてないときは 0(None) のはず
-			Assert.AreEqual(_tileData.Flag, Const.TileFlag.None, "何もしてないときはNone");
+			Assert.AreEqual(_tileData.Flag, TileFlag.None, "何もしてないときはNone");
 
-			_tileData.AddFlag(Const.TileFlag.Wall);
+			_tileData.AddFlag(TileFlag.Wall);
 
 			// AddFlagが正常に動いているか		
-			Assert.IsTrue((_tileData.Flag | Const.TileFlag.Wall) != 0, "AddFlagでWallフラグが追加されているか");
+			Assert.IsTrue((_tileData.Flag | TileFlag.Wall) != 0, "AddFlagでWallフラグが追加されているか");
 		}
 
 		[Test]
@@ -82,21 +82,21 @@ namespace Ling.Tests.Map.Builder
 			_tileData.Initialize();
 
 			// 何もしてないときは 0(None)のはず
-			Assert.AreEqual(_tileData.Flag, Const.TileFlag.None, "何もしてないときはNone");
+			Assert.AreEqual(_tileData.Flag, TileFlag.None, "何もしてないときはNone");
 
-			_tileData.AddFlag(Const.TileFlag.Wall);
-			_tileData.RemoveFlag(Const.TileFlag.Wall);
+			_tileData.AddFlag(TileFlag.Wall);
+			_tileData.RemoveFlag(TileFlag.Wall);
 
 			// Removeしたので 0のはず
-			Assert.AreEqual(_tileData.Flag, Const.TileFlag.None, "RemoveしたのでNone");
+			Assert.AreEqual(_tileData.Flag, TileFlag.None, "RemoveしたのでNone");
 
-			_tileData.AddFlag(Const.TileFlag.Wall);
-			_tileData.AddFlag(Const.TileFlag.StepUp);
+			_tileData.AddFlag(TileFlag.Wall);
+			_tileData.AddFlag(TileFlag.StepUp);
 
-			_tileData.RemoveFlag(Const.TileFlag.Wall);
+			_tileData.RemoveFlag(TileFlag.Wall);
 
-			Assert.IsTrue(_tileData.HasFlag(Const.TileFlag.StepUp), "WallをRemoveしたがStepUpはある");
-			Assert.IsFalse(_tileData.HasFlag(Const.TileFlag.Wall), "WallをRemoveしたので無い");
+			Assert.IsTrue(_tileData.HasFlag(TileFlag.StepUp), "WallをRemoveしたがStepUpはある");
+			Assert.IsFalse(_tileData.HasFlag(TileFlag.Wall), "WallをRemoveしたので無い");
 		}
 
 		/// <summary>
@@ -108,24 +108,24 @@ namespace Ling.Tests.Map.Builder
 			_tileData.Initialize();
 
 			// HasFlagのチェック
-			_tileData.AddFlag(Const.TileFlag.Wall);
+			_tileData.AddFlag(TileFlag.Wall);
 
-			Assert.IsTrue(_tileData.HasFlag(Const.TileFlag.Wall), "Wall指定でtrueになる");
-			Assert.IsFalse(_tileData.HasFlag(Const.TileFlag.StepUp), "StepUpはAddしてないのでFalse");
-			Assert.IsFalse(_tileData.HasFlag(Const.TileFlag.StepDown), "StepDownはAddしてないのでFalse");
+			Assert.IsTrue(_tileData.HasFlag(TileFlag.Wall), "Wall指定でtrueになる");
+			Assert.IsFalse(_tileData.HasFlag(TileFlag.StepUp), "StepUpはAddしてないのでFalse");
+			Assert.IsFalse(_tileData.HasFlag(TileFlag.StepDown), "StepDownはAddしてないのでFalse");
 
 			// StepUpをAddしたらWallもStepUpもTrueになる
-			_tileData.AddFlag(Const.TileFlag.StepUp);
+			_tileData.AddFlag(TileFlag.StepUp);
 
-			Assert.IsTrue(_tileData.HasFlag(Const.TileFlag.Wall), "Wallはtrueのまま");
-			Assert.IsTrue(_tileData.HasFlag(Const.TileFlag.StepUp), "StepUpがAddされたのでTrue");
-			Assert.IsFalse(_tileData.HasFlag(Const.TileFlag.StepDown), "StepDownはAddされてないのでFlase");
+			Assert.IsTrue(_tileData.HasFlag(TileFlag.Wall), "Wallはtrueのまま");
+			Assert.IsTrue(_tileData.HasFlag(TileFlag.StepUp), "StepUpがAddされたのでTrue");
+			Assert.IsFalse(_tileData.HasFlag(TileFlag.StepDown), "StepDownはAddされてないのでFlase");
 
 			// Initializeしたらフラグも初期化される
 			_tileData.Initialize();
 
-			Assert.AreEqual(_tileData.Flag, Const.TileFlag.None, "InitializeしたらNoneになる");
-			Assert.IsFalse(_tileData.HasFlag(Const.TileFlag.Wall), "InitializeしたらWallもFalseになる");
+			Assert.AreEqual(_tileData.Flag, TileFlag.None, "InitializeしたらNoneになる");
+			Assert.IsFalse(_tileData.HasFlag(TileFlag.Wall), "InitializeしたらWallもFalseになる");
 		}
 
 		#endregion
