@@ -20,6 +20,8 @@ namespace Ling.Common.Editor.CustomScript
         private static string _authorName = "";
         // 作成日
         private static string _createdData = "";
+		// 汎用的なパラメータ(使い方はテンプレートに任せる)
+		private static string _param1 = "";
 
 
         /// <summary>
@@ -91,6 +93,7 @@ namespace Ling.Common.Editor.CustomScript
             scriptText = scriptText.Replace(Const.TemplateTag.DATA, _createdData);
             scriptText = scriptText.Replace(Const.TemplateTag.SUMMARY, _scriptSummary.Replace(Environment.NewLine, Environment.NewLine + "///")); // 改行するとコメントアウトから外れるので修正
             scriptText = scriptText.Replace(Const.TemplateTag.SCRIPT_NAME, _newScriptName);
+			scriptText = scriptText.Replace(Const.TemplateTag.PARAM1, _param1);
 
             // namespace
             var array = new List<string>(directoryPath.Split('/'));
@@ -140,8 +143,13 @@ namespace Ling.Common.Editor.CustomScript
             _authorName = GUILayout.TextField(_authorName);
             GUILayout.Space(30);
 
-            // 作成ボタン、作成が成功したらウィンドウを閉じる
-            if (GUILayout.Button("Create"))
+			// 汎用的なパラメータ
+			GUILayout.Label("Param 1");
+			_param1 = GUILayout.TextField(_param1);
+			GUILayout.Space(30);
+
+			// 作成ボタン、作成が成功したらウィンドウを閉じる
+			if (GUILayout.Button("Create"))
             {
                 if (CreateScript())
                 {
