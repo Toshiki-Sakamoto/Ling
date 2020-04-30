@@ -28,15 +28,17 @@ namespace Ling.Common.Editor.CustomScript
         /// <param name="templateScriptName">Template script name.</param>
         protected static void ShowWindow(string templateScriptName)
         {
-            // 各項目を初期化
-            _templateScriptName = templateScriptName;
-            _newScriptName = templateScriptName;
-            _createdData = DateTime.Now.ToString("yyyy.MM.dd");
+			// 各項目を初期化
+			_templateScriptName = templateScriptName;
+            _newScriptName = string.Empty;// templateScriptName;
+			_createdData = DateTime.Now.ToString("yyyy.MM.dd");
 
             // 作者名は既に設定されてある場合は初期化しない
             if (string.IsNullOrEmpty(_authorName))
             {
-                _authorName = Environment.UserName;
+				// 設定から取得
+				_authorName = Ling.Editor.View.DeveloperSetting.GetName();
+//                _authorName = Environment.UserName;
             }
 
             // ウィンドウ作成

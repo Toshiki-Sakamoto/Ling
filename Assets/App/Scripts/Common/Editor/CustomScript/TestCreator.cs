@@ -22,46 +22,12 @@ namespace Ling.Common.Editor.CustomScript
 	/// </summary>
 	public class TestCreator : Creator
 	{
-		#region 定数, class, enum
-
 		private const string TEMPLATE_SCRIPT_NAME = "TestClass";
 
-		#endregion
-
-
-		#region public, protected 変数
-
-		#endregion
-
-
-		#region private 変数
-
-		#endregion
-
-
-		#region プロパティ
-
-		#endregion
-
-
-		#region コンストラクタ, デストラクタ
-
-		#endregion
-
-
-		#region public, protected 関数
-
-		#endregion
-
-
-		#region private 関数
-
-		[MenuItem(Const.MENU_PATH + TEMPLATE_SCRIPT_NAME)]
+		[MenuItem(TEMPLATE_SCRIPT_NAME, menuItem = Const.MENU_PATH + TEMPLATE_SCRIPT_NAME, priority = 1)]
 		private static void CreateScript()
 		{
 			ShowWindow(TEMPLATE_SCRIPT_NAME);
 		}
-
-		#endregion
 	}
 }
