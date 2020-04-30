@@ -17,14 +17,14 @@ using Zenject;
 
 namespace Ling.Map.Builder
 {
-	public class BuilderFactory : PlaceholderFactory<Const.BuilderType, IBuilder>
+	public class BuilderFactory : PlaceholderFactory<BuilderConst.BuilderType, IBuilder>
 	{ 
 	}
 
 	/// <summary>
 	/// 
 	/// </summary>
-	public class CustomBuilderFactory : IFactory<Const.BuilderType, IBuilder>
+	public class CustomBuilderFactory : IFactory<BuilderConst.BuilderType, IBuilder>
     {
 		#region 定数, class, enum
 
@@ -38,7 +38,7 @@ namespace Ling.Map.Builder
 
 		#region private 変数
 
-		private Dictionary<Const.BuilderType, IFactory<IBuilder>> _builderFactories = new Dictionary<Const.BuilderType, IFactory<IBuilder>>();
+		private Dictionary<BuilderConst.BuilderType, IFactory<IBuilder>> _builderFactories = new Dictionary<BuilderConst.BuilderType, IFactory<IBuilder>>();
 
 		#endregion
 
@@ -52,7 +52,7 @@ namespace Ling.Map.Builder
 
 		public CustomBuilderFactory(Split.Builder.Factory splitFactory)
 		{
-			_builderFactories[Const.BuilderType.Split] = splitFactory;
+			_builderFactories[BuilderConst.BuilderType.Split] = splitFactory;
 		}
 
 		#endregion
@@ -60,7 +60,7 @@ namespace Ling.Map.Builder
 
 		#region public, protected 関数
 
-		public IBuilder Create(Const.BuilderType type)
+		public IBuilder Create(BuilderConst.BuilderType type)
 		{
 			if (_builderFactories.TryGetValue(type, out IFactory<IBuilder> builderFactory))
 			{

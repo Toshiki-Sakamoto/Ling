@@ -2787,8 +2787,8 @@ MonoBehaviour:
   _colorData:
   - _tileFlag: 2
     _color: {r: 0.4575472, g: 0.9161155, b: 1, a: 1}
-  - _tileFlag: 0
-    _color: {r: 0, g: 0, b: 0, a: 0}
+  - _tileFlag: 32
+    _color: {r: 0.5589622, g: 0.745283, b: 0.6112517, a: 0}
   - _tileFlag: 0
     _color: {r: 0, g: 0, b: 0, a: 0}
   _otherColor:

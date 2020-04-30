@@ -91,6 +91,8 @@ namespace Ling.Map.Builder.Split.Half
 			var parentRect = parentData.rect;
 			var data = _builderData;
 
+			MapRect.Data childRect = null;
+
 			int pointA, pointB, distance, point;
 
 			// 分割する
@@ -116,7 +118,7 @@ namespace Ling.Map.Builder.Split.Half
 				point = pointA + UnityEngine.Random.Range(0, distance + 1);
 
 				// 新しく右の区画を作成する 
-				var childRect = _mapRect.CreateRect(parentRect.xMin, parentRect.yMin + point, parentRect.xMax, parentRect.yMax);
+				childRect = _mapRect.CreateRect(parentRect.xMin, parentRect.yMin + point, parentRect.xMax, parentRect.yMax);
 
 				// 元の区画の下をpointに移動させて、上側の区間とする
 				parentData.rect.yMax = childRect.rect.yMin;
@@ -145,30 +147,26 @@ namespace Ling.Map.Builder.Split.Half
 				point = pointA + UnityEngine.Random.Range(0, distance + 1);
 
 				// 新しく右の区画を作成する 
-				var childRect = _mapRect.CreateRect(parentRect.xMin + point, parentRect.yMin, parentRect.xMax, parentRect.yMax);
+				childRect = _mapRect.CreateRect(parentRect.xMin + point, parentRect.yMin, parentRect.xMax, parentRect.yMax);
 
 				// 元の区画の右をpointに移動させて、左側の区間とする
 				parentData.rect.xMax = childRect.rect.xMin;
 			}
 
-			yield return 0.5f;
-
 			// 最新のRectを返すか一個前のRectを返すかをランダムで決める
 			if (UnityEngine.Random.Range(0, 2) == 1)
 			{
-				var enumerator = SplitRect(_mapRect.LatestData, isVertical: !isVertical);
-				while (enumerator.MoveNext())
-				{
-					yield return enumerator.Current;
-				}
+				var tmp = parentData.rect;
+				parentData.rect = childRect.rect;
+				childRect.rect = tmp;
 			}
-			else
+
+			yield return 0.5f;
+
+			var enumerator = SplitRect(childRect, isVertical: !isVertical);
+			while (enumerator.MoveNext())
 			{
-				var enumerator = SplitRect(parentData, isVertical: !isVertical);
-				while (enumerator.MoveNext())
-				{
-					yield return enumerator.Current;
-				}
+				yield return enumerator.Current;
 			}
 		}
 

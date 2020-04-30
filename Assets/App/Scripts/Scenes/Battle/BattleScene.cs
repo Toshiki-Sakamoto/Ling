@@ -46,8 +46,9 @@ namespace Ling.Scenes.Battle
 		#region private 関数
 
 		[Inject] private Map.Builder.IManager _builderManager = null;
-		//[Inject] private PlaceholderFactory<Map.Builder.Const.BuilderType, Map.Builder.IBuilder> _builderFactory = null;
 		[Inject] private Map.Builder.BuilderFactory _builderFactory = null;
+
+		[SerializeField] private BattleView _view = null;
 
 		#endregion
 
@@ -68,7 +69,7 @@ namespace Ling.Scenes.Battle
 		{
 			var builderData = new Map.Builder.BuilderData();
 
-			var builder = _builderFactory.Create(Map.Builder.Const.BuilderType.Split);
+			var builder = _builderFactory.Create(Map.Builder.BuilderConst.BuilderType.Split);
 			builder.Initialize(20, 20);
 
 			_builderManager.SetData(builderData);

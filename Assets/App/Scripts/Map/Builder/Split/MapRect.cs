@@ -76,9 +76,9 @@ namespace Ling.Map.Builder.Split
 		public MapRect()
 		{
 			// 最大の区画分しか作らない(使い回しを考える)
-			_data = new Data[BuilderConst.MaxRectNum];
+			_data = new Data[SplitConst.MaxRectNum];
 
-			for (int i = 0; i < BuilderConst.MaxRectNum; ++i)
+			for (int i = 0; i < SplitConst.MaxRectNum; ++i)
 			{
 				_data[i] = new Data();
 			}

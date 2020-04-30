@@ -25,9 +25,7 @@ namespace Ling.Map.Builder.Split
 	{
 		#region 定数, class, enum
 
-		public class Factory : PlaceholderFactory<Builder>
-		{ 
-		}
+		public class Factory : PlaceholderFactory<Builder> {}
 
 		#endregion
 
@@ -39,9 +37,11 @@ namespace Ling.Map.Builder.Split
 
 		#region private 変数
 
-		[Inject] private SplitBuilderFactory _splitFactory = null;     // 部屋の分割担当
+		[Inject] private SplitBuilderFactory _splitFactory = null;		// 部屋の分割担当
+		[Inject] private Road.SplitRoadBuilderFactory _roadFactory = null;	// 道を作る担当
 
 		private ISplitter _splitter = null;
+		private Road.ISplitRoadBuilder _roadBuilder = null;
 
 		#endregion
 
@@ -107,6 +107,15 @@ namespace Ling.Map.Builder.Split
 			while (roomEnumerator.MoveNext())
 			{
 				yield return roomEnumerator.Current;
+			}
+
+			// 道を作る
+			_roadBuilder = _roadFactory.Create(SplitConst.RoadBuilderType.Simple);
+
+			var roadEnumerator = _roadBuilder.Build(TileDataMap, MapRect);
+			while (roadEnumerator.MoveNext())
+			{
+				yield return roadEnumerator.Current;
 			}
 		}
 
