@@ -17,7 +17,7 @@ namespace Ling.Map.Builder
 				.BindFactory<Split.Builder, Split.Builder.Factory>();
 
 			Container
-				.BindFactory<Const.BuilderType, IBuilder, BuilderFactory>()
+				.BindFactory<BuilderConst.BuilderType, IBuilder, BuilderFactory>()
 				.FromFactory<CustomBuilderFactory>();
 		}
 	}

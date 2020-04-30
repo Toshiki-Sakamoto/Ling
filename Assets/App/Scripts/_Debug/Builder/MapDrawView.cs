@@ -53,7 +53,7 @@ namespace Ling._Debug.Builder
 
 		private int _width, _height;
 		private SpriteRenderer[] _drawSprites;
-		private Map.Builder.Const.BuilderType _builderType;
+		private Map.Builder.BuilderConst.BuilderType _builderType;
 		private Coroutine _coroutine;
 
 		#endregion
@@ -66,7 +66,7 @@ namespace Ling._Debug.Builder
 
 		#region public, protected 関数
 
-		public void Setup(int width, int height, Map.Builder.Const.BuilderType builderType)
+		public void Setup(int width, int height, Map.Builder.BuilderConst.BuilderType builderType)
 		{
 			if (_coroutine != null)
 			{
@@ -89,7 +89,7 @@ namespace Ling._Debug.Builder
 
 			switch (_builderType)
 			{
-				case Map.Builder.Const.BuilderType.Split:
+				case Map.Builder.BuilderConst.BuilderType.Split:
 					SetUp_Split();
 					break;
 
@@ -102,7 +102,7 @@ namespace Ling._Debug.Builder
 		{
 			switch (_builderType)
 			{
-				case Map.Builder.Const.BuilderType.Split:
+				case Map.Builder.BuilderConst.BuilderType.Split:
 					_coroutine = StartCoroutine(DrawUpdate_Split(builder));
 					break;
 

@@ -19,7 +19,7 @@ namespace Ling.Map.Builder
 	/// <summary>
 	/// 定数
 	/// </summary>
-    public class Const
+    public class BuilderConst
     {
 		#region 定数, class, enum
 
@@ -31,6 +31,16 @@ namespace Ling.Map.Builder
 			None	= 0,
 
 			Split,
+		}
+
+		/// <summary>
+		/// 部屋同士をつなぐ道作成方法
+		/// </summary>
+		public enum RoadType
+		{
+			None	= 0,
+
+			Normal,
 		}
 
         #endregion

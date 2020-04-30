@@ -28,6 +28,7 @@ namespace Ling.Map.Builder
 			Wall		= 1 << 2,	// 壁
 			StepUp		= 1 << 3,	// 上り階段
 			StepDown	= 1 << 4,   // 下り階段
+			Road		= 1 << 5,	// 道
 	}
 
 	public static class TileFlagExtensions

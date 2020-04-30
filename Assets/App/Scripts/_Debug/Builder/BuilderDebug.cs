@@ -69,7 +69,7 @@ namespace Ling._Debug.Builder
 				{
 					var builderData = new Map.Builder.BuilderData();
 
-					_builder = _builderFactory.Create(Map.Builder.Const.BuilderType.Split);
+					_builder = _builderFactory.Create(Map.Builder.BuilderConst.BuilderType.Split);
 					_builder.Initialize(setting_.Width, setting_.Height);
 
 					_builder.SetData(builderData);
@@ -82,7 +82,7 @@ namespace Ling._Debug.Builder
                         Random.InitState(setting_.RandomSeed);
 					}
 
-					_view.MapDrawView.Setup(setting_.Width, setting_.Height, Map.Builder.Const.BuilderType.Split);
+					_view.MapDrawView.Setup(setting_.Width, setting_.Height, Map.Builder.BuilderConst.BuilderType.Split);
 					_view.MapDrawView.DrawUpdate(_builder);
 				};
 		}
