@@ -29,6 +29,7 @@ namespace Ling.Common.Editor.CustomScript
             public const string SUMMARY = "#SUMMARY#";
             public const string SCRIPT_NAME = "#SCRIPTNAME#";
             public const string NAMESPACE = "#NAMESPACE#";
+			public const string PARAM1 = "#PARAM1#";
         };
     }
 }

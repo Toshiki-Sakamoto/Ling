@@ -20,6 +20,11 @@ namespace Ling.Scenes.Battle
     {
 		#region 定数, class, enum
 
+		public enum Phase
+		{
+			Start,
+		}
+
 		#endregion
 
 
@@ -50,6 +55,8 @@ namespace Ling.Scenes.Battle
 
 		[SerializeField] private BattleView _view = null;
 
+		protected Utility.PhaseObj<Phase> _phase = new Utility.PhaseObj<Phase>();
+
 		#endregion
 
 
@@ -60,6 +67,7 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		void Awake()
 		{
+			//_phase.Add(Phase.Start, )
 		}
 
 		/// <summary>
