@@ -4,10 +4,15 @@
 //  
 // Created by toshiki sakamoto on 2020.04.13
 // 
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+
+using Ling.Common.Scene;
 using Zenject;
 
 
@@ -23,6 +28,8 @@ namespace Ling.Scenes.Battle
 		public enum Phase
 		{
 			Start,
+			Load,
+			CharaCreate,
 		}
 
 		#endregion
@@ -35,6 +42,13 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
+		[Inject] private Map.Builder.IManager _builderManager = null;
+		[Inject] private Map.Builder.BuilderFactory _builderFactory = null;
+
+		[SerializeField] private BattleView _view = null;
+
+		private Utility.PhaseObj<Phase> _phase = new Utility.PhaseObj<Phase>();
+
 		#endregion
 
 
@@ -45,36 +59,21 @@ namespace Ling.Scenes.Battle
 
 		#region public, protected 関数
 
-		#endregion
-
-
-		#region private 関数
-
-		[Inject] private Map.Builder.IManager _builderManager = null;
-		[Inject] private Map.Builder.BuilderFactory _builderFactory = null;
-
-		[SerializeField] private BattleView _view = null;
-
-		protected Utility.PhaseObj<Phase> _phase = new Utility.PhaseObj<Phase>();
-
-		#endregion
-
-
-		#region MonoBegaviour
+		/// <summary>
+		/// 遷移後まずは呼び出される
+		/// </summary>
+		/// <returns></returns>
+		public override IObservable<Unit> ScenePrepareAsync() =>
+			Observable.Return(Unit.Default);
 
 		/// <summary>
-		/// 初期処理
+		/// シーンが開始される時
 		/// </summary>
-		void Awake()
+		public override void StartScene()
 		{
-			//_phase.Add(Phase.Start, )
-		}
+			_phase.Add(Phase.Start, new Battle.Phase.BattlePhaseStart());
 
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
+
 			var builderData = new Map.Builder.BuilderData();
 
 			var builder = _builderFactory.Create(Map.Builder.BuilderConst.BuilderType.Split);
@@ -87,18 +86,27 @@ namespace Ling.Scenes.Battle
 		}
 
 		/// <summary>
-		/// 更新処理
+		/// シーン終了時
 		/// </summary>
-		void Update()
-		{
-		}
+		public override void StopScene() { }
 
 		/// <summary>
-		/// 終了処理
+		/// シーン遷移前に呼び出される
 		/// </summary>
-		void OnDestoroy()
-		{
-		}
+		/// <returns></returns>
+		public override IObservable<Unit> SceneStopAsync(Argument nextArgument) =>
+			Observable.Return(Unit.Default);
+
+		#endregion
+
+
+		#region private 関数
+
+
+		#endregion
+
+
+		#region MonoBegaviour
 
 		#endregion
 	}

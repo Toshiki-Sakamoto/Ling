@@ -49,7 +49,8 @@ namespace Ling.Scenes.Battle.Phase
 		#region public, protected 関数
 
 		public override void Awake() 
-		{ 
+		{
+			Change(BattleScene.Phase.CharaCreate);
 		}
 
 		public override void Init() 
