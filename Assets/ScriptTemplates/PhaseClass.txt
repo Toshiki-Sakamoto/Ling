@@ -20,7 +20,7 @@ namespace #NAMESPACE#
 	/// <summary>
 	/// #SUMMARY#
 	/// </summary>
-	public class #SCRIPTNAME# : Utility.PhaseObj<#PARAM1#>.Base
+	public class #SCRIPTNAME# : Utility.PhaseScene<#PARAM1#.Phase, #PARAM1#>.Base
     {
 		#region 定数, class, enum
 

@@ -1,8 +1,8 @@
 ﻿// 
-// Player.cs  
+// AnimationStateController.cs  
 // ProductName Ling
 //  
-// Create by toshiki sakamoto on 2019.09.22.
+// Create by toshiki sakamoto on 2019.09.18.
 // 
 using System.Collections;
 using System.Collections.Generic;
@@ -10,12 +10,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Chara
+namespace Ling.Chara
 {
     /// <summary>
     /// 
     /// </summary>
-    public class Player : Base 
+    public class AnimationStateController : MonoBehaviour 
     {
         #region 定数, class, enum
 
@@ -29,24 +29,36 @@ namespace Ling.Map.Chara
 
         #region private 変数
 
-        private MoveController _moveController;
+        [SerializeField] private Animator _animator = null;
+        [SerializeField] private Rigidbody2D _rigidbody = null;
 
         #endregion
 
 
         #region プロパティ
 
-
         #endregion
 
 
         #region public, protected 関数
 
-
         #endregion
 
 
         #region private 関数
+
+        private void SetStateToAnimator(Vector2? vec)
+        {
+            if (!vec.HasValue || vec == Vector2.zero)
+            {
+                //_animator.speed = 0.0f;
+                return;
+            }
+
+//            _animator.speed = 1.0f;
+            _animator.SetFloat("x", vec.Value.x);
+            _animator.SetFloat("y", vec.Value.y);
+        }
 
         #endregion
 
@@ -54,26 +66,15 @@ namespace Ling.Map.Chara
         #region MonoBegaviour
 
         /// <summary>
-        /// 初期処理
-        /// </summary>
-        void Awake()
-        {
-            _moveController = GetComponent<MoveController>();
-            _moveController.SetModel(this);
-        }
-
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
-
-        /// <summary>
         /// 更新処理
         /// </summary>
         void Update()
         {
+            // RigidBodyのvelocityから向きを求める
+            var velocity = _rigidbody.velocity;
+
+
+            SetStateToAnimator(velocity);
         }
 
         /// <summary>

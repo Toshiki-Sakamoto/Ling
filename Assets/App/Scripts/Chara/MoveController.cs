@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Chara
+namespace Ling.Chara
 {
     /// <summary>
     /// 
@@ -79,7 +79,8 @@ namespace Ling.Map.Chara
         /// <returns></returns>
         private IEnumerator Move()
         {
-            var manager = Manager.Instance;
+#if false
+            // var manager = Manager.Instance;
 
             foreach (var elm in _moveList)
             {
@@ -120,12 +121,14 @@ namespace Ling.Map.Chara
 
             _isMoving = false;
             _moveList.Clear();
+#endif
+            yield return null;
         }
 
-        #endregion
+    #endregion
 
 
-        #region MonoBegaviour
+    #region MonoBegaviour
 
 
         private void Start()
@@ -149,6 +152,7 @@ namespace Ling.Map.Chara
                 return;
             }
 
+#if false
             var manager = Manager.Instance;
 
             // x, y の入力
@@ -192,6 +196,7 @@ namespace Ling.Map.Chara
 
                 StartCoroutine(Move());
             }
+#endif
         }
 
         private void FixedUpdate()

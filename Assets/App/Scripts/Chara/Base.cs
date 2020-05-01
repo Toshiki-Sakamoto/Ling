@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Chara
+namespace Ling.Chara
 {
     /// <summary>
     /// 

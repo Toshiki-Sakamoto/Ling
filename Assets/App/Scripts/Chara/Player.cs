@@ -1,8 +1,8 @@
 ﻿// 
-// Scene.cs  
+// Player.cs  
 // ProductName Ling
 //  
-// Create by toshiki sakamoto on 2019.04.30.
+// Create by toshiki sakamoto on 2019.09.22.
 // 
 using System.Collections;
 using System.Collections.Generic;
@@ -10,12 +10,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Main
+namespace Ling.Chara
 {
     /// <summary>
     /// 
     /// </summary>
-    public class Scene : MonoBehaviour 
+    public class Player : Base 
     {
         #region 定数, class, enum
 
@@ -29,21 +29,19 @@ namespace Ling.Main
 
         #region private 変数
 
-        [SerializeField] private View _view = null;
-
-      //  private Utility.PhaseScene<Const.State> _phaseObj = new Utility.PhaseScene<Const.State>();
+        private MoveController _moveController;
 
         #endregion
 
 
         #region プロパティ
 
-        public View View { get { return _view; } }
 
         #endregion
 
 
         #region public, protected 関数
+
 
         #endregion
 
@@ -60,10 +58,8 @@ namespace Ling.Main
         /// </summary>
         void Awake()
         {
-     //       _phaseObj.Add(Const.State.Adv, Phase.Creator<Phase.Adv>.Create(this));
-     //       _phaseObj.Add(Const.State.Start, Phase.Creator<Phase.Start>.Create(this));
-
-     //       _phaseObj.Start(Const.State.Start);
+            _moveController = GetComponent<MoveController>();
+            _moveController.SetModel(this);
         }
 
         /// <summary>
@@ -78,7 +74,6 @@ namespace Ling.Main
         /// </summary>
         void Update()
         {
-         //   _phaseObj.Update();
         }
 
         /// <summary>

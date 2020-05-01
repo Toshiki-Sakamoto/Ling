@@ -148,8 +148,8 @@ namespace Ling.Common.Editor.CustomScript
 			_param1 = GUILayout.TextField(_param1);
 			GUILayout.Space(30);
 
-			// 作成ボタン、作成が成功したらウィンドウを閉じる
-			if (GUILayout.Button("Create"))
+            // 作成ボタン、作成が成功したらウィンドウを閉じる
+            if (GUILayout.Button("Create"))
             {
                 if (CreateScript())
                 {

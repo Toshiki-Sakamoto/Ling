@@ -19,7 +19,7 @@ namespace Ling.Scenes.Battle.Phase
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseStart : Utility.PhaseObj<BattleScene.Phase>.Base
+	public class BattlePhaseStart : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
     {
 		#region 定数, class, enum
 
@@ -50,7 +50,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Awake() 
 		{
-			Change(BattleScene.Phase.CharaCreate);
+			Change(BattleScene.Phase.Load);
 		}
 
 		public override void Init() 

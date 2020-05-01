@@ -1,8 +1,8 @@
 ﻿//
-// BattlePhaseCharaCreate.cs
+// BattlePhaseEnemyAction.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.04.30
+// Created by toshiki sakamoto on 2020.05.01
 //
 
 using System;
@@ -20,7 +20,7 @@ namespace Ling.Scenes.Battle.Phase
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseCharaCreate : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
+	public class BattlePhaseEnemyAction : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
     {
 		#region 定数, class, enum
 
@@ -49,10 +49,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake()
-		{
-			// プレイヤーの作成
-			CharaManager.Instance.CreatePlayer();
+		public override void Awake() 
+		{ 
 		}
 
 		public override void Init() 

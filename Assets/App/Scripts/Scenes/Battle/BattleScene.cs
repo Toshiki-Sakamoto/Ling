@@ -30,6 +30,8 @@ namespace Ling.Scenes.Battle
 			Start,
 			Load,
 			CharaCreate,
+			PlayerAction,
+			EnemyAction,
 		}
 
 		#endregion
@@ -42,12 +44,9 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[Inject] private Map.Builder.IManager _builderManager = null;
-		[Inject] private Map.Builder.BuilderFactory _builderFactory = null;
-
 		[SerializeField] private BattleView _view = null;
 
-		private Utility.PhaseObj<Phase> _phase = new Utility.PhaseObj<Phase>();
+		private Utility.PhaseScene<Phase, BattleScene> _phase = new Utility.PhaseScene<Phase, BattleScene>();
 
 		#endregion
 
@@ -72,17 +71,10 @@ namespace Ling.Scenes.Battle
 		public override void StartScene()
 		{
 			_phase.Add(Phase.Start, new Battle.Phase.BattlePhaseStart());
+			_phase.Add(Phase.Load, new Battle.Phase.BattlePhaseLoad());
+			_phase.Add(Phase.CharaCreate, new Battle.Phase.BattlePhaseCharaCreate());
 
-
-			var builderData = new Map.Builder.BuilderData();
-
-			var builder = _builderFactory.Create(Map.Builder.BuilderConst.BuilderType.Split);
-			builder.Initialize(20, 20);
-
-			_builderManager.SetData(builderData);
-			_builderManager.SetBuilder(builder);
-
-			_builderManager.Builder.Execute();
+			_phase.Start(this, Phase.Start);
 		}
 
 		/// <summary>
@@ -107,6 +99,11 @@ namespace Ling.Scenes.Battle
 
 
 		#region MonoBegaviour
+
+		private void Awake()
+		{
+			StartScene();
+		}
 
 		#endregion
 	}

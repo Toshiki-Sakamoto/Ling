@@ -1,8 +1,8 @@
 ﻿//
-// BattlePhaseCharaCreate.cs
+// PlayerFactory.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.04.30
+// Created by toshiki sakamoto on 2020.05.01
 //
 
 using System;
@@ -15,12 +15,12 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Chara
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseCharaCreate : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
+	public class PlayerFactory
     {
 		#region 定数, class, enum
 
@@ -49,22 +49,11 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake()
+		public Player Create()
 		{
-			// プレイヤーの作成
-			CharaManager.Instance.CreatePlayer();
-		}
+			var player = new Player();
 
-		public override void Init() 
-		{
-		}
-
-		public override void Proc() 
-		{
-		}
-
-		public override void Term() 
-		{ 
+			return player;
 		}
 
 		#endregion

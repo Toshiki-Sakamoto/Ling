@@ -40,7 +40,7 @@ namespace #NAMESPACE#
 
 		#region private 変数
 		
-		private Utility.PhaseObj<Phase> _phase = new Utility.PhaseObj<Phase>();
+		private Utility.PhaseObj<Phase, #SCRIPTNAME#> _phase = new Utility.PhaseObj<Phase, #SCRIPTNAME#>();
 
 		#endregion
 
