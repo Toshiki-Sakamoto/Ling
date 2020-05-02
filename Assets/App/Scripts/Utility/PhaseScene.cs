@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Zenject;
 
 namespace Ling.Utility
 {
@@ -33,6 +33,7 @@ namespace Ling.Utility
             public PhaseScene<T, TScene> PhaseScene { get; set; }
             public PhaseArgBase Arg { get; set; }
 			public TScene Scene { get; set; }
+            public DiContainer DiContainer { get; set; }
 
             /// <summary>
             /// Phaseが開始されたとき
@@ -55,6 +56,8 @@ namespace Ling.Utility
             {
                 PhaseScene.Change(type, arg); 
             }
+
+            public TContract Resolve<TContract>() => DiContainer.Resolve<TContract>();
         }
 
         #endregion
@@ -86,6 +89,8 @@ namespace Ling.Utility
 
         #region public, protected 関数
 
+
+
         /// <summary>
         /// 追加する
         /// </summary>
@@ -101,10 +106,14 @@ namespace Ling.Utility
         /// </summary>
         /// <param name="type">Type.</param>
         public void Start(TScene scene, T type, PhaseArgBase arg = null)
-        { 
-            foreach(var elm in _dict)
+        {
+            _scene = scene;
+
+            foreach (var elm in _dict)
             {
                 elm.Value.PhaseScene = this;
+                elm.Value.DiContainer = _scene.DiContainer;
+                elm.Value.Scene = scene;
                 elm.Value.Awake();
             }
 
@@ -130,7 +139,6 @@ namespace Ling.Utility
             }
 
             next.Arg = arg;
-			next.Scene = _scene;
 			next.Init();
 
             _current = next;

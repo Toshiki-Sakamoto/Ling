@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,6 +34,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
+
 		#endregion
 
 
@@ -48,17 +50,17 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake() 
+		public override void Awake()
 		{
-			Change(BattleScene.Phase.Load);
 		}
 
 		public override void Init() 
 		{
 		}
 
-		public override void Proc() 
+		public override void Proc()
 		{
+			Change(BattleScene.Phase.Load);
 		}
 
 		public override void Term() 

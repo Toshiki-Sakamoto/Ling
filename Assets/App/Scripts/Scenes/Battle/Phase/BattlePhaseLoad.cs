@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniRx;
 using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,10 +36,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private Map.Builder.IManager _builderManager = null;
-		private Map.Builder.BuilderFactory _builderFactory = null;
+		private PoolManager _poolManager;
 
-		private bool _isLoadFinish;
+		private bool _isPoolCreateProcessFinish = false;
 
 		#endregion
 
@@ -50,28 +50,24 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region コンストラクタ, デストラクタ
 
-		public BattlePhaseLoad()
-		{
-			_builderManager = GameManager.Instance.Resolve<Map.Builder.IManager>();
-			_builderFactory = GameManager.Instance.Resolve<Map.Builder.BuilderFactory>();
-		}
 
 		#endregion
 
 
 		#region public, protected 関数
 
-		public override void Awake() 
-		{ 
-			var builderData = new Map.Builder.BuilderData();
+		public override void Awake()
+		{
+			// タイルのプールを作成する
+			// とりあえず最大の数作ってみる
+			_poolManager = Resolve<PoolManager>();
+			_poolManager.SetupPoolItem(PoolType.Map, 10 * 10);
 
-			var builder = _builderFactory.Create(Map.Builder.BuilderConst.BuilderType.Split);
-			builder.Initialize(20, 20);
-
-			_builderManager.SetData(builderData);
-			_builderManager.SetBuilder(builder);
-
-			_ = LoadAsync();
+			_poolManager.CreatePoolItemsAsync().Subscribe(_ =>
+				{
+					_isPoolCreateProcessFinish = true;
+					Debug.Log($"Mapプール作成終了");
+				});
 		}
 
 		public override void Init() 
@@ -80,9 +76,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Proc() 
 		{
-			if (!_isLoadFinish) return;
+			if (!_isPoolCreateProcessFinish) return;
 
-			Change(BattleScene.Phase.CharaCreate);
+			Change(BattleScene.Phase.FloorSetup);
 		}
 
 		public override void Term() 
@@ -94,22 +90,6 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 関数
 
-		private async UniTask LoadAsync()
-		{
-			// マップの作成
-			await _builderManager.Builder.Execute();
-
-			var builder = _builderManager.Builder;
-			var tileDataMap = builder.TileDataMap;
-
-			// マップを作成、配置する
-			foreach(var tileData in tileDataMap)
-			{
-
-			}
-
-			_isLoadFinish = true;
-		}
 
 		#endregion
 	}

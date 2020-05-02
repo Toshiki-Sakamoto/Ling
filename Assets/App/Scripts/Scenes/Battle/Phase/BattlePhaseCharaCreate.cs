@@ -55,8 +55,9 @@ namespace Ling.Scenes.Battle.Phase
 			CharaManager.Instance.CreatePlayer();
 		}
 
-		public override void Init() 
+		public override void Init()
 		{
+			Change(BattleScene.Phase.PlayerAction);
 		}
 
 		public override void Proc() 

@@ -1,8 +1,8 @@
 ﻿//
-// BattlePhasePlayerAction.cs
+// MiniMapControl.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.01
+// Created by toshiki sakamoto on 2020.05.02
 //
 
 using System;
@@ -15,12 +15,12 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.MiniMap
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhasePlayerAction : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
+	public class MiniMapControl
     {
 		#region 定数, class, enum
 
@@ -34,6 +34,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
+		private MiniMapView _view;
+
 		#endregion
 
 
@@ -44,25 +46,21 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region コンストラクタ, デストラクタ
 
+		public MiniMapControl()
+		{
+			var view = GameManager.Instance.Resolve<BattleView>();
+			_view = view.MiniMap;
+		}
+
 		#endregion
 
 
 		#region public, protected 関数
 
-		public override void Awake()
-		{
-		}
 
-		public override void Init() 
+		public void Setup(int width, int height)
 		{
-		}
-
-		public override void Proc()
-		{
-		}
-
-		public override void Term() 
-		{ 
+			_view.Setup(width, height);
 		}
 
 		#endregion

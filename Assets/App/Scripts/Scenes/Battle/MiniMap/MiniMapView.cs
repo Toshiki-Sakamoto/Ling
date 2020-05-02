@@ -1,21 +1,24 @@
 ﻿// 
-// View.cs  
+// MiniMapView.cs  
 // ProductName Ling
 //  
-// Created by toshiki sakamoto on 2020.04.13
+// Created by toshiki sakamoto on 2020.05.02
 // 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
+using Zenject;
 
-namespace Ling.Scenes.Battle
+
+namespace Ling.Scenes.Battle.MiniMap
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattleView : MonoBehaviour 
+	public class MiniMapView : MonoBehaviour 
     {
 		#region 定数, class, enum
 
@@ -29,19 +32,35 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[SerializeField] private MiniMap.MiniMapView _miniMapView = null;
+		[SerializeField] private Grid _grid = null;
+		[SerializeField] private Tilemap _tileMap = null;
 
 		#endregion
 
 
 		#region プロパティ
 
-		public MiniMap.MiniMapView MiniMap => _miniMapView;
-
 		#endregion
 
 
 		#region public, protected 関数
+
+		public void Setup(int width, int height)
+		{
+			for (int y = 0; y <= height; ++y)
+			{
+				for (int x = 0; x <= width; ++x)
+				{
+					var tile = Resources.Load<Tile>("Tiles/RandomTile");
+					_tileMap.SetTile(new Vector3Int(x, y, 0), tile);
+				}
+			}
+		}
+
+		public void Clear()
+		{
+			_tileMap.ClearAllTiles();
+		}
 
 		#endregion
 
@@ -58,6 +77,8 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		void Awake()
 		{
+			var tile = _tileMap.GetTile(new Vector3Int(0, 0, 0));
+
 		}
 
 		/// <summary>

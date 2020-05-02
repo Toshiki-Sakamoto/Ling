@@ -111,6 +111,7 @@ namespace Ling.Common.Scene
 			// 遷移前処理
 			if (_sceneInstance != null)
 			{
+				_sceneInstance.IsStartScene = false;
 				_sceneInstance.StopScene();
 
 				await _sceneInstance.SceneStopAsync(argument);
@@ -176,6 +177,7 @@ namespace Ling.Common.Scene
 							// 事前準備が終わったのでここで始める`
 							scene.gameObject.SetActive(true);
 
+							scene.IsStartScene = true;
 							scene.StartScene();
 						});
 				});
@@ -225,6 +227,10 @@ namespace Ling.Common.Scene
 		/// </summary>
 		void Update()
 		{
+			if (_sceneInstance == null) return;
+			if (!_sceneInstance.IsStartScene) return;
+
+			_sceneInstance.UpdateScene();
 		}
 
 		/// <summary>
