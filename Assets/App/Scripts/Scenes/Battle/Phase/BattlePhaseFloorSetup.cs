@@ -21,8 +21,8 @@ namespace Ling.Scenes.Battle.Phase
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseFloorSetup : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
-    {
+	public class BattlePhaseFloorSetup : BattlePhaseBase
+	{
 		#region 定数, class, enum
 
 		#endregion

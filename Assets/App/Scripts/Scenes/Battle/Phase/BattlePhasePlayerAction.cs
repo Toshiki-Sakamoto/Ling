@@ -20,8 +20,8 @@ namespace Ling.Scenes.Battle.Phase
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhasePlayerAction : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
-    {
+	public class BattlePhasePlayerAction : BattlePhaseBase
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -59,6 +59,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Proc()
 		{
+#if UNITY_EDITOR
+			KeyCommandProcess();
+#endif
 		}
 
 		public override void Term() 
@@ -69,6 +72,45 @@ namespace Ling.Scenes.Battle.Phase
 
 
 		#region private 関数
+
+#if UNITY_EDITOR
+		private void KeyCommandProcess()
+		{
+			// x, y の入力
+			// 関連付けはInput Managerで行っている
+			var moveDir = Vector3Int.zero;
+
+			if (Input.GetKey(KeyCode.LeftArrow))
+			{
+				moveDir = Vector3Int.left;
+			}
+			else if (Input.GetKey(KeyCode.RightArrow))
+			{
+				moveDir = Vector3Int.right;
+			}
+			else if (Input.GetKey(KeyCode.UpArrow))
+			{
+				moveDir = Vector3Int.up;
+			}
+			else if (Input.GetKey(KeyCode.DownArrow))
+			{
+				moveDir = Vector3Int.down;
+			}
+
+			if (moveDir != Vector3Int.zero)
+			{
+				var eventPlayerMove = GameManager.Instance.EventHolder.PlayerMove;
+
+				//_trsModel.SetDirection(new Vector3(moveDir.x, moveDir.y, 0.0f));
+
+				//var movePos = _trsModel.CellPos + moveDir;
+
+				//_moveList.Add(movePos);
+
+				//StartCoroutine(Move());
+			}
+		}
+#endif
 
 		#endregion
 	}

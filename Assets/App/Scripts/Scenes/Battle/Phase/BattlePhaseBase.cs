@@ -1,8 +1,8 @@
 ﻿//
-// GameManager.cs
+// BattlePhaseBase.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.01
+// Created by toshiki sakamoto on 2020.05.03
 //
 
 using System;
@@ -15,13 +15,13 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle
+namespace Ling.Scenes.Battle.Phase
 {
 	/// <summary>
-	/// BattleScene全体を管理する
+	/// 
 	/// </summary>
-	public class GameManager : Utility.MonoSingleton<GameManager>
-    {
+	public class BattlePhaseBase : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -34,29 +34,27 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[Inject] private DiContainer _diContainer;
+		protected GameManager _gameManager;
 
 		#endregion
 
 
 		#region プロパティ
 
-		public EventHolder EventHolder { get; } = new EventHolder();
-
 		#endregion
 
 
 		#region コンストラクタ, デストラクタ
 
+		public BattlePhaseBase()
+		{
+			_gameManager = GameManager.Instance;
+		}
+
 		#endregion
 
 
 		#region public, protected 関数
-
-		/// <summary>
-		/// DIContainerから指定した参照の解決
-		/// </summary>
-		public TContract Resolve<TContract>() => _diContainer.Resolve<TContract>();
 
 		#endregion
 

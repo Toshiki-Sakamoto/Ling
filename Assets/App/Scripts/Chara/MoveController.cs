@@ -151,49 +151,6 @@ namespace Ling.Chara
             {
                 return;
             }
-
-            // x, y の入力
-            // 関連付けはInput Managerで行っている
-            //            _inputAxis.x = Input.GetAxis("Horizontal");
-            //            _inputAxis.y = Input.GetAxis("Vertical");
-
-            var moveDir = Vector3Int.zero;
-
-            if (Input.GetKey(KeyCode.LeftArrow))
-            {
-                moveDir = Vector3Int.left;
-            }
-            else if (Input.GetKey(KeyCode.RightArrow))
-            {
-                moveDir = Vector3Int.right;
-            }
-            else if (Input.GetKey(KeyCode.UpArrow))
-            {
-                moveDir = Vector3Int.up;
-            }
-            else if (Input.GetKey(KeyCode.DownArrow))
-            {
-                moveDir = Vector3Int.down;
-            }
-
-            if (moveDir != Vector3Int.zero)
-            {
-                _trsModel.SetDirection(new Vector3(moveDir.x, moveDir.y, 0.0f));
-
-                var movePos = _trsModel.CellPos + moveDir;
-                /*
-                if (!manager.IsPassable(movePos))
-                {
-                    // 移動できない
-                    return;
-                }*/
-
-                _isMoving = true;
-
-                _moveList.Add(movePos);
-
-                StartCoroutine(Move());
-            }
         }
 
         private void FixedUpdate()
