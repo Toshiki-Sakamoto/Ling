@@ -45,16 +45,19 @@ namespace Ling.Scenes.Battle.MiniMap
 
 		#region public, protected 関数
 
-		public void Setup(int width, int height)
+		public void Setup(int width, int height, Common.Tile.MiniMapTile tile)
 		{
 			for (int y = 0; y <= height; ++y)
 			{
 				for (int x = 0; x <= width; ++x)
 				{
-					var tile = Resources.Load<Tile>("Tiles/RandomTile");
 					_tileMap.SetTile(new Vector3Int(x, y, 0), tile);
 				}
 			}
+
+			// 画面中央に持ってくる
+			var tileMapSize = _tileMap.size;
+			_tileMap.transform.localPosition = new Vector3(tileMapSize.x * -0.5f, 0.0f, 0.0f);
 		}
 
 		public void Clear()

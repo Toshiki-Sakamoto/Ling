@@ -110,6 +110,12 @@ namespace Ling.Map.Builder
         }
 
 		/// <summary>
+		/// 範囲内かどうか
+		/// </summary>
+		public bool InRange(int x, int y) =>
+			x >= 0 && x < Width && y >= 0 && y < Height;
+
+		/// <summary>
 		/// [x, y] から指定したタイル情報を返す
 		/// </summary>
 		/// <param name="x"></param>
@@ -124,6 +130,22 @@ namespace Ling.Map.Builder
 
 		public ref TileData GetTile(int index) =>
 			ref Tiles[index];
+
+		/// <summary>
+		/// [x, y] から指定した<see cref="TileFlag"/>を返す
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public TileFlag GetTileFlag(int x, int y)
+		{
+			Utility.Log.Assert(x >= 0 && x <= Width && y >= 0 && y <= Height, "範囲から飛び出してます");
+
+			return GetTileFlag(y * Width + x);
+		}
+
+		public TileFlag GetTileFlag(int index) =>
+			GetTile(index).Flag;
 
 
 		#endregion

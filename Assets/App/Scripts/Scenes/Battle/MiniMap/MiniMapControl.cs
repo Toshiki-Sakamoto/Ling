@@ -35,6 +35,7 @@ namespace Ling.Scenes.Battle.MiniMap
 		#region private 変数
 
 		private MiniMapView _view;
+		private Common.Tile.MiniMapTile _miniMapTile;
 
 		#endregion
 
@@ -50,6 +51,12 @@ namespace Ling.Scenes.Battle.MiniMap
 		{
 			var view = GameManager.Instance.Resolve<BattleView>();
 			_view = view.MiniMap;
+
+			_miniMapTile = Resources.Load<Common.Tile.MiniMapTile>("Tiles/MiniMapTile");
+			if (_miniMapTile == null)
+			{
+				Utility.Log.Error("MiniMapTileリソースが見つかりません");
+			}
 		}
 
 		#endregion
@@ -58,9 +65,15 @@ namespace Ling.Scenes.Battle.MiniMap
 		#region public, protected 関数
 
 
-		public void Setup(int width, int height)
+		public void Setup(Map.Builder.TileDataMap tileDataMap)
 		{
-			_view.Setup(width, height);
+			// タイル情報の再設定
+			_miniMapTile.SetTileDataMap(tileDataMap);
+
+			var width = tileDataMap.Width;
+			var height = tileDataMap.Height;
+
+			_view.Setup(width, height, _miniMapTile);
 		}
 
 		#endregion

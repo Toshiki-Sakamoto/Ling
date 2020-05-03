@@ -12,23 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce2d4ae60f59b144fac34628c30b0a11, type: 3}
   m_Name: MiniMapTile
   m_EditorClassIdentifier: 
-  _miniMapData:
-  - tileFlag: 0
-    sprite: {fileID: 0}
-    color: {r: 1, g: 1, b: 1, a: 0}
-  - tileFlag: 2
-    sprite: {fileID: 0}
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - tileFlag: 4
-    sprite: {fileID: 0}
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - tileFlag: 8
-    sprite: {fileID: 0}
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - tileFlag: 16
-    sprite: {fileID: 0}
-    color: {r: 1, g: 1, b: 1, a: 1}
-  - tileFlag: 32
-    sprite: {fileID: 0}
-    color: {r: 1, g: 1, b: 1, a: 1}
-  _tileFlag: 0
+  _spriteData: []
