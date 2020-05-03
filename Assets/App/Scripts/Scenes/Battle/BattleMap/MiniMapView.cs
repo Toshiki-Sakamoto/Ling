@@ -13,7 +13,7 @@ using UnityEngine.UI;
 using Zenject;
 
 
-namespace Ling.Scenes.Battle.MiniMap
+namespace Ling.Scenes.Battle.BattleMap
 {
 	/// <summary>
 	/// 
@@ -45,7 +45,7 @@ namespace Ling.Scenes.Battle.MiniMap
 
 		#region public, protected 関数
 
-		public void Setup(int width, int height, Common.Tile.MiniMapTile tile)
+		public void Setup(int width, int height, Common.Tile.MapTile tile)
 		{
 			for (int y = 0; y <= height; ++y)
 			{
@@ -80,8 +80,6 @@ namespace Ling.Scenes.Battle.MiniMap
 		/// </summary>
 		void Awake()
 		{
-			var tile = _tileMap.GetTile(new Vector3Int(0, 0, 0));
-
 		}
 
 		/// <summary>

@@ -1,21 +1,24 @@
 ﻿// 
-// View.cs  
+// MapView.cs  
 // ProductName Ling
 //  
-// Created by toshiki sakamoto on 2020.04.13
+// Created by toshiki sakamoto on 2020.05.03
 // 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
+using Zenject;
 
-namespace Ling.Scenes.Battle
+
+namespace Ling.Scenes.Battle.BattleMap
 {
 	/// <summary>
-	/// 
+	/// ダンジョンマップView
 	/// </summary>
-	public class BattleView : MonoBehaviour 
+	public class MapView : MonoBehaviour 
     {
 		#region 定数, class, enum
 
@@ -29,21 +32,37 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[SerializeField] private BattleMap.MapView _mapView = null;
-		[SerializeField] private BattleMap.MiniMapView _miniMapView = null;
+		// Ground用
+		[SerializeField] private Grid _groundGrid = null;
+		[SerializeField] private Tilemap _groundTileMap = null;
 
 		#endregion
 
 
 		#region プロパティ
 
-		public BattleMap.MapView MapView => _mapView;
-		public BattleMap.MiniMapView MiniMap => _miniMapView;
+		public Tilemap Tilemap => _groundTileMap;
 
 		#endregion
 
 
 		#region public, protected 関数
+
+		public void Setup(int width, int height, Common.Tile.MapTile tile)
+		{
+			for (int y = 0; y <= height; ++y)
+			{
+				for (int x = 0; x <= width; ++x)
+				{
+					_groundTileMap.SetTile(new Vector3Int(x, y, 0), tile);
+				}
+			}
+		}
+
+		public void Clear()
+		{
+			_groundTileMap.ClearAllTiles();
+		}
 
 		#endregion
 

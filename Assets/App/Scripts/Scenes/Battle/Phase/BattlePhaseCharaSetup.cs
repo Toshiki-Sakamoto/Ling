@@ -20,7 +20,7 @@ namespace Ling.Scenes.Battle.Phase
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseCharaCreate : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
+	public class BattlePhaseCharaSetup : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
     {
 		#region 定数, class, enum
 
@@ -33,6 +33,11 @@ namespace Ling.Scenes.Battle.Phase
 
 
 		#region private 変数
+
+		private Map.Builder.IManager _builderManager = null;
+		private MapManager _mapManager;
+
+		private Chara.Player _player;
 
 		#endregion
 
@@ -51,13 +56,21 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Awake()
 		{
-			// プレイヤーの作成
-			CharaManager.Instance.CreatePlayer();
 		}
 
 		public override void Init()
 		{
-			Change(BattleScene.Phase.PlayerAction);
+			_builderManager = Resolve<Map.Builder.IManager>();
+			_mapManager = Resolve<MapManager>();
+
+			var builder = _builderManager.Builder;
+			var playerPos = builder.GetPlayerInitPosition();
+
+			var playerWorldPos = _mapManager.GetCellCenterWorldByMap(playerPos.x, playerPos.y);
+
+			// プレイヤーの作成
+			_player = CharaManager.Instance.CreatePlayer();
+			_player.SetCellPos(playerPos);
 		}
 
 		public override void Proc() 

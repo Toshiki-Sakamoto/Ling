@@ -11,11 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.MiniMap
+namespace Ling.Scenes.Battle.BattleMap
 {
 	/// <summary>
 	/// 
@@ -35,29 +36,20 @@ namespace Ling.Scenes.Battle.MiniMap
 		#region private 変数
 
 		private MiniMapView _view;
-		private Common.Tile.MiniMapTile _miniMapTile;
+		private Common.Tile.MapTile _miniMapTile;
 
 		#endregion
 
 
 		#region プロパティ
 
+		public Tilemap Tilemap => null;// _view.Tilemap;
+
 		#endregion
 
 
 		#region コンストラクタ, デストラクタ
 
-		public MiniMapControl()
-		{
-			var view = GameManager.Instance.Resolve<BattleView>();
-			_view = view.MiniMap;
-
-			_miniMapTile = Resources.Load<Common.Tile.MiniMapTile>("Tiles/MiniMapTile");
-			if (_miniMapTile == null)
-			{
-				Utility.Log.Error("MiniMapTileリソースが見つかりません");
-			}
-		}
 
 		#endregion
 
@@ -67,6 +59,15 @@ namespace Ling.Scenes.Battle.MiniMap
 
 		public void Setup(Map.Builder.TileDataMap tileDataMap)
 		{
+			var view = GameManager.Instance.Resolve<BattleView>();
+			_view = view.MiniMap;
+
+			_miniMapTile = Resources.Load<Common.Tile.MapTile>("Tiles/MiniMapTile");
+			if (_miniMapTile == null)
+			{
+				Utility.Log.Error("MiniMapTileリソースが見つかりません");
+			}
+
 			// タイル情報の再設定
 			_miniMapTile.SetTileDataMap(tileDataMap);
 

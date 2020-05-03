@@ -37,7 +37,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		private Map.Builder.IManager _builderManager = null;
 		private Map.Builder.BuilderFactory _builderFactory = null;
-		private MiniMap.MiniMapControl _miniMapControl;
+		private MapManager _mapManager = null;
+
 		private bool _isLoadFinish;
 
 		#endregion
@@ -57,8 +58,13 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Awake()
 		{
+		}
+
+		public override void Init()
+		{
 			_builderManager = Resolve<Map.Builder.IManager>();
 			_builderFactory = Resolve<Map.Builder.BuilderFactory>();
+			_mapManager = Resolve<MapManager>();
 
 			var builderData = new Map.Builder.BuilderData();
 
@@ -68,17 +74,14 @@ namespace Ling.Scenes.Battle.Phase
 			_builderManager.SetData(builderData);
 			_builderManager.SetBuilder(builder);
 
-			_miniMapControl = Scene.MiniMapControl;
-
 			_ = LoadAsync();
-		}
-
-		public override void Init() 
-		{
 		}
 
 		public override void Proc() 
 		{
+			if (!_isLoadFinish) return;
+
+			Change(BattleScene.Phase.CharaSetup);
 		}
 
 		public override void Term() 
@@ -95,8 +98,8 @@ namespace Ling.Scenes.Battle.Phase
 			// マップの作成
 			await _builderManager.Builder.Execute();
 
-			// ミニマップの設定
-			_miniMapControl.Setup(_builderManager.Builder.TileDataMap);
+			// 作成されたマップ情報からマップ、ミニマップの設定
+			_mapManager.Setup();
 
 			_isLoadFinish = true;
 		}

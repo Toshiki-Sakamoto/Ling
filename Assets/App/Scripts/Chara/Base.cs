@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 
@@ -30,7 +31,10 @@ namespace Ling.Chara
         #region private 変数
         
         [SerializeField] private Animator _animator = null;
-        [SerializeField] private Vector2Int _vecCellPos = Vector2Int.zero; // マップ上の自分の位置
+        [SerializeField] private Vector3Int _vecCellPos = Vector3Int.zero; // マップ上の自分の位置
+        [SerializeField] private MoveController _moveController = null;
+
+        private Tilemap _tilemap;
 
         #endregion
 
@@ -40,22 +44,47 @@ namespace Ling.Chara
         /// <summary>
         /// マップ上の現在の位置
         /// </summary>
-        public Vector2Int CellPos { get { return _vecCellPos; } }
+        public Vector3Int CellPos { get { return _vecCellPos; } }
+
+        /// <summary>
+        /// 動きを管理する
+        /// </summary>
+        public MoveController MoveController => _moveController;
 
         #endregion
 
 
         #region public, protected 関数
 
+        /// <summary>
+        /// Tilemap情報を設定する
+        /// </summary>
+        /// <param name="tilemap"></param>
+        public void SetTilemap(Tilemap tilemap)
+        {
+            _tilemap = tilemap;
+
+            MoveController.SetTilemap(tilemap);
+        }
 
         /// <summary>
         /// 座標の設定
         /// </summary>
         /// <param name="pos"></param>
-        public void SetCellPos(Vector2Int pos)
+        public void SetCellPos(Vector3Int pos)
         {
             _vecCellPos = pos;
+
+            // 座標の中央に合わせる
+            CellCenterFit();
         }
+
+        /// <summary>
+        /// ワールド空間の座標を設定
+        /// </summary>
+        /// <param name="worldPos"></param>
+        public void SetWorldPos(Vector3 worldPos) =>
+            transform.position = worldPos;
 
         /// <summary>
         /// 向き
@@ -72,6 +101,18 @@ namespace Ling.Chara
 
 
         #region private 関数
+
+
+        /// <summary>
+        /// 指定したオブジェクトを現在のタイルの中央にぴったりと合わせる
+        /// </summary>
+        public void CellCenterFit()
+        {
+            //var cellPos = _tilemap.WorldToCell(transform.position);
+            var centerPos = _tilemap.GetCellCenterWorld(_vecCellPos);
+
+            transform.position = centerPos;
+        }
 
         #endregion
 

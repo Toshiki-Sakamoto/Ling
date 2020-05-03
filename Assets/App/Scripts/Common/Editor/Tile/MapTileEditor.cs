@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 using Zenject;
 using Ling.Common.Tile;
@@ -22,10 +23,10 @@ namespace Ling.Common.Editor.Tile
 	/// 
 	/// </summary>
 #if UNITY_EDITOR
-	[CustomEditor(typeof(MiniMapTile))]
-	public class MiniMapTileEditor : UnityEditor.Editor
+	[CustomEditor(typeof(MapTile))]
+	public class MapTileEditor : UnityEditor.Editor
 	{
-		private MiniMapTile _tile = null;
+		private MapTile _tile = null;
 		private bool[] _foldings;
 		private bool _isFolingList;
 		private Sprite _allSetSprite;
@@ -50,35 +51,34 @@ namespace Ling.Common.Editor.Tile
 			};
 
 
-		private MiniMapTile Tile
+		private MapTile Tile
 		{
 			get
 			{
 				if (_tile == null)
 				{
-					_tile = target as MiniMapTile;
+					_tile = target as MapTile;
 				}
 
 				return _tile;
 			}
 		}
 
-
 		public void OnEnable()
 		{
-			if (Tile.SpriteData.IsNullOrEmpty())
+			_foldings = new bool[Tile.SpriteData.Length];
+
+			if (ShouldSetupMapData())
 			{
-				Tile.SetupMiniMapData();
+				Tile.SetupMapData();
 
 				EditorUtility.SetDirty(Tile);
 			}
-
-			_foldings = new bool[Tile.SpriteData.Length];
 		}
 
 		public override void OnInspectorGUI()
 		{
-			EditorGUILayout.LabelField("MiniMap用のSpriteを設定してください");
+			EditorGUILayout.LabelField("Map用のSpriteを設定してください");
 			EditorGUILayout.Space();
 
 			float oldLabelWidth = EditorGUIUtility.labelWidth;
@@ -126,7 +126,7 @@ namespace Ling.Common.Editor.Tile
 			GUILayout.Space(20);
 
 			// 色
-			Tile.TileColor = EditorGUILayout.ColorField("ミニマップタイルの色", Tile.TileColor);
+			Tile.TileColor = EditorGUILayout.ColorField("マップタイルの色", Tile.TileColor);
 
 			if (EditorGUI.EndChangeCheck())
 			{
@@ -136,15 +136,23 @@ namespace Ling.Common.Editor.Tile
 			EditorGUIUtility.labelWidth = oldLabelWidth;
 		}
 
+		private bool ShouldSetupMapData()
+		{
+			if (Tile.SpriteData.IsNullOrEmpty()) return true;
+			if (Tile.SpriteData.Any(spriteData_ => spriteData_ == null)) return true;
+			if (Tile.SpriteData.Any(spriteData_ => spriteData_.Sprites.IsNullOrEmpty())) return true;
+			return false;
+		}
 
 
-		[MenuItem("MiniMapTile", menuItem = "Assets/Create/Ling/Tile/MiniMapTile", priority = 1)]
+
+		[MenuItem("MapTile", menuItem = "Assets/Create/Ling/Tile/MapTile", priority = 1)]
 		public static void CreateMiniMapTile()
 		{
-			string path = EditorUtility.SaveFilePanelInProject("Save MiniMapTile", "New MiniMapTile", "asset", "保存", "Assets");
+			string path = EditorUtility.SaveFilePanelInProject("Save MapTile", "New MapTile", "asset", "保存", "Assets");
 			if (string.IsNullOrEmpty(path)) return;
 
-			AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<MiniMapTile>(), path);
+			AssetDatabase.CreateAsset(ScriptableObject.CreateInstance<MapTile>(), path);
 		}
 	}
 

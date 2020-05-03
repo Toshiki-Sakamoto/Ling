@@ -22,13 +22,20 @@ namespace Ling.Common.Tile
 	/// </summary>
 
 	[System.Serializable]
-	public class MiniMapTileSpriteData
+	public class MapTileSpriteData
 	{
-		private bool _isValid = false;  // 有効
+		[SerializeField] private bool _isValid = false;
+		[SerializeField] private Sprite[] _sprites = null;
+		[SerializeField] private Map.Builder.TileFlag _tileFlag = Map.Builder.TileFlag.None;
 
-		public Sprite[] Sprites { get; private set; }
+		/// <summary>
+		/// 描画有効/無効か
+		/// </summary>
+		public bool IsValid { get { return _isValid; } set { _isValid = value; } } 
 
-		public Map.Builder.TileFlag TileFlag { get; private set; }
+		public Sprite[] Sprites { get { return _sprites; } private set { _sprites = value; } }
+
+		public Map.Builder.TileFlag TileFlag { get { return _tileFlag; } private set { _tileFlag = value; } }
 
 
 		public void Setup(Map.Builder.TileFlag tileFlag, int spriteMax)

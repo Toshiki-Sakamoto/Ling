@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 using Zenject;
@@ -15,23 +16,12 @@ using Zenject;
 namespace Ling.Scenes.Battle
 {
 	/// <summary>
-	/// 
+	/// Map管理者
+	/// ミニマップも管理させる
 	/// </summary>
 	public class MapManager : Utility.MonoSingleton<MapManager> 
     {
 		#region 定数, class, enum
-
-		public class Cache
-		{
-			public int CacheMax { get; set; }
-
-			private Transform _cacheRoot;
-
-			public void Setup(Transform cacheRoot)
-			{
-				_cacheRoot = cacheRoot;
-			}
-		}
 
 		#endregion
 
@@ -44,29 +34,42 @@ namespace Ling.Scenes.Battle
 		#region private 変数
 
 		[SerializeField] private Transform _root = null;
-		[SerializeField] private Transform _cacheRoot = null;   // 非アクティブタイルをキャッシュしておくところ
 
 		[Inject] private Map.Builder.IManager _builderManager = null;
-
-		private Cache _cache = new Cache();
 
 		#endregion
 
 
 		#region プロパティ
 
+		/// <summary>
+		/// Map/MiniMapの管理
+		/// </summary>
+		public BattleMap.MapControl MapControl { get; private set; }
+		public BattleMap.MiniMapControl MiniMapControl { get; private set; }
+
+		/// <summary>
+		/// Tilemapの参照
+		/// </summary>
+		public Tilemap MapTilemap => MapControl.Tilemap;
+		public Tilemap MiniMapTilemap => MiniMapControl.Tilemap;
+
 		#endregion
 
 
 		#region public, protected 関数
 
-		/// <summary>
-		/// 予め決められた数のタイルオブジェクトを作成し、キャッシュしておく 
-		/// </summary>
-		public void Initialize(int maxWidth, int maxHeight)
+		public void Setup()
 		{
+			// マップの設定
+			MapControl.Setup(_builderManager.Builder.TileDataMap);
 
+			// ミニマップの設定
+			MiniMapControl.Setup(_builderManager.Builder.TileDataMap);
 		}
+
+		public Vector3 GetCellCenterWorldByMap(int x, int y) =>
+			MapControl.GetCellCenterWorld(x, y);
 
 		#endregion
 
@@ -78,25 +81,14 @@ namespace Ling.Scenes.Battle
 
 		#region MonoBegaviour
 
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
 
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
+		protected override void Awake()
 		{
-		}
+			base.Awake();
 
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestoroy()
-		{
+			// 各種Controlの生成
+			MapControl = new BattleMap.MapControl();
+			MiniMapControl = new BattleMap.MiniMapControl();
 		}
 
 		#endregion

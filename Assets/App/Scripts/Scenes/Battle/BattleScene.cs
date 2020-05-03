@@ -30,7 +30,7 @@ namespace Ling.Scenes.Battle
 			Start,
 			Load,
 			FloorSetup,
-			CharaCreate,
+			CharaSetup,
 			PlayerAction,
 			EnemyAction,
 		}
@@ -54,7 +54,6 @@ namespace Ling.Scenes.Battle
 
 		#region プロパティ
 
-		public MiniMap.MiniMapControl MiniMapControl { get; private set; }
 
 		#endregion
 
@@ -76,11 +75,8 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.Start, new Battle.Phase.BattlePhaseStart());
 			_phase.Add(Phase.Load, new Battle.Phase.BattlePhaseLoad());
 			_phase.Add(Phase.FloorSetup, new Battle.Phase.BattlePhaseFloorSetup());
-			_phase.Add(Phase.CharaCreate, new Battle.Phase.BattlePhaseCharaCreate());
+			_phase.Add(Phase.CharaSetup, new Battle.Phase.BattlePhaseCharaSetup());
 			_phase.Add(Phase.PlayerAction, new Battle.Phase.BattlePhasePlayerAction());
-
-			// 各種Controlの生成
-			MiniMapControl = new MiniMap.MiniMapControl();
 
 			_phase.Start(this, Phase.Start);
 		}

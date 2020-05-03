@@ -20,7 +20,7 @@ namespace Ling.Chara
 	/// <summary>
 	/// 
 	/// </summary>
-	public class PlayerFactory
+	public class PlayerFactory : MonoBehaviour
     {
 		#region 定数, class, enum
 
@@ -33,6 +33,9 @@ namespace Ling.Chara
 
 
 		#region private 変数
+
+		[SerializeField] private Transform _root = null;
+		[SerializeField] private Player _playerPrefab = null;
 
 		#endregion
 
@@ -51,7 +54,12 @@ namespace Ling.Chara
 
 		public Player Create()
 		{
-			var player = new Player();
+			var player = GameObject.Instantiate<Player>(_playerPrefab, _root);
+			if (player == null)
+			{
+				Utility.Log.Assert(false, "Playerの生成に失敗しました");
+				return null;
+			}
 
 			return player;
 		}

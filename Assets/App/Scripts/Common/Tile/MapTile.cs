@@ -23,7 +23,7 @@ namespace Ling.Common.Tile
 	/// MiniMap用のTile
 	/// </summary>
 	[System.Serializable]
-	public class MiniMapTile : TileBase 
+	public class MapTile : TileBase 
     {
 		#region 定数, class, enum
 
@@ -40,7 +40,7 @@ namespace Ling.Common.Tile
 
 		#region private 変数
 
-		[SerializeField] private MiniMapTileSpriteData[] _spriteData = null;
+		[SerializeField] private MapTileSpriteData[] _spriteData = null;
 		[SerializeField] private Color _color = Color.white;
 
 		private Map.Builder.TileFlag _currentTileFlag;
@@ -50,7 +50,7 @@ namespace Ling.Common.Tile
 
 		#region プロパティ
 
-		public MiniMapTileSpriteData[] SpriteData => _spriteData;
+		public MapTileSpriteData[] SpriteData => _spriteData;
 
 		public Color TileColor { get { return _color; } set { _color = value; } }
 
@@ -67,19 +67,16 @@ namespace Ling.Common.Tile
 		/// <summary>
 		/// MiniMapのSpriteデータを持つクラスの設定
 		/// </summary>
-		public void SetupMiniMapData()
+		public void SetupMapData()
 		{
-			// すでに存在する場合は何もしない
-			if (!_spriteData.IsNullOrEmpty()) return;
-
 			// TileFlagの数だけSpriteデータクラスを作成しセットアップする
 			var tileFlags = System.Enum.GetValues(typeof(Map.Builder.TileFlag));
-			_spriteData = new MiniMapTileSpriteData[tileFlags.Length];
+			_spriteData = new MapTileSpriteData[tileFlags.Length];
 
 			int count = 0;
 			foreach (Map.Builder.TileFlag tileFlag in tileFlags)
 			{
-				var miniMapData = new MiniMapTileSpriteData();
+				var miniMapData = new MapTileSpriteData();
 				miniMapData.Setup(tileFlag, SpriteMax);
 
 				_spriteData[count++] = miniMapData;
@@ -108,7 +105,7 @@ namespace Ling.Common.Tile
 				for (int x = -1; x <= 1; ++x)
 				{
 					var tilePos = new Vector3Int(position.x + x, position.y + y, position.z);
-					Debug.Log(tilePos.ToString());
+
 					if (IsNighbor(tilemap, position, tilePos))
 					{
 						tilemap.RefreshTile(tilePos);

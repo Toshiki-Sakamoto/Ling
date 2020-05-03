@@ -31,7 +31,10 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		private Chara.PlayerFactory _playerFactory;
+		[SerializeField] private Chara.PlayerFactory _playerFactory = null;
+
+		[Inject] private MapManager _mapManager = null;
+
 		private Chara.Player _player = null;
 
 		#endregion
@@ -54,6 +57,7 @@ namespace Ling.Scenes.Battle
 			if (_player != null) return _player;
 
 			_player = _playerFactory.Create();
+			_player.SetTilemap(_mapManager.MapTilemap);
 
 			return _player;
 		}
@@ -74,8 +78,6 @@ namespace Ling.Scenes.Battle
 		protected override void Awake()
 		{
 			base.Awake();
-
-			_playerFactory = new Chara.PlayerFactory();
 		}
 
 		/// <summary>

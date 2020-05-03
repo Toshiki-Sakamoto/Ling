@@ -7,6 +7,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 
@@ -35,8 +36,8 @@ namespace Ling.Chara
 
         private bool _isMoving;         // 動いてるとき
         private Base _trsModel;         // 動いている対象
-        //private Vector2 _inputAxis;
-        private List<Vector2Int> _moveList = new List<Vector2Int>();
+        private List<Vector3Int> _moveList = new List<Vector3Int>();
+        private Tilemap _tilemap;
 
         #endregion
 
@@ -55,6 +56,11 @@ namespace Ling.Chara
         public void SetModel(Base model)
         {
             _trsModel = model;
+        }
+
+        public void SetTilemap(Tilemap tilemap)
+        {
+            _tilemap = tilemap;
         }
 
         /// <summary>
@@ -79,13 +85,10 @@ namespace Ling.Chara
         /// <returns></returns>
         private IEnumerator Move()
         {
-#if false
-            // var manager = Manager.Instance;
-
             foreach (var elm in _moveList)
             {
-                var start = manager.CellToWorld(_trsModel.CellPos);
-                var finish = manager.CellToWorld(elm);
+                var start = _tilemap.GetCellCenterWorld( _trsModel.CellPos);
+                var finish = _tilemap.GetCellCenterWorld(elm);
 
                 var diffVec = finish - start;
 
@@ -97,14 +100,14 @@ namespace Ling.Chara
                     yield return null;
 
                     var diff = Time.timeSinceLevelLoad - startTime;
-                    if (diff > manager.CellMoveTime)
+                    if (diff > 0.2f/*manager.CellMoveTime*/)
                     {
                         diff = 1.0f;
                         isEnd = true;
                     }
                     else
                     {
-                        diff /= manager.CellMoveTime;
+                        diff /= 0.2f/*manager.CellMoveTime*/;
                     }
 
                     var newPos = Vector3.Lerp(start, finish, diff);
@@ -113,22 +116,19 @@ namespace Ling.Chara
                     _trsModel.SetDirection(diffVec);
                 }
 
-                // 念のために今の座標の中央に合わせる
-                manager.CellCenterFit(_trsModel.transform);
-
                 _trsModel.SetCellPos(elm);
             }
 
             _isMoving = false;
             _moveList.Clear();
-#endif
+
             yield return null;
         }
 
-    #endregion
+        #endregion
 
 
-    #region MonoBegaviour
+        #region MonoBegaviour
 
 
         private void Start()
@@ -152,43 +152,41 @@ namespace Ling.Chara
                 return;
             }
 
-#if false
-            var manager = Manager.Instance;
-
             // x, y の入力
             // 関連付けはInput Managerで行っている
             //            _inputAxis.x = Input.GetAxis("Horizontal");
             //            _inputAxis.y = Input.GetAxis("Vertical");
 
-            Vector2Int moveDir = Vector2Int.zero;
+            var moveDir = Vector3Int.zero;
 
             if (Input.GetKey(KeyCode.LeftArrow))
             {
-                moveDir = Vector2Int.left;
+                moveDir = Vector3Int.left;
             }
             else if (Input.GetKey(KeyCode.RightArrow))
             {
-                moveDir = Vector2Int.right;
+                moveDir = Vector3Int.right;
             }
             else if (Input.GetKey(KeyCode.UpArrow))
             {
-                moveDir = Vector2Int.up;
+                moveDir = Vector3Int.up;
             }
             else if (Input.GetKey(KeyCode.DownArrow))
             {
-                moveDir = Vector2Int.down;
+                moveDir = Vector3Int.down;
             }
 
-            if (moveDir != Vector2Int.zero)
+            if (moveDir != Vector3Int.zero)
             {
                 _trsModel.SetDirection(new Vector3(moveDir.x, moveDir.y, 0.0f));
 
                 var movePos = _trsModel.CellPos + moveDir;
+                /*
                 if (!manager.IsPassable(movePos))
                 {
                     // 移動できない
                     return;
-                }
+                }*/
 
                 _isMoving = true;
 
@@ -196,7 +194,6 @@ namespace Ling.Chara
 
                 StartCoroutine(Move());
             }
-#endif
         }
 
         private void FixedUpdate()

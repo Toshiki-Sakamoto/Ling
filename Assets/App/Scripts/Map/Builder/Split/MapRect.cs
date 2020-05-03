@@ -111,6 +111,13 @@ namespace Ling.Map.Builder.Split
 			return rect;
 		}
 
+		/// <summary>
+		/// 保持しているデータからランダムに一つ取得する
+		/// </summary>
+		/// <returns></returns>
+		public Data GetRandomData() =>
+			_data[Utility.Random.Range(RectCount - 1)];
+
 
 		#endregion
 
