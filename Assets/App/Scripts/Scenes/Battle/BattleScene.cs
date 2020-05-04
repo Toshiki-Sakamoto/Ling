@@ -32,7 +32,9 @@ namespace Ling.Scenes.Battle
 			FloorSetup,
 			CharaSetup,
 			PlayerAction,
+			PlayerActionProcess,
 			EnemyAction,
+			Adv,
 		}
 
 		#endregion
@@ -47,6 +49,7 @@ namespace Ling.Scenes.Battle
 
 		[SerializeField] private BattleView _view = null;
 
+		private bool _isInitialized;
 		private Utility.PhaseScene<Phase, BattleScene> _phase = new Utility.PhaseScene<Phase, BattleScene>();
 
 		#endregion
@@ -72,13 +75,19 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		public override void StartScene()
 		{
+			if (_isInitialized) return;
+
 			_phase.Add(Phase.Start, new Battle.Phase.BattlePhaseStart());
 			_phase.Add(Phase.Load, new Battle.Phase.BattlePhaseLoad());
 			_phase.Add(Phase.FloorSetup, new Battle.Phase.BattlePhaseFloorSetup());
 			_phase.Add(Phase.CharaSetup, new Battle.Phase.BattlePhaseCharaSetup());
 			_phase.Add(Phase.PlayerAction, new Battle.Phase.BattlePhasePlayerAction());
+			_phase.Add(Phase.PlayerActionProcess, new Battle.Phase.BattlePhasePlayerActionProcess());
+			_phase.Add(Phase.Adv, new Battle.Phase.BattlePhaseAdv());
 
 			_phase.Start(this, Phase.Start);
+
+			_isInitialized = true;
 		}
 
 		public override void UpdateScene()
@@ -108,8 +117,9 @@ namespace Ling.Scenes.Battle
 
 		#region MonoBegaviour
 
-		private void Awake()
+		private void Start()
 		{
+			/////
 			StartScene();
 		}
 

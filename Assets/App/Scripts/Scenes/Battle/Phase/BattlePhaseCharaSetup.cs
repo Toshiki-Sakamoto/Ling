@@ -54,9 +54,6 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake()
-		{
-		}
 
 		public override void Init()
 		{
@@ -71,6 +68,8 @@ namespace Ling.Scenes.Battle.Phase
 			// プレイヤーの作成
 			_player = CharaManager.Instance.CreatePlayer();
 			_player.SetCellPos(playerPos);
+
+			Change(BattleScene.Phase.PlayerAction);
 		}
 
 		public override void Proc() 

@@ -30,8 +30,7 @@ namespace Ling.Adv
         #region private 変数
 
         [SerializeField] private Transform _trsWindowRoot = null;   // アドベンチャーウィンドウが置かれるルート
-
-        private View _view = null;
+        [SerializeField] private View _view = null; // アドベンチャーView : nullの場合、prefabから作られる
 
         #endregion
 
@@ -98,8 +97,12 @@ namespace Ling.Adv
             EventManager.Instance.Setup();
 
             // View 
-            _view = View.Create(_trsWindowRoot);
-            _view.SetActive(true);
+            if (_view == null)
+            {
+                _view = View.Create(_trsWindowRoot);
+                _view.SetActive(true);
+            }
+
             _view.SetActive(false);
             _view.Setup();
 

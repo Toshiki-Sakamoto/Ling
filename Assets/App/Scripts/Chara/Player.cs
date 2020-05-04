@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
 
 
 namespace Ling.Chara
@@ -42,6 +43,13 @@ namespace Ling.Chara
 
         #region public, protected 関数
 
+        /// <summary>
+        /// 現在位置から指定した数を足して移動する
+        /// </summary>
+        /// <param name="addCellPos"></param>
+        /// <param name="moveFinish"></param>
+        public System.IObservable<Unit> MoveByAddPos(Vector3Int addCellPos) =>
+            MoveController.SetMoveCellPos(CellPos + addCellPos);
 
         #endregion
 

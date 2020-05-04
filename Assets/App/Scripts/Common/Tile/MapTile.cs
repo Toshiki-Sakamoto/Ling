@@ -43,7 +43,7 @@ namespace Ling.Common.Tile
 		[SerializeField] private MapTileSpriteData[] _spriteData = null;
 		[SerializeField] private Color _color = Color.white;
 
-		private Map.Builder.TileFlag _currentTileFlag;
+		private Map.TileFlag _currentTileFlag;
 
 		#endregion
 
@@ -57,7 +57,7 @@ namespace Ling.Common.Tile
 		/// <summary>
 		/// タイルデータ
 		/// </summary>
-		public Map.Builder.TileDataMap TileDataMap { get; private set; }
+		public Map.TileDataMap TileDataMap { get; private set; }
 
 		#endregion
 
@@ -70,11 +70,11 @@ namespace Ling.Common.Tile
 		public void SetupMapData()
 		{
 			// TileFlagの数だけSpriteデータクラスを作成しセットアップする
-			var tileFlags = System.Enum.GetValues(typeof(Map.Builder.TileFlag));
+			var tileFlags = System.Enum.GetValues(typeof(Map.TileFlag));
 			_spriteData = new MapTileSpriteData[tileFlags.Length];
 
 			int count = 0;
-			foreach (Map.Builder.TileFlag tileFlag in tileFlags)
+			foreach (Map.TileFlag tileFlag in tileFlags)
 			{
 				var miniMapData = new MapTileSpriteData();
 				miniMapData.Setup(tileFlag, SpriteMax);
@@ -88,7 +88,7 @@ namespace Ling.Common.Tile
 		/// ミニマップ生成時に設定すること
 		/// </summary>
 		/// <param name="tileDataMap"></param>
-		public void SetTileDataMap(Map.Builder.TileDataMap tileDataMap)
+		public void SetTileDataMap(Map.TileDataMap tileDataMap)
 		{
 			TileDataMap = tileDataMap;
 		}
@@ -157,7 +157,7 @@ namespace Ling.Common.Tile
 			}
 
 			// 壁と道は隣接とする
-			var floorAndRoad = Map.Builder.TileFlag.Floor | Map.Builder.TileFlag.Road;
+			var floorAndRoad = Map.TileFlag.Floor | Map.TileFlag.Road;
 			if (tileData.HasFlag(floorAndRoad) && oppsiteTileData.HasFlag(floorAndRoad))
 			{
 				return true;

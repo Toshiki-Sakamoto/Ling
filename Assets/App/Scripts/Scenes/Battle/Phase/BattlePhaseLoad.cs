@@ -56,7 +56,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake()
+		public override void Init()
 		{
 			// タイルのプールを作成する
 			// とりあえず最大の数作ってみる
@@ -64,14 +64,10 @@ namespace Ling.Scenes.Battle.Phase
 			_poolManager.SetupPoolItem(PoolType.Map, 10 * 10);
 
 			_poolManager.CreatePoolItemsAsync().Subscribe(_ =>
-				{
-					_isPoolCreateProcessFinish = true;
-					Debug.Log($"Mapプール作成終了");
-				});
-		}
-
-		public override void Init() 
-		{
+			{
+				_isPoolCreateProcessFinish = true;
+				Debug.Log($"Mapプール作成終了");
+			});
 		}
 
 		public override void Proc() 
@@ -82,7 +78,8 @@ namespace Ling.Scenes.Battle.Phase
 		}
 
 		public override void Term() 
-		{ 
+		{
+			_isPoolCreateProcessFinish = false;
 		}
 
 		#endregion

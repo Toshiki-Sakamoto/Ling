@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Ling.Utility.Process;
 
 using Zenject;
 
@@ -34,6 +35,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
+		private CharaManager _charaManager;
+		private MapManager _mapManager;
+
 		#endregion
 
 
@@ -49,12 +53,10 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake()
+		public override void Init()
 		{
-		}
-
-		public override void Init() 
-		{
+			_charaManager = Resolve<CharaManager>();
+			_mapManager = Resolve<MapManager>();
 		}
 
 		public override void Proc()
@@ -72,6 +74,31 @@ namespace Ling.Scenes.Battle.Phase
 
 
 		#region private 関数
+
+		/// <summary>
+		/// 移動コマンド
+		/// </summary>
+		/// <param name="moveDistance"></param>
+		private void MoveCommand(Vector3Int moveDistance)
+		{
+			if (moveDistance == Vector3Int.zero) return;
+
+			var player = _charaManager.Player;
+
+			// 移動できるか
+			if (!_mapManager.CanMoveChara(player, moveDistance))
+			{
+				// 向きだけ変える
+				player.SetDirection(moveDistance);
+				return;
+			}
+
+			var process = _processManager.Attach<Process.ProcessPlayerMoveStart>().Setup(moveDistance);
+
+			// Player行動中に遷移
+			Change(BattleScene.Phase.PlayerActionProcess, new BattlePhasePlayerActionProcess.Argument { process = process });
+		}
+
 
 #if UNITY_EDITOR
 		private void KeyCommandProcess()
@@ -96,11 +123,19 @@ namespace Ling.Scenes.Battle.Phase
 			{
 				moveDir = Vector3Int.down;
 			}
+			else if (Input.GetKey(KeyCode.Space))
+			{
+				Change(BattleScene.Phase.Adv);
+				return;
+			}
 
 			if (moveDir != Vector3Int.zero)
 			{
-				var eventPlayerMove = GameManager.Instance.EventHolder.PlayerMove;
+				MoveCommand(moveDir);
 
+				var eventPlayerMove = _gameManager.EventHolder.PlayerMove;
+
+				eventPlayerMove.moveDistance = new Vector3Int(moveDir.x, moveDir.y, 0);
 				//_trsModel.SetDirection(new Vector3(moveDir.x, moveDir.y, 0.0f));
 
 				//var movePos = _trsModel.CellPos + moveDir;

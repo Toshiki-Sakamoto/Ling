@@ -17,7 +17,7 @@ using NUnit.Framework;
 using Assert = UnityEngine.Assertions.Assert;
 
 using Ling.Map.Builder;
-
+using Ling.Map;
 
 namespace Ling.Tests.Map.Builder
 {

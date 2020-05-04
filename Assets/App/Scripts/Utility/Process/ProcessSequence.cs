@@ -1,8 +1,8 @@
 ﻿//
-// BattlePhase.Start.cs
+// ProcessSequence.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.04.30
+// Created by toshiki sakamoto on 2020.05.04
 //
 
 using System;
@@ -10,18 +10,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Utility.Process
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseStart : BattlePhaseBase
-	{
+	public class ProcessSequence
+    {
 		#region 定数, class, enum
 
 		#endregion
@@ -34,7 +34,6 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-
 		#endregion
 
 
@@ -45,23 +44,11 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region コンストラクタ, デストラクタ
 
+
 		#endregion
 
 
 		#region public, protected 関数
-
-		public override void Init() 
-		{
-		}
-
-		public override void Proc()
-		{
-			Change(BattleScene.Phase.Load);
-		}
-
-		public override void Term() 
-		{ 
-		}
 
 		#endregion
 

@@ -35,12 +35,12 @@ namespace Ling.Scenes.Battle
 
 		[Inject] private MapManager _mapManager = null;
 
-		private Chara.Player _player = null;
-
 		#endregion
 
 
 		#region プロパティ
+
+		public Chara.Player Player { get; private set; }
 
 		#endregion
 
@@ -54,12 +54,12 @@ namespace Ling.Scenes.Battle
 		/// <returns></returns>
 		public Chara.Player CreatePlayer()
 		{
-			if (_player != null) return _player;
+			if (Player != null) return Player;
 
-			_player = _playerFactory.Create();
-			_player.SetTilemap(_mapManager.MapTilemap);
+			Player = _playerFactory.Create();
+			Player.SetTilemap(_mapManager.MapTilemap);
 
-			return _player;
+			return Player;
 		}
 
 		#endregion

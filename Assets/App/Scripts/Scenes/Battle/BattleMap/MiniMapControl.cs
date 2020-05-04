@@ -57,7 +57,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		#region public, protected 関数
 
 
-		public void Setup(Map.Builder.TileDataMap tileDataMap)
+		public void Setup(Map.TileDataMap tileDataMap)
 		{
 			var view = GameManager.Instance.Resolve<BattleView>();
 			_view = view.MiniMap;

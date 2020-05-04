@@ -1,8 +1,8 @@
 ﻿//
-// BattlePhase.Start.cs
+// BattlePhasePlayerActionProcess.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.04.30
+// Created by toshiki sakamoto on 2020.05.03
 //
 
 using System;
@@ -10,19 +10,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Zenject;
 
 namespace Ling.Scenes.Battle.Phase
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseStart : BattlePhaseBase
-	{
+	public class BattlePhasePlayerActionProcess : BattlePhaseBase
+    {
 		#region 定数, class, enum
+
+		public class Argument : Utility.PhaseArgBase
+		{
+			public Utility.ProcessBase process;   // 行動プロセス
+		}
 
 		#endregion
 
@@ -34,6 +39,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
+		private bool _isFinish;
 
 		#endregion
 
@@ -50,17 +56,29 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Init() 
+		public override void Init()
 		{
+			var arg = Arg as Argument;
+
+			arg.process
+				.SetNext<Utility.Process.ProcessCallFunc>()
+				.Setup(() => 
+				{
+					_isFinish = true;
+				});
 		}
 
 		public override void Proc()
 		{
-			Change(BattleScene.Phase.Load);
+			if (!_isFinish) return;
+
+			//
+			Change(BattleScene.Phase.PlayerAction);
 		}
 
-		public override void Term() 
-		{ 
+		public override void Term()
+		{
+			_isFinish = false;
 		}
 
 		#endregion

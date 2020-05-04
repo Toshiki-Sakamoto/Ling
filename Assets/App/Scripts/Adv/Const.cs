@@ -71,7 +71,7 @@ namespace Ling.Adv
         /// <returns></returns>
         public static string CharFilepath(string filename)
         {
-            return "Image/Chara/" + filename;
+            return "Image/AdvChara/" + filename;
         }
 
         /// <summary>

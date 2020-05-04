@@ -35,6 +35,8 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 		protected GameManager _gameManager;
+		protected Utility.IEventManager _eventManager;
+		protected Utility.ProcessManager _processManager;
 
 		#endregion
 
@@ -46,9 +48,12 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region コンストラクタ, デストラクタ
 
-		public BattlePhaseBase()
+		public override void Awake()
 		{
 			_gameManager = GameManager.Instance;
+
+			_eventManager = _gameManager.Resolve<Utility.IEventManager>();
+			_processManager = _gameManager.Resolve<Utility.ProcessManager>();
 		}
 
 		#endregion

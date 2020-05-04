@@ -9,7 +9,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-
+using UniRx;
+using System;
 
 namespace Ling.Chara
 {
@@ -61,6 +62,19 @@ namespace Ling.Chara
         public void SetTilemap(Tilemap tilemap)
         {
             _tilemap = tilemap;
+        }
+
+        /// <summary>
+        /// 指定したセルに移動させる
+        /// </summary>
+        /// <param name="cellPos"></param>
+        public System.IObservable<Unit> SetMoveCellPos(Vector3Int cellPos)
+        {
+            MoveStop();
+
+            _moveList.Add(cellPos);
+
+            return Observable.FromCoroutine(() => Move());
         }
 
         /// <summary>
@@ -121,8 +135,6 @@ namespace Ling.Chara
 
             _isMoving = false;
             _moveList.Clear();
-
-            yield return null;
         }
 
         #endregion
@@ -151,19 +163,6 @@ namespace Ling.Chara
             {
                 return;
             }
-        }
-
-        private void FixedUpdate()
-        {
-            //_rigidBody.velocity = _inputAxis.normalized * _speed;
-//            _rigidBody.MovePosition()
-        }
-
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        void OnDestoroy()
-        {
         }
 
         #endregion

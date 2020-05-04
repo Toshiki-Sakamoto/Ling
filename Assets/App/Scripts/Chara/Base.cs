@@ -51,6 +51,14 @@ namespace Ling.Chara
         /// </summary>
         public MoveController MoveController => _moveController;
 
+        /// <summary>
+        /// 移動することができないタイルフラグ
+        /// これ以外は移動できるとする
+        /// </summary>
+        /// <returns></returns>
+        public virtual Map.TileFlag CanNotMoveTileFlag =>
+            Map.TileFlag.None | Map.TileFlag.Wall;
+
         #endregion
 
 
@@ -95,7 +103,6 @@ namespace Ling.Chara
             _animator.SetFloat("x", dir.x);
             _animator.SetFloat("y", dir.y);
         }
-
 
         #endregion
 

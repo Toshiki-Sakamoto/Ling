@@ -1,8 +1,8 @@
 ﻿//
-// BattlePhase.Start.cs
+// BattlePhaseAdv.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.04.30
+// Created by toshiki sakamoto on 2020.05.04
 //
 
 using System;
@@ -10,17 +10,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Zenject;
 
 namespace Ling.Scenes.Battle.Phase
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseStart : BattlePhaseBase
+	public class BattlePhaseAdv : BattlePhaseBase
 	{
 		#region 定数, class, enum
 
@@ -34,6 +34,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
+		Adv.Engine.Manager _advManager = null;
 
 		#endregion
 
@@ -50,17 +51,30 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Init() 
+		public override void Awake()
 		{
+			base.Awake();
+
+			_advManager = Resolve<Adv.Engine.Manager>();
+		}
+
+		public override void Init()
+		{
+			_advManager.Load("test.txt");
+			_advManager.AdvStart();
+
+			_advManager.OnFinish = () =>
+				{
+					Change(BattleScene.Phase.PlayerAction);
+				};
 		}
 
 		public override void Proc()
 		{
-			Change(BattleScene.Phase.Load);
 		}
 
-		public override void Term() 
-		{ 
+		public override void Term()
+		{
 		}
 
 		#endregion

@@ -30,9 +30,9 @@ namespace Ling.Map
 
         #region private 変数
 
-        [SerializeField] private Chara.Player _player = null;
-        [SerializeField] private Grid _worldGrid = null;
-        [SerializeField] private List<Tilemap> _colliderMaps = null;    // 現在読み込んでいるマップ
+        //        [SerializeField] private Chara.Player _player = null;
+        //       [SerializeField] private Grid _worldGrid = null;
+        //      [SerializeField] private List<Tilemap> _colliderMaps = null;    // 現在読み込んでいるマップ
 
         #endregion
 
@@ -42,13 +42,14 @@ namespace Ling.Map
         /// <summary>
         /// Cell間の移動スピード
         /// </summary>
-        public float CellMoveTime { get; private set; }
+        //     public float CellMoveTime { get; private set; }
 
         #endregion
 
 
         #region public, protected 関数
 
+#if false
         /// <summary>
         /// マップを読み込む
         /// </summary>
@@ -97,7 +98,7 @@ namespace Ling.Map
 
             trs.position = centerPos;
         }
-
+#endif
         #endregion
 
 
@@ -108,6 +109,7 @@ namespace Ling.Map
 
         #region MonoBegaviour
 
+#if false
         /// <summary>
         /// 初期処理
         /// </summary>
@@ -144,7 +146,7 @@ namespace Ling.Map
         void OnDestoroy()
         {
         }
-
+   #endif
         #endregion
     }
 }

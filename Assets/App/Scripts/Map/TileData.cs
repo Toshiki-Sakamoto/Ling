@@ -14,7 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Builder
+namespace Ling.Map
 {
 	/// <summary>
 	/// マップの中の一マスのデータ

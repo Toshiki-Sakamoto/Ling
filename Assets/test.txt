@@ -8,7 +8,7 @@ chara
 さちこ 通常 left
 
 text
-さ<size=20>て</size>...
+テスト<size=20>ですよ</size>ぉぉぉおお！
 
 chara 
 しゅん 通常 right
@@ -17,12 +17,12 @@ chara
 さちこ 笑い
 
 text
-これからどうしよう
+さちこ！！！
 
 select SelectResult
-作り込む
-更に自分を褒める
-壊す
+選択肢 A
+洗濯機 B
+選択肢 C
 end
 
 if SelectResult == 1 then
@@ -33,25 +33,30 @@ chara
 chara 
 さちこ 照れ
 
-text　名前A
-次の文章に
-うまく移れてる
-かの確認
-
-text　
-次の文章に
-<size=30><color=#ff0000>うまく</color></size>移れてる
+text 名前A
+<color=#005555>次の文章に</color>
+<size=60><color=#ff0000>うまく</color></size>移れてる
 かの確認
 
 text ""
 そんなこと
 
-
 chara hide
 さちこ
 
-text "" only
-あるかな
+text 名前B only
+さちこちゃん
+
+chara 
+しゅん ため息
+
+text 名前B only
+2秒間ウィンドウ消えるよ
+
+hide adv
+
+wait 2
+
 
 else if SelectResult == 2 then
 

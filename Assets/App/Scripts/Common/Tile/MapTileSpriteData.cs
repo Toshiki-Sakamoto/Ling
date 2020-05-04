@@ -26,7 +26,7 @@ namespace Ling.Common.Tile
 	{
 		[SerializeField] private bool _isValid = false;
 		[SerializeField] private Sprite[] _sprites = null;
-		[SerializeField] private Map.Builder.TileFlag _tileFlag = Map.Builder.TileFlag.None;
+		[SerializeField] private Map.TileFlag _tileFlag = Map.TileFlag.None;
 
 		/// <summary>
 		/// 描画有効/無効か
@@ -35,10 +35,10 @@ namespace Ling.Common.Tile
 
 		public Sprite[] Sprites { get { return _sprites; } private set { _sprites = value; } }
 
-		public Map.Builder.TileFlag TileFlag { get { return _tileFlag; } private set { _tileFlag = value; } }
+		public Map.TileFlag TileFlag { get { return _tileFlag; } private set { _tileFlag = value; } }
 
 
-		public void Setup(Map.Builder.TileFlag tileFlag, int spriteMax)
+		public void Setup(Map.TileFlag tileFlag, int spriteMax)
 		{
 			TileFlag = tileFlag;
 			
@@ -48,7 +48,7 @@ namespace Ling.Common.Tile
 			}
 		}
 
-		public bool HasFlag(Map.Builder.TileFlag tileFlag) =>
+		public bool HasFlag(Map.TileFlag tileFlag) =>
 			TileFlag.HasFlag(tileFlag);
 
 		public string GetTileFlagString() =>

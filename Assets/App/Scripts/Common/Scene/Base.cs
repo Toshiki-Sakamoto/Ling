@@ -37,6 +37,7 @@ namespace Ling.Common.Scene
 		[Inject] protected DiContainer _diContainer;
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 		[Inject] protected Utility.IEventManager _eventManager = null;
+		[Inject] protected Utility.ProcessManager _processManager = null;
 
 		#endregion
 
@@ -102,6 +103,11 @@ namespace Ling.Common.Scene
 
 
 		#region private 関数
+
+		private void Awake()
+		{
+			_processManager.SetupScene(this);
+		}
 
 		#endregion
 	}

@@ -139,9 +139,11 @@ namespace Ling.Utility
             }
 
             next.Arg = arg;
-			next.Init();
 
             _current = next;
+
+            // 最後にInitすることでInit内でCurrentが入れ替わっても問題ないようにする
+            next.Init();
         }
 
         /// <summary>

@@ -37,6 +37,8 @@ namespace Ling.Scenes.Battle
 
 		[Inject] private Map.Builder.IManager _builderManager = null;
 
+		private Map.TileDataMap _tileDataMap;
+
 		#endregion
 
 
@@ -61,15 +63,42 @@ namespace Ling.Scenes.Battle
 
 		public void Setup()
 		{
+			_tileDataMap = _builderManager.Builder.TileDataMap;
+
 			// マップの設定
-			MapControl.Setup(_builderManager.Builder.TileDataMap);
+			MapControl.Setup(_tileDataMap);
 
 			// ミニマップの設定
-			MiniMapControl.Setup(_builderManager.Builder.TileDataMap);
+			MiniMapControl.Setup(_tileDataMap);
 		}
 
 		public Vector3 GetCellCenterWorldByMap(int x, int y) =>
 			MapControl.GetCellCenterWorld(x, y);
+
+		/// <summary>
+		/// キャラが移動できるか
+		/// </summary>
+		/// <param name="chara"></param>
+		public bool CanMoveChara(Chara.Base chara, in Vector3Int addMoveDir)
+		{
+			var destPos = chara.CellPos + addMoveDir;
+
+			// 範囲外なら移動できない
+			if (!_tileDataMap.InRange(destPos.x, destPos.y))
+			{
+				return false;
+			}
+
+			var tileFlag = _tileDataMap.GetTileFlag(destPos.x, destPos.y);
+
+			// 移動できないフラグ
+			if (tileFlag.HasFlag(chara.CanNotMoveTileFlag))
+			{
+				return false;
+			}
+
+			return true;
+		}
 
 		#endregion
 

@@ -56,10 +56,6 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake()
-		{
-		}
-
 		public override void Init()
 		{
 			_builderManager = Resolve<Map.Builder.IManager>();
@@ -85,7 +81,8 @@ namespace Ling.Scenes.Battle.Phase
 		}
 
 		public override void Term() 
-		{ 
+		{
+			_isLoadFinish = false;
 		}
 
 		#endregion

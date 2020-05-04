@@ -6,6 +6,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,11 +37,17 @@ namespace Ling.Adv.Engine.Command
 
 
         #region プロパティ
+
         /// <summary>
         /// コマンドタイプ
         /// </summary>
         /// <value>The type.</value>
         public override ScriptType Type { get { return ScriptType.END_CMD; } }
+
+        /// <summary>
+        /// 終了時
+        /// </summary>
+        public System.Action OnEnd { get; private set; }
 
         #endregion
 
@@ -56,7 +63,7 @@ namespace Ling.Adv.Engine.Command
         /// コマンド作成
         /// </summary>
         /// <returns>The create.</returns>
-        public static End Create(Creator creator, Lexer lexer)
+        public static End Create(Creator creator, Lexer lexer, System.Action onEnd)
         {
             // import先の場合はEndCommandはいれない
             if (creator.IsImportReader)
@@ -68,12 +75,21 @@ namespace Ling.Adv.Engine.Command
 
             creator.AddCommand(instance);
 
+            instance.OnEnd = onEnd;
+
             return instance;
         }
 
         public override string ToString()
         {
             return "end";
+        }
+
+        public override IEnumerator Process()
+        {
+            OnEnd?.Invoke();
+
+            yield break;
         }
 
         #endregion

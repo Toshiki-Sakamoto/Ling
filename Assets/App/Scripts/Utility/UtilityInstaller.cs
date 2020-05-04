@@ -12,6 +12,11 @@ namespace Ling.Utility
 				.To<EventManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
+
+			Container
+				.Bind<ProcessManager>()
+				.FromComponentInHierarchy()
+				.AsSingle();
 		}
 	}
 }
