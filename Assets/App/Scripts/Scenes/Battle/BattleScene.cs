@@ -34,6 +34,7 @@ namespace Ling.Scenes.Battle
 			PlayerAction,
 			PlayerActionProcess,
 			EnemyAction,
+			NextStage,
 			Adv,
 		}
 
@@ -84,6 +85,7 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.PlayerAction, new Battle.Phase.BattlePhasePlayerAction());
 			_phase.Add(Phase.PlayerActionProcess, new Battle.Phase.BattlePhasePlayerActionProcess());
 			_phase.Add(Phase.Adv, new Battle.Phase.BattlePhaseAdv());
+			_phase.Add(Phase.NextStage, new Battle.Phase.BattlePhaseNextStage());
 
 			_phase.Start(this, Phase.Start);
 

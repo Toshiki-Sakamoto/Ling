@@ -60,7 +60,7 @@ namespace Ling.Scenes.Battle.Phase
 			_builderManager = Resolve<Map.Builder.IManager>();
 			_mapManager = Resolve<MapManager>();
 
-			var builder = _builderManager.Builder;
+			var builder = _mapManager.CurrentMapData.Builder;
 			var playerPos = builder.GetPlayerInitPosition();
 
 			var playerWorldPos = _mapManager.GetCellCenterWorldByMap(playerPos.x, playerPos.y);

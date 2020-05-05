@@ -57,7 +57,7 @@ namespace Ling.Scenes.Battle
 			if (Player != null) return Player;
 
 			Player = _playerFactory.Create();
-			Player.SetTilemap(_mapManager.MapTilemap);
+			Player.SetTilemap(_mapManager.CurrentTilemap);
 
 			return Player;
 		}

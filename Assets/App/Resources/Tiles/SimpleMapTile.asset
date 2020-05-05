@@ -87,21 +87,21 @@ MonoBehaviour:
     _tileFlag: 8
   - _isValid: 0
     _sprites:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
+    - {fileID: 21300014, guid: c91a799f367884a4abd85bb5f1df85a6, type: 3}
     _tileFlag: 16
   - _isValid: 0
     _sprites:

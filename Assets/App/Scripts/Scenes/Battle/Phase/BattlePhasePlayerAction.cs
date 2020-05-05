@@ -128,6 +128,11 @@ namespace Ling.Scenes.Battle.Phase
 				Change(BattleScene.Phase.Adv);
 				return;
 			}
+			else if (Input.GetKey(KeyCode.Q))
+			{
+				Change(BattleScene.Phase.NextStage);
+				return;
+			}
 
 			if (moveDir != Vector3Int.zero)
 			{

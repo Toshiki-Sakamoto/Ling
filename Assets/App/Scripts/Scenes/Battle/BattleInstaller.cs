@@ -9,6 +9,7 @@ namespace Ling.Scenes.Battle
         {
             Container.Bind<BattleScene>().FromComponentInHierarchy().AsSingle();
             Container.Bind<BattleView>().FromComponentInHierarchy().AsSingle();
+            Container.Bind<BattleModel>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<GameManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<CharaManager>().FromComponentInHierarchy().AsSingle();

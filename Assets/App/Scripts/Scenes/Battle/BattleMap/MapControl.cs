@@ -10,6 +10,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UniRx;
+using UniRx.Async;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -21,7 +23,7 @@ namespace Ling.Scenes.Battle.BattleMap
 	/// <summary>
 	/// ダンジョンマップコントロール
 	/// </summary>
-	public class MapControl
+	public class MapControl : MonoBehaviour
     {
 		#region 定数, class, enum
 
@@ -35,15 +37,15 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region private 変数
 
-		private MapView _view;
+		[SerializeField] private MapView _view;
+
+		private MapModel _model;
 		private Common.Tile.MapTile _mapTile;
 
 		#endregion
 
 
 		#region プロパティ
-
-		public Tilemap Tilemap => _view.Tilemap;
 
 		#endregion
 
@@ -55,24 +57,35 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region public, protected 関数
 
-		public void Setup(Map.TileDataMap tileDataMap)
+		public void SetModel(MapModel model) =>
+			_model = model;
+
+		public void Startup(int curretMapIndex)
 		{
-			var view = GameManager.Instance.Resolve<BattleView>();
-			_view = view.MapView;
+			_model.ChangeMapByIndex(curretMapIndex);
 
-			_mapTile = Resources.Load<Common.Tile.MapTile>("Tiles/SimpleMapTile");
-			if (_mapTile == null)
-			{
-				Utility.Log.Error("MapTileリソースが見つかりません");
-			}
+			// 見た目の更新
+			_view.OnStartItem = _view.OnUpdateItem = 
+				(groundMap_, mapIndex_) =>
+				{
+					var mapData = _model.FindMapData(mapIndex_);
+					if (mapData == null)
+					{
+						Utility.Log.Error($"マップデータが見つからない {mapIndex_}");
+						return;
+					}
 
-			// タイル情報の再設定
-			_mapTile.SetTileDataMap(tileDataMap);
+					groundMap_.BuildMap(mapIndex_, mapData.Width, mapData.Height, mapData.MapTileRenderData);
+				};
+			
+			_view.Startup(_model, curretMapIndex, 40);
+		}
 
-			var width = tileDataMap.Width;
-			var height = tileDataMap.Height;
+		public IObservable<Unit> CreateAndMoveNextMap(int nextMapIndex, int createMapIndex)
+		{
+			_model.ChangeMapByIndex(nextMapIndex);
 
-			_view.Setup(width, height, _mapTile);
+			return _view.CreateAndMoveNextMap(nextMapIndex, createMapIndex);
 		}
 
 		/// <summary>
@@ -81,12 +94,20 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <param name="x"></param>
 		/// <param name="y"></param>
 		/// <returns></returns>
-		public Vector3 GetCellCenterWorld(int x, int y)
+		public Vector3 GetCellCenterWorld(int mapIndex, int x, int y)
 		{
-			var tilemap = _view.Tilemap;
+			var tilemap = FindTilemap(mapIndex);
 
 			return tilemap.GetCellCenterWorld(new Vector3Int(x, y, 0));
 		}
+
+		/// <summary>
+		/// 指定階層のTilemapを取得する
+		/// </summary>
+		/// <param name="mapIndex"></param>
+		/// <returns></returns>
+		public Tilemap FindTilemap(int mapIndex) =>
+			_view.FindTilemap(mapIndex);
 
 		#endregion
 

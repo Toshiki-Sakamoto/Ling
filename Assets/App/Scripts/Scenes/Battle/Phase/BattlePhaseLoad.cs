@@ -37,8 +37,9 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 		private PoolManager _poolManager;
+		private MapManager _mapManager = null;
 
-		private bool _isPoolCreateProcessFinish = false;
+		private bool _isFinish = false;
 
 		#endregion
 
@@ -56,30 +57,46 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
+		public override void Awake()
+		{
+			base.Awake();
+
+			_mapManager = Resolve<MapManager>();
+		}
+
 		public override void Init()
 		{
 			// タイルのプールを作成する
 			// とりあえず最大の数作ってみる
 			_poolManager = Resolve<PoolManager>();
+			/*
 			_poolManager.SetupPoolItem(PoolType.Map, 10 * 10);
 
 			_poolManager.CreatePoolItemsAsync().Subscribe(_ =>
 			{
 				_isPoolCreateProcessFinish = true;
 				Debug.Log($"Mapプール作成終了");
-			});
+			});*/
+
+			// 最初のマップ作成
+			_mapManager
+				.BuildMap(0, 1, 2)
+				.Subscribe(_ => { _isFinish = true; });
 		}
 
 		public override void Proc() 
 		{
-			if (!_isPoolCreateProcessFinish) return;
+			if (!_isFinish) return;
+
+			// 1階層目を開始地点とする
+			_mapManager.SetupCurrentMap(0);
 
 			Change(BattleScene.Phase.FloorSetup);
 		}
 
 		public override void Term() 
 		{
-			_isPoolCreateProcessFinish = false;
+			_isFinish = false;
 		}
 
 		#endregion
