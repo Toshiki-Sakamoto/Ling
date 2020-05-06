@@ -31,6 +31,7 @@ namespace Ling.Scenes.Battle
 
 		[SerializeField] private BattleMap.MapView _mapView = null;
 		[SerializeField] private BattleMap.MiniMapView _miniMapView = null;
+		[SerializeField] private Message.MessageView _messageView = null;
 
 		#endregion
 
@@ -39,6 +40,7 @@ namespace Ling.Scenes.Battle
 
 		public BattleMap.MapView MapView => _mapView;
 		public BattleMap.MiniMapView MiniMap => _miniMapView;
+		public Message.MessageView MessageView => _messageView;
 
 		#endregion
 
@@ -67,6 +69,7 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		void Start()
 		{
+			_messageView.Setup();
 		}
 
 		/// <summary>

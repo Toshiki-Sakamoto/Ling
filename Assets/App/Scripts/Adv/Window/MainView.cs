@@ -72,9 +72,7 @@ namespace Ling.Adv.Window
             Ling.Utility.EventManager.SafeAdd<EventSetText>(this,
                 (ev_) =>
                 {
-                    // 
-                    Manager.Instance.SetDocument(ev_.Document);
-
+                    _txtMain.SetDocument(ev_.Document);
                     _txtMain.SetLengthOfView(0);
                     _txtMain.text = ev_.Text;
 

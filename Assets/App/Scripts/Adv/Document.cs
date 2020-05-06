@@ -5,18 +5,20 @@
 // Created by toshiki sakamoto on 2019.05.14
 //
 
+using Ling.Adv.Window;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 
 namespace Ling.Adv
 {
-    public class Document
+    public class Document : IDocument
     {
         public enum Type
         {
@@ -347,7 +349,7 @@ namespace Ling.Adv
             /// <summary>
             /// 描画用の文字情報に変換する
             /// </summary>
-            public void BuildCharacters(Data.Chara.CustomInfo customInfo)
+            public void BuildCharacters(Data.Chara.CustomInfo customInfo, TextConfig config)
             {
                 // タグの場合は情報保持クラスに格納していく
                 if (Type == Type.Begin)
@@ -374,7 +376,7 @@ namespace Ling.Adv
                 // テキストがある場合
                 foreach (var elm in Charas)
                 {
-                    elm.BuildChara(customInfo);
+                    elm.BuildChara(customInfo, config);
                 }
 
             }
@@ -776,7 +778,7 @@ namespace Ling.Adv
         /// <summary>
         /// 描画時に使用する文字情報を生成する
         /// </summary>
-        public void BuildCharacters()
+        public void BuildCharacters(TextConfig config)
         {
             CustomInfo.Reset();
 
@@ -784,7 +786,7 @@ namespace Ling.Adv
 
             foreach (var elm in Elements)
             {
-                elm.BuildCharacters(CustomInfo);
+                elm.BuildCharacters(CustomInfo, config);
 
                 elm.GetBuildCharacters(WindowCharas);
             }

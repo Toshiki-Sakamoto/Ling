@@ -33,6 +33,8 @@ namespace Ling.Adv.Window.Info
 
         #region private 変数
 
+        private AdvText _text;
+
         #endregion
 
 
@@ -80,6 +82,11 @@ namespace Ling.Adv.Window.Info
 
         #region コンストラクタ, デストラクタ
 
+        public Line(AdvText text)
+        {
+            _text = text;
+        }
+
         #endregion
 
 
@@ -123,7 +130,7 @@ namespace Ling.Adv.Window.Info
             Width = Mathf.Abs(right - left);
 
             // uGUIは行間の基本値1:1.2
-            TotalHeight = Manager.Instance.Text.GetTotalLineHeight(MaxFonstSize);
+            TotalHeight = _text.GetTotalLineHeight(MaxFonstSize);
         }
 
         public void Calc()

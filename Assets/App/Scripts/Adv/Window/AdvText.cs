@@ -115,6 +115,10 @@ namespace Ling.Adv.Window
             Config.AddLengthOfView(length);
         }
 
+
+        public void SetDocument(IDocument document) =>
+            Config.SetDocument(document);
+
         #endregion
 
 
@@ -131,13 +135,6 @@ namespace Ling.Adv.Window
         protected override void Awake()
         {
             base.Awake();
-
-            if (Manager.Instance == null)
-            {
-                return;
-            }
-
-            Manager.Instance.Text = this;
 
             _config = GetComponent<TextConfig>();
 

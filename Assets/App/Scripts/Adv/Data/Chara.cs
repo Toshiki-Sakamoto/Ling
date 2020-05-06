@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2019.07.04
 //
 
+using Ling.Adv.Window;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -169,11 +170,11 @@ namespace Ling.Adv.Data
         /// <summary>
         /// 描画用のデータを生成する
         /// </summary>
-        public void BuildChara(Data.Chara.CustomInfo customInfo)
+        public void BuildChara(Data.Chara.CustomInfo customInfo, TextConfig config)
         {
             Info = customInfo.Clone();
 
-            WindowChara = new Window.Info.Chara(this);
+            WindowChara = new Window.Info.Chara(this, config);
         }
 
         #endregion

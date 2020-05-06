@@ -24,4 +24,9 @@ namespace Ling.Scenes.Battle
 	{
 		public Vector3Int moveDistance;	// 移動距離
 	}
+
+	public class EventMessageText
+	{
+		public string text;
+	}
 }

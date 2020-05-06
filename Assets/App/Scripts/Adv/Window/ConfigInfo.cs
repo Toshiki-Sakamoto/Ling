@@ -34,6 +34,7 @@ namespace Ling.Adv.Window
         #region private 変数
 
         private FontInfoBuilder _fontInfoBuilder = new FontInfoBuilder();
+        private IDocument _document = null;
 
         #endregion
 
@@ -108,28 +109,34 @@ namespace Ling.Adv.Window
 
 
         /// <summary>
+        /// 描画テキストを持っている
+        /// </summary>
+        /// <param name="document"></param>
+        public void SetDocument(IDocument document)
+        {
+            _document = document;
+        }
+
+        /// <summary>
         /// 各文字の情報を作成
         /// フォントのテクスチャ情報から文字の大きさなどを取得し、各文字の基本情報を初期化する
         /// </summary>
         public void BuildCharacters()
         {
-            var manager = Manager.Instance;
-            var document = manager.Document;
-
-            if (document == null)
+            if (_document == null)
             {
                 return;
             }
 
             // TextData作成
+            _document.BuildCharacters(Config);
 
-            document.BuildCharacters();
-            CharaDataList = document.WindowCharas;
+            CharaDataList = _document.WindowCharas;
 
             // 拡張的な情報を作成
 
             // フォントの文字画像を準備・設定
-            _fontInfoBuilder.InitFontCharacters(manager.Text.font, CharaDataList);
+            _fontInfoBuilder.InitFontCharacters(Config.Text.font, CharaDataList);
 
 
             // 描画範囲のサイズに合わせて自動改行
@@ -143,14 +150,10 @@ namespace Ling.Adv.Window
         /// <param name="rectTransform"></param>
         public void BuildTextArea(RectTransform rectTransform)
         {
-            var manager = Manager.Instance;
-            var document = manager.Document;
-
-            if (document == null)
+            if (_document == null)
             {
                 return;
             }
-
 
             // 描画範囲
             var rect = rectTransform.rect;
@@ -159,7 +162,7 @@ namespace Ling.Adv.Window
 
             // 文字のX座標を計算
             // 自動改行も行う
-            ApplyXPosition(document.WindowCharas, maxW);
+            ApplyXPosition(_document.WindowCharas, maxW);
 
             // 行ごとの文字データを作成
             LineDataList = CreateLineList(CharaDataList, maxH);
@@ -169,7 +172,7 @@ namespace Ling.Adv.Window
             MaxHeight = maxH;
 
             // テキストのアンカーを適用する
-            ApplyTextAnchor(LineDataList, manager.Text.alignment);
+            ApplyTextAnchor(LineDataList, Config.Text.alignment);
 
             // offsetを適用する
             ApplyOffset(LineDataList, rectTransform.pivot);
@@ -388,9 +391,7 @@ namespace Ling.Adv.Window
         /// <returns></returns>
         private bool CheckWordProcess(Info.Chara current, Info.Chara prev)
         {
-            var config = Manager.Instance.Config;
-
-            return config.WordProcessor.Check(config, current, prev);
+            return Config.WordProcessor.Check(Config, current, prev);
         }
 
 
@@ -475,7 +476,7 @@ namespace Ling.Adv.Window
             var lineList = new List<Info.Line>();
 
             // 行データ作成
-            var current = new Info.Line();
+            var current = new Info.Line(Config.Text);
             foreach(var elm in charas)
             {
                 current.AddChara(elm);
@@ -488,7 +489,7 @@ namespace Ling.Adv.Window
                     lineList.Add(current);
 
                     // 次の行を追加
-                    current = new Info.Line();
+                    current = new Info.Line(Config.Text);
                 }
             }
 
@@ -584,8 +585,7 @@ namespace Ling.Adv.Window
         /// <param name="lineList"></param>
         private void MakeVerts(List<Info.Line> lineList)
         {
-            var text = Manager.Instance.Text;
-            var color = text.color;
+            var color = Config.Text.color;
 
             foreach(var elm in lineList)
             {

@@ -1,0 +1,180 @@
+﻿// 
+// BattleMessageItemView.cs  
+// ProductName Ling
+//  
+// Created by toshiki sakamoto on 2020.05.06
+// 
+using Ling.Adv.Engine.Command;
+using Ling.Adv.Window;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UniRx;
+using UnityEngine;
+using UnityEngine.UI;
+
+using Zenject;
+
+
+namespace Ling.Scenes.Battle.Message
+{
+	/// <summary>
+	/// 
+	/// </summary>
+	public class MessageItemView : MonoBehaviour
+	{
+		#region 定数, class, enum
+
+		private static readonly int UpperTrigger = Animator.StringToHash("Upper");
+
+		#endregion
+
+
+		#region public 変数
+
+		#endregion
+
+
+		#region private 変数
+
+		[SerializeField] private AdvText _text = null;
+		[SerializeField] private Animator _animator = null;
+
+		private RectTransform _rectTransform = null;
+
+		#endregion
+
+
+		#region プロパティ
+
+		public Adv.Document Document { get; private set; } = new Adv.Document();
+
+		public bool IsPlayAnimation { get; private set; }
+
+		public System.Action OnTextShowEnd { get; set; }
+
+		#endregion
+
+
+		#region public, protected 関数
+
+		public void SetText(string text)
+		{
+			gameObject.SetActive(true);
+
+			Document.Load(text);
+
+			_text.SetDocument(Document);
+			_text.SetLengthOfView(0);
+			_text.text = text;
+
+			int length = 0;
+
+			Observable
+				.Timer(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(0.1f))
+				.Select(value_ => 
+					{
+						// 一文字すすめる
+						Document.NextTextIndex();
+
+						_text.SetLengthOfView(++length);
+
+						return Document.IsEnd;
+					})
+				.TakeWhile(isEnd_ => 
+					{
+						return isEnd_ ? false : true;
+					})
+				.Subscribe(_ => {}, onCompleted: () =>
+					{
+						OnTextShowEnd?.Invoke();
+					});
+		}
+
+		/// <summary>
+		/// アニメーション
+		/// </summary>
+		public void UpperAnimation(float addPosY)
+		{
+			IEnumerator AddPosY()
+			{
+				float startPosY = _rectTransform.anchoredPosition.y;
+				float time = 0.0f;
+
+				while (time < 0.2f)
+				{
+					var rario = time / 0.2f;
+					var posY = startPosY + addPosY * rario;
+
+					_rectTransform.anchoredPosition = new Vector2(0.0f, posY);
+
+					yield return null;
+
+					time += Time.deltaTime;
+				}
+
+				_rectTransform.anchoredPosition = new Vector2(0.0f, startPosY + addPosY);
+
+				OnUpperAnimationEnd();
+			}
+
+			StartCoroutine(AddPosY());
+
+//			_animator.SetTrigger(UpperTrigger);
+			IsPlayAnimation = true;
+		}
+
+		public void OnUpperAnimationEnd()
+		{
+			IsPlayAnimation = false;
+		}
+
+		public void SetPositionY(float y)
+		{
+			// Anchor指定してあるのでこっちで移動
+			_rectTransform.anchoredPosition = new Vector2(0.0f, y);
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+
+
+		#region MonoBegaviour
+
+		/// <summary>
+		/// 初期処理
+		/// </summary>
+		void Awake()
+		{
+			_rectTransform = GetComponent<RectTransform>();
+		}
+
+		/// <summary>
+		/// 更新前処理
+		/// </summary>
+		void Start()
+		{
+		}
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		void OnDestoroy()
+		{
+		}
+
+		#endregion
+	}
+}

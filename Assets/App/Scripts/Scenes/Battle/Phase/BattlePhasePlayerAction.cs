@@ -133,6 +133,14 @@ namespace Ling.Scenes.Battle.Phase
 				Change(BattleScene.Phase.NextStage);
 				return;
 			}
+			else if (Input.GetKey(KeyCode.W))
+			{
+				var eventHolder = _gameManager.EventHolder;
+				eventHolder.MessageText.text = "ABCああ<color=#ff0000>あ９</color>９９";
+
+				_eventManager.Trigger<EventMessageText>(eventHolder.MessageText);
+				return;
+			}
 
 			if (moveDir != Vector3Int.zero)
 			{
