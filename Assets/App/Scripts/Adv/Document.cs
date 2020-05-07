@@ -547,9 +547,10 @@ namespace Ling.Adv
         public List<Window.Info.Chara> WindowCharas { get; private set; } = new List<Window.Info.Chara>();
 
 
-
         public void Load(string str)
         {
+            Clear();
+
             var strData = new StrData();
             strData.Str = str;
 
@@ -758,6 +759,12 @@ namespace Ling.Adv
             }
         }
 
+        public void Clear()
+        {
+            Elements.Clear();
+
+            Current = 0;
+        }
 
         /// <summary>
         /// 残りすべて取得する

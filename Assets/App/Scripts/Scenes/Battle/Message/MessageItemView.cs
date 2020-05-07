@@ -42,6 +42,7 @@ namespace Ling.Scenes.Battle.Message
 		[SerializeField] private Animator _animator = null;
 
 		private RectTransform _rectTransform = null;
+		private float _messageDisplaySpeed = 0f;
 
 		#endregion
 
@@ -72,7 +73,7 @@ namespace Ling.Scenes.Battle.Message
 			int length = 0;
 
 			Observable
-				.Timer(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(0.1f))
+				.Timer(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(_messageDisplaySpeed))
 				.Select(value_ => 
 					{
 						// 一文字すすめる
@@ -95,17 +96,17 @@ namespace Ling.Scenes.Battle.Message
 		/// <summary>
 		/// アニメーション
 		/// </summary>
-		public void UpperAnimation(float addPosY)
+		public void UpperAnimation(float addPosY, float itemUpperAnimationTime)
 		{
-			IEnumerator AddPosY()
+			IEnumerator MovePosY()
 			{
 				float startPosY = _rectTransform.anchoredPosition.y;
 				float time = 0.0f;
 
-				while (time < 0.2f)
+				while (time < itemUpperAnimationTime)
 				{
-					var rario = time / 0.2f;
-					var posY = startPosY + addPosY * rario;
+					var rario = Mathf.Min(time / itemUpperAnimationTime, 1.0f);
+					var posY = addPosY * rario + startPosY;
 
 					_rectTransform.anchoredPosition = new Vector2(0.0f, posY);
 
@@ -116,10 +117,12 @@ namespace Ling.Scenes.Battle.Message
 
 				_rectTransform.anchoredPosition = new Vector2(0.0f, startPosY + addPosY);
 
+				yield return null;
+
 				OnUpperAnimationEnd();
 			}
 
-			StartCoroutine(AddPosY());
+			StartCoroutine(MovePosY());
 
 //			_animator.SetTrigger(UpperTrigger);
 			IsPlayAnimation = true;
@@ -134,6 +137,11 @@ namespace Ling.Scenes.Battle.Message
 		{
 			// Anchor指定してあるのでこっちで移動
 			_rectTransform.anchoredPosition = new Vector2(0.0f, y);
+		}
+
+		public void ChangeTextDisplaySpeed(float speed)
+		{
+			_messageDisplaySpeed = speed;
 		}
 
 		#endregion
