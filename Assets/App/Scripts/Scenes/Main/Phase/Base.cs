@@ -15,7 +15,8 @@ using UnityEngine.UI;
 
 namespace Ling.Main.Phase
 {
-    public class Creator<T> where T : Base<T>, new()
+#if false
+	public class Creator<T> where T : Base<T>, new()
     {
         public static T Create(Scene scene)
         {
@@ -31,7 +32,7 @@ namespace Ling.Main.Phase
     /// <summary>
     /// 
     /// </summary>
-    public class Base<T> : Utility.PhaseObj<Const.State>.Base
+    public class Base<T> : Utility.PhaseScene<Const.State>.Base
         where T : Base<T>, new()
     {
         #region 定数, class, enum
@@ -71,4 +72,5 @@ namespace Ling.Main.Phase
 
         #endregion
     }
+#endif
 }

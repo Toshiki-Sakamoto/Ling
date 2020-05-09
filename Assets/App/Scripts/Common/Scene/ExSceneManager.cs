@@ -12,12 +12,14 @@ using UniRx.Async;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+using Zenject;
 
 namespace Ling.Common.Scene
 {
 	public interface IExSceneManager
 	{
+		Base Current { get; }
+
 		void StartScene(SceneID sceneID);
 
 		void ChangeScene(SceneID sceneID, Argument argument = null);
@@ -59,6 +61,8 @@ namespace Ling.Common.Scene
 
 		#region プロパティ
 
+		public Base Current => _sceneInstance;
+
 		#endregion
 
 
@@ -74,7 +78,7 @@ namespace Ling.Common.Scene
 		}
 
 		/// <summary>
-		/// シーンを完全に入れ替える`
+		/// シーンを完全に入れ替える
 		/// </summary>
 		/// <param name="sceneID"></param>
 		/// <param name="arg"></param>
@@ -111,6 +115,7 @@ namespace Ling.Common.Scene
 			// 遷移前処理
 			if (_sceneInstance != null)
 			{
+				_sceneInstance.IsStartScene = false;
 				_sceneInstance.StopScene();
 
 				await _sceneInstance.SceneStopAsync(argument);
@@ -173,9 +178,10 @@ namespace Ling.Common.Scene
 						{
 							_sceneInstance = scene;
 
-							// 事前準備が終わったのでここで始める`
+							// 事前準備が終わったのでここで始める
 							scene.gameObject.SetActive(true);
 
+							scene.IsStartScene = true;
 							scene.StartScene();
 						});
 				});
@@ -225,6 +231,10 @@ namespace Ling.Common.Scene
 		/// </summary>
 		void Update()
 		{
+			if (_sceneInstance == null) return;
+			if (!_sceneInstance.IsStartScene) return;
+
+			_sceneInstance.UpdateScene();
 		}
 
 		/// <summary>

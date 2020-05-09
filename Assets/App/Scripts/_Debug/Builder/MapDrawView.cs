@@ -24,10 +24,10 @@ namespace Ling._Debug.Builder
 		[System.Serializable]
 		public class ColorData
 		{
-			[SerializeField, EnumFlags] private Map.Builder.TileFlag _tileFlag;
-			[SerializeField] private Color _color;
+			[SerializeField, EnumFlags] private Map.TileFlag _tileFlag;
+			[SerializeField] private Color _color = Color.white;
 
-			public bool HasFlag(Map.Builder.TileFlag tileFlag) =>
+			public bool HasFlag(Map.TileFlag tileFlag) =>
 				_tileFlag.HasFlag(tileFlag);
 
 			public Color Color => _color;
@@ -116,7 +116,7 @@ namespace Ling._Debug.Builder
 
 		#region private 関数
 
-		private bool TryGetColor(Map.Builder.TileFlag tileFlag, out Color color)
+		private bool TryGetColor(Map.TileFlag tileFlag, out Color color)
 		{
 			color = Color.white;
 
@@ -168,7 +168,7 @@ namespace Ling._Debug.Builder
 					}
 				}
 			}
-			void DrawByIndex(int index, Map.Builder.TileFlag tileFlag)
+			void DrawByIndex(int index, Map.TileFlag tileFlag)
 			{
 				var draw = _drawSprites[index];
 				

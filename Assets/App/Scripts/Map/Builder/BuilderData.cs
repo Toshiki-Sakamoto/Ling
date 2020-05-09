@@ -33,8 +33,6 @@ namespace Ling.Map.Builder
 
 		#region private 変数
 
-		private int _roomMinSize = 3;
-
 		#endregion
 
 
@@ -53,7 +51,7 @@ namespace Ling.Map.Builder
 		/// <summary>
 		/// 部屋の最小サイズ
 		/// </summary>
-		public int RoomMinSize => _roomMinSize;
+		public int RoomMinSize { get; set; } = 3;
 
 		#endregion
 

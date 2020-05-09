@@ -21,7 +21,7 @@ namespace Ling.Common.Scene
 	/// シーンベース
 	/// </summary>
 	public abstract class Base : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -34,8 +34,10 @@ namespace Ling.Common.Scene
 
 		#region private 変数
 
+		[Inject] protected DiContainer _diContainer;
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 		[Inject] protected Utility.IEventManager _eventManager = null;
+		[Inject] protected Utility.ProcessManager _processManager = null;
 
 		#endregion
 
@@ -46,6 +48,17 @@ namespace Ling.Common.Scene
 		/// シーン遷移時に渡される引数
 		/// </summary>
 		public Argument Argument { get; set; }
+
+		/// <summary>
+		/// StartScene呼び出されるときにtrueになる
+		/// StopSceneでfalse
+		/// </summary>
+		public bool IsStartScene { get; set; }
+
+		/// <summary>
+		/// DIContainerを取得する
+		/// </summary>
+		public DiContainer DiContainer  => _diContainer;
 
 		#endregion
 
@@ -70,6 +83,11 @@ namespace Ling.Common.Scene
 		public virtual void StartScene() { }
 
 		/// <summary>
+		/// StartScene後呼び出される
+		/// </summary>
+		public virtual void UpdateScene() { }
+
+		/// <summary>
 		/// シーン終了時
 		/// </summary>
 		public virtual void StopScene() { }
@@ -85,6 +103,11 @@ namespace Ling.Common.Scene
 
 
 		#region private 関数
+
+		private void Awake()
+		{
+			_processManager.SetupScene(this);
+		}
 
 		#endregion
 	}

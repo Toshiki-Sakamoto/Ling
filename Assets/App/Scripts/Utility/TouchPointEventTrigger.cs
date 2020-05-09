@@ -43,7 +43,7 @@ namespace Ling.Utility
 
 		[SerializeField] private bool _isCreateNewEvent;	// イベントが発行されるたびに新しいインスタンスを作成する
 		[SerializeField] private string _id;	// 特殊な文字列を贈りたいとき
-		[SerializeField] private GameObject _gameObject;	// 設定すれば送られる
+		[SerializeField] private GameObject _gameObject = null;	// 設定すれば送られる
 
 		#endregion
 

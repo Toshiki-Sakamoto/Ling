@@ -55,19 +55,6 @@ namespace Ling.Map.Builder.Split
 
 		#region コンストラクタ, デストラクタ
 
-#if false
-		public Builder()
-			: this(new TSplitter())
-		{
-		}
-
-		public Builder(ISplitter splitter)
-		{
-			_splitter = splitter;
-
-			_mapRect = new MapRect();
-		}
-#endif
 
 		#endregion
 
@@ -117,19 +104,44 @@ namespace Ling.Map.Builder.Split
 			{
 				yield return roadEnumerator.Current;
 			}
+
+			// 下階段を作る
+			var pos = GetRandomRoomCellPos();
+			TileDataMap.GetTile(pos.x, pos.y).AddFlag(TileFlag.StepDown);
 		}
 
+		/// <summary>
+		/// プレイヤーの初期座標をランダムに取得する
+		/// </summary>
+		/// <returns></returns>
+		public override Vector3Int GetPlayerInitPosition()
+		{
+			// 数ある部屋の中から一つ選び、ランダムに配置する
+			var pos = GetRandomRoomCellPos();
+			return new Vector3Int(pos.x, pos.y, 0);
+		}
 
 		#endregion
 
 
 		#region private 関数
 
+		private (int x, int y) GetRandomRoomCellPos()
+		{
+			var mapData = MapRect.GetRandomData();
+			var room = mapData.room;
+
+			var x = Utility.Random.Range(room.xMin, room.xMax - 1);
+			var y = Utility.Random.Range(room.yMin, room.yMax - 1);
+
+			return (x, y);
+		}
+
 		/// <summary>
 		/// 部屋を作成する
 		/// </summary>
 		/// <returns></returns>
-        private IEnumerator<float> CreateRoom()
+		private IEnumerator<float> CreateRoom()
         {
             for (int i = 0; i < MapRect.RectCount; ++i)
             {

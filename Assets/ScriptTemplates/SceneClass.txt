@@ -1,0 +1,94 @@
+﻿//
+// #SCRIPTNAME#.cs
+// ProductName #PRODUCTNAME#
+//
+// Created by #AUTHOR# on #DATA#
+//
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
+
+using Ling.Common.Scene;
+using Zenject;
+
+namespace #NAMESPACE#
+{
+	/// <summary>
+	/// #SUMMARY#
+	/// </summary>
+	public class #SCRIPTNAME# : Common.Scene.Base 
+    {
+		#region 定数, class, enum
+
+		public enum Phase
+		{
+			Start,
+		}
+		
+		#endregion
+
+
+		#region public, protected 変数
+
+		#endregion
+
+
+		#region private 変数
+		
+		private Utility.PhaseObj<Phase, #SCRIPTNAME#> _phase = new Utility.PhaseObj<Phase, #SCRIPTNAME#>();
+
+		#endregion
+
+
+		#region プロパティ
+
+		#endregion
+
+
+		#region コンストラクタ, デストラクタ
+
+		#endregion
+
+
+		#region public, protected 関数
+
+		/// <summary>
+		/// 遷移後まずは呼び出される
+		/// </summary>
+		/// <returns></returns>
+		public override IObservable<Unit> ScenePrepareAsync() =>
+			Observable.Return(Unit.Default);
+
+		/// <summary>
+		/// シーンが開始される時
+		/// </summary>
+		public override void StartScene()
+		{
+			//_phase.Add(Phase.Start, );
+		}
+
+		/// <summary>
+		/// シーン終了時
+		/// </summary>
+		public override void StopScene() { }
+
+		/// <summary>
+		/// シーン遷移前に呼び出される
+		/// </summary>
+		/// <returns></returns>
+		public override IObservable<Unit> SceneStopAsync(Argument nextArgument) =>
+			Observable.Return(Unit.Default);
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+	}
+}

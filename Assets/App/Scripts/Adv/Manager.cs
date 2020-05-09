@@ -15,7 +15,7 @@ namespace Ling.Adv
     /// <summary>
     /// 管理者
     /// </summary>
-    public class Manager : MonoBehaviour 
+    public class Manager : MonoBehaviour
     {
         #region 定数, class, enum
 
@@ -30,8 +30,7 @@ namespace Ling.Adv
         #region private 変数
 
         [SerializeField] private Transform _trsWindowRoot = null;   // アドベンチャーウィンドウが置かれるルート
-
-        private View _view = null;
+        [SerializeField] private View _view = null; // アドベンチャーView : nullの場合、prefabから作られる
 
         #endregion
 
@@ -40,37 +39,10 @@ namespace Ling.Adv
 
         public static Manager Instance { get; private set; }
 
-        /// <summary>
-        /// テキスト本体
-        /// </summary>
-        public Window.AdvText Text { get; set; }
-
-        /// <summary>
-        /// テキスト情報を処理するクラス
-        /// </summary>
-        public Window.TextConfig Config { get; set; }
-
-        /// <summary>
-        /// 文字情報を解析し、情報を持っているクラス
-        /// </summary>
-        public Document Document { get; private set; }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        //public Window.Info.Common Common { get { return Config.Common; } }
-
         #endregion
 
 
         #region public, protected 関数
-
-
-        public void SetDocument(Document document)
-        {
-            this.Document = document;
-        }
 
         #endregion
 
@@ -98,8 +70,12 @@ namespace Ling.Adv
             EventManager.Instance.Setup();
 
             // View 
-            _view = View.Create(_trsWindowRoot);
-            _view.SetActive(true);
+            if (_view == null)
+            {
+                _view = View.Create(_trsWindowRoot);
+                _view.SetActive(true);
+            }
+
             _view.SetActive(false);
             _view.Setup();
 

@@ -15,10 +15,11 @@ using UnityEngine.UI;
 
 namespace Ling.Main.Phase
 {
+#if false
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Start : Base<Start>
+	public class Start : Base<Start>
     {
         #region 定数, class, enum
 
@@ -63,4 +64,5 @@ namespace Ling.Main.Phase
 
         #endregion
     }
+#endif
 }

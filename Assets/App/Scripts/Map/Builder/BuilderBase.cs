@@ -40,6 +40,12 @@ namespace Ling.Map.Builder
 		UniTask Execute();
 
 		IEnumerator<float> ExecuteDebug();
+
+		/// <summary>
+		/// プレイヤーの初期座標をランダムに取得する
+		/// </summary>
+		/// <returns></returns>
+		Vector3Int GetPlayerInitPosition();
 	}
 
 
@@ -145,6 +151,16 @@ namespace Ling.Map.Builder
 			}
 
 			IsExecuting = false;
+		}
+
+		/// <summary>
+		/// プレイヤーの初期座標をランダムに取得する
+		/// </summary>
+		/// <returns></returns>
+		public virtual Vector3Int GetPlayerInitPosition()
+		{
+			// todo: 仮
+			return new Vector3Int(10, 10, 0);
 		}
 
 		#endregion

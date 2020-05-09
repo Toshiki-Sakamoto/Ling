@@ -36,6 +36,7 @@ namespace Ling.Adv.Window.Info
 
         private CharacterInfo _info;    // フォントから取得した文字情報
         private bool _isError; // 何らかの理由で文字が取得できない
+        private Window.TextConfig _textConfig;
 
         #endregion
 
@@ -162,9 +163,9 @@ namespace Ling.Adv.Window.Info
 
 		#region コンストラクタ, デストラクタ
 
-        public Chara(Data.Chara c)
+        public Chara(Data.Chara c, TextConfig config)
         {
-            var config = Manager.Instance.Config;
+            _textConfig = config;
 
             if (c.Info.IsDash)
             {
@@ -363,8 +364,7 @@ namespace Ling.Adv.Window.Info
         /// <param name="verts"></param>
         private void SetCharaVertex()
         {
-            var manager = Manager.Instance;
-            var config = manager.Config;
+            var config = _textConfig;
 
             float minX, maxX, minY, maxY;
             Vector2 uvBottomLeft, uvBottomRight, uvTopRight, uvTopLeft;

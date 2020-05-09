@@ -51,6 +51,9 @@ namespace Ling
 
 		#region public, protected 関数
 
+		public static bool IsNullOrEmpty<T>(this T[] array) =>
+			array == null || array.Length <= 0;
+
 		/// <summary>
 		/// List.ForEachと同等の機能
 		/// </summary>

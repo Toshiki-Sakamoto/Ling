@@ -35,7 +35,7 @@ namespace Ling._Debug.Builder
 		#region プロパティ
 
 		public Vector2 Pos { get; set; }
-		public Map.Builder.TileFlag TileFlag { get; set; }
+		public Map.TileFlag TileFlag { get; set; }
 
 		#endregion
 

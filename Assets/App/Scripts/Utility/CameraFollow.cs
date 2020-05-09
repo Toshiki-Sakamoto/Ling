@@ -61,10 +61,10 @@ namespace Ling.Common
 
         private void LateUpdate()
         {
-            _followCamera.transform.position = 
-                new Vector3(transform.position.x, 
-                transform.position.y, 
-                _followCamera.transform.position.z);
+            _followCamera.transform.position =
+                new Vector3(transform.position.x,
+                transform.position.y,
+                 transform.position.z - 10);//_followCamera.transform.position.z);
         }
 
         #endregion

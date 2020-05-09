@@ -48,7 +48,7 @@ namespace Ling.Adv.Engine.Command
         /// 終了時呼び出し
         /// </summary>
         /// <value>The act end.</value>
-        public System.Action ActCmdFinish { get; set; }
+        public System.Action OnCmdFinish { get; set; }
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace Ling.Adv.Engine.Command
             Regist("select", (c_, l_) => Select.Create(c_, l_));
             Regist("clear", (c_, l_) => Clear.Create(c_, l_));
             Regist("hide", (c_, l_) => Hide.Create(c_, l_));
-            Regist("end", (c_, l_) => End.Create(c_, l_));
+            Regist("end", (c_, l_) => End.Create(c_, l_, () => OnCmdFinish?.Invoke()));
             Regist("load", (c_, l_) => Load.Create(c_, l_));
             Regist("loadChara", (c_, l_) => LoadChara.Create(c_, l_));
             Regist("chara", (c_, l_) => Chara.Create(c_, l_));

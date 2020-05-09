@@ -86,6 +86,11 @@ namespace Ling.Adv.Engine
         /// <value><c>true</c> if is tap; otherwise, <c>false</c>.</value>
         public bool IsTap { get; private set; }
 
+        /// <summary>
+        /// 終了時呼び出される
+        /// </summary>
+        public System.Action OnFinish { get; set; }
+
 
         #endregion
 
@@ -120,7 +125,7 @@ namespace Ling.Adv.Engine
             Utility.Log.Print("-------- Command ------");
 
             // 終了時
-            Cmd.ActCmdFinish = 
+            Cmd.OnCmdFinish = 
                 () =>
                 {
                     AdvStop(); 
@@ -162,6 +167,10 @@ namespace Ling.Adv.Engine
             StopAllCoroutines();
 
             Utility.EventManager.SafeTrigger(new EventStop());
+
+            OnFinish?.Invoke();
+
+            _view?.SetActive(false);
         }
 
         /// <summary>

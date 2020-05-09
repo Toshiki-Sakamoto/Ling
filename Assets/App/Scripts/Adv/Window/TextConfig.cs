@@ -195,7 +195,7 @@ namespace Ling.Adv.Window
         {
             _lengthOfView = length;
 
-            Manager.Instance.Text.SetVeriticesOnlyDirty();
+            Text.SetVeriticesOnlyDirty();
         }
 
         public void AddLengthOfView(int length)
@@ -225,6 +225,9 @@ namespace Ling.Adv.Window
 
             CurrentChangeType = ChangeType.VertexOnly;
         }
+
+        public void SetDocument(IDocument document) =>
+            Info.SetDocument(document);
 
         #endregion
 
@@ -267,13 +270,8 @@ namespace Ling.Adv.Window
         /// </summary>
         void Awake()
         {
-            if (Manager.Instance != null)
-            {
-                Manager.Instance.Config = this;
-
-                Info = new ConfigInfo(this);
-                CachedRectTransform = GetComponent<RectTransform>();
-            }
+            Info = new ConfigInfo(this);
+            CachedRectTransform = GetComponent<RectTransform>();
         }
 
         /// <summary>
