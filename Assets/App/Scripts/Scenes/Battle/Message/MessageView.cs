@@ -45,8 +45,6 @@ namespace Ling.Scenes.Battle.Message
 		[SerializeField] private float _itemUpperAnimationTime = 0.2f;
 		[SerializeField] private float _messageDisplaySpeed = 0.05f;
 
-		[Inject] private IEventManager _eventManager = null;
-
 		private Queue<MessageItemView> _textItemQueue = new Queue<MessageItemView>();
 		private Queue<MessageItemView> _activeTextItemQueue = new Queue<MessageItemView>();
 		private Queue<string> _textQueue = new Queue<string>();
@@ -85,15 +83,14 @@ namespace Ling.Scenes.Battle.Message
 				_textItemQueue.Enqueue(instance);
 			}
 
-			_eventManager.Add<EventMessageText>(this, 
-				ev_ =>
-				{
-					_textQueue.Enqueue(ev_.text);
-
-					ShowTextIfNeeded();
-				});
-
 			_canNextTextShow = true;
+		}
+
+		public void SetText(string text)
+		{
+			_textQueue.Enqueue(text);
+
+			ShowTextIfNeeded();
 		}
 
 		#endregion
@@ -149,6 +146,7 @@ namespace Ling.Scenes.Battle.Message
 
 			while (true)
 			{
+				// 全て終わってないと先に進ませない
 				if (_activeTextItemQueue.All(item_ => !item_.IsPlayAnimation))
 				{
 					break;

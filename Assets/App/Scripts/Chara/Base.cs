@@ -131,6 +131,12 @@ namespace Ling.Chara
         /// </summary>
         void Awake()
         {
+            if (_moveController == null)
+            {
+                _moveController = GetComponent<MoveController>();
+            }
+
+            _moveController.SetModel(this);
         }
 
         /// <summary>

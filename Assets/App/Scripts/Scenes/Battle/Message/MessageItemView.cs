@@ -83,10 +83,7 @@ namespace Ling.Scenes.Battle.Message
 
 						return Document.IsEnd;
 					})
-				.TakeWhile(isEnd_ => 
-					{
-						return isEnd_ ? false : true;
-					})
+				.TakeWhile(isEnd_ => isEnd_ ? false : true)
 				.Subscribe(_ => {}, onCompleted: () =>
 					{
 						OnTextShowEnd?.Invoke();
@@ -160,27 +157,6 @@ namespace Ling.Scenes.Battle.Message
 		void Awake()
 		{
 			_rectTransform = GetComponent<RectTransform>();
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestoroy()
-		{
 		}
 
 		#endregion

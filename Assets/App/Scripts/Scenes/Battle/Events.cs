@@ -29,4 +29,13 @@ namespace Ling.Scenes.Battle
 	{
 		public string text;
 	}
+
+	/// <summary>
+	/// 選択肢を出す
+	/// </summary>
+	public class EventMessageTextSelect
+	{
+		public string[] texts;
+		public System.Action<int> onSelected;
+	}
 }

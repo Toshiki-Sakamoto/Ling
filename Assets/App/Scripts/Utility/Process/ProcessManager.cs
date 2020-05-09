@@ -19,7 +19,7 @@ namespace Ling.Utility
 {
 	public class ProcessNode : MonoBehaviour
 	{
-		[Inject] private DiContainer _diContainer;
+		[Inject] private DiContainer _diContainer = null;
 
 		private List<ProcessBase> _processes = new List<ProcessBase>();
 		private List<ProcessBase> _startProcesses = new List<ProcessBase>();

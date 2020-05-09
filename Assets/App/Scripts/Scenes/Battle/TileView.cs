@@ -31,7 +31,7 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[SerializeField] private SpriteRenderer _sprite;
+		[SerializeField] private SpriteRenderer _sprite = null;
 
 		#endregion
 

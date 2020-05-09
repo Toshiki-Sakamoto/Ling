@@ -30,8 +30,6 @@ namespace Ling.Chara
 
         #region private 変数
 
-        private MoveController _moveController;
-
         #endregion
 
 
@@ -66,8 +64,6 @@ namespace Ling.Chara
         /// </summary>
         void Awake()
         {
-            _moveController = GetComponent<MoveController>();
-            _moveController.SetModel(this);
         }
 
         /// <summary>

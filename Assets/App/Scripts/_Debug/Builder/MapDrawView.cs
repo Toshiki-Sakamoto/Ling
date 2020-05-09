@@ -25,7 +25,7 @@ namespace Ling._Debug.Builder
 		public class ColorData
 		{
 			[SerializeField, EnumFlags] private Map.TileFlag _tileFlag;
-			[SerializeField] private Color _color;
+			[SerializeField] private Color _color = Color.white;
 
 			public bool HasFlag(Map.TileFlag tileFlag) =>
 				_tileFlag.HasFlag(tileFlag);
