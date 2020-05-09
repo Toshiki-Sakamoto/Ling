@@ -65,31 +65,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Init()
 		{
-			_player = _charaManager.Player;
-
-			// 階段の上にいるか
-			var tileDataMap = _mapManager.CurrentTileDataMap;
-			var tileFlag = tileDataMap.GetTileFlag(_player.CellPos);
-
-			// 下り階段
-			if (tileFlag.HasStepDown())
-			{
-				// 選択肢を出す
-				var eventMessageSelect = EventHolder.MessageTextSelect;
-
-				eventMessageSelect.text = "階段を降りる?";
-				eventMessageSelect.selectTexts = new string[] { "はい", "いいえ" };
-				eventMessageSelect.onSelected = selected =>
-				{
-					Change(BattleScene.Phase.PlayerAction);
-				};
-
-				_eventManager.Trigger(eventMessageSelect);
-			}
-			else
-			{
-				Change(BattleScene.Phase.PlayerAction);
-			}
+			Change(BattleScene.Phase.PlayerAction);
 		}
 
 		public override void Proc()

@@ -75,9 +75,26 @@ namespace Ling.Utility
 			return process;
 		}
 
-		public void ProcessStart()
+		/// <summary>
+		/// そのプロセスが持つ連結リストの一番最後につける
+		/// </summary>
+		/// <typeparam name="TProcess"></typeparam>
+		/// <returns></returns>
+		public TProcess SetNextLast<TProcess>() where TProcess : ProcessBase
 		{
-			enabled = true;
+			if (Next != null)
+			{
+				return Next.SetNextLast<TProcess>();
+			}
+
+			return SetNext<TProcess>();
+		}
+
+		/// <summary>
+		/// 前のプロセスが終了したときに呼び出される
+		/// </summary>
+		public virtual void ProcessStart()
+		{
 		}
 
 		public void ProcessFinish()
@@ -85,7 +102,11 @@ namespace Ling.Utility
 			OnFinish?.Invoke();
 
 			// 次に進める
-			Next?.ProcessStart();
+			if (Next != null)
+			{
+				Next.enabled = true;
+				Next.ProcessStart();
+			}
 
 			// 終了したものは削除する
 			Node.Remove(this);

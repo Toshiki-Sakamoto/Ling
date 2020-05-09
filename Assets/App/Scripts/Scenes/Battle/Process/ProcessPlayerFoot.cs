@@ -1,8 +1,8 @@
 ﻿//
-// ProcessPlayerMoveStart.cs
+// ProcessPlayerFoot.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.04
+// Created by toshiki sakamoto on 2020.05.09
 //
 
 using System;
@@ -10,18 +10,18 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Ling.Map;
 
 using Zenject;
 
 namespace Ling.Scenes.Battle.Process
 {
 	/// <summary>
-	/// プレイヤーの移動始め
+	/// 足元確認
 	/// </summary>
-	public class ProcessPlayerMoveStart : Utility.ProcessBase
+	public class ProcessPlayerFoot : Utility.ProcessBase
 	{
 		#region 定数, class, enum
 
@@ -36,9 +36,9 @@ namespace Ling.Scenes.Battle.Process
 		#region private 変数
 
 		[Inject] private CharaManager _charaManager = null;
+		[Inject] private MapManager _mapManager = null;
 
 		private Chara.Player _player;
-		private Vector3Int _addMoveDir;
 
 		#endregion
 
@@ -50,34 +50,34 @@ namespace Ling.Scenes.Battle.Process
 
 		#region コンストラクタ, デストラクタ
 
-		public ProcessPlayerMoveStart Setup(in Vector3Int addMoveDir)
-		{
-			_player = _charaManager.Player;
-			_addMoveDir = addMoveDir;
-
-			// 足元確認コマンドを次に入れる
-			SetNext<Process.ProcessPlayerFoot>();
-
-			return this;
-		}
-
 		#endregion
 
 
 		#region public, protected 関数
+		
+		/// <summary>
+		/// 前のプロセスが終了したときに呼び出される
+		/// </summary>
+		public override void ProcessStart()
+		{
+			_player = _charaManager.Player;
 
+			var tileDataMap = _mapManager.CurrentTileDataMap;
+			var tileFlag = tileDataMap.GetTileFlag(_player.CellPos);
+
+			// 下り階段
+			if (tileFlag.HasStepDown())
+			{
+				SetNext<ProcessConfirmStepDown>();
+			}
+
+			ProcessFinish();
+		}
 
 		#endregion
 
 
 		#region private 関数
-
-		private void Start()
-		{
-			_player
-				.MoveByAddPos(_addMoveDir)
-				.Subscribe(_ => { ProcessFinish(); });
-		}
 
 		#endregion
 	}

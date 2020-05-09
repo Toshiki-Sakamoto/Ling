@@ -39,4 +39,12 @@ namespace Ling.Scenes.Battle
 		public string[] selectTexts;
 		public System.Action<int> onSelected;
 	}
+
+	/// <summary>
+	/// Phaseを変更させる
+	/// </summary>
+	public class EventChangePhase
+	{
+		public BattleScene.Phase phase;
+	}
 }

@@ -79,6 +79,8 @@ namespace Ling.Utility
 				if (process.enabled) continue;
 
 				// 開始
+				process.enabled = true;
+
 				process.ProcessStart();
 			}
 

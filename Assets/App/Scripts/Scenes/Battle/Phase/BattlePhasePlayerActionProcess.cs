@@ -61,7 +61,7 @@ namespace Ling.Scenes.Battle.Phase
 			var arg = Arg as Argument;
 
 			arg.process
-				.SetNext<Utility.Process.ProcessCallFunc>()
+				.SetNextLast<Utility.Process.ProcessCallFunc>()
 				.Setup(() => 
 				{
 					_isFinish = true;
