@@ -144,6 +144,9 @@ namespace Ling.Map
 			return GetTileFlag(y * Width + x);
 		}
 
+		public TileFlag GetTileFlag(Vector3Int pos) =>
+			GetTileFlag(pos.x, pos.y);
+
 		public TileFlag GetTileFlag(int index) =>
 			GetTile(index).Flag;
 

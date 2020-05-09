@@ -35,7 +35,8 @@ namespace Ling.Scenes.Battle
 	/// </summary>
 	public class EventMessageTextSelect
 	{
-		public string[] texts;
+		public string text;
+		public string[] selectTexts;
 		public System.Action<int> onSelected;
 	}
 }

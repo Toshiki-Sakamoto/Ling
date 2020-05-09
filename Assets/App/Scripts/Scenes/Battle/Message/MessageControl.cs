@@ -68,6 +68,28 @@ namespace Ling.Scenes.Battle.Message
 					_view.SetText(ev_.text);
 				});
 
+			_eventManager.Add<EventMessageTextSelect>(this,
+				ev_ =>
+				{
+					var onSelected = ev_.onSelected;
+
+					void Select()
+					{
+						_select.onSelected = selectIndex_ =>
+							{
+								onSelected?.Invoke(selectIndex_);
+							};
+
+						_select.Show(ev_.selectTexts);
+					}
+
+					// メッセージ表示後選択肢表示
+					_view.SetText(ev_.text, 
+						() =>
+						{
+							Select();
+						});
+				});
 		}
 
 		private void OnDestroy()

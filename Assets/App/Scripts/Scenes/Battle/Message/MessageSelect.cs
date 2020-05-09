@@ -11,7 +11,7 @@ using UnityEngine.UI;
 using UniRx;
 
 using Zenject;
-
+using System.Linq;
 
 namespace Ling.Scenes.Battle.Message
 {
@@ -26,17 +26,20 @@ namespace Ling.Scenes.Battle.Message
 		public class SelectData
 		{
 			[SerializeField] private Transform _root = null;
-			[SerializeField] private Button[] _button = null;
-			[SerializeField] private Text[] _text = null;
+			[SerializeField] private Button[] _buttons = null;
+
+			private List<Text> _texts = new List<Text>();
 
 			public System.Action<int> onSelected;
 
 
 			public void Setup()
 			{
-				for (int i = 0; i < _button.Length; ++i)
+				_texts = _buttons.Select(button_ => button_.GetComponentInChildren<Text>()).ToList();
+
+				for (int i = 0; i < _buttons.Length; ++i)
 				{
-					_button[i].onClick
+					_buttons[i].onClick
 						.AsObservable()
 						.Subscribe(_ =>
 							{
@@ -57,11 +60,11 @@ namespace Ling.Scenes.Battle.Message
 
 			public void SetText(string[] texts)
 			{
-				Utility.Log.Assert(texts.Length == _text.Length, $"数が一致しない {texts.Length} {_text.Length}");
+				Utility.Log.Assert(texts.Length == _buttons.Length, $"数が一致しない {texts.Length} {_buttons.Length}");
 
 				for (int i = 0; i < texts.Length; ++i)
 				{
-					_text[i].text = texts[i];
+					_texts[i].text = texts[i];
 				}
 			}
 		}
@@ -71,12 +74,15 @@ namespace Ling.Scenes.Battle.Message
 
 		#region public 変数
 
+		public System.Action<int> onSelected;
+
 		#endregion
 
 
 		#region private 変数
 
 		[SerializeField] private SelectData[] _selectData = null;
+		[SerializeField] private Image _wall = null;
 
 		#endregion
 
@@ -88,17 +94,38 @@ namespace Ling.Scenes.Battle.Message
 
 		#region public, protected 関数
 
-		public void Show(string[] text)
+		public void Show(string[] selectTexts)
 		{
-			if (text.Length > _selectData.Length)
+			if (selectTexts.Length > _selectData.Length)
 			{
-				Utility.Log.Error($"選択肢の数が多い {text.Length} {_selectData.Length}");
+				Utility.Log.Error($"選択肢の数が多い {selectTexts.Length} {_selectData.Length}");
 				return;
 			}
 
-			var index = text.Length - 1;
+			_wall.gameObject.SetActive(true);
 
-			_selectData[index].Show();
+			var index = selectTexts.Length - 1;
+
+			var selectData = _selectData[index];
+			selectData.onSelected = selected_ =>
+				{
+					Hide();
+
+					onSelected?.Invoke(selected_);
+				};
+
+			selectData.SetText(selectTexts);
+			selectData.Show();
+		}
+
+		public void Hide()
+		{
+			_wall.gameObject.SetActive(false);
+
+			foreach(var item in _selectData)
+			{
+				item.Hide();
+			}
 		}
 
 		#endregion

@@ -62,6 +62,9 @@ namespace Ling.Scenes.Battle
 			return Player;
 		}
 
+		public Vector3Int GetPlayerCellPos() =>
+			Player.CellPos;
+
 		#endregion
 
 

@@ -210,7 +210,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		#endregion
 
 
-#region private 関数
+		#region private 関数
 
 #if false
 		/// <summary>
@@ -267,39 +267,6 @@ namespace Ling.Scenes.Battle.BattleMap
 			return result;
 		}
 
-#endregion
-
-
-#region MonoBegaviour
-
-		/// <summary>
-		/// 初期処理
-		/// </summary>
-		void Awake()
-		{
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestoroy()
-		{
-		}
-
-#endregion
+		#endregion
 	}
 }

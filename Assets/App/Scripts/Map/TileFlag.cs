@@ -33,5 +33,7 @@ namespace Ling.Map
 
 	public static class TileFlagExtensions
 	{
+		public static bool HasStepDown(this TileFlag flag) =>
+			flag.HasFlag(TileFlag.StepDown);
 	}
 }

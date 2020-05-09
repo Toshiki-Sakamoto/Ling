@@ -43,6 +43,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region プロパティ
 
+		public EventHolder EventHolder => _gameManager.EventHolder;
+
 		#endregion
 
 

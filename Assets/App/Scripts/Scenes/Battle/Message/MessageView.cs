@@ -25,6 +25,12 @@ namespace Ling.Scenes.Battle.Message
     {
 		#region 定数, class, enum
 
+		class TextData
+		{
+			public string text;
+			public System.Action onFinish;
+		}
+
 		#endregion
 
 
@@ -47,7 +53,7 @@ namespace Ling.Scenes.Battle.Message
 
 		private Queue<MessageItemView> _textItemQueue = new Queue<MessageItemView>();
 		private Queue<MessageItemView> _activeTextItemQueue = new Queue<MessageItemView>();
-		private Queue<string> _textQueue = new Queue<string>();
+		private Queue<TextData> _textQueue = new Queue<TextData>();
 		private bool _canNextTextShow = false;
 
 		#endregion
@@ -70,25 +76,15 @@ namespace Ling.Scenes.Battle.Message
 				var instance = Instantiate<MessageItemView>(_textItem, _contentsRoot);
 				instance.ChangeTextDisplaySpeed(_messageDisplaySpeed);
 
-				instance.OnTextShowEnd = 
-					() => 
-					{
-						// テキスト表示終了時
-						// 次に進める
-						_canNextTextShow = true;
-
-						ShowTextIfNeeded();
-					};
-
 				_textItemQueue.Enqueue(instance);
 			}
 
 			_canNextTextShow = true;
 		}
 
-		public void SetText(string text)
+		public void SetText(string text, System.Action finish = null)
 		{
-			_textQueue.Enqueue(text);
+			_textQueue.Enqueue(new TextData { text = text, onFinish = finish });
 
 			ShowTextIfNeeded();
 		}
@@ -115,14 +111,25 @@ namespace Ling.Scenes.Battle.Message
 				.FromCoroutine(() => PlayAnimationActiveTextItem())
 				.Subscribe(_ =>
 				{
-					var text = _textQueue.Dequeue();
+					var textData = _textQueue.Dequeue();
 
 					// 使用キューに追加
 					var activeTextItem = _textItemQueue.Dequeue();
 					_activeTextItemQueue.Enqueue(activeTextItem);
 
 					// テキストを設定する
-					activeTextItem.SetText(text);
+					activeTextItem.SetText(textData.text);
+					activeTextItem.OnTextShowEnd =
+						() =>
+						{
+							textData.onFinish?.Invoke();
+
+							// テキスト表示終了時
+							// 次に進める
+							_canNextTextShow = true;
+
+							ShowTextIfNeeded();
+						};
 
 					AdjustItemsPosition();
 				});

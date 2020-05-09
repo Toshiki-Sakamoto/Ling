@@ -73,7 +73,7 @@ namespace Ling.Scenes.Battle.Phase
 			if (!_isFinish) return;
 
 			//
-			Change(BattleScene.Phase.PlayerAction);
+			Change(BattleScene.Phase.PlayerActionEnd);
 		}
 
 		public override void Term()
