@@ -74,7 +74,7 @@ namespace Ling._Debug.Builder
 
 					_builder.SetData(builderData);
 
-					_buildeEnumerator = _builder.ExecuteDebug();
+					_buildeEnumerator = _builder.ExecuteDebug(null);
 
 					// ランダム値を変化させたい場合
 					if (setting_.RandomSeed > 0)

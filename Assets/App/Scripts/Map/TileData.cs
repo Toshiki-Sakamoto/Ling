@@ -26,9 +26,11 @@ namespace Ling.Map
 		/// </summary>
 		public TileFlag Flag { get; private set; }
 
-		public int X {get; private set;}
-		public int Y {get; private set;}
-		
+		public Vector2Int Pos { get; private set; }
+		public int X => Pos.x;
+		public int Y => Pos.y;
+
+
 		public int Index { get; private set; }
 
 		/// <summary>
@@ -52,8 +54,7 @@ namespace Ling.Map
 
 		public void SetPos(int x, int y) 
 		{
-			X = x;
-			Y = y;
+			Pos = new Vector2Int(x, y);
 		}
 		public void SetIndex(int index) => Index = index;
 

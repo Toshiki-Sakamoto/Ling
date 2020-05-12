@@ -30,12 +30,40 @@ namespace Ling.Map.Builder.Split
 		{
 			public RectInt rect;   // 区画範囲
 			public RectInt room;   // 部屋範囲
+			public List<RoadData> roads;    // 道情報
+
+			// 隣接
+			public List<Data> nearbyAll = new List<Data>(); 
+			public List<Data> nearbyTop = new List<Data>();
+			public List<Data> nearbyBottom = new List<Data>();
+			public List<Data> nearbyLeft = new List<Data>();
+			public List<Data> nearbyRight = new List<Data>();
 
 			public void Initialize()
 			{
 				rect = new RectInt();
 				room = new RectInt();
+				roads = new List<RoadData>();
+				nearbyAll.Clear();
+				nearbyTop.Clear();
+				nearbyBottom.Clear();
+				nearbyLeft.Clear();
+				nearbyRight.Clear();
 			}
+
+			public bool InRectRange(in Vector2Int pos) =>
+				rect.Contains(pos);
+		}
+
+		/// <summary>
+		/// 道情報
+		/// </summary>
+		public class RoadData
+		{
+			public List<Vector2Int> pos = new List<Vector2Int>();    // 道の座標
+
+			public void Add(Vector2Int pos) =>
+				this.pos.Add(pos);
 		}
 
 		#endregion
@@ -118,6 +146,61 @@ namespace Ling.Map.Builder.Split
 		public Data GetRandomData() =>
 			_data[Utility.Random.Range(RectCount - 1)];
 
+		/// <summary>
+		/// Cell座標から区画データを返す
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public Data FindDataByCellPos(Vector2Int pos) =>
+			System.Array.Find(_data, data_ => data_.InRectRange(pos));
+
+		/// <summary>
+		/// 隣接している区画同士のデータをつなげる
+		/// </summary>
+		public void ConnectNeighbor(Data targetData)
+		{
+			var targetRect = targetData.rect;
+
+			foreach (var data in _data)
+			{
+				if (data == targetData) continue;
+
+				var rect = data.rect;
+
+				// 上
+				if (targetRect.yMin == rect.yMax)
+				{
+					targetData.nearbyTop.Add(data);
+					data.nearbyBottom.Add(data);
+					continue;
+				}
+
+				// 下
+				if (targetRect.yMax == rect.yMin)
+				{
+					targetData.nearbyBottom.Add(data);
+					data.nearbyTop.Add(data);
+					continue;
+				}
+
+				// 左
+				if (targetRect.xMin == rect.xMax)
+				{
+					targetData.nearbyLeft.Add(data);
+					data.nearbyRight.Add(data);
+					continue;
+				}
+
+				// 右
+				if (targetRect.xMax == rect.yMin)
+				{
+					targetData.nearbyRight.Add(data);
+					data.nearbyLeft.Add(data);
+					continue;
+				}
+			}
+		}
 
 		#endregion
 

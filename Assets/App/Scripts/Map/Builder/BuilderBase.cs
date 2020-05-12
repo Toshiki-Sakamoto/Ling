@@ -37,9 +37,16 @@ namespace Ling.Map.Builder
 		/// <summary>
 		/// 処理を実行する
 		/// </summary>
-		UniTask Execute();
+		UniTask Execute(TileDataMap prevTildeDataMap);
 
-		IEnumerator<float> ExecuteDebug();
+		/// <summary>
+		/// 更に処理を追加実行する
+		/// </summary>
+		/// <param name="tildeDataMap"></param>
+		/// <returns></returns>
+		UniTask ExecuteFurher(TileDataMap prevTildeDataMap);
+
+		IEnumerator<float> ExecuteDebug(TileDataMap prevTildeDataMap);
 
 		/// <summary>
 		/// プレイヤーの初期座標をランダムに取得する
@@ -125,26 +132,40 @@ namespace Ling.Map.Builder
         /// <summary>
         /// 処理を実行する
         /// </summary>
-        public async UniTask Execute()
+        public async UniTask Execute(TileDataMap prevTildeDataMap)
         {
 			// 最初はすべて壁にする
 			TileDataMap.AllTilesSetWall();
 
 			IsExecuting = true;
 
-			await ExecuteInternal();
+			await ExecuteInternal(prevTildeDataMap);
 
 			IsExecuting = false;
 		}
 
-		public IEnumerator<float> ExecuteDebug()
+		/// <summary>
+		/// 更に処理を追加実行する
+		/// </summary>
+		/// <param name="tildeDataMap"></param>
+		/// <returns></returns>
+		public async UniTask ExecuteFurher(TileDataMap prevTildeDataMap)
+		{
+			IsExecuting = true;
+
+			await ExecuteFurtherInternal(prevTildeDataMap);
+
+			IsExecuting = false;
+		}
+
+		public IEnumerator<float> ExecuteDebug(TileDataMap prevTildeDataMap)
 		{
 			// 最初はすべて壁にする
 			TileDataMap.AllTilesSetWall();
 
 			IsExecuting = true;
 
-			var enumerator = ExecuteInternal();
+			var enumerator = ExecuteInternal(prevTildeDataMap);
 			while (enumerator.MoveNext())
 			{
 				yield return enumerator.Current;
@@ -168,7 +189,12 @@ namespace Ling.Map.Builder
 
 		#region private 関数
 
-		protected abstract IEnumerator<float> ExecuteInternal();
+		protected abstract IEnumerator<float> ExecuteInternal(TileDataMap prevTildeDataMap);
+
+		protected virtual IEnumerator<float> ExecuteFurtherInternal(TileDataMap prevTildeDataMap)
+		{
+			yield break;
+		}
 
         #endregion
     }

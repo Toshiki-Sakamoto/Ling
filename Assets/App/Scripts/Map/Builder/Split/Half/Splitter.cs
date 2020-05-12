@@ -153,6 +153,10 @@ namespace Ling.Map.Builder.Split.Half
 				parentData.rect.xMax = childRect.rect.xMin;
 			}
 
+			// 隣接している区画のデータ
+			_mapRect.ConnectNeighbor(childRect);
+
+
 			// 最新のRectを返すか一個前のRectを返すかをランダムで決める
 			if (UnityEngine.Random.Range(0, 2) == 1)
 			{

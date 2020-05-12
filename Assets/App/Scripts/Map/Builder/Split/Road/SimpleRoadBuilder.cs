@@ -80,6 +80,15 @@ namespace Ling.Map.Builder.Split.Road
 			var roomA = dataA.room;
 			var roomB = dataB.room;
 
+			var roadData = new MapRect.RoadData();
+
+			System.Predicate<TileData> createRoadData = 
+				(tileData_) =>
+				{
+					roadData.Add(tileData_.Pos);
+					return true;
+				};
+
 			// 区画は上下左右のどちらでつながっているかで処理を分ける
 			if (rectA.yMax == rectB.yMin || rectA.yMin == rectB.yMax)
 			{
@@ -95,10 +104,10 @@ namespace Ling.Map.Builder.Split.Road
 					y = rectA.yMin;
 
 					// Aと横道を繋ぐ道を作る
-					tileDataMap.FillRect(x1, y + 1, x1 + 1, roomA.yMin, TileFlag.Road);
+					tileDataMap.FillRectRoad(x1, y + 1, x1 + 1, roomA.yMin, createRoadData);
 
 					// Bと横道を繋ぐ道を作る
-					tileDataMap.FillRect(x2, roomB.yMax, x2 + 1, y, TileFlag.Road);
+					tileDataMap.FillRectRoad(x2, roomB.yMax, x2 + 1, y, createRoadData);
 				}
 				else
 				{
@@ -106,14 +115,17 @@ namespace Ling.Map.Builder.Split.Road
 					// B
 					y = rectB.yMin;
 
-					tileDataMap.FillRect(x2, y + 1, x2 + 1, roomB.yMin, TileFlag.Road);
-					tileDataMap.FillRect(x1, roomA.yMax, x1 + 1, y, TileFlag.Road);
+					tileDataMap.FillRectRoad(x2, y + 1, x2 + 1, roomB.yMin, createRoadData);
+					tileDataMap.FillRectRoad(x1, roomA.yMax, x1 + 1, y, createRoadData);
 				}
 
 				var left = Mathf.Min(x1, x2);
 				var right = Mathf.Max(x1, x2) + 1;
 
-				tileDataMap.FillRect(left, y, right, y + 1, TileFlag.Road);
+				tileDataMap.FillRectRoad(left, y, right, y + 1, createRoadData);
+
+				// AとB両方に道のデータをもたせる
+				dataA.roads.Add(roadData);
 
 				return;
 			}
@@ -130,22 +142,25 @@ namespace Ling.Map.Builder.Split.Road
 					// BA
 					x = rectA.xMin;
 
-					tileDataMap.FillRect(roomB.xMax, y2, x, y2 + 1, TileFlag.Road);
-					tileDataMap.FillRect(x + 1, y1, roomA.xMin, y1 + 1, TileFlag.Road);
+					tileDataMap.FillRectRoad(roomB.xMax, y2, x, y2 + 1, createRoadData);
+					tileDataMap.FillRectRoad(x + 1, y1, roomA.xMin, y1 + 1, createRoadData);
 				}
 				else
 				{
 					// AB
 					x = rectB.xMin;
 
-					tileDataMap.FillRect(roomA.xMax, y1, x, y1 + 1, TileFlag.Road);
-					tileDataMap.FillRect(x + 1, y2, roomB.xMin, y2 + 1, TileFlag.Road);
+					tileDataMap.FillRectRoad(roomA.xMax, y1, x, y1 + 1, createRoadData);
+					tileDataMap.FillRectRoad(x + 1, y2, roomB.xMin, y2 + 1, createRoadData);
 				}
 
 				var top = Mathf.Min(y1, y2);
 				var bottom = Mathf.Max(y1, y2) + 1;
 
-				tileDataMap.FillRect(x, top, x + 1, bottom, TileFlag.Road);
+				tileDataMap.FillRectRoad(x, top, x + 1, bottom, createRoadData);
+				
+				// AとB両方に道のデータをもたせる
+				dataA.roads.Add(roadData);
 
 				return;
 			}

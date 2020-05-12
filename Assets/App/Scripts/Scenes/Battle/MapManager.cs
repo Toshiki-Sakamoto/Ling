@@ -181,8 +181,14 @@ namespace Ling.Scenes.Battle
 				_builderManager.SetData(builderData);
 				_builderManager.SetBuilder(builder);
 
+				// 一つ下のマップ
+				var prevTileDataMap = _mapModel.FindTileDataMap(mapID - 1);
+
 				// マップの作成
-				await builder.Execute();
+				await builder.Execute(prevTileDataMap);
+
+				// 追加でマップ作成する必要があるとき
+				await builder.ExecuteFurher(prevTileDataMap);
 
 				var mapData = new BattleMap.MapData();
 				mapData.Setup(builder, builder.TileDataMap);

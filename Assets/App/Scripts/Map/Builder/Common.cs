@@ -19,26 +19,29 @@ namespace Ling.Map.Builder
 	/// <summary>
 	/// 
 	/// </summary>
-    public static class Common
-    {
-        #region 定数, class, enum
+	public static class Common
+	{
+		#region 定数, class, enum
 
-        #endregion
+		private static readonly int[,] Dir = new int[4, 2] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+		private static readonly int[,] DirWithDiagonal = new int[8, 2] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { -1, -1 }, { 1, -1 }, { -1, 1 }, { 1, 1 } };
 
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		#endregion
+
+
+		#region プロパティ
+
+		#endregion
 
 
 		#region コンストラクタ, デストラクタ
@@ -46,14 +49,46 @@ namespace Ling.Map.Builder
 		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 関数
+
+		/// <summary>
+		/// 各方角（最大８方向）指定デリゲートを呼び出す
+		/// </summary>
+		public static void CallDirection(int x, int y, System.Action<int, int> action, bool useDiagonal = false)
+		{
+			var dirArray = GetDirArray(useDiagonal);
+			for (int i = 0, size = dirArray.Length; i < size; ++i)
+			{
+				action.Invoke(x + dirArray[i, 0], y + dirArray[i, 1]);
+			}
+		}
+
+		public static bool CallDirection(int x, int y, System.Func<int, int, bool> func, bool useDiagonal = false)
+		{
+			var dirArray = GetDirArray(useDiagonal);
+			for (int i = 0, size = dirArray.Length; i < size; ++i)
+			{
+				if (func.Invoke(x + dirArray[i, 0], y + dirArray[i, 1]))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
 
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region private 関数
 
-        #endregion
-    }
+		private static int[,] GetDirArray(bool useDiagonal)
+		{
+			if (useDiagonal) return DirWithDiagonal;
+			return Dir;
+		}
+
+		#endregion
+	}
 }

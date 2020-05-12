@@ -184,7 +184,7 @@ namespace Ling._Debug.Builder
 			}
 
 			// 一つ先にすすめる
-			var enumerator = builder.ExecuteDebug();
+			var enumerator = builder.ExecuteDebug(null);
 			while (enumerator.MoveNext())
 			{
 				// 区画情報

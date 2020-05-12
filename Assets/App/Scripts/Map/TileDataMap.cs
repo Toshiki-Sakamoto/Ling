@@ -64,6 +64,17 @@ namespace Ling.Map
 
 		public TileData[] Tiles { get; private set; }
 
+		/// <summary>
+		/// 部屋MAP
+		/// つながってる部屋は同じ値が入る 1～
+		/// </summary>
+		public int[] RoomMap { get; private set; }
+
+		/// <summary>
+		/// 下り階段の場所
+		/// </summary>
+		public Vector2Int StepDownPos { get; private set; }
+
 		#endregion
 
 
@@ -83,6 +94,7 @@ namespace Ling.Map
 			Height = height;
 
 			Tiles = new TileData[width * height];
+
 			for (int index = 0, size = Size; index < size; ++index)
 			{
 				Tiles[index].SetIndex(index);
@@ -94,20 +106,102 @@ namespace Ling.Map
 			Tiles.ForEach((ref TileData tileData_) => tileData_.SetWall());
 		}
 
+		public void BuildRoomMap()
+		{
+			RoomMap = new int[Width * Height];
+
+			void Scanning(int x, int y, int value)
+			{
+				if (!InRange(x, y)) return;
+
+				var index = y * Width + x;
+
+				// すでに値が入ってる場合
+				if (RoomMap[index] != 0) return;
+
+				// 部屋以外の場合
+				if (!Tiles[index].HasFlag(TileFlag.Floor)) return;
+
+				RoomMap[index] = value;
+
+				// 上下左右
+				Scanning(x - 1, y, value);
+				Scanning(x + 1, y, value);
+				Scanning(x, y - 1, value);
+				Scanning(x, y + 1, value);
+			}
+
+			for (int y = 0; y < Height; ++y)
+			{
+				for (int x = 0; x < Width; ++x)
+				{
+					// すでに値が入っていたら何もしない
+					int index = y * Width + x;
+					if (RoomMap[index] != 0) continue;
+
+					if (Tiles[index].HasFlag(TileFlag.Floor))
+					{
+						Scanning(x, y, index++);
+					}
+				}
+			}
+		}
+
         /// <summary>
         /// 指定区画を指定フラグで上書きする
         /// </summary>
-        public void FillRect(int left, int top, int right, int bottom, TileFlag flag)
+        public void FillRect(int left, int top, int right, int bottom, TileFlag flag, System.Predicate<TileData> predicate = null)
         {
             for (int y = top; y < bottom; ++y)
             {
                 for (int x = left; x < right; ++x)
                 {
+					if (!InRange(x, y)) continue;
+
 					ref var tileData = ref GetTile(x, y);
+
+					// 許可されたところのみフラグを設定する
+					if (predicate != null)
+					{
+						if (!predicate(tileData))
+						{
+							continue;
+						}
+					}
+
 					tileData.SetFlag(flag);
                 }
             }
         }
+
+		/// <summary>
+		/// 部屋の場合は上書きしない
+		/// </summary>
+		/// <param name="left"></param>
+		/// <param name="top"></param>
+		/// <param name="right"></param>
+		/// <param name="bottom"></param>
+		public void FillRectRoad(int left, int top, int right, int bottom, System.Predicate<TileData> predicate = null)
+		{
+			for (int y = top; y < bottom; ++y)
+			{
+				for (int x = left; x < right; ++x)
+				{
+					ref var tileData = ref GetTile(x, y);
+					if (tileData.HasFlag(TileFlag.Floor)) continue;
+
+					if (predicate != null)
+					{
+						if (!predicate(tileData))
+						{
+							continue;
+						}
+					}
+
+					tileData.SetFlag(TileFlag.Road);
+				}
+			}
+		}
 
 		/// <summary>
 		/// 範囲内かどうか
@@ -149,6 +243,30 @@ namespace Ling.Map
 
 		public TileFlag GetTileFlag(int index) =>
 			GetTile(index).Flag;
+
+		public void SetTileFlag(Vector2Int pos, TileFlag tileFlag)
+		{
+			ref var tileData = ref GetTile(pos.x, pos.y);
+			tileData.SetFlag(tileFlag);
+		}
+
+		/// <summary>
+		/// 下り階段の場所を設定する
+		/// </summary>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		public void SetStepDownFlag(int x, int y)
+		{
+			StepDownPos = new Vector2Int(x, y);
+
+			GetTile(x, y).AddFlag(TileFlag.StepDown);
+		}
+
+		public int GetRoomMapValue(int x, int y)
+		{
+			if (!InRange(x, y)) return -1;
+			return RoomMap[y * Width + x];
+		}
 
 
 		#endregion
