@@ -67,7 +67,7 @@ namespace Ling.Map.Builder.Split
 		/// <summary>
 		/// 処理を実行する
 		/// </summary>
-		protected override IEnumerator<float> ExecuteInternal(TileDataMap tildeDataMap)
+		protected override IEnumerator<float> ExecuteInternal(TileDataMap prevTildeDataMap)
 		{
 			_splitter = _splitFactory.Create();
 
@@ -99,6 +99,20 @@ namespace Ling.Map.Builder.Split
 				yield return roomEnumerator.Current;
 			}
 
+			// 前マップの下階段の位置に部屋を作成する
+			// 下り階段の場所が部屋なら何もしない
+			if (prevTildeDataMap != null)
+			{
+				var prevRoomEnumerator = CreateEntrance(prevTildeDataMap);
+				while (prevRoomEnumerator.MoveNext())
+				{
+					yield return prevRoomEnumerator.Current;
+				}
+			}
+
+			// 部屋のマップを作成する
+			TileDataMap.BuildRoomMap();
+
 			// 道を作る
 			_roadBuilder = _roadFactory.Create(SplitConst.RoadBuilderType.Simple);
 
@@ -108,9 +122,118 @@ namespace Ling.Map.Builder.Split
 				yield return roadEnumerator.Current;
 			}
 
+			// 部屋に対して道が重なっていた場合、その道を取り除く
+
 			// 下階段を作る
 			var pos = GetRandomRoomCellPos();
 			TileDataMap.SetStepDownFlag(pos.x, pos.y);
+		}
+
+
+		private IEnumerator<float> CreateEntrance(TileDataMap prevTildeDataMap)
+		{
+			// 前マップの下階段の位置に部屋を作成する
+			// 下り階段の場所が部屋なら何もしない
+			var stepDownPos = prevTildeDataMap.StepDownPos;
+
+			var tileData = TileDataMap.GetTile(stepDownPos.x, stepDownPos.y);
+			if (tileData.HasFlag(TileFlag.Floor))
+			{
+				yield break;
+			}
+
+			// 3マスで部屋を作成
+			var w = Utility.Random.Range(1, 1);
+			var h = Utility.Random.Range(1, 1);
+
+			var xMin = stepDownPos.x - 1;// - w / 2;
+			var xMax = stepDownPos.x + 1;// + w / 2;
+			var yMin = stepDownPos.y - 1;// - h / 2;
+			var yMax = stepDownPos.y + 1;// + h / 2;
+
+			TileDataMap.FillRect(xMin, yMin, xMax, yMax, TileFlag.Floor);
+
+
+			#if false 
+			// 道を作る必要がある場合作成
+			if (shouldCreateRoad)
+			{
+				// 部屋マップの値を取得
+				var roomValue = TileDataMap.RoomMap[stepDownPos.y * Width + stepDownPos.x];
+
+				// 一番近い部屋か道とつなげる
+				var route = new Route.Tracking();
+				route.Setup(TileDataMap);
+
+				// 自分の部屋は1とする。
+				// 自分以外の部屋か道が見つかったら終わり
+				route.Execute(stepDownPos.x, stepDownPos.y,
+					(tracking_, cellPos_, newValue_, oldValue_) =>
+					{
+						// 自分の部屋か
+						if (TileDataMap.EqualRoomMapValue(cellPos_.x, cellPos_.y, roomValue))
+						{
+							// すでに書き込まれていたらスキップ
+							if (oldValue_ == 1) return -1;
+
+							// 自分の部屋は 1 として書き込む
+							return 1;
+						}
+
+						// 自分が２(部屋の外周)じゃないのに部屋の隣りにいるならばだめ
+						if (newValue_ > 2)
+						{
+							if (Common.CallDirection(cellPos_.x, cellPos_.y,
+								(x_, y_) =>
+								{
+									// 自分の部屋があればおわり
+									return TileDataMap.EqualRoomMapValue(x_, y_, roomValue);
+								}))
+							{
+								return -1;
+							}
+						}
+
+						// 前後左右が自分以外の部屋か道ならおわり
+						Common.CallDirection(cellPos_.x, cellPos_.y,
+								(x_, y_) =>
+								{
+									if (!TileDataMap.InRange(x_, y_)) return false;
+
+									if (TileDataMap.EqualRoomMapValue(x_, y_, roomValue))
+									{
+										return false;
+									}
+
+									// 部屋か道を見つける
+									var tileFlag = TileDataMap.GetTileFlag(x_, y_);
+									if (tileFlag.HasFlag(TileFlag.Floor) || tileFlag.HasFlag(TileFlag.Road))
+									{
+										tracking_.ProcessFinish();
+										return true;
+									}
+
+									return false;
+								});
+
+						return 0;
+					});
+
+				// ルートを道にする
+				var posList = route.GetRoute(route.ForceFinishPos, useDiagonal: false);
+
+				foreach (var pos in posList)
+				{
+					// 部屋なら何もしない
+					if (TileDataMap.GetTileFlag(pos.x, pos.y).HasFlag(TileFlag.Floor))
+					{
+						continue;
+					}
+
+					TileDataMap.SetTileFlag(pos, TileFlag.Road);
+				}
+			}
+			#endif
 		}
 
 		protected override IEnumerator<float> ExecuteFurtherInternal(TileDataMap prevTildeDataMap)
@@ -130,15 +253,15 @@ namespace Ling.Map.Builder.Split
 				yield break;
 			}
 
-			// 3 ～ 5 マスの範囲で部屋を作成
-			var w = Utility.Random.Range(3, 5);
-			var h = Utility.Random.Range(3, 5);
+			// 3マスで部屋を作成
+			var w = Utility.Random.Range(1, 1);
+			var h = Utility.Random.Range(1, 1);
 
 			// どこかの部屋か道と連結したら終わり
-			var xMin = stepDownPos.x - w / 2;
-			var xMax = stepDownPos.x + w / 2;
-			var yMin = stepDownPos.y - h / 2;
-			var yMax = stepDownPos.y + h / 2;
+			var xMin = stepDownPos.x - 1;// - w / 2;
+			var xMax = stepDownPos.x + 1;// + w / 2;
+			var yMin = stepDownPos.y - 1;// - h / 2;
+			var yMax = stepDownPos.y + 1;// + h / 2;
 
 			bool shouldCreateRoad = true;
 
@@ -146,30 +269,29 @@ namespace Ling.Map.Builder.Split
 				tileData_ =>
 				{
 					// 自分自身が道か道路にあたったら道作るのをスキップ
-					if (tileData_.HasFlag(TileFlag.Floor | TileFlag.Road))
+					if (tileData_.HasFlag(TileFlag.Floor) || tileData_.HasFlag(TileFlag.Road))
 					{
 						shouldCreateRoad = false;
-						return false;
+						return true;
 					}
 
 					// 上下左右、隣接も確認
-					if (shouldCreateRoad)
-					{
-						for (int i = 0; i < 4; ++i)
-						{
-							var x = tileData_.X + Dir[i, 0];
-							var y = tileData_.Y + Dir[i, 1];
+					if (!shouldCreateRoad) return true;
 
-							var tileFlag = TileDataMap.GetTileFlag(x, y);
-							if (tileFlag.HasFlag(TileFlag.Floor | TileFlag.Road))
-							{
-								shouldCreateRoad = false;
+					Common.CallDirection(tileData_.X, tileData_.Y,
+								(x_, y_) =>
+								{
+									if (!TileDataMap.InRange(x_, y_)) return false;
 
-								// 道は作る
-								return true;
-							}
-						}
-					}
+									var tileFlag = TileDataMap.GetTileFlag(x_, y_);
+									if (tileFlag.HasFlag(TileFlag.Floor) || tileData_.HasFlag(TileFlag.Road))
+									{
+										shouldCreateRoad = false;
+										return true;
+									}
+
+									return false;
+								});
 
 					return true; 
 				});
@@ -181,7 +303,7 @@ namespace Ling.Map.Builder.Split
 			if (shouldCreateRoad)
 			{
 				// 部屋マップの値を取得
-				var roomValue = TileDataMap.RoomMap[stepDownPos.y * Width + stepDownPos.x];
+				var roomValue = TileDataMap.RoomMapArray[stepDownPos.y * Width + stepDownPos.x];
 
 				// 一番近い部屋か道とつなげる
 				var route = new Route.Tracking();
@@ -192,11 +314,8 @@ namespace Ling.Map.Builder.Split
 				route.Execute(stepDownPos.x, stepDownPos.y, 
 					(tracking_, cellPos_, newValue_, oldValue_) =>
 					{
-						bool existMyRoom = false;
-						bool existRoad = false;
-
 						// 自分の部屋か
-						if (TileDataMap.GetRoomMapValue(cellPos_.x, cellPos_.y) == roomValue)
+						if (TileDataMap.EqualRoomMapValue(cellPos_.x, cellPos_.y, roomValue))
 						{
 							// すでに書き込まれていたらスキップ
 							if (oldValue_ == 1) return -1;
@@ -208,38 +327,38 @@ namespace Ling.Map.Builder.Split
 						// 自分が２(部屋の外周)じゃないのに部屋の隣りにいるならばだめ
 						if (newValue_ > 2)
 						{
-							for (int i = 0; i < 4; ++i)
-							{
-								var x = cellPos_.x + Dir[i, 0];
-								var y = cellPos_.y + Dir[i, 1];
-
-								// 自分の部屋があればおわり
-								if (TileDataMap.GetRoomMapValue(x, y) == roomValue)
+							if (Common.CallDirection(cellPos_.x, cellPos_.y, 
+								(x_, y_) => 
 								{
-									return -1;
-								}
+									// 自分の部屋があればおわり
+									return TileDataMap.EqualRoomMapValue(x_, y_, roomValue);
+								}))
+							{
+								return -1;
 							}
 						}
 
-						// 前後左右が部屋か道ならおわり
-						for (int i = 0; i < 4; ++i)
-						{
-							var x = cellPos_.x + Dir[i, 0];
-							var y = cellPos_.y + Dir[i, 1];
+						// 前後左右が自分以外の部屋か道ならおわり
+						Common.CallDirection(cellPos_.x, cellPos_.y,
+								(x_, y_) =>
+								{
+									if (!TileDataMap.InRange(x_, y_)) return false;
 
-							if (!TileDataMap.InRange(x, y))
-							{
-								continue;
-							}
+									if (TileDataMap.EqualRoomMapValue(x_, y_, roomValue))
+									{
+										return false;
+									}
 
-							// 部屋か道を見つける
-							var tileFlag = TileDataMap.GetTileFlag(x, y);
-							if (tileFlag.HasFlag(TileFlag.Floor | TileFlag.Road))
-							{
-								tracking_.ProcessFinish();
-								break;
-							}
-						}
+									// 部屋か道を見つける
+									var tileFlag = TileDataMap.GetTileFlag(x_, y_);
+									if (tileFlag.HasFlag(TileFlag.Floor) || tileFlag.HasFlag(TileFlag.Road))
+									{
+										tracking_.ProcessFinish();
+										return true;
+									}
+
+									return false;
+								});
 
 						return 0; 
 					});
@@ -332,6 +451,45 @@ namespace Ling.Map.Builder.Split
 				yield return 0.5f;
 			}
         }
+
+
+		/// <summary>
+		/// 余分な道を取り除く
+		/// </summary>
+		private void RemoveExtraWay()
+		{
+			for (int i = 0; i < MapRect.RectCount; ++i)
+			{
+				var rectData = MapRect[i];
+
+				foreach (var road in rectData.roads)
+				{
+					ref var tileData = ref TileDataMap.GetTile(road.pos);
+
+
+						var tmpList = new List<(Vector2Int, bool)>();
+
+					// true, true, true.. と続くところは部屋と隣接する道が続いているので真ん中の道を削除する
+					for (int i = 0; i < tmpList.Count; ++i)
+					{
+						var data = tmpList[i];
+
+						if (!data.Item2) continue;
+
+						// 前後が道ならば自分は壁になる
+						if (i - 1 < 0) continue;
+						if (i + 1 >= tmpList.Count) continue;
+
+						if (tmpList[i - 1].Item2 &&
+							tmpList[i + 1].Item2)
+						{
+							ref var tileData = ref GetTile(data.Item1);
+							tileData.SetFlag(TileFlag.Wall);
+						}
+					}
+				}
+			}
+		}
 
 		#endregion
 	}

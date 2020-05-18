@@ -92,6 +92,9 @@ namespace Ling.Scenes.Battle
 			_phase.Start(this, Phase.Start);
 
 			_isInitialized = true;
+
+
+			UnityEngine.Random.InitState(1);
 		}
 
 		public override void UpdateScene()
