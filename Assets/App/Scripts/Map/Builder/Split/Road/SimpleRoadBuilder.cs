@@ -50,7 +50,7 @@ namespace Ling.Map.Builder.Split.Road
 
 		#region public, protected 関数
 
-		public IEnumerator<float> Build(TileDataMap tileDataMap, MapRect mapRect)
+		public IEnumerator<float> Build(TileDataMap tileDataMap, MapRectData mapRect)
 		{
 			for (int i = 0; i < mapRect.RectCount - 1; ++i)
 			{
@@ -70,7 +70,7 @@ namespace Ling.Map.Builder.Split.Road
 		/// 部屋と部屋をつなぐ道を作成する
 		/// </summary>
 		/// <returns></returns>
-		private void CreateRoad(TileDataMap tileDataMap, MapRect mapRect, int indexA, int indexB)
+		private void CreateRoad(TileDataMap tileDataMap, MapRectData mapRect, int indexA, int indexB)
 		{
 			var dataA = mapRect[indexA];
 			var dataB = mapRect[indexB];
@@ -80,7 +80,7 @@ namespace Ling.Map.Builder.Split.Road
 			var roomA = dataA.room;
 			var roomB = dataB.room;
 
-			var roadData = new MapRect.RoadData();
+			var roadData = new RoadData();
 
 			System.Predicate<TileData> createRoadData = 
 				(tileData_) =>

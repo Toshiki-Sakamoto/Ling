@@ -21,6 +21,6 @@ namespace Ling.Map.Builder.Split.Road
 	/// </summary>
 	public interface ISplitRoadBuilder
 	{
-		IEnumerator<float> Build(TileDataMap tileDataMap, MapRect mapRect);
+		IEnumerator<float> Build(TileDataMap tileDataMap, MapRectData mapRect);
 	}
 }

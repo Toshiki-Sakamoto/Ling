@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -72,6 +73,12 @@ namespace Ling.Map
 		public Dictionary<int, List<int>> RoomMap { get; } = new Dictionary<int, List<int>>();
 
 		/// <summary>
+		/// 道Map
+		/// </summary>
+		public int[] RoadMapArray { get; private set; }
+		public Dictionary<int, List<int>> RoadMap { get; } = new Dictionary<int, List<int>>();
+
+		/// <summary>
 		/// 下り階段の場所
 		/// </summary>
 		public Vector2Int StepDownPos { get; private set; }
@@ -113,56 +120,18 @@ namespace Ling.Map
 			Tiles.ForEach((ref TileData tileData_) => tileData_.SetWall());
 		}
 
-		public void BuildRoomMap()
-		{
-			RoomMapArray = new int[Width * Height];
-			RoomMap.Clear();
+		/// <summary>
+		/// 部屋のマップを作成する
+		/// </summary>
+		public void BuildRoomMap() =>
+			RoomMapArray = BuildMapInternal(RoomMap, TileFlag.Floor);
 
-			void Scanning(int x, int y, int v, List<int> list)
-			{
-				if (!InRange(x, y)) return;
+		/// <summary>
+		/// 道のマップを作成する
+		/// </summary>
+		public void BuildRoadMap() =>
+			RoadMapArray = BuildMapInternal(RoadMap, TileFlag.Road);
 
-				var index = y * Width + x;
-
-				// すでに値が入ってる場合
-				if (RoomMapArray[index] != 0) return;
-
-				// 部屋以外の場合
-				if (!Tiles[index].HasFlag(TileFlag.Floor)) return;
-
-				RoomMapArray[index] = v;
-				list.Add(v);
-
-				// 上下左右
-				Scanning(x - 1, y, v, list);
-				Scanning(x + 1, y, v, list);
-				Scanning(x, y - 1, v, list);
-				Scanning(x, y + 1, v, list);
-			}
-
-			int value = 0;
-
-			for (int y = 0; y < Height; ++y)
-			{
-				for (int x = 0; x < Width; ++x)
-				{
-					// すでに値が入っていたら何もしない
-					int index = y * Width + x;
-					if (RoomMapArray[index] != 0) continue;
-
-					if (Tiles[index].HasFlag(TileFlag.Floor))
-					{
-						if (!RoomMap.TryGetValue(++value, out List<int> list))
-						{
-							list = new List<int>();
-							RoomMap.Add(value, list);
-						}
-
-						Scanning(x, y, value, list);
-					}
-				}
-			}
-		}
 
         /// <summary>
         /// 指定区画を指定フラグで上書きする
@@ -207,13 +176,6 @@ namespace Ling.Map
 				{
 					ref var tileData = ref GetTile(x, y);
 
-					// 部屋の場所は書き換えない
-					if (tileData.HasFlag(TileFlag.Floor))
-					{
-					//	tmpList.Add((new Vector2Int(x, y), false));
-						continue;
-					}
-
 					if (predicate != null)
 					{
 						if (!predicate(tileData))
@@ -221,6 +183,13 @@ namespace Ling.Map
 						//	tmpList.Add((new Vector2Int(x, y), false));
 							continue;
 						}
+					}
+
+					// 部屋の場所は書き換えない
+					if (tileData.HasFlag(TileFlag.Floor))
+					{
+						//	tmpList.Add((new Vector2Int(x, y), false));
+						continue;
 					}
 
 					// 部屋と隣接していたらtrueをいれる
@@ -268,6 +237,9 @@ namespace Ling.Map
 			return GetTileFlag(y * Width + x);
 		}
 
+		public TileFlag GetTileFlag(Vector2Int pos) =>
+			GetTileFlag(pos.x, pos.y);
+
 		public TileFlag GetTileFlag(Vector3Int pos) =>
 			GetTileFlag(pos.x, pos.y);
 
@@ -302,15 +274,78 @@ namespace Ling.Map
 			GetRoomMapValue(x, y) == value;
 
 		/// <summary>
+		/// 指定したTileFlagと隣接していたらtrue
+		/// </summary>
+		public bool IsAdjacent(int x, int y, TileFlag tileFlag) =>
+			Builder.Common.CallDirection(x, y, (_x, _y) => GetTile(x, y).HasFlag(tileFlag));
+
+		/// <summary>
 		/// 部屋と隣接する場合true
 		/// </summary>
 		public bool IsRoomAdjacent(int x, int y) =>
-			Builder.Common.CallDirection(x, y, (_x, _y) => GetTile(x, y).HasFlag(TileFlag.Floor));
+			IsAdjacent(x, y, TileFlag.Floor);
+
+		public bool IsRoomAdjacent(in Vector2Int pos) =>
+			IsRoomAdjacent(pos.x, pos.y);
 
 		#endregion
 
 
 		#region private 関数
+
+
+		private int[] BuildMapInternal(Dictionary<int, List<int>> map, TileFlag tileFlag)
+		{
+			var mapArray = new int[Width * Height];
+			map.Clear();
+
+			void Scanning(int x, int y, int v, List<int> list)
+			{
+				if (!InRange(x, y)) return;
+
+				var index = y * Width + x;
+
+				// すでに値が入ってる場合
+				if (mapArray[index] != 0) return;
+
+				// 部屋以外の場合
+				if (!Tiles[index].HasFlag(tileFlag)) return;
+
+				mapArray[index] = v;
+				list.Add(v);
+
+				// 上下左右
+				Scanning(x - 1, y, v, list);
+				Scanning(x + 1, y, v, list);
+				Scanning(x, y - 1, v, list);
+				Scanning(x, y + 1, v, list);
+			}
+
+			int value = 0;
+
+			for (int y = 0; y < Height; ++y)
+			{
+				for (int x = 0; x < Width; ++x)
+				{
+					// すでに値が入っていたら何もしない
+					int index = y * Width + x;
+					if (mapArray[index] != 0) continue;
+
+					if (Tiles[index].HasFlag(tileFlag))
+					{
+						if (!map.TryGetValue(++value, out List<int> list))
+						{
+							list = new List<int>();
+							map.Add(value, list);
+						}
+
+						Scanning(x, y, value, list);
+					}
+				}
+			}
+
+			return mapArray;
+		}
 
 		#endregion
 	}
