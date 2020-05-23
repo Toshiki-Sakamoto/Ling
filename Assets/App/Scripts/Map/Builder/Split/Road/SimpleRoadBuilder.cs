@@ -50,7 +50,7 @@ namespace Ling.Map.Builder.Split.Road
 
 		#region public, protected 関数
 
-		public IEnumerator<float> Build(TileDataMap tileDataMap, MapRect mapRect)
+		public IEnumerator<float> Build(TileDataMap tileDataMap, MapRectData mapRect)
 		{
 			for (int i = 0; i < mapRect.RectCount - 1; ++i)
 			{
@@ -70,7 +70,7 @@ namespace Ling.Map.Builder.Split.Road
 		/// 部屋と部屋をつなぐ道を作成する
 		/// </summary>
 		/// <returns></returns>
-		private void CreateRoad(TileDataMap tileDataMap, MapRect mapRect, int indexA, int indexB)
+		private void CreateRoad(TileDataMap tileDataMap, MapRectData mapRect, int indexA, int indexB)
 		{
 			var dataA = mapRect[indexA];
 			var dataB = mapRect[indexB];
@@ -80,7 +80,7 @@ namespace Ling.Map.Builder.Split.Road
 			var roomA = dataA.room;
 			var roomB = dataB.room;
 
-			var roadData = new MapRect.RoadData();
+			var roadData = new RoadData();
 
 			System.Predicate<TileData> createRoadData = 
 				(tileData_) =>
@@ -97,17 +97,38 @@ namespace Ling.Map.Builder.Split.Road
 
 				int y;
 
+				// Aのほうが左
+				var isLeftA = x1 < x2;
+
+				var left = Mathf.Min(x1, x2);
+				var right = Mathf.Max(x1, x2) + 1;
+
 				if (rectA.yMin > rectB.yMin)
 				{
 					// B
 					// A
 					y = rectA.yMin;
 
-					// Aと横道を繋ぐ道を作る
-					tileDataMap.FillRectRoad(x1, y + 1, x1 + 1, roomA.yMin, createRoadData);
+					if (isLeftA)
+					{
+						// Bと横道を繋ぐ道を作る
+						tileDataMap.FillRectRoad(x2, roomB.yMax, x2 + 1, y, createRoadData);
 
-					// Bと横道を繋ぐ道を作る
-					tileDataMap.FillRectRoad(x2, roomB.yMax, x2 + 1, y, createRoadData);
+						tileDataMap.FillRectRoadReverse(left, y, right, y + 1, createRoadData);
+
+						// Aと横道を繋ぐ道を作る
+						tileDataMap.FillRectRoad(x1, y + 1, x1 + 1, roomA.yMin, createRoadData);
+					}
+					else
+					{
+						// Bと横道を繋ぐ道を作る
+						tileDataMap.FillRectRoad(x2, roomB.yMax, x2 + 1, y, createRoadData);
+
+						tileDataMap.FillRectRoad(left, y, right, y + 1, createRoadData);
+
+						// Aと横道を繋ぐ道を作る
+						tileDataMap.FillRectRoad(x1, y + 1, x1 + 1, roomA.yMin, createRoadData);
+					}
 				}
 				else
 				{
@@ -115,14 +136,20 @@ namespace Ling.Map.Builder.Split.Road
 					// B
 					y = rectB.yMin;
 
-					tileDataMap.FillRectRoad(x2, y + 1, x2 + 1, roomB.yMin, createRoadData);
-					tileDataMap.FillRectRoad(x1, roomA.yMax, x1 + 1, y, createRoadData);
+					if (isLeftA)
+					{
+						tileDataMap.FillRectRoad(x1, roomA.yMax, x1 + 1, y, createRoadData);
+						tileDataMap.FillRectRoad(left, y, right, y + 1, createRoadData);
+						tileDataMap.FillRectRoad(x2, y + 1, x2 + 1, roomB.yMin, createRoadData);
+					}
+					else
+					{
+						tileDataMap.FillRectRoad(x1, roomA.yMax, x1 + 1, y, createRoadData);
+						tileDataMap.FillRectRoadReverse(left, y, right, y + 1, createRoadData);
+						tileDataMap.FillRectRoad(x2, y + 1, x2 + 1, roomB.yMin, createRoadData);
+					}
+
 				}
-
-				var left = Mathf.Min(x1, x2);
-				var right = Mathf.Max(x1, x2) + 1;
-
-				tileDataMap.FillRectRoad(left, y, right, y + 1, createRoadData);
 
 				// AとB両方に道のデータをもたせる
 				dataA.roads.Add(roadData);
@@ -137,27 +164,49 @@ namespace Ling.Map.Builder.Split.Road
 
 				int x;
 
+				// Aのほうが上
+				var isTopA = y1 < y2;
+
+				var top = Mathf.Min(y1, y2);
+				var bottom = Mathf.Max(y1, y2) + 1;
+
+
 				if (rectA.xMin > rectB.xMin)
 				{
 					// BA
 					x = rectA.xMin;
 
-					tileDataMap.FillRectRoad(roomB.xMax, y2, x, y2 + 1, createRoadData);
-					tileDataMap.FillRectRoad(x + 1, y1, roomA.xMin, y1 + 1, createRoadData);
+					if (isTopA)
+					{
+						tileDataMap.FillRectRoad(roomB.xMax, y2, x, y2 + 1, createRoadData);
+						tileDataMap.FillRectRoadReverse(x, top, x + 1, bottom, createRoadData);
+						tileDataMap.FillRectRoad(x + 1, y1, roomA.xMin, y1 + 1, createRoadData);
+					}
+					else
+					{
+						tileDataMap.FillRectRoad(roomB.xMax, y2, x, y2 + 1, createRoadData);
+						tileDataMap.FillRectRoad(x, top, x + 1, bottom, createRoadData);
+						tileDataMap.FillRectRoad(x + 1, y1, roomA.xMin, y1 + 1, createRoadData);
+					}
 				}
 				else
 				{
 					// AB
 					x = rectB.xMin;
 
-					tileDataMap.FillRectRoad(roomA.xMax, y1, x, y1 + 1, createRoadData);
-					tileDataMap.FillRectRoad(x + 1, y2, roomB.xMin, y2 + 1, createRoadData);
+					if (isTopA)
+					{
+						tileDataMap.FillRectRoad(roomA.xMax, y1, x, y1 + 1, createRoadData);
+						tileDataMap.FillRectRoad(x, top, x + 1, bottom, createRoadData);
+						tileDataMap.FillRectRoad(x + 1, y2, roomB.xMin, y2 + 1, createRoadData);
+					}
+					else
+					{
+						tileDataMap.FillRectRoad(roomA.xMax, y1, x, y1 + 1, createRoadData);
+						tileDataMap.FillRectRoadReverse(x, top, x + 1, bottom, createRoadData);
+						tileDataMap.FillRectRoad(x + 1, y2, roomB.xMin, y2 + 1, createRoadData);
+					}
 				}
-
-				var top = Mathf.Min(y1, y2);
-				var bottom = Mathf.Max(y1, y2) + 1;
-
-				tileDataMap.FillRectRoad(x, top, x + 1, bottom, createRoadData);
 				
 				// AとB両方に道のデータをもたせる
 				dataA.roads.Add(roadData);

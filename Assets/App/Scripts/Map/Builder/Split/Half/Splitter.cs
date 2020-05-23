@@ -41,7 +41,7 @@ namespace Ling.Map.Builder.Split.Half
 
 		#region private 変数
 
-		private MapRect _mapRect;
+		private MapRectData _mapRect;
 		private BuilderData _builderData;
 
 		#endregion
@@ -62,7 +62,7 @@ namespace Ling.Map.Builder.Split.Half
 		/// <summary>
 		/// 矩形を分割するとき呼び出される
 		/// </summary>
-		public IEnumerator<float> SplitRect(BuilderData builderData, MapRect mapRect)
+		public IEnumerator<float> SplitRect(BuilderData builderData, MapRectData mapRect)
 		{
 			_builderData = builderData;
 			_mapRect = mapRect;
@@ -85,13 +85,13 @@ namespace Ling.Map.Builder.Split.Half
 		/// </summary>
 		/// <param name="rparentData"></param>
 		/// <param name="isVertical"></param>
-		private IEnumerator<float> SplitRect(MapRect.Data parentData, bool isVertical)
+		private IEnumerator<float> SplitRect(RectData parentData, bool isVertical)
 		{
 			// 分ける区画情報を取得
 			var parentRect = parentData.rect;
 			var data = _builderData;
 
-			MapRect.Data childRect = null;
+			RectData childRect = null;
 
 			int pointA, pointB, distance, point;
 

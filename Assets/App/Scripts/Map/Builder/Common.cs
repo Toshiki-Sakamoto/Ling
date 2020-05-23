@@ -57,7 +57,7 @@ namespace Ling.Map.Builder
 		public static void CallDirection(int x, int y, System.Action<int, int> action, bool useDiagonal = false)
 		{
 			var dirArray = GetDirArray(useDiagonal);
-			for (int i = 0, size = dirArray.Length; i < size; ++i)
+			for (int i = 0, size = dirArray.GetLength(0); i < size; ++i)
 			{
 				action.Invoke(x + dirArray[i, 0], y + dirArray[i, 1]);
 			}
@@ -66,7 +66,7 @@ namespace Ling.Map.Builder
 		public static bool CallDirection(int x, int y, System.Func<int, int, bool> func, bool useDiagonal = false)
 		{
 			var dirArray = GetDirArray(useDiagonal);
-			for (int i = 0, size = dirArray.Length; i < size; ++i)
+			for (int i = 0, size = dirArray.GetLength(0); i < size; ++i)
 			{
 				if (func.Invoke(x + dirArray[i, 0], y + dirArray[i, 1]))
 				{

@@ -87,7 +87,9 @@ namespace Ling.Map
 		/// <returns></returns>
 		public bool HasFlag(TileFlag tileFlag)
 		{
-			return Flag.HasFlag(tileFlag);
+			// enum のHasFlagは引数のflagをどちらとも持っていないと0を返すので注意
+			//return Flag.HasFlag(tileFlag);
+			return (tileFlag & Flag) != 0;
 		}
 
 
