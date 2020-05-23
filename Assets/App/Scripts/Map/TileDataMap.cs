@@ -175,26 +175,29 @@ namespace Ling.Map
 				for (int x = left; x < right; ++x)
 				{
 					ref var tileData = ref GetTile(x, y);
-
-					if (predicate != null)
-					{
-						if (!predicate(tileData))
-						{
-						//	tmpList.Add((new Vector2Int(x, y), false));
-							continue;
-						}
-					}
+					if (!predicate?.Invoke(tileData) ?? false) continue;
 
 					// 部屋の場所は書き換えない
-					if (tileData.HasFlag(TileFlag.Floor))
-					{
-						//	tmpList.Add((new Vector2Int(x, y), false));
-						continue;
-					}
+				//	if (tileData.HasFlag(TileFlag.Floor)) continue;
 
 					// 部屋と隣接していたらtrueをいれる
-					//tmpList.Add((new Vector2Int(x, y), IsRoomAdjacent(x, y)));
+					tileData.SetFlag(TileFlag.Road);
+				}
+			}
+		}
+		public void FillRectRoadReverse(int left, int top, int right, int bottom, System.Predicate<TileData> predicate = null)
+		{
+			for (int y = bottom - 1; y >= top; --y)
+			{
+				for (int x = right - 1; x >= left; --x)
+				{
+					ref var tileData = ref GetTile(x, y);
+					if (!predicate?.Invoke(tileData) ?? false) continue;
 
+					// 部屋の場所は書き換えない
+					//	if (tileData.HasFlag(TileFlag.Floor)) continue;
+
+					// 部屋と隣接していたらtrueをいれる
 					tileData.SetFlag(TileFlag.Road);
 				}
 			}
@@ -233,7 +236,6 @@ namespace Ling.Map
 		public TileFlag GetTileFlag(int x, int y)
 		{
 			Utility.Log.Assert(x >= 0 && x <= Width && y >= 0 && y <= Height, "範囲から飛び出してます");
-
 			return GetTileFlag(y * Width + x);
 		}
 
@@ -277,7 +279,7 @@ namespace Ling.Map
 		/// 指定したTileFlagと隣接していたらtrue
 		/// </summary>
 		public bool IsAdjacent(int x, int y, TileFlag tileFlag) =>
-			Builder.Common.CallDirection(x, y, (_x, _y) => GetTile(x, y).HasFlag(tileFlag));
+			Builder.Common.CallDirection(x, y, (_x, _y) => GetTile(_x, _y).HasFlag(tileFlag));
 
 		/// <summary>
 		/// 部屋と隣接する場合true
@@ -287,6 +289,25 @@ namespace Ling.Map
 
 		public bool IsRoomAdjacent(in Vector2Int pos) =>
 			IsRoomAdjacent(pos.x, pos.y);
+
+		/// <summary>
+		/// 隣接しているtileFlagの数を返す
+		/// </summary>
+		public int GetAdjastNum(in Vector2Int pos, TileFlag tileFlag)
+		{
+			int result = 0;
+			
+			Builder.Common.CallDirection(pos.x, pos.y,
+				(_x, _y) =>
+				{ 
+					if (GetTile(_x, _y).HasFlag(tileFlag))
+					{
+						++result;
+					}
+				});
+
+			return result;
+		}
 
 		#endregion
 

@@ -35,5 +35,8 @@ namespace Ling.Map
 	{
 		public static bool HasStepDown(this TileFlag flag) =>
 			flag.HasFlag(TileFlag.StepDown);
+
+		public static bool HasFloor(this TileFlag flag) =>
+			(flag | TileFlag.Floor) != 0;
 	}
 }

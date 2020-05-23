@@ -91,14 +91,37 @@ namespace Ling.Map.Builder.Split
 				{
 					var pos = roadPos[i];
 
-					if (tileDataMap.GetTileFlag(pos) == TileFlag.Floor) continue;
+					if (tileDataMap.GetTileFlag(pos).HasFloor())
+					{
+						continue;
+					}
 
 					// 部屋に隣接しているとき、前と後ろが道ならば自分を壁にする
-					if (!tileDataMap.IsRoomAdjacent(pos)) continue;
+					if (!tileDataMap.IsRoomAdjacent(pos))
+					{
+						break;
+					}
+
+					// 部屋に三箇所隣接している道は部屋とする
+					var floorNum = tileDataMap.GetAdjastNum(pos, TileFlag.Floor);
+					if (floorNum >= 3)
+					{
+						ref var tileData = ref tileDataMap.GetTile(pos);
+						tileData.SetFlag(TileFlag.Floor);
+						break;
+					}
+
+					// 二箇所の場合と道が一つある場合は部屋とする
+					if (floorNum == 2/* && tileDataMap.GetAdjastNum(pos, TileFlag.Road) >= 1*/)
+					{
+						ref var tileData = ref tileDataMap.GetTile(pos);
+						tileData.SetFlag(TileFlag.Wall);
+						break;
+					}
 
 					// 前後が道ならば自分は壁になる
-					if (i - 1 < 0) continue;
-					if (i + 1 >= roadPos.Count) continue;
+					if (i - 1 < 0) break;
+					if (i + 1 >= roadPos.Count) break;
 
 					if (tileDataMap.GetTileFlag(roadPos[i - 1]) == TileFlag.Road &&
 						tileDataMap.GetTileFlag(roadPos[i + 1]) == TileFlag.Road)
