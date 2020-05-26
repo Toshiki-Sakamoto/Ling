@@ -51,6 +51,8 @@ namespace Ling.Scenes.Battle
 
 		[SerializeField] private BattleView _view = null;
 
+		[Inject] private BattleModel _model = null;
+
 		private bool _isInitialized;
 		private Utility.PhaseScene<Phase, BattleScene> _phase = new Utility.PhaseScene<Phase, BattleScene>();
 
@@ -58,6 +60,8 @@ namespace Ling.Scenes.Battle
 
 
 		#region プロパティ
+
+		public BattleView View => _view;
 
 
 		#endregion
@@ -93,6 +97,8 @@ namespace Ling.Scenes.Battle
 
 			_isInitialized = true;
 
+			// 始めは１階層
+			View.UIHeaderView.SetLevel(_model.Level);
 
 			UnityEngine.Random.InitState(1);
 		}
@@ -112,6 +118,18 @@ namespace Ling.Scenes.Battle
 		/// <returns></returns>
 		public override IObservable<Unit> SceneStopAsync(Argument nextArgument) =>
 			Observable.Return(Unit.Default);
+
+
+		/// <summary>
+		/// 次のレベルにいく
+		/// </summary>
+		public void NextLevel()
+		{
+			_model.NextLevel();
+
+			// 次の階層に行った
+			View.UIHeaderView.SetLevel(_model.Level);
+		}
 
 		#endregion
 

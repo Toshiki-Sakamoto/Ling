@@ -1,21 +1,23 @@
 ﻿// 
-// View.cs  
+// UIHeaderView.cs  
 // ProductName Ling
 //  
-// Created by toshiki sakamoto on 2020.04.13
+// Created by toshiki sakamoto on 2020.05.24
 // 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Zenject;
 
-namespace Ling.Scenes.Battle
+
+namespace Ling.Scenes.Battle.UI
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattleView : MonoBehaviour 
+	public class UIHeaderView : MonoBehaviour 
     {
 		#region 定数, class, enum
 
@@ -29,26 +31,23 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[SerializeField] private BattleMap.MapView _mapView = null;
-		[SerializeField] private BattleMap.MiniMapView _miniMapView = null;
-		[SerializeField] private Message.MessageView _messageView = null;
-		[SerializeField] private UI.UIHeaderView _uiHeaderView = null;
+		[SerializeField] private Text _txtLevel = null;	// ○層
 
 		#endregion
-
-
+		
+		
 		#region プロパティ
-
-		public BattleMap.MapView MapView => _mapView;
-		public BattleMap.MiniMapView MiniMap => _miniMapView;
-		public Message.MessageView MessageView => _messageView;
-		public UI.UIHeaderView UIHeaderView => _uiHeaderView;
-
+		
 		#endregion
 
 
 		#region public, protected 関数
 
+		public void SetLevel(int level)
+		{
+			_txtLevel.text = level.ToString();
+		}
+		
 		#endregion
 
 
@@ -71,7 +70,6 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		void Start()
 		{
-			_messageView.Setup();
 		}
 
 		/// <summary>

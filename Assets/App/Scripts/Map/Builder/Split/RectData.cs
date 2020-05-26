@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.20
 //
 
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -82,6 +83,8 @@ namespace Ling.Map.Builder.Split
 		/// </summary>
 		public void RemoveExtraRoad(TileDataMap tileDataMap)
 		{
+			var adjastList = new List<Vector2Int>();
+
 			foreach (var road in roads)
 			{
 				var roadPos = road.pos;
@@ -99,36 +102,74 @@ namespace Ling.Map.Builder.Split
 					// 部屋に隣接しているとき、前と後ろが道ならば自分を壁にする
 					if (!tileDataMap.IsRoomAdjacent(pos))
 					{
-						break;
+						continue;
 					}
 
 					// 部屋に三箇所隣接している道は部屋とする
-					var floorNum = tileDataMap.GetAdjastNum(pos, TileFlag.Floor);
-					if (floorNum >= 3)
+					tileDataMap.GetAdjastPosList(pos, TileFlag.Floor, adjastList);
+					if (adjastList.Count >= 3)
 					{
 						ref var tileData = ref tileDataMap.GetTile(pos);
 						tileData.SetFlag(TileFlag.Floor);
-						break;
+
+						// MapValueにも書き込む
+						// 作り直す
+						tileDataMap.BuildRoomMap();
+						continue;
 					}
 
-					// 二箇所の場合と道が一つある場合は部屋とする
-					if (floorNum == 2/* && tileDataMap.GetAdjastNum(pos, TileFlag.Road) >= 1*/)
+					// 同じ部屋に囲まれているときは同じものとする
+					if (adjastList.Count == 2)
 					{
-						ref var tileData = ref tileDataMap.GetTile(pos);
-						tileData.SetFlag(TileFlag.Wall);
-						break;
+						var mapValueA = tileDataMap.GetRoomMapValue(adjastList[0].x, adjastList[0].y);
+						var mapValueB = tileDataMap.GetRoomMapValue(adjastList[1].x, adjastList[1].y);
+
+						if (mapValueA == mapValueB)
+						{
+							ref var tileData = ref tileDataMap.GetTile(pos);
+							tileData.SetFlag(TileFlag.Floor);
+
+							// MapValueにも書き込む
+							tileDataMap.AddRoomMap(pos.x, pos.y, mapValueA);
+						}
+
+						continue;
 					}
 
-					// 前後が道ならば自分は壁になる
-					if (i - 1 < 0) break;
-					if (i + 1 >= roadPos.Count) break;
+					if (i - 1 < 0) continue;
+					if (i + 1 >= roadPos.Count) continue;
 
+					// 一箇所で次も部屋が隣接している場合は部屋とする
+					if (adjastList.Count == 1)
+					{
+						// 自分の部屋と同じであれば自分を部屋にする
+						var roomPos = adjastList[0];
+						var mapValue = tileDataMap.GetRoomMapValue(roomPos.x, roomPos.y);
+
+						tileDataMap.GetAdjastPosList(roadPos[i + 1], TileFlag.Floor, adjastList);
+						if (adjastList.Count != 1) continue;
+
+						var nextRoomPos = adjastList[0];
+						var nextMapValue = tileDataMap.GetRoomMapValue(nextRoomPos.x, nextRoomPos.y);
+
+						if (mapValue == nextMapValue)
+						{
+							ref var tileData = ref tileDataMap.GetTile(pos);
+							tileData.SetFlag(TileFlag.Floor);
+
+							// MapValueにも書き込む
+							tileDataMap.AddRoomMap(pos.x, pos.y, nextMapValue);
+						}
+					}
+
+					/*
+					// 前後が道ならば自分は壁になる
 					if (tileDataMap.GetTileFlag(roadPos[i - 1]) == TileFlag.Road &&
 						tileDataMap.GetTileFlag(roadPos[i + 1]) == TileFlag.Road)
 					{
 						ref var tileData = ref tileDataMap.GetTile(pos);
 						tileData.SetFlag(TileFlag.Wall);
-					}
+					}*/
 				}
 			}
 		}
