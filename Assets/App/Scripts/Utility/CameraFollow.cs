@@ -4,7 +4,6 @@
 //  
 // Create by toshiki sakamoto on 2019.09.22.
 // 
-using NPOI.SS.Formula.Functions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

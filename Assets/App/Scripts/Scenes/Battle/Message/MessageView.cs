@@ -13,7 +13,6 @@ using Zenject;
 using System;
 using UniRx;
 using Ling.Utility;
-using NPOI.SS.Formula.Functions;
 using System.Linq;
 
 namespace Ling.Scenes.Battle.Message
