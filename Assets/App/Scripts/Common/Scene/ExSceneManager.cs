@@ -4,11 +4,11 @@
 //  
 // Create by toshiki sakamoto on 2019.04.30.
 // 
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UniRx;
-using UniRx.Async;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;

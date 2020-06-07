@@ -5,12 +5,12 @@
 // Created by toshiki sakamoto on 2019.12.22
 //
 
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using UniRx.Async;
 using UnityEngine;
 using UnityEngine.UI;
 

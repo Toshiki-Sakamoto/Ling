@@ -13,7 +13,6 @@ using UniRx;
 
 using Zenject;
 using System;
-using UniRx.Async;
 
 namespace Ling.Scenes.Battle.BattleMap
 {

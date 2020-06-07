@@ -16,10 +16,10 @@ using NUnit.Framework;
 using Assert = UnityEngine.Assertions.Assert;
 using UnityEngine.TestTools;
 
-using UniRx.Async;
 using Cysharp.Text;
 using UnityEngine.Networking;
 using UniRx;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Tests.PlayMode.Plugin.UniRxTest
 {

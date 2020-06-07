@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2020.05.28
 //
 
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,6 +69,12 @@ namespace Ling.Scenes.Battle.Process
 
 
 		#region private 関数
+
+		private async UniTaskVoid PlayerMoveAsync()
+		{
+			//await transform.DOMove(Vector3.up, 1.0f);
+			//await transform.DOJump(new Vector3(0f, 0.0f, 0.0f), 5.0f, 1, 1.0f);
+		}
 
 		#endregion
 	}

@@ -14,7 +14,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using UniRx;
-using UniRx.Async;
 
 namespace Ling.Map.Builder.Split.Half
 {
