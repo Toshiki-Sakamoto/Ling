@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6502881826932206419}
   - component: {fileID: 6502881826932206416}
   - component: {fileID: 6502881826932206431}
-  - component: {fileID: 6502881826932206429}
   - component: {fileID: 6502881826932206428}
   - component: {fileID: 6502881826932206427}
   - component: {fileID: 6502881826932206426}
@@ -32,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6502881826932206420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -143,20 +142,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 300
   _rigidBody: {fileID: 6502881826932206416}
---- !u!114 &6502881826932206429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6502881826932206420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9fa927a59816894db5a79c7f7757862, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animator: {fileID: 6502881826932206419}
-  _rigidbody: {fileID: 6502881826932206416}
 --- !u!61 &6502881826932206428
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -164,7 +149,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6502881826932206420}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -196,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followCamera: {fileID: 0}
+  _cameraPos: {x: 10, y: 5}
 --- !u!114 &6502881826932206426
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -81,6 +81,12 @@ namespace Ling.Scenes.Battle.BattleMap
 			_view.Startup(_model, curretMapIndex, 40);
 		}
 
+		/// <summary>
+		/// 次マップの作成と移動を行う
+		/// </summary>
+		/// <param name="nextMapIndex"></param>
+		/// <param name="createMapIndex"></param>
+		/// <returns></returns>
 		public IObservable<Unit> CreateAndMoveNextMap(int nextMapIndex, int createMapIndex)
 		{
 			_model.ChangeMapByIndex(nextMapIndex);
@@ -108,6 +114,40 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <returns></returns>
 		public Tilemap FindTilemap(int mapIndex) =>
 			_view.FindTilemap(mapIndex);
+
+		/// <summary>
+		/// 次のフロアに移動させる
+		/// </summary>
+		/// <remarks>
+		/// MapView全体を上げる
+		/// </remarks>
+		public IEnumerator MoveUp()
+		{
+			var moveValue = 20.0f;
+
+			var startTime = Time.timeSinceLevelLoad;
+
+			bool isEnd = false;
+			while (!isEnd)
+			{
+				yield return null;
+
+				var diff = Time.timeSinceLevelLoad - startTime;
+				if (diff > 0.2f/*manager.CellMoveTime*/)
+				{
+					diff = 1.0f;
+					isEnd = true;
+				}
+				else
+				{
+					diff /= 0.2f/*manager.CellMoveTime*/;
+				}
+
+				var value = Mathf.Lerp(0.0f, moveValue, diff);
+
+				_view.transform.localPosition = new Vector3(0.0f, value);
+			}
+		}
 
 		#endregion
 

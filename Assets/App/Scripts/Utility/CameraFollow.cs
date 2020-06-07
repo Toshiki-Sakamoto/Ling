@@ -4,6 +4,7 @@
 //  
 // Create by toshiki sakamoto on 2019.09.22.
 // 
+using NPOI.SS.Formula.Functions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +32,8 @@ namespace Ling.Common
 
         [SerializeField] private Camera _followCamera = null;
 
+        private Vector3 _cameraPos;
+
         #endregion
 
 
@@ -57,14 +60,20 @@ namespace Ling.Common
             {
                 _followCamera = Camera.main;
             }
+
+            // 角度
+            _cameraPos = _followCamera.transform.localPosition;
+
+            var angle = Mathf.Atan2(_cameraPos.y, _cameraPos.z) * Mathf.Rad2Deg;
+            _followCamera.transform.rotation = Quaternion.Euler(angle, 0.0f, 0.0f);
         }
 
         private void LateUpdate()
         {
             _followCamera.transform.position =
                 new Vector3(transform.position.x,
-                transform.position.y,
-                 transform.position.z - 10);//_followCamera.transform.position.z);
+                _cameraPos.y,
+                 transform.position.z - _cameraPos.z);//_followCamera.transform.position.z);
         }
 
         #endregion
