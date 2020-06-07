@@ -35,6 +35,7 @@ namespace Ling.Scenes.Battle
 		#region private 変数
 
 		[Inject] private DiContainer _diContainer;
+		[Inject] private BattleModel _model;
 
 		#endregion
 
@@ -42,6 +43,8 @@ namespace Ling.Scenes.Battle
 		#region プロパティ
 
 		public EventHolder EventHolder { get; } = new EventHolder();
+
+		public BattleModel Model  => _model;
 
 		#endregion
 

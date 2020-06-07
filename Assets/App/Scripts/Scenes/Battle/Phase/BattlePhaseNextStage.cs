@@ -71,6 +71,8 @@ namespace Ling.Scenes.Battle.Phase
 					var createAndMoveObservable = _mapManager.CreateAndMoveNextMap();
 					createAndMoveObservable.Subscribe(_b => 
 					{
+						Scene.NextLevel();
+
 						Change(BattleScene.Phase.PlayerAction);
 					});  
 				});

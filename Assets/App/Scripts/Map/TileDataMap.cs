@@ -126,6 +126,12 @@ namespace Ling.Map
 		public void BuildRoomMap() =>
 			RoomMapArray = BuildMapInternal(RoomMap, TileFlag.Floor);
 
+		public void AddRoomMap(int x, int y, int value)
+		{
+			int index = y * Width + x;
+			RoomMapArray[index] = value;
+		}
+
 		/// <summary>
 		/// 道のマップを作成する
 		/// </summary>
@@ -293,13 +299,26 @@ namespace Ling.Map
 		/// <summary>
 		/// 隣接しているtileFlagの数を返す
 		/// </summary>
-		public int GetAdjastNum(in Vector2Int pos, TileFlag tileFlag)
+		public void GetAdjastPosList(in Vector2Int pos, TileFlag tileFlag, List<Vector2Int> lists)
 		{
-			int result = 0;
-			
+			lists.Clear();
+
 			Builder.Common.CallDirection(pos.x, pos.y,
 				(_x, _y) =>
 				{ 
+					if (GetTile(_x, _y).HasFlag(tileFlag))
+					{
+						lists.Add(new Vector2Int(_x, _y));
+					}
+				});
+		}
+		public int GetAdjastNum(in Vector2Int pos, TileFlag tileFlag)
+		{
+			int result = 0;
+
+			Builder.Common.CallDirection(pos.x, pos.y,
+				(_x, _y) =>
+				{
 					if (GetTile(_x, _y).HasFlag(tileFlag))
 					{
 						++result;

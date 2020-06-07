@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2019.12.22
 //
 
+using Ling.Scenes.Battle;
 using System;
 using System.Collections;
 using System.Collections.Generic;

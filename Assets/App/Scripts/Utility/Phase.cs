@@ -34,9 +34,9 @@ namespace Ling.Utility
 
         private object _instance = null;
         private Type _type;
-        private Action[] _inits = null;
-        private Action[] _procs = null;
-        private Action[] _terms = null;
+        private System.Action[] _inits = null;
+        private System.Action[] _procs = null;
+        private System.Action[] _terms = null;
 
         #endregion
 
@@ -59,9 +59,9 @@ namespace Ling.Utility
             Current = init;
 
             var ids = Enum.GetValues(_type);
-            _inits = new Action[ids.Length];
-            _procs = new Action[ids.Length];
-            _terms = new Action[ids.Length];
+            _inits = new System.Action[ids.Length];
+            _procs = new System.Action[ids.Length];
+            _terms = new System.Action[ids.Length];
 
             var prefix = _type.Name;
 
@@ -133,9 +133,9 @@ namespace Ling.Utility
         /// </summary>
         /// <returns>The func.</returns>
         /// <param name="name">Name.</param>
-        private Action CreateFunc(string name)
+        private System.Action CreateFunc(string name)
         {
-            return (Action)Delegate.CreateDelegate(typeof(Action), _instance, name);
+            return (System.Action)Delegate.CreateDelegate(typeof(System.Action), _instance, name);
         }
 
         /// <summary>

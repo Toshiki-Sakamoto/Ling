@@ -127,7 +127,7 @@ namespace Ling.Chara
                     var newPos = Vector3.Lerp(start, finish, diff);
                     _trsModel.transform.position = newPos;
 
-                    _trsModel.SetDirection(diffVec);
+                    _trsModel.SetDirection(new Vector3(diffVec.x, diffVec.z, 0.0f));
                 }
 
                 _trsModel.SetCellPos(elm);

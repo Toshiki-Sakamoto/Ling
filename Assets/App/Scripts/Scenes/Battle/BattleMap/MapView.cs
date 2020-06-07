@@ -171,6 +171,9 @@ namespace Ling.Scenes.Battle.BattleMap
 						PushUnusedItem(usedItem);
 					}
 
+					// 自分の位置を0に戻す
+					transform.localPosition = Vector3.zero;
+
 					// OnNext読んでやらないとSubscribeのonNextが呼ばれないよ
 					observer_.OnNext(new Unit());
 
@@ -201,9 +204,9 @@ namespace Ling.Scenes.Battle.BattleMap
 
 			for (int i = 0; i < _usedItems.Count; ++i)
 			{
-				var diff = currentIndex - i;
+				var diff = i - currentIndex;
 
-				_usedItems[i].SetLocalPosition(new Vector3(0.0f, BattleConst.TilemapYPositionDiff * diff, 0.0f));
+				_usedItems[i].SetLocalPosition(new Vector3(0.0f, 0.0f, BattleConst.TilemapYPositionDiff * diff));
 			}
 		}
 

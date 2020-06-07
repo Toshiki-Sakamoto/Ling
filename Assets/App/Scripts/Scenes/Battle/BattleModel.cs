@@ -44,6 +44,11 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		public int MaxNum { get; private set; } = 40;
 
+		/// <summary>
+		/// 現在のレベル
+		/// </summary>
+		public int Level { get; private set; } = 1;
+
 		#endregion
 
 
@@ -53,6 +58,11 @@ namespace Ling.Scenes.Battle
 
 
 		#region public, protected 関数
+
+		public void NextLevel()
+		{
+			++Level;
+		}
 
 		#endregion
 
