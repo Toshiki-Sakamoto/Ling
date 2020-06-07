@@ -5,7 +5,6 @@
 // Created by toshiki sakamoto on 2020.05.20
 //
 
-using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
