@@ -58,11 +58,7 @@ namespace Ling.Scenes.Battle.Process
 
 		public void Start()
 		{
-			var mapControl = _mapManager.MapControl;
-
-			Observable.Concat(
-				Observable.FromCoroutine(() => mapControl.MoveUp()))
-				.Subscribe(_ => ProcessFinish());
+			MoveAsync().Forget();
 		}
 
 		#endregion
@@ -70,10 +66,19 @@ namespace Ling.Scenes.Battle.Process
 
 		#region private 関数
 
-		private async UniTaskVoid PlayerMoveAsync()
+		private async UniTaskVoid MoveAsync()
 		{
-			//await transform.DOMove(Vector3.up, 1.0f);
-			//await transform.DOJump(new Vector3(0f, 0.0f, 0.0f), 5.0f, 1, 1.0f);
+			var mapControl = _mapManager.MapControl;
+
+			await mapControl.MoveUpAsync();
+			await PlayerMoveAsync();
+
+			ProcessFinish();
+		}
+
+		private async UniTask PlayerMoveAsync()
+		{
+			await transform.DOJump(new Vector3(0f, 0.0f, 0.0f), 5.0f, 1, 1.0f);
 		}
 
 		#endregion

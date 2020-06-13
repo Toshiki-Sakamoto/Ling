@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2020.05.03
 //
 
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -120,10 +122,13 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <remarks>
 		/// MapView全体を上げる
 		/// </remarks>
-		public IEnumerator MoveUp()
+		public async UniTask MoveUpAsync()
 		{
 			var moveValue = 20.0f;
 
+			await _view.transform.DOLocalMoveY(moveValue, 0.2f);
+
+#if false
 			var startTime = Time.timeSinceLevelLoad;
 
 			bool isEnd = false;
@@ -146,13 +151,14 @@ namespace Ling.Scenes.Battle.BattleMap
 
 				_view.transform.localPosition = new Vector3(0.0f, value);
 			}
+#endif
 		}
 
-		#endregion
+#endregion
 
 
-		#region private 関数
+#region private 関数
 
-		#endregion
+#endregion
 	}
 }
