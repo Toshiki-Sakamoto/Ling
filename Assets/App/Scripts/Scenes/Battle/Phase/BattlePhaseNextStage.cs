@@ -21,7 +21,7 @@ namespace Ling.Scenes.Battle.Phase
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseNextStage : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
+	public class BattlePhaseNextStage : BattlePhaseBase
     {
 		#region 定数, class, enum
 
@@ -61,6 +61,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Init() 
 		{
+			BuildNextMap();
+#if false
 			// 次の階層を作成
 			var currentMapIndex = _mapManager.CurrentMapIndex;
 
@@ -71,11 +73,15 @@ namespace Ling.Scenes.Battle.Phase
 					var createAndMoveObservable = _mapManager.CreateAndMoveNextMap();
 					createAndMoveObservable.Subscribe(_b => 
 					{
-						Scene.NextLevel();
+						//Scene.NextLevel();
 
-						Change(BattleScene.Phase.PlayerAction);
+						//Change(BattleScene.Phase.PlayerAction);
 					});  
 				});
+
+			// 動きを制御
+			var process = _processManager.Attach<Process.ProcessNextStageAnim>();
+#endif
 		}
 
 		public override void Proc() 
@@ -90,6 +96,33 @@ namespace Ling.Scenes.Battle.Phase
 
 
 		#region private 関数
+
+		private void BuildNextMap()
+		{
+			var buildNextMapObservable = _mapManager.BuildNextMap();
+			buildNextMapObservable.Subscribe(_a =>
+				{
+					Test();
+				});
+		}
+
+		private void Test()
+		{
+			var createAndMoveObservable = _mapManager.CreateAndMoveNextMap();
+			createAndMoveObservable.Subscribe(_b => 
+			{
+				PlayNextStageAnimation();
+						//Scene.NextLevel();
+
+						//Change(BattleScene.Phase.PlayerAction);
+			});
+		}
+
+		private void PlayNextStageAnimation()
+		{
+			// 動きを制御
+			var process = _processManager.Attach<Process.ProcessNextStageAnim>();
+		}
 
 		#endregion
 	}

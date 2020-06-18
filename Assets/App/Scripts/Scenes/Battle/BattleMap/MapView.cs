@@ -157,6 +157,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 					OnUpdateItem?.Invoke(tilemapData, createMapIndex);
 
+#if false
 					// 移動する(アニメーションにすること)
 					ForceTransformAdjustment(nextMapIndex);
 
@@ -172,7 +173,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 					// 自分の位置を0に戻す
 					transform.localPosition = Vector3.zero;
-
+#endif
 					// OnNext読んでやらないとSubscribeのonNextが呼ばれないよ
 					observer_.OnNext(new Unit());
 
