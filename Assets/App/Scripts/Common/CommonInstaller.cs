@@ -13,6 +13,11 @@ namespace Ling.Common
 				.To<Scene.ExSceneManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
+
+			Container
+				.Bind<MasterData.MasterManager>()
+				.FromComponentInHierarchy()
+				.AsSingle();
 		}
 	}
 }
