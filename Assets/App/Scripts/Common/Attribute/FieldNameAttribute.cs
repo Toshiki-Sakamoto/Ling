@@ -1,8 +1,8 @@
 ﻿//
-// BattleConst.cs
+// FieldNameAttribute.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.05
+// Created by toshiki sakamoto on 2020.06.24
 //
 
 using System;
@@ -15,16 +15,15 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle
+namespace Ling.Common.Attribute
 {
 	/// <summary>
-	/// 
+	/// [FieldNameAttribute("")] private int _huga;
+	/// と打つことでインスペクタに文字列を表示させる
 	/// </summary>
-	public class BattleConst
-    {
+	public class FieldNameAttribute : PropertyAttribute
+	{
 		#region 定数, class, enum
-
-		public const int AddShowMap = 1;    // 一度に見せる追加の階層数 ( 1なら +- 1層)
 
 		#endregion
 
@@ -41,6 +40,8 @@ namespace Ling.Scenes.Battle
 
 		#region プロパティ
 
+		public string Name { get; }
+
 		#endregion
 
 
@@ -50,6 +51,9 @@ namespace Ling.Scenes.Battle
 
 
 		#region public, protected 関数
+
+		public FieldNameAttribute(string name) =>
+			Name = name;
 
 		#endregion
 

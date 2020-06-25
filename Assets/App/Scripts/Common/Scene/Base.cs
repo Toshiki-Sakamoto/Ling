@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.04.15
 //
 
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace Ling.Common.Scene
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 		[Inject] protected Utility.IEventManager _eventManager = null;
 		[Inject] protected Utility.ProcessManager _processManager = null;
+		[Inject] protected MasterData.MasterManager _masterManager = null;
 
 		#endregion
 
@@ -98,6 +100,26 @@ namespace Ling.Common.Scene
 		/// <returns></returns>
 		public virtual IObservable<Unit> SceneStopAsync(Argument nextArgument) =>
 			Observable.Return(Unit.Default);
+
+
+		/// <summary>
+		/// 指定したシーンを直接起動する場合、必要な手続きを踏んでからシーン開始させる
+		/// </summary>
+		protected void QuickStart()
+		{
+			QuickStartInternalAsync().Forget();
+		}
+
+		protected virtual async UniTask QuickStartInternalAsync()
+		{
+			// マスタデータの読み込みが終わっていない場合読み込みを行う
+			if (!_masterManager.IsLoaded)
+			{
+				await _masterManager.LoadAllAsync();
+			}
+
+			_sceneManager.QuickStart(this);
+		}
 
 		#endregion
 

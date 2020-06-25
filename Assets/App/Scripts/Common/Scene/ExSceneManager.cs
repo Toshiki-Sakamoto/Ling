@@ -25,6 +25,8 @@ namespace Ling.Common.Scene
 		void ChangeScene(SceneID sceneID, Argument argument = null);
 
 		void AddScene(SceneID sceneID, Argument argument = null);
+
+		void QuickStart(Base scene);
 	}
 
 
@@ -49,6 +51,8 @@ namespace Ling.Common.Scene
 		#region private 変数
 
 		[SerializeField] private Transform _sceneRoot;  // シーンインスタンスが配置されるルート
+
+		[Inject] private MasterData.MasterManager _masterManager = null;
 
 		private SceneID _nextSceneID = SceneID.None;
 		private Base _sceneInstance = null;
@@ -95,6 +99,17 @@ namespace Ling.Common.Scene
 		public void AddScene(SceneID sceneID, Argument argument = null)
 		{
 			SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Additive).Forget();
+		}
+
+		/// <summary>
+		/// 正規の手順ではなく、指定したシーンからゲームを始める
+		/// </summary>
+		public void QuickStart(Base scene)
+		{
+			_sceneInstance = scene;
+
+			scene.IsStartScene = true;
+			scene.StartScene();
 		}
 
 		#endregion
@@ -155,17 +170,23 @@ namespace Ling.Common.Scene
 		}
 
 
+		private IObservable<Base>InitLoadPrepareAsync(Base scene)
+		{
+			return Observable.Return(scene);
+		}
+
 		private IObservable<Unit> LoadSceneAsync(string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single)
 		{
 			return Observable.FromCoroutine<Unit>(observer_ =>
 				LoadSceneOperationAsync(SceneManager.LoadSceneAsync(sceneName, mode), observer_))
-				.SelectMany(_ =>
+				.Select(_ =>
 				{
 					var scene = GameObject.FindObjectOfType<Base>();
 					if (scene == null)
 					{
 						Utility.Log.Error($"Scene.Base クラスが見つかりません {typeof(Base).ToString()}");
-						return Observable.Return(Unit.Default);
+
+						return null;
 					}
 
 					scene.transform.SetParent(_sceneRoot);
@@ -174,15 +195,23 @@ namespace Ling.Common.Scene
 					// 準備が整うまで非アクティブ
 					scene.gameObject.SetActive(false);
 
-					return scene.ScenePrepareAsync().Do(unit_ =>
+					// 必要なデータが読み込まれていない場合、読み込みを行う
+					//Observable.FromCoroutine<Base>(observer_ => LoadScenePrepareAsync(observer_));
+
+					return scene;
+				})
+				.ContinueWith(scene_ => InitLoadPrepareAsync(scene_))
+				.SelectMany(scene_ =>
+				{
+					return scene_.ScenePrepareAsync().Do(unit_ =>
 						{
-							_sceneInstance = scene;
+							_sceneInstance = scene_;
 
 							// 事前準備が終わったのでここで始める
-							scene.gameObject.SetActive(true);
+							scene_.gameObject.SetActive(true);
 
-							scene.IsStartScene = true;
-							scene.StartScene();
+							scene_.IsStartScene = true;
+							scene_.StartScene();
 						});
 				});
 		}

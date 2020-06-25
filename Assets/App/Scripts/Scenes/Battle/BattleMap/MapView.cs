@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using System;
+using System.Linq;
 using UniRx;
 
 using Zenject;
-using System;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Scenes.Battle.BattleMap
 {
@@ -95,10 +97,12 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		[SerializeField] private List<GroundTilemap> _groundMaps = null;
 
-		[Inject] BattleModel _model = null;
+		[Inject] private BattleModel _model = null;
+		[Inject] private MasterData.MasterManager _masterManager = null;
 
 		private List<GroundTilemap> _usedItems = new List<GroundTilemap>();
 		private List<GroundTilemap> _unusedItems = new List<GroundTilemap>();
+		private int _currentMapIndex = 0;
 
 		#endregion
 
@@ -140,23 +144,30 @@ namespace Ling.Scenes.Battle.BattleMap
 
 			// 位置等を強制的に決める
 			ForceTransformAdjustment(startMapIndex);
+
+			_currentMapIndex = startMapIndex;
 		}
 
 		/// <summary>
-		/// 新しいマップを作成し
-		/// 次のマップに移動する
+		/// 新しいマップを作成
 		/// </summary>
-		public IObservable<Unit> CreateAndMoveNextMap(int nextMapIndex, int createMapIndex)
+		public IObservable<AsyncUnit> CreateMapView(int nextMapIndex, int createMapIndex)
 		{
-			return Observable.Create<Unit>(observer_ =>
+			return Observable.Create<AsyncUnit>(observer_ =>
 				{
 					// 新しいマップを作成する
 					var tilemapData = PopUnusedItem();
 
 					PushUsedItem(tilemapData);
 
+					// 初期位置に配置する
+					ForceTransformAdjustment(_currentMapIndex);
+
+					_currentMapIndex = nextMapIndex;
+
 					OnUpdateItem?.Invoke(tilemapData, createMapIndex);
 
+#if false
 					// 移動する(アニメーションにすること)
 					ForceTransformAdjustment(nextMapIndex);
 
@@ -172,9 +183,10 @@ namespace Ling.Scenes.Battle.BattleMap
 
 					// 自分の位置を0に戻す
 					transform.localPosition = Vector3.zero;
-
+#endif
 					// OnNext読んでやらないとSubscribeのonNextが呼ばれないよ
-					observer_.OnNext(new Unit());
+					observer_.OnNext(new AsyncUnit());
+					observer_.OnCompleted();
 
 					return Disposable.Empty;
 				});
@@ -183,8 +195,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <summary>
 		/// 指定した階層のマップのTilemapを取得する
 		/// </summary>
-		/// <returns></returns>
-		public Tilemap FindTilemap(int mapIndex)
+		public GroundTilemap FindGroundTilemap(int mapIndex)
 		{
 			var mapData = _groundMaps.Find(map_ => map_.mapIndex == mapIndex);
 			if (mapData == null)
@@ -193,19 +204,43 @@ namespace Ling.Scenes.Battle.BattleMap
 				return null;
 			}
 
-			return mapData.tilemap;
+			return mapData;
 		}
+		public Tilemap FindTilemap(int mapIndex) =>
+			FindGroundTilemap(mapIndex)?.tilemap;
 
 
+		/// <summary>
+		/// 指定したMapIndexを中心としてMapを並び直す
+		/// </summary>
+		/// <param name="startMapIndex"></param>
 		public void ForceTransformAdjustment(int startMapIndex)
 		{
 			var currentIndex = _usedItems.FindIndex(tile_ => tile_.mapIndex == startMapIndex);
+			var height = _masterManager.Const.MapDiffHeight;
 
 			for (int i = 0; i < _usedItems.Count; ++i)
 			{
 				var diff = i - currentIndex;
 
-				_usedItems[i].SetLocalPosition(new Vector3(0.0f, 0.0f, BattleConst.TilemapYPositionDiff * diff));
+				_usedItems[i].SetLocalPosition(new Vector3(0.0f, 0.0f, height * diff));
+			}
+		}
+
+		/// <summary>
+		/// 指定した配列に存在しない余分なMapを削除する
+		/// </summary>
+		public void RemoveExtraTilemap(List<int> indexes)
+		{
+			foreach (var tilemap in _usedItems.ToArray())
+			{
+				if (indexes.Exists(index_ => index_ == tilemap.mapIndex))
+				{
+					continue;
+				}
+
+				// 削除する
+				PushUnusedItem(tilemap);
 			}
 		}
 
@@ -232,6 +267,10 @@ namespace Ling.Scenes.Battle.BattleMap
 		private void PushUnusedItem(GroundTilemap groundTilemap)
 		{
 			groundTilemap.Reset();
+
+			// リストにあるなら取り除く
+			_usedItems.Remove(groundTilemap);
+			_unusedItems.Remove(groundTilemap);
 
 			_unusedItems.Add(groundTilemap);
 		}

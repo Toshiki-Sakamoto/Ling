@@ -98,13 +98,13 @@ namespace Ling.Scenes.Battle
 		}
 
 		/// <summary>
-		/// 次のマップに移動する
+		/// 次のマップViewを作成する
 		/// </summary>
-		public IObservable<Unit> CreateAndMoveNextMap()
+		public IObservable<AsyncUnit> CreateMapView()
 		{
 			var nextMapIndex = CurrentMapIndex + 1;
 
-			return MapControl.CreateAndMoveNextMap(nextMapIndex, nextMapIndex + BattleConst.AddShowMap);
+			return MapControl.CreateMapView(nextMapIndex, nextMapIndex + BattleConst.AddShowMap);
 		}
 
 		/// <summary>
@@ -157,6 +157,33 @@ namespace Ling.Scenes.Battle
 		public IObservable<AsyncUnit> BuildNextMap()
 		{
 			return BuildMap(CurrentMapIndex + BattleConst.AddShowMap + 1);
+		}
+
+		/// <summary>
+		/// 次の階層に変化する
+		/// </summary>
+		public void ChangeNextLevel()
+		{
+			var nextMapIndex = CurrentMapIndex + 1;
+
+			_control.ChangeMap(nextMapIndex);
+		}
+
+
+		/// <summary>
+		/// はみ出した余分なMapを削除する
+		/// </summary>
+		public void RemoveExtraMap()
+		{
+
+		}
+
+		/// <summary>
+		/// 現在のMap
+		/// </summary>
+		public void RefreshMap()
+		{
+
 		}
 
 		#endregion

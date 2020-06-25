@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2020.05.03
 //
 
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +39,8 @@ namespace Ling.Scenes.Battle.BattleMap
 		#region private 変数
 
 		[SerializeField] private MapView _view;
+
+		[Inject] private MasterData.MasterManager _masterManager = null;
 
 		private MapModel _model;
 		private Common.Tile.MapTile _mapTile;
@@ -86,11 +90,26 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <param name="nextMapIndex"></param>
 		/// <param name="createMapIndex"></param>
 		/// <returns></returns>
-		public IObservable<Unit> CreateAndMoveNextMap(int nextMapIndex, int createMapIndex)
+		public IObservable<AsyncUnit> CreateMapView(int nextMapIndex, int createMapIndex)
 		{
+			return _view.CreateMapView(nextMapIndex, createMapIndex);
+		}
+
+		/// <summary>
+		/// 現在のマップを一つ進め、変更する
+		/// </summary>
+		public void ChangeMap(int nextMapIndex)
+		{
+			// 現在のMapIndexを変更する
 			_model.ChangeMapByIndex(nextMapIndex);
 
-			return _view.CreateAndMoveNextMap(nextMapIndex, createMapIndex);
+			// もう見えないMapを削除する
+			_view.RemoveExtraTilemap(_model.ShowMapIndexes);
+
+			// 変化先のマップを中心とする
+			_view.ForceTransformAdjustment(nextMapIndex);
+
+			// プレイヤーの座標も初期化する
 		}
 
 		/// <summary>
@@ -120,39 +139,27 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <remarks>
 		/// MapView全体を上げる
 		/// </remarks>
-		public IEnumerator MoveUp()
+		public async UniTask MoveUpAsync()
 		{
-			var moveValue = 20.0f;
+			var constMaster = _masterManager.Const;
 
-			var startTime = Time.timeSinceLevelLoad;
-
-			bool isEnd = false;
-			while (!isEnd)
-			{
-				yield return null;
-
-				var diff = Time.timeSinceLevelLoad - startTime;
-				if (diff > 0.2f/*manager.CellMoveTime*/)
-				{
-					diff = 1.0f;
-					isEnd = true;
-				}
-				else
-				{
-					diff /= 0.2f/*manager.CellMoveTime*/;
-				}
-
-				var value = Mathf.Lerp(0.0f, moveValue, diff);
-
-				_view.transform.localPosition = new Vector3(0.0f, value);
-			}
+			await _view.transform.DOLocalMoveY(constMaster.MapDiffHeight, constMaster.MapLevelMoveTime);
 		}
 
-		#endregion
+		/// <summary>
+		/// 動いたViewのY座標をもとに戻す
+		/// </summary>
+		public void ResetViewUpPosition()
+		{
+			var localPos = _view.transform.localPosition;
+			_view.transform.localPosition = new Vector3(localPos.x, 0f, localPos.z);
+		}
+
+#endregion
 
 
-		#region private 関数
+#region private 関数
 
-		#endregion
+#endregion
 	}
 }

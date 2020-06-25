@@ -97,6 +97,13 @@ namespace Ling.Scenes.Battle
 
 			_isInitialized = true;
 
+
+			_eventManager.Add<EventChangePhase>(this, 
+				_ev => 
+				{ 
+					_phase.Change(_ev.phase, null);
+				});
+
 			// 始めは１階層
 			View.UIHeaderView.SetLevel(_model.Level);
 
@@ -145,7 +152,7 @@ namespace Ling.Scenes.Battle
 		private void Start()
 		{
 			/////
-			StartScene();
+			QuickStart();
 		}
 
 		private void Update()

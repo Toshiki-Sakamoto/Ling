@@ -1,8 +1,8 @@
 ﻿//
-// BattleConst.cs
+// MasterBase.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.05
+// Created by toshiki sakamoto on 2020.06.24
 //
 
 using System;
@@ -15,16 +15,14 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle
+namespace Ling.MasterData
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattleConst
-    {
+	public class MasterBase<T> : ScriptableObject
+	{
 		#region 定数, class, enum
-
-		public const int AddShowMap = 1;    // 一度に見せる追加の階層数 ( 1なら +- 1層)
 
 		#endregion
 

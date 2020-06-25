@@ -57,6 +57,11 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// </summary>
 		public Map.TileDataMap CurrentTileDataMap { get; private set; }
 
+		/// <summary>
+		/// 現在見えているマップIndexリスト
+		/// </summary>
+		public List<int> ShowMapIndexes { get; } = new List<int>();
+
 		#endregion
 
 
@@ -85,6 +90,8 @@ namespace Ling.Scenes.Battle.BattleMap
 
 			CurrentMapData = _mapData[mapIndex];
 			CurrentTileDataMap = CurrentMapData.TileDataMap;
+
+			BuildShowMapIndexList();
 		}
 
 		public int GetCurrentMapIndex()
@@ -118,6 +125,23 @@ namespace Ling.Scenes.Battle.BattleMap
 
 
 		#region private 関数
+
+
+		/// <summary>
+		/// 現在見えているマップのIndexリストを作成する
+		/// </summary>
+		private void BuildShowMapIndexList()
+		{
+			ShowMapIndexes.Clear();
+
+			var startIndex = Mathf.Max(CurrentMapIndex - BattleConst.AddShowMap, 0);
+
+			for (int i = startIndex, count = CurrentMapIndex + BattleConst.AddShowMap; i <= count; ++i)
+			{
+				ShowMapIndexes.Add(i);
+			}
+		}
+
 
 		#endregion
 	}

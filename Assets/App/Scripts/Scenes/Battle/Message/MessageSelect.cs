@@ -39,13 +39,15 @@ namespace Ling.Scenes.Battle.Message
 
 				for (int i = 0; i < _buttons.Length; ++i)
 				{
+					var selectedIndex = i;
+
 					_buttons[i].onClick
 						.AsObservable()
 						.Subscribe(_ =>
 							{
 								Hide();
 
-								onSelected?.Invoke(i);
+								onSelected?.Invoke(selectedIndex);
 							});
 				}
 
