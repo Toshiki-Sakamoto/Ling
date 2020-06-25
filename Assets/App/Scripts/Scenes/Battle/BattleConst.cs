@@ -25,7 +25,6 @@ namespace Ling.Scenes.Battle
 		#region 定数, class, enum
 
 		public const int AddShowMap = 1;    // 一度に見せる追加の階層数 ( 1なら +- 1層)
-		public const float TilemapYPositionDiff = 20.0f;
 
 		#endregion
 

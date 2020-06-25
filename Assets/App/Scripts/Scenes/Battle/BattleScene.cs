@@ -152,7 +152,7 @@ namespace Ling.Scenes.Battle
 		private void Start()
 		{
 			/////
-			StartScene();
+			QuickStart();
 		}
 
 		private void Update()
