@@ -65,6 +65,15 @@ namespace Ling.Scenes.Battle
 		public Vector3Int GetPlayerCellPos() =>
 			Player.CellPos;
 
+		/// <summary>
+		/// Playerが移動した上昇をもとに戻す
+		/// </summary>
+		public void ResetPlayerUpPosition()
+		{
+			var localPos = Player.transform.localPosition;
+			Player.transform.localPosition = new Vector3(localPos.x, localPos.y, 0f);
+		}
+
 		#endregion
 
 

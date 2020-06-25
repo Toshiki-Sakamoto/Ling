@@ -36,6 +36,7 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 		private MapManager _mapManager = null;
+		private CharaManager _charaManager = null;
 
 		#endregion
 
@@ -57,31 +58,12 @@ namespace Ling.Scenes.Battle.Phase
 			base.Awake();
 
 			_mapManager = Resolve<MapManager>();
+			_charaManager = Resolve<CharaManager>();
 		}
 
 		public override void Init() 
 		{
 			BuildNextMap();
-#if false
-			// 次の階層を作成
-			var currentMapIndex = _mapManager.CurrentMapIndex;
-
-			var buildNextMapObservable = _mapManager.BuildNextMap();
-			buildNextMapObservable.Subscribe(_a =>
-				{
-					// マップを移動
-					var createAndMoveObservable = _mapManager.CreateAndMoveNextMap();
-					createAndMoveObservable.Subscribe(_b => 
-					{
-						//Scene.NextLevel();
-
-						//Change(BattleScene.Phase.PlayerAction);
-					});  
-				});
-
-			// 動きを制御
-			var process = _processManager.Attach<Process.ProcessNextStageAnim>();
-#endif
 		}
 
 		public override void Proc() 
@@ -100,28 +82,33 @@ namespace Ling.Scenes.Battle.Phase
 		private void BuildNextMap()
 		{
 			var buildNextMapObservable = _mapManager.BuildNextMap();
-			buildNextMapObservable.Subscribe(_a =>
-				{
-					Test();
-				});
+			var createMapViewObservable = _mapManager.CreateMapView();
+
+			buildNextMapObservable
+				.Concat(createMapViewObservable)
+				.Subscribe(onNext: _ => 
+					{}, 
+					onCompleted: () =>
+					{
+						// 動きを制御
+						var process = _processManager.Attach<Process.ProcessNextStageAnim>();
+						process.OnFinish =
+							() =>
+							{
+								ApplyNextStage();
+							};
+					});
 		}
 
-		private void Test()
+		private void ApplyNextStage()
 		{
-			var createAndMoveObservable = _mapManager.CreateAndMoveNextMap();
-			createAndMoveObservable.Subscribe(_b => 
-			{
-				PlayNextStageAnimation();
-						//Scene.NextLevel();
+			// 移動した階層を今の階層とする
+			_mapManager.ChangeNextLevel();
 
-						//Change(BattleScene.Phase.PlayerAction);
-			});
-		}
+			// MapとPlayerの座標をもとに戻す
+			_mapManager.MapControl.ResetViewUpPosition();
+			_charaManager.ResetPlayerUpPosition();
 
-		private void PlayNextStageAnimation()
-		{
-			// 動きを制御
-			var process = _processManager.Attach<Process.ProcessNextStageAnim>();
 		}
 
 		#endregion

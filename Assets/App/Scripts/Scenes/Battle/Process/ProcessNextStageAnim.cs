@@ -40,6 +40,8 @@ namespace Ling.Scenes.Battle.Process
 		[Inject] private GameManager _gameManager = null;
 		[Inject] private Utility.IEventManager _eventManager = null;
 		[Inject] private MapManager _mapManager = null;
+		[Inject] private CharaManager _charaManager = null;
+		[Inject] private MasterData.MasterManager _masterManager = null;
 
 		#endregion
 
@@ -70,15 +72,18 @@ namespace Ling.Scenes.Battle.Process
 		{
 			var mapControl = _mapManager.MapControl;
 
-			await mapControl.MoveUpAsync();
-			await PlayerMoveAsync();
+			await UniTask.WhenAll(mapControl.MoveUpAsync(), PlayerMoveAsync());
 
 			ProcessFinish();
 		}
 
 		private async UniTask PlayerMoveAsync()
 		{
-			await transform.DOJump(new Vector3(0f, 0.0f, 0.0f), 5.0f, 1, 1.0f);
+			var player = _charaManager.Player;
+			var localPos = player.transform.localPosition;
+			var constMaster = _masterManager.Const;
+
+			await player.transform.DOLocalMoveZ(constMaster.MapDiffHeight, constMaster.PlayerLevelMoveTime);
 		}
 
 		#endregion
