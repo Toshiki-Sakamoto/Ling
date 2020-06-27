@@ -47,4 +47,14 @@ namespace Ling.Scenes.Battle
 	{
 		public BattleScene.Phase phase;
 	}
+
+	/// <summary>
+	/// 次の階層に移動した
+	/// </summary>
+	public class EventChangeNextStage
+	{
+		// 移動後の情報
+		public int level;
+		public UnityEngine.Tilemaps.Tilemap tilemap;
+	}
 }

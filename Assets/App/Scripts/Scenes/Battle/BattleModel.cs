@@ -49,6 +49,11 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		public int Level { get; private set; } = 1;
 
+		/// <summary>
+		/// 次のフェーズ移動の予約
+		/// </summary>
+		public BattleScene.Phase NextPhaseMoveReservation { get; set; }
+
 		#endregion
 
 

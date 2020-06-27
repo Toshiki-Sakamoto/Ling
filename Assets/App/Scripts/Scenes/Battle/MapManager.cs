@@ -162,11 +162,12 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 次の階層に変化する
 		/// </summary>
-		public void ChangeNextLevel()
+		public void ChangeNextLevel(int level)
 		{
-			var nextMapIndex = CurrentMapIndex + 1;
+			_control.ChangeMap(level);
 
-			_control.ChangeMap(nextMapIndex);
+			// 座標をもとに戻す
+			_control.ResetViewUpPosition();
 		}
 
 

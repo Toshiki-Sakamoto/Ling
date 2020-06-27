@@ -76,7 +76,7 @@ namespace Ling.Scenes.Battle.Process
 		{
 			_player
 				.MoveByAddPos(_addMoveDir)
-				.Subscribe(_ => { ProcessFinish(); });
+				.Subscribe(_ => ProcessFinish());
 		}
 
 		#endregion

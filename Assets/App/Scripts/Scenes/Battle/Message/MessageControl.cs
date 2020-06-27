@@ -55,6 +55,11 @@ namespace Ling.Scenes.Battle.Message
 
 		#region public, protected 関数
 
+		public void Clear()
+		{
+			_view.Clear();
+		}
+
 		#endregion
 
 
@@ -73,21 +78,19 @@ namespace Ling.Scenes.Battle.Message
 				{
 					var onSelected = ev_.onSelected;
 
-					void Select()
-					{
-						_select.onSelected = selectIndex_ =>
-							{
-								onSelected?.Invoke(selectIndex_);
-							};
-
-						_select.Show(ev_.selectTexts);
-					}
-
 					// メッセージ表示後選択肢表示
 					_view.SetText(ev_.text, 
 						() =>
 						{
-							Select();
+							_select.onSelected = selectIndex_ =>
+							{
+								// 選択された後は基本テキスト消す
+								Clear();
+
+								onSelected?.Invoke(selectIndex_);
+							};
+
+							_select.Show(ev_.selectTexts);
 						});
 				});
 		}

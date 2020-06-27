@@ -27,6 +27,8 @@ namespace Ling.Scenes.Battle
 
 		public enum Phase
 		{
+			None,
+
 			Start,
 			Load,
 			FloorSetup,
@@ -52,6 +54,8 @@ namespace Ling.Scenes.Battle
 		[SerializeField] private BattleView _view = null;
 
 		[Inject] private BattleModel _model = null;
+		[Inject] private MapManager _mapManager = null;
+		[Inject] private CharaManager _charaManager = null;
 
 		private bool _isInitialized;
 		private Utility.PhaseScene<Phase, BattleScene> _phase = new Utility.PhaseScene<Phase, BattleScene>();
@@ -98,10 +102,12 @@ namespace Ling.Scenes.Battle
 			_isInitialized = true;
 
 
+			// 行動終了時等、特定のタイミングでフェーズを切り替える
 			_eventManager.Add<EventChangePhase>(this, 
 				_ev => 
-				{ 
-					_phase.Change(_ev.phase, null);
+				{
+					// 行動終了時のPhase切り替えの予約
+					_model.NextPhaseMoveReservation = _ev.phase;
 				});
 
 			// 始めは１階層
@@ -128,14 +134,42 @@ namespace Ling.Scenes.Battle
 
 
 		/// <summary>
-		/// 次のレベルにいく
+		/// 次のレベルに移動する
 		/// </summary>
-		public void NextLevel()
+		public void ApplyNextLevel()
 		{
 			_model.NextLevel();
 
+			// 移動した階層を今の階層とする
+			_mapManager.ChangeNextLevel(_model.Level);
+
+			// キャラクタ管理者
+			_charaManager.ChangeNextLevel(_mapManager.CurrentTilemap);
+
 			// 次の階層に行った
 			View.UIHeaderView.SetLevel(_model.Level);
+
+			_eventManager.Trigger(new EventChangeNextStage
+				{
+					level = _mapManager.CurrentMapIndex,
+					tilemap = _mapManager.CurrentTilemap
+				});
+		}
+
+		/// <summary>
+		/// 予約していたフェーズに移動する
+		/// </summary>
+		/// <returns>遷移したらtrue</returns>
+		public bool MoveToResercationPhase()
+		{
+			if (_model.NextPhaseMoveReservation == Phase.None) return false;
+
+			var nextPhase = _model.NextPhaseMoveReservation;
+			_model.NextPhaseMoveReservation = Phase.None;
+
+			_phase.Change(nextPhase, null);
+
+			return true;
 		}
 
 		#endregion

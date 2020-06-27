@@ -4,6 +4,7 @@
 //  
 // Created by toshiki sakamoto on 2020.05.01
 // 
+using Ling.Adv;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,6 +35,7 @@ namespace Ling.Scenes.Battle
 		[SerializeField] private Chara.PlayerFactory _playerFactory = null;
 
 		[Inject] private MapManager _mapManager = null;
+		[Inject] private Utility.IEventManager _eventManager = null;
 
 		#endregion
 
@@ -74,6 +76,18 @@ namespace Ling.Scenes.Battle
 			Player.transform.localPosition = new Vector3(localPos.x, localPos.y, 0f);
 		}
 
+		/// <summary>
+		/// 次のレベルに移動する
+		/// </summary>
+		public void ChangeNextLevel(UnityEngine.Tilemaps.Tilemap tilemap)
+		{
+			// 座標をもとに戻す
+			ResetPlayerUpPosition();
+
+			// 移動後のTilemapをPlayerに登録し直す
+			Player.SetTilemap(tilemap);
+		}
+
 		#endregion
 
 
@@ -111,6 +125,7 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		void OnDestoroy()
 		{
+			_eventManager.RemoveAll(this);
 		}
 
 		#endregion
