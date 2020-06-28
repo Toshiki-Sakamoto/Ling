@@ -129,8 +129,8 @@ namespace Ling.Scenes.Battle.BattleMap
 				PushUnusedItem(elm);
 			}
 
-			// 0以下は無い
-			var createStartIndex = Mathf.Max(startMapIndex - BattleConst.AddShowMap, 0);
+			// 1以下は無い
+			var createStartIndex = Mathf.Max(startMapIndex - BattleConst.AddShowMap, 1);
 
 			for (int i = createStartIndex, count = startMapIndex + BattleConst.AddShowMap; i <= count; ++i)
 			{
