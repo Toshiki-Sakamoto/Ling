@@ -4,6 +4,7 @@
 //  
 // Created by toshiki sakamoto on 2020.05.01
 // 
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,8 +18,24 @@ using Zenject;
 namespace Ling.Utility.Pool
 {
 	/// <summary>
-	/// 
+	/// プール作成時の情報
 	/// </summary>
+	[System.Serializable]
+	public class PoolCreateInfo
+	{
+		public Transform poolRoot = null;    // プール保管先
+		public GameObject poolObject = null;
+		public int initCreateNum = 0;        // 初期生成数
+		public bool isAutoCreate = true;     // プールがなくなったら自動で生成する
+		public int onceCreatingNum = 20;     // 一度の処理で作成する数
+	}
+
+
+	/// <summary>
+	/// プールの生成方法を管理＋生成を行う。
+	/// 不足した場合自動で生成を行う。
+	/// </summary>
+	[System.Serializable]
 	public abstract class PoolCreator : MonoBehaviour
     {
 		#region 定数, class, enum
@@ -33,11 +50,7 @@ namespace Ling.Utility.Pool
 
 		#region private 変数
 
-		[SerializeField] private Transform _poolRoot = null;	// プール保管先
-		[SerializeField] private GameObject _poolObject = null;
-		[SerializeField] private int _initCreateNum = 0;        // 初期生成数
-		[SerializeField] private bool _isAutoCreate = true;     // プールがなくなったら自動で生成する
-		[SerializeField] private int _onceCreatingNum = 20;		// 一度の処理で作成する数
+		[SerializeField] private PoolCreateInfo _info = null;
 
 		private List<PoolItem> _poolItems = new List<PoolItem>();		// 保存プール
 		private List<PoolItem> _usedPoolItems = new List<PoolItem>();	// 使用しているプールアイテム
@@ -48,14 +61,58 @@ namespace Ling.Utility.Pool
 
 		#region プロパティ
 
-		public Transform PoolRoot { get { return _poolRoot; } set { _poolRoot = value; } }
-		public GameObject PoolObject { get { return _poolObject; } set { _poolObject = value; } }
-		public int InitCreateNum { get { return _initCreateNum; } set { _initCreateNum = value; } }
+		public PoolCreateInfo Info => _info;
+
+		/// <summary>
+		/// プール生成する実態
+		/// </summary>
+		public GameObject PoolObject => _info.poolObject;
+
+		/// <summary>
+		/// プール生成先
+		/// </summary>
+		public Transform PoolRoot => _info.poolRoot;
 
 		#endregion
 
 
 		#region public, protected 関数
+
+		public void Setup(Transform poolRoot, GameObject poolObject, int initCreateNum = 0)
+		{
+			Info.poolObject = poolObject;
+
+			Setup(poolRoot, initCreateNum);
+		}
+
+		public void Setup(Transform poolRoot, int initCreateNum = 0)
+		{
+			_info.poolRoot = poolRoot;
+			_info.initCreateNum = initCreateNum;
+
+			Setup();
+		}
+
+		public void Setup()
+		{
+			if (PoolObject == null)
+			{
+				Utility.Log.Warning("プールオブジェクトに何も指定されていない");
+				return;
+			}
+
+			if (PoolRoot == null)
+			{
+				Utility.Log.Warning("プール生成先に何も指定されていない");
+				return;
+			}
+		}
+
+		/// <summary>
+		/// 生成情報を外部から設定する
+		/// </summary>
+		public void SetInfo(PoolCreateInfo info) =>
+			_info = info;
 
 		public IObservable<Unit> CreatePoolAsync()
 		{
@@ -67,14 +124,14 @@ namespace Ling.Utility.Pool
 
 		public IEnumerator CreatePool()
 		{
-			_poolObject.SetActive(false);
+			Info.poolObject.SetActive(false);
 
 			int count = 0;
-			for (int i = 0; i < _initCreateNum; ++i)
+			for (int i = 0; i < Info.initCreateNum; ++i)
 			{
 				CreatePoolAdditional();
 
-				if (++count >= _onceCreatingNum)
+				if (++count >= Info.onceCreatingNum)
 				{
 					yield return null;
 					count = 0;
@@ -94,7 +151,7 @@ namespace Ling.Utility.Pool
 			if (_unusedPoolItems.Count <= 0)
 			{
 				// 自動生成できない場合はnullを返す
-				if (!_isAutoCreate)
+				if (!Info.isAutoCreate)
 				{
 					return null;
 				}
@@ -131,7 +188,7 @@ namespace Ling.Utility.Pool
 			}
 
 			poolItem.gameObject.SetActive(false);
-			poolItem.transform.SetParent(_poolRoot);
+			poolItem.transform.SetParent(Info.poolRoot);
 
 			poolItem.Unused();
 
@@ -150,7 +207,7 @@ namespace Ling.Utility.Pool
 		/// <returns></returns>
 		private PoolItem CreatePoolAdditional()
 		{
-			var poolObject = Instantiate(_poolObject, _poolRoot);
+			var poolObject = Instantiate(Info.poolObject, Info.poolRoot);
 			var poolItem = poolObject.AddComponent<PoolItem>();
 			poolItem.Setup(this);
 

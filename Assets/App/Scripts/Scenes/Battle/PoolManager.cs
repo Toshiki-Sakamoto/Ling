@@ -17,11 +17,11 @@ namespace Ling.Scenes.Battle
 {
 	public enum PoolType
 	{
-		Map,
 	}
 
 	/// <summary>
-	/// 
+	/// バトル中に使用するプール管理者
+	/// エフェクトなど管理して使い回す
 	/// </summary>
 	public class PoolManager : Utility.Pool.PoolManager<PoolType, PoolManager> 
     {
@@ -65,9 +65,7 @@ namespace Ling.Scenes.Battle
 				return;
 			}
 
-			var item = AddPoolItem(poolType);
-			item.InitCreateNum = initCreateNum;
-			item.PoolObject = poolInfo.poolObject;
+			var item = AddPoolItem(poolType, poolInfo.poolObject, initCreateNum);
 		}
 
 		#endregion

@@ -20,7 +20,8 @@ using UniRx;
 namespace Ling.Utility.Pool
 {
 	/// <summary>
-	/// 特定のゲームオブジェクトをプールで保管する
+	/// 特定のゲームオブジェクトをプールで保管する。引き出し、預け入れができる。
+	/// <typeparamref name="TEnum"/>で指定した列挙型でプールを判別する。
 	/// </summary>
 	public abstract class PoolManager<TEnum, TPoolManager> : PoolManager<TEnum, DefaultPoolCreator, TPoolManager>
 		where TEnum : Enum
@@ -28,25 +29,31 @@ namespace Ling.Utility.Pool
 	{
 	}
 
-	public abstract class PoolManager<TEnum, TPoolItem, TPoolManager> : Utility.MonoSingleton<TPoolManager>
+
+	/// <summary>
+	/// 実際のPoolManager。
+	/// 生成方法を自分で渡す。
+	/// </summary>
+	public abstract class PoolManager<TEnum, TPoolCreator, TPoolManager> : Utility.MonoSingleton<TPoolManager>
 		where TEnum : Enum
-		where TPoolItem : PoolCreator
+		where TPoolCreator : PoolCreator
 		where TPoolManager : MonoBehaviour
 	{
 		#region 定数, class, enum
 
 		[System.Serializable]
-		public class PoolItemData
+		public class PoolCreateItem
 		{
 			public TEnum key;
 			public string id;
-			public PoolCreator item = null;
+			public bool isUsedCreator;	// 直接PoolCreatorを使用する場合はtrue
+			public TPoolCreator creator;
+			public PoolCreateInfo createInfo;
 
-			public bool Equal(TEnum key, string id)
-			{
-				return EqualityComparer<TEnum>.Default.Equals(this.key, key) && this.id == id;
-			}
+			public bool Equal(TEnum key, string id) =>
+				EqualityComparer<TEnum>.Default.Equals(this.key, key) && this.id == id;
 		}
+		
 
 		#endregion
 
@@ -59,7 +66,7 @@ namespace Ling.Utility.Pool
 		#region private 変数
 
 		[SerializeField] private Transform _defaultPoolRoot = null; // PoolItemがRootを持っていないときに設定されるデフォルトプールルート
-		[SerializeField] private List<PoolItemData> _poolItemData = new List<PoolItemData>();
+		[SerializeField] private List<PoolCreateItem> _createItems = null;
 
 		#endregion
 
@@ -79,25 +86,23 @@ namespace Ling.Utility.Pool
 		/// <summary>
 		/// 手動でPool情報を追加する
 		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="poolItem"></param>
-		public PoolCreator AddPoolItem(TEnum key) =>
-			AddPoolItem(key, null);
+		public PoolCreator AddPoolItem(TEnum key, GameObject poolObject, int initCreateNum = 0) =>
+			AddPoolItem(key, null, poolObject, initCreateNum);
 
-		public PoolCreator AddPoolItem(TEnum key, string id)
+		public PoolCreator AddPoolItem(TEnum key, string id, GameObject poolObject, int initCreateNum = 0)
 		{
-			if (_poolItemData.Exists(item_ => item_.Equal(key, id)))
+			if (_createItems.Exists(item_ => item_.Equal(key, id)))
 			{
 				Utility.Log.Error($"すでに存在するKeyです。二重登録禁止 {key.ToString()}");
 				return null;
 			}
 
-			var item = gameObject.AddComponent<DefaultPoolCreator>();
-			item.PoolRoot = _defaultPoolRoot;
+			var creator = gameObject.AddComponent<TPoolCreator>();
+			creator.Setup(_defaultPoolRoot, poolObject, initCreateNum);
 
-			_poolItemData.Add(new PoolItemData { key = key, id = id, item = item });
+			_createItems.Add(new PoolCreateItem { key = key, id = id, creator = creator });
 
-			return item;
+			return creator;
 		}
 
 		/// <summary>
@@ -107,9 +112,9 @@ namespace Ling.Utility.Pool
 		{
 			var list = new List<IObservable<Unit>>();
 
-			foreach(var poolItemData in _poolItemData)
+			foreach(var poolItemData in _createItems)
 			{
-				list.Add(poolItemData.item.CreatePoolAsync());
+				list.Add(poolItemData.creator.CreatePoolAsync());
 			}
 
 			return Observable.WhenAll(list);
@@ -125,7 +130,7 @@ namespace Ling.Utility.Pool
 
 		public T Pop<T>(TEnum key, string id)
 		{
-			var poolItemData = _poolItemData.Find(itemData_ => itemData_.Equal(key, id));
+			var poolItemData = _createItems.Find(itemData_ => itemData_.Equal(key, id));
 			if (poolItemData == null)
 			{
 				Utility.Log.Error($"プール内に存在しません Type:{key.ToString()} ID:{id}");
@@ -133,7 +138,7 @@ namespace Ling.Utility.Pool
 				return default(T);
 			}
 
-			var popItem = poolItemData.item.Pop();
+			var popItem = poolItemData.creator.Pop();
 
 			return popItem.GetComponent<T>();
 		}
@@ -142,6 +147,59 @@ namespace Ling.Utility.Pool
 
 
 		#region private 関数
+
+		/// <summary>
+		/// Creatorのセットアップを行う
+		/// </summary>
+		private void SetupCreatorItems()
+		{
+			foreach (var createItem in _createItems)
+			{
+				TPoolCreator creator;
+
+				if (createItem.isUsedCreator)
+				{
+					// クリエイターを直接使用する
+					creator = createItem.creator;
+					if (creator == null)
+					{
+						Utility.Log.Warning("PoolCreatorがNull");
+						return;
+					}
+				}
+				else
+				{
+					// クリエイターはこちらで作成する
+					creator = gameObject.AddComponent<TPoolCreator>();
+					creator.SetInfo(createItem.createInfo);
+				}
+
+				// プール先がない場合は指定する
+				if (creator.PoolRoot == null)
+				{
+					creator.Setup(_defaultPoolRoot);
+				}
+				else
+				{
+					creator.Setup();
+				}
+			}
+		}
+
+
+		private void Awake()
+		{
+			// デフォルトのプール先がNullの場合は自分を指定する
+			if (_defaultPoolRoot == null)
+			{
+				Utility.Log.Print("デフォルトのプール先が無いため自分を指定します");
+
+				_defaultPoolRoot = transform;
+			}
+
+			// 設定されているCreatorのセットアップを行う
+			SetupCreatorItems();
+		}
 
 
 		#endregion
