@@ -129,8 +129,8 @@ namespace Ling.Scenes.Battle.BattleMap
 				PushUnusedItem(elm);
 			}
 
-			// 0以下は無い
-			var createStartIndex = Mathf.Max(startMapIndex - BattleConst.AddShowMap, 0);
+			// 1以下は無い
+			var createStartIndex = Mathf.Max(startMapIndex - BattleConst.AddShowMap, 1);
 
 			for (int i = createStartIndex, count = startMapIndex + BattleConst.AddShowMap; i <= count; ++i)
 			{
@@ -148,6 +148,11 @@ namespace Ling.Scenes.Battle.BattleMap
 			_currentMapIndex = startMapIndex;
 		}
 
+		public void SetMapIndex(int mapIndex)
+		{
+			_currentMapIndex = mapIndex;
+		}
+
 		/// <summary>
 		/// 新しいマップを作成
 		/// </summary>
@@ -163,27 +168,8 @@ namespace Ling.Scenes.Battle.BattleMap
 					// 初期位置に配置する
 					ForceTransformAdjustment(_currentMapIndex);
 
-					_currentMapIndex = nextMapIndex;
-
 					OnUpdateItem?.Invoke(tilemapData, createMapIndex);
 
-#if false
-					// 移動する(アニメーションにすること)
-					ForceTransformAdjustment(nextMapIndex);
-
-					// 前のマップを削除する
-					var maxShowMapNum = BattleConst.AddShowMap * 2 + 1;
-
-					for (int i = maxShowMapNum, count = _usedItems.Count; i < count; ++i)
-					{
-						var usedItem = PopUsedItem();
-
-						PushUnusedItem(usedItem);
-					}
-
-					// 自分の位置を0に戻す
-					transform.localPosition = Vector3.zero;
-#endif
 					// OnNext読んでやらないとSubscribeのonNextが呼ばれないよ
 					observer_.OnNext(new AsyncUnit());
 					observer_.OnCompleted();

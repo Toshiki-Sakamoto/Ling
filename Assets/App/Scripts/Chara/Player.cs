@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
-
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Chara
 {
@@ -46,7 +46,7 @@ namespace Ling.Chara
         /// </summary>
         /// <param name="addCellPos"></param>
         /// <param name="moveFinish"></param>
-        public System.IObservable<Unit> MoveByAddPos(Vector3Int addCellPos) =>
+        public System.IObservable<AsyncUnit> MoveByAddPos(Vector3Int addCellPos) =>
             MoveController.SetMoveCellPos(CellPos + addCellPos);
 
         #endregion

@@ -72,7 +72,6 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			if (!_isFinish) return;
 
-			//
 			Change(BattleScene.Phase.PlayerActionEnd);
 		}
 

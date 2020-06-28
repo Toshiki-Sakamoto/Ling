@@ -95,20 +95,18 @@ namespace Ling.Scenes.Battle.Phase
 						process.OnFinish =
 							() =>
 							{
-								ApplyNextStage();
+								ApplyNextLevel();
 							};
 					});
 		}
 
-		private void ApplyNextStage()
+		private void ApplyNextLevel()
 		{
-			// 移動した階層を今の階層とする
-			_mapManager.ChangeNextLevel();
+			// 次の階層に移動処理する
+			Scene.ApplyNextLevel();
 
-			// MapとPlayerの座標をもとに戻す
-			_mapManager.MapControl.ResetViewUpPosition();
-			_charaManager.ResetPlayerUpPosition();
-
+			// 次のステージ移動完了
+			Change(BattleScene.Phase.PlayerAction);
 		}
 
 		#endregion

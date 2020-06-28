@@ -103,6 +103,8 @@ namespace Ling.Scenes.Battle.BattleMap
 			// 現在のMapIndexを変更する
 			_model.ChangeMapByIndex(nextMapIndex);
 
+			_view.SetMapIndex(nextMapIndex);
+
 			// もう見えないMapを削除する
 			_view.RemoveExtraTilemap(_model.ShowMapIndexes);
 

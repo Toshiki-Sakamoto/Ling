@@ -14,6 +14,7 @@ using System;
 using UniRx;
 using Ling.Utility;
 using System.Linq;
+using ModestTree;
 
 namespace Ling.Scenes.Battle.Message
 {
@@ -54,6 +55,7 @@ namespace Ling.Scenes.Battle.Message
 		private Queue<MessageItemView> _activeTextItemQueue = new Queue<MessageItemView>();
 		private Queue<TextData> _textQueue = new Queue<TextData>();
 		private bool _canNextTextShow = false;
+		private SerialDisposable _textAnimDisposable = new SerialDisposable();
 
 		#endregion
 
@@ -88,6 +90,26 @@ namespace Ling.Scenes.Battle.Message
 			ShowTextIfNeeded();
 		}
 
+		public void Clear()
+		{
+			// 動きを止める
+			if (!_textAnimDisposable.IsDisposed)
+			{
+				_textAnimDisposable.Dispose();
+			}
+
+			while (!_activeTextItemQueue.IsEmpty())
+			{
+				var item = _activeTextItemQueue.Dequeue();
+				item.gameObject.SetActive(false);
+
+				_textItemQueue.Enqueue(item);
+			}
+
+			_textQueue.Clear();
+			_canNextTextShow = true;
+		}
+
 		#endregion
 
 
@@ -106,7 +128,7 @@ namespace Ling.Scenes.Battle.Message
 			_canNextTextShow = false;
 
 			// 最大数出ている場合上にずらす
-			Observable
+			_textAnimDisposable.Disposable = Observable
 				.FromCoroutine(() => PlayAnimationActiveTextItem())
 				.Subscribe(_ =>
 				{

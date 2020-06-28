@@ -79,7 +79,7 @@ namespace Ling.Scenes.Battle.Phase
 
 			// 最初のマップ作成
 			_mapManager
-				.BuildMap(0, 1, 2)
+				.BuildMap(1, 2, 3)
 				.Subscribe(_ => { _isFinish = true; });
 		}
 
@@ -88,7 +88,7 @@ namespace Ling.Scenes.Battle.Phase
 			if (!_isFinish) return;
 
 			// 1階層目を開始地点とする
-			_mapManager.SetupCurrentMap(0);
+			_mapManager.SetupCurrentMap(1);
 
 			Change(BattleScene.Phase.FloorSetup);
 		}

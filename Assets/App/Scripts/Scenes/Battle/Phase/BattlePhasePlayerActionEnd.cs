@@ -65,6 +65,12 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Init()
 		{
+			// 予約済みフェーズに移動するか
+			if (Scene.MoveToResercationPhase())
+			{
+				return;
+			}
+
 			Change(BattleScene.Phase.PlayerAction);
 		}
 

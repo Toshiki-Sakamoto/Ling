@@ -11,6 +11,8 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using UniRx;
 using System;
+using DG.Tweening;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Chara
 {
@@ -37,7 +39,8 @@ namespace Ling.Chara
 
         private bool _isMoving;         // 動いてるとき
         private Base _trsModel;         // 動いている対象
-        private List<Vector3Int> _moveList = new List<Vector3Int>();
+        //private List<Vector3Int> _moveList = new List<Vector3Int>();
+        private Vector3Int _movePos;
         private Tilemap _tilemap;
 
         #endregion
@@ -68,13 +71,14 @@ namespace Ling.Chara
         /// 指定したセルに移動させる
         /// </summary>
         /// <param name="cellPos"></param>
-        public System.IObservable<Unit> SetMoveCellPos(Vector3Int cellPos)
+        public System.IObservable<AsyncUnit> SetMoveCellPos(Vector3Int cellPos)
         {
             MoveStop();
 
-            _moveList.Add(cellPos);
+            //_moveList.Add(cellPos);
+            _movePos = cellPos;
 
-            return Observable.FromCoroutine(() => Move());
+            return Move().ToObservable();
         }
 
         /// <summary>
@@ -83,7 +87,7 @@ namespace Ling.Chara
         public void MoveStop()
         {
             _isMoving = false;
-            _moveList.Clear();
+            //_moveList.Clear();
 
             StopAllCoroutines();
         }
@@ -97,50 +101,30 @@ namespace Ling.Chara
         /// 動きの処理
         /// </summary>
         /// <returns></returns>
-        private IEnumerator Move()
+        private async UniTask Move()
         {
-            foreach (var elm in _moveList)
+            //foreach (var elm in _moveList)
             {
                 var start = _tilemap.GetCellCenterWorld( _trsModel.CellPos);
-                var finish = _tilemap.GetCellCenterWorld(elm);
+                var finish = _tilemap.GetCellCenterWorld(_movePos);
 
                 var diffVec = finish - start;
 
-                var startTime = Time.timeSinceLevelLoad;
+                _trsModel.SetDirection(new Vector3(diffVec.x, diffVec.z, 0.0f));
 
-                bool isEnd = false;
-                while (!isEnd)
-                {
-                    yield return null;
+                await _trsModel.transform.DOMove(finish, 0.2f);
 
-                    var diff = Time.timeSinceLevelLoad - startTime;
-                    if (diff > 0.2f/*manager.CellMoveTime*/)
-                    {
-                        diff = 1.0f;
-                        isEnd = true;
-                    }
-                    else
-                    {
-                        diff /= 0.2f/*manager.CellMoveTime*/;
-                    }
-
-                    var newPos = Vector3.Lerp(start, finish, diff);
-                    _trsModel.transform.position = newPos;
-
-                    _trsModel.SetDirection(new Vector3(diffVec.x, diffVec.z, 0.0f));
-                }
-
-                _trsModel.SetCellPos(elm);
+                _trsModel.SetCellPos(_movePos);
             }
 
             _isMoving = false;
-            _moveList.Clear();
+            //_moveList.Clear();
         }
 
-        #endregion
+#endregion
 
 
-        #region MonoBegaviour
+#region MonoBegaviour
 
 
         private void Start()
@@ -165,6 +149,6 @@ namespace Ling.Chara
             }
         }
 
-        #endregion
-    }
+#endregion
+	}
 }
