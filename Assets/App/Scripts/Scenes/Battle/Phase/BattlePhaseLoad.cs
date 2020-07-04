@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.01
 //
 
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private PoolManager _poolManager;
 		private MapManager _mapManager = null;
+		private CharaManager _charaManager = null;
 
 		private bool _isFinish = false;
 
@@ -61,6 +63,7 @@ namespace Ling.Scenes.Battle.Phase
 			base.Awake();
 
 			_mapManager = Resolve<MapManager>();
+			_charaManager = Resolve<CharaManager>();
 		}
 
 		public override void Init()
@@ -68,19 +71,13 @@ namespace Ling.Scenes.Battle.Phase
 			// タイルのプールを作成する
 			// とりあえず最大の数作ってみる
 			_poolManager = Resolve<PoolManager>();
-			/*
-			_poolManager.SetupPoolItem(PoolType.Map, 10 * 10);
-
-			_poolManager.CreatePoolItemsAsync().Subscribe(_ =>
-			{
-				_isPoolCreateProcessFinish = true;
-				Debug.Log($"Mapプール作成終了");
-			});*/
-
+			 
 			// 最初のマップ作成
 			_mapManager
 				.BuildMap(1, 2, 3)
-				.Subscribe(_ => { _isFinish = true; });
+				.Subscribe(_ => { /*_isFinish = true;*/ });
+
+			LoadAsync().Forget();
 		}
 
 		public override void Proc() 
@@ -103,6 +100,13 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 関数
 
+		private async UniTask LoadAsync()
+		{
+			// 敵のプールマネージャを作成する
+			await _charaManager.SetupAsync();
+
+			_isFinish = true;
+		}
 
 		#endregion
 	}

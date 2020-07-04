@@ -4,6 +4,7 @@
 //  
 // Created by toshiki sakamoto on 2020.05.01
 // 
+using Cysharp.Threading.Tasks;
 using Ling.Adv;
 using System.Collections;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ namespace Ling.Scenes.Battle
 		#region private 変数
 
 		[SerializeField] private Chara.PlayerFactory _playerFactory = null;
+		[SerializeField] private Chara.EnemyPoolManager _enemyPoolManager = null;
 
 		[Inject] private MapManager _mapManager = null;
 		[Inject] private Utility.IEventManager _eventManager = null;
@@ -44,10 +46,21 @@ namespace Ling.Scenes.Battle
 
 		public Chara.Player Player { get; private set; }
 
+		public Chara.EnemyManager EnemyManager { get; } = new Chara.EnemyManager();
+
+		public Chara.EnemyPoolManager EnemyPoolManager => _enemyPoolManager;
+
 		#endregion
 
 
 		#region public, protected 関数
+
+		public async UniTask SetupAsync()
+		{
+			// プール情報から敵モデルを生成する
+			await _enemyPoolManager.CreateObjectsAsync();
+
+		}
 
 		/// <summary>
 		/// プレイヤーを作成する
