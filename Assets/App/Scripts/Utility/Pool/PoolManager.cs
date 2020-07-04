@@ -16,6 +16,7 @@ using Ling;
 
 using Zenject;
 using UniRx;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Utility.Pool
 {
@@ -108,16 +109,16 @@ namespace Ling.Utility.Pool
 		/// <summary>
 		/// 内部で保持しているPoolItem情報からPoolを作成する
 		/// </summary>
-		public IObservable<Unit> CreatePoolItemsAsync()
+		public async UniTask CreateObjectsAsync()
 		{
-			var list = new List<IObservable<Unit>>();
+			var list = new List<UniTask>();
 
 			foreach(var poolItemData in _createItems)
 			{
-				list.Add(poolItemData.creator.CreatePoolAsync());
+				list.Add(poolItemData.creator.CreateObjectAsync());
 			}
 
-			return Observable.WhenAll(list);
+			await UniTask.WhenAll(list);
 		}
 
 		/// <summary>
@@ -172,6 +173,8 @@ namespace Ling.Utility.Pool
 					// クリエイターはこちらで作成する
 					creator = gameObject.AddComponent<TPoolCreator>();
 					creator.SetInfo(createItem.createInfo);
+
+					createItem.creator = creator;
 				}
 
 				// プール先がない場合は指定する

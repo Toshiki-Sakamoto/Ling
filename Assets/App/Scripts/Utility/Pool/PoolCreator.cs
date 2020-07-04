@@ -4,6 +4,7 @@
 //  
 // Created by toshiki sakamoto on 2020.05.01
 // 
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using System;
 using System.Collections;
@@ -114,15 +115,7 @@ namespace Ling.Utility.Pool
 		public void SetInfo(PoolCreateInfo info) =>
 			_info = info;
 
-		public IObservable<Unit> CreatePoolAsync()
-		{
-			return Observable.FromCoroutine(() => 
-				{
-					return CreatePool();
-				});
-		}
-
-		public IEnumerator CreatePool()
+		public async UniTask CreateObjectAsync()
 		{
 			Info.poolObject.SetActive(false);
 
@@ -133,7 +126,8 @@ namespace Ling.Utility.Pool
 
 				if (++count >= Info.onceCreatingNum)
 				{
-					yield return null;
+					await UniTask.DelayFrame(1);
+
 					count = 0;
 				}
 			}
