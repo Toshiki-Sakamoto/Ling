@@ -21,7 +21,7 @@ using MinMaxAttribute = Ling.Common.Attribute.MinMaxAttribute;
 namespace Ling.Common.Editor.Attribute
 {
 	/// <summary>
-	/// <see cref="Common.Attribute.MinMaxRangeAttribute"/>の描画
+	/// <see cref="Common.Attribute.MinMaxAttribute"/>の描画
 	/// </summary>
 	[CustomPropertyDrawer(typeof(MinMaxAttribute))]
 	public class MinMaxAttributeDrawer : PropertyDrawer
@@ -76,37 +76,81 @@ namespace Ling.Common.Editor.Attribute
 			float min = isFloatMin ? minProperty.floatValue : minProperty.intValue;
 			float max = isFloatMin ? maxProperty.floatValue : maxProperty.intValue;
 
+			// Sliderの変更
 			EditorGUI.BeginChangeCheck();
 
 			EditorGUI.MinMaxSlider(sliderRect, label, ref min, ref max, attribute.Min, attribute.Max);
 
 			if (EditorGUI.EndChangeCheck())
 			{
-				if (isFloatMin)
-				{
-					minProperty.floatValue = min;
-				}
-				else
-				{
-					minProperty.intValue = Mathf.FloorToInt(min);
-				}
+				minProperty.floatValue = isFloatMin ? min : Mathf.FloorToInt(min);
+				maxProperty.floatValue = isFloatMax ? max : Mathf.FloorToInt(max);
+			}
 
-				if (isFloatMax)
+			// インデントを一度リセットする
+			int indentLevel = EditorGUI.indentLevel;
+			EditorGUI.indentLevel = 0;
+
+			var rects = Utility.Editor.Drawer.SplitHorizontalRects(labelRect, 2, 10);
+
+			// PropertyFieldを描画する
+			void DrawPropertyField(Rect position_, SerializedProperty property_, System.Action onChange_)
+			{
+				var displayName = property_.displayName;
+
+				EditorGUI.BeginChangeCheck();
+
+				var childLabel = new GUIContent(displayName);
+
+				// ラベルの幅
+				EditorGUIUtility.labelWidth = GUI.skin.label.CalcSize(childLabel).x;
+
+				// プロパティの変更
+				EditorGUI.PropertyField(position_, property_, childLabel);
+
+				if (EditorGUI.EndChangeCheck())
 				{
-					maxProperty.floatValue = max;
-				}
-				else
-				{
-					maxProperty.intValue = Mathf.FloorToInt(max);
+					onChange_?.Invoke();
 				}
 			}
 
-			// 
-			int indentLevel = EditorGUI.indentLevel;
+			// Min
+			DrawPropertyField(rects[0], minProperty, 
+				() => 
+				{ 
+					if (isFloatMin)
+					{
+						minProperty.floatValue = Mathf.Clamp(minProperty.floatValue, attribute.Min, maxProperty.floatValue);
+					}
+					else
+					{
+						minProperty.intValue = Mathf.Clamp(minProperty.intValue, Mathf.FloorToInt(attribute.Min), maxProperty.intValue);
+					}
+				});
 
-		//
-			EditorGUI.indentLevel = 0;
+			// Max
+			DrawPropertyField(rects[1], maxProperty, 
+				() =>
+				{
+					if (isFloatMax)
+					{
+						maxProperty.floatValue = Mathf.Clamp(maxProperty.floatValue, minProperty.floatValue, attribute.Max);
+					}
+					else
+					{
+						maxProperty.intValue = Mathf.Clamp(maxProperty.intValue, minProperty.intValue, Mathf.FloorToInt(attribute.Max));
+					}
+				});
 
+			EditorGUI.indentLevel = indentLevel;
+		}
+
+		/// <summary>
+		/// 高さ
+		/// </summary>
+		public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		{
+			return base.GetPropertyHeight(property, label) * 2;
 		}
 
 		#endregion
