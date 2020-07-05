@@ -15,6 +15,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Utage;
+using UtageExtensions;
 using Zenject;
 using MinMaxAttribute = Ling.Common.Attribute.MinMaxAttribute;
 
@@ -79,12 +80,33 @@ namespace Ling.Common.Editor.Attribute
 			// Sliderの変更
 			EditorGUI.BeginChangeCheck();
 
+			// 変数名(Default)を出すかどうか
+			if (!string.IsNullOrEmpty(attribute.FieldName))
+			{
+				label = new GUIContent(attribute.FieldName);
+			}
+
 			EditorGUI.MinMaxSlider(sliderRect, label, ref min, ref max, attribute.Min, attribute.Max);
 
 			if (EditorGUI.EndChangeCheck())
 			{
-				minProperty.floatValue = isFloatMin ? min : Mathf.FloorToInt(min);
-				maxProperty.floatValue = isFloatMax ? max : Mathf.FloorToInt(max);
+				if (isFloatMin)
+				{
+					minProperty.floatValue = min;
+				}
+				else
+				{
+					minProperty.intValue = Mathf.FloorToInt(min);
+				}
+
+				if (isFloatMax)
+				{
+					maxProperty.floatValue = max;
+				}
+				else
+				{
+					maxProperty.intValue = Mathf.FloorToInt(max);
+				}
 			}
 
 			// インデントを一度リセットする

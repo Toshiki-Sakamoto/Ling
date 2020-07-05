@@ -42,6 +42,11 @@ namespace Ling.Common.Attribute
 		public float Min { get; private set; }
 		public float Max { get; private set; }
 
+		/// <summary>
+		/// 表示名 : Nullの場合変数名
+		/// </summary>
+		public string FieldName { get; private set; }
+
 		public string MinPropertyName { get; } = "_min";
 		public string MaxPropertyName { get; } = "_max";
 
@@ -50,10 +55,11 @@ namespace Ling.Common.Attribute
 
 		#region コンストラクタ, デストラクタ
 
-		public MinMaxAttribute(float min, float max)
+		public MinMaxAttribute(float min, float max, string fieldName = null)
 		{
 			Min = min;
 			Max = max;
+			FieldName = fieldName;
 		}
 
 		#endregion

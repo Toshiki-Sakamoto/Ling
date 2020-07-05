@@ -39,9 +39,11 @@ namespace Ling.MasterData
 
 		#region private 変数
 
-		[SerializeField, MinMax(1, 100)]
-		[FieldName("初期生成数")]
+		[SerializeField, MinMax(1, 100, fieldName: "初期生成数")]
 		private Common.MinMaxInt _initCreateNum = default;
+
+		[SerializeField, Utage.MinMax(1, 100)]
+		private Utage.MinMaxInt aaa;
 
 		[SerializeField]
 		private int _a = 0;
