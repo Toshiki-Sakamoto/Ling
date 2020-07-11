@@ -41,6 +41,11 @@ namespace Ling.Chara
 
 		#region プロパティ
 
+		/// <summary>
+		/// このグループが管理しているCharaModel
+		/// </summary>
+		public List<CharaModel> Models { get; } = new List<CharaModel>();
+
 		#endregion
 
 
@@ -69,6 +74,14 @@ namespace Ling.Chara
 		}
 
 		public void Refresh()
+		{
+
+		}
+
+		/// <summary>
+		/// 削除される直前に呼び出し
+		/// </summary>
+		public void OnDestroy()
 		{
 
 		}

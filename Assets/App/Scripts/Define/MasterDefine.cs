@@ -25,4 +25,13 @@ namespace Ling.Define
 		None,
 		Slime,	// スライム
 	}
+
+	/// <summary>
+	/// ステージの種類
+	/// </summary>
+	public enum StageType
+	{
+		None,
+		First,	// 最初
+	}
 }

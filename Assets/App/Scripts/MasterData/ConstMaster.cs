@@ -47,6 +47,9 @@ namespace Ling.MasterData
 		[SerializeField, FieldName("マップ階層移動時間")] 
 		private float _mapLevelMoveTime = 1.2f;
 
+		[SerializeField, FieldName("敵の最大生成数")]
+		private int _enemyMaxCreateNum = default;
+
 		#endregion
 
 

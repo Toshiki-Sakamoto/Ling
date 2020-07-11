@@ -1,8 +1,8 @@
 ﻿//
-// MasterBase.cs
+// MasterRepository.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.06.24
+// Created by toshiki sakamoto on 2020.07.11
 //
 
 using System;
@@ -18,10 +18,10 @@ using Zenject;
 namespace Ling.MasterData
 {
 	/// <summary>
-	/// 
+	/// 指定したMasterを配列で保持する
 	/// </summary>
-	public class MasterBase<T> : ScriptableObject
-	{
+	public class MasterRepository<T> where T : MasterBase<T>
+    {
 		#region 定数, class, enum
 
 		#endregion
@@ -34,7 +34,7 @@ namespace Ling.MasterData
 
 		#region private 変数
 
-		[SerializeField] private int _id = default; // 大体存在する一意なID
+		private List<T> _entities = new List<T>();
 
 		#endregion
 
@@ -51,7 +51,15 @@ namespace Ling.MasterData
 
 		#region public, protected 関数
 
-		public virtual void Setup() { }
+		public void Add(T master)
+		{
+			_entities.Add(master);
+		}
+
+		public void Clear()
+		{
+			_entities.Clear();
+		}
 
 		#endregion
 

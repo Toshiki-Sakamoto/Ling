@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.07.05
 //
 
+using Ling.Common.Attribute;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,11 +17,14 @@ using UnityEngine.UI;
 namespace Ling.MasterData.Chara
 {
 	/// <summary>
-	/// 敵１体のマスタデータ
+	/// 敵情報を持つマスタデータ
 	/// </summary>
-	public class EnemyMaster
-    {
+
+	[CreateAssetMenu(menuName = "MasterData/EnemyMaster", fileName = "EnemyMaster")]
+	public class EnemyMaster : MasterBase<EnemyMaster>
+	{
 		#region 定数, class, enum
+
 
 		#endregion
 
@@ -32,7 +36,11 @@ namespace Ling.MasterData.Chara
 
 		#region private 変数
 
-		[SerializeField] private Define.EnemyType _enemyType = default;	// 敵の種類
+		[SerializeField, FieldName("敵の種類")]
+		private Define.EnemyType _enemyType = default;
+
+		[SerializeField]
+		private StatusData _status = default;
 
 		#endregion
 
@@ -48,6 +56,9 @@ namespace Ling.MasterData.Chara
 
 
 		#region public, protected 関数
+
+		//		public Entity Find(Define.EnemyType enemyType, int id = 0) =>
+		//			_entities.FirstOrDefault(entity => entity.enemyType == enemyType && entity.id == id);
 
 		#endregion
 

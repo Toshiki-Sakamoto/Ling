@@ -34,6 +34,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
+		protected BattleModel _model;
 		protected GameManager _gameManager;
 		protected Utility.IEventManager _eventManager;
 		protected Utility.ProcessManager _processManager;
@@ -52,8 +53,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Awake()
 		{
-			_gameManager = GameManager.Instance;
+			_model = Resolve<BattleModel>();
 
+			_gameManager = GameManager.Instance;
 			_eventManager = _gameManager.Resolve<Utility.IEventManager>();
 			_processManager = _gameManager.Resolve<Utility.ProcessManager>();
 		}

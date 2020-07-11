@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -71,6 +72,8 @@ namespace Ling.Common
 
 	[System.Serializable]
 	public class MinMaxInt : MinMax<int>
-	{ 
+	{
+		public int GetRandomValue() =>
+			Utility.Random.Range(Min, Max);
 	}
 }

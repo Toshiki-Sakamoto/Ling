@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.05
 //
 
+using Ling.MasterData.Stage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region private 変数
 
+		private StageMaster _stageMaster;
 		private Dictionary<int, MapData> _mapData = new Dictionary<int, MapData>();
 
 		#endregion
@@ -71,6 +73,11 @@ namespace Ling.Scenes.Battle.BattleMap
 
 
 		#region public, protected 関数
+
+		public void Setup(StageMaster stageMaster)
+		{
+			_stageMaster = stageMaster;
+		}
 
 		public void SetMapData(int mapID, MapData mapData)
 		{

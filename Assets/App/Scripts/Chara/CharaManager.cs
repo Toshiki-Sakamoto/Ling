@@ -6,8 +6,10 @@
 // 
 using Cysharp.Threading.Tasks;
 using Ling.Adv;
+using Ling.MasterData.Stage;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -40,6 +42,7 @@ namespace Ling.Chara
 		[Inject] private Utility.IEventManager _eventManager = null;
 
 		private bool _isInitialized = false;    // 初期化済みであればtrue
+		private StageMaster _stageMaster = null;
 
 		#endregion
 
@@ -54,14 +57,12 @@ namespace Ling.Chara
 		/// <summary>
 		/// 敵のModel情報。階層ごとにModelGroupが分かれている
 		/// </summary>
-		public List<EnemyModelGroup> EnemyModelGroups { get; } = new List<EnemyModelGroup>();
+		public Dictionary<int, EnemyModelGroup> EnemyModelGroups { get; } = new Dictionary<int, EnemyModelGroup>();
 
 		/// <summary>
 		/// PlayerView
 		/// </summary>
 		public Chara.Player Player => _player;
-
-		public Chara.EnemyManager EnemyManager { get; } = new Chara.EnemyManager();
 
 		/// <summary>
 		/// 敵のモデルプール管理者
@@ -76,7 +77,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 必要な初期設定を行う
 		/// </summary>
-		public async UniTask SetupAsync()
+		public async UniTask InitializeAsync()
 		{
 			// 既に初期化済みであれば何もしない
 			if (_isInitialized) return;
@@ -88,6 +89,11 @@ namespace Ling.Chara
 
 			// プール情報から敵モデルを生成する
 			await _enemyPoolManager.CreateObjectsAsync();
+		}
+
+		public void SetStageMaster(StageMaster stageMaster)
+		{
+			_stageMaster = stageMaster;
 		}
 
 		/// <summary>
@@ -108,9 +114,6 @@ namespace Ling.Chara
 		/// </summary>
 		public void SetupCharaView(Chara.Base chara, CharaModel model)
 		{
-			//Player = _playerFactory.Create();
-			//Player.SetTilemap(_mapManager.CurrentTilemap);
-
 			var status = model.Status;
 			chara.Setup(status);
 		}
@@ -139,10 +142,47 @@ namespace Ling.Chara
 			Player.SetTilemap(tilemap);
 		}
 
+		/// <summary>
+		/// 指定レベルの敵を作成する
+		/// </summary>
+		/// <param name="level"></param>
+		public void BuildEnemyGroup(int level)
+		{
+			RemoveEnemyGroup(level);
+
+			var mapMaster = _stageMaster.GetMapMasterByLevel(level);
+			if (mapMaster == null)
+			{
+				Utility.Log.Error($"指定したMapMasterがない Level:{level}");
+				return;
+			}
+
+			var enemyModelGroup = new EnemyModelGroup();
+
+
+			EnemyModelGroups.Add(level, enemyModelGroup);
+		}
+
+		/// <summary>
+		/// 指定したレベルの<see cref="EnemyModelGroup"/>を削除する
+		/// </summary>
+		public void RemoveEnemyGroup(int level)
+		{
+			var enemyGroup = FindEnemyGroup(level);
+			if (enemyGroup == null) return;
+
+			enemyGroup.OnDestroy();
+
+			EnemyModelGroups.Remove(level);
+		}
+
 		#endregion
 
 
 		#region private 関数
+
+		private EnemyModelGroup FindEnemyGroup(int level) =>
+			EnemyModelGroups.FirstOrDefault(pair => pair.Key == level).Value;
 
 		#endregion
 

@@ -88,6 +88,24 @@ namespace Ling.Scenes.Battle
 		public override IObservable<Unit> ScenePrepareAsync() =>
 			Observable.Return(Unit.Default);
 
+
+		/// <summary>
+		/// 正規手順でシーンが実行されたのではなく
+		/// 直接起動された場合StartSceneよりも前に呼び出される
+		/// </summary>
+		public override void QuickStartScene()
+		{
+			// デバッグ用のコード直指定でバトルを始める
+			var stageMaster = _masterManager.StageManager.FindStageMaster(Define.StageType.First);
+
+			var param = new BattleModel.Param 
+				{ 
+					stageMaster = stageMaster 
+				};
+
+			_model.Setup(param);
+		}
+
 		/// <summary>
 		/// シーンが開始される時
 		/// </summary>
@@ -193,7 +211,7 @@ namespace Ling.Scenes.Battle
 
 		private void Start()
 		{
-			/////
+			// シーンから直接起動した場合、コード直設定でバトルを始める
 			QuickStart();
 		}
 

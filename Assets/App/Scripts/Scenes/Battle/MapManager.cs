@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.01
 // 
 using Cysharp.Threading.Tasks;
+using Ling.MasterData.Stage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -84,11 +85,16 @@ namespace Ling.Scenes.Battle
 
 		#region public, protected 関数
 
+		public void Setup(StageMaster stageMaster)
+		{
+			_mapModel.Setup(stageMaster);
+		}
+
 		/// <summary>
 		/// 指定したマップを現在のマップとして設定する
 		/// </summary>
 		/// <param name="mapIndex"></param>
-		public void SetupCurrentMap(int mapIndex)
+		public void SetCurrentMap(int mapIndex)
 		{
 			// 初期マップの設定
 			MapControl.Startup(mapIndex);

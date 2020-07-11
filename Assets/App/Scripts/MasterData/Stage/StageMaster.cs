@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.07.05
 //
 
+using Ling.Common.Attribute;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,16 @@ namespace Ling.MasterData.Stage
 	{
 		#region 定数, class, enum
 
+		[System.Serializable]
+		public class Entity
+		{
+			[FieldName("階層")]
+			public int level;	// 指定階層までMapMasterを適用させる
+			
+			[FieldName("適用するMapMaster")]
+			public MapMaster mapMaster; // Stage内にある１Mapの情報を持つ
+		}
+
 		#endregion
 
 
@@ -36,7 +47,11 @@ namespace Ling.MasterData.Stage
 
 		#region private 変数
 
-		[SerializeField] private MapMaster[] _mapMasters = default; // Stage内にある１Mapの情報を持つ
+		[SerializeField, FieldName("最大階層")] 
+		private int _maxLevel = default;	// 最大階層(Map数)
+		
+		[SerializeField] 
+		private Entity[] _entities = default;
 
 		#endregion
 
@@ -46,12 +61,7 @@ namespace Ling.MasterData.Stage
 		/// <summary>
 		/// Map数(最大階層数)
 		/// </summary>
-		public int MapCount => _mapMasters.Length;
-
-		/// <summary>
-		/// MapMaster配列
-		/// </summary>
-		public MapMaster[] MapMasters => _mapMasters;
+		public int MapCount => _maxLevel;
 
 		#endregion
 
@@ -64,18 +74,11 @@ namespace Ling.MasterData.Stage
 		#region public, protected 関数
 
 		/// <summary>
-		/// 指定したIndexのMapMasterを取得する
+		/// 指定レベルのMapMasterを取得する
 		/// </summary>
-		public MapMaster GetMapMaster(int index)
-		{
-			if (index >= MapCount)
-			{
-				Utility.Log.Error($"マップの最大数を超えたIndexを指定している {index}");
-				return null;
-			}
-
-			return MapMasters[index];
-		}
+		public MapMaster GetMapMasterByLevel(int level) =>
+			// 指定したレベルより高いレベルを持つデータのMapMasterを返す
+			_entities.FirstOrDefault(row => level <= row.level).mapMaster;
 
 		#endregion
 

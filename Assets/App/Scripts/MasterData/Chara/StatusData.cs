@@ -1,8 +1,8 @@
 ﻿//
-// MasterBase.cs
+// StatusData.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.06.24
+// Created by toshiki sakamoto on 2020.07.11
 //
 
 using System;
@@ -15,13 +15,14 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.MasterData
+namespace Ling.MasterData.Chara
 {
 	/// <summary>
-	/// 
+	/// キャラクターのHP等を管理するステイタス
 	/// </summary>
-	public class MasterBase<T> : ScriptableObject
-	{
+	[System.Serializable]
+	public class StatusData
+    {
 		#region 定数, class, enum
 
 		#endregion
@@ -34,12 +35,14 @@ namespace Ling.MasterData
 
 		#region private 変数
 
-		[SerializeField] private int _id = default; // 大体存在する一意なID
+		[SerializeField] private long _hp = default;
 
 		#endregion
 
 
 		#region プロパティ
+
+		public long HP => _hp;
 
 		#endregion
 
@@ -50,8 +53,6 @@ namespace Ling.MasterData
 
 
 		#region public, protected 関数
-
-		public virtual void Setup() { }
 
 		#endregion
 

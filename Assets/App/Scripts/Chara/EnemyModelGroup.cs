@@ -5,6 +5,9 @@
 // Created by toshiki sakamoto on 2020.07.10
 //
 
+using Cysharp.Threading.Tasks;
+using Ling.MasterData.Stage;
+using Ling.Scenes.Battle;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,6 +37,8 @@ namespace Ling.Chara
 
 		#region private 変数
 
+		private MapMaster _mapMaster;
+
 		#endregion
 
 
@@ -48,6 +53,19 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
+
+		public void SetMapMaster(MapMaster mapMaster)
+		{
+			_mapMaster = mapMaster;
+		}
+
+
+		protected override async UniTask SetupAsyncInternal()
+		{
+			// 初期生成数
+			var initCreateNum = _mapMaster.InitCreateNum.GetRandomValue();
+
+		}
 
 		#endregion
 

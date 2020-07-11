@@ -71,11 +71,6 @@ namespace Ling.Scenes.Battle.Phase
 			// タイルのプールを作成する
 			// とりあえず最大の数作ってみる
 			_poolManager = Resolve<PoolManager>();
-			 
-			// 最初のマップ作成
-			_mapManager
-				.BuildMap(1, 2, 3)
-				.Subscribe(_ => { /*_isFinish = true;*/ });
 
 			LoadAsync().Forget();
 		}
@@ -85,7 +80,7 @@ namespace Ling.Scenes.Battle.Phase
 			if (!_isFinish) return;
 
 			// 1階層目を開始地点とする
-			_mapManager.SetupCurrentMap(1);
+			_mapManager.SetCurrentMap(1);
 
 			Change(BattleScene.Phase.FloorSetup);
 		}
@@ -102,8 +97,19 @@ namespace Ling.Scenes.Battle.Phase
 
 		private async UniTask LoadAsync()
 		{
+			// 最初のマップ作成
+			_mapManager.Setup(_model.StageMaster);
+
+			_mapManager
+				.BuildMap(1, 2, 3)
+				.Subscribe(_ => { /*_isFinish = true;*/ });
+
 			// キャラクタのセットアップ処理
-			await _charaManager.SetupAsync();
+			await _charaManager.InitializeAsync();
+
+			_charaManager.SetStageMaster(_model.StageMaster);
+
+			// 初期マップの敵を生成する
 
 			_isFinish = true;
 		}
