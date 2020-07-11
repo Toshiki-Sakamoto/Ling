@@ -144,6 +144,18 @@ namespace Ling.Utility.Pool
 			return popItem.GetComponent<T>();
 		}
 
+		/// <summary>
+		/// すべてのアイテムをプールに戻す
+		/// 初期値には戻さない
+		/// </summary>
+		public void ReturnAllItems()
+		{
+			foreach (var item in _createItems)
+			{
+				item.creator.ReturnAllItems();
+			}
+		}
+
 		#endregion
 
 
@@ -190,8 +202,10 @@ namespace Ling.Utility.Pool
 		}
 
 
-		private void Awake()
+		protected override void Awake()
 		{
+			base.Awake();
+
 			// デフォルトのプール先がNullの場合は自分を指定する
 			if (_defaultPoolRoot == null)
 			{

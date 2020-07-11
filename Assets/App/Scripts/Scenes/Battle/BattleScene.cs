@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 using Ling.Common.Scene;
 using Zenject;
-
+using Ling.Scenes.Battle.BattleMap;
 
 namespace Ling.Scenes.Battle
 {
@@ -55,7 +55,7 @@ namespace Ling.Scenes.Battle
 
 		[Inject] private BattleModel _model = null;
 		[Inject] private MapManager _mapManager = null;
-		[Inject] private CharaManager _charaManager = null;
+		[Inject] private Chara.CharaManager _charaManager = null;
 
 		private bool _isInitialized;
 		private Utility.PhaseScene<Phase, BattleScene> _phase = new Utility.PhaseScene<Phase, BattleScene>();
@@ -65,7 +65,15 @@ namespace Ling.Scenes.Battle
 
 		#region プロパティ
 
+		/// <summary>
+		/// BattleScene大元のView
+		/// </summary>
 		public BattleView View => _view;
+
+		/// <summary>
+		/// MapControl
+		/// </summary>
+		public MapControl MapControl => _mapManager.MapControl;
 
 
 		#endregion

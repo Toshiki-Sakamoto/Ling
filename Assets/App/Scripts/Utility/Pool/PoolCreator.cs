@@ -190,6 +190,17 @@ namespace Ling.Utility.Pool
 			_unusedPoolItems.Push(poolItem);
 		}
 
+		/// <summary>
+		/// すべてのアイテムをリストに戻す
+		/// </summary>
+		public void ReturnAllItems()
+		{
+			foreach (var item in _usedPoolItems)
+			{
+				item.Detach();
+			}
+		}
+
 		#endregion
 
  

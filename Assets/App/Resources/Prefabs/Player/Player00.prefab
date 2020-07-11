@@ -52,6 +52,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -181,7 +182,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _followCamera: {fileID: 0}
-  _cameraPos: {x: 10, y: 5}
 --- !u!114 &6502881826932206426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,3 +197,6 @@ MonoBehaviour:
   _animator: {fileID: 6502881826932206419}
   _vecCellPos: {x: 0, y: 0, z: 0}
   _moveController: {fileID: 6502881826932206431}
+  _status:
+    _hp:
+      value: 0

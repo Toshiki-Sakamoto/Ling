@@ -8,18 +8,19 @@ using Cysharp.Threading.Tasks;
 using Ling.Adv;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 using Zenject;
 
 
-namespace Ling.Scenes.Battle
+namespace Ling.Chara
 {
 	/// <summary>
-	/// 
+	/// Player, Enemy等のキャラ全般を扱うPresenter
 	/// </summary>
-	public class CharaManager : Utility.MonoSingleton<CharaManager>
+	public class CharaManager : MonoBehaviour
 	{
 		#region 定数, class, enum
 
@@ -33,21 +34,38 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[SerializeField] private Chara.PlayerFactory _playerFactory = null;
+		[SerializeField] private Player _player = null;
 		[SerializeField] private Chara.EnemyPoolManager _enemyPoolManager = null;
 
-		[Inject] private MapManager _mapManager = null;
 		[Inject] private Utility.IEventManager _eventManager = null;
+
+		private bool _isInitialized = false;    // 初期化済みであればtrue
 
 		#endregion
 
 
 		#region プロパティ
 
-		public Chara.Player Player { get; private set; }
+		/// <summary>
+		/// プレイヤー情報
+		/// </summary>
+		public PlayerModelGroup PlayerModelGroup { get; } = new PlayerModelGroup();
+
+		/// <summary>
+		/// 敵のModel情報。階層ごとにModelGroupが分かれている
+		/// </summary>
+		public List<EnemyModelGroup> EnemyModelGroups { get; } = new List<EnemyModelGroup>();
+
+		/// <summary>
+		/// PlayerView
+		/// </summary>
+		public Chara.Player Player => _player;
 
 		public Chara.EnemyManager EnemyManager { get; } = new Chara.EnemyManager();
 
+		/// <summary>
+		/// 敵のモデルプール管理者
+		/// </summary>
 		public Chara.EnemyPoolManager EnemyPoolManager => _enemyPoolManager;
 
 		#endregion
@@ -55,26 +73,46 @@ namespace Ling.Scenes.Battle
 
 		#region public, protected 関数
 
+		/// <summary>
+		/// 必要な初期設定を行う
+		/// </summary>
 		public async UniTask SetupAsync()
 		{
+			// 既に初期化済みであれば何もしない
+			if (_isInitialized) return;
+
+			// プレイヤー情報の生成
+			await PlayerModelGroup.SetupAsync();
+
+			SetupCharaView(_player, PlayerModelGroup.Player);
+
 			// プール情報から敵モデルを生成する
 			await _enemyPoolManager.CreateObjectsAsync();
-
 		}
 
 		/// <summary>
-		/// プレイヤーを作成する
-		/// プレイヤーが生成済みなら何もしない
+		/// 一度すべての情報を削除する
 		/// </summary>
-		/// <returns></returns>
-		public Chara.Player CreatePlayer()
+		public void Refresh()
 		{
-			if (Player != null) return Player;
+			// Playerの状態を元に戻す
 
-			Player = _playerFactory.Create();
-			Player.SetTilemap(_mapManager.CurrentTilemap);
+			// すべてのプールを戻す
+			EnemyPoolManager.ReturnAllItems();
 
-			return Player;
+			_isInitialized = true;
+		}
+
+		/// <summary>
+		/// ModelとViewを紐づける
+		/// </summary>
+		public void SetupCharaView(Chara.Base chara, CharaModel model)
+		{
+			//Player = _playerFactory.Create();
+			//Player.SetTilemap(_mapManager.CurrentTilemap);
+
+			var status = model.Status;
+			chara.Setup(status);
 		}
 
 		public Vector3Int GetPlayerCellPos() =>
@@ -110,36 +148,6 @@ namespace Ling.Scenes.Battle
 
 
 		#region MonoBegaviour
-
-		/// <summary>
-		/// 初期処理
-		/// </summary>
-		protected override void Awake()
-		{
-			base.Awake();
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestoroy()
-		{
-			_eventManager.RemoveAll(this);
-		}
 
 		#endregion
 	}

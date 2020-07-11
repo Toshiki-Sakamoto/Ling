@@ -132,7 +132,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 55514715}
-  - component: {fileID: 55514716}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -154,21 +153,6 @@ Transform:
   m_Father: {fileID: 1378394484}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &55514716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55514714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d7758fc082641c4eaa96b54596f5764, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _root: {fileID: 55514715}
-  _playerPrefab: {fileID: 6502881826932206426, guid: ce543de71bf23d444a4e59a4a7e27531,
-    type: 3}
 --- !u!1 &59333050
 GameObject:
   m_ObjectHideFlags: 0
@@ -1443,6 +1427,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &874937140
 Canvas:
   m_ObjectHideFlags: 0
@@ -2179,36 +2164,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1196804132
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1196804133}
-  m_Layer: 0
-  m_Name: PoolRoot
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1196804133
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1196804132}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1682298783}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1222020710
 GameObject:
   m_ObjectHideFlags: 0
@@ -2486,7 +2441,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 3}
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 37
     m_FontStyle: 0
     m_BestFit: 0
@@ -2608,6 +2563,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df9eaccbc8873d048a3f4f3e6a6ee4fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerRoot: {fileID: 55514715}
+  _enemyRoot: {fileID: 1682298783}
   _groundMaps:
   - grid: {fileID: 1017254158}
     tilemap: {fileID: 1845025752}
@@ -2929,6 +2886,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!223 &1567357101
 Canvas:
   m_ObjectHideFlags: 0
@@ -2959,7 +2917,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1682298783}
-  - component: {fileID: 1682298784}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -2977,36 +2934,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1196804133}
+  m_Children: []
   m_Father: {fileID: 1378394484}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1682298784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1682298782}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ad737f2f506718428a5ec074c42fba6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _defaultPoolRoot: {fileID: 1196804133}
-  _createItems:
-  - key: 0
-    id: 
-    isUsedCreator: 0
-    creator: {fileID: 0}
-    createInfo:
-      poolRoot: {fileID: 1196804133}
-      poolObject: {fileID: 2512035358522948216, guid: 60fe1e1f726da994aa2c7f2134cac66a,
-        type: 3}
-      initCreateNum: 30
-      isAutoCreate: 1
-      onceCreatingNum: 1
 --- !u!1 &1683623289
 GameObject:
   m_ObjectHideFlags: 0
@@ -3874,8 +3805,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbeb6ef0c312914488883d5a44d30d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerFactory: {fileID: 55514716}
-  _enemyPoolManager: {fileID: 1682298784}
+  _player: {fileID: 0}
+  _enemyPoolManager: {fileID: 0}
 --- !u!4 &2112815757
 Transform:
   m_ObjectHideFlags: 0

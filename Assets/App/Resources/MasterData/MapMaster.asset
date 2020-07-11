@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 282669c4efee79244a72d8356e81f5f1, type: 3}
   m_Name: MapMaster
   m_EditorClassIdentifier: 
+  _id: 0
   _initCreateNum:
-    _min: 31
-    _max: 57
-  _a: 0
+    _min: 1
+    _max: 100
+  _enemyMaxCreateNum: 0
+  _mapEnemyData:
+  - _enemyType: 1
+    _popRate: 0

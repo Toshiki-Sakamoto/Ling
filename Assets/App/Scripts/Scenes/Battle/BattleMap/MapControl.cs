@@ -85,6 +85,19 @@ namespace Ling.Scenes.Battle.BattleMap
 		}
 
 		/// <summary>
+		/// Playerモデルを現在のMapに設定する
+		/// </summary>
+		public void SetPlayerModelInCurrentMap(Chara.Player player)
+		{
+			player.gameObject.SetActive(true);
+
+			player.transform.SetParent(_view.PlayerRoot, worldPositionStays: false);
+
+			// Playerに現在のTilemapを設定する
+			player.SetTilemap(_view.CurrentTilemap);
+		}
+
+		/// <summary>
 		/// 次マップの作成と移動を行う
 		/// </summary>
 		/// <param name="nextMapIndex"></param>
@@ -133,7 +146,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <param name="mapIndex"></param>
 		/// <returns></returns>
 		public Tilemap FindTilemap(int mapIndex) =>
-			_view.FindTilemap(mapIndex);
+			_view.GetTilemap(mapIndex);
 
 		/// <summary>
 		/// 次のフロアに移動させる

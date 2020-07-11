@@ -1,8 +1,8 @@
 ﻿//
-// PlayerFactory.cs
+// CharaModel.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.01
+// Created by toshiki sakamoto on 2020.07.09
 //
 
 using System;
@@ -13,14 +13,12 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Zenject;
-
 namespace Ling.Chara
 {
 	/// <summary>
-	/// 
+	/// <see cref="CharaManager"/>に管理されるデータ
 	/// </summary>
-	public class PlayerFactory : MonoBehaviour
+	public class CharaModel
     {
 		#region 定数, class, enum
 
@@ -34,13 +32,15 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		[SerializeField] private Transform _root = null;
-		[SerializeField] private Player _playerPrefab = null;
-
 		#endregion
 
 
 		#region プロパティ
+
+		/// <summary>
+		/// ステイタス
+		/// </summary>
+		public CharaStatus Status { get; private set; }
 
 		#endregion
 
@@ -52,16 +52,12 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		public Player Create()
+		/// <summary>
+		/// ステイタスを生成する
+		/// </summary>
+		public void Setup()
 		{
-			var player = GameObject.Instantiate<Player>(_playerPrefab, _root);
-			if (player == null)
-			{
-				Utility.Log.Assert(false, "Playerの生成に失敗しました");
-				return null;
-			}
-
-			return player;
+			Status = new CharaStatus(100);
 		}
 
 		#endregion

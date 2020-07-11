@@ -1,8 +1,8 @@
 ﻿//
-// MasterBase.cs
+// EnemyModelGroup.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.06.24
+// Created by toshiki sakamoto on 2020.07.10
 //
 
 using System;
@@ -15,12 +15,12 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.MasterData
+namespace Ling.Chara
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class MasterBase<T> : ScriptableObject
+	public class EnemyModelGroup : ModelGroupBase
 	{
 		#region 定数, class, enum
 
@@ -33,8 +33,6 @@ namespace Ling.MasterData
 
 
 		#region private 変数
-
-		[SerializeField] private int _id = default;	// 大体存在する一意なID
 
 		#endregion
 

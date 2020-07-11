@@ -38,7 +38,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private PoolManager _poolManager;
 		private MapManager _mapManager = null;
-		private CharaManager _charaManager = null;
+		private Chara.CharaManager _charaManager = null;
 
 		private bool _isFinish = false;
 
@@ -63,7 +63,7 @@ namespace Ling.Scenes.Battle.Phase
 			base.Awake();
 
 			_mapManager = Resolve<MapManager>();
-			_charaManager = Resolve<CharaManager>();
+			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
 		public override void Init()
@@ -102,7 +102,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private async UniTask LoadAsync()
 		{
-			// 敵のプールマネージャを作成する
+			// キャラクタのセットアップ処理
 			await _charaManager.SetupAsync();
 
 			_isFinish = true;

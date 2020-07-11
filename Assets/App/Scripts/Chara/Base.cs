@@ -6,6 +6,7 @@
 // 
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -14,9 +15,9 @@ using UnityEngine.UI;
 namespace Ling.Chara
 {
     /// <summary>
-    /// 
+    /// プレイヤーや敵の元になるクラス
     /// </summary>
-    public class Base : MonoBehaviour 
+    public abstract class Base : MonoBehaviour 
     {
         #region 定数, class, enum
 
@@ -30,9 +31,10 @@ namespace Ling.Chara
 
         #region private 変数
         
-        [SerializeField] private Animator _animator = null;
-        [SerializeField] private Vector3Int _vecCellPos = Vector3Int.zero; // マップ上の自分の位置
-        [SerializeField] private MoveController _moveController = null;
+        [SerializeField] private Animator _animator = default;
+        [SerializeField] private Vector3Int _vecCellPos = default; // マップ上の自分の位置
+        [SerializeField] private MoveController _moveController = default;
+        [SerializeField] private CharaStatus _status = default;
 
         private Tilemap _tilemap;
 
@@ -63,6 +65,18 @@ namespace Ling.Chara
 
 
         #region public, protected 関数
+
+        public void Setup(CharaStatus status)
+		{
+            _status = status;
+
+            // 死亡時
+            status.IsDead.Where(isDead_ => isDead_)
+                .Subscribe(_ =>
+                {
+
+                });
+        }
 
         /// <summary>
         /// Tilemap情報を設定する

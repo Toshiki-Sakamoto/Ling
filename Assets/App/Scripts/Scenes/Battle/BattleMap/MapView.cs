@@ -95,6 +95,8 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region private 変数
 
+		[SerializeField] private Transform _playerRoot = null;
+		[SerializeField] private Transform _enemyRoot = null;
 		[SerializeField] private List<GroundTilemap> _groundMaps = null;
 
 		[Inject] private BattleModel _model = null;
@@ -108,6 +110,14 @@ namespace Ling.Scenes.Battle.BattleMap
 
 
 		#region プロパティ
+
+		public Transform PlayerRoot => _playerRoot;
+		public Transform EnemyRoot => _enemyRoot;
+
+		/// <summary>
+		/// 現在のTilemap
+		/// </summary>
+		public Tilemap CurrentTilemap => GetTilemap(_currentMapIndex);
 
 		#endregion
 
@@ -192,7 +202,11 @@ namespace Ling.Scenes.Battle.BattleMap
 
 			return mapData;
 		}
-		public Tilemap FindTilemap(int mapIndex) =>
+
+		/// <summary>
+		/// 指定したIndexのTilemapを検索する
+		/// </summary>
+		public Tilemap GetTilemap(int mapIndex) =>
 			FindGroundTilemap(mapIndex)?.tilemap;
 
 

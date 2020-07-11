@@ -35,7 +35,7 @@ namespace Ling.Scenes.Battle.Process
 
 		#region private 変数
 
-		[Inject] private CharaManager _charaManager = null;
+		[Inject] private Chara.CharaManager _charaManager = null;
 
 		private Chara.Player _player;
 		private Vector3Int _addMoveDir;

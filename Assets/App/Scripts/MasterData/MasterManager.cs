@@ -47,7 +47,15 @@ namespace Ling.MasterData
 		/// </summary>
 		public bool IsLoaded { get; private set; }
 
+		/// <summary>
+		/// 定数
+		/// </summary>
 		public ConstMaster Const { get; private set; }
+
+		/// <summary>
+		/// マップ関連
+		/// </summary>
+		public Stage.MapMaster[] MapMasters { get; private set; }
 
 		#endregion
 

@@ -12,7 +12,6 @@ namespace Ling.Scenes.Battle
             Container.Bind<BattleModel>().FromComponentInHierarchy().AsSingle();
 
             Container.Bind<GameManager>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<CharaManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PoolManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<MapManager>().FromComponentInHierarchy().AsSingle();
         }

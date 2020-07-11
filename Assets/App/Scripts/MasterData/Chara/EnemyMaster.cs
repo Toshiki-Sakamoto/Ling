@@ -1,8 +1,8 @@
 ﻿//
-// MasterBase.cs
+// EnemyMaster.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.06.24
+// Created by toshiki sakamoto on 2020.07.05
 //
 
 using System;
@@ -13,15 +13,13 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Zenject;
-
-namespace Ling.MasterData
+namespace Ling.MasterData.Chara
 {
 	/// <summary>
-	/// 
+	/// 敵１体のマスタデータ
 	/// </summary>
-	public class MasterBase<T> : ScriptableObject
-	{
+	public class EnemyMaster
+    {
 		#region 定数, class, enum
 
 		#endregion
@@ -34,7 +32,7 @@ namespace Ling.MasterData
 
 		#region private 変数
 
-		[SerializeField] private int _id = default;	// 大体存在する一意なID
+		[SerializeField] private Define.EnemyType _enemyType = default;	// 敵の種類
 
 		#endregion
 

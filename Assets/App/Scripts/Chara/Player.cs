@@ -14,7 +14,7 @@ using Cysharp.Threading.Tasks;
 namespace Ling.Chara
 {
     /// <summary>
-    /// 
+    /// PlayerView
     /// </summary>
     public class Player : Base 
     {

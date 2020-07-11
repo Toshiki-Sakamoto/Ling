@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.04.30
 //
 
+using Ling.Chara;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private Map.Builder.IManager _builderManager = null;
 		private MapManager _mapManager;
+		private Chara.CharaManager _charaManager;
 
 		private Chara.Player _player;
 
@@ -59,14 +61,15 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			_builderManager = Resolve<Map.Builder.IManager>();
 			_mapManager = Resolve<MapManager>();
+			_charaManager = Resolve<CharaManager>();
 
 			var builder = _mapManager.CurrentMapData.Builder;
 			var playerPos = builder.GetPlayerInitPosition();
 
-			var playerWorldPos = _mapManager.GetCellCenterWorldByMap(playerPos.x, playerPos.y);
+			// プレイヤーにMap情報を初期座標を設定
+			_player = _charaManager.Player;
+			Scene.MapControl.SetPlayerModelInCurrentMap(_player);
 
-			// プレイヤーの作成
-			_player = CharaManager.Instance.CreatePlayer();
 			_player.SetCellPos(playerPos);
 
 			Change(BattleScene.Phase.PlayerAction);
