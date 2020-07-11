@@ -15,11 +15,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using UtageExtensions;
 using Zenject;
+using Ling.MasterData.Repository;
 
 namespace Ling.MasterData
 {
@@ -57,15 +59,9 @@ namespace Ling.MasterData
 		/// </summary>
 		public ConstMaster Const { get; private set; }
 
-		/// <summary>
-		/// ステージ管理者
-		/// </summary>
-		public StageManagerMaster StageManager { get; private set; }
+		public EnemyRepository EnemyRepository { get; } = new EnemyRepository();
 
-		/// <summary>
-		/// <see cref="EnemyMaster"/>Repository
-		/// </summary>
-		public MasterRepository<EnemyMaster> EnemyRepository { get; private set; }
+		public StageRepository StageRepository { get; } = new StageRepository();
 
 		#endregion
 
@@ -84,8 +80,8 @@ namespace Ling.MasterData
 		public async UniTask LoadAllAsync()
 		{
 			AddLoadTask<ConstMaster>(master => Const = master);
-			AddLoadTask<StageManagerMaster>(master => StageManager = master);
 			AddLoadRepositoryTask<EnemyMaster>(EnemyRepository);
+			AddLoadRepositoryTask<StageMaster>(StageRepository);
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(loadTasks_);
@@ -114,7 +110,7 @@ namespace Ling.MasterData
 		/// </summary>
 		private async UniTask LoadAsync<T>(System.Action<T> onSuccess) where T : MasterBase<T>
 		{
-			var master = await LoadAsyncAtPath<T>($"MasterData/{nameof(T)}");
+			var master = await LoadAsyncAtPath<T>($"MasterData/{typeof(T).Name}");
 
 			onSuccess?.Invoke(master);
 		}
@@ -125,12 +121,13 @@ namespace Ling.MasterData
 		private async UniTask LoadRepositoryAsync<T>(MasterRepository<T> repository) where T : MasterBase<T>
 		{
 			// 指定マスタデータをすべて読み込む
-			var filter = $"t:{nameof(T)}";
-
-			foreach (var guid in AssetDatabase.FindAssets(filter, new[] { "MasterData" }))
+			foreach (var guid in AssetDatabase.FindAssets($"t:{typeof(T).Name}"))
 			{
 				var filePath = AssetDatabase.GUIDToAssetPath(guid);
 				if (filePath.IsNullOrEmpty()) continue;
+
+				// Resourcesファイルパス以下にする
+				filePath = Regex.Replace(filePath, ".*/Resources/(.*).asset", "$1");
 
 				var master = await LoadAsyncAtPath<T>(filePath);
 
@@ -140,7 +137,7 @@ namespace Ling.MasterData
 
 		private async UniTask<T> LoadAsyncAtPath<T>(string path) where T : MasterBase<T>
 		{
-			var masterData = Resources.LoadAsync($"MasterData/{nameof(T)}");//.ToUniTask();
+			var masterData = Resources.LoadAsync(path);//.ToUniTask();
 
 			await masterData;
 

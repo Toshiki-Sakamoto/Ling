@@ -124,6 +124,8 @@ namespace Ling.Common.Scene
 				await _masterManager.LoadAllAsync();
 			}
 
+			QuickStartScene();
+
 			_sceneManager.QuickStart(this);
 		}
 

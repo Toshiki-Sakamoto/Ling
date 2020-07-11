@@ -96,7 +96,7 @@ namespace Ling.Scenes.Battle
 		public override void QuickStartScene()
 		{
 			// デバッグ用のコード直指定でバトルを始める
-			var stageMaster = _masterManager.StageManager.FindStageMaster(Define.StageType.First);
+			var stageMaster = _masterManager.StageRepository.FindByStageType(Define.StageType.First);
 
 			var param = new BattleModel.Param 
 				{ 

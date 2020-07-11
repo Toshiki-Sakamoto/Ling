@@ -15,5 +15,6 @@ MonoBehaviour:
   _id: 0
   _rows:
   - id: 0
+    stageType: 1
     open: 1
     stageMaster: {fileID: 11400000, guid: 6ccb767b896f2764cb20c18ce6cb8ef3, type: 2}

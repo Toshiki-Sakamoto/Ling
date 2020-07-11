@@ -28,7 +28,7 @@ namespace Ling.MasterData.Stage
 		#region 定数, class, enum
 
 		[System.Serializable]
-		public class Entity
+		public class MapEntity
 		{
 			[FieldName("階層")]
 			public int level;	// 指定階層までMapMasterを適用させる
@@ -47,21 +47,31 @@ namespace Ling.MasterData.Stage
 
 		#region private 変数
 
+		[SerializeField, FieldName("ステージの種類")]
+		private Define.StageType stageType;
+
 		[SerializeField, FieldName("最大階層")] 
-		private int _maxLevel = default;	// 最大階層(Map数)
-		
+		private int _maxLevel = default;    // 最大階層(Map数)
+
 		[SerializeField] 
-		private Entity[] _entities = default;
+		private MapEntity[] _mapEntities = default;
 
 		#endregion
 
 
 		#region プロパティ
 
+		public Define.StageType StageType => stageType;
+
 		/// <summary>
 		/// Map数(最大階層数)
 		/// </summary>
 		public int MapCount => _maxLevel;
+
+		/// <summary>
+		/// MapEntity
+		/// </summary>
+		public MapEntity[] MapEntities => _mapEntities;
 
 		#endregion
 
@@ -78,7 +88,7 @@ namespace Ling.MasterData.Stage
 		/// </summary>
 		public MapMaster GetMapMasterByLevel(int level) =>
 			// 指定したレベルより高いレベルを持つデータのMapMasterを返す
-			_entities.FirstOrDefault(row => level <= row.level).mapMaster;
+			_mapEntities.FirstOrDefault(entity => level <= entity.level).mapMaster;
 
 		#endregion
 
