@@ -176,6 +176,12 @@ namespace Ling.Scenes.Battle
 			_control.ResetViewUpPosition();
 		}
 
+		/// <summary>
+		/// 指定レベルのTilemapが存在する場合取得する
+		/// </summary>
+		public Tilemap FindTilemap(int level) =>
+			MapControl.FindTilemap(level);
+
 
 		/// <summary>
 		/// はみ出した余分なMapを削除する

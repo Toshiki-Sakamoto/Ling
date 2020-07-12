@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 using Zenject;
@@ -146,7 +147,7 @@ namespace Ling.Chara
 		/// 指定レベルの敵を作成する
 		/// </summary>
 		/// <param name="level"></param>
-		public void BuildEnemyGroup(int level)
+		public async UniTask BuildEnemyGroupAsync(int level, Tilemap tilemap)
 		{
 			RemoveEnemyGroup(level);
 
@@ -158,7 +159,9 @@ namespace Ling.Chara
 			}
 
 			var enemyModelGroup = new EnemyModelGroup();
+			enemyModelGroup.SetMapMaster(mapMaster);
 
+			await enemyModelGroup.SetupAsync();
 
 			EnemyModelGroups.Add(level, enemyModelGroup);
 		}
@@ -174,6 +177,15 @@ namespace Ling.Chara
 			enemyGroup.OnDestroy();
 
 			EnemyModelGroups.Remove(level);
+		}
+
+		/// <summary>
+		/// 敵一体を作成する
+		/// </summary>
+		/// <returns></returns>
+		public CharaModel CreateEnemy()
+		{
+			return null;
 		}
 
 		#endregion

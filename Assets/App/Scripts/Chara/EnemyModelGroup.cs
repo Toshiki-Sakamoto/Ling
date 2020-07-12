@@ -59,12 +59,24 @@ namespace Ling.Chara
 			_mapMaster = mapMaster;
 		}
 
+		public CharaModel CreateEnemyModel()
+		{
+			var mapEnemyData = _mapMaster.GetRandomEnemyDataFromPopRate();
+			var enemyModel = EnemyFactory.Create(mapEnemyData);
+
+			Models.Add(enemyModel);
+
+			return enemyModel;
+		}
 
 		protected override async UniTask SetupAsyncInternal()
 		{
-			// 初期生成数
-			var initCreateNum = _mapMaster.InitCreateNum.GetRandomValue();
+			Models.Clear();
 
+			for (int i = 0, size = _mapMaster.InitCreateNum.GetRandomValue(); i < size; ++i)
+			{
+				CreateEnemyModel();
+			}
 		}
 
 		#endregion

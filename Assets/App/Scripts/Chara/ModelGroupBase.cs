@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 using Zenject;
@@ -36,6 +37,8 @@ namespace Ling.Chara
 
 		#region private 変数
 
+		private Tilemap _tilemap;
+
 		#endregion
 
 
@@ -56,21 +59,14 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
+		public void SetTilemap(Tilemap tilemap)
+		{
+			_tilemap = tilemap;
+		}
+
 		public async UniTask SetupAsync()
 		{
 			await SetupAsyncInternal();
-		}
-
-		/// <summary>
-		/// キャラ情報からCharaModelを作成する
-		/// </summary>
-		/// <returns></returns>
-		public CharaModel CreateModel()
-		{
-			var model = new CharaModel();
-
-
-			return model;
 		}
 
 		public void Refresh()

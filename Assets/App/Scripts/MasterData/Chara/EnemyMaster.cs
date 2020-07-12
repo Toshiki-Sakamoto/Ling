@@ -47,6 +47,10 @@ namespace Ling.MasterData.Chara
 
 		#region プロパティ
 
+		public Define.EnemyType EnemyType => _enemyType;
+
+		public StatusData Status => _status;
+
 		#endregion
 
 

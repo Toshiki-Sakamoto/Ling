@@ -26,7 +26,7 @@ namespace Ling.MasterData.Stage
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/MapMaster", fileName = "MapMaster")]
 	public class MapMaster : MasterBase<MapMaster>
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -44,6 +44,9 @@ namespace Ling.MasterData.Stage
 
 		[SerializeField]
 		private MapEnemyData[] _mapEnemyData = default;
+
+
+		private int _popRateMaxParameter;   // 最大出現率の母数
 
 		#endregion
 
@@ -73,6 +76,28 @@ namespace Ling.MasterData.Stage
 		public override void Setup()
 		{
 			// 出現する敵をあらかじめ出現率でマッピングしておく
+			_popRateMaxParameter = _mapEnemyData.Sum(enemyData => enemyData.PopRate);
+		}
+
+		/// <summary>
+		/// 出現率によりランダムで敵のデータを取得する
+		/// </summary>
+		public MapEnemyData GetRandomEnemyDataFromPopRate()
+		{
+			var targetValue = Utility.Random.Range(_popRateMaxParameter);
+			var value = 0;
+
+			foreach (var data in _mapEnemyData)
+			{
+				value += data.PopRate;
+
+				if (value <= targetValue)
+				{
+					return data;
+				}
+			}
+
+			return _mapEnemyData[_mapEnemyData.Count() - 1];
 		}
 
 		#endregion

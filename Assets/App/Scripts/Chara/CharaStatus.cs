@@ -64,6 +64,11 @@ namespace Ling.Chara
 			IsDead = HP.Select(hp_ => hp_ <= 0).ToReadOnlyReactiveProperty();
 		}
 
+		public CharaStatus(MasterData.Chara.StatusData statusData)
+			: this(statusData.HP)
+		{
+		}
+
 		#endregion
 
 

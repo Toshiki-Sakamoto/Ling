@@ -110,6 +110,9 @@ namespace Ling.Scenes.Battle.Phase
 			_charaManager.SetStageMaster(_model.StageMaster);
 
 			// 初期マップの敵を生成する
+			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindTilemap(1));
+			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindTilemap(2));
+			await _charaManager.BuildEnemyGroupAsync(3, _mapManager.FindTilemap(3));
 
 			_isFinish = true;
 		}

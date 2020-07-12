@@ -62,8 +62,8 @@ namespace Ling.Chara
 			{
 				// プレイヤー情報を読み込む
 
-				Player = CreateModel();
-				Player.Setup();
+				Player = new CharaModel();
+				Player.Setup(new CharaStatus(100));
 			}
 		}
 

@@ -1,10 +1,13 @@
 ﻿//
-// CharaModel.cs
+// EnemyFactory.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.07.09
+// Created by toshiki sakamoto on 2020.07.12
 //
 
+using Ling.Chara;
+using Ling.MasterData;
+using Ling.MasterData.Stage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,12 +16,14 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Zenject;
+
 namespace Ling.Chara
 {
 	/// <summary>
-	/// <see cref="CharaManager"/>に管理されるデータ
+	/// 
 	/// </summary>
-	public class CharaModel
+	public class EnemyFactory
     {
 		#region 定数, class, enum
 
@@ -37,11 +42,6 @@ namespace Ling.Chara
 
 		#region プロパティ
 
-		/// <summary>
-		/// ステイタス
-		/// </summary>
-		public CharaStatus Status { get; private set; }
-
 		#endregion
 
 
@@ -52,12 +52,15 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		/// <summary>
-		/// ステイタスを生成する
-		/// </summary>
-		public void Setup(CharaStatus status)
+		public static CharaModel Create(MapEnemyData mapEnemyData)
 		{
-			Status = status;
+			var enemyMaster = MasterManager.Instance.EnemyRepository.Find(mapEnemyData.EnemyType);
+			var status = new CharaStatus(enemyMaster.Status);
+
+			var charaModel = new CharaModel();
+			charaModel.Setup(status);
+
+			return charaModel;
 		}
 
 		#endregion

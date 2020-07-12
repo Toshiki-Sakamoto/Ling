@@ -145,8 +145,8 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// </summary>
 		/// <param name="mapIndex"></param>
 		/// <returns></returns>
-		public Tilemap FindTilemap(int mapIndex) =>
-			_view.GetTilemap(mapIndex);
+		public Tilemap FindTilemap(int level) =>
+			_view.GetTilemap(level);
 
 		/// <summary>
 		/// 次のフロアに移動させる
