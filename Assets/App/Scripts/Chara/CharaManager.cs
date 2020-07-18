@@ -37,8 +37,7 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		[SerializeField] private Player _player = null;
-		[SerializeField] private Chara.EnemyPoolManager _enemyPoolManager = null;
+		[SerializeField] private CharaView _view = default;
 
 		[Inject] private Utility.IEventManager _eventManager = null;
 
@@ -63,12 +62,12 @@ namespace Ling.Chara
 		/// <summary>
 		/// PlayerView
 		/// </summary>
-		public Chara.Player Player => _player;
+		public Chara.Player Player => _view.Player;
 
 		/// <summary>
 		/// 敵のモデルプール管理者
 		/// </summary>
-		public Chara.EnemyPoolManager EnemyPoolManager => _enemyPoolManager;
+		public Chara.EnemyPoolManager EnemyPoolManager => _view.EnemyPoolManager;
 
 		#endregion
 
@@ -86,10 +85,10 @@ namespace Ling.Chara
 			// プレイヤー情報の生成
 			await PlayerModelGroup.SetupAsync();
 
-			SetupCharaView(_player, PlayerModelGroup.Player);
+			SetupCharaView(Player, PlayerModelGroup.Player);
 
 			// プール情報から敵モデルを生成する
-			await _enemyPoolManager.CreateObjectsAsync();
+			await EnemyPoolManager.CreateObjectsAsync();
 		}
 
 		public void SetStageMaster(StageMaster stageMaster)
@@ -116,7 +115,10 @@ namespace Ling.Chara
 		public void SetupCharaView(Chara.Base chara, CharaModel model)
 		{
 			var status = model.Status;
+
 			chara.Setup(status);
+
+			// CharaModelが削除されるときに一緒に削除する
 		}
 
 		public Vector3Int GetPlayerCellPos() =>
@@ -163,6 +165,12 @@ namespace Ling.Chara
 
 			await enemyModelGroup.SetupAsync();
 
+			// ViewとModelを結びつける
+			foreach (var model in enemyModelGroup.Models)
+			{
+				SetupCharaView(_view.GetEnemyByPool(model), model);
+			}
+
 			EnemyModelGroups.Add(level, enemyModelGroup);
 		}
 
@@ -186,6 +194,27 @@ namespace Ling.Chara
 		public CharaModel CreateEnemy()
 		{
 			return null;
+		}
+
+		/// <summary>
+		/// 敵Viewを返す
+		/// </summary>
+		public Enemy FindEnemyView(CharaModel model) =>
+			_view.FindEnemy(model);
+
+		/// <summary>
+		/// 指定座標に何かしらのキャラクターが存在するか
+		/// </summary>
+		public bool ExistsCharaInPos(int level, in Vector2Int pos)
+		{
+			if (PlayerModelGroup.ExistsCharaInPos(pos)) return true;
+
+			if (EnemyModelGroups.TryGetValue(level, out var value))
+			{
+				if (value.ExistsCharaInPos(pos)) return true;
+			}
+
+			return false;
 		}
 
 		#endregion

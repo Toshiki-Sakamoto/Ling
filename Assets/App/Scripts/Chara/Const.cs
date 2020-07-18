@@ -22,29 +22,41 @@ namespace Ling.Chara
 	/// </summary>
 	public class Const
     {
-		/// <summary>
-		/// 敵の種類 (プールシステム等に使われる)
-		/// </summary>
-		public enum EnemyType
-		{
-			Normal,	// 通常の敵
-			Boss,	// ボス
-		}
+
 	}
 
+
+	/// <summary>
+	/// キャラの種類
+	/// </summary>
+	public enum CharaType
+	{
+		None,
+		Player,
+		Enemy,
+	}
+
+	/// <summary>
+	/// 敵の種類 (プールシステム等に使われる)
+	/// </summary>
+	public enum EnemyType
+	{
+		Normal, // 通常の敵
+		Boss,   // ボス
+	}
 
 	public static class ConstExtensions
 	{
 		/// <summary>
 		/// 通常の敵か
 		/// </summary>
-		public static bool IsEnemyNormal(this Const.EnemyType enemyType) =>
-			enemyType == Const.EnemyType.Normal;
+		public static bool IsEnemyNormal(this EnemyType enemyType) =>
+			enemyType == EnemyType.Normal;
 
 		/// <summary>
 		/// ボス敵か
 		/// </summary>
-		public static bool IsEnemyBoss(this Const.EnemyType enemyType) =>
-			enemyType == Const.EnemyType.Boss;
+		public static bool IsEnemyBoss(this EnemyType enemyType) =>
+			enemyType == EnemyType.Boss;
 	}
 }

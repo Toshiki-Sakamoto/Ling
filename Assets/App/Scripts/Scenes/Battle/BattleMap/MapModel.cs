@@ -79,23 +79,23 @@ namespace Ling.Scenes.Battle.BattleMap
 			_stageMaster = stageMaster;
 		}
 
-		public void SetMapData(int mapID, MapData mapData)
+		public void SetMapData(int level, MapData mapData)
 		{
 			// 現在のMapDataを上書きする
-			_mapData[mapID] = mapData;
+			_mapData[level] = mapData;
 		}
 
-		public void ChangeMapByIndex(int mapIndex)
+		public void ChangeMapByIndex(int level)
 		{
-			if (!_mapData.ContainsKey(mapIndex))
+			if (!_mapData.ContainsKey(level))
 			{
-				Utility.Log.Error($"存在しないMap階層です {mapIndex}");
+				Utility.Log.Error($"存在しないMap階層です {level}");
 				return;
 			}
 
-			CurrentMapIndex = mapIndex;
+			CurrentMapIndex = level;
 
-			CurrentMapData = _mapData[mapIndex];
+			CurrentMapData = _mapData[level];
 			CurrentTileDataMap = CurrentMapData.TileDataMap;
 
 			BuildShowMapIndexList();
@@ -108,9 +108,9 @@ namespace Ling.Scenes.Battle.BattleMap
 			return CurrentMapIndex;
 		}
 
-		public MapData FindMapData(int mapIndex)
+		public MapData FindMapData(int level)
 		{
-			if (_mapData.TryGetValue(mapIndex, out MapData value))
+			if (_mapData.TryGetValue(level, out MapData value))
 			{
 				return value;
 			}
@@ -118,9 +118,9 @@ namespace Ling.Scenes.Battle.BattleMap
 			return null;
 		}
 
-		public Map.TileDataMap FindTileDataMap(int mapIndex)
+		public Map.TileDataMap FindTileDataMap(int level)
 		{
-			if (_mapData.TryGetValue(mapIndex, out MapData value))
+			if (_mapData.TryGetValue(level, out MapData value))
 			{
 				return value.TileDataMap;
 			}

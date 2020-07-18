@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-using Ling.Common.Attribute;
+using Ling.Utility.Attribute;
 
 #if UNITY_EDITOR
 using UnityEditor;

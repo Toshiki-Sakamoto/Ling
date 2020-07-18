@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2019.12.24
 //
 
+using ModestTree;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,11 +26,14 @@ namespace Ling
 
 
 		/// <summary>
+		/// Nullか空の場合true
+		/// </summary>
+		public static bool IsNullOrEmpty<T>(this IList<T> list) =>
+			list == null || list.Count <= 0;
+
+		/// <summary>
 		/// refを使用した構造体への作用の反映
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="list"></param>
-		/// <param name="action"></param>
 		public static void ForEach<T>(this IList<T> list, RefAction<T> action)
 		{ 
 			if (action == null) { throw new ArgumentNullException(nameof(action)); }
@@ -46,9 +50,6 @@ namespace Ling
 		/// <summary>
 		/// ラムダ式の戻り値を使用して作用を反映させる
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="list"></param>
-		/// <param name="func"></param>
 		public static void ForEach<T>(this IList<T> list, Func<T, T> func)
 		{
 			if (func == null) { throw new ArgumentNullException(nameof(func)); }
@@ -57,6 +58,16 @@ namespace Ling
 			{
 				list[i] = func(list[i]);
 			}
+		}
+
+		/// <summary>
+		/// リストからランダムな値を取得する
+		/// </summary>
+		public static T GetRandom<T>(this IList<T> list)
+		{
+			if (list.IsNullOrEmpty()) return default(T);
+
+			return list[Utility.Random.Range(list.Count())];
 		}
     }
 }

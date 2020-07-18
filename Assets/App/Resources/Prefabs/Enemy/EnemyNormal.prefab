@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2512035358522948220}
   - component: {fileID: 2512035358522948211}
   - component: {fileID: 2512035358522948208}
-  - component: {fileID: 2512035358522948215}
+  - component: {fileID: -3755189064359652167}
   m_Layer: 0
   m_Name: EnemyNormal
   m_TagString: Untagged
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -2067190637
-  m_SortingLayer: 2
+  m_SortingLayerID: 896133625
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: -2394346196037722465, guid: b50cc53c9a2dce24eb53873c5b812f9b,
     type: 3}
@@ -168,7 +168,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.35}
   m_EdgeRadius: 0
---- !u!114 &2512035358522948215
+--- !u!114 &-3755189064359652167
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +177,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2512035358522948216}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7778c5e5a199a24997dc464bae0b60a, type: 3}
+  m_Script: {fileID: 11500000, guid: fd6a61b04240ad3479e605fffdf29369, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _followCamera: {fileID: 0}
+  _charaType: 2
+  _animator: {fileID: 2512035358522948223}
+  _vecCellPos: {x: 0, y: 0, z: 0}
+  _moveController: {fileID: 2512035358522948211}
+  _status:
+    _hp:
+      value: 0

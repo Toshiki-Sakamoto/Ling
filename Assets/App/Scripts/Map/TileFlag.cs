@@ -29,6 +29,8 @@ namespace Ling.Map
 			StepUp		= 1 << 3,	// 上り階段
 			StepDown	= 1 << 4,   // 下り階段
 			Road		= 1 << 5,	// 道
+			Item		= 1 << 6,	// アイテム
+			Trap		= 1 << 7,	// 罠
 	}
 
 	public static class TileFlagExtensions

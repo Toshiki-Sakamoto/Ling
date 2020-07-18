@@ -70,13 +70,13 @@ namespace Ling.Map
 		/// つながってる部屋は同じ値が入る 1～
 		/// </summary>
 		public int[] RoomMapArray { get; private set; }
-		public Dictionary<int, List<int>> RoomMap { get; } = new Dictionary<int, List<int>>();
+		public Dictionary<int, List<Vector2Int>> RoomMap { get; } = new Dictionary<int, List<Vector2Int>>();
 
 		/// <summary>
 		/// 道Map
 		/// </summary>
 		public int[] RoadMapArray { get; private set; }
-		public Dictionary<int, List<int>> RoadMap { get; } = new Dictionary<int, List<int>>();
+		public Dictionary<int, List<Vector2Int>> RoadMap { get; } = new Dictionary<int, List<Vector2Int>>();
 
 		/// <summary>
 		/// 下り階段の場所
@@ -334,12 +334,12 @@ namespace Ling.Map
 		#region private 関数
 
 
-		private int[] BuildMapInternal(Dictionary<int, List<int>> map, TileFlag tileFlag)
+		private int[] BuildMapInternal(Dictionary<int, List<Vector2Int>> map, TileFlag tileFlag)
 		{
 			var mapArray = new int[Width * Height];
 			map.Clear();
 
-			void Scanning(int x, int y, int v, List<int> list)
+			void Scanning(int x, int y, int v, List<Vector2Int> list)
 			{
 				if (!InRange(x, y)) return;
 
@@ -352,7 +352,7 @@ namespace Ling.Map
 				if (!Tiles[index].HasFlag(tileFlag)) return;
 
 				mapArray[index] = v;
-				list.Add(v);
+				list.Add(new Vector2Int(x, y));
 
 				// 上下左右
 				Scanning(x - 1, y, v, list);
@@ -373,9 +373,9 @@ namespace Ling.Map
 
 					if (Tiles[index].HasFlag(tileFlag))
 					{
-						if (!map.TryGetValue(++value, out List<int> list))
+						if (!map.TryGetValue(++value, out var list))
 						{
-							list = new List<int>();
+							list = new List<Vector2Int>();
 							map.Add(value, list);
 						}
 

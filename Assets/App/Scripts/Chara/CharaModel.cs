@@ -42,6 +42,11 @@ namespace Ling.Chara
 		/// </summary>
 		public CharaStatus Status { get; private set; }
 
+		/// <summary>
+		/// 現在座標
+		/// </summary>
+		public Vector2Int Pos { get; private set; }
+
 		#endregion
 
 
@@ -59,6 +64,9 @@ namespace Ling.Chara
 		{
 			Status = status;
 		}
+
+		public void SetPos(in Vector2Int pos) =>
+			Pos = pos;
 
 		#endregion
 

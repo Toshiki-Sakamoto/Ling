@@ -154,16 +154,14 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 指定した階層のマップを作成する
 		/// </summary>
-		public IObservable<AsyncUnit> BuildMap(params int[] mapIDs)
+		public UniTask BuildMapAsync(params int[] mapIDs)
 		{
 			// 存在する場合は削除して作成する.. か？
-			return LoadAsync(mapIDs).ToObservable();
+			return LoadAsync(mapIDs);
 		}
 
-		public IObservable<AsyncUnit> BuildNextMap()
-		{
-			return BuildMap(CurrentMapIndex + BattleConst.AddShowMap + 1);
-		}
+		public UniTask BuildNextMapAsync() =>
+			BuildMapAsync(CurrentMapIndex + BattleConst.AddShowMap + 1);
 
 		/// <summary>
 		/// 次の階層に変化する

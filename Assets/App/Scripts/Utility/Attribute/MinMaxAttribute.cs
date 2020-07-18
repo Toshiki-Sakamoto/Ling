@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Common.Attribute
+namespace Ling.Utility.Attribute
 {
 	/// <summary>
 	/// 最小値と最大値を設定できる。Attribute

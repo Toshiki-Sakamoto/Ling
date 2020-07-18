@@ -79,9 +79,6 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			if (!_isFinish) return;
 
-			// 1階層目を開始地点とする
-			_mapManager.SetCurrentMap(1);
-
 			Change(BattleScene.Phase.FloorSetup);
 		}
 
@@ -100,9 +97,10 @@ namespace Ling.Scenes.Battle.Phase
 			// 最初のマップ作成
 			_mapManager.Setup(_model.StageMaster);
 
-			_mapManager
-				.BuildMap(1, 2, 3)
-				.Subscribe(_ => { /*_isFinish = true;*/ });
+			await _mapManager.BuildMapAsync(1, 2);
+			
+			// 1階層目を開始地点とする
+			_mapManager.SetCurrentMap(1);
 
 			// キャラクタのセットアップ処理
 			await _charaManager.InitializeAsync();
@@ -112,7 +110,6 @@ namespace Ling.Scenes.Battle.Phase
 			// 初期マップの敵を生成する
 			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindTilemap(1));
 			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindTilemap(2));
-			await _charaManager.BuildEnemyGroupAsync(3, _mapManager.FindTilemap(3));
 
 			_isFinish = true;
 		}

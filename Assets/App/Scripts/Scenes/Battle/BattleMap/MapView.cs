@@ -28,9 +28,11 @@ namespace Ling.Scenes.Battle.BattleMap
 		[System.Serializable]
 		public class GroundTilemap
 		{
-			public Grid grid = null;
-			public Tilemap tilemap = null;
-			public int mapIndex = 0;
+			public Grid grid = default;
+			public Tilemap tilemap = default;
+			public int mapIndex = default;
+			public Transform enemyRoot = default;
+			public Utility.Renderer.SortingLayerChanger _sortingChanger = default;
 
 			/// <summary>
 			/// 初期化
@@ -57,13 +59,14 @@ namespace Ling.Scenes.Battle.BattleMap
 				grid.transform.localPosition = pos;
 			}
 
+			public void SetSortingLayer(string sortingLayer)
+			{
+
+			}
+
 			/// <summary>
 			/// マップ情報を作成する
 			/// </summary>
-			/// <param name="mapIndex"></param>
-			/// <param name="width"></param>
-			/// <param name="height"></param>
-			/// <param name="tile"></param>
 			public void BuildMap(int mapIndex, int width, int height, Common.Tile.MapTile tile)
 			{
 				tilemap.ClearAllTiles();
@@ -95,9 +98,8 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region private 変数
 
-		[SerializeField] private Transform _playerRoot = null;
-		[SerializeField] private Transform _enemyRoot = null;
-		[SerializeField] private List<GroundTilemap> _groundMaps = null;
+		[SerializeField] private Transform _playerRoot = default;
+		[SerializeField] private List<GroundTilemap> _groundMaps = default;
 
 		[Inject] private BattleModel _model = null;
 		[Inject] private MasterData.MasterManager _masterManager = null;
@@ -112,7 +114,6 @@ namespace Ling.Scenes.Battle.BattleMap
 		#region プロパティ
 
 		public Transform PlayerRoot => _playerRoot;
-		public Transform EnemyRoot => _enemyRoot;
 
 		/// <summary>
 		/// 現在のTilemap
@@ -204,10 +205,16 @@ namespace Ling.Scenes.Battle.BattleMap
 		}
 
 		/// <summary>
+		/// 指定階層の敵ルートを取得する
+		/// </summary>
+		public Transform GetEnemyRoot(int level) =>
+			FindGroundTilemap(level)?.enemyRoot;
+
+		/// <summary>
 		/// 指定したIndexのTilemapを検索する
 		/// </summary>
-		public Tilemap GetTilemap(int mapIndex) =>
-			FindGroundTilemap(mapIndex)?.tilemap;
+		public Tilemap GetTilemap(int level) =>
+			FindGroundTilemap(level)?.tilemap;
 
 
 		/// <summary>

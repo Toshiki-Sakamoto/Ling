@@ -6,7 +6,7 @@
 //
 
 using Cysharp.Threading.Tasks;
-using Ling.Common.Attribute;
+using Ling.Utility.Attribute;
 using System;
 using System.Collections;
 using System.Collections.Generic;

@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 115667609}
   - component: {fileID: 115667610}
+  - component: {fileID: 115667611}
   m_Layer: 0
   m_Name: CharaManager
   m_TagString: Untagged
@@ -166,6 +167,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dbeb6ef0c312914488883d5a44d30d01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _view: {fileID: 115667611}
+--- !u!114 &115667611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115667608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e7154a9f2730fc47aed6f7c403bb25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 711461020}
@@ -369,11 +383,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player00
-      objectReference: {fileID: 0}
-    - target: {fileID: 6502881826932206420, guid: ce543de71bf23d444a4e59a4a7e27531,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce543de71bf23d444a4e59a4a7e27531, type: 3}

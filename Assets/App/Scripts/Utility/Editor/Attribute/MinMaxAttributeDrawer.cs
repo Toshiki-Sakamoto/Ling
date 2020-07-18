@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.06.29
 //
 
-using Ling.Common.Attribute;
+using Ling.Utility.Attribute;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,9 +17,9 @@ using UnityEngine.UI;
 using Utage;
 using UtageExtensions;
 using Zenject;
-using MinMaxAttribute = Ling.Common.Attribute.MinMaxAttribute;
+using MinMaxAttribute = Ling.Utility.Attribute.MinMaxAttribute;
 
-namespace Ling.Common.Editor.Attribute
+namespace Ling.Utility.Editor.Attribute
 {
 	/// <summary>
 	/// <see cref="Common.Attribute.MinMaxAttribute"/>の描画

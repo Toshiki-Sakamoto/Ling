@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.07.05
 //
 
-using Ling.Common.Attribute;
+using Ling.Utility.Attribute;
 using System;
 using System.Collections;
 using System.Collections.Generic;

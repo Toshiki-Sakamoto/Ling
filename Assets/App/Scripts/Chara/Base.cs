@@ -30,7 +30,8 @@ namespace Ling.Chara
 
 
         #region private 変数
-        
+
+        [SerializeField] private CharaType _charaType = default;
         [SerializeField] private Animator _animator = default;
         [SerializeField] private Vector3Int _vecCellPos = default; // マップ上の自分の位置
         [SerializeField] private MoveController _moveController = default;
@@ -42,6 +43,8 @@ namespace Ling.Chara
 
 
         #region プロパティ
+
+        public CharaType CharaType => _charaType;
 
         /// <summary>
         /// マップ上の現在の位置
@@ -92,7 +95,9 @@ namespace Ling.Chara
         /// <summary>
         /// 座標の設定
         /// </summary>
-        /// <param name="pos"></param>
+        public void SetCellPos(in Vector2Int pos) =>
+            SetCellPos(new Vector3Int { x = pos.x, y = pos.y });
+
         public void SetCellPos(Vector3Int pos)
         {
             _vecCellPos = pos;

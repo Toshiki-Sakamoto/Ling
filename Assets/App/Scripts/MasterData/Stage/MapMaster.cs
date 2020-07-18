@@ -13,7 +13,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Ling;
-using Ling.Common.Attribute;
+using Ling.Utility.Attribute;
 using Zenject;
 
 namespace Ling.MasterData.Stage
@@ -84,7 +84,7 @@ namespace Ling.MasterData.Stage
 		/// </summary>
 		public MapEnemyData GetRandomEnemyDataFromPopRate()
 		{
-			var targetValue = Utility.Random.Range(_popRateMaxParameter);
+			var targetValue = Utility.Random.IncludedMax(_popRateMaxParameter);
 			var value = 0;
 
 			foreach (var data in _mapEnemyData)

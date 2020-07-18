@@ -67,6 +67,15 @@ namespace Ling.Chara
 			}
 		}
 
+		/// <summary>
+		/// 指定座標にキャラクターが存在するか
+		/// </summary>
+		public bool ExistsCharaInPos(Vector2Int pos)
+		{
+			if (Player.Pos == pos) return true;
+			return Models.Exists(model => model.Pos == pos);
+		}
+
 		#endregion
 
 

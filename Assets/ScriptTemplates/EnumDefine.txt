@@ -1,8 +1,8 @@
 ﻿//
-// EnemyPoolManager.cs
-// ProductName Ling
+// #SCRIPTNAME#.cs
+// ProductName #PRODUCTNAME#
 //
-// Created by toshiki sakamoto on 2020.06.28
+// Created by #AUTHOR# on #DATA#
 //
 
 using System;
@@ -11,17 +11,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
-using Zenject;
+using NUnit.Framework;
 
-namespace Ling.Chara
+using Assert = UnityEngine.Assertions.Assert;
+
+
+namespace #NAMESPACE#
 {
 	/// <summary>
-	/// 敵のオブジェクト自体は使い回す
-	/// 見た目やAIを変えれば良い。
+	/// #SUMMARY#
 	/// </summary>
-	public class EnemyPoolManager : Utility.Pool.PoolManager<EnemyType, EnemyPoolManager>
+	public class #SCRIPTNAME#
     {
 		#region 定数, class, enum
 
@@ -49,6 +50,11 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
+
+		[SetUp]
+		public void Setup()
+		{
+		}
 
 		#endregion
 

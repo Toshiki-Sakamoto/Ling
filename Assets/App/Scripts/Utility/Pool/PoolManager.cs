@@ -127,7 +127,7 @@ namespace Ling.Utility.Pool
 		/// <typeparam name="T"></typeparam>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public T Pop<T>(TEnum key) => Pop<T>(key, null);
+		public T Pop<T>(TEnum key) => Pop<T>(key, string.Empty);
 
 		public T Pop<T>(TEnum key, string id)
 		{

@@ -22,7 +22,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6502881826932206417
 Transform:
   m_ObjectHideFlags: 0
@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abdd5a451ca02b4f9bb362c583cf9f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _charaType: 1
   _animator: {fileID: 6502881826932206419}
   _vecCellPos: {x: 0, y: 0, z: 0}
   _moveController: {fileID: 6502881826932206431}

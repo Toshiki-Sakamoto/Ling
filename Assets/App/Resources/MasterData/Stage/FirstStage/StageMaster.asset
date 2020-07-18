@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: StageMaster
   m_EditorClassIdentifier: 
   _id: 0
+  stageType: 1
   _maxLevel: 20
-  _entities:
+  _mapEntities:
   - level: 10
     mapMaster: {fileID: 11400000, guid: 27170675b94a370469d92213469be7ff, type: 2}

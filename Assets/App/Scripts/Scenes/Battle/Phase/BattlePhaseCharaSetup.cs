@@ -67,10 +67,29 @@ namespace Ling.Scenes.Battle.Phase
 			var playerPos = builder.GetPlayerInitPosition();
 
 			// プレイヤーにMap情報を初期座標を設定
+			var mapControl = Scene.MapControl;
+
 			_player = _charaManager.Player;
-			Scene.MapControl.SetPlayerModelInCurrentMap(_player);
+			mapControl.SetCharaView(_player);
 
 			_player.SetCellPos(playerPos);
+
+			// 敵をマップに配置する
+			foreach (var pair in _charaManager.EnemyModelGroups)
+			{
+				var level = pair.Key;
+				var enemyModelGroup = pair.Value;
+
+				foreach (var enemyModel in enemyModelGroup.Models)
+				{
+					var charaView = _charaManager.FindEnemyView(enemyModel);
+					var pos = Scene.MapControl.GetRandomPosInRoom(level);
+
+					mapControl.SetCharaView(charaView, level);
+
+					charaView.SetCellPos(pos);
+				}
+			}
 
 			Change(BattleScene.Phase.PlayerAction);
 		}

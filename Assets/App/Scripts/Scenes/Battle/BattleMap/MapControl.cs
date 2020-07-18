@@ -41,6 +41,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		[SerializeField] private MapView _view;
 
 		[Inject] private MasterData.MasterManager _masterManager = null;
+		[Inject] private Chara.CharaManager _charaManager = null;
 
 		private MapModel _model;
 		private Common.Tile.MapTile _mapTile;
@@ -84,18 +85,35 @@ namespace Ling.Scenes.Battle.BattleMap
 			_view.Startup(_model, curretMapIndex, 40);
 		}
 
-		/// <summary>
-		/// Playerモデルを現在のMapに設定する
-		/// </summary>
-		public void SetPlayerModelInCurrentMap(Chara.Player player)
+		public void SetCharaView(Chara.Base chara) =>
+			SetCharaView(chara, _model.CurrentMapIndex);
+
+		public void SetCharaView(Chara.Base chara, int level)
 		{
-			player.gameObject.SetActive(true);
+			var tilemap = FindTilemap(level);
 
-			player.transform.SetParent(_view.PlayerRoot, worldPositionStays: false);
+			chara.gameObject.SetActive(true);
 
-			// Playerに現在のTilemapを設定する
-			player.SetTilemap(_view.CurrentTilemap);
+			switch (chara.CharaType)
+			{
+				case Chara.CharaType.Player:
+					chara.transform.SetParent(_view.PlayerRoot, worldPositionStays: false);
+					break;
+
+				case Chara.CharaType.Enemy:
+					chara.transform.SetParent(_view.GetEnemyRoot(level), worldPositionStays: false);
+					break;
+
+				default:
+					Utility.Log.Error($"キャラタイプが設定されていません");
+					break;
+			}
+
+			chara.SetTilemap(tilemap);
 		}
+
+		public void SetCharaViewInCurrentMap(Chara.Base chara) =>
+			SetCharaView(chara, _model.CurrentMapIndex);
 
 		/// <summary>
 		/// 次マップの作成と移動を行う
@@ -168,6 +186,29 @@ namespace Ling.Scenes.Battle.BattleMap
 		{
 			var localPos = _view.transform.localPosition;
 			_view.transform.localPosition = new Vector3(localPos.x, 0f, localPos.z);
+		}
+
+		/// <summary>
+		/// ランダムな部屋の座標を取得する
+		/// 他のキャラと被っていた場合は再抽選
+		/// </summary>
+		public Vector2Int GetRandomPosInRoom(int level)
+		{
+			var mapData = _model.FindMapData(level);
+			Vector2Int pos = Vector2Int.zero;
+
+			while (true)
+			{
+				pos = mapData.GetRandomPosInRoom();
+
+				// キャラと被っていたら再抽選
+				if (!_charaManager.ExistsCharaInPos(level, pos))
+				{
+					break;
+				}
+			}
+
+			return pos;
 		}
 
 #endregion

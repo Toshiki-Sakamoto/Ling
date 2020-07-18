@@ -153,11 +153,6 @@ namespace Ling.Map.Route
 
 			newValue = newValue + 1;
 
-			if (newValue == 15)
-			{
-				int i = 0;
-				i = 0;
-			}
 			var randRange = Enumerable.Range(0, 4).ToList();
 
 			for (int i = 0; i < 4; ++i)
@@ -168,7 +163,7 @@ namespace Ling.Map.Route
 					return;
 				}
 
-				var random = Utility.Random.Range(0, randRange.Count - 1);
+				var random = Utility.Random.MaxIncludedRange(0, randRange.Count - 1);
 				var index = randRange[random];
 				randRange.RemoveAt(random);
 
