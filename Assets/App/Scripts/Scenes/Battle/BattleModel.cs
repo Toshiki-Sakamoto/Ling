@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.05
 //
 
+using Ling.MasterData.Stage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,15 +25,24 @@ namespace Ling.Scenes.Battle
     {
 		#region 定数, class, enum
 
+		public class Param
+		{
+			public StageMaster stageMaster; // バトルステージ情報
+		}
+
 		#endregion
 
 
 		#region public, protected 変数
 
+		public Param param;
+
 		#endregion
 
 
 		#region private 変数
+
+		private Param _param;
 
 		#endregion
 
@@ -40,9 +50,9 @@ namespace Ling.Scenes.Battle
 		#region プロパティ
 
 		/// <summary>
-		/// 最大階層
+		/// バトルステージ情報
 		/// </summary>
-		public int MaxNum { get; private set; } = 40;
+		public StageMaster StageMaster => param.stageMaster;
 
 		/// <summary>
 		/// 現在のレベル
@@ -63,6 +73,11 @@ namespace Ling.Scenes.Battle
 
 
 		#region public, protected 関数
+
+		public void Setup(Param param)
+		{
+			this.param = param;
+		}
 
 		public void NextLevel()
 		{

@@ -43,10 +43,25 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: TileMap
+  - name: TileMap01
     uniqueID: 896133625
     locked: 0
-  - name: TileChara
+  - name: TileObject01
+    uniqueID: 2892215659
+    locked: 0
+  - name: TileMap02
+    uniqueID: 3016118391
+    locked: 0
+  - name: TileObject02
+    uniqueID: 3935363619
+    locked: 0
+  - name: TIleMap03
+    uniqueID: 3555648481
+    locked: 0
+  - name: TileObject03
+    uniqueID: 4141288355
+    locked: 0
+  - name: Player
     uniqueID: 2227776659
     locked: 0
   - name: TileMapFront

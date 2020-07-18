@@ -1,5 +1,5 @@
 ﻿//
-// FieldNameDrawer.cs
+// FieldNameAttribute.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.06.24
@@ -12,19 +12,17 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
 
 using Zenject;
-using Ling.Common.Attribute;
 
-namespace Ling.Common.Editor.Attribute
+namespace Ling.Utility.Attribute
 {
 	/// <summary>
-	/// <see cref="Common.Attribute.FieldNameAttribute"/>のPropertyDrawer
+	/// [FieldNameAttribute("")] private int _huga;
+	/// と打つことでインスペクタに文字列を表示させる
 	/// </summary>
-	[UnityEditor.CustomPropertyDrawer(typeof(FieldNameAttribute))]
-	public class FieldNameDrawer : UnityEditor.PropertyDrawer
-    {
+	public class FieldNameAttribute : PropertyAttribute
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -42,6 +40,8 @@ namespace Ling.Common.Editor.Attribute
 
 		#region プロパティ
 
+		public string Name { get; }
+
 		#endregion
 
 
@@ -52,18 +52,13 @@ namespace Ling.Common.Editor.Attribute
 
 		#region public, protected 関数
 
-		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
-		{
-			EditorGUI.PropertyField(position, property, new GUIContent(attribute.Name));
-		}
+		public FieldNameAttribute(string name) =>
+			Name = name;
 
 		#endregion
 
 
 		#region private 関数
-
-		private new FieldNameAttribute attribute =>
-			base.attribute as FieldNameAttribute;
 
 		#endregion
 	}

@@ -6,7 +6,7 @@
 //
 
 using Cysharp.Threading.Tasks;
-using Ling.Common.Attribute;
+using Ling.Utility.Attribute;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -46,6 +46,9 @@ namespace Ling.MasterData
 		
 		[SerializeField, FieldName("マップ階層移動時間")] 
 		private float _mapLevelMoveTime = 1.2f;
+
+		[SerializeField, FieldName("敵の最大生成数")]
+		private int _enemyMaxCreateNum = default;
 
 		#endregion
 

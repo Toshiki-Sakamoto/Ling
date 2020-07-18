@@ -34,6 +34,8 @@ namespace Ling.MasterData
 
 		#region private 変数
 
+		[SerializeField] private int _id = default; // 大体存在する一意なID
+
 		#endregion
 
 
@@ -48,6 +50,8 @@ namespace Ling.MasterData
 
 
 		#region public, protected 関数
+
+		public virtual void Setup() { }
 
 		#endregion
 

@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.01
 // 
 using Cysharp.Threading.Tasks;
+using Ling.MasterData.Stage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -84,11 +85,16 @@ namespace Ling.Scenes.Battle
 
 		#region public, protected 関数
 
+		public void Setup(StageMaster stageMaster)
+		{
+			_mapModel.Setup(stageMaster);
+		}
+
 		/// <summary>
 		/// 指定したマップを現在のマップとして設定する
 		/// </summary>
 		/// <param name="mapIndex"></param>
-		public void SetupCurrentMap(int mapIndex)
+		public void SetCurrentMap(int mapIndex)
 		{
 			// 初期マップの設定
 			MapControl.Startup(mapIndex);
@@ -148,16 +154,14 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 指定した階層のマップを作成する
 		/// </summary>
-		public IObservable<AsyncUnit> BuildMap(params int[] mapIDs)
+		public UniTask BuildMapAsync(params int[] mapIDs)
 		{
 			// 存在する場合は削除して作成する.. か？
-			return LoadAsync(mapIDs).ToObservable();
+			return LoadAsync(mapIDs);
 		}
 
-		public IObservable<AsyncUnit> BuildNextMap()
-		{
-			return BuildMap(CurrentMapIndex + BattleConst.AddShowMap + 1);
-		}
+		public UniTask BuildNextMapAsync() =>
+			BuildMapAsync(CurrentMapIndex + BattleConst.AddShowMap + 1);
 
 		/// <summary>
 		/// 次の階層に変化する
@@ -169,6 +173,12 @@ namespace Ling.Scenes.Battle
 			// 座標をもとに戻す
 			_control.ResetViewUpPosition();
 		}
+
+		/// <summary>
+		/// 指定レベルのTilemapが存在する場合取得する
+		/// </summary>
+		public Tilemap FindTilemap(int level) =>
+			MapControl.FindTilemap(level);
 
 
 		/// <summary>

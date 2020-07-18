@@ -92,8 +92,8 @@ namespace Ling.Map.Builder.Split.Road
 			// 区画は上下左右のどちらでつながっているかで処理を分ける
 			if (rectA.yMax == rectB.yMin || rectA.yMin == rectB.yMax)
 			{
-				var x1 = Utility.Random.Range(roomA.xMin, roomA.xMax - 1);
-				var x2 = Utility.Random.Range(roomB.xMin, roomB.xMax - 1);
+				var x1 = Utility.Random.MaxIncludedRange(roomA.xMin, roomA.xMax - 1);
+				var x2 = Utility.Random.MaxIncludedRange(roomB.xMin, roomB.xMax - 1);
 
 				int y;
 
@@ -159,8 +159,8 @@ namespace Ling.Map.Builder.Split.Road
 
 			if (rectA.xMax == rectB.xMin || rectA.xMin == rectB.xMax)
 			{
-				var y1 = Utility.Random.Range(roomA.yMin, roomA.yMax - 1);
-				var y2 = Utility.Random.Range(roomB.yMin, roomB.yMax - 1);
+				var y1 = Utility.Random.MaxIncludedRange(roomA.yMin, roomA.yMax - 1);
+				var y2 = Utility.Random.MaxIncludedRange(roomB.yMin, roomB.yMax - 1);
 
 				int x;
 

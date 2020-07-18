@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.05
 //
 
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -36,7 +37,7 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 		private MapManager _mapManager = null;
-		private CharaManager _charaManager = null;
+		private Chara.CharaManager _charaManager = null;
 
 		#endregion
 
@@ -58,12 +59,12 @@ namespace Ling.Scenes.Battle.Phase
 			base.Awake();
 
 			_mapManager = Resolve<MapManager>();
-			_charaManager = Resolve<CharaManager>();
+			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
 		public override void Init() 
 		{
-			BuildNextMap();
+			BuildNextMapAsync().Forget();
 		}
 
 		public override void Proc() 
@@ -79,25 +80,21 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 関数
 
-		private void BuildNextMap()
+		private async UniTask BuildNextMapAsync()
 		{
-			var buildNextMapObservable = _mapManager.BuildNextMap();
-			var createMapViewObservable = _mapManager.CreateMapView();
+			await _mapManager.BuildNextMapAsync();
 
-			buildNextMapObservable
-				.Concat(createMapViewObservable)
-				.Subscribe(onNext: _ => 
-					{}, 
-					onCompleted: () =>
-					{
-						// 動きを制御
-						var process = _processManager.Attach<Process.ProcessNextStageAnim>();
-						process.OnFinish =
-							() =>
-							{
-								ApplyNextLevel();
-							};
-					});
+			var createMapViewObservable = _mapManager.CreateMapView();
+				createMapViewObservable.Subscribe(_ =>
+				{
+					// 動きを制御
+					var process = _processManager.Attach<Process.ProcessNextStageAnim>();
+					process.OnFinish =
+						() =>
+						{
+							ApplyNextLevel();
+						};
+				});
 		}
 
 		private void ApplyNextLevel()

@@ -1,10 +1,13 @@
 ﻿//
-// FieldNameAttribute.cs
+// EnemyFactory.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.06.24
+// Created by toshiki sakamoto on 2020.07.12
 //
 
+using Ling.Chara;
+using Ling.MasterData;
+using Ling.MasterData.Stage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,14 +18,13 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Common.Attribute
+namespace Ling.Chara
 {
 	/// <summary>
-	/// [FieldNameAttribute("")] private int _huga;
-	/// と打つことでインスペクタに文字列を表示させる
+	/// 
 	/// </summary>
-	public class FieldNameAttribute : PropertyAttribute
-	{
+	public class EnemyFactory
+    {
 		#region 定数, class, enum
 
 		#endregion
@@ -40,8 +42,6 @@ namespace Ling.Common.Attribute
 
 		#region プロパティ
 
-		public string Name { get; }
-
 		#endregion
 
 
@@ -52,8 +52,16 @@ namespace Ling.Common.Attribute
 
 		#region public, protected 関数
 
-		public FieldNameAttribute(string name) =>
-			Name = name;
+		public static CharaModel Create(MapEnemyData mapEnemyData)
+		{
+			var enemyMaster = MasterManager.Instance.EnemyRepository.Find(mapEnemyData.EnemyType);
+			var status = new CharaStatus(enemyMaster.Status);
+
+			var charaModel = new CharaModel();
+			charaModel.Setup(status);
+
+			return charaModel;
+		}
 
 		#endregion
 

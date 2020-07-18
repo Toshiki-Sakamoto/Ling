@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.05
 //
 
+using Ling.MasterData.Stage;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region private 変数
 
+		private StageMaster _stageMaster;
 		private Dictionary<int, MapData> _mapData = new Dictionary<int, MapData>();
 
 		#endregion
@@ -72,23 +74,28 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region public, protected 関数
 
-		public void SetMapData(int mapID, MapData mapData)
+		public void Setup(StageMaster stageMaster)
 		{
-			// 現在のMapDataを上書きする
-			_mapData[mapID] = mapData;
+			_stageMaster = stageMaster;
 		}
 
-		public void ChangeMapByIndex(int mapIndex)
+		public void SetMapData(int level, MapData mapData)
 		{
-			if (!_mapData.ContainsKey(mapIndex))
+			// 現在のMapDataを上書きする
+			_mapData[level] = mapData;
+		}
+
+		public void ChangeMapByIndex(int level)
+		{
+			if (!_mapData.ContainsKey(level))
 			{
-				Utility.Log.Error($"存在しないMap階層です {mapIndex}");
+				Utility.Log.Error($"存在しないMap階層です {level}");
 				return;
 			}
 
-			CurrentMapIndex = mapIndex;
+			CurrentMapIndex = level;
 
-			CurrentMapData = _mapData[mapIndex];
+			CurrentMapData = _mapData[level];
 			CurrentTileDataMap = CurrentMapData.TileDataMap;
 
 			BuildShowMapIndexList();
@@ -101,9 +108,9 @@ namespace Ling.Scenes.Battle.BattleMap
 			return CurrentMapIndex;
 		}
 
-		public MapData FindMapData(int mapIndex)
+		public MapData FindMapData(int level)
 		{
-			if (_mapData.TryGetValue(mapIndex, out MapData value))
+			if (_mapData.TryGetValue(level, out MapData value))
 			{
 				return value;
 			}
@@ -111,9 +118,9 @@ namespace Ling.Scenes.Battle.BattleMap
 			return null;
 		}
 
-		public Map.TileDataMap FindTileDataMap(int mapIndex)
+		public Map.TileDataMap FindTileDataMap(int level)
 		{
-			if (_mapData.TryGetValue(mapIndex, out MapData value))
+			if (_mapData.TryGetValue(level, out MapData value))
 			{
 				return value.TileDataMap;
 			}

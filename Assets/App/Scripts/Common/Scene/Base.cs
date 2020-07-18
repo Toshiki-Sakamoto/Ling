@@ -80,6 +80,12 @@ namespace Ling.Common.Scene
 			Observable.Return(Unit.Default);
 
 		/// <summary>
+		/// 正規手順でシーンが実行されたのではなく
+		/// 直接起動された場合StartSceneよりも前に呼び出される
+		/// </summary>
+		public virtual void QuickStartScene() { }
+
+		/// <summary>
 		/// シーンが開始される時
 		/// </summary>
 		public virtual void StartScene() { }
@@ -117,6 +123,8 @@ namespace Ling.Common.Scene
 			{
 				await _masterManager.LoadAllAsync();
 			}
+
+			QuickStartScene();
 
 			_sceneManager.QuickStart(this);
 		}

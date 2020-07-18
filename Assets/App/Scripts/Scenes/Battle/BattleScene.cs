@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 using Ling.Common.Scene;
 using Zenject;
-
+using Ling.Scenes.Battle.BattleMap;
 
 namespace Ling.Scenes.Battle
 {
@@ -55,7 +55,7 @@ namespace Ling.Scenes.Battle
 
 		[Inject] private BattleModel _model = null;
 		[Inject] private MapManager _mapManager = null;
-		[Inject] private CharaManager _charaManager = null;
+		[Inject] private Chara.CharaManager _charaManager = null;
 
 		private bool _isInitialized;
 		private Utility.PhaseScene<Phase, BattleScene> _phase = new Utility.PhaseScene<Phase, BattleScene>();
@@ -65,7 +65,15 @@ namespace Ling.Scenes.Battle
 
 		#region プロパティ
 
+		/// <summary>
+		/// BattleScene大元のView
+		/// </summary>
 		public BattleView View => _view;
+
+		/// <summary>
+		/// MapControl
+		/// </summary>
+		public MapControl MapControl => _mapManager.MapControl;
 
 
 		#endregion
@@ -79,6 +87,24 @@ namespace Ling.Scenes.Battle
 		/// <returns></returns>
 		public override IObservable<Unit> ScenePrepareAsync() =>
 			Observable.Return(Unit.Default);
+
+
+		/// <summary>
+		/// 正規手順でシーンが実行されたのではなく
+		/// 直接起動された場合StartSceneよりも前に呼び出される
+		/// </summary>
+		public override void QuickStartScene()
+		{
+			// デバッグ用のコード直指定でバトルを始める
+			var stageMaster = _masterManager.StageRepository.FindByStageType(Define.StageType.First);
+
+			var param = new BattleModel.Param 
+				{ 
+					stageMaster = stageMaster 
+				};
+
+			_model.Setup(param);
+		}
 
 		/// <summary>
 		/// シーンが開始される時
@@ -185,7 +211,7 @@ namespace Ling.Scenes.Battle
 
 		private void Start()
 		{
-			/////
+			// シーンから直接起動した場合、コード直設定でバトルを始める
 			QuickStart();
 		}
 

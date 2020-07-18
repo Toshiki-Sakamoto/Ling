@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.01
 //
 
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +38,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private PoolManager _poolManager;
 		private MapManager _mapManager = null;
+		private Chara.CharaManager _charaManager = null;
 
 		private bool _isFinish = false;
 
@@ -61,6 +63,7 @@ namespace Ling.Scenes.Battle.Phase
 			base.Awake();
 
 			_mapManager = Resolve<MapManager>();
+			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
 		public override void Init()
@@ -68,27 +71,13 @@ namespace Ling.Scenes.Battle.Phase
 			// タイルのプールを作成する
 			// とりあえず最大の数作ってみる
 			_poolManager = Resolve<PoolManager>();
-			/*
-			_poolManager.SetupPoolItem(PoolType.Map, 10 * 10);
 
-			_poolManager.CreatePoolItemsAsync().Subscribe(_ =>
-			{
-				_isPoolCreateProcessFinish = true;
-				Debug.Log($"Mapプール作成終了");
-			});*/
-
-			// 最初のマップ作成
-			_mapManager
-				.BuildMap(1, 2, 3)
-				.Subscribe(_ => { _isFinish = true; });
+			LoadAsync().Forget();
 		}
 
 		public override void Proc() 
 		{
 			if (!_isFinish) return;
-
-			// 1階層目を開始地点とする
-			_mapManager.SetupCurrentMap(1);
 
 			Change(BattleScene.Phase.FloorSetup);
 		}
@@ -103,6 +92,27 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 関数
 
+		private async UniTask LoadAsync()
+		{
+			// 最初のマップ作成
+			_mapManager.Setup(_model.StageMaster);
+
+			await _mapManager.BuildMapAsync(1, 2);
+			
+			// 1階層目を開始地点とする
+			_mapManager.SetCurrentMap(1);
+
+			// キャラクタのセットアップ処理
+			await _charaManager.InitializeAsync();
+
+			_charaManager.SetStageMaster(_model.StageMaster);
+
+			// 初期マップの敵を生成する
+			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindTilemap(1));
+			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindTilemap(2));
+
+			_isFinish = true;
+		}
 
 		#endregion
 	}

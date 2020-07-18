@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.05
 //
 
+using Ling.Map;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ using Zenject;
 namespace Ling.Scenes.Battle.BattleMap
 {
 	/// <summary>
-	/// 
+	/// １階層の情報(サイズや見た目)を持つ
 	/// </summary>
 	public class MapData
     {
@@ -83,6 +84,17 @@ namespace Ling.Scenes.Battle.BattleMap
 
 			// タイル情報の再設定
 			MapTileRenderData.SetTileDataMap(tileDataMap);
+		}
+
+		/// <summary>
+		/// 部屋のランダムな座標を取得する
+		/// </summary>
+		public Vector2Int GetRandomPosInRoom()
+		{
+			var values = TileDataMap.RoomMap.Values;
+			var pos = values.ElementAt(Utility.Random.Range(values.Count));
+
+			return pos.GetRandom();
 		}
 
 		#endregion

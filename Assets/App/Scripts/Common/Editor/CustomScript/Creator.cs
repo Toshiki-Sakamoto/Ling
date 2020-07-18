@@ -47,31 +47,17 @@ namespace Ling.Common.Editor.CustomScript
             GetWindow<Creator>("Create Script");
         }
 
+
         /// <summary>
         /// テンプレートからスクリプト作成
         /// </summary>
-        /// <returns><c>true</c>, if script was created, <c>false</c> otherwise.</returns>
-        private static bool CreateScript()
+        private static bool CreateScript(string directoryPath)
         {
             // スクリプト名が空欄の場合は作成失敗
             if (string.IsNullOrEmpty(_newScriptName))
             {
                 Debug.Log("スクリプト名が入力されていないため、スクリプトが作成できませんでした");
                 return false;
-            }
-
-            // 現在作成しているファイルのパスを取得、選択されていない場合はスクリプト失敗
-            var directoryPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-            if (string.IsNullOrEmpty(directoryPath))
-            {
-                Debug.Log("作成場所が選択されていないため、スクリプトが作成できませんでした");
-                return false;
-            }
-
-            // 選択されているファイルに拡張子がある場合(ディレクトリでない場合)は一つ上のディレクトリ内に作成する
-            if (!string.IsNullOrEmpty(new FileInfo(directoryPath).Extension))
-            {
-                directoryPath = Directory.GetParent(directoryPath).FullName;
             }
 
             // 同名ファイル名があった場合はスクリプト作成失敗にする(上書きしてしまうため)
@@ -93,7 +79,7 @@ namespace Ling.Common.Editor.CustomScript
             scriptText = scriptText.Replace(Const.TemplateTag.DATA, _createdData);
             scriptText = scriptText.Replace(Const.TemplateTag.SUMMARY, _scriptSummary.Replace(Environment.NewLine, Environment.NewLine + "///")); // 改行するとコメントアウトから外れるので修正
             scriptText = scriptText.Replace(Const.TemplateTag.SCRIPT_NAME, _newScriptName);
-			scriptText = scriptText.Replace(Const.TemplateTag.PARAM1, _param1);
+            scriptText = scriptText.Replace(Const.TemplateTag.PARAM1, _param1);
 
             // namespace
             var array = new List<string>(directoryPath.Split('/'));
@@ -114,6 +100,25 @@ namespace Ling.Common.Editor.CustomScript
             AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
 
             return true;
+        }
+
+        private static bool CreateScript()
+        {
+            // 現在作成しているファイルのパスを取得、選択されていない場合はスクリプト失敗
+            var directoryPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+            if (string.IsNullOrEmpty(directoryPath))
+            {
+                Debug.Log("作成場所が選択されていないため、スクリプトが作成できませんでした");
+                return false;
+            }
+
+            // 選択されているファイルに拡張子がある場合(ディレクトリでない場合)は一つ上のディレクトリ内に作成する
+            if (!string.IsNullOrEmpty(new FileInfo(directoryPath).Extension))
+            {
+                directoryPath = Directory.GetParent(directoryPath).FullName;
+            }
+
+            return CreateScript(directoryPath);
         }
 
 

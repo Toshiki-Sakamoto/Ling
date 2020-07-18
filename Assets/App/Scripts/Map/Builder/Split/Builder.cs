@@ -118,6 +118,11 @@ namespace Ling.Map.Builder.Split
 					yield return prevRoomEnumerator.Current;
 				}
 			}
+			else
+			{
+				// マップだけ作成しておく
+				TileDataMap.BuildRoomMap();
+			}
 
 			// 部屋に対して道が重なっていた場合、その道を取り除く
 			RemoveExtraRoad();
@@ -132,6 +137,8 @@ namespace Ling.Map.Builder.Split
 		{
 			if (prevTildeDataMap == null)
 			{
+				// 部屋のマップを作成する
+				TileDataMap.BuildRoomMap();
 				yield break;
 			}
 
@@ -142,12 +149,14 @@ namespace Ling.Map.Builder.Split
 			var tileData = TileDataMap.GetTile(stepDownPos.x, stepDownPos.y);
 			if (tileData.HasFlag(TileFlag.Floor))
 			{
+				// 部屋のマップを作成する
+				TileDataMap.BuildRoomMap();
 				yield break;
 			}
 
 			// 3マスで部屋を作成
-			var w = Utility.Random.Range(1, 1);
-			var h = Utility.Random.Range(1, 1);
+			var w = Utility.Random.MaxIncludedRange(1, 1);
+			var h = Utility.Random.MaxIncludedRange(1, 1);
 
 			// どこかの部屋か道と連結したら終わり
 			var xMin = stepDownPos.x - 1;// - w / 2;
@@ -288,8 +297,8 @@ namespace Ling.Map.Builder.Split
 			var mapData = MapRect.GetRandomData();
 			var room = mapData.room;
 
-			var x = Utility.Random.Range(room.xMin, room.xMax - 1);
-			var y = Utility.Random.Range(room.yMin, room.yMax - 1);
+			var x = Utility.Random.MaxIncludedRange(room.xMin, room.xMax - 1);
+			var y = Utility.Random.MaxIncludedRange(room.yMin, room.yMax - 1);
 
 			return (x, y);
 		}

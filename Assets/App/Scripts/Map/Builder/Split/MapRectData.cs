@@ -101,7 +101,7 @@ namespace Ling.Map.Builder.Split
 		/// </summary>
 		/// <returns></returns>
 		public RectData GetRandomData() =>
-			_data[Utility.Random.Range(RectCount - 1)];
+			_data[Utility.Random.IncludedMax(RectCount - 1)];
 
 		/// <summary>
 		/// Cell座標から区画データを返す

@@ -1,8 +1,8 @@
 ﻿//
-// PlayerFactory.cs
+// EnemyManager.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.01
+// Created by toshiki sakamoto on 2020.06.28
 //
 
 using System;
@@ -18,9 +18,10 @@ using Zenject;
 namespace Ling.Chara
 {
 	/// <summary>
-	/// 
+	/// 敵全体を管理するクラス
+	/// 更に<see cref="EnemyMapLevelManager"/>が階層ごとに敵を管理する
 	/// </summary>
-	public class PlayerFactory : MonoBehaviour
+	public class EnemyManager
     {
 		#region 定数, class, enum
 
@@ -33,9 +34,6 @@ namespace Ling.Chara
 
 
 		#region private 変数
-
-		[SerializeField] private Transform _root = null;
-		[SerializeField] private Player _playerPrefab = null;
 
 		#endregion
 
@@ -51,18 +49,6 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
-
-		public Player Create()
-		{
-			var player = GameObject.Instantiate<Player>(_playerPrefab, _root);
-			if (player == null)
-			{
-				Utility.Log.Assert(false, "Playerの生成に失敗しました");
-				return null;
-			}
-
-			return player;
-		}
 
 		#endregion
 
