@@ -5,84 +5,97 @@ using System;
 
 using UnityEditor;
 using System.IO;
+using Ling.Utility.Extensions;
 
 namespace Ling.Common.Editor.CustomScript
 {
-    public class Creator : EditorWindow
+    public class Creator
     {
-        // 作成する元のテンプレート名
-        private static string _templateScriptName = "";
-        // 新しく作成するスクリプト及びクラス名
-        private static string _newScriptName = "";
-        // スクリプトの説明文
-        private static string _scriptSummary = "";
-        // 作者名
-        private static string _authorName = "";
-        // 作成日
-        private static string _createdData = "";
-		// 汎用的なパラメータ(使い方はテンプレートに任せる)
-		private static string _param1 = "";
-
-
-        /// <summary>
-        /// スクリプト作成Window生成
-        /// </summary>
-        /// <param name="templateScriptName">Template script name.</param>
-        protected static void ShowWindow(string templateScriptName)
+        public class Param
         {
-			// 各項目を初期化
-			_templateScriptName = templateScriptName;
-            _newScriptName = string.Empty;// templateScriptName;
-			_createdData = DateTime.Now.ToString("yyyy.MM.dd");
+            public string directoryPath;
+            public string scriptName;
+            public string templateScriptName;
+            public string authorName;   // 署名
+            public string createdData;  // 作成日
+            public string summary;      // 概要
 
-            // 作者名は既に設定されてある場合は初期化しない
-            if (string.IsNullOrEmpty(_authorName))
-            {
-				// 設定から取得
-				_authorName = Ling.Editor.View.DeveloperSetting.GetName();
-//                _authorName = Environment.UserName;
-            }
-
-            // ウィンドウ作成
-            GetWindow<Creator>("Create Script");
+            public string param1;       // 汎用パラメータ
         }
 
 
         /// <summary>
         /// テンプレートからスクリプト作成
         /// </summary>
-        private static bool CreateScript(string directoryPath)
+        public static bool CreateScript(Param param)
         {
+            if (param == null)
+            {
+                Utility.Log.Error("スクリプトを作成するパラメータがNULLのため作成失敗");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(param.directoryPath))
+            {
+                // 現在作成しているファイルのパスを取得、選択されていない場合はスクリプト失敗
+                param.directoryPath = AssetDatabase.GetAssetPath(Selection.activeObject);
+                if (string.IsNullOrEmpty(param.directoryPath))
+                {
+                    Debug.Log("作成場所が選択されていないため、スクリプトが作成できませんでした");
+                    return false;
+                }
+
+                // 選択されているファイルに拡張子がある場合(ディレクトリでない場合)は一つ上のディレクトリ内に作成する
+                if (!string.IsNullOrEmpty(new FileInfo(param.directoryPath).Extension))
+                {
+                    param.directoryPath = Directory.GetParent(param.directoryPath).FullName;
+                }
+            }
+
             // スクリプト名が空欄の場合は作成失敗
-            if (string.IsNullOrEmpty(_newScriptName))
+            if (string.IsNullOrEmpty(param.scriptName))
             {
                 Debug.Log("スクリプト名が入力されていないため、スクリプトが作成できませんでした");
                 return false;
             }
 
-            // 同名ファイル名があった場合はスクリプト作成失敗にする(上書きしてしまうため)
-            var exportPath = directoryPath + "/" + _newScriptName + Const.EXT_SCRIPT;
+			// 署名がない場合はデフォルト
+            if (string.IsNullOrEmpty(param.authorName))
+            {
+                // 設定から取得
+                param.authorName = Ling.Editor.View.DeveloperSetting.GetName();
+            }
+
+            // 日付がない場合は現在の日付
+            if (string.IsNullOrEmpty(param.createdData))
+			{
+                param.createdData = DateTime.Now.ToString("yyyy.MM.dd");
+            }
+
+			// 同名ファイル名があった場合はスクリプト作成失敗にする(上書きしてしまうため)
+			var exportPath = param.directoryPath + "/" + param.scriptName + Const.EXT_SCRIPT;
             if (File.Exists(exportPath))
             {
                 Debug.Log(exportPath + "が既に存在するため、スクリプトが作成できませんでした");
                 return false;
             }
 
+
             // テンプレートへのパスを作成しテンプレート読み込み
-            var templatePath = Const.TEMPLATE_SCRIPT_DIRECTORY_PATH + "/" + _templateScriptName + Const.EXT_TEMPLATE_SCRIPT;
+            var templatePath = Const.TEMPLATE_SCRIPT_DIRECTORY_PATH + "/" + param.templateScriptName + Const.EXT_TEMPLATE_SCRIPT;
             var streamReader = new StreamReader(templatePath, System.Text.Encoding.GetEncoding("Shift_JIS"));
             var scriptText = streamReader.ReadToEnd();
 
             // 各項目を置換
             scriptText = scriptText.Replace(Const.TemplateTag.PRODUCT_NAME, PlayerSettings.productName);
-            scriptText = scriptText.Replace(Const.TemplateTag.AUTHOR, _authorName);
-            scriptText = scriptText.Replace(Const.TemplateTag.DATA, _createdData);
-            scriptText = scriptText.Replace(Const.TemplateTag.SUMMARY, _scriptSummary.Replace(Environment.NewLine, Environment.NewLine + "///")); // 改行するとコメントアウトから外れるので修正
-            scriptText = scriptText.Replace(Const.TemplateTag.SCRIPT_NAME, _newScriptName);
-            scriptText = scriptText.Replace(Const.TemplateTag.PARAM1, _param1);
+            scriptText = scriptText.Replace(Const.TemplateTag.AUTHOR, param.authorName);
+            scriptText = scriptText.Replace(Const.TemplateTag.DATA, param.createdData);
+            scriptText = scriptText.Replace(Const.TemplateTag.SUMMARY, param.summary.Replace(Environment.NewLine, Environment.NewLine + "///")); // 改行するとコメントアウトから外れるので修正
+            scriptText = scriptText.Replace(Const.TemplateTag.SCRIPT_NAME, param.scriptName);
+            scriptText = scriptText.Replace(Const.TemplateTag.PARAM1, param.param1);
 
             // namespace
-            var array = new List<string>(directoryPath.Split('/'));
+            var array = new List<string>(param.directoryPath.Split('/'));
             int scriptIndex = array.LastIndexOf("Scripts");
             if (scriptIndex > 0)
             {
@@ -94,73 +107,11 @@ namespace Ling.Common.Editor.CustomScript
                 scriptText = scriptText.Replace(Const.TemplateTag.NAMESPACE, pathBelowScripts);
             }
 
-
             // スクリプトを書き出し
             File.WriteAllText(exportPath, scriptText, System.Text.Encoding.UTF8);
             AssetDatabase.Refresh(ImportAssetOptions.ImportRecursive);
 
             return true;
-        }
-
-        private static bool CreateScript()
-        {
-            // 現在作成しているファイルのパスを取得、選択されていない場合はスクリプト失敗
-            var directoryPath = AssetDatabase.GetAssetPath(Selection.activeObject);
-            if (string.IsNullOrEmpty(directoryPath))
-            {
-                Debug.Log("作成場所が選択されていないため、スクリプトが作成できませんでした");
-                return false;
-            }
-
-            // 選択されているファイルに拡張子がある場合(ディレクトリでない場合)は一つ上のディレクトリ内に作成する
-            if (!string.IsNullOrEmpty(new FileInfo(directoryPath).Extension))
-            {
-                directoryPath = Directory.GetParent(directoryPath).FullName;
-            }
-
-            return CreateScript(directoryPath);
-        }
-
-
-        /// <summary>
-        /// 表示Window
-        /// </summary>
-        private void OnGUI()
-        {
-            // 作成日と元テンプレートを表示
-            EditorGUILayout.LabelField("Template Script Name : " + _templateScriptName);
-            GUILayout.Space(0);
-            EditorGUILayout.LabelField("Created Data : " + _createdData);
-            GUILayout.Space(10);
-
-            // 新しく作成するスクリプト及びクラス名の入力欄
-            GUILayout.Label("New Script Name");
-            _newScriptName = GUILayout.TextField(_newScriptName);
-            GUILayout.Space(10);
-
-            // スクリプトの説明文
-            GUILayout.Label("Script Summary");
-            _scriptSummary = GUILayout.TextArea(_scriptSummary);
-            GUILayout.Space(10);
-
-            // 作者名の入力欄
-            GUILayout.Label("Author Name");
-            _authorName = GUILayout.TextField(_authorName);
-            GUILayout.Space(30);
-
-			// 汎用的なパラメータ
-			GUILayout.Label("Param 1");
-			_param1 = GUILayout.TextField(_param1);
-			GUILayout.Space(30);
-
-            // 作成ボタン、作成が成功したらウィンドウを閉じる
-            if (GUILayout.Button("Create"))
-            {
-                if (CreateScript())
-                {
-                    this.Close();
-                }
-            }
         }
     }
 }

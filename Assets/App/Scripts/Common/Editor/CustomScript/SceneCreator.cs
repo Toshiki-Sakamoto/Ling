@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace Ling.Common.Editor.CustomScript
 {
-	public class SceneCreator : Creator
+	public class SceneCreator : CreatorEditorWindow
 	{
 		private const string TEMPLATE_SCRIPT_NAME = "SceneClass";
 
