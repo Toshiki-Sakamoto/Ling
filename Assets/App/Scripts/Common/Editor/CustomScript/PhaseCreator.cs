@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace Ling.Common.Editor.CustomScript
 {
-	public class PhaseCreator : Creator
+	public class PhaseCreator : CreatorEditorWindow
 	{
 		private const string TEMPLATE_SCRIPT_NAME = "PhaseClass";
 

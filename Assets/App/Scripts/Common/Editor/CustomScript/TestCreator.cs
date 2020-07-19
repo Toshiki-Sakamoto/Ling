@@ -20,7 +20,7 @@ namespace Ling.Common.Editor.CustomScript
 	/// <summary>
 	/// Testスクリプト作成
 	/// </summary>
-	public class TestCreator : Creator
+	public class TestCreator : CreatorEditorWindow
 	{
 		private const string TEMPLATE_SCRIPT_NAME = "TestClass";
 
