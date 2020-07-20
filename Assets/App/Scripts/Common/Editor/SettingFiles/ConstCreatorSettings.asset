@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8cf5f0196b31234d868a62063f73958, type: 3}
-  m_Name: DefineCreatorSettings
+  m_Name: ConstCreatorSettings
   m_EditorClassIdentifier: 
-  saveDirectoryPath: App/Scripts/Define
+  saveDirectoryPath: Assets/App/Scripts/Define

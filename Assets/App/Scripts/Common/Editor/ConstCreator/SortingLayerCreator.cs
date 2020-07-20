@@ -10,10 +10,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-
-using Zenject;
 
 namespace Ling.Common.Editor.DefineCreator
 {
@@ -48,6 +47,26 @@ namespace Ling.Common.Editor.DefineCreator
 
 
 		#region public, protected 関数
+
+		[MenuItem("Tools/DefineCreator/SortingLayer")]
+		public static void Create()
+		{
+			var param = new ConstScriptCreator.Param<string>();
+
+			var tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset"));
+			var sortingLayerProperty = tagManager.FindProperty("m_SortingLayers");
+
+			for (int i = 0; i < sortingLayerProperty.arraySize; ++i)
+			{
+				var tag = sortingLayerProperty.GetArrayElementAtIndex(i);
+
+				// 名前と値を同じものを入れる
+				param.constPairs.Add(tag.displayName, tag.displayName);
+			}
+
+			// 定数作成クラスにあとは任せる
+			ConstScriptCreator.Create("SortingLayer", "SortingLayer名", param);
+		}
 
 		#endregion
 

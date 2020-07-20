@@ -18,9 +18,11 @@ namespace Ling.Common.Editor.CustomScript
             public string templateScriptName;
             public string authorName;   // 署名
             public string createdData;  // 作成日
-            public string summary;      // 概要
+            public string summary = string.Empty;   // 概要
 
-            public string param1;       // 汎用パラメータ
+            public bool isOverwriteSave;    // 既存スクリプトを上書き保存する場合true
+            public string param1 = string.Empty;    // 汎用パラメータ
+            public Dictionary<string, string> replacePairs; // 置き換えテキストKeyValue
         }
 
 
@@ -72,12 +74,15 @@ namespace Ling.Common.Editor.CustomScript
                 param.createdData = DateTime.Now.ToString("yyyy.MM.dd");
             }
 
-			// 同名ファイル名があった場合はスクリプト作成失敗にする(上書きしてしまうため)
-			var exportPath = param.directoryPath + "/" + param.scriptName + Const.EXT_SCRIPT;
-            if (File.Exists(exportPath))
+            // 同名ファイル名があった場合はスクリプト作成失敗にする(上書きしてしまうため)
+            var exportPath = param.directoryPath + "/" + param.scriptName + Const.EXT_SCRIPT;
+            if (!param.isOverwriteSave)
             {
-                Debug.Log(exportPath + "が既に存在するため、スクリプトが作成できませんでした");
-                return false;
+                if (File.Exists(exportPath))
+                {
+                    Debug.Log(exportPath + "が既に存在するため、スクリプトが作成できませんでした");
+                    return false;
+                }
             }
 
 
@@ -105,6 +110,14 @@ namespace Ling.Common.Editor.CustomScript
                 // ドットでつなげる
                 string pathBelowScripts = string.Join(".", array.ToArray());
                 scriptText = scriptText.Replace(Const.TemplateTag.NAMESPACE, pathBelowScripts);
+            }
+
+            if (param.replacePairs != null)
+            {
+                foreach (var pair in param.replacePairs)
+                {
+                    scriptText = scriptText.Replace(pair.Key, pair.Value);
+                }
             }
 
             // スクリプトを書き出し
