@@ -37,7 +37,7 @@ jobs:
 
       # Test
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.6
+        uses: webbertakken/unity-test-runner@v1.4
         id: tests
         with:
           projectPath: ${{ env.PROJECT_ROOT }}
