@@ -36,8 +36,7 @@ jobs:
           key: Library-${{ env.PROJECT_ROOT }}
 
       # Test
-      - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.6
+      - uses: webbertakken/unity-test-runner@v1.6
         id: tests
         with:
           projectPath: ${{ env.PROJECT_ROOT }}
