@@ -32,15 +32,15 @@ jobs:
         id: unity-test-runner
         with:
           unityVersion: 2020.1.0b15
-          artifactsPath: all-artifacts
           
-      - uses: actions/upload-artifact@main
+      # Build
+      - name: Build Project
+        uses: webbertakken/unity-builder@v0.10
         with:
-          name: test_results
-          path: ${{ steps.unity-test-runner.outputs.artifactsPath }}
-
-      # Output 
-      #- uses: actions/upload-artifact@v1
-      #  with:
-      #    name: Build
-      #    path: build
+          unityVersion: 2020.1.0b15
+          
+      # Output
+      - uses: actions/upload-artifact@v1
+        with:
+          name: Build
+          path: build
