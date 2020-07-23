@@ -3,10 +3,10 @@
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
-        "UnityEditor.TestRunner",
         "UniRx",
         "Zenject",
-        "UniTask"
+        "UniTask",
+        "UnityEditor.TestRunner"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
