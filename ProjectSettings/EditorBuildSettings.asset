@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/App/Scenes/Main.unity
     guid: 6eb712ef296d043baa082a7bfc8802f0
   - enabled: 1
-    path: Assets/App/Tests/PlayMode/Editor/Plugin/ZenjectTest/ZenjectTestScene.unity
+    path: Assets/App/Tests/PlayMode/Plugin/Zenject/ZenjectTestScene.unity
     guid: 14b978bd384dcbe4985ccbab9df17e71
   - enabled: 1
     path: Assets/App/Scenes/Title.unity
