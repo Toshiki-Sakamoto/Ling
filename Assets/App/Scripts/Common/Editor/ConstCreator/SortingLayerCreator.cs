@@ -52,6 +52,7 @@ namespace Ling.Common.Editor.DefineCreator
 		public static void Create()
 		{
 			var param = new ConstScriptCreator.Param<string>();
+			param.needsInsertComments = false;
 
 			var tagManager = new SerializedObject(AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/TagManager.asset"));
 			var sortingLayerProperty = tagManager.FindProperty("m_SortingLayers");
