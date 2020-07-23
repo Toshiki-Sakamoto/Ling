@@ -14,8 +14,6 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Zenject;
-
 namespace Ling.Common.Editor.DefineCreator
 {
 	/// <summary>
@@ -55,7 +53,7 @@ namespace Ling.Common.Editor.DefineCreator
 
 		public static ConstCreatorSettings Load()
 		{
-			var instance = AssetDatabase.LoadAssetAtPath<ConstCreatorSettings>("Assets/App/Scripts/Common/Editor/SettingFiles/ConstCreatorSettings.asset");
+			var instance = Utility.Editor.AssetHelper.LoadAsset<ConstCreatorSettings>();
 			if (instance == null)
 			{
 				Utility.Log.Error("指定された保存先にScriptableObjectがありません");
