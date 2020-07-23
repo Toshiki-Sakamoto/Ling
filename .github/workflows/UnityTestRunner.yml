@@ -28,10 +28,10 @@ jobs:
 
       # Test
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.4
+        uses: webbertakken/unity-test-runner@v1.6
         id: unity-test-runner
         with:
-          unityVersion: 2019.3.8f1
+          unityVersion: 2020.1.0b15
           artifactsPath: all-artifacts
           
       - uses: actions/upload-artifact@main
