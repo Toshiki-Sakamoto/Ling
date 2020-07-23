@@ -6,13 +6,22 @@ on:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  PROJECT_ROOT: .
 
 jobs:
-  build:
-    name: UnityTestRunnerBuild
+  testAllModes:
+    name: Test in ${{ matrix.testMode }} on version ${{ matrix.unityVersion }}
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        unityVersion:
+          - 2020.1.0b15
+        testMode:
+          - playmode
+          - editmode
+
     steps:
-    
       # Checkout
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -23,24 +32,21 @@ jobs:
       # Cache
       - uses: actions/cache@v1.1.0
         with:
-          path: Library
-          key: Library
+          path: ${{ env.PROJECT_ROOT }}/Library
+          key: Library-${{ env.PROJECT_ROOT }}
 
       # Test
       - name: Run tests
         uses: webbertakken/unity-test-runner@v1.6
-        id: unity-test-runner
+        id: tests
         with:
-          unityVersion: 2020.1.0b15
-          
-      # Build
-      - name: Build Project
-        uses: webbertakken/unity-builder@v0.10
-        with:
-          unityVersion: 2020.1.0b15
-          
+          projectPath: ${{ env.PROJECT_ROOT }}
+          unityVersion: ${{ matrix.unityVersion }}
+          testMode: ${{ matrix.testMode }}
+          artifactsPath: ${{ matrix.testMode }}-artifacts
+        
       # Output
       - uses: actions/upload-artifact@v1
         with:
-          name: Build
-          path: build
+          name: Test results for ${{ matrix.testMode }}
+          path: ${{ steps.tests.outputs.artifactsPath }}
