@@ -90,7 +90,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region public 変数
 
-		public System.Action<GroundTilemap, int> OnStartItem { get; set; }
+		public System.Action<GroundTilemap, int> OnStartGroundmapData { get; set; }
 		public System.Action<GroundTilemap, int> OnUpdateItem { get; set; }
 
 		#endregion
@@ -107,6 +107,11 @@ namespace Ling.Scenes.Battle.BattleMap
 		private List<GroundTilemap> _usedItems = new List<GroundTilemap>();
 		private List<GroundTilemap> _unusedItems = new List<GroundTilemap>();
 		private int _currentMapIndex = 0;
+		private List<string> _sortingMap = new List<string>() 
+			{ 
+				Const.SortingLayer.TileMap01,
+				Const.SortingLayer.TileMap02,
+			};
 
 		#endregion
 
@@ -150,7 +155,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 				PushUsedItem(tilemapData);
 
-				OnStartItem?.Invoke(tilemapData, i);
+				OnStartGroundmapData?.Invoke(tilemapData, i);
 			}
 
 			// 位置等を強制的に決める
@@ -231,6 +236,8 @@ namespace Ling.Scenes.Battle.BattleMap
 				var diff = i - currentIndex;
 
 				_usedItems[i].SetLocalPosition(new Vector3(0.0f, 0.0f, height * diff));
+
+				// SortingLayerの設定
 			}
 		}
 

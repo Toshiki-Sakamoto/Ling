@@ -69,7 +69,7 @@ namespace Ling.Scenes.Battle.BattleMap
 			_model.ChangeMapByIndex(curretMapIndex);
 
 			// 見た目の更新
-			_view.OnStartItem = _view.OnUpdateItem = 
+			_view.OnStartGroundmapData = _view.OnUpdateItem = 
 				(groundMap_, mapIndex_) =>
 				{
 					var mapData = _model.FindMapData(mapIndex_);
