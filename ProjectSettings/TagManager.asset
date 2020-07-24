@@ -46,20 +46,14 @@ TagManager:
   - name: TileMap01
     uniqueID: 896133625
     locked: 0
-  - name: TileObject01
-    uniqueID: 2892215659
-    locked: 0
   - name: TileMap02
     uniqueID: 3016118391
     locked: 0
-  - name: TileObject02
-    uniqueID: 3935363619
-    locked: 0
-  - name: TIleMap03
+  - name: TileMap03
     uniqueID: 3555648481
     locked: 0
-  - name: TileObject03
-    uniqueID: 4141288355
+  - name: TileMap04
+    uniqueID: 16896697
     locked: 0
   - name: Player
     uniqueID: 2227776659
