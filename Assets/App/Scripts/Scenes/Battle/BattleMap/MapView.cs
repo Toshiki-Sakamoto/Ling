@@ -59,10 +59,8 @@ namespace Ling.Scenes.Battle.BattleMap
 				grid.transform.localPosition = pos;
 			}
 
-			public void SetSortingLayer(string sortingLayer)
-			{
-
-			}
+			public void SetSortingLayer(string layerName) =>
+				_sortingChanger.LayerName = layerName;
 
 			/// <summary>
 			/// マップ情報を作成する
