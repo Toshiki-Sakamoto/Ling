@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-namespace Ling.Define
+namespace Ling.Const
 {
 	/// <summary>
 	/// SortingLayer名

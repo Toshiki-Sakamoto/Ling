@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Define
+namespace Ling.Const
 {
 	/// <summary>
 	/// 敵の種類

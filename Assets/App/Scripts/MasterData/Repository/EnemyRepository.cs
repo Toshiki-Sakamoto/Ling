@@ -50,7 +50,7 @@ namespace Ling.MasterData.Repository
 
 		#region public, protected 関数
 
-		public EnemyMaster Find(Define.EnemyType enemyType) =>
+		public EnemyMaster Find(Const.EnemyType enemyType) =>
 			Entities.Find(entity => entity.EnemyType == enemyType);
 
 		#endregion

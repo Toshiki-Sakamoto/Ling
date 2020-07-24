@@ -37,7 +37,7 @@ namespace Ling.MasterData.Stage
 		#region private 変数
 
 		[SerializeField, FieldName("敵の種類")] 
-		private Define.EnemyType _enemyType = default;
+		private Const.EnemyType _enemyType = default;
 		
 		[SerializeField, FieldName("出現率")] 
 		private int _popRate = default;
@@ -50,7 +50,7 @@ namespace Ling.MasterData.Stage
 		/// <summary>
 		/// 出現する敵の種類
 		/// </summary>
-		public Define.EnemyType EnemyType => _enemyType;
+		public Const.EnemyType EnemyType => _enemyType;
 
 		/// <summary>
 		/// 出現率
