@@ -25,64 +25,6 @@ namespace Ling.Scenes.Battle.BattleMap
     {
 		#region 定数, class, enum
 
-		[System.Serializable]
-		public class GroundTilemap
-		{
-			public Grid grid = default;
-			public Tilemap tilemap = default;
-			public int mapIndex = default;
-			public Transform enemyRoot = default;
-			public Utility.Renderer.SortingLayerChanger _sortingChanger = default;
-
-			/// <summary>
-			/// 初期化
-			/// </summary>
-			public void Reset()
-			{
-				tilemap.ClearAllTiles();
-
-				grid.gameObject.SetActive(false);
-			}
-
-			public void SetActive(bool isActive)
-			{
-				grid.gameObject.SetActive(isActive);
-			}
-
-			public void SetGridName(int index)
-			{
-				grid.name = $"GroundGrid_{index.ToString()}";
-			}
-
-			public void SetLocalPosition(Vector3 pos)
-			{
-				grid.transform.localPosition = pos;
-			}
-
-			public void SetSortingLayer(string layerName) =>
-				_sortingChanger.LayerName = layerName;
-
-			/// <summary>
-			/// マップ情報を作成する
-			/// </summary>
-			public void BuildMap(int mapIndex, int width, int height, Common.Tile.MapTile tile)
-			{
-				tilemap.ClearAllTiles();
-
-				this.mapIndex = mapIndex;
-
-				for (int y = 0; y <= height; ++y)
-				{
-					for (int x = 0; x <= width; ++x)
-					{
-						tilemap.SetTile(new Vector3Int(x, y, 0), tile);
-					}
-				}
-
-				SetGridName(mapIndex);
-			}
-		}
-
 		#endregion
 
 
@@ -105,10 +47,12 @@ namespace Ling.Scenes.Battle.BattleMap
 		private List<GroundTilemap> _usedItems = new List<GroundTilemap>();
 		private List<GroundTilemap> _unusedItems = new List<GroundTilemap>();
 		private int _currentMapIndex = 0;
-		private List<string> _sortingMap = new List<string>() 
-			{ 
-				Const.SortingLayer.TileMap01,
+		private List<string> _sortingMap = new List<string>()
+			{
+				Const.SortingLayer.TileMap04,
+				Const.SortingLayer.TileMap03,
 				Const.SortingLayer.TileMap02,
+				Const.SortingLayer.TileMap01,
 			};
 
 		#endregion
@@ -197,7 +141,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// </summary>
 		public GroundTilemap FindGroundTilemap(int mapIndex)
 		{
-			var mapData = _groundMaps.Find(map_ => map_.mapIndex == mapIndex);
+			var mapData = _groundMaps.Find(map_ => map_.MapIndex == mapIndex);
 			if (mapData == null)
 			{
 				Utility.Log.Error($"指定されたマップ階層(MapIndex)が見つからない {mapIndex}");
@@ -211,13 +155,13 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// 指定階層の敵ルートを取得する
 		/// </summary>
 		public Transform GetEnemyRoot(int level) =>
-			FindGroundTilemap(level)?.enemyRoot;
+			FindGroundTilemap(level)?.EnemyRoot;
 
 		/// <summary>
 		/// 指定したIndexのTilemapを検索する
 		/// </summary>
 		public Tilemap GetTilemap(int level) =>
-			FindGroundTilemap(level)?.tilemap;
+			FindGroundTilemap(level)?.Tilemap;
 
 
 		/// <summary>
@@ -226,7 +170,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <param name="startMapIndex"></param>
 		public void ForceTransformAdjustment(int startMapIndex)
 		{
-			var currentIndex = _usedItems.FindIndex(tile_ => tile_.mapIndex == startMapIndex);
+			var currentIndex = _usedItems.FindIndex(tile_ => tile_.MapIndex == startMapIndex);
 			var height = _masterManager.Const.MapDiffHeight;
 
 			for (int i = 0; i < _usedItems.Count; ++i)
@@ -236,6 +180,8 @@ namespace Ling.Scenes.Battle.BattleMap
 				_usedItems[i].SetLocalPosition(new Vector3(0.0f, 0.0f, height * diff));
 
 				// SortingLayerの設定
+				var sortingName = _sortingMap[i];
+				///_usedItems[i].SetSortingLayer(sortingName);
 			}
 		}
 
@@ -246,7 +192,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		{
 			foreach (var tilemap in _usedItems.ToArray())
 			{
-				if (indexes.Exists(index_ => index_ == tilemap.mapIndex))
+				if (indexes.Exists(index_ => index_ == tilemap.MapIndex))
 				{
 					continue;
 				}
@@ -278,7 +224,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <param name="groundTilemap"></param>
 		private void PushUnusedItem(GroundTilemap groundTilemap)
 		{
-			groundTilemap.Reset();
+			groundTilemap.Clear();
 
 			// リストにあるなら取り除く
 			_usedItems.Remove(groundTilemap);
