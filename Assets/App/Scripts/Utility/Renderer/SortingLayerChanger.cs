@@ -52,7 +52,7 @@ namespace Ling.Utility.Renderer
 			set
 			{
 				_layerName = value;
-				foreach (var renderer in GetComponentsInChildren<UnityEngine.Renderer>())
+				foreach (var renderer in GetComponentsInChildren<UnityEngine.Renderer>(includeInactive: true))
 				{
 					renderer.sortingLayerName = _layerName;
 				}
@@ -65,7 +65,7 @@ namespace Ling.Utility.Renderer
 			set
 			{
 				_orderInLayer = value;
-				foreach (var renderer in GetComponentsInChildren<UnityEngine.Renderer>())
+				foreach (var renderer in GetComponentsInChildren<UnityEngine.Renderer>(includeInactive: true))
 				{
 					renderer.sortingOrder = _orderInLayer;
 				}
