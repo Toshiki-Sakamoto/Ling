@@ -168,6 +168,8 @@ namespace Ling.Common.Tile
 
 		private void UpdateTile(Vector3Int position, ITilemap tilemap, ref TileData tileData)
 		{
+			if (TileDataMap == null) return;
+
 			tileData.transform = Matrix4x4.identity;
 			tileData.color = Color.white;
 
