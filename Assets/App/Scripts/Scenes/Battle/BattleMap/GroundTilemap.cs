@@ -35,10 +35,9 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		[SerializeField] private Grid _grid = default;
 		[SerializeField] private Tilemap _tilemap = default;
-		[SerializeField] private int _mapIndex = default;
+		[SerializeField] private int _mapLevel = default;
 		[SerializeField] private Transform _enemyRoot = default;
-		[SerializeField] private Utility.Renderer.SortingLayerChanger _mapSortingChanger = default;
-		[SerializeField] private Utility.Renderer.SortingLayerChanger _enemySortingChanger = default;
+		[SerializeField] private Utility.Renderer.SortingLayerChanger _sortingChanger = default;
 
 		#endregion
 
@@ -47,9 +46,14 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		public Tilemap Tilemap => _tilemap;
 
-		public int MapIndex => _mapIndex;
+		public int Level => _mapLevel;
 
 		public Transform EnemyRoot => _enemyRoot;
+
+		/// <summary>
+		/// SortingLayer名
+		/// </summary>
+		public string LayerName => _sortingChanger.LayerName;
 
 		#endregion
 
@@ -86,10 +90,9 @@ namespace Ling.Scenes.Battle.BattleMap
 			_grid.transform.localPosition = pos;
 		}
 
-		public void SetSortingLayer(string mapLayerName, string enemyLayerName)
+		public void SetSortingLayer(string layerName)
 		{
-			_mapSortingChanger.LayerName = mapLayerName;
-			_enemySortingChanger.LayerName = enemyLayerName;
+			_sortingChanger.LayerName = layerName;
 		}
 
 		/// <summary>
@@ -99,7 +102,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		{
 			_tilemap.ClearAllTiles();
 
-			_mapIndex = mapIndex;
+			_mapLevel = mapIndex;
 
 			for (int y = 0; y <= height; ++y)
 			{

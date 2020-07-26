@@ -101,7 +101,7 @@ namespace Ling.Scenes.Battle.BattleMap
 					break;
 
 				case Chara.CharaType.Enemy:
-					chara.transform.SetParent(_view.GetEnemyRoot(level), worldPositionStays: false);
+					_view.SetEnemy(chara, level);
 					break;
 
 				default:

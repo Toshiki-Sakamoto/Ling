@@ -25,6 +25,13 @@ namespace Ling.Scenes.Battle.BattleMap
     {
 		#region 定数, class, enum
 
+		public enum OrderType : int
+		{
+			Map, 
+			Item,
+			Chara
+		}
+
 		#endregion
 
 
@@ -139,16 +146,29 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <summary>
 		/// 指定した階層のマップのTilemapを取得する
 		/// </summary>
-		public GroundTilemap FindGroundTilemap(int mapIndex)
+		public GroundTilemap FindGroundTilemap(int level)
 		{
-			var mapData = _groundMaps.Find(map_ => map_.MapIndex == mapIndex);
+			var mapData = _groundMaps.Find(map_ => map_.Level == level);
 			if (mapData == null)
 			{
-				Utility.Log.Error($"指定されたマップ階層(MapIndex)が見つからない {mapIndex}");
+				Utility.Log.Error($"指定されたマップ階層(MapIndex)が見つからない {level}");
 				return null;
 			}
 
 			return mapData;
+		}
+
+		/// <summary>
+		/// 敵を指定したレベルのマップに設定する
+		/// </summary>
+		public void SetEnemy(Chara.Base enemy, int level)
+		{
+			var root = GetEnemyRoot(level);
+			var groundTilemap = FindGroundTilemap(level);
+
+			// 親とsortingLayerの設定
+			enemy.transform.SetParent(root, worldPositionStays: false);
+			enemy.SetSortingLayerAndOrder(groundTilemap.LayerName, (int)OrderType.Chara);
 		}
 
 		/// <summary>
@@ -167,10 +187,10 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <summary>
 		/// 指定したMapIndexを中心としてMapを並び直す
 		/// </summary>
-		/// <param name="startMapIndex"></param>
-		public void ForceTransformAdjustment(int startMapIndex)
+		/// <param name="startLevel"></param>
+		public void ForceTransformAdjustment(int startLevel)
 		{
-			var currentIndex = _usedItems.FindIndex(tile_ => tile_.MapIndex == startMapIndex);
+			var currentIndex = _usedItems.FindIndex(tile_ => tile_.Level == startLevel);
 			var height = _masterManager.Const.MapDiffHeight;
 
 			for (int i = 0; i < _usedItems.Count; ++i)
@@ -181,7 +201,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 				// SortingLayerの設定
 				var sortingName = _sortingMap[i];
-				///_usedItems[i].SetSortingLayer(sortingName);
+				_usedItems[i].SetSortingLayer(sortingName);
 			}
 		}
 
@@ -192,7 +212,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		{
 			foreach (var tilemap in _usedItems.ToArray())
 			{
-				if (indexes.Exists(index_ => index_ == tilemap.MapIndex))
+				if (indexes.Exists(index_ => index_ == tilemap.Level))
 				{
 					continue;
 				}

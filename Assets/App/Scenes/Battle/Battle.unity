@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 109318012}
   - component: {fileID: 109318013}
   - component: {fileID: 109318014}
+  - component: {fileID: 109318015}
   m_Layer: 0
   m_Name: GroundGrid03
   m_TagString: Untagged
@@ -382,8 +383,22 @@ MonoBehaviour:
   _tilemap: {fileID: 1174814662}
   _mapIndex: 0
   _enemyRoot: {fileID: 669260389}
-  _mapSortingChanger: {fileID: 1174814663}
-  _enemySortingChanger: {fileID: 669260390}
+  _sortingChanger: {fileID: 109318015}
+--- !u!114 &109318015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109318011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerName: Default
+  _orderInLayer: 0
+  _isIncludeChildren: 1
 --- !u!1 &116123181
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,7 +410,6 @@ GameObject:
   - component: {fileID: 116123182}
   - component: {fileID: 116123184}
   - component: {fileID: 116123183}
-  - component: {fileID: 116123185}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -503,21 +517,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &116123185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116123181}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: Default
-  _orderInLayer: 0
-  _isIncludeChildren: 1
 --- !u!1 &120140526
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,6 +611,7 @@ GameObject:
   - component: {fileID: 143247242}
   - component: {fileID: 143247243}
   - component: {fileID: 143247244}
+  - component: {fileID: 143247245}
   m_Layer: 0
   m_Name: GroundGrid02
   m_TagString: Untagged
@@ -663,8 +663,22 @@ MonoBehaviour:
   _tilemap: {fileID: 116123184}
   _mapIndex: 0
   _enemyRoot: {fileID: 1481681377}
-  _mapSortingChanger: {fileID: 116123185}
-  _enemySortingChanger: {fileID: 1481681378}
+  _sortingChanger: {fileID: 143247245}
+--- !u!114 &143247245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143247241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerName: Default
+  _orderInLayer: 0
+  _isIncludeChildren: 1
 --- !u!1 &237590608
 GameObject:
   m_ObjectHideFlags: 0
@@ -1301,7 +1315,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 669260389}
-  - component: {fileID: 669260390}
   m_Layer: 0
   m_Name: EnemyRoot
   m_TagString: Untagged
@@ -1323,21 +1336,6 @@ Transform:
   m_Father: {fileID: 109318012}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &669260390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 669260388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: Default
-  _orderInLayer: 0
-  _isIncludeChildren: 1
 --- !u!1 &746388220
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,7 +1520,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 776082088}
-  - component: {fileID: 776082089}
   m_Layer: 0
   m_Name: EnemyRoot
   m_TagString: Untagged
@@ -1544,21 +1541,6 @@ Transform:
   m_Father: {fileID: 1017254157}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &776082089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 776082087}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: Default
-  _orderInLayer: 0
-  _isIncludeChildren: 1
 --- !u!1 &863925386
 GameObject:
   m_ObjectHideFlags: 0
@@ -1870,7 +1852,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1015893937}
-  - component: {fileID: 1015893938}
   m_Layer: 0
   m_Name: EnemyRoot
   m_TagString: Untagged
@@ -1892,21 +1873,6 @@ Transform:
   m_Father: {fileID: 2080930054}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1015893938
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015893936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: Default
-  _orderInLayer: 0
-  _isIncludeChildren: 1
 --- !u!1 &1017254156
 GameObject:
   m_ObjectHideFlags: 0
@@ -1918,6 +1884,7 @@ GameObject:
   - component: {fileID: 1017254157}
   - component: {fileID: 1017254158}
   - component: {fileID: 1017254159}
+  - component: {fileID: 1017254160}
   m_Layer: 0
   m_Name: GroundGrid_1
   m_TagString: Untagged
@@ -1969,8 +1936,22 @@ MonoBehaviour:
   _tilemap: {fileID: 1845025752}
   _mapIndex: 0
   _enemyRoot: {fileID: 776082088}
-  _mapSortingChanger: {fileID: 1845025753}
-  _enemySortingChanger: {fileID: 776082089}
+  _sortingChanger: {fileID: 1017254160}
+--- !u!114 &1017254160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017254156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerName: Default
+  _orderInLayer: 0
+  _isIncludeChildren: 1
 --- !u!1 &1067402338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2391,7 +2372,6 @@ GameObject:
   - component: {fileID: 1174814660}
   - component: {fileID: 1174814662}
   - component: {fileID: 1174814661}
-  - component: {fileID: 1174814663}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -2499,21 +2479,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &1174814663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1174814659}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: Default
-  _orderInLayer: 0
-  _isIncludeChildren: 1
 --- !u!1 &1222020710
 GameObject:
   m_ObjectHideFlags: 0
@@ -2915,30 +2880,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerRoot: {fileID: 55514715}
   _groundMaps:
-  - grid: {fileID: 1017254158}
-    tilemap: {fileID: 1845025752}
-    mapIndex: 0
-    enemyRoot: {fileID: 776082088}
-    _mapSortingChanger: {fileID: 0}
-    _enemySortingChanger: {fileID: 0}
-  - grid: {fileID: 2080930055}
-    tilemap: {fileID: 2058739658}
-    mapIndex: 0
-    enemyRoot: {fileID: 1015893937}
-    _mapSortingChanger: {fileID: 0}
-    _enemySortingChanger: {fileID: 0}
-  - grid: {fileID: 143247243}
-    tilemap: {fileID: 116123184}
-    mapIndex: 0
-    enemyRoot: {fileID: 1481681377}
-    _mapSortingChanger: {fileID: 0}
-    _enemySortingChanger: {fileID: 0}
-  - grid: {fileID: 109318013}
-    tilemap: {fileID: 1174814662}
-    mapIndex: 0
-    enemyRoot: {fileID: 669260389}
-    _mapSortingChanger: {fileID: 0}
-    _enemySortingChanger: {fileID: 0}
+  - {fileID: 1017254159}
+  - {fileID: 2080930056}
+  - {fileID: 143247244}
+  - {fileID: 109318014}
 --- !u!114 &1378394486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3134,7 +3079,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1481681377}
-  - component: {fileID: 1481681378}
   m_Layer: 0
   m_Name: EnemyRoot
   m_TagString: Untagged
@@ -3156,21 +3100,6 @@ Transform:
   m_Father: {fileID: 143247242}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1481681378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481681376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: Default
-  _orderInLayer: 0
-  _isIncludeChildren: 1
 --- !u!1 &1491470947
 GameObject:
   m_ObjectHideFlags: 0
@@ -3761,7 +3690,6 @@ GameObject:
   - component: {fileID: 1845025750}
   - component: {fileID: 1845025752}
   - component: {fileID: 1845025751}
-  - component: {fileID: 1845025753}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -7920,21 +7848,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &1845025753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1845025749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: Default
-  _orderInLayer: 0
-  _isIncludeChildren: 1
 --- !u!1 &1870920869
 GameObject:
   m_ObjectHideFlags: 0
@@ -8220,7 +8133,6 @@ GameObject:
   - component: {fileID: 2058739656}
   - component: {fileID: 2058739658}
   - component: {fileID: 2058739657}
-  - component: {fileID: 2058739659}
   m_Layer: 0
   m_Name: Tilemap
   m_TagString: Untagged
@@ -12379,21 +12291,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &2058739659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2058739655}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: Default
-  _orderInLayer: 0
-  _isIncludeChildren: 1
 --- !u!1 &2080930053
 GameObject:
   m_ObjectHideFlags: 0
@@ -12405,6 +12302,7 @@ GameObject:
   - component: {fileID: 2080930054}
   - component: {fileID: 2080930055}
   - component: {fileID: 2080930056}
+  - component: {fileID: 2080930057}
   m_Layer: 0
   m_Name: GroundGrid_2
   m_TagString: Untagged
@@ -12456,8 +12354,22 @@ MonoBehaviour:
   _tilemap: {fileID: 2058739658}
   _mapIndex: 0
   _enemyRoot: {fileID: 1015893937}
-  _mapSortingChanger: {fileID: 2058739659}
-  _enemySortingChanger: {fileID: 1015893938}
+  _sortingChanger: {fileID: 2080930057}
+--- !u!114 &2080930057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080930053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerName: Default
+  _orderInLayer: 0
+  _isIncludeChildren: 1
 --- !u!1 &2112815755
 GameObject:
   m_ObjectHideFlags: 0
