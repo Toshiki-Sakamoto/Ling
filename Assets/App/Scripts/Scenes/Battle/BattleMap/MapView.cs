@@ -15,6 +15,8 @@ using UniRx;
 
 using Zenject;
 using Cysharp.Threading.Tasks;
+using Ling.Utility;
+using System.Runtime.CompilerServices;
 
 namespace Ling.Scenes.Battle.BattleMap
 {
@@ -48,8 +50,9 @@ namespace Ling.Scenes.Battle.BattleMap
 		[SerializeField] private Transform _playerRoot = default;
 		[SerializeField] private List<GroundTilemap> _groundMaps = default;
 
-		[Inject] private BattleModel _model = null;
-		[Inject] private MasterData.MasterManager _masterManager = null;
+		[Inject] private BattleModel _model = default;
+		[Inject] private MasterData.MasterManager _masterManager = default;
+		[Inject] private IEventManager _eventManager = default;
 
 		private List<GroundTilemap> _usedItems = new List<GroundTilemap>();
 		private List<GroundTilemap> _unusedItems = new List<GroundTilemap>();
@@ -210,6 +213,9 @@ namespace Ling.Scenes.Battle.BattleMap
 
 				// 削除する
 				PushUnusedItem(tilemap);
+
+				// 削除したことを伝える
+				_eventManager.Trigger(new EventRemoveMap { level = tilemap.Level });
 			}
 		}
 

@@ -7,6 +7,7 @@
 using Cysharp.Threading.Tasks;
 using Ling.Adv;
 using Ling.MasterData.Stage;
+using Ling.Scenes.Battle;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -184,6 +185,12 @@ namespace Ling.Chara
 			var enemyGroup = FindEnemyGroup(level);
 			if (enemyGroup == null) return;
 
+			// 敵をViewから取り除く
+			foreach (var enemy in enemyGroup.Models)
+			{
+				_view.RemoveChara(enemy);
+			}
+
 			enemyGroup.OnDestroy();
 
 			EnemyModelGroups.Remove(level);
@@ -231,6 +238,21 @@ namespace Ling.Chara
 
 
 		#region MonoBegaviour
+
+		private void Awake()
+		{
+			// マップが削除されたとき敵をプールに戻す
+			_eventManager.Add<EventRemoveMap>(this, 
+				_ev => 
+				{
+					RemoveEnemyGroup(_ev.level);
+				});
+		}
+
+		private void OnDestroy()
+		{
+			_eventManager.RemoveAll(this);
+		}
 
 		#endregion
 	}

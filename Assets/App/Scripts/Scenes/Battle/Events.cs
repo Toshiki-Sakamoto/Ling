@@ -57,4 +57,12 @@ namespace Ling.Scenes.Battle
 		public int level;
 		public UnityEngine.Tilemaps.Tilemap tilemap;
 	}
+
+	/// <summary>
+	/// マップが削除された
+	/// </summary>
+	public class EventRemoveMap
+	{
+		public int level;
+	}
 }
