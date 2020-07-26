@@ -73,6 +73,11 @@ namespace Ling.Scenes.Battle
 		public Tilemap CurrentTilemap => MapControl.FindTilemap(CurrentMapIndex);
 
 		/// <summary>
+		/// 最後に作成したマップのレベル
+		/// </summary>
+		public int LastBuildMapLevel { get; private set; }
+
+		/// <summary>
 		/// Map/MiniMapの管理
 		/// </summary>
 		public BattleMap.MapControl MapControl => _control;
@@ -106,12 +111,8 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 次のマップViewを作成する
 		/// </summary>
-		public IObservable<AsyncUnit> CreateMapView()
-		{
-			var nextMapIndex = CurrentMapIndex + 1;
-
-			return MapControl.CreateMapView(nextMapIndex, nextMapIndex + BattleConst.AddShowMap);
-		}
+		public void CreateMapView(int level) =>
+			MapControl.CreateMapView(level);
 
 		/// <summary>
 		/// マップから指定したセルのワールド座標を取得する
@@ -160,8 +161,12 @@ namespace Ling.Scenes.Battle
 			return LoadAsync(mapIDs);
 		}
 
-		public UniTask BuildNextMapAsync() =>
-			BuildMapAsync(CurrentMapIndex + BattleConst.AddShowMap + 1);
+		public UniTask BuildNextMapAsync()
+		{
+			LastBuildMapLevel = CurrentMapIndex + BattleConst.AddShowMap + 1;
+
+			return BuildMapAsync(LastBuildMapLevel);
+		}
 
 		/// <summary>
 		/// 次の階層に変化する

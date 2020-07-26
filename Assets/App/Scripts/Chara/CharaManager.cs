@@ -149,7 +149,7 @@ namespace Ling.Chara
 		/// 指定レベルの敵を作成する
 		/// </summary>
 		/// <param name="level"></param>
-		public async UniTask BuildEnemyGroupAsync(int level, Tilemap tilemap)
+		public async UniTask<EnemyModelGroup> BuildEnemyGroupAsync(int level, Tilemap tilemap)
 		{
 			RemoveEnemyGroup(level);
 
@@ -157,7 +157,7 @@ namespace Ling.Chara
 			if (mapMaster == null)
 			{
 				Utility.Log.Error($"指定したMapMasterがない Level:{level}");
-				return;
+				return null;
 			}
 
 			var enemyModelGroup = new EnemyModelGroup();
@@ -172,6 +172,8 @@ namespace Ling.Chara
 			}
 
 			EnemyModelGroups.Add(level, enemyModelGroup);
+
+			return enemyModelGroup;
 		}
 
 		/// <summary>

@@ -121,26 +121,17 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <summary>
 		/// 新しいマップを作成
 		/// </summary>
-		public IObservable<AsyncUnit> CreateMapView(int nextMapIndex, int createMapIndex)
+		public void CreateMapView(int createMapIndex)
 		{
-			return Observable.Create<AsyncUnit>(observer_ =>
-				{
-					// 新しいマップを作成する
-					var tilemapData = PopUnusedItem();
+			// 新しいマップを作成する
+			var tilemapData = PopUnusedItem();
 
-					PushUsedItem(tilemapData);
+			PushUsedItem(tilemapData);
 
-					// 初期位置に配置する
-					ForceTransformAdjustment(_currentMapIndex);
+			// 初期位置に配置する
+			ForceTransformAdjustment(_currentMapIndex);
 
-					OnUpdateItem?.Invoke(tilemapData, createMapIndex);
-
-					// OnNext読んでやらないとSubscribeのonNextが呼ばれないよ
-					observer_.OnNext(new AsyncUnit());
-					observer_.OnCompleted();
-
-					return Disposable.Empty;
-				});
+			OnUpdateItem?.Invoke(tilemapData, createMapIndex);
 		}
 
 		/// <summary>

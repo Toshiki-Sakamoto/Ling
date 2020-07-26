@@ -84,17 +84,27 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			await _mapManager.BuildNextMapAsync();
 
-			var createMapViewObservable = _mapManager.CreateMapView();
-				createMapViewObservable.Subscribe(_ =>
+			var level = _mapManager.LastBuildMapLevel;
+
+			// MapViewを作成する
+			_mapManager.CreateMapView(level);
+
+			// マップに敵を生成する
+			var enemyModelGroup = await _charaManager.BuildEnemyGroupAsync(level, _mapManager.FindTilemap(level));
+			if (enemyModelGroup == null)
+			{
+				return;
+			}
+
+			Scene.DeployEnemyToMap(enemyModelGroup, level);
+
+			// 動きを制御
+			var process = _processManager.Attach<Process.ProcessNextStageAnim>();
+			process.OnFinish =
+				() =>
 				{
-					// 動きを制御
-					var process = _processManager.Attach<Process.ProcessNextStageAnim>();
-					process.OnFinish =
-						() =>
-						{
-							ApplyNextLevel();
-						};
-				});
+					ApplyNextLevel();
+				};
 		}
 
 		private void ApplyNextLevel()

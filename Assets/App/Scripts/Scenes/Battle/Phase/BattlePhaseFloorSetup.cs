@@ -66,7 +66,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Proc() 
 		{
-			Change(BattleScene.Phase.CharaSetup);
+			Change(BattleScene.Phase.PlayerAction);
 		}
 
 		public override void Term() 

@@ -121,10 +121,8 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <param name="nextMapIndex"></param>
 		/// <param name="createMapIndex"></param>
 		/// <returns></returns>
-		public IObservable<AsyncUnit> CreateMapView(int nextMapIndex, int createMapIndex)
-		{
-			return _view.CreateMapView(nextMapIndex, createMapIndex);
-		}
+		public void CreateMapView(int createMapIndex) =>
+			_view.CreateMapView(createMapIndex);
 
 		/// <summary>
 		/// 現在のマップを一つ進め、変更する
