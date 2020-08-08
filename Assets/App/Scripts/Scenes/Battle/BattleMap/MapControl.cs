@@ -165,6 +165,16 @@ namespace Ling.Scenes.Battle.BattleMap
 			_view.GetTilemap(level);
 
 		/// <summary>
+		/// 指定階層の指定座標のタイルデータを取得する
+		/// </summary>
+		public ref Map.TileData GetTileData(int level, int x, int y)
+		{
+			var tileDatamap = _model.FindTileDataMap(level);
+
+			return ref tileDatamap.GetTile(x, y);
+		}
+
+		/// <summary>
 		/// 次のフロアに移動させる
 		/// </summary>
 		/// <remarks>

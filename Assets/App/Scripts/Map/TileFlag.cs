@@ -31,6 +31,8 @@ namespace Ling.Map
 			Road		= 1 << 5,	// 道
 			Item		= 1 << 6,	// アイテム
 			Trap		= 1 << 7,	// 罠
+			Player		= 1 << 8,	// プレイヤー
+			Enemy		= 1 << 9,	// エネミー
 	}
 
 	public static class TileFlagExtensions

@@ -13,6 +13,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Ling.Scenes.Battle.BattleMap
 {
@@ -38,6 +39,8 @@ namespace Ling.Scenes.Battle.BattleMap
 		[SerializeField] private int _mapLevel = default;
 		[SerializeField] private Transform _enemyRoot = default;
 		[SerializeField] private Utility.Renderer.SortingLayerChanger _sortingChanger = default;
+
+		[Inject] private MasterData.MasterManager _masterManager = default;
 
 		#endregion
 
@@ -104,6 +107,17 @@ namespace Ling.Scenes.Battle.BattleMap
 
 			_mapLevel = mapIndex;
 
+			// 見えない壁補正をつける
+#if false
+			var correct = _masterManager.Const.CorrectionMapSize;
+			for (int y = 0, ySize = height + correct.y; y <= ySize; ++y)
+			{
+				for (int x = 0, xSize = width + correct.x; x <= xSize; ++x)
+				{
+					_tilemap.SetTile(new Vector3Int(x, y, 0), tile);
+				}
+			}
+#endif
 			for (int y = 0; y <= height; ++y)
 			{
 				for (int x = 0; x <= width; ++x)

@@ -123,6 +123,7 @@ namespace Ling.Scenes.Battle
 		public Vector3 GetCellCenterWorldByMap(int mapIndex, int x, int y) =>
 			MapControl.GetCellCenterWorld(mapIndex, x, y);
 
+
 		/// <summary>
 		/// キャラが移動できるか
 		/// </summary>
@@ -184,23 +185,6 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		public Tilemap FindTilemap(int level) =>
 			MapControl.FindTilemap(level);
-
-
-		/// <summary>
-		/// はみ出した余分なMapを削除する
-		/// </summary>
-		public void RemoveExtraMap()
-		{
-
-		}
-
-		/// <summary>
-		/// 現在のMap
-		/// </summary>
-		public void RefreshMap()
-		{
-
-		}
 
 		#endregion
 
