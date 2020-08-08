@@ -2,7 +2,7 @@ name: UnityTestRunner
 
 on:
   pull_request:
-    types: [opened, synchronize]
+   types: [opened, synchronize]
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
