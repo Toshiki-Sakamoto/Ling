@@ -18,7 +18,7 @@ using Zenject;
 namespace Ling.Scenes.Battle.Phase
 {
 	/// <summary>
-	/// 
+	/// 敵の行動
 	/// </summary>
 	public class BattlePhaseEnemyAction : BattlePhaseBase
 	{
@@ -33,6 +33,9 @@ namespace Ling.Scenes.Battle.Phase
 
 
 		#region private 変数
+		
+		private Chara.CharaManager _charaManager;
+		private MapManager _mapManager;
 
 		#endregion
 
@@ -49,8 +52,16 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Init() 
+		public override void Init()
 		{
+			_charaManager = Resolve<Chara.CharaManager>();
+			_mapManager = Resolve<MapManager>();
+
+			// 敵全員を生成順に
+			// 「攻撃するか」
+			// 「移動するか」
+			// 「特技を使うか」
+			// のそれぞれに分類する
 		}
 
 		public override void Proc() 

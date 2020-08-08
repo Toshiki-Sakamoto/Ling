@@ -37,6 +37,7 @@ namespace Ling.Scenes.Battle
 			PlayerActionProcess,
 			PlayerActionEnd,
 			EnemyAction,
+			EnemyTink,
 			NextStage,
 			Adv,
 		}
@@ -121,6 +122,7 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.PlayerActionEnd, new Battle.Phase.BattlePhasePlayerActionEnd());
 			_phase.Add(Phase.Adv, new Battle.Phase.BattlePhaseAdv());
 			_phase.Add(Phase.NextStage, new Battle.Phase.BattlePhaseNextStage());
+			_phase.Add(Phase.EnemyTink, new Battle.Phase.BattlePhaseEnemyThink());
 
 			_phase.Start(this, Phase.Start);
 

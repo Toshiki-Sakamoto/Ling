@@ -93,11 +93,13 @@ namespace Ling.Scenes.Battle.Phase
 				return;
 			}
 
-			var process = _processManager.Attach<Process.ProcessPlayerMoveStart>().Setup(moveDistance);
+			// マップ上は移動する
+
+			//var process = _processManager.Attach<Process.ProcessPlayerMoveStart>().Setup(moveDistance);
 
 			// Player行動中に遷移
-			var argument = new BattlePhasePlayerActionProcess.Argument { process = process };
-			Change(BattleScene.Phase.PlayerActionProcess, argument);
+			//var argument = new BattlePhasePlayerActionProcess.Argument { process = process };
+			//Change(BattleScene.Phase.PlayerActionProcess, argument);
 		}
 
 		/// <summary>
