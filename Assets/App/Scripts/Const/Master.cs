@@ -34,4 +34,25 @@ namespace Ling.Const
 		None,
 		First,	// 最初
 	}
+
+	/// <summary>
+	/// 移動AIの種類
+	/// </summary>
+	public enum MoveAIType
+	{ 
+		None,
+
+		Manual,				// 手動操作
+		NormalTracking,		// 通常の追跡型
+	}
+
+	/// <summary>
+	/// 攻撃AIの種類
+	/// </summary>
+	public enum AttackAIType
+	{
+		None,
+
+		Normal,	// 通常の攻撃しかしない
+	}
 }
