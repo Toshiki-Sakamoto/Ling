@@ -334,4 +334,32 @@ namespace Ling.Utility
 			Instance = null;
 		}
 	}
+
+
+	public static class EventManagerExtensions
+	{
+		private static System.Action<GameObject> eventRemoveAction = 
+			instance =>
+			{
+				EventManager.Instance.RemoveAll(instance);
+			};
+
+		/// <summary>
+		/// GameObjectに対してイベントのListenerを宣言
+		/// 削除処理を自動で行う
+		/// </summary>
+		public static void AddEventListener<TEvent>(this GameObject gameObject, System.Action<TEvent> act) where TEvent : class
+		{
+			if (EventManager.Instance == null)
+			{
+				Utility.Log.Warning("EventManagerが存在しないためEventの登録ができませんでした");
+				return;
+			}
+
+			// GameObject破棄する際にイベントリスナーも抹消する
+			gameObject.AddDestroyCallbackIfNeeded(eventRemoveAction);
+
+			EventManager.Instance.Add<TEvent>(gameObject, act);
+		}
+	}
 }
