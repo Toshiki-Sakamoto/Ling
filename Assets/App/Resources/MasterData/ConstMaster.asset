@@ -12,4 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b487b9c2dbea64c4998a836fb0910cef, type: 3}
   m_Name: ConstMaster
   m_EditorClassIdentifier: 
+  _id: 0
   _mapDiffHeight: 20
+  _playerLevelMoveTime: 1
+  _mapLevelMoveTime: 1.2
+  _enemyMaxCreateNum: 0
+  _correctionMapSize: {x: 5, y: 5}
