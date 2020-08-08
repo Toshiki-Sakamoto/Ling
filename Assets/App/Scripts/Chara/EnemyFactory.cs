@@ -55,10 +55,9 @@ namespace Ling.Chara
 		public static CharaModel Create(MapEnemyData mapEnemyData)
 		{
 			var enemyMaster = MasterManager.Instance.EnemyRepository.Find(mapEnemyData.EnemyType);
-			var status = new CharaStatus(enemyMaster.Status);
-
 			var charaModel = new CharaModel();
-			charaModel.Setup(status);
+			charaModel.Setup(enemyMaster.Status);
+			charaModel.SetAIType(enemyMaster.AttackAIType, enemyMaster.MoveAIType);
 
 			return charaModel;
 		}

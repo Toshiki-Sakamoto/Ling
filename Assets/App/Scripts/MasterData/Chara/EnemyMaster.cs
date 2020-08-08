@@ -39,6 +39,12 @@ namespace Ling.MasterData.Chara
 		[SerializeField, FieldName("敵の種類")]
 		private Const.EnemyType _enemyType = default;
 
+		[SerializeField, FieldName("攻撃AIの種類")]
+		private Const.AttackAIType _attackAIType = default;
+
+		[SerializeField, FieldName("移動AIの種類")]
+		private Const.MoveAIType _moveAIType = default;
+
 		[SerializeField]
 		private StatusData _status = default;
 
@@ -49,7 +55,12 @@ namespace Ling.MasterData.Chara
 
 		public Const.EnemyType EnemyType => _enemyType;
 
+		public Const.AttackAIType AttackAIType => _attackAIType;
+
+		public Const.MoveAIType MoveAIType => _moveAIType;
+
 		public StatusData Status => _status;
+
 
 		#endregion
 

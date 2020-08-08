@@ -35,6 +35,7 @@ namespace Ling.Chara
         [SerializeField] private Animator _animator = default;
         [SerializeField] private Vector3Int _vecCellPos = default; // マップ上の自分の位置
         [SerializeField] private MoveController _moveController = default;
+        [SerializeField] private Ling.Const.MoveAIType _aiType = default;
         [SerializeField] private CharaStatus _status = default;
 
         private Tilemap _tilemap;
@@ -70,12 +71,12 @@ namespace Ling.Chara
 
         #region public, protected 関数
 
-        public void Setup(CharaStatus status)
+        public void Setup(CharaModel charaModel)
 		{
-            _status = status;
+            _status = charaModel.Status;
 
             // 死亡時
-            status.IsDead.Where(isDead_ => isDead_)
+            _status.IsDead.Where(isDead_ => isDead_)
                 .Subscribe(_ =>
                 {
 
@@ -132,10 +133,10 @@ namespace Ling.Chara
                 renderer.sortingOrder = order;
 			}
 		}
-        #endregion
+#endregion
 
 
-        #region private 関数
+#region private 関数
 
 
         /// <summary>
@@ -149,10 +150,10 @@ namespace Ling.Chara
             transform.position = centerPos;
         }
 
-        #endregion
+#endregion
 
 
-        #region MonoBegaviour
+#region MonoBegaviour
 
         /// <summary>
         /// 初期処理
@@ -190,6 +191,6 @@ namespace Ling.Chara
         {
         }
 
-        #endregion
+#endregion
     }
 }

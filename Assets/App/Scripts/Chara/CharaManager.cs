@@ -115,9 +115,9 @@ namespace Ling.Chara
 		/// </summary>
 		public void SetupCharaView(Chara.Base chara, CharaModel model)
 		{
-			var status = model.Status;
+			//var status = model.Status;
 
-			chara.Setup(status);
+			chara.Setup(model);
 
 			// CharaModelが削除されるときに一緒に削除する
 		}

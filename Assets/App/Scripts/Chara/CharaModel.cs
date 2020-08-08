@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.07.09
 //
 
+using Ling.MasterData.Chara;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -47,6 +48,16 @@ namespace Ling.Chara
 		/// </summary>
 		public Vector2Int Pos { get; private set; }
 
+		/// <summary>
+		/// 攻撃AIの種類
+		/// </summary>
+		public Ling.Const.AttackAIType AttackAIType { get; private set; }
+
+		/// <summary>
+		/// 移動AIの種類
+		/// </summary>
+		public Ling.Const.MoveAIType MoveAIType { get; private set; }
+
 		#endregion
 
 
@@ -60,9 +71,23 @@ namespace Ling.Chara
 		/// <summary>
 		/// ステイタスを生成する
 		/// </summary>
+		public void Setup(MasterData.Chara.StatusData masterStatus)
+		{
+			Setup(new CharaStatus(masterStatus));
+		}
+
 		public void Setup(CharaStatus status)
 		{
 			Status = status;
+		}
+
+		/// <summary>
+		/// AIを決定する
+		/// </summary>
+		public void SetAIType(Ling.Const.AttackAIType attackAIType, Ling.Const.MoveAIType moveAIType)
+		{
+			AttackAIType = attackAIType;
+			MoveAIType = moveAIType;
 		}
 
 		public void SetPos(in Vector2Int pos) =>
