@@ -96,7 +96,7 @@ namespace Ling.Scenes.Battle
 		public override void QuickStartScene()
 		{
 			// デバッグ用のコード直指定でバトルを始める
-			var stageMaster = _masterManager.StageRepository.FindByStageType(Define.StageType.First);
+			var stageMaster = _masterManager.StageRepository.FindByStageType(Const.StageType.First);
 
 			var param = new BattleModel.Param 
 				{ 
@@ -116,7 +116,6 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.Start, new Battle.Phase.BattlePhaseStart());
 			_phase.Add(Phase.Load, new Battle.Phase.BattlePhaseLoad());
 			_phase.Add(Phase.FloorSetup, new Battle.Phase.BattlePhaseFloorSetup());
-			_phase.Add(Phase.CharaSetup, new Battle.Phase.BattlePhaseCharaSetup());
 			_phase.Add(Phase.PlayerAction, new Battle.Phase.BattlePhasePlayerAction());
 			_phase.Add(Phase.PlayerActionProcess, new Battle.Phase.BattlePhasePlayerActionProcess());
 			_phase.Add(Phase.PlayerActionEnd, new Battle.Phase.BattlePhasePlayerActionEnd());
@@ -196,6 +195,22 @@ namespace Ling.Scenes.Battle
 			_phase.Change(nextPhase, null);
 
 			return true;
+		}
+
+
+		/// <summary>
+		/// 敵グループをマップに配置する
+		/// </summary>
+		public void DeployEnemyToMap(Chara.EnemyModelGroup enemyModelGroup, int level)
+		{
+			foreach (var enemyModel in enemyModelGroup.Models)
+			{
+				var charaView = _charaManager.FindEnemyView(enemyModel);
+				var pos = MapControl.GetRandomPosInRoom(level);
+
+				MapControl.SetCharaView(charaView, level);
+				charaView.SetCellPos(pos);
+			}
 		}
 
 		#endregion

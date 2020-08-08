@@ -69,7 +69,7 @@ namespace Ling.Scenes.Battle.BattleMap
 			_model.ChangeMapByIndex(curretMapIndex);
 
 			// 見た目の更新
-			_view.OnStartItem = _view.OnUpdateItem = 
+			_view.OnStartGroundmapData = _view.OnUpdateItem = 
 				(groundMap_, mapIndex_) =>
 				{
 					var mapData = _model.FindMapData(mapIndex_);
@@ -101,7 +101,7 @@ namespace Ling.Scenes.Battle.BattleMap
 					break;
 
 				case Chara.CharaType.Enemy:
-					chara.transform.SetParent(_view.GetEnemyRoot(level), worldPositionStays: false);
+					_view.SetEnemy(chara, level);
 					break;
 
 				default:
@@ -121,10 +121,8 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <param name="nextMapIndex"></param>
 		/// <param name="createMapIndex"></param>
 		/// <returns></returns>
-		public IObservable<AsyncUnit> CreateMapView(int nextMapIndex, int createMapIndex)
-		{
-			return _view.CreateMapView(nextMapIndex, createMapIndex);
-		}
+		public void CreateMapView(int createMapIndex) =>
+			_view.CreateMapView(createMapIndex);
 
 		/// <summary>
 		/// 現在のマップを一つ進め、変更する

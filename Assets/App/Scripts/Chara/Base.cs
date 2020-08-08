@@ -38,6 +38,7 @@ namespace Ling.Chara
         [SerializeField] private CharaStatus _status = default;
 
         private Tilemap _tilemap;
+        private Renderer[] _renderers = null;
 
         #endregion
 
@@ -123,6 +124,14 @@ namespace Ling.Chara
             _animator.SetFloat("y", dir.y);
         }
 
+        public void SetSortingLayerAndOrder(string sortingName, int order)
+		{
+            foreach (var renderer in _renderers)
+			{
+                renderer.sortingLayerName = sortingName;
+                renderer.sortingOrder = order;
+			}
+		}
         #endregion
 
 
@@ -156,6 +165,8 @@ namespace Ling.Chara
             }
 
             _moveController.SetModel(this);
+
+            _renderers = GetComponentsInChildren<Renderer>();
         }
 
         /// <summary>

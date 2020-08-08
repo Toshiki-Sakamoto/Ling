@@ -87,6 +87,11 @@ namespace Ling.Chara
 			return Models.Exists(model => model.Pos == pos);
 		}
 
+		public override void OnDestroy()
+		{
+			Models.Clear();
+		}
+
 		#endregion
 
 

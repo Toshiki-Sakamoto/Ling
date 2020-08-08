@@ -53,7 +53,7 @@ namespace Ling.MasterData.Repository
 		/// <summary>
 		/// StageMasterを検索
 		/// </summary>
-		public StageMaster FindByStageType(Define.StageType stageType) =>
+		public StageMaster FindByStageType(Const.StageType stageType) =>
 			Entities.Find(stageMaster => stageMaster.StageType == stageType);
 
 		#endregion

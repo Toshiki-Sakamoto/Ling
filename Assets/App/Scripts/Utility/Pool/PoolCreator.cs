@@ -172,7 +172,6 @@ namespace Ling.Utility.Pool
 		/// <summary>
 		/// プールに戻す
 		/// </summary>
-		/// <param name="poolItem"></param>
 		public void Push(PoolItem poolItem)
 		{
 			if (!_usedPoolItems.Exists(poolItem_ => poolItem_ == poolItem))
@@ -183,6 +182,8 @@ namespace Ling.Utility.Pool
 
 			poolItem.gameObject.SetActive(false);
 			poolItem.transform.SetParent(Info.poolRoot);
+
+			poolItem.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
 
 			poolItem.Unused();
 

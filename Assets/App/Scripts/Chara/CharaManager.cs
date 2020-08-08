@@ -7,6 +7,7 @@
 using Cysharp.Threading.Tasks;
 using Ling.Adv;
 using Ling.MasterData.Stage;
+using Ling.Scenes.Battle;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -149,7 +150,7 @@ namespace Ling.Chara
 		/// 指定レベルの敵を作成する
 		/// </summary>
 		/// <param name="level"></param>
-		public async UniTask BuildEnemyGroupAsync(int level, Tilemap tilemap)
+		public async UniTask<EnemyModelGroup> BuildEnemyGroupAsync(int level, Tilemap tilemap)
 		{
 			RemoveEnemyGroup(level);
 
@@ -157,7 +158,7 @@ namespace Ling.Chara
 			if (mapMaster == null)
 			{
 				Utility.Log.Error($"指定したMapMasterがない Level:{level}");
-				return;
+				return null;
 			}
 
 			var enemyModelGroup = new EnemyModelGroup();
@@ -172,6 +173,8 @@ namespace Ling.Chara
 			}
 
 			EnemyModelGroups.Add(level, enemyModelGroup);
+
+			return enemyModelGroup;
 		}
 
 		/// <summary>
@@ -181,6 +184,12 @@ namespace Ling.Chara
 		{
 			var enemyGroup = FindEnemyGroup(level);
 			if (enemyGroup == null) return;
+
+			// 敵をViewから取り除く
+			foreach (var enemy in enemyGroup.Models)
+			{
+				_view.RemoveChara(enemy);
+			}
 
 			enemyGroup.OnDestroy();
 
@@ -229,6 +238,21 @@ namespace Ling.Chara
 
 
 		#region MonoBegaviour
+
+		private void Awake()
+		{
+			// マップが削除されたとき敵をプールに戻す
+			_eventManager.Add<EventRemoveMap>(this, 
+				_ev => 
+				{
+					RemoveEnemyGroup(_ev.level);
+				});
+		}
+
+		private void OnDestroy()
+		{
+			_eventManager.RemoveAll(this);
+		}
 
 		#endregion
 	}

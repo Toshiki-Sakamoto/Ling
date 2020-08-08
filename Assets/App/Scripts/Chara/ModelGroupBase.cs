@@ -69,18 +69,10 @@ namespace Ling.Chara
 			await SetupAsyncInternal();
 		}
 
-		public void Refresh()
-		{
-
-		}
-
 		/// <summary>
 		/// 削除される直前に呼び出し
 		/// </summary>
-		public void OnDestroy()
-		{
-
-		}
+		public virtual void OnDestroy() { }
 
 		#endregion
 

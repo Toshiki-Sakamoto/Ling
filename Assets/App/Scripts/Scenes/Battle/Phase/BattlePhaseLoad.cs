@@ -107,9 +107,29 @@ namespace Ling.Scenes.Battle.Phase
 
 			_charaManager.SetStageMaster(_model.StageMaster);
 
+			var builder = _mapManager.CurrentMapData.Builder;
+			var playerPos = builder.GetPlayerInitPosition();
+
+			// プレイヤーにMap情報を初期座標を設定
+			var mapControl = Scene.MapControl;
+
+			var player = _charaManager.Player;
+			mapControl.SetCharaView(player);
+
+			player.SetCellPos(playerPos);
+
 			// 初期マップの敵を生成する
 			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindTilemap(1));
 			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindTilemap(2));
+
+			// 敵をマップに配置する
+			foreach (var pair in _charaManager.EnemyModelGroups)
+			{
+				var level = pair.Key;
+				var enemyModelGroup = pair.Value;
+
+				Scene.DeployEnemyToMap(enemyModelGroup, level);
+			}
 
 			_isFinish = true;
 		}

@@ -94,6 +94,17 @@ namespace Ling.Chara
 			_enemyViews.Remove(charaModel);
 		}
 
+		public void RemoveCharaAll()
+		{
+			foreach (var enemy in _enemyViews)
+			{
+				var poolItem = enemy.Value.GetComponent<PoolItem>();
+				poolItem?.Detach();
+			}
+
+			_enemyViews.Clear();
+		}
+
 		#endregion
 
 

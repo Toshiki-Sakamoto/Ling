@@ -37,7 +37,7 @@ namespace Ling.MasterData.Chara
 		#region private 変数
 
 		[SerializeField, FieldName("敵の種類")]
-		private Define.EnemyType _enemyType = default;
+		private Const.EnemyType _enemyType = default;
 
 		[SerializeField]
 		private StatusData _status = default;
@@ -47,7 +47,7 @@ namespace Ling.MasterData.Chara
 
 		#region プロパティ
 
-		public Define.EnemyType EnemyType => _enemyType;
+		public Const.EnemyType EnemyType => _enemyType;
 
 		public StatusData Status => _status;
 

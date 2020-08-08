@@ -48,7 +48,7 @@ namespace Ling.MasterData.Stage
 		#region private 変数
 
 		[SerializeField, FieldName("ステージの種類")]
-		private Define.StageType stageType;
+		private Const.StageType stageType;
 
 		[SerializeField, FieldName("最大階層")] 
 		private int _maxLevel = default;    // 最大階層(Map数)
@@ -61,7 +61,7 @@ namespace Ling.MasterData.Stage
 
 		#region プロパティ
 
-		public Define.StageType StageType => stageType;
+		public Const.StageType StageType => stageType;
 
 		/// <summary>
 		/// Map数(最大階層数)

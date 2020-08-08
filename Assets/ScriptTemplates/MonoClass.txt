@@ -4,13 +4,6 @@
 //  
 // Created by #AUTHOR# on #DATA#
 // 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-using Zenject;
-
 
 namespace #NAMESPACE#
 {
