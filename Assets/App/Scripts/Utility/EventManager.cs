@@ -361,5 +361,22 @@ namespace Ling.Utility
 
 			EventManager.Instance.Add<TEvent>(gameObject, act);
 		}
+
+		public static void AddEventListener<TEvent>(this MonoBehaviour monoBehaviour, System.Action<TEvent> act) where TEvent : class =>
+			monoBehaviour.gameObject.AddEventListener(act);
+
+		public static void TriggerEvent<TEvent>(this GameObject gameObject, TEvent ev) where TEvent : class
+		{
+			if (EventManager.Instance == null)
+			{
+				Utility.Log.Warning("EventManagerが存在しないためEventの発行ができない");
+				return;
+			}
+
+			EventManager.Instance.Trigger(ev);
+		}
+
+		public static void TriggerEvent<TEvent>(this MonoBehaviour monoBehaviour, TEvent ev) where TEvent : class =>
+			monoBehaviour.gameObject.TriggerEvent(ev);
 	}
 }
