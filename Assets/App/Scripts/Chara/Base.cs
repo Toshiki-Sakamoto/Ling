@@ -10,6 +10,8 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Ling;
+using Ling.Utility;
 
 
 namespace Ling.Chara
@@ -40,6 +42,7 @@ namespace Ling.Chara
 
         private Tilemap _tilemap;
         private Renderer[] _renderers = null;
+        private int _mapLevel;
 
         #endregion
 
@@ -87,9 +90,10 @@ namespace Ling.Chara
         /// Tilemap情報を設定する
         /// </summary>
         /// <param name="tilemap"></param>
-        public void SetTilemap(Tilemap tilemap)
+        public void SetTilemap(Tilemap tilemap, int mapLevel)
         {
             _tilemap = tilemap;
+            _mapLevel = mapLevel;
 
             MoveController.SetTilemap(tilemap);
         }
@@ -97,15 +101,21 @@ namespace Ling.Chara
         /// <summary>
         /// 座標の設定
         /// </summary>
-        public void SetCellPos(in Vector2Int pos) =>
-            SetCellPos(new Vector3Int { x = pos.x, y = pos.y });
+        public void SetCellPos(in Vector2Int pos, bool needsFit = true) =>
+            SetCellPos(new Vector3Int { x = pos.x, y = pos.y }, needsFit);
 
-        public void SetCellPos(Vector3Int pos)
+        public void SetCellPos(Vector3Int pos, bool needsFit = true)
         {
+            // 移動したことのイベントを発行する
+            this.TriggerEvent(new EventPosUpdate {  });
+
             _vecCellPos = pos;
 
-            // 座標の中央に合わせる
-            CellCenterFit();
+            if (needsFit)
+            {
+                // 座標の中央に合わせる
+                CellCenterFit();
+            }
         }
 
         /// <summary>

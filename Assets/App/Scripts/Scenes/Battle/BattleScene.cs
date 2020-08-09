@@ -171,7 +171,7 @@ namespace Ling.Scenes.Battle
 			_mapManager.ChangeNextLevel(_model.Level);
 
 			// キャラクタ管理者
-			_charaManager.ChangeNextLevel(_mapManager.CurrentTilemap);
+			_charaManager.ChangeNextLevel(_mapManager.CurrentTilemap, _model.Level);
 
 			// 次の階層に行った
 			View.UIHeaderView.SetLevel(_model.Level);

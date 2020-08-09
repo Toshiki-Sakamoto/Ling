@@ -16,6 +16,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Ling.Utility;
 
 using Zenject;
 
@@ -109,7 +110,7 @@ namespace Ling.Scenes.Battle.BattleMap
 					break;
 			}
 
-			chara.SetTilemap(tilemap);
+			chara.SetTilemap(tilemap, level);
 		}
 
 		public void SetCharaViewInCurrentMap(Chara.Base chara) =>
@@ -219,11 +220,31 @@ namespace Ling.Scenes.Battle.BattleMap
 			return pos;
 		}
 
-#endregion
+		#endregion
 
 
-#region private 関数
+		#region private 関数
 
-#endregion
+		private void Awake()
+		{
+			// TileFlagの更新
+			gameObject.AddEventListener<MapEvents.EventTileFlagUpdate>(ev_ => 
+				{ 
+					ref var tileData = ref GetTileData(ev_.level, ev_.x, ev_.y);
+
+					switch (ev_.type)
+					{
+						case MapEvents.EventTileFlagUpdate.Type.Add:
+							tileData.AddFlag(ev_.tileFlag);
+							break;
+
+						case MapEvents.EventTileFlagUpdate.Type.Remove:
+							tileData.RemoveFlag(ev_.tileFlag);
+							break;
+					}
+				});
+		}
+
+		#endregion
 	}
 }

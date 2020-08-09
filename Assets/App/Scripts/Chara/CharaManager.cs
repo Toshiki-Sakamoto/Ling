@@ -137,13 +137,13 @@ namespace Ling.Chara
 		/// <summary>
 		/// 次のレベルに移動する
 		/// </summary>
-		public void ChangeNextLevel(UnityEngine.Tilemaps.Tilemap tilemap)
+		public void ChangeNextLevel(UnityEngine.Tilemaps.Tilemap tilemap, int level)
 		{
 			// 座標をもとに戻す
 			ResetPlayerUpPosition();
 
 			// 移動後のTilemapをPlayerに登録し直す
-			Player.SetTilemap(tilemap);
+			Player.SetTilemap(tilemap, level);
 		}
 
 		/// <summary>
