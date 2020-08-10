@@ -23,9 +23,29 @@ namespace Ling.Chara
 	/// <summary>
 	/// 複数のCharaModelを管理する
 	/// </summary>
-	public abstract class ModelGroupBase
+	public abstract class ModelGroupBase : IEnumerable<CharaModel>
     {
 		#region 定数, class, enum
+
+		public struct Enumerator : IEnumerator<CharaModel>
+		{
+			private readonly List<CharaModel> _list;
+			private int _index;
+
+			public Enumerator(List<CharaModel> list)
+			{
+				_list = list;
+				_index = -1;
+			}
+
+			public CharaModel Current => _list[_index];
+			object IEnumerator.Current => _list[_index];
+
+			public void Dispose() {}
+			public bool MoveNext() => ++_index < _list.Count();
+			public void Reset() => _index = 0;
+
+		}
 
 		#endregion
 
@@ -58,6 +78,10 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
+
+		public IEnumerator<CharaModel> GetEnumerator() => new Enumerator(Models);
+
+		IEnumerator IEnumerable.GetEnumerator() => new Enumerator(Models);
 
 		public void SetTilemap(Tilemap tilemap)
 		{
