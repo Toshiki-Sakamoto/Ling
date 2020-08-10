@@ -23,6 +23,11 @@ namespace Ling.Chara
     {
 		#region 定数, class, enum
 
+		public class Param
+		{
+			public CharaType charaType;
+		}
+
 		#endregion
 
 
@@ -32,6 +37,9 @@ namespace Ling.Chara
 
 
 		#region private 変数
+
+		private Param _param = null;
+        private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
 
 		#endregion
 
@@ -43,6 +51,16 @@ namespace Ling.Chara
 		/// </summary>
 		public CharaStatus Status { get; private set; }
 
+		/// <summary>
+		/// キャラの種類
+		/// </summary>
+		public CharaType CharaType => _param.charaType;
+
+		/// <summary>
+		/// マップ階層
+		/// </summary>
+		public int MapLevel { get; private set; }
+		
 		/// <summary>
 		/// 現在座標
 		/// </summary>
@@ -68,15 +86,19 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		/// <summary>
-		/// ステイタスを生成する
-		/// </summary>
-		public void Setup(MasterData.Chara.StatusData masterStatus)
+		public void Setup(Param param)
 		{
-			Setup(new CharaStatus(masterStatus));
+			_param = param;
 		}
 
-		public void Setup(CharaStatus status)
+		/// <summary>
+		/// ステイタスを設定
+		/// </summary>
+		public void SetStatus(MasterData.Chara.StatusData masterStatus)
+		{
+			SetStatus(new CharaStatus(masterStatus));
+		}
+		public void SetStatus(CharaStatus status)
 		{
 			Status = status;
 		}
@@ -90,8 +112,21 @@ namespace Ling.Chara
 			MoveAI = moveAI;
 		}
 
-		public void SetPos(in Vector2Int pos) =>
-			Pos = pos;
+		/// <summary>
+		/// 座標の設定
+		/// </summary>
+		public void SetPos(in Vector2Int pos)
+        {
+            _eventPosUpdate.prevPos = Pos;
+            _eventPosUpdate.newPos = pos;
+            _eventPosUpdate.charaType = CharaType;
+            _eventPosUpdate.mapLevel = MapLevel;
+
+            Pos = pos;
+
+            // 移動したことのイベントを発行する
+			Utility.EventManager.SafeTrigger(_eventPosUpdate);
+        }
 
 		#endregion
 

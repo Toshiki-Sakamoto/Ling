@@ -63,7 +63,11 @@ namespace Ling.Chara
 				// プレイヤー情報を読み込む
 
 				Player = new CharaModel();
-				Player.Setup(new CharaStatus(100));
+				var param = new CharaModel.Param();
+				param.charaType = CharaType.Player;
+
+				Player.Setup(param);
+				Player.SetStatus(new CharaStatus(100));
 			}
 		}
 

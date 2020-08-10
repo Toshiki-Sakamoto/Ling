@@ -44,7 +44,6 @@ namespace Ling.Chara
         private Tilemap _tilemap;
         private Renderer[] _renderers = null;
         private int _mapLevel;
-        private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
 
         #endregion
 
@@ -108,15 +107,7 @@ namespace Ling.Chara
 
         public void SetCellPos(Vector3Int pos, bool needsFit = true)
         {
-            _eventPosUpdate.prevPos = _vecCellPos;
-            _eventPosUpdate.newPos = pos;
-            _eventPosUpdate.charaType = CharaType;
-            _eventPosUpdate.mapLevel = _mapLevel;
-
             _vecCellPos = pos;
-
-            // 移動したことのイベントを発行する
-            this.TriggerEvent(_eventPosUpdate);
 
             if (needsFit)
             {

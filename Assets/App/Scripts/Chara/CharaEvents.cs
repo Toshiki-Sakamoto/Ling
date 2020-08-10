@@ -14,8 +14,8 @@ namespace Ling.Chara
 	/// </summary>
 	public class EventPosUpdate
 	{
-		public Vector3Int prevPos;	// 以前の座標
-		public Vector3Int newPos;	// 今回の座標
+		public Vector2Int prevPos;	// 以前の座標
+		public Vector2Int newPos;	// 今回の座標
 		public int mapLevel;
 		public CharaType charaType;
 	}
