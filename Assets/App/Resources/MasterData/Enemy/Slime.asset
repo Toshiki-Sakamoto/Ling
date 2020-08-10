@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 0
   _enemyType: 1
+  _attackAIType: 1
+  _moveAIType: 2
   _status:
     _hp: 10
