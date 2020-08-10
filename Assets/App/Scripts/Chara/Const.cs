@@ -18,15 +18,6 @@ using Zenject;
 namespace Ling.Chara
 {
 	/// <summary>
-	/// キャラ周りの定数
-	/// </summary>
-	public class Const
-    {
-
-	}
-
-
-	/// <summary>
 	/// キャラの種類
 	/// </summary>
 	public enum CharaType
