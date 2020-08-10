@@ -47,6 +47,20 @@ namespace Ling.Chara
 
 	public static class ConstExtensions
 	{
+		public static Map.TileFlag ToTileFlag(this CharaType self)
+		{
+			switch (self)
+			{
+				case CharaType.Player: return Map.TileFlag.Player;
+				case CharaType.Enemy: return Map.TileFlag.Enemy;
+
+				default:
+					Utility.Log.Error("CharaTypeからTileFlagへの変換ができません " + self);
+					return Map.TileFlag.None;
+			}
+		}
+
+
 		/// <summary>
 		/// 通常の敵か
 		/// </summary>
