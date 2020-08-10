@@ -24,6 +24,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
+		private Chara.CharaManager _charaManager;
+		private MapManager _mapManager;
+
 		#endregion
 
 
@@ -38,6 +41,23 @@ namespace Ling.Scenes.Battle.Phase
 
 
 		#region public, protected 関数
+
+		public override void Init()
+		{
+			_charaManager = Resolve<Chara.CharaManager>();
+			_mapManager = Resolve<MapManager>();
+
+			// 敵は生成された順番から思考する
+			foreach (var pair in _charaManager.EnemyModelGroups)
+			{
+				var enemyModelGroup = pair.Value;
+				
+				foreach (var enemyModel in enemyModelGroup)
+				{
+
+				}
+			}
+		}
 
 		#endregion
 
