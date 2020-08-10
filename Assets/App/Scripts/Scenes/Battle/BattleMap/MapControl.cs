@@ -17,6 +17,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using Ling.Utility;
+using Ling.Chara;
 
 using Zenject;
 
@@ -228,7 +229,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		private void Awake()
 		{
 			// TileFlagの更新
-			gameObject.AddEventListener<MapEvents.EventTileFlagUpdate>(ev_ => 
+			this.AddEventListener<MapEvents.EventTileFlagUpdate>(ev_ => 
 				{ 
 					ref var tileData = ref GetTileData(ev_.level, ev_.x, ev_.y);
 
@@ -242,6 +243,19 @@ namespace Ling.Scenes.Battle.BattleMap
 							tileData.RemoveFlag(ev_.tileFlag);
 							break;
 					}
+				});
+
+			// キャラクタが移動した
+			this.AddEventListener<Chara.EventPosUpdate>(ev_ =>
+				{
+					// 以前の座標からフラグを削除する
+					ref var tileData = ref GetTileData(ev_.mapLevel, ev_.prevPos.x, ev_.prevPos.y);
+					var tileFlag = ev_.charaType.ToTileFlag();
+					tileData.RemoveFlag(tileFlag);
+
+					// 新しい座標にTileFlagを設定する
+					ref var newTileData = ref GetTileData(ev_.mapLevel, ev_.newPos.x, ev_.newPos.y);
+					newTileData.AddFlag(tileFlag);					
 				});
 		}
 
