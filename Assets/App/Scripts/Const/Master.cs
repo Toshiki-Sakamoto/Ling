@@ -43,6 +43,7 @@ namespace Ling.Const
 		None,
 
 		Manual,				// 手動操作
+		Random,				// ランダム移動
 		NormalTracking,		// 通常の追跡型
 	}
 

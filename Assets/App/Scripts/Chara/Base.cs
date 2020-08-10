@@ -37,7 +37,8 @@ namespace Ling.Chara
         [SerializeField] private Animator _animator = default;
         [SerializeField] private Vector3Int _vecCellPos = default; // マップ上の自分の位置
         [SerializeField] private MoveController _moveController = default;
-        [SerializeField] private Ling.Const.MoveAIType _aiType = default;
+        [SerializeField] private Ling.Const.MoveAIType _moveAIType = default;
+        [SerializeField] private Ling.Const.AttackAIType _attackAIType = default;
         [SerializeField] private CharaStatus _status = default;
 
         private Tilemap _tilemap;

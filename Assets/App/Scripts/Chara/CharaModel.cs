@@ -49,14 +49,14 @@ namespace Ling.Chara
 		public Vector2Int Pos { get; private set; }
 
 		/// <summary>
-		/// 攻撃AIの種類
+		/// 攻撃AI
 		/// </summary>
-		public Ling.Const.AttackAIType AttackAIType { get; private set; }
+		public AttackAI.AIBase AttackAI { get; private set; }
 
 		/// <summary>
-		/// 移動AIの種類
+		/// 移動AI
 		/// </summary>
-		public Ling.Const.MoveAIType MoveAIType { get; private set; }
+		public MoveAI.AIBase MoveAI { get; private set; }
 
 		#endregion
 
@@ -84,10 +84,10 @@ namespace Ling.Chara
 		/// <summary>
 		/// AIを決定する
 		/// </summary>
-		public void SetAIType(Ling.Const.AttackAIType attackAIType, Ling.Const.MoveAIType moveAIType)
+		public void SetAI(AttackAI.AIBase attackAI, MoveAI.AIBase moveAI)
 		{
-			AttackAIType = attackAIType;
-			MoveAIType = moveAIType;
+			AttackAI = attackAI;
+			MoveAI = moveAI;
 		}
 
 		public void SetPos(in Vector2Int pos) =>

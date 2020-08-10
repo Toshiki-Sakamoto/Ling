@@ -1,18 +1,16 @@
 ﻿//
-// AINormalTracking.cs
+// AIBase.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.07.26
 //
 
-using Ling.Const;
-
-namespace Ling.Chara.AI
+namespace Ling.Chara.MoveAI
 {
 	/// <summary>
-	/// 
+	/// 移動AIのベースクラス
 	/// </summary>
-	public class AINormalTracking : AIBase
+	public abstract class AIBase
     {
 		#region 定数, class, enum
 
@@ -34,7 +32,12 @@ namespace Ling.Chara.AI
 		/// <summary>
 		/// AIの種類
 		/// </summary>
-		public override MoveAIType AIType => MoveAIType.NormalTracking;
+		public abstract Const.MoveAIType AIType { get; }
+
+		/// <summary>
+		/// 汎用パラメータ
+		/// </summary>
+		public int Param1 { get; set; }
 
 		#endregion
 

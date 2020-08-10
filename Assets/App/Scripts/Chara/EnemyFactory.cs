@@ -57,7 +57,11 @@ namespace Ling.Chara
 			var enemyMaster = MasterManager.Instance.EnemyRepository.Find(mapEnemyData.EnemyType);
 			var charaModel = new CharaModel();
 			charaModel.Setup(enemyMaster.Status);
-			charaModel.SetAIType(enemyMaster.AttackAIType, enemyMaster.MoveAIType);
+
+			// AIの設定
+			var attackAIFactory = enemyMaster.CreateAttackAIFactory();
+			var moveAIFactory = enemyMaster.CreateMoveAIFactory();
+			charaModel.SetAI(attackAIFactory.Create(), moveAIFactory.Create());
 
 			return charaModel;
 		}

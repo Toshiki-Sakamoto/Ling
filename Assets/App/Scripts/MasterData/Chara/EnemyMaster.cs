@@ -16,6 +16,9 @@ using UnityEngine.UI;
 
 namespace Ling.MasterData.Chara
 {
+	using AttackAI = Ling.Chara.AttackAI;
+	using MoveAI = Ling.Chara.MoveAI;
+
 	/// <summary>
 	/// 敵情報を持つマスタデータ
 	/// </summary>
@@ -42,8 +45,14 @@ namespace Ling.MasterData.Chara
 		[SerializeField, FieldName("攻撃AIの種類")]
 		private Const.AttackAIType _attackAIType = default;
 
+		[SerializeField, FieldName("攻撃AIパラメータ１")]
+		private int _attackAIParam1 = default;
+
 		[SerializeField, FieldName("移動AIの種類")]
 		private Const.MoveAIType _moveAIType = default;
+
+		[SerializeField, FieldName("行動AIパラメータ１")]
+		private int _moveAIParam1 = default;
 
 		[SerializeField]
 		private StatusData _status = default;
@@ -57,7 +66,11 @@ namespace Ling.MasterData.Chara
 
 		public Const.AttackAIType AttackAIType => _attackAIType;
 
+		public int AttackAIParam1 => _attackAIParam1;
+
 		public Const.MoveAIType MoveAIType => _moveAIType;
+
+		public int MoveAIParam1 => _moveAIParam1;
 
 		public StatusData Status => _status;
 
@@ -72,8 +85,11 @@ namespace Ling.MasterData.Chara
 
 		#region public, protected 関数
 
-		//		public Entity Find(Define.EnemyType enemyType, int id = 0) =>
-		//			_entities.FirstOrDefault(entity => entity.enemyType == enemyType && entity.id == id);
+		public AttackAI.AttackAIFactory CreateAttackAIFactory() =>
+			new AttackAI.AttackAIFactory(AttackAIType, AttackAIParam1);
+
+		public MoveAI.MoveAIFactory CreateMoveAIFactory() =>
+			new MoveAI.MoveAIFactory(MoveAIType, MoveAIParam1);
 
 		#endregion
 
