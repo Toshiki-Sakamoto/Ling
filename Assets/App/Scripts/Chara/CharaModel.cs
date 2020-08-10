@@ -112,6 +112,11 @@ namespace Ling.Chara
 			MoveAI = moveAI;
 		}
 
+		public void SetMapLevel(int mapLevel) 
+		{
+			MapLevel = mapLevel;
+		}
+
 		/// <summary>
 		/// 座標の設定
 		/// </summary>

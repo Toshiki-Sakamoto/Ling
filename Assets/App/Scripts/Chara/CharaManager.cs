@@ -61,6 +61,11 @@ namespace Ling.Chara
 		public Dictionary<int, EnemyModelGroup> EnemyModelGroups { get; } = new Dictionary<int, EnemyModelGroup>();
 
 		/// <summary>
+		/// PlayerModel
+		/// </summary>
+		public Chara.PlayerModel PlayerModel => PlayerModelGroup.Player;
+
+		/// <summary>
 		/// PlayerView
 		/// </summary>
 		public Chara.Player Player => _view.Player;
@@ -141,6 +146,8 @@ namespace Ling.Chara
 		{
 			// 座標をもとに戻す
 			ResetPlayerUpPosition();
+
+			PlayerModel.SetMapLevel(level);
 
 			// 移動後のTilemapをPlayerに登録し直す
 			Player.SetTilemap(tilemap, level);

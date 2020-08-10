@@ -43,7 +43,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// Player
 		/// </summary>
-		public CharaModel Player { get; private set; }
+		public PlayerModel Player { get; private set; }
 
 		#endregion
 
@@ -62,7 +62,7 @@ namespace Ling.Chara
 			{
 				// プレイヤー情報を読み込む
 
-				Player = new CharaModel();
+				Player = new PlayerModel();
 				var param = new CharaModel.Param();
 				param.charaType = CharaType.Player;
 
