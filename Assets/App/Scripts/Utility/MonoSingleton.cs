@@ -98,7 +98,7 @@ namespace Ling.Utility
         /// <summary>
         /// 終了処理
         /// </summary>
-        void OnDestoroy()
+        protected virtual void OnDestroy()
         {
             _instance = null;
         }
