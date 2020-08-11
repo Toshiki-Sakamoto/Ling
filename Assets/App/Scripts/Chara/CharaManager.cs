@@ -45,7 +45,7 @@ namespace Ling.Chara
 
 		private bool _isInitialized = false;    // 初期化済みであればtrue
 		private StageMaster _stageMaster = null;
-		private Dictionary<int, EnemyControlGroup> _enemyControlDict = new Dictionary<int, EnemyControlGroup>();
+		private SortedDictionary<int, EnemyControlGroup> _enemyControlDict = new SortedDictionary<int, EnemyControlGroup>();
 
 		#endregion
 
@@ -60,7 +60,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 敵のModel情報。階層ごとにModelGroupが分かれている
 		/// </summary>
-		public List<EnemyControlGroup> EnemyControlGroups => _enemyControlGroups;
+		public SortedDictionary<int, EnemyControlGroup> EnemyControlDict => _enemyControlDict;
 
 		/// <summary>
 		/// PlayerControl
@@ -201,7 +201,7 @@ namespace Ling.Chara
 		/// </summary>
 		public EnemyControl FindEnemyByModel(CharaModel model)
 		{
-			foreach (var enemyControlGroup in EnemyControlGroups)
+			foreach (var enemyControlGroup in _enemyControlGroups)
 			{
 				var enemy = enemyControlGroup.FindEnemyByModel(model);
 				if (enemy != null)
