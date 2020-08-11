@@ -89,7 +89,7 @@ namespace Ling.Utility
 	}
 
 	/// <summary>
-	/// 
+	/// Process管理者
 	/// </summary>
 	public class ProcessManager : Utility.MonoSingleton<ProcessManager>
 	{

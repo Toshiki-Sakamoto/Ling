@@ -18,7 +18,7 @@ using Zenject;
 namespace Ling.Utility
 {
 	/// <summary>
-	/// 
+	/// Processを一つのGameObjectとすることで生成、更新、削除をUnity側に任せる
 	/// </summary>
 	public abstract class ProcessBase : MonoBehaviour
     {
@@ -93,9 +93,7 @@ namespace Ling.Utility
 		/// <summary>
 		/// 前のプロセスが終了したときに呼び出される
 		/// </summary>
-		public virtual void ProcessStart()
-		{
-		}
+		public virtual void ProcessStart() {}
 
 		public void ProcessFinish()
 		{
