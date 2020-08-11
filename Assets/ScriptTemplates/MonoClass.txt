@@ -5,6 +5,8 @@
 // Created by #AUTHOR# on #DATA#
 // 
 
+using UnityEngine;
+
 namespace #NAMESPACE#
 {
 	/// <summary>
