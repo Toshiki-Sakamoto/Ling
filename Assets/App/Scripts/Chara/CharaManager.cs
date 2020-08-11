@@ -98,6 +98,8 @@ namespace Ling.Chara
 				// プール情報から敵モデルを生成する
 				await enemyControlGroup.SetupAsync();
 			}
+
+			_isInitialized = true;
 		}
 
 		public void SetStageMaster(StageMaster stageMaster)

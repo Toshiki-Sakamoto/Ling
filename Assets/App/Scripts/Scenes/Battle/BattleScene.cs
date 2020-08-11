@@ -209,7 +209,7 @@ namespace Ling.Scenes.Battle
 			{
 				var pos = MapControl.GetRandomPosInRoom(level);
 
-				MapControl.SetCharaView(enemy.View, level);
+				MapControl.SetChara(enemy, level);
 				enemy.View.SetCellPos(pos);
 			}
 		}

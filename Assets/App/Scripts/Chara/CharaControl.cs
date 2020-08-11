@@ -12,12 +12,19 @@ using UniRx;
 
 namespace Ling.Chara
 {
+	public interface ICharaController
+	{
+		CharaModel Model { get; }
+		
+		ViewBase View { get; }
+	}
+
 	/// <summary>
 	/// キャラのModelとViewをつなげる役目と操作を行う
 	/// </summary>
-	public abstract class CharaControl<TModel, TView> : MonoBehaviour 
+	public abstract class CharaControl<TModel, TView> : MonoBehaviour, ICharaController
 		where TModel : CharaModel
-		where TView : Chara.ViewBase
+		where TView : ViewBase
     {
 		#region 定数, class, enum
 
@@ -41,9 +48,14 @@ namespace Ling.Chara
 
 		#region プロパティ
 
+		
+		public TModel Model => _model;
+
 		public TView View => _view;
 
-		public TModel Model => _model;
+		// ICharaController
+		CharaModel ICharaController.Model => _model;
+		ViewBase ICharaController.View => _view;
 
 		#endregion
 
@@ -52,6 +64,9 @@ namespace Ling.Chara
 
 		public void Setup(TModel model)
 		{
+			_model = model;
+			_status = model.Status;
+			
             // 死亡時
             _status.IsDead.Where(isDead_ => isDead_)
                 .Subscribe(_ =>

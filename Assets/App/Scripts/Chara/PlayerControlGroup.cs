@@ -33,6 +33,8 @@ namespace Ling.Chara
 
 		#region private 変数
 
+		[SerializeField] private PlayerControl _player = default;
+
 		#endregion
 
 
@@ -41,9 +43,9 @@ namespace Ling.Chara
 		/// <summary>
 		/// Player Control
 		/// </summary>
-		public PlayerControl Player { get; private set; }
-		
-		public PlayerModel PlayerModel { get; private set; }
+		public PlayerControl Player => _player;
+
+		public PlayerModel PlayerModel => Player.Model;
 
 		#endregion
 
@@ -58,19 +60,14 @@ namespace Ling.Chara
 		protected override async UniTask SetupAsyncInternal()
 		{
 			// プレイヤーが未生成ならば生成する
-			if (Player == null)
-			{
-				// プレイヤー情報を読み込む
+			var model = new PlayerModel();
+			var param = new CharaModel.Param();
+			param.charaType = CharaType.Player;
 
-				PlayerModel = new PlayerModel();
-				var param = new CharaModel.Param();
-				param.charaType = CharaType.Player;
+			model.Setup(param);
+			model.SetStatus(new CharaStatus(100));
 
-				PlayerModel.Setup(param);
-				PlayerModel.SetStatus(new CharaStatus(100));
-
-				//_playerControl = PlayerControl.Create(PlayerControlGroup.Player, PlayerView);
-			}
+			Player.Setup(model);
 		}
 
 		/// <summary>

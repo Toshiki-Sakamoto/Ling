@@ -113,10 +113,10 @@ namespace Ling.Scenes.Battle.Phase
 			// プレイヤーにMap情報を初期座標を設定
 			var mapControl = Scene.MapControl;
 
-			var player = _charaManager.PlayerView;
-			mapControl.SetCharaView(player);
+			var player = _charaManager.Player;
+			mapControl.SetChara(player);
 
-			player.SetCellPos(playerPos);
+			player.View.SetCellPos(playerPos);
 
 			// 初期マップの敵を生成する
 			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindGroundTilemap(1));

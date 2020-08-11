@@ -87,23 +87,25 @@ namespace Ling.Scenes.Battle.BattleMap
 			_view.Startup(_model, curretMapIndex, 40);
 		}
 
-		public void SetCharaView(Chara.ViewBase chara) =>
-			SetCharaView(chara, _model.CurrentMapIndex);
+		public void SetChara(Chara.ICharaController chara) =>
+			SetChara(chara, _model.CurrentMapIndex);
 
-		public void SetCharaView(Chara.ViewBase chara, int level)
+		public void SetChara(Chara.ICharaController chara, int level)
 		{
 			var tilemap = FindTilemap(level);
 
-			chara.gameObject.SetActive(true);
+			var charaModel = chara.Model;
+			var charaView = chara.View;
+			charaView.gameObject.SetActive(true);
 
-			switch (chara.CharaType)
+			switch (charaModel.CharaType)
 			{
 				case Chara.CharaType.Player:
-					chara.transform.SetParent(_view.PlayerRoot, worldPositionStays: false);
+					charaView.transform.SetParent(_view.PlayerRoot, worldPositionStays: false);
 					break;
 
 				case Chara.CharaType.Enemy:
-					_view.SetEnemy(chara, level);
+					_view.SetEnemy(charaView, level);
 					break;
 
 				default:
@@ -111,11 +113,11 @@ namespace Ling.Scenes.Battle.BattleMap
 					break;
 			}
 
-			chara.SetTilemap(tilemap, level);
+			charaView.SetTilemap(tilemap, level);
 		}
 
-		public void SetCharaViewInCurrentMap(Chara.ViewBase chara) =>
-			SetCharaView(chara, _model.CurrentMapIndex);
+		public void SetCharaViewInCurrentMap(Chara.ICharaController chara) =>
+			SetChara(chara, _model.CurrentMapIndex);
 
 		/// <summary>
 		/// 次マップの作成と移動を行う
