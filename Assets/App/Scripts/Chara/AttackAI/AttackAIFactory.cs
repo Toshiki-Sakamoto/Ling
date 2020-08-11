@@ -13,17 +13,30 @@ namespace Ling.Chara.AttackAI
 	public class AttackAIFactory
     {
 		private Const.AttackAIType _attackAIType;
-		private int _param1;
+		private string _param1;
 
-		public AttackAIFactory(Const.AttackAIType attackAIType, int param1)
+		public AttackAIFactory(Const.AttackAIType attackAIType, string param1)
 		{
 			_attackAIType = attackAIType;
 			_param1 = param1;
 		}
 
 		public AIBase Create()
-		{
-			return null;
+		{			
+			AIBase attackAI = null;
+
+			switch (_attackAIType)
+			{
+				case Const.AttackAIType.Normal:
+					attackAI = new AINormalAttack();
+					break;
+
+				default:
+					Utility.Log.Error("AttackAIを作成できませんでした。無効のタイプ " + _attackAIType);
+					return null;
+			}
+
+			return attackAI;
 		}
 	}
 }

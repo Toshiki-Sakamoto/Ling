@@ -1,16 +1,17 @@
 ﻿//
-// AIBase.cs
+// AINormalAttack.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.08.10
+// Created by toshiki sakamoto on 2020.08.11
 //
 
 namespace Ling.Chara.AttackAI
 {
 	/// <summary>
-	/// 攻撃AIのベースクラス
+	/// 通常攻撃しかしない。
+	/// 隣のマスにPlayerがいたら攻撃するだけ
 	/// </summary>
-	public abstract class AIBase
+	public class AINormalAttack : AIBase
     {
 		#region 定数, class, enum
 
