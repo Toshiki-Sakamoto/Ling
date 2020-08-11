@@ -341,7 +341,7 @@ namespace Ling.Utility
 		private static System.Action<GameObject> eventRemoveAction = 
 			instance =>
 			{
-				EventManager.Instance.RemoveAll(instance);
+				EventManager.Instance?.RemoveAll(instance);
 			};
 
 		/// <summary>
