@@ -21,9 +21,6 @@ using Zenject;
 
 namespace Ling.Chara
 {
-	using PlayerControl = CharaControl<PlayerModel, PlayerView>;
-	using EnemyControl = CharaControl<CharaModel, EnemyView>;
-
 	/// <summary>
 	/// Player, Enemy等のキャラ全般を扱うPresenter
 	/// </summary>
@@ -66,14 +63,19 @@ namespace Ling.Chara
 		public List<EnemyControlGroup> EnemyControlGroups => _enemyControlGroups;
 
 		/// <summary>
+		/// PlayerControl
+		/// </summary>
+		public Chara.PlayerControl Player => PlayerControlGroup.Player;
+
+		/// <summary>
 		/// PlayerModel
 		/// </summary>
-		public Chara.PlayerModel PlayerModel => PlayerControlGroup.PlayerModel;
+		public Chara.PlayerModel PlayerModel => Player.Model;
 
 		/// <summary>
 		/// PlayerView
 		/// </summary>
-		public Chara.PlayerView PlayerView => PlayerControlGroup.Player.View;
+		public Chara.PlayerView PlayerView => Player.View;
 
 		#endregion
 
@@ -161,8 +163,8 @@ namespace Ling.Chara
 			}
 
 			var enemyControlGroup = groundTilemap.EnemyControlGroup;
-			
-			await enemyControlGroup.StartupAsync(mapMaster);
+
+			enemyControlGroup.Startup(mapMaster);
 
 			_enemyControlDict.Add(level, enemyControlGroup);
 
@@ -205,10 +207,10 @@ namespace Ling.Chara
 		{
 			if (PlayerControlGroup.ExistsCharaInPos(pos)) return true;
 
-		//	if (EnemyControlGroups.TryGetValue(level, out var value))
-		//	{
-		//		if (value.ExistsCharaInPos(pos)) return true;
-		//	}
+			if (_enemyControlDict.TryGetValue(level, out var value))
+			{
+				if (value.ExistsCharaInPos(pos)) return true;
+			}
 
 			return false;
 		}
@@ -218,8 +220,15 @@ namespace Ling.Chara
 
 		#region private 関数
 
-		private EnemyControlGroup FindEnemyGroup(int level) =>
-			_enemyControlDict.FirstOrDefault(pair => pair.Key == level).Value;
+		/// <summary>
+		/// 指定階層のEnemyControlGroupを検索する
+		/// </summary>
+		private EnemyControlGroup FindEnemyGroup(int level)
+		{
+			_enemyControlDict.TryGetValue(level, out var enemyControlGroup);
+
+			return enemyControlGroup;
+		}
 
 		#endregion
 

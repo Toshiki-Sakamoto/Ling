@@ -40,7 +40,7 @@ namespace Ling.Chara
 
 		[SerializeField] private Chara.EnemyPoolManager _enemyPoolManager = null;
 
-		private Dictionary<CharaModel, EnemyView> _enemyViews = new Dictionary<CharaModel, EnemyView>();
+		private Dictionary<CharaModel, EnemyControl> _enemyControls = new Dictionary<CharaModel, EnemyControl>();
 		private MapMaster _mapMaster;
 
 		#endregion
@@ -68,10 +68,10 @@ namespace Ling.Chara
 		/// 敵のViewを一つプールから取り出す
 		/// </summary>
 		/// <returns></returns>
-		public EnemyView GetEnemyByPool(CharaModel charaModel)
+		public EnemyControl GetEnemyByPool(CharaModel charaModel)
 		{
-			var enemy = EnemyPoolManager.Pop<EnemyView>(EnemyType.Normal);
-			_enemyViews.Add(charaModel, enemy);
+			var enemy = EnemyPoolManager.Pop<EnemyControl>(EnemyType.Normal);
+			_enemyControls.Add(charaModel, enemy);
 
 			return enemy;
 		}
@@ -79,15 +79,15 @@ namespace Ling.Chara
 		/// <summary>
 		/// 敵Viewを検索して取得
 		/// </summary>
-		public EnemyView FindEnemy(CharaModel model) =>
-			_enemyViews[model];
+		public EnemyControl FindEnemy(CharaModel model) =>
+			_enemyControls[model];
 
 		/// <summary>
 		/// 指定したModelのViewを削除(プールに戻す)
 		/// </summary>
 		public void RemoveChara(CharaModel charaModel)
 		{
-			if (!_enemyViews.TryGetValue(charaModel, out var enemy))
+			if (!_enemyControls.TryGetValue(charaModel, out var enemy))
 			{
 				// 存在しない
 				return;
@@ -96,24 +96,24 @@ namespace Ling.Chara
 			var poolItem = enemy.GetComponent<PoolItem>();
 			poolItem?.Detach();
 
-			_enemyViews.Remove(charaModel);
+			_enemyControls.Remove(charaModel);
 		}
 
 		public void ReturnViewAll()
 		{
-			foreach (var enemy in _enemyViews)
+			foreach (var enemy in _enemyControls)
 			{
 				var poolItem = enemy.Value.GetComponent<PoolItem>();
 				poolItem?.Detach();
 			}
 
-			_enemyViews.Clear();
+			_enemyControls.Clear();
 		}
 
 		/// <summary>
 		/// MapMasterを指定して敵Viewの生成等、開始処理を行う
 		/// </summary>
-		public async UniTask StartupAsync(MapMaster mapMaster)
+		public void Startup(MapMaster mapMaster)
 		{
 			_mapMaster = mapMaster;
 
@@ -121,12 +121,9 @@ namespace Ling.Chara
 			{
 				var model = CreateEnemyModel();
 
-				// ViewとModelを結びつける
-			}
-
-			foreach (var model in Models)
-			{
-				//var enemyControl = EnemyControl.Create(model, _view.GetEnemyByPool(model));
+				// Poolから敵を一つ取り出し、Modelと結びつける
+				var control = GetEnemyByPool(model);
+				control.Setup(model);
 			}
 		}
 

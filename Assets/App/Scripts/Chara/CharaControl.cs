@@ -50,11 +50,14 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		public static CharaControl<TModel, TView> Create(TModel model, TView view)
+		public void Setup(TModel model)
 		{
-			var instance = view.gameObject.AddComponent<CharaControl<TModel, TView>>();
-
-			return instance;
+            // 死亡時
+            _status.IsDead.Where(isDead_ => isDead_)
+                .Subscribe(_ =>
+                {
+					// Viewにも伝える
+                });
 		}
 
 		#endregion
@@ -62,15 +65,6 @@ namespace Ling.Chara
 
 		#region private 関数
 
-		private void Setup(TModel model, TView view)
-		{
-            // 死亡時
-            _status.IsDead.Where(isDead_ => isDead_)
-                .Subscribe(_ =>
-                {
-
-                });
-		}
 
 		#endregion
 

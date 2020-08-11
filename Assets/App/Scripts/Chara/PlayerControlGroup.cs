@@ -41,10 +41,8 @@ namespace Ling.Chara
 		/// <summary>
 		/// Player Control
 		/// </summary>
-		public CharaControl<PlayerModel, PlayerView> Player { get; private set; }
-
-		//public Player Player => _player;
-
+		public PlayerControl Player { get; private set; }
+		
 		public PlayerModel PlayerModel { get; private set; }
 
 		#endregion
