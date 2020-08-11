@@ -38,7 +38,7 @@ namespace Ling.Scenes.Battle.Process
 		[Inject] private Chara.CharaManager _charaManager = null;
 		[Inject] private MapManager _mapManager = null;
 
-		private Chara.Player _player;
+		private Chara.PlayerView _player;
 
 		#endregion
 
@@ -60,7 +60,7 @@ namespace Ling.Scenes.Battle.Process
 		/// </summary>
 		public override void ProcessStart()
 		{
-			_player = _charaManager.Player;
+			_player = _charaManager.PlayerView;
 
 			var tileDataMap = _mapManager.CurrentTileDataMap;
 			var tileFlag = tileDataMap.GetTileFlag(_player.CellPos);

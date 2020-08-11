@@ -90,7 +90,7 @@ namespace Ling.Scenes.Battle.Phase
 			_mapManager.CreateMapView(level);
 
 			// マップに敵を生成する
-			var enemyModelGroup = await _charaManager.BuildEnemyGroupAsync(level, _mapManager.FindTilemap(level));
+			var enemyModelGroup = await _charaManager.BuildEnemyGroupAsync(level, _mapManager.FindGroundTilemap(level));
 			if (enemyModelGroup == null)
 			{
 				return;

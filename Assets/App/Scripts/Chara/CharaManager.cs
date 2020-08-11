@@ -21,6 +21,9 @@ using Zenject;
 
 namespace Ling.Chara
 {
+	using PlayerControl = CharaControl<PlayerModel, PlayerView>;
+	using EnemyControl = CharaControl<CharaModel, EnemyView>;
+
 	/// <summary>
 	/// Player, Enemy等のキャラ全般を扱うPresenter
 	/// </summary>
@@ -38,12 +41,14 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		[SerializeField] private CharaView _view = default;
+		[SerializeField] private PlayerControlGroup _playerControlGroup = default;
+		[SerializeField] private List<EnemyControlGroup> _enemyControlGroups = default;
 
 		[Inject] private Utility.IEventManager _eventManager = null;
 
 		private bool _isInitialized = false;    // 初期化済みであればtrue
 		private StageMaster _stageMaster = null;
+		private Dictionary<int, EnemyControlGroup> _enemyControlDict = new Dictionary<int, EnemyControlGroup>();
 
 		#endregion
 
@@ -53,27 +58,22 @@ namespace Ling.Chara
 		/// <summary>
 		/// プレイヤー情報
 		/// </summary>
-		public PlayerModelGroup PlayerModelGroup { get; } = new PlayerModelGroup();
+		public PlayerControlGroup PlayerControlGroup => _playerControlGroup;
 
 		/// <summary>
 		/// 敵のModel情報。階層ごとにModelGroupが分かれている
 		/// </summary>
-		public Dictionary<int, EnemyModelGroup> EnemyModelGroups { get; } = new Dictionary<int, EnemyModelGroup>();
+		public List<EnemyControlGroup> EnemyControlGroups => _enemyControlGroups;
 
 		/// <summary>
 		/// PlayerModel
 		/// </summary>
-		public Chara.PlayerModel PlayerModel => PlayerModelGroup.Player;
+		public Chara.PlayerModel PlayerModel => PlayerControlGroup.PlayerModel;
 
 		/// <summary>
 		/// PlayerView
 		/// </summary>
-		public Chara.Player Player => _view.Player;
-
-		/// <summary>
-		/// 敵のモデルプール管理者
-		/// </summary>
-		public Chara.EnemyPoolManager EnemyPoolManager => _view.EnemyPoolManager;
+		public Chara.PlayerView PlayerView => PlayerControlGroup.Player.View;
 
 		#endregion
 
@@ -89,12 +89,13 @@ namespace Ling.Chara
 			if (_isInitialized) return;
 
 			// プレイヤー情報の生成
-			await PlayerModelGroup.SetupAsync();
+			await PlayerControlGroup.SetupAsync();
 
-			SetupCharaView(Player, PlayerModelGroup.Player);
-
-			// プール情報から敵モデルを生成する
-			await EnemyPoolManager.CreateObjectsAsync();
+			foreach (var enemyControlGroup in _enemyControlGroups)
+			{
+				// プール情報から敵モデルを生成する
+				await enemyControlGroup.SetupAsync();
+			}
 		}
 
 		public void SetStageMaster(StageMaster stageMaster)
@@ -110,33 +111,24 @@ namespace Ling.Chara
 			// Playerの状態を元に戻す
 
 			// すべてのプールを戻す
-			EnemyPoolManager.ReturnAllItems();
+			foreach (var enemyControlGroup in _enemyControlGroups)
+			{
+				enemyControlGroup.ReturnViewAll();
+			}
 
 			_isInitialized = true;
 		}
 
-		/// <summary>
-		/// ModelとViewを紐づける
-		/// </summary>
-		public void SetupCharaView(Chara.Base chara, CharaModel model)
-		{
-			//var status = model.Status;
-
-			chara.Setup(model);
-
-			// CharaModelが削除されるときに一緒に削除する
-		}
-
 		public Vector3Int GetPlayerCellPos() =>
-			Player.CellPos;
+			PlayerView.CellPos;
 
 		/// <summary>
 		/// Playerが移動した上昇をもとに戻す
 		/// </summary>
 		public void ResetPlayerUpPosition()
 		{
-			var localPos = Player.transform.localPosition;
-			Player.transform.localPosition = new Vector3(localPos.x, localPos.y, 0f);
+			var localPos = PlayerView.transform.localPosition;
+			PlayerView.transform.localPosition = new Vector3(localPos.x, localPos.y, 0f);
 		}
 
 		/// <summary>
@@ -150,16 +142,16 @@ namespace Ling.Chara
 			PlayerModel.SetMapLevel(level);
 
 			// 移動後のTilemapをPlayerに登録し直す
-			Player.SetTilemap(tilemap, level);
+			PlayerView.SetTilemap(tilemap, level);
 		}
 
 		/// <summary>
 		/// 指定レベルの敵を作成する
 		/// </summary>
 		/// <param name="level"></param>
-		public async UniTask<EnemyModelGroup> BuildEnemyGroupAsync(int level, Tilemap tilemap)
+		public async UniTask<EnemyControlGroup> BuildEnemyGroupAsync(int level, Map.GroundTilemap groundTilemap)
 		{
-			RemoveEnemyGroup(level);
+			ResetEnemyGroup(level);
 
 			var mapMaster = _stageMaster.GetMapMasterByLevel(level);
 			if (mapMaster == null)
@@ -168,39 +160,27 @@ namespace Ling.Chara
 				return null;
 			}
 
-			var enemyModelGroup = new EnemyModelGroup();
-			enemyModelGroup.SetMapMaster(mapMaster);
+			var enemyControlGroup = groundTilemap.EnemyControlGroup;
+			
+			await enemyControlGroup.StartupAsync(mapMaster);
 
-			await enemyModelGroup.SetupAsync();
+			_enemyControlDict.Add(level, enemyControlGroup);
 
-			// ViewとModelを結びつける
-			foreach (var model in enemyModelGroup.Models)
-			{
-				SetupCharaView(_view.GetEnemyByPool(model), model);
-			}
-
-			EnemyModelGroups.Add(level, enemyModelGroup);
-
-			return enemyModelGroup;
+			return enemyControlGroup;
 		}
 
 		/// <summary>
-		/// 指定したレベルの<see cref="EnemyModelGroup"/>を削除する
+		/// 指定したレベルの<see cref="EnemyControlGroup"/>を削除する
 		/// </summary>
-		public void RemoveEnemyGroup(int level)
+		public void ResetEnemyGroup(int level)
 		{
 			var enemyGroup = FindEnemyGroup(level);
 			if (enemyGroup == null) return;
 
-			// 敵をViewから取り除く
-			foreach (var enemy in enemyGroup.Models)
-			{
-				_view.RemoveChara(enemy);
-			}
+			enemyGroup.Reset();
 
-			enemyGroup.OnDestroy();
-
-			EnemyModelGroups.Remove(level);
+			// Dictionaryから指定したEnemyControlを削除
+			_enemyControlDict.Remove(level);
 		}
 
 		/// <summary>
@@ -215,20 +195,20 @@ namespace Ling.Chara
 		/// <summary>
 		/// 敵Viewを返す
 		/// </summary>
-		public Enemy FindEnemyView(CharaModel model) =>
-			_view.FindEnemy(model);
+		//public EnemyView FindEnemyView(CharaModel model) =>
+		//	_view.FindEnemy(model);
 
 		/// <summary>
 		/// 指定座標に何かしらのキャラクターが存在するか
 		/// </summary>
 		public bool ExistsCharaInPos(int level, in Vector2Int pos)
 		{
-			if (PlayerModelGroup.ExistsCharaInPos(pos)) return true;
+			if (PlayerControlGroup.ExistsCharaInPos(pos)) return true;
 
-			if (EnemyModelGroups.TryGetValue(level, out var value))
-			{
-				if (value.ExistsCharaInPos(pos)) return true;
-			}
+		//	if (EnemyControlGroups.TryGetValue(level, out var value))
+		//	{
+		//		if (value.ExistsCharaInPos(pos)) return true;
+		//	}
 
 			return false;
 		}
@@ -238,8 +218,8 @@ namespace Ling.Chara
 
 		#region private 関数
 
-		private EnemyModelGroup FindEnemyGroup(int level) =>
-			EnemyModelGroups.FirstOrDefault(pair => pair.Key == level).Value;
+		private EnemyControlGroup FindEnemyGroup(int level) =>
+			_enemyControlDict.FirstOrDefault(pair => pair.Key == level).Value;
 
 		#endregion
 
@@ -252,7 +232,7 @@ namespace Ling.Chara
 			_eventManager.Add<EventRemoveMap>(this, 
 				_ev => 
 				{
-					RemoveEnemyGroup(_ev.level);
+					ResetEnemyGroup(_ev.level);
 				});
 		}
 

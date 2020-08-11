@@ -14,14 +14,12 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Zenject;
-
 namespace Ling.Chara
 {
 	/// <summary>
 	/// 現在のPlayer＋仲間の情報を持つ
 	/// </summary>
-	public class PlayerModelGroup : ModelGroupBase
+	public class PlayerControlGroup : ControlGroupBase<PlayerControl, PlayerModel, PlayerView>
 	{
 		#region 定数, class, enum
 
@@ -41,9 +39,13 @@ namespace Ling.Chara
 		#region プロパティ
 
 		/// <summary>
-		/// Player
+		/// Player Control
 		/// </summary>
-		public PlayerModel Player { get; private set; }
+		public CharaControl<PlayerModel, PlayerView> Player { get; private set; }
+
+		//public Player Player => _player;
+
+		public PlayerModel PlayerModel { get; private set; }
 
 		#endregion
 
@@ -62,12 +64,14 @@ namespace Ling.Chara
 			{
 				// プレイヤー情報を読み込む
 
-				Player = new PlayerModel();
+				PlayerModel = new PlayerModel();
 				var param = new CharaModel.Param();
 				param.charaType = CharaType.Player;
 
-				Player.Setup(param);
-				Player.SetStatus(new CharaStatus(100));
+				PlayerModel.Setup(param);
+				PlayerModel.SetStatus(new CharaStatus(100));
+
+				//_playerControl = PlayerControl.Create(PlayerControlGroup.Player, PlayerView);
 			}
 		}
 
@@ -76,7 +80,7 @@ namespace Ling.Chara
 		/// </summary>
 		public bool ExistsCharaInPos(Vector2Int pos)
 		{
-			if (Player.Pos == pos) return true;
+			if (PlayerModel.Pos == pos) return true;
 			return Models.Exists(model => model.Pos == pos);
 		}
 

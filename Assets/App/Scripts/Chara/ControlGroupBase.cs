@@ -21,24 +21,29 @@ using Zenject;
 namespace Ling.Chara
 {
 	/// <summary>
-	/// 複数のCharaModelを管理する
+	/// 複数のCharaControlを管理する
 	/// </summary>
-	public abstract class ModelGroupBase : IEnumerable<CharaModel>
+	public abstract class ControlGroupBase<TControl, TModel, TView> : 
+		MonoBehaviour,
+		IEnumerable<TControl>
+		where TControl : CharaControl<TModel, TView>
+		where TModel : CharaModel
+		where TView : Chara.ViewBase
     {
 		#region 定数, class, enum
 
-		public struct Enumerator : IEnumerator<CharaModel>
+		public struct Enumerator : IEnumerator<TControl>
 		{
-			private readonly List<CharaModel> _list;
+			private readonly List<TControl> _list;
 			private int _index;
 
-			public Enumerator(List<CharaModel> list)
+			public Enumerator(List<TControl> list)
 			{
 				_list = list;
 				_index = -1;
 			}
 
-			public CharaModel Current => _list[_index];
+			public TControl Current => _list[_index];
 			object IEnumerator.Current => _list[_index];
 
 			public void Dispose() {}
@@ -65,9 +70,11 @@ namespace Ling.Chara
 		#region プロパティ
 
 		/// <summary>
-		/// このグループが管理しているCharaModel
+		/// このグループが管理しているCharaControl
 		/// </summary>
-		public List<CharaModel> Models { get; } = new List<CharaModel>();
+		public List<TControl> Controls { get; } = new List<TControl>();
+
+		public List<TModel> Models { get; } = new List<TModel>();
 
 		#endregion
 
@@ -79,9 +86,9 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		public IEnumerator<CharaModel> GetEnumerator() => new Enumerator(Models);
+		public IEnumerator<TControl> GetEnumerator() => new Enumerator(Controls);
 
-		IEnumerator IEnumerable.GetEnumerator() => new Enumerator(Models);
+		IEnumerator IEnumerable.GetEnumerator() => new Enumerator(Controls);
 
 		public void SetTilemap(Tilemap tilemap)
 		{
@@ -94,9 +101,15 @@ namespace Ling.Chara
 		}
 
 		/// <summary>
-		/// 削除される直前に呼び出し
+		/// 内部データをすべて初期値に戻す
 		/// </summary>
-		public virtual void OnDestroy() { }
+		public void Reset() 
+		{
+			ResetInternal();
+
+			Controls.Clear();
+			Models.Clear();
+		}
 
 		#endregion
 
@@ -105,6 +118,8 @@ namespace Ling.Chara
 
 		protected virtual UniTask SetupAsyncInternal() =>
 			UniTask.FromResult(default(object));
+
+		protected virtual void ResetInternal() {}
 
 		#endregion
 	}

@@ -76,6 +76,13 @@ namespace Ling.Chara
 		/// </summary>
 		public MoveAI.AIBase MoveAI { get; private set; }
 
+        /// <summary>
+        /// 移動することができないタイルフラグ。
+        /// これ以外は移動できるとする
+        /// </summary>
+        public virtual Map.TileFlag CanNotMoveTileFlag =>
+            Map.TileFlag.None | Map.TileFlag.Wall;
+
 		#endregion
 
 
@@ -132,6 +139,12 @@ namespace Ling.Chara
             // 移動したことのイベントを発行する
 			Utility.EventManager.SafeTrigger(_eventPosUpdate);
         }
+
+		/// <summary>
+		/// 現在の座標に指定した分を加算する
+		/// </summary>
+		public void AddPos(in Vector2Int pos) =>
+			SetPos(Pos + pos);
 
 		#endregion
 

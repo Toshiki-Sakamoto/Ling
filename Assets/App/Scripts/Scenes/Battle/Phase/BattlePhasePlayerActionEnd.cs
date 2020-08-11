@@ -37,7 +37,6 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 		private Chara.CharaManager _charaManager;
-		private Player _player;
 		private MapManager _mapManager;
 
 		#endregion

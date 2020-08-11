@@ -12,6 +12,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using Ling;
 using Ling.Utility;
+using Cysharp.Threading.Tasks;
 
 
 namespace Ling.Chara
@@ -19,7 +20,7 @@ namespace Ling.Chara
     /// <summary>
     /// プレイヤーや敵の元になるクラス
     /// </summary>
-    public abstract class Base : MonoBehaviour 
+    public abstract class ViewBase : MonoBehaviour 
     {
         #region 定数, class, enum
 
@@ -39,7 +40,6 @@ namespace Ling.Chara
         [SerializeField] private MoveController _moveController = default;
         [SerializeField] private Ling.Const.MoveAIType _moveAIType = default;
         [SerializeField] private Ling.Const.AttackAIType _attackAIType = default;
-        [SerializeField] private CharaStatus _status = default;
 
         private Tilemap _tilemap;
         private Renderer[] _renderers = null;
@@ -62,31 +62,11 @@ namespace Ling.Chara
         /// </summary>
         public MoveController MoveController => _moveController;
 
-        /// <summary>
-        /// 移動することができないタイルフラグ
-        /// これ以外は移動できるとする
-        /// </summary>
-        /// <returns></returns>
-        public virtual Map.TileFlag CanNotMoveTileFlag =>
-            Map.TileFlag.None | Map.TileFlag.Wall;
-
         #endregion
 
 
         #region public, protected 関数
-
-        public void Setup(CharaModel charaModel)
-		{
-            _status = charaModel.Status;
-
-            // 死亡時
-            _status.IsDead.Where(isDead_ => isDead_)
-                .Subscribe(_ =>
-                {
-
-                });
-        }
-
+        
         /// <summary>
         /// Tilemap情報を設定する
         /// </summary>
@@ -120,14 +100,14 @@ namespace Ling.Chara
         /// ワールド空間の座標を設定
         /// </summary>
         /// <param name="worldPos"></param>
-        public void SetWorldPos(Vector3 worldPos) =>
+        public void SetWorldPos(in Vector3 worldPos) =>
             transform.position = worldPos;
 
         /// <summary>
         /// 向き
         /// </summary>
         /// <param name="dir"></param>
-        public void SetDirection(Vector3 dir)
+        public void SetDirection(in Vector2 dir)
         {
             _animator.SetFloat("x", dir.x);
             _animator.SetFloat("y", dir.y);
@@ -141,6 +121,13 @@ namespace Ling.Chara
                 renderer.sortingOrder = order;
 			}
 		}
+
+        /// <summary>
+        /// 現在位置から指定した数を足して移動する
+        /// </summary>
+        public System.IObservable<AsyncUnit> MoveByAddPos(in Vector2Int addCellPos) =>
+            MoveController.SetMoveCellPos(CellPos + addCellPos.ToVector3Int());
+
         #endregion
 
 

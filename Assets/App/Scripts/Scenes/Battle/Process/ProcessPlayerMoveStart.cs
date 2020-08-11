@@ -37,7 +37,7 @@ namespace Ling.Scenes.Battle.Process
 
 		[Inject] private Chara.CharaManager _charaManager = null;
 
-		private Chara.Player _player;
+		private Chara.PlayerView _player;
 		private Vector3Int _addMoveDir;
 
 		#endregion
@@ -52,7 +52,7 @@ namespace Ling.Scenes.Battle.Process
 
 		public ProcessPlayerMoveStart Setup(in Vector3Int addMoveDir)
 		{
-			_player = _charaManager.Player;
+			_player = _charaManager.PlayerView;
 			_addMoveDir = addMoveDir;
 
 			// 足元確認コマンドを次に入れる
@@ -74,9 +74,9 @@ namespace Ling.Scenes.Battle.Process
 
 		private void Start()
 		{
-			_player
-				.MoveByAddPos(_addMoveDir)
-				.Subscribe(_ => ProcessFinish());
+			//_player
+			//	.MoveByAddPos(_addMoveDir)
+			//	.Subscribe(_ => ProcessFinish());
 		}
 
 		#endregion

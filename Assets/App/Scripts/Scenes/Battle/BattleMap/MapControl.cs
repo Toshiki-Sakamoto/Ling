@@ -40,7 +40,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region private 変数
 
-		[SerializeField] private MapView _view;
+		[SerializeField] private MapView _view = default;
 
 		[Inject] private MasterData.MasterManager _masterManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
@@ -87,10 +87,10 @@ namespace Ling.Scenes.Battle.BattleMap
 			_view.Startup(_model, curretMapIndex, 40);
 		}
 
-		public void SetCharaView(Chara.Base chara) =>
+		public void SetCharaView(Chara.ViewBase chara) =>
 			SetCharaView(chara, _model.CurrentMapIndex);
 
-		public void SetCharaView(Chara.Base chara, int level)
+		public void SetCharaView(Chara.ViewBase chara, int level)
 		{
 			var tilemap = FindTilemap(level);
 
@@ -114,7 +114,7 @@ namespace Ling.Scenes.Battle.BattleMap
 			chara.SetTilemap(tilemap, level);
 		}
 
-		public void SetCharaViewInCurrentMap(Chara.Base chara) =>
+		public void SetCharaViewInCurrentMap(Chara.ViewBase chara) =>
 			SetCharaView(chara, _model.CurrentMapIndex);
 
 		/// <summary>
@@ -165,6 +165,12 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <returns></returns>
 		public Tilemap FindTilemap(int level) =>
 			_view.GetTilemap(level);
+
+		/// <summary>
+		/// 指定階層のGroundTilemapを検索する
+		/// </summary>
+		public Map.GroundTilemap FindGroundTilemap(int level) =>
+			_view.FindGroundTilemap(level);
 
 		/// <summary>
 		/// 指定階層の指定座標のタイルデータを取得する

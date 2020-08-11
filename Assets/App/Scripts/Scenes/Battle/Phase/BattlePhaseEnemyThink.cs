@@ -47,16 +47,18 @@ namespace Ling.Scenes.Battle.Phase
 			_charaManager = Resolve<Chara.CharaManager>();
 			_mapManager = Resolve<MapManager>();
 
+#if false
 			// 敵は生成された順番から思考する
-			foreach (var pair in _charaManager.EnemyModelGroups)
+			foreach (var pair in _charaManager.EnemyControlGroups)
 			{
 				var enemyModelGroup = pair.Value;
-				
+
 				foreach (var enemyModel in enemyModelGroup)
 				{
-
+					// 敵が持つAIによって行動を自由に変更する
 				}
 			}
+			#endif
 		}
 
 		#endregion

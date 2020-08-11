@@ -320,6 +320,61 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &106639240
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 106639241}
+  - component: {fileID: 106639242}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &106639241
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106639240}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 143247242}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &106639242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 106639240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad737f2f506718428a5ec074c42fba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultPoolRoot: {fileID: 0}
+  _createItems:
+  - key: 0
+    id: 
+    isUsedCreator: 0
+    creator: {fileID: 0}
+    createInfo:
+      poolRoot: {fileID: 106639241}
+      poolObject: {fileID: 0}
+      initCreateNum: 10
+      isAutoCreate: 1
+      onceCreatingNum: 0
 --- !u!1 &109318011
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +387,7 @@ GameObject:
   - component: {fileID: 109318013}
   - component: {fileID: 109318014}
   - component: {fileID: 109318015}
+  - component: {fileID: 109318016}
   m_Layer: 0
   m_Name: GroundGrid03
   m_TagString: Untagged
@@ -350,6 +406,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 466553239}
   - {fileID: 1174814660}
   - {fileID: 669260389}
   m_Father: {fileID: 1378394484}
@@ -381,9 +438,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grid: {fileID: 109318013}
   _tilemap: {fileID: 1174814662}
-  _mapIndex: 0
+  _mapLevel: 0
   _enemyRoot: {fileID: 669260389}
   _sortingChanger: {fileID: 109318015}
+  _enemyControlGroup: {fileID: 109318016}
 --- !u!114 &109318015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,6 +457,19 @@ MonoBehaviour:
   _layerName: Default
   _orderInLayer: 0
   _isIncludeChildren: 1
+--- !u!114 &109318016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109318011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe3551f122c343d0833e59649ef6221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyPoolManager: {fileID: 466553240}
 --- !u!1 &116123181
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +500,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 143247242}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &116123183
 TilemapRenderer:
@@ -612,6 +683,7 @@ GameObject:
   - component: {fileID: 143247243}
   - component: {fileID: 143247244}
   - component: {fileID: 143247245}
+  - component: {fileID: 143247246}
   m_Layer: 0
   m_Name: GroundGrid02
   m_TagString: Untagged
@@ -630,6 +702,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 106639241}
   - {fileID: 116123182}
   - {fileID: 1481681377}
   m_Father: {fileID: 1378394484}
@@ -661,9 +734,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grid: {fileID: 143247243}
   _tilemap: {fileID: 116123184}
-  _mapIndex: 0
+  _mapLevel: 0
   _enemyRoot: {fileID: 1481681377}
   _sortingChanger: {fileID: 143247245}
+  _enemyControlGroup: {fileID: 143247246}
 --- !u!114 &143247245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,6 +753,19 @@ MonoBehaviour:
   _layerName: Default
   _orderInLayer: 0
   _isIncludeChildren: 1
+--- !u!114 &143247246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143247241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe3551f122c343d0833e59649ef6221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyPoolManager: {fileID: 106639242}
 --- !u!1 &237590608
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,6 +1218,61 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &466553238
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 466553239}
+  - component: {fileID: 466553240}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &466553239
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466553238}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 109318012}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &466553240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 466553238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad737f2f506718428a5ec074c42fba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultPoolRoot: {fileID: 0}
+  _createItems:
+  - key: 0
+    id: 
+    isUsedCreator: 0
+    creator: {fileID: 0}
+    createInfo:
+      poolRoot: {fileID: 466553239}
+      poolObject: {fileID: 0}
+      initCreateNum: 10
+      isAutoCreate: 1
+      onceCreatingNum: 0
 --- !u!1 &485534624
 GameObject:
   m_ObjectHideFlags: 0
@@ -1334,7 +1476,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 109318012}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &746388220
 GameObject:
@@ -1539,7 +1681,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1017254157}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &863925386
 GameObject:
@@ -1749,6 +1891,61 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &993213069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 993213070}
+  - component: {fileID: 993213071}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &993213070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993213069}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1017254157}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &993213071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993213069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad737f2f506718428a5ec074c42fba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultPoolRoot: {fileID: 0}
+  _createItems:
+  - key: 0
+    id: 
+    isUsedCreator: 0
+    creator: {fileID: 0}
+    createInfo:
+      poolRoot: {fileID: 993213070}
+      poolObject: {fileID: 0}
+      initCreateNum: 10
+      isAutoCreate: 1
+      onceCreatingNum: 0
 --- !u!1 &993459002
 GameObject:
   m_ObjectHideFlags: 0
@@ -1871,7 +2068,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2080930054}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1017254156
 GameObject:
@@ -1885,6 +2082,7 @@ GameObject:
   - component: {fileID: 1017254158}
   - component: {fileID: 1017254159}
   - component: {fileID: 1017254160}
+  - component: {fileID: 1017254161}
   m_Layer: 0
   m_Name: GroundGrid_1
   m_TagString: Untagged
@@ -1903,6 +2101,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 993213070}
   - {fileID: 1845025750}
   - {fileID: 776082088}
   m_Father: {fileID: 1378394484}
@@ -1934,9 +2133,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grid: {fileID: 1017254158}
   _tilemap: {fileID: 1845025752}
-  _mapIndex: 0
+  _mapLevel: 0
   _enemyRoot: {fileID: 776082088}
   _sortingChanger: {fileID: 1017254160}
+  _enemyControlGroup: {fileID: 1017254161}
 --- !u!114 &1017254160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1952,6 +2152,19 @@ MonoBehaviour:
   _layerName: Default
   _orderInLayer: 0
   _isIncludeChildren: 1
+--- !u!114 &1017254161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017254156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe3551f122c343d0833e59649ef6221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyPoolManager: {fileID: 993213071}
 --- !u!1 &1067402338
 GameObject:
   m_ObjectHideFlags: 0
@@ -2391,7 +2604,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 109318012}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &1174814661
 TilemapRenderer:
@@ -2756,7 +2969,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 3}
     m_FontSize: 37
     m_FontStyle: 0
     m_BestFit: 0
@@ -3098,7 +3311,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 143247242}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1491470947
 GameObject:
@@ -3243,6 +3456,61 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &1607016456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1607016457}
+  - component: {fileID: 1607016458}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1607016457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607016456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2080930054}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1607016458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607016456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ad737f2f506718428a5ec074c42fba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultPoolRoot: {fileID: 0}
+  _createItems:
+  - key: 0
+    id: 
+    isUsedCreator: 0
+    creator: {fileID: 0}
+    createInfo:
+      poolRoot: {fileID: 1607016457}
+      poolObject: {fileID: 0}
+      initCreateNum: 10
+      isAutoCreate: 1
+      onceCreatingNum: 0
 --- !u!1 &1682298782
 GameObject:
   m_ObjectHideFlags: 0
@@ -3709,7 +3977,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1017254157}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &1845025751
 TilemapRenderer:
@@ -8152,7 +8420,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2080930054}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!483693784 &2058739657
 TilemapRenderer:
@@ -12303,6 +12571,7 @@ GameObject:
   - component: {fileID: 2080930055}
   - component: {fileID: 2080930056}
   - component: {fileID: 2080930057}
+  - component: {fileID: 2080930058}
   m_Layer: 0
   m_Name: GroundGrid_2
   m_TagString: Untagged
@@ -12321,6 +12590,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1607016457}
   - {fileID: 2058739656}
   - {fileID: 1015893937}
   m_Father: {fileID: 1378394484}
@@ -12352,9 +12622,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grid: {fileID: 2080930055}
   _tilemap: {fileID: 2058739658}
-  _mapIndex: 0
+  _mapLevel: 0
   _enemyRoot: {fileID: 1015893937}
   _sortingChanger: {fileID: 2080930057}
+  _enemyControlGroup: {fileID: 2080930058}
 --- !u!114 &2080930057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12370,6 +12641,19 @@ MonoBehaviour:
   _layerName: Default
   _orderInLayer: 0
   _isIncludeChildren: 1
+--- !u!114 &2080930058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080930053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbe3551f122c343d0833e59649ef6221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyPoolManager: {fileID: 1607016458}
 --- !u!1 &2112815755
 GameObject:
   m_ObjectHideFlags: 0
@@ -12380,6 +12664,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2112815757}
   - component: {fileID: 2112815756}
+  - component: {fileID: 2112815758}
   m_Layer: 0
   m_Name: CharaManager
   m_TagString: Untagged
@@ -12399,7 +12684,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbeb6ef0c312914488883d5a44d30d01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _view: {fileID: 0}
+  _playerControlGroup: {fileID: 2112815758}
+  _enemyControlGroups:
+  - {fileID: 1017254161}
+  - {fileID: 2080930058}
+  - {fileID: 143247246}
+  - {fileID: 109318016}
 --- !u!4 &2112815757
 Transform:
   m_ObjectHideFlags: 0
@@ -12414,3 +12704,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2112815758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112815755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38ea1a86c99194c809e335f58f8acda6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

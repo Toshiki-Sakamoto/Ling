@@ -203,8 +203,9 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 敵グループをマップに配置する
 		/// </summary>
-		public void DeployEnemyToMap(Chara.EnemyModelGroup enemyModelGroup, int level)
+		public void DeployEnemyToMap(Chara.EnemyControlGroup enemyModelGroup, int level)
 		{
+			#if false
 			foreach (var enemyModel in enemyModelGroup.Models)
 			{
 				var charaView = _charaManager.FindEnemyView(enemyModel);
@@ -213,6 +214,7 @@ namespace Ling.Scenes.Battle
 				MapControl.SetCharaView(charaView, level);
 				charaView.SetCellPos(pos);
 			}
+			#endif
 		}
 
 		#endregion

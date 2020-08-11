@@ -15,7 +15,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Ling.Scenes.Battle.BattleMap
+namespace Ling.Map
 {
 	/// <summary>
 	/// GroundGrid一つのデータ
@@ -39,6 +39,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		[SerializeField] private int _mapLevel = default;
 		[SerializeField] private Transform _enemyRoot = default;
 		[SerializeField] private Utility.Renderer.SortingLayerChanger _sortingChanger = default;
+		[SerializeField] private Chara.EnemyControlGroup _enemyControlGroup = default;
 
 		[Inject] private MasterData.MasterManager _masterManager = default;
 
@@ -57,6 +58,11 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// SortingLayer名
 		/// </summary>
 		public string LayerName => _sortingChanger.LayerName;
+
+		/// <summary>
+		/// マップ上の敵キャラ管理
+		/// </summary>
+		public Chara.EnemyControlGroup EnemyControlGroup => _enemyControlGroup;
 
 		#endregion
 
