@@ -79,7 +79,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 敵Viewを検索して取得
 		/// </summary>
-		public EnemyControl FindEnemy(CharaModel model) =>
+		public EnemyControl FindEnemyByModel(CharaModel model) =>
 			_enemyControls[model];
 
 		/// <summary>

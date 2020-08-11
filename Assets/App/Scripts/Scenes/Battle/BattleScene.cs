@@ -203,18 +203,15 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 敵グループをマップに配置する
 		/// </summary>
-		public void DeployEnemyToMap(Chara.EnemyControlGroup enemyModelGroup, int level)
+		public void DeployEnemyToMap(Chara.EnemyControlGroup enemyGroup, int level)
 		{
-			#if false
-			foreach (var enemyModel in enemyModelGroup.Models)
+			foreach (var enemy in enemyGroup)
 			{
-				var charaView = _charaManager.FindEnemyView(enemyModel);
 				var pos = MapControl.GetRandomPosInRoom(level);
 
-				MapControl.SetCharaView(charaView, level);
-				charaView.SetCellPos(pos);
+				MapControl.SetCharaView(enemy.View, level);
+				enemy.View.SetCellPos(pos);
 			}
-			#endif
 		}
 
 		#endregion

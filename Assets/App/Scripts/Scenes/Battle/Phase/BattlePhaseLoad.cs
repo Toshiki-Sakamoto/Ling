@@ -122,16 +122,10 @@ namespace Ling.Scenes.Battle.Phase
 			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindGroundTilemap(1));
 			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindGroundTilemap(2));
 
-#if false
 			// 敵をマップに配置する
-			foreach (var pair in _charaManager.EnemyControlGroups)
-			{
-				var level = pair.Key;
-				var enemyModelGroup = pair.Value;
+			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(1), 1);
+			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(2), 2);
 
-				Scene.DeployEnemyToMap(enemyModelGroup, level);
-			}
-#endif
 			_isFinish = true;
 		}
 

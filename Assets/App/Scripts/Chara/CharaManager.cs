@@ -195,10 +195,21 @@ namespace Ling.Chara
 		}
 
 		/// <summary>
-		/// 敵Viewを返す
+		/// 敵Controlを返す
 		/// </summary>
-		//public EnemyView FindEnemyView(CharaModel model) =>
-		//	_view.FindEnemy(model);
+		public EnemyControl FindEnemyByModel(CharaModel model)
+		{
+			foreach (var enemyControlGroup in EnemyControlGroups)
+			{
+				var enemy = enemyControlGroup.FindEnemyByModel(model);
+				if (enemy != null)
+				{
+					return enemy;
+				}
+			}
+
+			return null;
+		}
 
 		/// <summary>
 		/// 指定座標に何かしらのキャラクターが存在するか
@@ -214,6 +225,12 @@ namespace Ling.Chara
 
 			return false;
 		}
+
+		/// <summary>
+		/// 指定階層のEnemyControlGroupを検索
+		/// </summary>
+		public EnemyControlGroup FindEnemyControlGroup(int level) =>
+			_enemyControlDict[level];
 
 		#endregion
 
