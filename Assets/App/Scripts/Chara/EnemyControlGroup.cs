@@ -40,7 +40,7 @@ namespace Ling.Chara
 
 		[SerializeField] private Chara.EnemyPoolManager _enemyPoolManager = null;
 
-		private Dictionary<CharaModel, EnemyControl> _enemyControls = new Dictionary<CharaModel, EnemyControl>();
+		private Dictionary<CharaModel, EnemyControl> _keyModelValueControl = new Dictionary<CharaModel, EnemyControl>();
 		private MapMaster _mapMaster;
 
 		#endregion
@@ -71,7 +71,9 @@ namespace Ling.Chara
 		public EnemyControl GetEnemyByPool(CharaModel charaModel)
 		{
 			var enemy = EnemyPoolManager.Pop<EnemyControl>(EnemyType.Normal);
-			_enemyControls.Add(charaModel, enemy);
+			Controls.Add(enemy);
+
+			_keyModelValueControl.Add(charaModel, enemy);
 
 			return enemy;
 		}
@@ -80,14 +82,14 @@ namespace Ling.Chara
 		/// 敵Viewを検索して取得
 		/// </summary>
 		public EnemyControl FindEnemyByModel(CharaModel model) =>
-			_enemyControls[model];
+			_keyModelValueControl[model];
 
 		/// <summary>
 		/// 指定したModelのViewを削除(プールに戻す)
 		/// </summary>
 		public void RemoveChara(CharaModel charaModel)
 		{
-			if (!_enemyControls.TryGetValue(charaModel, out var enemy))
+			if (!_keyModelValueControl.TryGetValue(charaModel, out var enemy))
 			{
 				// 存在しない
 				return;
@@ -96,18 +98,18 @@ namespace Ling.Chara
 			var poolItem = enemy.GetComponent<PoolItem>();
 			poolItem?.Detach();
 
-			_enemyControls.Remove(charaModel);
+			_keyModelValueControl.Remove(charaModel);
 		}
 
 		public void ReturnViewAll()
 		{
-			foreach (var enemy in _enemyControls)
+			foreach (var enemy in _keyModelValueControl)
 			{
 				var poolItem = enemy.Value.GetComponent<PoolItem>();
 				poolItem?.Detach();
 			}
 
-			_enemyControls.Clear();
+			_keyModelValueControl.Clear();
 		}
 
 		/// <summary>
