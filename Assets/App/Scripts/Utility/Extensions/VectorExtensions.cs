@@ -17,19 +17,22 @@ using UnityEngine.UI;
 namespace Ling
 {
 	/// <summary>
-	/// Vector3拡張メソッド
+	/// Vector拡張メソッド
 	/// </summary>
-    public static class Vector3Extensions
+    public static class VectorExtensions
     {
         /// <summary>
         /// Vector3同士の掛け算
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
         public static Vector3 Multiple(this Vector3 left, Vector3 right)
         {
             return new Vector3 { x = left.x * right.x, y = left.y * right.y, z = left.z * right.z };
         }
+
+        public static Vector3Int ToVector3Int(this Vector2Int self) =>
+            new Vector3Int(self.x, self.y, 0);
+
+        public static Vector2Int ToVector2Int(this Vector3Int self) =>
+            new Vector2Int(self.x, self.y);
     }
 }
