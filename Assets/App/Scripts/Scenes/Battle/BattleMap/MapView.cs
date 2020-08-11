@@ -39,8 +39,8 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region public 変数
 
-		public System.Action<GroundTilemap, int> OnStartGroundmapData { get; set; }
-		public System.Action<GroundTilemap, int> OnUpdateItem { get; set; }
+		public System.Action<Map.GroundTilemap, int> OnStartGroundmapData { get; set; }
+		public System.Action<Map.GroundTilemap, int> OnUpdateItem { get; set; }
 
 		#endregion
 
@@ -48,14 +48,14 @@ namespace Ling.Scenes.Battle.BattleMap
 		#region private 変数
 
 		[SerializeField] private Transform _playerRoot = default;
-		[SerializeField] private List<GroundTilemap> _groundMaps = default;
+		[SerializeField] private List<Map.GroundTilemap> _groundMaps = default;
 
 		[Inject] private BattleModel _model = default;
 		[Inject] private MasterData.MasterManager _masterManager = default;
 		[Inject] private IEventManager _eventManager = default;
 
-		private List<GroundTilemap> _usedItems = new List<GroundTilemap>();
-		private List<GroundTilemap> _unusedItems = new List<GroundTilemap>();
+		private List<Map.GroundTilemap> _usedItems = new List<Map.GroundTilemap>();
+		private List<Map.GroundTilemap> _unusedItems = new List<Map.GroundTilemap>();
 		private int _currentMapIndex = 0;
 		private List<string> _sortingMap = new List<string>()
 			{
@@ -140,7 +140,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <summary>
 		/// 指定した階層のマップのTilemapを取得する
 		/// </summary>
-		public GroundTilemap FindGroundTilemap(int level)
+		public Map.GroundTilemap FindGroundTilemap(int level)
 		{
 			var mapData = _groundMaps.Find(map_ => map_.Level == level);
 			if (mapData == null)
@@ -155,7 +155,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <summary>
 		/// 敵を指定したレベルのマップに設定する
 		/// </summary>
-		public void SetEnemy(Chara.Base enemy, int level)
+		public void SetEnemy(Chara.ViewBase enemy, int level)
 		{
 			var root = GetEnemyRoot(level);
 			var groundTilemap = FindGroundTilemap(level);
@@ -239,7 +239,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// 未使用リストに追加する
 		/// </summary>
 		/// <param name="groundTilemap"></param>
-		private void PushUnusedItem(GroundTilemap groundTilemap)
+		private void PushUnusedItem(Map.GroundTilemap groundTilemap)
 		{
 			groundTilemap.Clear();
 
@@ -254,7 +254,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// 未使用リストから一つデータを取得する
 		/// </summary>
 		/// <returns></returns>
-		private GroundTilemap PopUnusedItem()
+		private Map.GroundTilemap PopUnusedItem()
 		{
 			var result = _unusedItems[0];
 
@@ -267,14 +267,14 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// 使用リストに追加する
 		/// </summary>
 		/// <param name="groundTilemap"></param>
-		private void PushUsedItem(GroundTilemap groundTilemap)
+		private void PushUsedItem(Map.GroundTilemap groundTilemap)
 		{
 			_usedItems.Add(groundTilemap);
 
 			groundTilemap.SetActive(true);
 		}
 
-		private GroundTilemap PopUsedItem()
+		private Map.GroundTilemap PopUsedItem()
 		{
 			var result = _usedItems[0];
 

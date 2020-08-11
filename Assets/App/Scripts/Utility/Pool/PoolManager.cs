@@ -35,7 +35,7 @@ namespace Ling.Utility.Pool
 	/// 実際のPoolManager。
 	/// 生成方法を自分で渡す。
 	/// </summary>
-	public abstract class PoolManager<TEnum, TPoolCreator, TPoolManager> : Utility.MonoSingleton<TPoolManager>
+	public abstract class PoolManager<TEnum, TPoolCreator, TPoolManager> : MonoBehaviour
 		where TEnum : Enum
 		where TPoolCreator : PoolCreator
 		where TPoolManager : MonoBehaviour
@@ -202,10 +202,8 @@ namespace Ling.Utility.Pool
 		}
 
 
-		protected override void Awake()
+		protected virtual void Awake()
 		{
-			base.Awake();
-
 			// デフォルトのプール先がNullの場合は自分を指定する
 			if (_defaultPoolRoot == null)
 			{
@@ -217,8 +215,7 @@ namespace Ling.Utility.Pool
 			// 設定されているCreatorのセットアップを行う
 			SetupCreatorItems();
 		}
-
-
+		
 		#endregion
 	}
 }

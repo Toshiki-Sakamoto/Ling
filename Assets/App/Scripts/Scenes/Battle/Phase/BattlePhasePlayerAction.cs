@@ -79,25 +79,29 @@ namespace Ling.Scenes.Battle.Phase
 		/// 移動コマンド
 		/// </summary>
 		/// <param name="moveDistance"></param>
-		private void MoveCommand(Vector3Int moveDistance)
+		private void MoveCommand(Vector2Int moveDistance)
 		{
-			if (moveDistance == Vector3Int.zero) return;
+			if (moveDistance == Vector2Int.zero) return;
 
-			var player = _charaManager.Player;
+			var playerModel = _charaManager.PlayerModel;
+			var player = _charaManager.PlayerView;
 
 			// 移動できるか
-			if (!_mapManager.CanMoveChara(player, moveDistance))
+			if (!_mapManager.CanMoveChara(playerModel, moveDistance))
 			{
 				// 向きだけ変える
 				player.SetDirection(moveDistance);
 				return;
 			}
 
-			var process = _processManager.Attach<Process.ProcessPlayerMoveStart>().Setup(moveDistance);
+			// Playerの座標を変更する(見た目は反映させない)
+			playerModel.AddPos(moveDistance);
+
+			//var process = _processManager.Attach<Process.ProcessPlayerMoveStart>().Setup(moveDistance);
 
 			// Player行動中に遷移
-			var argument = new BattlePhasePlayerActionProcess.Argument { process = process };
-			Change(BattleScene.Phase.PlayerActionProcess, argument);
+			//var argument = new BattlePhasePlayerActionProcess.Argument { process = process };
+			//Change(BattleScene.Phase.PlayerActionProcess, argument);
 		}
 
 		/// <summary>
@@ -117,23 +121,23 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			// x, y の入力
 			// 関連付けはInput Managerで行っている
-			var moveDir = Vector3Int.zero;
+			var moveDir = Vector2Int.zero;
 
 			if (Input.GetKey(KeyCode.LeftArrow))
 			{
-				moveDir = Vector3Int.left;
+				moveDir = Vector2Int.left;
 			}
 			else if (Input.GetKey(KeyCode.RightArrow))
 			{
-				moveDir = Vector3Int.right;
+				moveDir = Vector2Int.right;
 			}
 			else if (Input.GetKey(KeyCode.UpArrow))
 			{
-				moveDir = Vector3Int.up;
+				moveDir = Vector2Int.up;
 			}
 			else if (Input.GetKey(KeyCode.DownArrow))
 			{
-				moveDir = Vector3Int.down;
+				moveDir = Vector2Int.down;
 			}
 			else if (Input.GetKey(KeyCode.Space))
 			{
@@ -154,7 +158,7 @@ namespace Ling.Scenes.Battle.Phase
 				return;
 			}
 
-			if (moveDir != Vector3Int.zero)
+			if (moveDir != Vector2Int.zero)
 			{
 				MoveCommand(moveDir);
 

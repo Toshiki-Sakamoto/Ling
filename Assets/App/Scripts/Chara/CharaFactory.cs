@@ -19,7 +19,7 @@ using Zenject;
 namespace Ling.Chara
 {
 	/// <summary>
-	/// <see cref="Chara.Base"/>の作成＆セットアップを行う
+	/// <see cref="Chara.ViewBase"/>の作成＆セットアップを行う
 	/// </summary>
 	public class CharaFactory
     {
@@ -60,7 +60,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 指定Prefabからキャラクタを生成する
 		/// </summary>
-		public async UniTask<T> CreateAsync<T>(GameObject prefab, Transform root) where T : Chara.Base
+		public async UniTask<T> CreateAsync<T>(GameObject prefab, Transform root) where T : Chara.ViewBase
 		{
 			var instance = await CharaLoader.LoadAsync(prefab, root);
 			if (instance == null)

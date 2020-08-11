@@ -20,7 +20,7 @@ namespace Ling.Chara
 	/// <summary>
 	/// 敵の基本的なデータを持つ
 	/// </summary>
-	public class Enemy : Base
+	public class EnemyView : ViewBase
     {
 		#region 定数, class, enum
 

@@ -123,17 +123,18 @@ namespace Ling.Scenes.Battle
 		public Vector3 GetCellCenterWorldByMap(int mapIndex, int x, int y) =>
 			MapControl.GetCellCenterWorld(mapIndex, x, y);
 
+
 		/// <summary>
 		/// キャラが移動できるか
 		/// </summary>
 		/// <param name="chara"></param>
-		public bool CanMoveChara(Chara.Base chara, in Vector3Int addMoveDir) =>
-			CanMoveChara(CurrentMapIndex, chara, addMoveDir);
+		public bool CanMoveChara(Chara.CharaModel charaModel, in Vector2Int addMoveDir) =>
+			CanMoveChara(CurrentMapIndex, charaModel, addMoveDir);
 
-		public bool CanMoveChara(int mapIndex, Chara.Base chara, in Vector3Int addMoveDir)
+		public bool CanMoveChara(int mapIndex, Chara.CharaModel charaModel, in Vector2Int addMoveDir)
 		{
 			var tileDataMap = _mapModel.FindTileDataMap(mapIndex);
-			var destPos = chara.CellPos + addMoveDir;
+			var destPos = charaModel.Pos + addMoveDir;
 
 			// 範囲外なら移動できない
 			if (!tileDataMap.InRange(destPos.x, destPos.y))
@@ -144,7 +145,7 @@ namespace Ling.Scenes.Battle
 			var tileFlag = tileDataMap.GetTileFlag(destPos.x, destPos.y);
 
 			// 移動できないフラグ
-			if (tileFlag.HasFlag(chara.CanNotMoveTileFlag))
+			if (tileFlag.HasFlag(charaModel.CanNotMoveTileFlag))
 			{
 				return false;
 			}
@@ -185,22 +186,8 @@ namespace Ling.Scenes.Battle
 		public Tilemap FindTilemap(int level) =>
 			MapControl.FindTilemap(level);
 
-
-		/// <summary>
-		/// はみ出した余分なMapを削除する
-		/// </summary>
-		public void RemoveExtraMap()
-		{
-
-		}
-
-		/// <summary>
-		/// 現在のMap
-		/// </summary>
-		public void RefreshMap()
-		{
-
-		}
+		public Map.GroundTilemap FindGroundTilemap(int level) =>
+			MapControl.FindGroundTilemap(level);
 
 		#endregion
 

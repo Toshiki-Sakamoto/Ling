@@ -1,13 +1,11 @@
 ﻿//
-// EnemyModelGroup.cs
+// PlayerModelGroup.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.07.10
 //
 
 using Cysharp.Threading.Tasks;
-using Ling.MasterData.Stage;
-using Ling.Scenes.Battle;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,14 +14,12 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Zenject;
-
 namespace Ling.Chara
 {
 	/// <summary>
-	/// 
+	/// 現在のPlayer＋仲間の情報を持つ
 	/// </summary>
-	public class EnemyModelGroup : ModelGroupBase
+	public class PlayerControlGroup : ControlGroupBase<PlayerControl, PlayerModel, PlayerView>
 	{
 		#region 定数, class, enum
 
@@ -37,12 +33,19 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		private MapMaster _mapMaster;
+		[SerializeField] private PlayerControl _player = default;
 
 		#endregion
 
 
 		#region プロパティ
+
+		/// <summary>
+		/// Player Control
+		/// </summary>
+		public PlayerControl Player => _player;
+
+		public PlayerModel PlayerModel => Player.Model;
 
 		#endregion
 
@@ -54,29 +57,17 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		public void SetMapMaster(MapMaster mapMaster)
-		{
-			_mapMaster = mapMaster;
-		}
-
-		public CharaModel CreateEnemyModel()
-		{
-			var mapEnemyData = _mapMaster.GetRandomEnemyDataFromPopRate();
-			var enemyModel = EnemyFactory.Create(mapEnemyData);
-
-			Models.Add(enemyModel);
-
-			return enemyModel;
-		}
-
 		protected override async UniTask SetupAsyncInternal()
 		{
-			Models.Clear();
+			// プレイヤーが未生成ならば生成する
+			var model = new PlayerModel();
+			var param = new CharaModel.Param();
+			param.charaType = CharaType.Player;
 
-			for (int i = 0, size = _mapMaster.InitCreateNum.GetRandomValue(); i < size; ++i)
-			{
-				CreateEnemyModel();
-			}
+			model.Setup(param);
+			model.SetStatus(new CharaStatus(100));
+
+			Player.Setup(model);
 		}
 
 		/// <summary>
@@ -84,12 +75,8 @@ namespace Ling.Chara
 		/// </summary>
 		public bool ExistsCharaInPos(Vector2Int pos)
 		{
+			if (PlayerModel.Pos == pos) return true;
 			return Models.Exists(model => model.Pos == pos);
-		}
-
-		public override void OnDestroy()
-		{
-			Models.Clear();
 		}
 
 		#endregion

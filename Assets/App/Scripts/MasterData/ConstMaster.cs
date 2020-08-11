@@ -50,6 +50,9 @@ namespace Ling.MasterData
 		[SerializeField, FieldName("敵の最大生成数")]
 		private int _enemyMaxCreateNum = default;
 
+		[SerializeField, FieldName("Mapに対して進めない壁を何マス付けるか")]
+		private Vector2Int _correctionMapSize = default;
+
 		#endregion
 
 
@@ -68,6 +71,7 @@ namespace Ling.MasterData
 		public float MapDiffHeight => _mapDiffHeight;
 		public float PlayerLevelMoveTime => _playerLevelMoveTime;
 		public float MapLevelMoveTime => _mapLevelMoveTime;
+		public Vector2Int CorrectionMapSize => _correctionMapSize;
 
 
 		#endregion

@@ -79,7 +79,7 @@ namespace Ling.Scenes.Battle.Process
 
 		private async UniTask PlayerMoveAsync()
 		{
-			var player = _charaManager.Player;
+			var player = _charaManager.PlayerView;
 			var localPos = player.transform.localPosition;
 			var constMaster = _masterManager.Const;
 

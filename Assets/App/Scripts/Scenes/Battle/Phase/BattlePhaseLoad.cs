@@ -114,22 +114,17 @@ namespace Ling.Scenes.Battle.Phase
 			var mapControl = Scene.MapControl;
 
 			var player = _charaManager.Player;
-			mapControl.SetCharaView(player);
+			mapControl.SetChara(player);
 
-			player.SetCellPos(playerPos);
+			player.View.SetCellPos(playerPos);
 
 			// 初期マップの敵を生成する
-			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindTilemap(1));
-			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindTilemap(2));
+			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindGroundTilemap(1));
+			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindGroundTilemap(2));
 
 			// 敵をマップに配置する
-			foreach (var pair in _charaManager.EnemyModelGroups)
-			{
-				var level = pair.Key;
-				var enemyModelGroup = pair.Value;
-
-				Scene.DeployEnemyToMap(enemyModelGroup, level);
-			}
+			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(1), 1);
+			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(2), 2);
 
 			_isFinish = true;
 		}

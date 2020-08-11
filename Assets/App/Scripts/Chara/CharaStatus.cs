@@ -19,7 +19,7 @@ using Zenject;
 namespace Ling.Chara
 {
 	/// <summary>
-	/// <see cref="Base"/>キャラクターのHP等を管理するステイタス
+	/// <see cref="ViewBase"/>キャラクターのHP等を管理するステイタス
 	/// </summary>
 	[System.Serializable]
 	public class CharaStatus

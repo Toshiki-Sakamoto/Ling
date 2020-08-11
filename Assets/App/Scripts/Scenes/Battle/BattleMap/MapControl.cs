@@ -16,6 +16,8 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Ling.Utility;
+using Ling.Chara;
 
 using Zenject;
 
@@ -38,7 +40,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region private 変数
 
-		[SerializeField] private MapView _view;
+		[SerializeField] private MapView _view = default;
 
 		[Inject] private MasterData.MasterManager _masterManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
@@ -85,23 +87,25 @@ namespace Ling.Scenes.Battle.BattleMap
 			_view.Startup(_model, curretMapIndex, 40);
 		}
 
-		public void SetCharaView(Chara.Base chara) =>
-			SetCharaView(chara, _model.CurrentMapIndex);
+		public void SetChara(Chara.ICharaController chara) =>
+			SetChara(chara, _model.CurrentMapIndex);
 
-		public void SetCharaView(Chara.Base chara, int level)
+		public void SetChara(Chara.ICharaController chara, int level)
 		{
 			var tilemap = FindTilemap(level);
 
-			chara.gameObject.SetActive(true);
+			var charaModel = chara.Model;
+			var charaView = chara.View;
+			charaView.gameObject.SetActive(true);
 
-			switch (chara.CharaType)
+			switch (charaModel.CharaType)
 			{
 				case Chara.CharaType.Player:
-					chara.transform.SetParent(_view.PlayerRoot, worldPositionStays: false);
+					charaView.transform.SetParent(_view.PlayerRoot, worldPositionStays: false);
 					break;
 
 				case Chara.CharaType.Enemy:
-					_view.SetEnemy(chara, level);
+					_view.SetEnemy(charaView, level);
 					break;
 
 				default:
@@ -109,11 +113,11 @@ namespace Ling.Scenes.Battle.BattleMap
 					break;
 			}
 
-			chara.SetTilemap(tilemap);
+			charaView.SetTilemap(tilemap, level);
 		}
 
-		public void SetCharaViewInCurrentMap(Chara.Base chara) =>
-			SetCharaView(chara, _model.CurrentMapIndex);
+		public void SetCharaViewInCurrentMap(Chara.ICharaController chara) =>
+			SetChara(chara, _model.CurrentMapIndex);
 
 		/// <summary>
 		/// 次マップの作成と移動を行う
@@ -165,6 +169,22 @@ namespace Ling.Scenes.Battle.BattleMap
 			_view.GetTilemap(level);
 
 		/// <summary>
+		/// 指定階層のGroundTilemapを検索する
+		/// </summary>
+		public Map.GroundTilemap FindGroundTilemap(int level) =>
+			_view.FindGroundTilemap(level);
+
+		/// <summary>
+		/// 指定階層の指定座標のタイルデータを取得する
+		/// </summary>
+		public ref Map.TileData GetTileData(int level, int x, int y)
+		{
+			var tileDatamap = _model.FindTileDataMap(level);
+
+			return ref tileDatamap.GetTile(x, y);
+		}
+
+		/// <summary>
 		/// 次のフロアに移動させる
 		/// </summary>
 		/// <remarks>
@@ -209,11 +229,44 @@ namespace Ling.Scenes.Battle.BattleMap
 			return pos;
 		}
 
-#endregion
+		#endregion
 
 
-#region private 関数
+		#region private 関数
 
-#endregion
+		private void Awake()
+		{
+			// TileFlagの更新
+			this.AddEventListener<MapEvents.EventTileFlagUpdate>(ev_ => 
+				{ 
+					ref var tileData = ref GetTileData(ev_.level, ev_.x, ev_.y);
+
+					switch (ev_.type)
+					{
+						case MapEvents.EventTileFlagUpdate.Type.Add:
+							tileData.AddFlag(ev_.tileFlag);
+							break;
+
+						case MapEvents.EventTileFlagUpdate.Type.Remove:
+							tileData.RemoveFlag(ev_.tileFlag);
+							break;
+					}
+				});
+
+			// キャラクタが移動した
+			this.AddEventListener<Chara.EventPosUpdate>(ev_ =>
+				{
+					// 以前の座標からフラグを削除する
+					ref var tileData = ref GetTileData(ev_.mapLevel, ev_.prevPos.x, ev_.prevPos.y);
+					var tileFlag = ev_.charaType.ToTileFlag();
+					tileData.RemoveFlag(tileFlag);
+
+					// 新しい座標にTileFlagを設定する
+					ref var newTileData = ref GetTileData(ev_.mapLevel, ev_.newPos.x, ev_.newPos.y);
+					newTileData.AddFlag(tileFlag);					
+				});
+		}
+
+		#endregion
 	}
 }

@@ -118,15 +118,8 @@ namespace Ling.Scenes.Battle.BattleMap
 			return null;
 		}
 
-		public Map.TileDataMap FindTileDataMap(int level)
-		{
-			if (_mapData.TryGetValue(level, out MapData value))
-			{
-				return value.TileDataMap;
-			}
-
-			return null;
-		}
+		public Map.TileDataMap FindTileDataMap(int level) =>
+			FindMapData(level)?.TileDataMap;
 
 		#endregion
 

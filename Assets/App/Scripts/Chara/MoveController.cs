@@ -38,7 +38,7 @@ namespace Ling.Chara
         [SerializeField] private Rigidbody2D _rigidBody = null;
 
         private bool _isMoving;         // 動いてるとき
-        private Base _trsModel;         // 動いている対象
+        private ViewBase _trsModel;         // 動いている対象
         //private List<Vector3Int> _moveList = new List<Vector3Int>();
         private Vector3Int _movePos;
         private Tilemap _tilemap;
@@ -57,7 +57,7 @@ namespace Ling.Chara
         /// 
         /// </summary>
         /// <param name="model"></param>
-        public void SetModel(Base model)
+        public void SetModel(ViewBase model)
         {
             _trsModel = model;
         }
@@ -71,7 +71,7 @@ namespace Ling.Chara
         /// 指定したセルに移動させる
         /// </summary>
         /// <param name="cellPos"></param>
-        public System.IObservable<AsyncUnit> SetMoveCellPos(Vector3Int cellPos)
+        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector3Int cellPos)
         {
             MoveStop();
 
@@ -110,7 +110,7 @@ namespace Ling.Chara
 
                 var diffVec = finish - start;
 
-                _trsModel.SetDirection(new Vector3(diffVec.x, diffVec.z, 0.0f));
+                _trsModel.SetDirection(new Vector2(diffVec.x, diffVec.z));
 
                 await _trsModel.transform.DOMove(finish, 0.2f);
 

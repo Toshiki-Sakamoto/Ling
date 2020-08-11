@@ -37,6 +37,7 @@ namespace Ling.Scenes.Battle
 			PlayerActionProcess,
 			PlayerActionEnd,
 			EnemyAction,
+			EnemyTink,
 			NextStage,
 			Adv,
 		}
@@ -121,6 +122,7 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.PlayerActionEnd, new Battle.Phase.BattlePhasePlayerActionEnd());
 			_phase.Add(Phase.Adv, new Battle.Phase.BattlePhaseAdv());
 			_phase.Add(Phase.NextStage, new Battle.Phase.BattlePhaseNextStage());
+			_phase.Add(Phase.EnemyTink, new Battle.Phase.BattlePhaseEnemyThink());
 
 			_phase.Start(this, Phase.Start);
 
@@ -169,7 +171,7 @@ namespace Ling.Scenes.Battle
 			_mapManager.ChangeNextLevel(_model.Level);
 
 			// キャラクタ管理者
-			_charaManager.ChangeNextLevel(_mapManager.CurrentTilemap);
+			_charaManager.ChangeNextLevel(_mapManager.CurrentTilemap, _model.Level);
 
 			// 次の階層に行った
 			View.UIHeaderView.SetLevel(_model.Level);
@@ -201,15 +203,14 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 敵グループをマップに配置する
 		/// </summary>
-		public void DeployEnemyToMap(Chara.EnemyModelGroup enemyModelGroup, int level)
+		public void DeployEnemyToMap(Chara.EnemyControlGroup enemyGroup, int level)
 		{
-			foreach (var enemyModel in enemyModelGroup.Models)
+			foreach (var enemy in enemyGroup)
 			{
-				var charaView = _charaManager.FindEnemyView(enemyModel);
 				var pos = MapControl.GetRandomPosInRoom(level);
 
-				MapControl.SetCharaView(charaView, level);
-				charaView.SetCellPos(pos);
+				MapControl.SetChara(enemy, level);
+				enemy.View.SetCellPos(pos);
 			}
 		}
 
