@@ -1,18 +1,16 @@
 ﻿//
-// AINormalTracking.cs
+// AIRandom.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.07.26
+// Created by toshiki sakamoto on 2020.08.10
 //
 
-using Ling.Const;
-
-namespace Ling.Chara.MoveAI
+namespace Ling.AI.Move
 {
 	/// <summary>
-	/// 
+	/// ランダムに移動する
 	/// </summary>
-	public class AINormalTracking : AIBase
+	public class AIRandom : AIBase
     {
 		#region 定数, class, enum
 
@@ -31,11 +29,6 @@ namespace Ling.Chara.MoveAI
 
 		#region プロパティ
 
-		/// <summary>
-		/// AIの種類
-		/// </summary>
-		public override MoveAIType AIType => MoveAIType.NormalTracking;
-
 		#endregion
 
 
@@ -45,6 +38,11 @@ namespace Ling.Chara.MoveAI
 
 
 		#region public, protected 関数
+
+		/// <summary>
+		/// AIの種類
+		/// </summary>
+		public override Const.MoveAIType AIType => Const.MoveAIType.Random;
 
 		#endregion
 

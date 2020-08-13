@@ -9,6 +9,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using UniRx;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Chara
 {

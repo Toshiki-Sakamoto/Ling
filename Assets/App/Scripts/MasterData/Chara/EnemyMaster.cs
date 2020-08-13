@@ -16,8 +16,8 @@ using UnityEngine.UI;
 
 namespace Ling.MasterData.Chara
 {
-	using AttackAI = Ling.Chara.AttackAI;
-	using MoveAI = Ling.Chara.MoveAI;
+	using AttackAI = Ling.AI.Attack;
+	using MoveAI = Ling.AI.Move;
 
 	/// <summary>
 	/// 敵情報を持つマスタデータ

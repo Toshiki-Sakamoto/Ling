@@ -69,12 +69,12 @@ namespace Ling.Chara
 		/// <summary>
 		/// 攻撃AI
 		/// </summary>
-		public AttackAI.AIBase AttackAI { get; private set; }
+		public AI.Attack.AIBase AttackAI { get; private set; }
 
 		/// <summary>
 		/// 移動AI
 		/// </summary>
-		public MoveAI.AIBase MoveAI { get; private set; }
+		public AI.Move.AIBase MoveAI { get; private set; }
 
         /// <summary>
         /// 移動することができないタイルフラグ。
@@ -113,7 +113,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// AIを決定する
 		/// </summary>
-		public void SetAI(AttackAI.AIBase attackAI, MoveAI.AIBase moveAI)
+		public void SetAI(AI.Attack.AIBase attackAI, AI.Move.AIBase moveAI)
 		{
 			AttackAI = attackAI;
 			MoveAI = moveAI;
