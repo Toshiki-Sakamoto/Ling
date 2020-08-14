@@ -33,14 +33,24 @@ namespace Ling.Map
 			Trap		= 1 << 7,	// 罠
 			Player		= 1 << 8,	// プレイヤー
 			Enemy		= 1 << 9,	// エネミー
+			Hole		= 1 << 10,	// 穴
 	}
 
 	public static class TileFlagExtensions
 	{
+		/// <summary>
+		/// valueのいずれかが含まれているか
+		/// </summary>
+		public static bool HasAny(this TileFlag self, TileFlag value) =>
+			(self & value) != 0;
+
 		public static bool HasStepDown(this TileFlag flag) =>
-			flag.HasFlag(TileFlag.StepDown);
+			flag.HasAny(TileFlag.StepDown);
 
 		public static bool HasFloor(this TileFlag flag) =>
-			(flag & TileFlag.Floor) != 0;
+			flag.HasAny(TileFlag.Floor);
+
+		public static bool HasWall(this TileFlag flag) =>
+			flag.HasAny(TileFlag.Wall);
 	}
 }

@@ -16,8 +16,8 @@ using UnityEngine.UI;
 
 namespace Ling.MasterData.Chara
 {
-	using AttackAI = Ling.Chara.AttackAI;
-	using MoveAI = Ling.Chara.MoveAI;
+	using AttackAI = Ling.AI.Attack;
+	using MoveAI = Ling.AI.Move;
 
 	/// <summary>
 	/// 敵情報を持つマスタデータ
@@ -46,7 +46,7 @@ namespace Ling.MasterData.Chara
 		private Const.AttackAIType _attackAIType = default;
 
 		[SerializeField, FieldName("攻撃AIパラメータ１")]
-		private int _attackAIParam1 = default;
+		private string _attackAIParam1 = default;
 
 		[SerializeField, FieldName("移動AIの種類")]
 		private Const.MoveAIType _moveAIType = default;
@@ -66,7 +66,7 @@ namespace Ling.MasterData.Chara
 
 		public Const.AttackAIType AttackAIType => _attackAIType;
 
-		public int AttackAIParam1 => _attackAIParam1;
+		public string AttackAIParam1 => _attackAIParam1;
 
 		public Const.MoveAIType MoveAIType => _moveAIType;
 

@@ -18,6 +18,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using Ling.Utility;
 using Ling.Chara;
+using Ling.Map;
 
 using Zenject;
 
@@ -179,10 +180,16 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// </summary>
 		public ref Map.TileData GetTileData(int level, int x, int y)
 		{
-			var tileDatamap = _model.FindTileDataMap(level);
+			var tileDatamap = FindTileDataMap(level);
 
 			return ref tileDatamap.GetTile(x, y);
 		}
+
+		/// <summary>
+		/// 指定階層のTile情報が詰まっているTileDataMapを検索
+		/// </summary>
+		public Map.TileDataMap FindTileDataMap(int level) =>
+			_model.FindTileDataMap(level);
 
 		/// <summary>
 		/// 次のフロアに移動させる

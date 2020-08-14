@@ -11,6 +11,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using Ling.Utility.Extensions;
 using Zenject;
+using Ling.Map;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -114,7 +115,7 @@ namespace Ling.Common.Tile
 			}
 		}
 
-		public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
+		public override void GetTileData(Vector3Int position, ITilemap tilemap, ref UnityEngine.Tilemaps.TileData tileData)
 		{
 			UpdateTile(position, tilemap, ref tileData);
 		}
@@ -166,7 +167,7 @@ namespace Ling.Common.Tile
 			return false;
 		}
 
-		private void UpdateTile(Vector3Int position, ITilemap tilemap, ref TileData tileData)
+		private void UpdateTile(Vector3Int position, ITilemap tilemap, ref UnityEngine.Tilemaps.TileData tileData)
 		{
 			if (TileDataMap == null) return;
 

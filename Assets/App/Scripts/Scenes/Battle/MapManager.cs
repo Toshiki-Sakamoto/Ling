@@ -13,6 +13,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Ling.Map;
 
 using Zenject;
 

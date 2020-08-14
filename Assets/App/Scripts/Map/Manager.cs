@@ -14,7 +14,7 @@ using UnityEngine.UI;
 namespace Ling.Map
 {
     /// <summary>
-    /// 
+    /// マップ管理者
     /// </summary>
     public class Manager : Utility.MonoSingleton<Manager> 
     {

@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.07.26
 //
 
-namespace Ling.Chara.MoveAI
+namespace Ling.AI.Move
 {
 	/// <summary>
 	/// 移動AIのベースクラス
