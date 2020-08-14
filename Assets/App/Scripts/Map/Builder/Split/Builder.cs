@@ -218,7 +218,7 @@ namespace Ling.Map.Builder.Split
 						// 自分が２(部屋の外周)じゃないのに部屋の隣りにいるならばだめ
 						if (newValue_ > 2)
 						{
-							if (MapUtility.CallDirection(cellPos_.x, cellPos_.y,
+							if (Utility.Map.CallDirection(cellPos_.x, cellPos_.y,
 								(x_, y_) =>
 								{
 									// 自分の部屋があればおわり
@@ -230,7 +230,7 @@ namespace Ling.Map.Builder.Split
 						}
 
 						// 前後左右が自分以外の部屋か道ならおわり
-						MapUtility.CallDirection(cellPos_.x, cellPos_.y,
+						Utility.Map.CallDirection(cellPos_.x, cellPos_.y,
 								(x_, y_) =>
 								{
 									if (!TileDataMap.InRange(x_, y_)) return false;

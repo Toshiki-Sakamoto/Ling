@@ -245,7 +245,7 @@ namespace Ling.Map
 		/// 指定したTileFlagと隣接していたらtrue
 		/// </summary>
 		public bool IsAdjacent(int x, int y, TileFlag tileFlag) =>
-			MapUtility.CallDirection(x, y, (_x, _y) => this.GetTile(_x, _y).HasFlag(tileFlag));
+			Utility.Map.CallDirection(x, y, (_x, _y) => this.GetTile(_x, _y).HasFlag(tileFlag));
 
 		/// <summary>
 		/// 部屋と隣接する場合true
@@ -263,7 +263,7 @@ namespace Ling.Map
 		{
 			lists.Clear();
 
-			MapUtility.CallDirection(pos.x, pos.y,
+			Utility.Map.CallDirection(pos.x, pos.y,
 				(_x, _y) =>
 				{ 
 					if (this.GetTile(_x, _y).HasFlag(tileFlag))
@@ -276,7 +276,7 @@ namespace Ling.Map
 		{
 			int result = 0;
 
-			MapUtility.CallDirection(pos.x, pos.y,
+			Utility.Map.CallDirection(pos.x, pos.y,
 				(_x, _y) =>
 				{
 					if (this.GetTile(_x, _y).HasFlag(tileFlag))

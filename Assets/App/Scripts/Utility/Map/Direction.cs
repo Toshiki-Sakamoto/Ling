@@ -5,21 +5,13 @@
 // Created by toshiki sakamoto on 2019.12.23
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
 
-
-namespace Ling.Map
+namespace Ling.Utility
 {
 	/// <summary>
-	/// 
+	/// Map走査で使用できる便利関数群
 	/// </summary>
-	public static class MapUtility
+	public partial class Map
 	{
 		#region 定数, class, enum
 
