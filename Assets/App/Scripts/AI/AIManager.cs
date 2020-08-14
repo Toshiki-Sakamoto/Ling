@@ -6,11 +6,12 @@
 // 
 
 using UnityEngine;
+using Zenject;
 
 namespace Ling.AI
 {
 	/// <summary>
-	/// 
+	/// AI管理クラス
 	/// </summary>
 	public class AIManager : MonoBehaviour 
     {
@@ -25,6 +26,8 @@ namespace Ling.AI
 
 
 		#region private 変数
+
+		[Inject] private AIUtility.CharaFinder _charaFinder = default;
 
 		#endregion
 

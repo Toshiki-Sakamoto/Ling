@@ -17,6 +17,11 @@ namespace Ling.AI
 				.Bind<AIManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
+
+			Container
+				.Bind<AIUtility.CharaFinder>()
+				.FromComponentInHierarchy()
+				.AsSingle();
 		}
 	}
 }

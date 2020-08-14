@@ -83,6 +83,11 @@ namespace Ling.Map
 		/// </summary>
 		public Vector2Int StepDownPos { get; private set; }
 
+		/// <summary>
+		/// 走査
+		/// </summary>
+		public TileDataMapScanner Scanner { get; private set; }
+
 		#endregion
 
 
@@ -150,7 +155,7 @@ namespace Ling.Map
                 {
 					if (!InRange(x, y)) continue;
 
-					ref var tileData = ref GetTile(x, y);
+					ref var tileData = ref this.GetTile(x, y);
 
 					// 許可されたところのみフラグを設定する
 					if (predicate != null)
@@ -180,7 +185,7 @@ namespace Ling.Map
 			{
 				for (int x = left; x < right; ++x)
 				{
-					ref var tileData = ref GetTile(x, y);
+					ref var tileData = ref this.GetTile(x, y);
 					if (!predicate?.Invoke(tileData) ?? false) continue;
 
 					// 部屋の場所は書き換えない
@@ -197,7 +202,7 @@ namespace Ling.Map
 			{
 				for (int x = right - 1; x >= left; --x)
 				{
-					ref var tileData = ref GetTile(x, y);
+					ref var tileData = ref this.GetTile(x, y);
 					if (!predicate?.Invoke(tileData) ?? false) continue;
 
 					// 部屋の場所は書き換えない
@@ -216,51 +221,6 @@ namespace Ling.Map
 			x >= 0 && x < Width && y >= 0 && y < Height;
 
 		/// <summary>
-		/// [x, y] から指定したタイル情報を返す
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <returns></returns>
-		public ref TileData GetTile(int x, int y)
-		{
-			Utility.Log.Assert(x >= 0 && x <= Width && y >= 0 && y <= Height, "範囲から飛び出してます");
-
-			return ref GetTile(y * Width + x);
-		}
-		public ref TileData GetTile(in Vector2Int pos) =>
-			ref GetTile(pos.x, pos.y);
-
-		public ref TileData GetTile(int index) =>
-			ref Tiles[index];
-
-		/// <summary>
-		/// [x, y] から指定した<see cref="TileFlag"/>を返す
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <returns></returns>
-		public TileFlag GetTileFlag(int x, int y)
-		{
-			Utility.Log.Assert(x >= 0 && x <= Width && y >= 0 && y <= Height, "範囲から飛び出してます");
-			return GetTileFlag(y * Width + x);
-		}
-
-		public TileFlag GetTileFlag(Vector2Int pos) =>
-			GetTileFlag(pos.x, pos.y);
-
-		public TileFlag GetTileFlag(Vector3Int pos) =>
-			GetTileFlag(pos.x, pos.y);
-
-		public TileFlag GetTileFlag(int index) =>
-			GetTile(index).Flag;
-
-		public void SetTileFlag(Vector2Int pos, TileFlag tileFlag)
-		{
-			ref var tileData = ref GetTile(pos.x, pos.y);
-			tileData.SetFlag(tileFlag);
-		}
-
-		/// <summary>
 		/// 下り階段の場所を設定する
 		/// </summary>
 		/// <param name="x"></param>
@@ -269,7 +229,7 @@ namespace Ling.Map
 		{
 			StepDownPos = new Vector2Int(x, y);
 
-			GetTile(x, y).AddFlag(TileFlag.StepDown);
+			this.GetTile(x, y).AddFlag(TileFlag.StepDown);
 		}
 
 		public int GetRoomMapValue(int x, int y)
@@ -285,7 +245,7 @@ namespace Ling.Map
 		/// 指定したTileFlagと隣接していたらtrue
 		/// </summary>
 		public bool IsAdjacent(int x, int y, TileFlag tileFlag) =>
-			Builder.Common.CallDirection(x, y, (_x, _y) => GetTile(_x, _y).HasFlag(tileFlag));
+			MapUtility.CallDirection(x, y, (_x, _y) => this.GetTile(_x, _y).HasFlag(tileFlag));
 
 		/// <summary>
 		/// 部屋と隣接する場合true
@@ -303,10 +263,10 @@ namespace Ling.Map
 		{
 			lists.Clear();
 
-			Builder.Common.CallDirection(pos.x, pos.y,
+			MapUtility.CallDirection(pos.x, pos.y,
 				(_x, _y) =>
 				{ 
-					if (GetTile(_x, _y).HasFlag(tileFlag))
+					if (this.GetTile(_x, _y).HasFlag(tileFlag))
 					{
 						lists.Add(new Vector2Int(_x, _y));
 					}
@@ -316,10 +276,10 @@ namespace Ling.Map
 		{
 			int result = 0;
 
-			Builder.Common.CallDirection(pos.x, pos.y,
+			MapUtility.CallDirection(pos.x, pos.y,
 				(_x, _y) =>
 				{
-					if (GetTile(_x, _y).HasFlag(tileFlag))
+					if (this.GetTile(_x, _y).HasFlag(tileFlag))
 					{
 						++result;
 					}

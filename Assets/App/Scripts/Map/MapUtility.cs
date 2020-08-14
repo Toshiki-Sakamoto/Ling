@@ -14,17 +14,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map.Builder
+namespace Ling.Map
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public static class Common
+	public static class MapUtility
 	{
 		#region 定数, class, enum
 
-		private static readonly int[,] Dir = new int[4, 2] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
-		private static readonly int[,] DirWithDiagonal = new int[8, 2] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 }, { -1, -1 }, { 1, -1 }, { -1, 1 }, { 1, 1 } };
+		private static readonly int[,] Dir = new int[4, 2] { { -1, 0 }, { 0, -1 }, { 1, 0 }, { 0, 1 } };
+		private static readonly int[,] DirWithDiagonal = new int[8, 2] { { -1, 0 }, { -1, -1 }, { 0, -1 }, { 1, -1 }, { 1, 0 }, { 1, 1 }, { 0, 1 }, { -1, 1 } };
 
 		#endregion
 
