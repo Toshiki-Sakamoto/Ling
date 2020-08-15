@@ -43,10 +43,10 @@ namespace Ling.Map
 		[SerializeField] private MapControl _control = default;
 		[SerializeField] private MiniMapControl _minimapControl = default;
 
-		[Inject] private Map.Builder.IManager _builderManager = default;
-		[Inject] private Map.Builder.BuilderFactory _builderFactory = default;
+		[Inject] private Builder.IManager _builderManager = default;
+		[Inject] private Builder.BuilderFactory _builderFactory = default;
 
-		private Map.MapModel _mapModel;
+		private MapModel _mapModel;
 
 		#endregion
 
