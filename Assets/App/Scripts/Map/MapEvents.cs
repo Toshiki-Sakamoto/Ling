@@ -8,45 +8,39 @@
 namespace Ling.Map
 {
 	/// <summary>
-	/// Map関連のイベント
+	/// フラグ
 	/// </summary>
-	public class MapEvents
-    {
-		/// <summary>
-		/// フラグ
-		/// </summary>
-		public class EventTileFlagUpdate
+	public class EventTileFlagUpdate
+	{
+		public enum Type { None, Add, Remove };
+
+		public int level;
+		public int x, y;
+		public Const.TileFlag tileFlag;
+		public Type type;
+
+		public static EventTileFlagUpdate CreateAtAdd(int level, int x, int y, Const.TileFlag tileFlag) 
 		{
-			public enum Type { None, Add, Remove };
+			var instance = new EventTileFlagUpdate();
+			instance.level = level;
+			instance.x = x;
+			instance.y = y;
+			instance.tileFlag = tileFlag;
+			instance.type = Type.Add;
 
-			public int level;
-			public int x, y;
-			public Const.TileFlag tileFlag;
-			public Type type;
+			return instance;
+		}
 
-			public static EventTileFlagUpdate CreateAtAdd(int level, int x, int y, Const.TileFlag tileFlag) 
-			{
-				var instance = new EventTileFlagUpdate();
-				instance.level = level;
-				instance.x = x;
-				instance.y = y;
-				instance.tileFlag = tileFlag;
-				instance.type = Type.Add;
+		public static EventTileFlagUpdate CreateAtRemove(int level, int x, int y, Const.TileFlag tileFlag) 
+		{
+			var instance = new EventTileFlagUpdate();
+			instance.level = level;
+			instance.x = x;
+			instance.y = y;
+			instance.tileFlag = tileFlag;
+			instance.type = Type.Remove;
 
-				return instance;
-			}
-
-			public static EventTileFlagUpdate CreateAtRemove(int level, int x, int y, Const.TileFlag tileFlag) 
-			{
-				var instance = new EventTileFlagUpdate();
-				instance.level = level;
-				instance.x = x;
-				instance.y = y;
-				instance.tileFlag = tileFlag;
-				instance.type = Type.Remove;
-
-				return instance;
-			}
+			return instance;
 		}
 	}
 

@@ -239,17 +239,17 @@ namespace Ling.Map
 		private void Awake()
 		{
 			// TileFlagの更新
-			this.AddEventListener<MapEvents.EventTileFlagUpdate>(ev_ => 
+			this.AddEventListener<EventTileFlagUpdate>(ev_ => 
 				{ 
 					ref var tileData = ref GetTileData(ev_.level, ev_.x, ev_.y);
 
 					switch (ev_.type)
 					{
-						case MapEvents.EventTileFlagUpdate.Type.Add:
+						case EventTileFlagUpdate.Type.Add:
 							tileData.AddFlag(ev_.tileFlag);
 							break;
 
-						case MapEvents.EventTileFlagUpdate.Type.Remove:
+						case EventTileFlagUpdate.Type.Remove:
 							tileData.RemoveFlag(ev_.tileFlag);
 							break;
 					}
