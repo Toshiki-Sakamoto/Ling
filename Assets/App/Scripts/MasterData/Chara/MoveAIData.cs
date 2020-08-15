@@ -36,10 +36,10 @@ namespace Ling.MasterData.Chara
 		private int _moveAIParam1 = default;
 
 		[SerializeField, FieldName("移動AIの最も優先すべきターゲット")]
-		private Const.MoveAITarget _firstMoveTarget = default;
+		private Const.MoveAITarget _firstTarget = default;
 
 		[SerializeField, FieldName("移動AIの二番目に優先すべきターゲット")]
-		private Const.MoveAITarget _secondMoveTarget = default;
+		private Const.MoveAITarget _secondTarget = default;
 
 		#endregion
 
@@ -50,9 +50,9 @@ namespace Ling.MasterData.Chara
 
 		public int MoveAIParam1 => _moveAIParam1;
 
-		private Const.MoveAITarget FirstMoveTarget => _firstMoveTarget;
+		private Const.MoveAITarget FirstTarget => _firstTarget;
 
-		private Const.MoveAITarget SecondMoveTarget => _secondMoveTarget;
+		private Const.MoveAITarget SecondTarget => _secondTarget;
 
 		#endregion
 
@@ -64,7 +64,7 @@ namespace Ling.MasterData.Chara
 
 		#region public, protected 関数
 
-		public MoveAI.MoveAIFactory CreateMoveAIFactory() =>
+		public MoveAI.MoveAIFactory CreateFactory() =>
 			new MoveAI.MoveAIFactory(this);
 
 		#endregion

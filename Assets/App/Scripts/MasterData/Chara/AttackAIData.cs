@@ -55,7 +55,7 @@ namespace Ling.MasterData.Chara
 
 		#region public, protected 関数
 
-		public AttackAI.AttackAIFactory CreateAttackAIFactory() =>
+		public AttackAI.AttackAIFactory CreateFactory() =>
 			new AttackAI.AttackAIFactory(this);
 			
 		#endregion
