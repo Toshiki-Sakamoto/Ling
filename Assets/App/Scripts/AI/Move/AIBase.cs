@@ -15,7 +15,7 @@ namespace Ling.AI.Move
 	/// <summary>
 	/// 移動AIのベースクラス
 	/// </summary>
-	public abstract class AIBase
+	public abstract class AIBase : MonoBehaviour
     {
 		#region 定数, class, enum
 
@@ -31,6 +31,7 @@ namespace Ling.AI.Move
 
 		private CharaMaster.MoveAIData _masterAIData;
 		private Vector2Int? _destination;	// 目的地
+		private Chara.ICharaController _unit;
 
 		#endregion
 
@@ -72,12 +73,21 @@ namespace Ling.AI.Move
 
 		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit)
 		{
-			// もっとも優先すべきものがあればそこに向かって歩く
+			_unit = unit;
 
-			// 目的地があればそこに向かって歩く
-			if (_destination != null)
+			// もっとも優先すべきものがあればそこに向かって歩く
+			var mustTargetPos = GetMustTarget(unit);
+			if (mustTargetPos != null)
 			{
 
+			}
+			else
+			{
+				// 目的地があればそこに向かって歩く
+				if (_destination != null)
+				{
+
+				}
 			}
 
 			// 目的地がなければ
@@ -94,11 +104,27 @@ namespace Ling.AI.Move
 		}
 
 		/// <summary>
-		/// 最も優先すべきターゲット
+		/// 優先すべきターゲット座標取得する
 		/// </summary>
-		protected virtual void MustTarget()
+		protected virtual Vector2Int? GetMustTarget()
 		{
+			// 1番目に優先するもの
+			if (_masterAIData.FirstTarget != Const.MoveAITarget.None)
+			{
 
+			}
+
+			// 2番目に優先するもの
+			if (_masterAIData.SecondTarget != Const.MoveAITarget.None)
+			{
+			}
+
+			return null;
+		}
+
+		protected virtual Vector2Int? GetTargetPos(bool isWallIgnore, bool isHoleIgnore, int cellNum)
+		{
+			// 自分と同じ部屋にいる必要がある場合、
 		}
 
 		#endregion

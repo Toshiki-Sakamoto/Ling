@@ -41,7 +41,7 @@ namespace Ling.Chara
 
 
 		#region private 変数
-
+		
         [SerializeField] private CharaStatus _status = default;
 		[SerializeField] private TView _view = default;
 
@@ -91,6 +91,26 @@ namespace Ling.Chara
 
 			// それができない場合、「移動」をする。
 		}
+
+		/// <summary>
+		/// AIを設定する
+		/// </summary>
+		public TMoveAI AttachMoveAI<TMoveAI>() where TMoveAI : AI.Move.AIBase
+		{
+			var moveAI = gameObject.AddComponent<TMoveAI>();
+			_model.SetMoveAI(moveAI);
+
+			return moveAI;
+		}
+
+		public TAttackAI AttachAttackAI<TAttackAI>() where TAttackAI : AI.Attack.AIBase
+		{
+			var attackAI = gameObject.AddComponent<TAttackAI>();
+			_model.SetAttackAI(attackAI);
+
+			return attackAI;
+		}
+
 
 		#endregion
 

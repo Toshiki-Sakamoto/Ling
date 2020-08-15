@@ -22,22 +22,24 @@ namespace Ling.AI.Attack
 			_attackAIData = attackAIData;
 		}
 
-		public AIBase Create()
+		public void Attach<TModel, TView>(Chara.CharaControl<TModel, TView> charaControl)
+			where TModel : Chara.CharaModel 
+			where TView : Chara.ViewBase
 		{			
 			AIBase attackAI = null;
 
 			switch (_attackAIData.AttackAIType)
 			{
 				case Const.AttackAIType.Normal:
-					attackAI = new AINormalAttack();
+					attackAI = charaControl.AttachAttackAI<AINormalAttack>();
 					break;
 
 				default:
-					Utility.Log.Error("AttackAIを作成できませんでした。無効のタイプ " + _attackAIData.AttackAIType);
-					return null;
+					Ling.Utility.Log.Error("AttackAIを作成できませんでした。無効のタイプ " + _attackAIData.AttackAIType);
+					return;
 			}
 
-			return attackAI;
+			attackAI.Setup(_attackAIData);
 		}
 	}
 }

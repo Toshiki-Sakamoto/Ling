@@ -21,28 +21,28 @@ namespace Ling.AI.Move
 			_moveAIData = moveAIData;
 		}
 
-		public AIBase Create()
+		public void Attach<TModel, TView>(Chara.CharaControl<TModel, TView> charaControl)
+			where TModel : Chara.CharaModel 
+			where TView : Chara.ViewBase
 		{
 			AIBase moveAI = null;
 
 			switch (_moveAIData.MoveAIType)
 			{
 				case Const.MoveAIType.Random:
-					moveAI = new AIRandom();
+					moveAI = charaControl.AttachMoveAI<AIRandom>();
 					break;
 
 				case Const.MoveAIType.NormalTracking:
-					moveAI = new AINormalTracking();
+					moveAI = charaControl.AttachMoveAI<AINormalTracking>();
 					break;
 
 				default:
 					Ling.Utility.Log.Error("MoveAIを作成できませんでした。無効のタイプ " + _moveAIData.MoveAIType);
-					return null;
+					return;
 			}
 
 			moveAI.Setup(_moveAIData);
-
-			return moveAI;
 		}
 	}
 }

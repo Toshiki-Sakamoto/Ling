@@ -111,13 +111,13 @@ namespace Ling.Chara
 		}
 
 		/// <summary>
-		/// AIを決定する
+		/// AI設定
 		/// </summary>
-		public void SetAI(AI.Attack.AIBase attackAI, AI.Move.AIBase moveAI)
-		{
-			AttackAI = attackAI;
+		public void SetMoveAI(AI.Move.AIBase moveAI) =>
 			MoveAI = moveAI;
-		}
+
+		public void SetAttackAI(AI.Attack.AIBase attackAI) =>
+			AttackAI = attackAI;
 
 		public void SetMapLevel(int mapLevel) 
 		{

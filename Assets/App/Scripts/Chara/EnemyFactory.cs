@@ -52,7 +52,7 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		public static CharaModel Create(MapEnemyData mapEnemyData)
+		public static void Create(EnemyControl control, MapEnemyData mapEnemyData)
 		{
 			var enemyMaster = MasterManager.Instance.EnemyRepository.Find(mapEnemyData.EnemyType);
 			var charaModel = new CharaModel();
@@ -62,12 +62,14 @@ namespace Ling.Chara
 			charaModel.Setup(param);
 			charaModel.SetStatus(enemyMaster.Status);
 
-			// AIの設定
-			var attackAIFactory = enemyMaster.AttackAIData.CreateAttackAIFactory();
-			var moveAIFactory = enemyMaster.MoveAIData.CreateMoveAIFactory();
-			charaModel.SetAI(attackAIFactory.Create(), moveAIFactory.Create());
+			control.Setup(charaModel);
 
-			return charaModel;
+			// AIの設定
+			var attackAIFactory = enemyMaster.AttackAIData.CreateFactory();
+			var moveAIFactory = enemyMaster.MoveAIData.CreateFactory();
+
+			attackAIFactory.Attach(control);
+			moveAIFactory.Attach(control);
 		}
 
 		#endregion

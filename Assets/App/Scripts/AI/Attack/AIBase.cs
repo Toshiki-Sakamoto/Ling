@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2020.08.10
 //
 
+using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 namespace Ling.AI.Attack
@@ -14,7 +15,7 @@ namespace Ling.AI.Attack
 	/// <summary>
 	/// 攻撃AIのベースクラス
 	/// </summary>
-	public abstract class AIBase
+	public abstract class AIBase : MonoBehaviour
     {
 		#region 定数, class, enum
 

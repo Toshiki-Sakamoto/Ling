@@ -50,9 +50,9 @@ namespace Ling.MasterData.Chara
 
 		public int MoveAIParam1 => _moveAIParam1;
 
-		private Const.MoveAITarget FirstTarget => _firstTarget;
+		public Const.MoveAITarget FirstTarget => _firstTarget;
 
-		private Const.MoveAITarget SecondTarget => _secondTarget;
+		public Const.MoveAITarget SecondTarget => _secondTarget;
 
 		#endregion
 
