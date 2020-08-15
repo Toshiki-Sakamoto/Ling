@@ -36,7 +36,7 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 		private Chara.CharaManager _charaManager;
-		private MapManager _mapManager;
+		private Map.MapManager _mapManager;
 
 		#endregion
 
@@ -56,7 +56,7 @@ namespace Ling.Scenes.Battle.Phase
 		public override void Init()
 		{
 			_charaManager = Resolve<Chara.CharaManager>();
-			_mapManager = Resolve<MapManager>();
+			_mapManager = Resolve<Map.MapManager>();
 		}
 
 		public override void Proc()

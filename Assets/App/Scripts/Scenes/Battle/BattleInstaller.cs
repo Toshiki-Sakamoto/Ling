@@ -13,7 +13,6 @@ namespace Ling.Scenes.Battle
 
             Container.Bind<GameManager>().FromComponentInHierarchy().AsSingle();
             Container.Bind<PoolManager>().FromComponentInHierarchy().AsSingle();
-            Container.Bind<MapManager>().FromComponentInHierarchy().AsSingle();
         }
     }
 }

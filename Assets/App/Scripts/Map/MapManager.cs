@@ -18,7 +18,7 @@ using Ling.Map;
 using Zenject;
 
 
-namespace Ling.Scenes.Battle
+namespace Ling.Map
 {
 	/// <summary>
 	/// Map管理者
@@ -40,13 +40,13 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[SerializeField] private Transform _root = null;
-		[SerializeField] private BattleMap.MapControl _control = null;
+		[SerializeField] private MapControl _control = default;
+		[SerializeField] private MiniMapControl _minimapControl = default;
 
-		[Inject] private Map.Builder.IManager _builderManager = null;
-		[Inject] private Map.Builder.BuilderFactory _builderFactory = null;
+		[Inject] private Map.Builder.IManager _builderManager = default;
+		[Inject] private Map.Builder.BuilderFactory _builderFactory = default;
 
-		private BattleMap.MapModel _mapModel;
+		private Map.MapModel _mapModel;
 
 		#endregion
 
@@ -66,7 +66,7 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 現在の<see cref="BattleMap.MapData"/>
 		/// </summary>
-		public BattleMap.MapData CurrentMapData => _mapModel.CurrentMapData;
+		public Map.MapData CurrentMapData => _mapModel.CurrentMapData;
 
 		/// <summary>
 		/// 現在のTilemapを取得する
@@ -81,8 +81,10 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// Map/MiniMapの管理
 		/// </summary>
-		public BattleMap.MapControl MapControl => _control;
-		public BattleMap.MiniMapControl MiniMapControl { get; private set; }
+		public Map.MapControl MapControl => _control;
+		public Map.MapView MapView => MapControl.View;
+
+		public Map.MiniMapControl MiniMapControl { get; private set; }
 
 		public Tilemap MiniMapTilemap => MiniMapControl.Tilemap;
 
@@ -93,7 +95,7 @@ namespace Ling.Scenes.Battle
 
 		public void Setup(StageMaster stageMaster)
 		{
-			_mapModel.Setup(stageMaster);
+			_mapModel.Setup(stageMaster, 1);
 		}
 
 		/// <summary>
@@ -165,7 +167,7 @@ namespace Ling.Scenes.Battle
 
 		public UniTask BuildNextMapAsync()
 		{
-			LastBuildMapLevel = CurrentMapIndex + BattleConst.AddShowMap + 1;
+			LastBuildMapLevel = CurrentMapIndex + _mapModel.AddMap + 1;
 
 			return BuildMapAsync(LastBuildMapLevel);
 		}
@@ -221,7 +223,7 @@ namespace Ling.Scenes.Battle
 				// 追加でマップ作成する必要があるとき
 				await builder.ExecuteFurher(prevTileDataMap);
 
-				var mapData = new BattleMap.MapData();
+				var mapData = new Map.MapData();
 				mapData.Setup(builder, builder.TileDataMap);
 
 				// すでに存在する場合も上書きする
@@ -239,11 +241,11 @@ namespace Ling.Scenes.Battle
 		{
 			base.Awake();
 
-			_mapModel = new BattleMap.MapModel();
+			_mapModel = new Map.MapModel();
 
 			MapControl.SetModel(_mapModel);
 
-			MiniMapControl = new BattleMap.MiniMapControl();
+			MiniMapControl = new Map.MiniMapControl();
 		}
 
 		#endregion

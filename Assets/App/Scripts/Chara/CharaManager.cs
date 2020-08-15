@@ -257,7 +257,7 @@ namespace Ling.Chara
 		private void Awake()
 		{
 			// マップが削除されたとき敵をプールに戻す
-			_eventManager.Add<EventRemoveMap>(this, 
+			_eventManager.Add<Map.EventRemoveMap>(this, 
 				_ev => 
 				{
 					ResetEnemyGroup(_ev.level);

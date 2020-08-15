@@ -37,7 +37,7 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 		private PoolManager _poolManager;
-		private MapManager _mapManager = null;
+		private Map.MapManager _mapManager = null;
 		private Chara.CharaManager _charaManager = null;
 
 		private bool _isFinish = false;
@@ -62,7 +62,7 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			base.Awake();
 
-			_mapManager = Resolve<MapManager>();
+			_mapManager = Resolve<Map.MapManager>();
 			_charaManager = Resolve<Chara.CharaManager>();
 		}
 

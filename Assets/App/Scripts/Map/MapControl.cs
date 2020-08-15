@@ -7,22 +7,15 @@
 
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 using Ling.Utility;
 using Ling.Chara;
-using Ling.Map;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.BattleMap
+namespace Ling.Map
 {
 	/// <summary>
 	/// ダンジョンマップコントロール
@@ -53,6 +46,8 @@ namespace Ling.Scenes.Battle.BattleMap
 
 
 		#region プロパティ
+
+		public MapView View => _view;
 
 		#endregion
 

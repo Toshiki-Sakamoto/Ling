@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.08.08
 //
 
-namespace Ling.Scenes.Battle.BattleMap
+namespace Ling.Map
 {
 	/// <summary>
 	/// Map関連のイベント
@@ -48,5 +48,13 @@ namespace Ling.Scenes.Battle.BattleMap
 				return instance;
 			}
 		}
+	}
+
+	/// <summary>
+	/// マップが削除された
+	/// </summary>
+	public class EventRemoveMap
+	{
+		public int level;
 	}
 }

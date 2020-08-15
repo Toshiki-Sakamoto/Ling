@@ -16,12 +16,12 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.BattleMap
+namespace Ling.Map
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class MiniMapControl
+	public class MiniMapControl : MonoBehaviour
     {
 		#region 定数, class, enum
 
@@ -35,7 +35,8 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region private 変数
 
-		private MiniMapView _view;
+		[SerializeField] private MiniMapView _view = default;
+		
 		private Common.Tile.MapTile _miniMapTile;
 
 		#endregion
@@ -43,6 +44,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region プロパティ
 
+		public MiniMapView View => _view;
 		public Tilemap Tilemap => null;// _view.Tilemap;
 
 		#endregion
@@ -59,9 +61,6 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		public void Setup(Map.TileDataMap tileDataMap)
 		{
-			var view = GameManager.Instance.Resolve<BattleView>();
-			_view = view.MiniMap;
-
 			_miniMapTile = Resources.Load<Common.Tile.MapTile>("Tiles/MiniMapTile");
 			if (_miniMapTile == null)
 			{

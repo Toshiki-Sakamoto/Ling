@@ -4,21 +4,14 @@
 //  
 // Created by toshiki sakamoto on 2020.05.03
 // 
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
-using System;
-using System.Linq;
-using UniRx;
 
 using Zenject;
-using Cysharp.Threading.Tasks;
 using Ling.Utility;
-using System.Runtime.CompilerServices;
 
-namespace Ling.Scenes.Battle.BattleMap
+namespace Ling.Map
 {
 	/// <summary>
 	/// ダンジョンマップView
@@ -50,7 +43,6 @@ namespace Ling.Scenes.Battle.BattleMap
 		[SerializeField] private Transform _playerRoot = default;
 		[SerializeField] private List<Map.GroundTilemap> _groundMaps = default;
 
-		[Inject] private BattleModel _model = default;
 		[Inject] private MasterData.MasterManager _masterManager = default;
 		[Inject] private IEventManager _eventManager = default;
 
@@ -98,9 +90,9 @@ namespace Ling.Scenes.Battle.BattleMap
 			}
 
 			// 1以下は無い
-			var createStartIndex = Mathf.Max(startMapIndex - BattleConst.AddShowMap, 1);
+			var createStartIndex = Mathf.Max(startMapIndex - mapModel.AddMap, 1);
 
-			for (int i = createStartIndex, count = startMapIndex + BattleConst.AddShowMap; i <= count; ++i)
+			for (int i = createStartIndex, count = startMapIndex + mapModel.AddMap; i <= count; ++i)
 			{
 				// 未使用リストから使用リストに追加する
 				var tilemapData = PopUnusedItem();
@@ -224,17 +216,6 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region private 関数
 
-#if false
-		/// <summary>
-		/// Tilemapを構築する
-		/// </summary>
-		/// <param name="mapIndex"></param>
-		/// <param name="listIndex"></param>
-		private void BuildMapView(MapModel mapModel, int mapIndex, int listIndex)
-		{
-
-		}
-#endif
 		/// <summary>
 		/// 未使用リストに追加する
 		/// </summary>

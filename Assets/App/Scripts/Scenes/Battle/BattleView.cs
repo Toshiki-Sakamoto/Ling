@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using Zenject;
 
 namespace Ling.Scenes.Battle
 {
@@ -29,8 +30,8 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[SerializeField] private BattleMap.MapView _mapView = null;
-		[SerializeField] private BattleMap.MiniMapView _miniMapView = null;
+		[Inject] private Map.MapManager _mapManager = default;
+
 		[SerializeField] private Message.MessageView _messageView = null;
 		[SerializeField] private UI.UIHeaderView _uiHeaderView = null;
 
@@ -39,8 +40,6 @@ namespace Ling.Scenes.Battle
 
 		#region プロパティ
 
-		public BattleMap.MapView MapView => _mapView;
-		public BattleMap.MiniMapView MiniMap => _miniMapView;
 		public Message.MessageView MessageView => _messageView;
 		public UI.UIHeaderView UIHeaderView => _uiHeaderView;
 

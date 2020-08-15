@@ -14,7 +14,6 @@ using UnityEngine.UI;
 
 using Ling.Common.Scene;
 using Zenject;
-using Ling.Scenes.Battle.BattleMap;
 
 namespace Ling.Scenes.Battle
 {
@@ -55,7 +54,7 @@ namespace Ling.Scenes.Battle
 		[SerializeField] private BattleView _view = null;
 
 		[Inject] private BattleModel _model = null;
-		[Inject] private MapManager _mapManager = null;
+		[Inject] private Map.MapManager _mapManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
 
 		private bool _isInitialized;
@@ -74,7 +73,7 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// MapControl
 		/// </summary>
-		public MapControl MapControl => _mapManager.MapControl;
+		public Map.MapControl MapControl => _mapManager.MapControl;
 
 
 		#endregion

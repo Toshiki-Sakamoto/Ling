@@ -17,7 +17,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.BattleMap
+namespace Ling.Map
 {
 	/// <summary>
 	/// 
@@ -44,6 +44,8 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region プロパティ
 
+		public int AddMap { get; private set; }
+
 		/// <summary>
 		/// 現在のマップID(階層)
 		/// </summary>
@@ -52,7 +54,7 @@ namespace Ling.Scenes.Battle.BattleMap
 		/// <summary>
 		/// 現在のマップデータ
 		/// </summary>
-		public BattleMap.MapData CurrentMapData { get; private set; }
+		public MapData CurrentMapData { get; private set; }
 
 		/// <summary>
 		/// 現在のタイルデータ
@@ -74,9 +76,10 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		#region public, protected 関数
 
-		public void Setup(StageMaster stageMaster)
+		public void Setup(StageMaster stageMaster, int addMap)
 		{
 			_stageMaster = stageMaster;
+			AddMap = addMap;
 		}
 
 		public void SetMapData(int level, MapData mapData)
@@ -103,7 +106,7 @@ namespace Ling.Scenes.Battle.BattleMap
 
 		public int GetCurrentMapIndex()
 		{
-			if (CurrentMapIndex - BattleConst.AddShowMap <= 0) return 0;
+			if (CurrentMapIndex - AddMap <= 0) return 0;
 
 			return CurrentMapIndex;
 		}
@@ -134,9 +137,9 @@ namespace Ling.Scenes.Battle.BattleMap
 		{
 			ShowMapIndexes.Clear();
 
-			var startIndex = Mathf.Max(CurrentMapIndex - BattleConst.AddShowMap, 0);
+			var startIndex = Mathf.Max(CurrentMapIndex - AddMap, 0);
 
-			for (int i = startIndex, count = CurrentMapIndex + BattleConst.AddShowMap; i <= count; ++i)
+			for (int i = startIndex, count = CurrentMapIndex + AddMap; i <= count; ++i)
 			{
 				ShowMapIndexes.Add(i);
 			}

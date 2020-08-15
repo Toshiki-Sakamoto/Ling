@@ -36,7 +36,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private Map.Builder.IManager _builderManager = null;
 		private Map.Builder.BuilderFactory _builderFactory = null;
-		private MapManager _mapManager = null;
+		private Map.MapManager _mapManager = null;
 
 		private bool _isLoadFinish;
 
@@ -61,7 +61,7 @@ namespace Ling.Scenes.Battle.Phase
 
 			_builderManager = Resolve<Map.Builder.IManager>();
 			_builderFactory = Resolve<Map.Builder.BuilderFactory>();
-			_mapManager = Resolve<MapManager>();
+			_mapManager = Resolve<Map.MapManager>();
 		}
 
 		public override void Proc() 

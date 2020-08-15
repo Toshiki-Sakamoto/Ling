@@ -30,7 +30,7 @@ namespace Ling.AI.Move
 
 		#region private 変数
 
-		[Inject] private Map.Manager _mapManager = default;
+		[Inject] private Map.MapManager _mapManager = default;
 		[Inject] private Chara.CharaManager _charaManager = default;
 
 		private CharaMaster.MoveAIData _masterAIData;
@@ -129,6 +129,7 @@ namespace Ling.AI.Move
 		protected virtual Vector2Int? GetTargetPos(Const.TileFlag targetType)
 		{
 			// 同じ部屋にターゲットがいるかどうか
+
 			return null;
 		}
 
