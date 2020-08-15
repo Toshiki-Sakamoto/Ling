@@ -113,20 +113,20 @@ namespace Ling.AI.Move
 		protected virtual Vector2Int? GetMustTarget()
 		{
 			// 1番目に優先するもの
-			if (_masterAIData.FirstTarget != Const.MoveAITarget.None)
+			if (_masterAIData.FirstTarget != Const.TileFlag.None)
 			{
 
 			}
 
 			// 2番目に優先するもの
-			if (_masterAIData.SecondTarget != Const.MoveAITarget.None)
+			if (_masterAIData.SecondTarget != Const.TileFlag.None)
 			{
 			}
 
 			return null;
 		}
 
-		protected virtual Vector2Int? GetTargetPos(Const.MoveAITarget targetType)
+		protected virtual Vector2Int? GetTargetPos(Const.TileFlag targetType)
 		{
 			// 同じ部屋にターゲットがいるかどうか
 			return null;

@@ -39,10 +39,10 @@ namespace Ling.MasterData.Chara
 		private bool _isHoleIgnore = default;
 
 		[SerializeField, FieldName("移動AIの最も優先すべきターゲット")]
-		private Const.MoveAITarget _firstTarget = default;
+		private Const.TileFlag _firstTarget = default;
 
 		[SerializeField, FieldName("移動AIの二番目に優先すべきターゲット")]
-		private Const.MoveAITarget _secondTarget = default;
+		private Const.TileFlag _secondTarget = default;
 
 		#endregion
 
@@ -55,9 +55,9 @@ namespace Ling.MasterData.Chara
 
 		public bool IsHoleIgnore => _isHoleIgnore;
 
-		public Const.MoveAITarget FirstTarget => _firstTarget;
+		public Const.TileFlag FirstTarget => _firstTarget;
 
-		public Const.MoveAITarget SecondTarget => _secondTarget;
+		public Const.TileFlag SecondTarget => _secondTarget;
 
 		#endregion
 
