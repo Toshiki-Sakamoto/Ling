@@ -5,8 +5,13 @@
 // Created by toshiki sakamoto on 2020.07.26
 //
 
+using UnityEngine;
+using Cysharp.Threading.Tasks;
+
 namespace Ling.AI.Move
 {
+	using CharaMaster = Ling.MasterData.Chara;
+
 	/// <summary>
 	/// 移動AIのベースクラス
 	/// </summary>
@@ -23,6 +28,9 @@ namespace Ling.AI.Move
 
 
 		#region private 変数
+
+		private CharaMaster.MoveAIData _masterAIData;
+		private Vector2Int? _destination;	// 目的地
 
 		#endregion
 
@@ -49,10 +57,49 @@ namespace Ling.AI.Move
 
 		#region public, protected 関数
 
+		public void Setup(CharaMaster.MoveAIData moveAIData)
+		{
+			_masterAIData = moveAIData;
+		}
+
+		/// <summary>
+		/// 保存してあるルートをリセットする
+		/// </summary>
+		public void ResetDestination()
+		{
+			_destination = null;
+		}
+
+		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit)
+		{
+			// もっとも優先すべきものがあればそこに向かって歩く
+
+			// 目的地があればそこに向かって歩く
+			if (_destination != null)
+			{
+
+			}
+
+			// 目的地がなければ
+		}
+
 		#endregion
 
 
 		#region private 関数
+
+		protected virtual void Route()
+		{
+
+		}
+
+		/// <summary>
+		/// 最も優先すべきターゲット
+		/// </summary>
+		protected virtual void MustTarget()
+		{
+
+		}
 
 		#endregion
 	}

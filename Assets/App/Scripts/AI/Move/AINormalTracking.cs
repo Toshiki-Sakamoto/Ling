@@ -10,7 +10,7 @@ using Ling.Const;
 namespace Ling.AI.Move
 {
 	/// <summary>
-	/// 
+	/// 同じ部屋にいればプレイヤーの隣まで移動する。
 	/// </summary>
 	public class AINormalTracking : AIBase
     {

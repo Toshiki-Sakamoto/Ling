@@ -9,6 +9,8 @@ using Cysharp.Threading.Tasks;
 
 namespace Ling.AI.Attack
 {
+	using CharaMaster = Ling.MasterData.Chara;
+
 	/// <summary>
 	/// 攻撃AIのベースクラス
 	/// </summary>
@@ -25,6 +27,8 @@ namespace Ling.AI.Attack
 
 
 		#region private 変数
+
+		private CharaMaster.AttackAIData _masterAIData;
 
 		#endregion
 
@@ -45,6 +49,11 @@ namespace Ling.AI.Attack
 
 
 		#region public, protected 関数
+
+		public void Setup(CharaMaster.AttackAIData attackAIData)
+		{
+			_masterAIData = attackAIData;
+		}
 
 		/// <summary>
 		/// 思考処理

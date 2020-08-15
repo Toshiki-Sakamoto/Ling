@@ -56,4 +56,16 @@ namespace Ling.Const
 
 		Normal,	// 通常の攻撃しかしない
 	}
+
+	/// <summary>
+	/// 移動AIの優先すべきターゲット
+	/// </summary>
+	public enum MoveAITarget
+	{
+		None,
+
+		Player,
+		Enemy,
+		Item,
+	}
 }

@@ -63,8 +63,8 @@ namespace Ling.Chara
 			charaModel.SetStatus(enemyMaster.Status);
 
 			// AIの設定
-			var attackAIFactory = enemyMaster.CreateAttackAIFactory();
-			var moveAIFactory = enemyMaster.CreateMoveAIFactory();
+			var attackAIFactory = enemyMaster.AttackAIData.CreateAttackAIFactory();
+			var moveAIFactory = enemyMaster.MoveAIData.CreateMoveAIFactory();
 			charaModel.SetAI(attackAIFactory.Create(), moveAIFactory.Create());
 
 			return charaModel;

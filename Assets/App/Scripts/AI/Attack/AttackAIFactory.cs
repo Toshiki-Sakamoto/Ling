@@ -5,6 +5,9 @@
 // Created by toshiki sakamoto on 2020.08.10
 //
 
+using Ling;
+using Ling.MasterData.Chara;
+
 namespace Ling.AI.Attack
 {
 	/// <summary>
@@ -12,27 +15,25 @@ namespace Ling.AI.Attack
 	/// </summary>
 	public class AttackAIFactory
     {
-		private Const.AttackAIType _attackAIType;
-		private string _param1;
+		private AttackAIData _attackAIData;
 
-		public AttackAIFactory(Const.AttackAIType attackAIType, string param1)
+		public AttackAIFactory(AttackAIData attackAIData)
 		{
-			_attackAIType = attackAIType;
-			_param1 = param1;
+			_attackAIData = attackAIData;
 		}
 
 		public AIBase Create()
 		{			
 			AIBase attackAI = null;
 
-			switch (_attackAIType)
+			switch (_attackAIData.AttackAIType)
 			{
 				case Const.AttackAIType.Normal:
 					attackAI = new AINormalAttack();
 					break;
 
 				default:
-					Utility.Log.Error("AttackAIを作成できませんでした。無効のタイプ " + _attackAIType);
+					Utility.Log.Error("AttackAIを作成できませんでした。無効のタイプ " + _attackAIData.AttackAIType);
 					return null;
 			}
 
