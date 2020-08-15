@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Zenject;
 
 namespace Ling.AI.Move
 {
@@ -28,6 +29,9 @@ namespace Ling.AI.Move
 
 
 		#region private 変数
+
+		[Inject] private Map.Manager _mapManager = default;
+		[Inject] private Chara.CharaManager _charaManager = default;
 
 		private CharaMaster.MoveAIData _masterAIData;
 		private Vector2Int? _destination;	// 目的地
@@ -76,7 +80,7 @@ namespace Ling.AI.Move
 			_unit = unit;
 
 			// もっとも優先すべきものがあればそこに向かって歩く
-			var mustTargetPos = GetMustTarget(unit);
+			var mustTargetPos = GetMustTarget();
 			if (mustTargetPos != null)
 			{
 
@@ -122,9 +126,10 @@ namespace Ling.AI.Move
 			return null;
 		}
 
-		protected virtual Vector2Int? GetTargetPos(bool isWallIgnore, bool isHoleIgnore, int cellNum)
+		protected virtual Vector2Int? GetTargetPos(Const.MoveAITarget targetType)
 		{
-			// 自分と同じ部屋にいる必要がある場合、
+			// 同じ部屋にターゲットがいるかどうか
+			return null;
 		}
 
 		#endregion

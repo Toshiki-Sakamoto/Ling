@@ -14,7 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Map
+namespace Ling.Const
 {
 	/// <summary>
 	/// タイル情報のフラグ定数

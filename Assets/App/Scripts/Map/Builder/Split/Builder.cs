@@ -14,6 +14,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Ling.Const;
 using Zenject;
 
 

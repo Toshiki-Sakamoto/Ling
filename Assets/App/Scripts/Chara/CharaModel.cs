@@ -80,8 +80,8 @@ namespace Ling.Chara
         /// 移動することができないタイルフラグ。
         /// これ以外は移動できるとする
         /// </summary>
-        public virtual Map.TileFlag CanNotMoveTileFlag =>
-            Map.TileFlag.None | Map.TileFlag.Wall;
+        public virtual Const.TileFlag CanNotMoveTileFlag =>
+            Const.TileFlag.None | Const.TileFlag.Wall;
 
 		#endregion
 

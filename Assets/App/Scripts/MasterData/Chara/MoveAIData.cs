@@ -35,6 +35,9 @@ namespace Ling.MasterData.Chara
 		[SerializeField, FieldName("移動AIパラメータ１")]
 		private int _moveAIParam1 = default;
 
+		[SerializeField, FieldName("穴を無視する(浮遊系)")]
+		private bool _isHoleIgnore = default;
+
 		[SerializeField, FieldName("移動AIの最も優先すべきターゲット")]
 		private Const.MoveAITarget _firstTarget = default;
 
@@ -49,6 +52,8 @@ namespace Ling.MasterData.Chara
 		public Const.MoveAIType MoveAIType => _moveAIType;
 
 		public int MoveAIParam1 => _moveAIParam1;
+
+		public bool IsHoleIgnore => _isHoleIgnore;
 
 		public Const.MoveAITarget FirstTarget => _firstTarget;
 

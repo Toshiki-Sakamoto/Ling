@@ -6,6 +6,7 @@
 //
 
 using UnityEngine;
+using Ling.Const;
 
 namespace Ling.Map
 {
