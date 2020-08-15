@@ -84,9 +84,8 @@ namespace Ling.Map
 		public Map.MapControl MapControl => _control;
 		public Map.MapView MapView => MapControl.View;
 
-		public Map.MiniMapControl MiniMapControl { get; private set; }
-
-		public Tilemap MiniMapTilemap => MiniMapControl.Tilemap;
+		public Map.MiniMapControl MiniMapControl => _minimapControl;
+		public Map.MiniMapView MiniMapView => _minimapControl.View;
 
 		#endregion
 
@@ -244,8 +243,6 @@ namespace Ling.Map
 			_mapModel = new Map.MapModel();
 
 			MapControl.SetModel(_mapModel);
-
-			MiniMapControl = new Map.MiniMapControl();
 		}
 
 		#endregion
