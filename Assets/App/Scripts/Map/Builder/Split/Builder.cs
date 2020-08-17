@@ -195,7 +195,7 @@ namespace Ling.Map.Builder.Split
 			if (shouldCreateRoad)
 			{
 				// 部屋マップの値を取得
-				var roomValue = TileDataMap.RoomMapArray[stepDownPos.y * Width + stepDownPos.x];
+				var roomValue = TileDataMap.GetRoomIndex(stepDownPos.x, stepDownPos.y);
 
 				// 一番近い部屋か道とつなげる
 				var route = new Route.Tracking();
