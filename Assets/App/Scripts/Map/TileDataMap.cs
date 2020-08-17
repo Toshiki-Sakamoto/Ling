@@ -134,7 +134,7 @@ namespace Ling.Map
 		/// <summary>
 		/// 指定した場所のTileDataを部屋とする
 		/// </summary>
-		public void AddRoomMap(int x, int y, int roomIndex)
+		public void AddRoomData(int x, int y, int roomIndex)
 		{
 			if (TryGetRoomData(roomIndex, out var roomData))
 			{
@@ -252,7 +252,7 @@ namespace Ling.Map
 		/// <summary>
 		/// 指定した座標の部屋番号を取得する
 		/// </summary>
-		public int GetRoomMapIndex(int x, int y)
+		public int GetRoomIndex(int x, int y)
 		{
 			if (!InRange(x, y)) return -1;
 			return GetTileData(x, y).RoomIndex;
@@ -262,7 +262,7 @@ namespace Ling.Map
 		/// 指定した部屋番号と一致していればtrue
 		/// </summary>
 		public bool EqualRoomMapValue(int x, int y, int value) =>
-			GetRoomMapIndex(x, y) == value;
+			GetRoomIndex(x, y) == value;
 
 		/// <summary>
 		/// 指定したTileFlagと隣接していたらtrue
