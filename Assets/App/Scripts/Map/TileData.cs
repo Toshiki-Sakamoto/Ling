@@ -20,7 +20,7 @@ namespace Ling.Map
 	/// <summary>
 	/// マップの中の一マスのデータ
 	/// </summary>
-	public struct TileData
+	public class TileData
 	{
 		/// <summary>
 		/// タイルデータがもつフラグ
@@ -33,6 +33,11 @@ namespace Ling.Map
 
 
 		public int Index { get; private set; }
+
+		/// <summary>
+		/// 部屋の場合、各部屋のIndexを割り当てる
+		/// </summary>
+		public int RoomIndex { get; private set; }
 
 		/// <summary>
 		/// 壁ならtrue
@@ -51,13 +56,18 @@ namespace Ling.Map
 		public void Initialize()
 		{
 			Flag = TileFlag.None;
+			Index = 0;
+			RoomIndex = 0;
 		}
 
-		public void SetPos(int x, int y) 
-		{
+		public void SetPos(int x, int y) =>
 			Pos = new Vector2Int(x, y);
-		}
-		public void SetIndex(int index) => Index = index;
+
+		public void SetIndex(int index) => 
+			Index = index;
+
+		public void SetRoomIndex(int roomIndex) =>
+			RoomIndex = roomIndex;
 
 		/// <summary>
 		/// フラグとして情報を追加する

@@ -73,6 +73,8 @@ namespace Ling.Map
 		public int[] RoomMapArray { get; private set; }
 		public Dictionary<int, List<Vector2Int>> RoomMap { get; } = new Dictionary<int, List<Vector2Int>>();
 
+		public Dictionary<int, RoomData> Rooms { get; } = new Dictionary<int, RoomData>();
+
 		/// <summary>
 		/// 道Map
 		/// </summary>
@@ -130,7 +132,7 @@ namespace Ling.Map
 		/// 部屋のマップを作成する
 		/// </summary>
 		public void BuildRoomMap() =>
-			RoomMapArray = BuildMapInternal(RoomMap, TileFlag.Floor);
+			BuildMapInternal(Rooms, TileFlag.Floor);
 
 		public void AddRoomMap(int x, int y, int value)
 		{
@@ -141,8 +143,8 @@ namespace Ling.Map
 		/// <summary>
 		/// 道のマップを作成する
 		/// </summary>
-		public void BuildRoadMap() =>
-			RoadMapArray = BuildMapInternal(RoadMap, TileFlag.Road);
+		//public void BuildRoadMap() =>
+		//	BuildMapInternal(RoadMap, TileFlag.Road);
 
 
         /// <summary>
@@ -156,7 +158,7 @@ namespace Ling.Map
                 {
 					if (!InRange(x, y)) continue;
 
-					ref var tileData = ref this.GetTile(x, y);
+					var tileData = this.GetTile(x, y);
 
 					// 許可されたところのみフラグを設定する
 					if (predicate != null)
@@ -186,7 +188,7 @@ namespace Ling.Map
 			{
 				for (int x = left; x < right; ++x)
 				{
-					ref var tileData = ref this.GetTile(x, y);
+					var tileData = this.GetTile(x, y);
 					if (!predicate?.Invoke(tileData) ?? false) continue;
 
 					// 部屋の場所は書き換えない
@@ -203,7 +205,7 @@ namespace Ling.Map
 			{
 				for (int x = right - 1; x >= left; --x)
 				{
-					ref var tileData = ref this.GetTile(x, y);
+					var tileData = this.GetTile(x, y);
 					if (!predicate?.Invoke(tileData) ?? false) continue;
 
 					// 部屋の場所は書き換えない
@@ -214,6 +216,12 @@ namespace Ling.Map
 				}
 			}
 		}
+
+		/// <summary>
+		/// TileDataを取得する
+		/// </summary>
+		public TileData GetTileData(int x, int y) =>
+			Tiles[y * Width + x];
 
 		/// <summary>
 		/// 範囲内かどうか
@@ -233,12 +241,18 @@ namespace Ling.Map
 			this.GetTile(x, y).AddFlag(TileFlag.StepDown);
 		}
 
+		/// <summary>
+		/// 指定した座標の部屋番号を取得する
+		/// </summary>
 		public int GetRoomMapValue(int x, int y)
 		{
 			if (!InRange(x, y)) return -1;
 			return RoomMapArray[y * Width + x];
 		}
 
+		/// <summary>
+		/// 指定した部屋番号と一致していればtrue
+		/// </summary>
 		public bool EqualRoomMapValue(int x, int y, int value) =>
 			GetRoomMapValue(x, y) == value;
 
@@ -289,37 +303,45 @@ namespace Ling.Map
 			return result;
 		}
 
+		/// <summary>
+		/// 部屋情報の更新
+		/// </summary>
+		public void UpdateRoomData()
+		{
+
+		}
+
 		#endregion
 
 
 		#region private 関数
 
 
-		private int[] BuildMapInternal(Dictionary<int, List<Vector2Int>> map, TileFlag tileFlag)
+		private void BuildMapInternal(Dictionary<int, RoomData> rooms, TileFlag tileFlag)
 		{
-			var mapArray = new int[Width * Height];
-			map.Clear();
+			rooms.Clear();
 
-			void Scanning(int x, int y, int v, List<Vector2Int> list)
+			void Scan(int x, int y, int v, RoomData roomData)
 			{
 				if (!InRange(x, y)) return;
 
 				var index = y * Width + x;
 
 				// すでに値が入ってる場合
-				if (mapArray[index] != 0) return;
+				var tileData = GetTileData(x, y);
+				if (tileData.RoomIndex != 0) return;
 
 				// 部屋以外の場合
-				if (!Tiles[index].HasFlag(tileFlag)) return;
+				if (!tileData.HasFlag(tileFlag)) return;
 
-				mapArray[index] = v;
-				list.Add(new Vector2Int(x, y));
+				tileData.SetRoomIndex(v);
+				roomData.Add(tileData);
 
 				// 上下左右
-				Scanning(x - 1, y, v, list);
-				Scanning(x + 1, y, v, list);
-				Scanning(x, y - 1, v, list);
-				Scanning(x, y + 1, v, list);
+				Scan(x - 1, y, v, roomData);
+				Scan(x + 1, y, v, roomData);
+				Scan(x, y - 1, v, roomData);
+				Scan(x, y + 1, v, roomData);
 			}
 
 			int value = 0;
@@ -329,23 +351,20 @@ namespace Ling.Map
 				for (int x = 0; x < Width; ++x)
 				{
 					// すでに値が入っていたら何もしない
-					int index = y * Width + x;
-					if (mapArray[index] != 0) continue;
+					var tileData = GetTileData(x, y);
 
-					if (Tiles[index].HasFlag(tileFlag))
+					if (tileData.RoomIndex != 0) continue;
+					if (!tileData.HasFlag(tileFlag)) continue;
+
+					if (!rooms.TryGetValue(++value, out var roomData))
 					{
-						if (!map.TryGetValue(++value, out var list))
-						{
-							list = new List<Vector2Int>();
-							map.Add(value, list);
-						}
-
-						Scanning(x, y, value, list);
+						roomData = new RoomData();
+						rooms.Add(value, roomData);
 					}
+
+					Scan(x, y, value, roomData);
 				}
 			}
-
-			return mapArray;
 		}
 
 		#endregion

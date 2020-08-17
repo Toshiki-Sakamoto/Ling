@@ -109,7 +109,7 @@ namespace Ling.Map.Builder.Split
 					tileDataMap.GetAdjastPosList(pos, TileFlag.Floor, adjastList);
 					if (adjastList.Count >= 3)
 					{
-						ref var tileData = ref tileDataMap.GetTile(pos);
+						var tileData = tileDataMap.GetTile(pos);
 						tileData.SetFlag(TileFlag.Floor);
 
 						// MapValueにも書き込む
@@ -126,7 +126,7 @@ namespace Ling.Map.Builder.Split
 
 						if (mapValueA == mapValueB)
 						{
-							ref var tileData = ref tileDataMap.GetTile(pos);
+							var tileData = tileDataMap.GetTile(pos);
 							tileData.SetFlag(TileFlag.Floor);
 
 							// MapValueにも書き込む
@@ -154,7 +154,7 @@ namespace Ling.Map.Builder.Split
 
 						if (mapValue == nextMapValue)
 						{
-							ref var tileData = ref tileDataMap.GetTile(pos);
+							var tileData = tileDataMap.GetTile(pos);
 							tileData.SetFlag(TileFlag.Floor);
 
 							// MapValueにも書き込む

@@ -129,6 +129,7 @@ namespace Ling.AI.Move
 		protected virtual Vector2Int? GetTargetPos(Const.TileFlag targetType)
 		{
 			// 同じ部屋にターゲットがいるかどうか
+			var tileDataMap = _mapManager.MapControl.FindTileDataMap(_unit.Model.MapLevel);
 
 			return null;
 		}

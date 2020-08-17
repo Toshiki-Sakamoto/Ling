@@ -18,17 +18,17 @@ namespace Ling.Map
 		/// <summary>
 		/// [x, y] から指定したタイル情報を返す
 		/// </summary>
-		public static ref TileData GetTile(this TileDataMap self, int x, int y)
+		public static TileData GetTile(this TileDataMap self, int x, int y)
 		{
 			Utility.Log.Assert(x >= 0 && x <= self.Width && y >= 0 && y <= self.Height, "範囲から飛び出してます");
 
-			return ref self.GetTile(y * self.Width + x);
+			return self.GetTile(y * self.Width + x);
 		}
-		public static ref TileData GetTile(this TileDataMap self, in Vector2Int pos) =>
-			ref self.GetTile(pos.x, pos.y);
+		public static TileData GetTile(this TileDataMap self, in Vector2Int pos) =>
+			self.GetTile(pos.x, pos.y);
 
-		public static ref TileData GetTile(this TileDataMap self, int index) =>
-			ref self.Tiles[index];
+		public static TileData GetTile(this TileDataMap self, int index) =>
+			self.GetTile(index);
 
 
 		/// <summary>
@@ -51,7 +51,7 @@ namespace Ling.Map
 
 		public static void SetTileFlag(this TileDataMap self, in Vector2Int pos, TileFlag tileFlag)
 		{
-			ref var tileData = ref self.GetTile(pos.x, pos.y);
+			var tileData = self.GetTile(pos.x, pos.y);
 			tileData.SetFlag(tileFlag);
 		}
 

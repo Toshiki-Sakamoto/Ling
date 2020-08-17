@@ -173,11 +173,11 @@ namespace Ling.Map
 		/// <summary>
 		/// 指定階層の指定座標のタイルデータを取得する
 		/// </summary>
-		public ref Map.TileData GetTileData(int level, int x, int y)
+		public Map.TileData GetTileData(int level, int x, int y)
 		{
 			var tileDatamap = FindTileDataMap(level);
 
-			return ref tileDatamap.GetTile(x, y);
+			return tileDatamap.GetTile(x, y);
 		}
 
 		/// <summary>
@@ -241,7 +241,7 @@ namespace Ling.Map
 			// TileFlagの更新
 			this.AddEventListener<EventTileFlagUpdate>(ev_ => 
 				{ 
-					ref var tileData = ref GetTileData(ev_.level, ev_.x, ev_.y);
+					var tileData = GetTileData(ev_.level, ev_.x, ev_.y);
 
 					switch (ev_.type)
 					{
@@ -259,12 +259,12 @@ namespace Ling.Map
 			this.AddEventListener<Chara.EventPosUpdate>(ev_ =>
 				{
 					// 以前の座標からフラグを削除する
-					ref var tileData = ref GetTileData(ev_.mapLevel, ev_.prevPos.x, ev_.prevPos.y);
+					var tileData = GetTileData(ev_.mapLevel, ev_.prevPos.x, ev_.prevPos.y);
 					var tileFlag = ev_.charaType.ToTileFlag();
 					tileData.RemoveFlag(tileFlag);
 
 					// 新しい座標にTileFlagを設定する
-					ref var newTileData = ref GetTileData(ev_.mapLevel, ev_.newPos.x, ev_.newPos.y);
+					var newTileData = GetTileData(ev_.mapLevel, ev_.newPos.x, ev_.newPos.y);
 					newTileData.AddFlag(tileFlag);					
 				});
 		}

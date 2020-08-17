@@ -91,10 +91,10 @@ namespace Ling.Map
 		/// </summary>
 		public Vector2Int GetRandomPosInRoom()
 		{
-			var values = TileDataMap.RoomMap.Values;
+			var values = TileDataMap.Rooms.Values;
 			var pos = values.ElementAt(Utility.Random.Range(values.Count));
 
-			return pos.GetRandom();
+			return pos.GetRandom().Pos;
 		}
 
 		#endregion
