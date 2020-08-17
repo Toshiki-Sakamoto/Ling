@@ -70,9 +70,6 @@ namespace Ling.Map
 		/// 部屋MAP
 		/// つながってる部屋は同じ値が入る 1～
 		/// </summary>
-		public int[] RoomMapArray { get; private set; }
-		public Dictionary<int, List<Vector2Int>> RoomMap { get; } = new Dictionary<int, List<Vector2Int>>();
-
 		public Dictionary<int, RoomData> Rooms { get; } = new Dictionary<int, RoomData>();
 
 		/// <summary>
@@ -134,11 +131,22 @@ namespace Ling.Map
 		public void BuildRoomMap() =>
 			BuildMapInternal(Rooms, TileFlag.Floor);
 
-		public void AddRoomMap(int x, int y, int value)
+		/// <summary>
+		/// 指定した場所のTileDataを部屋とする
+		/// </summary>
+		public void AddRoomMap(int x, int y, int roomIndex)
 		{
-			int index = y * Width + x;
-			RoomMapArray[index] = value;
+			if (TryGetRoomData(roomIndex, out var roomData))
+			{
+				var tileData = GetTileData(x, y);
+				tileData.SetFlag(TileFlag.Floor);
+
+				roomData.Add(tileData);
+			}
 		}
+
+		public bool TryGetRoomData(int roomIndex, out RoomData roomData) =>
+			Rooms.TryGetValue(roomIndex, out roomData);
 
 		/// <summary>
 		/// 道のマップを作成する
@@ -244,17 +252,17 @@ namespace Ling.Map
 		/// <summary>
 		/// 指定した座標の部屋番号を取得する
 		/// </summary>
-		public int GetRoomMapValue(int x, int y)
+		public int GetRoomMapIndex(int x, int y)
 		{
 			if (!InRange(x, y)) return -1;
-			return RoomMapArray[y * Width + x];
+			return GetTileData(x, y).RoomIndex;
 		}
 
 		/// <summary>
 		/// 指定した部屋番号と一致していればtrue
 		/// </summary>
 		public bool EqualRoomMapValue(int x, int y, int value) =>
-			GetRoomMapValue(x, y) == value;
+			GetRoomMapIndex(x, y) == value;
 
 		/// <summary>
 		/// 指定したTileFlagと隣接していたらtrue
@@ -321,7 +329,7 @@ namespace Ling.Map
 		{
 			rooms.Clear();
 
-			void Scan(int x, int y, int v, RoomData roomData)
+			void Scan(int x, int y, int roomIndex, RoomData roomData)
 			{
 				if (!InRange(x, y)) return;
 
@@ -334,14 +342,14 @@ namespace Ling.Map
 				// 部屋以外の場合
 				if (!tileData.HasFlag(tileFlag)) return;
 
-				tileData.SetRoomIndex(v);
+				tileData.SetRoomIndex(roomIndex);
 				roomData.Add(tileData);
 
 				// 上下左右
-				Scan(x - 1, y, v, roomData);
-				Scan(x + 1, y, v, roomData);
-				Scan(x, y - 1, v, roomData);
-				Scan(x, y + 1, v, roomData);
+				Scan(x - 1, y, roomIndex, roomData);
+				Scan(x + 1, y, roomIndex, roomData);
+				Scan(x, y - 1, roomIndex, roomData);
+				Scan(x, y + 1, roomIndex, roomData);
 			}
 
 			int value = 0;
@@ -356,9 +364,10 @@ namespace Ling.Map
 					if (tileData.RoomIndex != 0) continue;
 					if (!tileData.HasFlag(tileFlag)) continue;
 
-					if (!rooms.TryGetValue(++value, out var roomData))
+					var roomIndex = ++value;
+					if (!rooms.TryGetValue(roomIndex, out var roomData))
 					{
-						roomData = new RoomData();
+						roomData = new RoomData(roomIndex);
 						rooms.Add(value, roomData);
 					}
 

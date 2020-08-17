@@ -37,12 +37,17 @@ namespace Ling.Map
 
 		public List<TileData> TileData { get; } = new List<TileData>();
 
-		public int MapIndex { get; private set; }
+		public int RoomIndex { get; private set; }
 
 		#endregion
 
 
 		#region コンストラクタ, デストラクタ
+
+		public RoomData(int roomIndex)
+		{
+			RoomIndex = roomIndex;
+		}
 
 		#endregion
 
@@ -51,6 +56,7 @@ namespace Ling.Map
 
 		public void Add(in TileData tileData)
 		{
+			tileData.SetRoomIndex(RoomIndex);
 			TileData.Add(tileData);
 		}
 
@@ -70,6 +76,22 @@ namespace Ling.Map
 		public TileData GetRandom()
 		{
 			return TileData.GetRandom();
+		}
+
+		/// <summary>
+		/// 指定したTileFlagを持っているか
+		/// </summary>
+		public bool ExistsTileFlags(Const.TileFlag tileFlag) =>
+			_tileFlagAndData.ContainsKey(tileFlag);
+
+		public bool TryGetTileDataList(Const.TileFlag tileFlag, out List<TileData> list)
+		{
+			if (_tileFlagAndData.TryGetValue(tileFlag, out list))
+			{
+				return true;
+			}
+
+			return false;
 		}
 
 		#endregion
