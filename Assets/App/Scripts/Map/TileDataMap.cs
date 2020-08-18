@@ -14,6 +14,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Ling.Const;
+using Ling.Map.TileDataMapExtension;
 
 
 namespace Ling.Map

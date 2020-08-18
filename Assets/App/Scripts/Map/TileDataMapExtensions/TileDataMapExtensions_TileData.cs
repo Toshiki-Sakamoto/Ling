@@ -8,12 +8,12 @@
 using UnityEngine;
 using Ling.Const;
 
-namespace Ling.Map
+namespace Ling.Map.TileDataMapExtension
 {
 	/// <summary>
 	/// TileData系を直接扱う拡張メソッド群
 	/// </summary>
-	public static class TileDataMapTileData
+	public static class TileDataMapExtensions_TileData
     {
 		/// <summary>
 		/// [x, y] から指定したタイル情報を返す

@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Ling.Map;
 using Ling.Const;
+using Ling.Map.TileDataMapExtension;
 
 using Zenject;
 

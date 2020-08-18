@@ -128,6 +128,10 @@ namespace Ling.AI.Move
 
 		protected virtual Vector2Int? GetTargetPos(Const.TileFlag targetType)
 		{
+			// 部屋である必要があるか →　継承先で特別なことはやる
+
+			// 部屋か
+
 			// 同じ部屋にターゲットがいるかどうか
 			var tileDataMap = _mapManager.MapControl.FindTileDataMap(_unit.Model.MapLevel);
 
