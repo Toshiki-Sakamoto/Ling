@@ -69,5 +69,57 @@ namespace Ling
 
 			return list[Utility.Random.Range(list.Count())];
 		}
+
+		/// <summary>
+		/// 指定した値以外のランダムな値を取得する
+		/// </summary>
+		public static bool TryGetRandomWithoutValue<T>(this IList<T> self, T value, out T result) where T : IEquatable<T>
+		{
+			result = default(T);
+
+			if (self.IsNullOrEmpty()) return false;
+
+			if (self.Count == 1)
+			{
+				var front = self.Front();
+				if (front.Equals(value)) return false;
+
+				result = front;
+				return false;
+			}
+			
+			var index = self.IndexOf(value);
+			if (index < 0) 
+			{
+				result = GetRandom(self);
+				return true;
+			}
+
+			var range = Enumerable.Range(0, self.Count - 1)
+				.Where(index_ => index_ != index);
+
+			index = range.ElementAt(Utility.Random.Range(self.Count - 1));
+			result = self[index];
+			
+			return true;
+		}
+
+		/// <summary>
+		/// 先頭のデータを返す
+		/// </summary>
+		public static T Front<T>(this IList<T> self)
+		{
+			if (self.IsNullOrEmpty()) return default(T);
+			return self[0];
+		}
+
+		/// <summary>
+		/// 末尾のデータを返す
+		/// </summary>
+		public static T End<T>(this IList<T> self)
+		{
+			if (self.IsNullOrEmpty()) return default(T);
+			return self[self.Count - 1];
+		}
     }
 }

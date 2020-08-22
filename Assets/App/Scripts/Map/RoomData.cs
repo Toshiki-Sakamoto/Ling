@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Ling.Const;
+using System.Linq;
 
 namespace Ling.Map
 {
@@ -38,6 +39,11 @@ namespace Ling.Map
 		public List<TileData> TileData { get; } = new List<TileData>();
 
 		public int RoomIndex { get; private set; }
+
+		/// <summary>
+		/// 出口座標
+		/// </summary>
+		public List<Vector2Int> ExitPositions { get; } = new List<Vector2Int>();
 
 		#endregion
 
@@ -93,6 +99,35 @@ namespace Ling.Map
 
 			return false;
 		}
+		public bool TryGetTilePositionList(Const.TileFlag tileFlag, out List<Vector2Int> list)
+		{
+			list = null;
+
+			if (TryGetTileDataList(tileFlag, out var tileDataList))
+			{
+				list = tileDataList.Select(tileData_ => tileData_.Pos).ToList();
+				return true;
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// 出口座標を追加する
+		/// </summary>
+		public void AddExitPosition(in Vector2Int pos)
+		{
+			// すでに追加されていれば何もしない
+			if (ExitPositions.Contains(pos)) return;
+
+			ExitPositions.Add(pos);
+		}
+
+		/// <summary>
+		/// 出口から削除
+		/// </summary>
+		public void RemoveExitPosition(in Vector2Int pos) =>
+			ExitPositions.Remove(pos);
 
 		#endregion
 

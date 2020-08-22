@@ -130,7 +130,7 @@ namespace Ling.Map
 		/// 部屋のマップを作成する
 		/// </summary>
 		public void BuildRoomMap() =>
-			BuildMapInternal(Rooms, TileFlag.Floor);
+			BuildRoomMap(Rooms);
 
 		/// <summary>
 		/// 指定した場所のTileDataを部屋とする
@@ -148,6 +148,16 @@ namespace Ling.Map
 
 		public bool TryGetRoomData(int roomIndex, out RoomData roomData) =>
 			Rooms.TryGetValue(roomIndex, out roomData);
+
+		public bool TryGetRoomData(int x, int y, out RoomData roomData)
+		{
+			roomData = null;
+
+			if (!TryGetRoomIndex(x, y, out var roomIndex)) return false;
+			if (!TryGetRoomData(roomIndex, out roomData)) return false;
+
+			return true;
+		}
 
 		/// <summary>
 		/// 道のマップを作成する
@@ -229,8 +239,11 @@ namespace Ling.Map
 		/// <summary>
 		/// TileDataを取得する
 		/// </summary>
-		public TileData GetTileData(int x, int y) =>
-			Tiles[y * Width + x];
+		public TileData GetTileData(int x, int y) 
+		{
+			if (!InRange(x, y)) return null;
+			return Tiles[y * Width + x];
+		}
 
 		/// <summary>
 		/// 範囲内かどうか
@@ -253,10 +266,19 @@ namespace Ling.Map
 		/// <summary>
 		/// 指定した座標の部屋番号を取得する
 		/// </summary>
-		public int GetRoomIndex(int x, int y)
+		public int GetRoomIndex(int x, int y) =>
+			GetTileData(x, y)?.RoomIndex ?? -1;
+
+		public bool TryGetRoomIndex(int x, int y, out int roomIndex)
 		{
-			if (!InRange(x, y)) return -1;
-			return GetTileData(x, y).RoomIndex;
+			roomIndex = 0;
+
+			var tileData = GetTileData(x, y);
+			if (tileData == null) return false;
+			if (tileData.RoomIndex == null) return false;
+
+			roomIndex = tileData.RoomIndex.Value;
+			return true;
 		}
 
 		/// <summary>
@@ -326,7 +348,7 @@ namespace Ling.Map
 		#region private 関数
 
 
-		private void BuildMapInternal(Dictionary<int, RoomData> rooms, TileFlag tileFlag)
+		private void BuildRoomMap(Dictionary<int, RoomData> rooms)
 		{
 			rooms.Clear();
 
@@ -336,12 +358,18 @@ namespace Ling.Map
 
 				var index = y * Width + x;
 
-				// すでに値が入ってる場合
 				var tileData = GetTileData(x, y);
+
+				// すでに部屋の場合は何もしない
 				if (tileData.RoomIndex != 0) return;
 
-				// 部屋以外の場合
-				if (!tileData.HasFlag(tileFlag)) return;
+				// 通路の場合、そこは部屋の出口とする
+				if (tileData.HasFlag(TileFlag.Road))
+				{
+					roomData.AddExitPosition(new Vector2Int(x, y));
+				}
+
+				if (!tileData.HasFlag(TileFlag.Floor)) return;
 
 				tileData.SetRoomIndex(roomIndex);
 				roomData.Add(tileData);
@@ -359,11 +387,11 @@ namespace Ling.Map
 			{
 				for (int x = 0; x < Width; ++x)
 				{
-					// すでに値が入っていたら何もしない
 					var tileData = GetTileData(x, y);
 
+					// すでに値が入っていたら何もしない
 					if (tileData.RoomIndex != 0) continue;
-					if (!tileData.HasFlag(tileFlag)) continue;
+					if (!tileData.HasFlag(TileFlag.Floor)) continue;
 
 					var roomIndex = ++value;
 					if (!rooms.TryGetValue(roomIndex, out var roomData))

@@ -7,6 +7,9 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using Ling.Const;
+using Ling.Map.TileDataMapExtension;
+using Zenject;
 
 namespace Ling.Map
 {
@@ -21,16 +24,62 @@ namespace Ling.Map
 		public bool needsSameRoom = true;	// 同じ部屋であることが必要か(部屋じゃない場合1マスしか見ない)
 	}
 
+	public class CharaMoveChecker
+	{
+		private TileDataMap _tileDataMap;
+		private Chara.ICharaController _chara;
+
+		public CharaMoveChecker(TileDataMap tileDataMap)
+		{
+			_tileDataMap = tileDataMap;
+		}
+
+		public void Setup(Chara.ICharaController chara)
+		{
+			_chara = chara;
+		}
+
+		/// <summary>
+		/// 移動できるか
+		/// </summary>
+		public bool CanMove(in Vector2Int pos, bool isDiagonalMove)
+		{
+			var tileFlag = _tileDataMap.GetTileFlag(pos);
+
+			// 移動できるか
+			if (isDiagonalMove)
+			{
+				// 斜め移動のとき
+				return _chara.Model.CanDiagonalMoveTileFlag(tileFlag);
+			}
+			else
+			{
+				return _chara.Model.CanMoveTileFlag(tileFlag);
+			}
+		}
+
+		/// <summary>
+		/// 移動コスト
+		/// </summary>
+		public int GetMoveCost(in Vector2Int pos)
+		{
+			return 1;
+		}
+	}
+
 	/// <summary>
 	/// マップを走査する
 	/// </summary>
 	public class TileDataMapScanner
     {
 		private TileDataMap _tileDataMap;
+		private Utility.Algorithm.Search _search;
+		private CharaMoveChecker _charaMoveChecker;
 
 		public TileDataMapScanner(TileDataMap tileDataMap)
 		{
 			_tileDataMap = tileDataMap;
+			_search = Utility.Algorithm.Search.Instance;
 		}
 
 		/// <summary>
@@ -47,10 +96,96 @@ namespace Ling.Map
 			return true;
 		}
 
-		public bool GetRouteAtTileFlag()
-		{
+		/// <summary>
+		/// 指定した座標までのルートを取得する
+		/// </summary>
+		/// <param name="srcPos"></param>
+		/// <param name="tileFlag"></param>
+		/// <param name="cellNum"></param>
+		/// <param name="option"></param>
+		/// <returns></returns>
+		//public bool TryGetRouteAtEndPos(in Vector2Int srcPos, TileFlag tileFlag, int cellNum, ScanOption option, out List<Vector2Int> routes)
+		//{
+		//}
 
+		public bool TryGetRoutePositions(Chara.ICharaController chara, in Vector2Int targetPos, out List<Vector2Int> routePositions) =>
+			TryGetScoreAndRoutePositions(chara, targetPos, out var score, out routePositions);
+
+		/// <summary>
+		/// 指定座標までのルート座標を取得する
+		/// </summary>
+		public bool TryGetScoreAndRoutePositions(Chara.ICharaController chara, in Vector2Int targetPos, out int score, out List<Vector2Int> routePositions)
+		{
+			score = 0;
+			routePositions = null;
+
+			var param = new Utility.Algorithm.Astar.Param();
+			param.start = chara.Model.Pos;
+			param.width = _tileDataMap.Width;
+
+			if (_charaMoveChecker == null)
+			{
+				_charaMoveChecker = new CharaMoveChecker(_tileDataMap);
+			}
+
+			_charaMoveChecker.Setup(chara);
+			param.onCanMove = (pos_, isDiagonal_) => _charaMoveChecker.CanMove(pos_, isDiagonal_);
+			param.onTileCostGetter = (pos_) => _charaMoveChecker.GetMoveCost(pos_);
+
+			_search.Astar.Execute(param);
+			if (!_search.Astar.IsSuccess)
+			{
+				return false;
+			}
+
+			if (!_search.Astar.TryGetScoreAndPositions(out score, out routePositions))
+			{
+				return false;
+			}
+
+			return true;
 		}
+
+		/// <summary>
+		/// 指定した座標の最短距離の座標ルートを取得する
+		/// </summary>
+		public bool TryGetShotestDisancePosition(Chara.ICharaController chara, in Vector2Int targetPos, out List<Vector2Int> routePositions) =>
+			TryGetShotestDistancePositions(chara, new List<Vector2Int> { targetPos }, out var _, out routePositions);
+
+		/// <summary>
+		/// 指定した座標の中で最短距離の座標ルートを取得する
+		/// </summary>
+		public bool TryGetShotestDistancePositions(Chara.ICharaController chara, List<Vector2Int> targets, out Vector2Int targetPos, out List<Vector2Int> routePositions)
+		{
+			targetPos = Vector2Int.zero;
+			routePositions = null;
+
+			int minScore = int.MaxValue;
+			
+			foreach (var target in targets)
+			{
+				if (!TryGetScoreAndRoutePositions(chara, target, out var score, out var tmpPositions))
+				{
+					continue;
+				}
+
+				// 新しくルート取得した方のスコアのほうが小さい場合、そっちを採用
+				if (score < minScore)
+				{
+					minScore = score;
+					routePositions = tmpPositions;
+					targetPos = target;
+				}
+			}
+
+			if (routePositions == null)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
 
 		/// <summary>
 		/// 指定した地点から指定マス分走査する
@@ -123,7 +258,7 @@ namespace Ling.Map
 				++scanNum;
 				--remCellNum;
 
-				return MapUtility.CallDirection(posX, posY, 
+				return Utility.Map.CallDirection(posX, posY, 
 					(posX_, posY_) => 
 					{
 						return ScanAllInternal(scanNum, remCellNum, posX_, posY_);

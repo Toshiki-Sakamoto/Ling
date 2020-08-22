@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Ling.Const;
 
 namespace Ling.Chara
 {
@@ -81,7 +82,17 @@ namespace Ling.Chara
         /// これ以外は移動できるとする
         /// </summary>
         public virtual Const.TileFlag CanNotMoveTileFlag =>
-            Const.TileFlag.None | Const.TileFlag.Wall;
+            Const.TileFlag.None | 
+			Const.TileFlag.Wall | 
+			Const.TileFlag.Hole | 
+			Const.TileFlag.Chara;
+
+		/// <summary>
+		/// 斜め移動できないフラグ
+		/// </summary>
+		public virtual Const.TileFlag CanNotDiagonalMoveTileFlag =>
+			Const.TileFlag.None |
+			Const.TileFlag.Wall;
 
 		#endregion
 
@@ -146,6 +157,19 @@ namespace Ling.Chara
 		public void AddPos(in Vector2Int pos) =>
 			SetPos(Pos + pos);
 
+		/// <summary>
+		/// 移動できるかどうか
+		/// 一つでも引っかかった場合は移動できない
+		/// </summary>
+		public bool CanMoveTileFlag(TileFlag tileFlag) =>
+			!CanNotMoveTileFlag.HasAny(tileFlag);
+
+		/// <summary>
+		/// 斜め移動できるか
+		/// </summary>
+		public bool CanDiagonalMoveTileFlag(TileFlag tileFlag) =>
+			!CanNotDiagonalMoveTileFlag.HasAny(tileFlag);
+			
 		#endregion
 
 

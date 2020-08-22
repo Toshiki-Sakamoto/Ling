@@ -34,6 +34,10 @@ namespace Ling.Const
 			Player		= 1 << 8,	// プレイヤー
 			Enemy		= 1 << 9,	// エネミー
 			Hole		= 1 << 10,	// 穴
+
+			// extra
+			Obstacle	= Wall | Hole,	// 障害物
+			Chara		= Enemy | Player,	// キャラクタまとめ
 	}
 
 	public static class TileFlagExtensions

@@ -37,7 +37,7 @@ namespace Ling.Map
 		/// <summary>
 		/// 部屋の場合、各部屋のIndexを割り当てる
 		/// </summary>
-		public int RoomIndex { get; private set; }
+		public int? RoomIndex { get; private set; }
 
 		/// <summary>
 		/// 壁ならtrue
@@ -57,7 +57,7 @@ namespace Ling.Map
 		{
 			Flag = TileFlag.None;
 			Index = 0;
-			RoomIndex = 0;
+			RoomIndex = null;
 		}
 
 		public void SetPos(int x, int y) =>
