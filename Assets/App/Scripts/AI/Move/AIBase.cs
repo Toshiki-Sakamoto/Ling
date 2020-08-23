@@ -109,13 +109,13 @@ namespace Ling.AI.Move
 			_destinationRoutes.Clear();
 		}
 
-		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit)
+		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit, Ling.Utility.Async.TimeAwaiter timeAwaiter)
 		{
 			_unit = unit;
 			_tileDataMap = null;
 			_roomData = null;
 
-			await ExexuteInternalAsync();
+			await ExexuteInternalAsync(timeAwaiter);
 		}
 
 		#endregion
@@ -123,7 +123,7 @@ namespace Ling.AI.Move
 
 		#region private 関数
 
-		protected virtual async UniTask ExexuteInternalAsync()
+		protected virtual async UniTask ExexuteInternalAsync(Ling.Utility.Async.TimeAwaiter timeAwaiter)
 		{
 			// もっとも優先すべきものがあればそこに向かって歩く
 			if (SearchMustDestination())
@@ -131,6 +131,8 @@ namespace Ling.AI.Move
 				SearchNextMovePos();
 				return;
 			}
+
+			await timeAwaiter.Wait();
 
 			// 目的地が設定されていればそこに向かう
 			if (_destination != null)
@@ -146,6 +148,8 @@ namespace Ling.AI.Move
 					ResetDestination();
 				}
 			}
+
+			await timeAwaiter.Wait();
 
 			// 目的地がなければ現在自分が動ける範囲で目的地を探す
 			if (SearchDestination())
@@ -372,6 +376,12 @@ namespace Ling.AI.Move
 		{
 			_nextMovePos = pos;
 			_waitCount = 0;
+
+			// 移動したことをキャラに伝え、アニメーションも設定させる
+			_unit.Model.SetPos(pos);
+
+			// 移動プロセスの設定
+			_unit.AddActionProcess<Chara.Process.ProcessMove>();
 		}
 
 		#endregion

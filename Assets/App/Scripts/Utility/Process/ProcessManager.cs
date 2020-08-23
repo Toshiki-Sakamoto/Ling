@@ -17,76 +17,6 @@ using Zenject;
 
 namespace Ling.Utility
 {
-	public class ProcessNode : MonoBehaviour
-	{
-		[Inject] private DiContainer _diContainer = null;
-
-		private List<ProcessBase> _processes = new List<ProcessBase>();
-		private List<ProcessBase> _startProcesses = new List<ProcessBase>();
-
-
-		public bool IsEmpty => _processes.Count <= 0;
-
-		/// <summary>
-		/// 自分のGameObjectにアタッチする
-		/// </summary>
-		/// <typeparam name="TProcess"></typeparam>
-		/// <returns></returns>
-		public TProcess Attach<TProcess>() where TProcess : ProcessBase
-		{
-			// DIContainerからAddComponentすることでInjectを働かせる
-			var process = _diContainer.InstantiateComponent<TProcess>(gameObject);
-			process.Node = this;
-			process.enabled = false;    // 最初はDisable
-
-			_processes.Add(process);
-
-			return process;
-		}
-
-		/// <summary>
-		/// ProcessManagerからアタッチされたときに呼び出される
-		/// 最初のProcess
-		/// </summary>
-		/// <typeparam name="TProcess"></typeparam>
-		/// <returns></returns>
-		public TProcess StartAttach<TProcess>() where TProcess : ProcessBase
-		{
-			var process = Attach<TProcess>();
-			_startProcesses.Add(process);
-
-			return process;
-		}
-
-		/// <summary>
-		/// リストから削除する
-		/// </summary>
-		/// <param name="process"></param>
-		public void Remove(ProcessBase process)
-		{
-			_processes.Remove(process);
-			_startProcesses.Remove(process);
-
-			// コンポーネントを削除する
-			Destroy(process);
-		}
-
-		public void Update()
-		{
-			// 開始されていないプロセスをスタートさせる
-			foreach(var process in _startProcesses)
-			{
-				if (process.enabled) continue;
-
-				// 開始
-				process.enabled = true;
-
-				process.ProcessStart();
-			}
-
-			_startProcesses.Clear();
-		}
-	}
 
 	/// <summary>
 	/// Process管理者
@@ -143,8 +73,11 @@ namespace Ling.Utility
 		/// 現在のシーンに対してアタッチする
 		/// </summary>
 		/// <param name="process"></param>
-		public TProcess Attach<TProcess>() where TProcess : ProcessBase =>
-			GetOrCreateNode(OwnerScene, OwnerScene.transform, OwnerScene.DiContainer).StartAttach<TProcess>();
+		public TProcess Attach<TProcess>(bool waitForStart = false) where TProcess : ProcessBase, new() =>
+			GetOrCreateNode(OwnerScene, OwnerScene.transform, OwnerScene.DiContainer, autoRemove: true).StartAttach<TProcess>(waitForStart);
+
+		public TProcess Attach<TProcess>(Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase, new() =>
+			GetOrCreateNode(parent, parent, OwnerScene.DiContainer, autoRemove).StartAttach<TProcess>(waitForStart);
 
 		/// <summary>
 		/// 指定したobjectのProcessを全て破棄する。
@@ -173,9 +106,6 @@ namespace Ling.Utility
 			}
 		}
 
-		public void Update()
-		{
-		}
 
 		#endregion
 
@@ -188,7 +118,7 @@ namespace Ling.Utility
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		private ProcessNode GetOrCreateNode(object key, Transform parent, DiContainer diContainer)
+		private ProcessNode GetOrCreateNode(object key, Transform parent, DiContainer diContainer, bool autoRemove)
 		{
 			if (key == null) key = this;
 
@@ -203,9 +133,38 @@ namespace Ling.Utility
 			var instance = diContainer.InstantiateComponent<ProcessNode>(newGameObject);
 			_processNodes[key] = instance;
 
+			// 削除時にRemoveしてもらう
+			if (autoRemove)
+			{
+				parent.gameObject.AddDestroyCallbackIfNeeded(gameObject_ => 
+					{
+						RemoveAll(gameObject_);
+					});
+			}
+
 			return instance;
 		}
 
+
+		private void Update()
+		{
+		}
+
 		#endregion
+	}
+}
+
+namespace Ling
+{
+	public static class ProcessExtensions
+	{
+		/// <summary>
+		/// 自分をProcessNodeの親としてアタッチする
+		/// </summary>
+		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, bool autoRemove = true, bool waitForStart = false) where TProcess : Utility.ProcessBase, new()
+		{
+			if (Utility.ProcessManager.IsNull) return null;
+			return Utility.ProcessManager.Instance.Attach<TProcess>(self.transform, autoRemove, waitForStart);
+		}
 	}
 }

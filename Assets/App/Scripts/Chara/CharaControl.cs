@@ -10,6 +10,8 @@ using System;
 using System.Linq;
 using UniRx;
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
+using Ling;
 
 namespace Ling.Chara
 {
@@ -21,6 +23,8 @@ namespace Ling.Chara
 		CharaModel Model { get; }
 		
 		ViewBase View { get; }
+
+		TProcess AddActionProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
 	}
 
 	/// <summary>
@@ -46,6 +50,7 @@ namespace Ling.Chara
 		[SerializeField] private TView _view = default;
 
 		private TModel _model = default;
+		private List<Utility.ProcessBase> _actionProcesses = new List<Utility.ProcessBase>();
 
 		#endregion
 
@@ -83,13 +88,14 @@ namespace Ling.Chara
 		/// <summary>
 		/// どういう行動をするか攻撃、移動AIクラスから思考し、決定する。
 		/// </summary>
-		public async UniTask ThinkAIProcess()
+		public async UniTask ThinkAIProcess(Utility.Async.TimeAwaiter timeAwaiter)
 		{
 			// 自分が状態異常で行動できない場合はスキップ
 
 			// 第一優先として、自分が「特技」「攻撃」ができるか。
 
 			// それができない場合、「移動」をする。
+			await _model.MoveAI.ExecuteAsync(this, timeAwaiter);
 		}
 
 		/// <summary>
@@ -109,6 +115,18 @@ namespace Ling.Chara
 			_model.SetAttackAI(attackAI);
 
 			return attackAI;
+		}
+
+		/// <summary>
+		/// 行動プロセスの追加
+		/// 実行は待機する
+		/// </summary>
+		public TProcess AddActionProcess<TProcess>() where TProcess : Utility.ProcessBase, new()
+		{
+			var process = this.AttachProcess<TProcess>(waitForStart: true);
+			_actionProcesses.Add(process);
+
+			return process;
 		}
 
 

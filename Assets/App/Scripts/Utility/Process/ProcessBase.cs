@@ -18,9 +18,9 @@ using Zenject;
 namespace Ling.Utility
 {
 	/// <summary>
-	/// Processを一つのGameObjectとすることで生成、更新、削除をUnity側に任せる
+	/// 一つのタスク
 	/// </summary>
-	public abstract class ProcessBase : MonoBehaviour
+	public abstract class ProcessBase
     {
 		#region 定数, class, enum
 
@@ -28,6 +28,8 @@ namespace Ling.Utility
 
 
 		#region public, protected 変数
+
+		protected DiContainer _diContainer;
 
 		#endregion
 
@@ -51,6 +53,10 @@ namespace Ling.Utility
 		/// </summary>
 		public System.Action OnFinish { get; set; }
 
+		public bool Enabled { get; private set; }
+
+		public bool IsStarted { get; private set; }
+
 		#endregion
 
 
@@ -61,7 +67,12 @@ namespace Ling.Utility
 
 		#region public, protected 関数
 
-		public TProcess SetNext<TProcess>() where TProcess : ProcessBase
+		public void Setup(DiContainer diContainer)
+		{
+			_diContainer = diContainer;
+		}
+
+		public TProcess SetNext<TProcess>() where TProcess : ProcessBase, new()
 		{
 			var process = Node.Attach<TProcess>();
 
@@ -80,7 +91,7 @@ namespace Ling.Utility
 		/// </summary>
 		/// <typeparam name="TProcess"></typeparam>
 		/// <returns></returns>
-		public TProcess SetNextLast<TProcess>() where TProcess : ProcessBase
+		public TProcess SetNextLast<TProcess>() where TProcess : ProcessBase, new()
 		{
 			if (Next != null)
 			{
@@ -90,10 +101,21 @@ namespace Ling.Utility
 			return SetNext<TProcess>();
 		}
 
+		public void SetEnable(bool enable)
+		{
+			Enabled = enable;
+		}
+
 		/// <summary>
 		/// 前のプロセスが終了したときに呼び出される
 		/// </summary>
-		public virtual void ProcessStart() {}
+		public void ProcessStart() 
+		{
+			IsStarted = true;
+			ProcessStartInternal();
+		}
+
+		protected virtual void ProcessStartInternal() {}
 
 		public void ProcessFinish()
 		{
@@ -102,12 +124,17 @@ namespace Ling.Utility
 			// 次に進める
 			if (Next != null)
 			{
-				Next.enabled = true;
+				Next.SetEnable(true);
 				Next.ProcessStart();
 			}
 
 			// 終了したものは削除する
 			Node.Remove(this);
+		}
+
+		public void Update()
+		{
+
 		}
 
 		#endregion
