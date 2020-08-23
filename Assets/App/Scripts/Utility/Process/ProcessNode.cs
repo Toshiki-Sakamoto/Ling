@@ -81,20 +81,24 @@ namespace Ling.Utility
 
 		private void Update()
 		{
-			// 開始されていないプロセスをスタートさせる
-			foreach(var process in _startProcesses)
+			if (_startProcesses.Count > 0)
 			{
-				// 有効なプロセスのみ開始させる
-				if (process.Enabled)
+				// 開始されていないプロセスをスタートさせる
+				foreach(var process in _startProcesses)
 				{
-					process.ProcessStart();
+					// 有効なプロセスのみ開始させる
+					if (process.Enabled)
+					{
+						process.ProcessStart();
+					}
 				}
-			}
 
-			// 開始済みのProcessは削除する
-			foreach (var process in _startProcesses.Where(process_ => process_.IsStarted))
-			{
-				_startProcesses.Remove(process);
+				// 開始済みのProcessは削除する
+				var startedProcesses = _startProcesses.Where(process_ => process_.IsStarted).ToArray();
+				foreach (var process in startedProcesses)
+				{
+					_startProcesses.Remove(process);
+				}
 			}
 
 			// 開始済みのものは更新する

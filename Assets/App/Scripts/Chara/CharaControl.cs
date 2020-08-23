@@ -12,6 +12,7 @@ using UniRx;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using Ling;
+using Zenject;
 
 namespace Ling.Chara
 {
@@ -49,6 +50,8 @@ namespace Ling.Chara
 		
         [SerializeField] private CharaStatus _status = default;
 		[SerializeField] private TView _view = default;
+
+		[Inject] private DiContainer _diContainer = default;
 
 		private TModel _model = default;
 		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
@@ -105,7 +108,7 @@ namespace Ling.Chara
 		/// </summary>
 		public TMoveAI AttachMoveAI<TMoveAI>() where TMoveAI : AI.Move.AIBase
 		{
-			var moveAI = gameObject.AddComponent<TMoveAI>();
+			var moveAI = _diContainer.InstantiateComponent<TMoveAI>(gameObject);
 			_model.SetMoveAI(moveAI);
 
 			return moveAI;
@@ -113,7 +116,7 @@ namespace Ling.Chara
 
 		public TAttackAI AttachAttackAI<TAttackAI>() where TAttackAI : AI.Attack.AIBase
 		{
-			var attackAI = gameObject.AddComponent<TAttackAI>();
+			var attackAI = _diContainer.InstantiateComponent<TAttackAI>(gameObject);
 			_model.SetAttackAI(attackAI);
 
 			return attackAI;

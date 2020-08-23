@@ -41,7 +41,8 @@ namespace Ling.Chara
 		[SerializeField] private PlayerControlGroup _playerControlGroup = default;
 		[SerializeField] private List<EnemyControlGroup> _enemyControlGroups = default;
 
-		[Inject] private Utility.IEventManager _eventManager = null;
+		[Inject] private Utility.IEventManager _eventManager = default;
+		[Inject] private DiContainer _diContainer = default;
 
 		private bool _isInitialized = false;    // 初期化済みであればtrue
 		private StageMaster _stageMaster = null;

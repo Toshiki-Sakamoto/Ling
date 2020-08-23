@@ -15,6 +15,7 @@ namespace Ling.MasterData.Chara
 	/// <summary>
 	/// 移動AIデータ
 	/// </summary>
+	[System.Serializable]
 	public class MoveAIData
     {
 		#region 定数, class, enum

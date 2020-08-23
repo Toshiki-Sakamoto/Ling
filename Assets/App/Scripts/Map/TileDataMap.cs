@@ -364,7 +364,7 @@ namespace Ling.Map
 				var tileData = GetTileData(x, y);
 
 				// すでに部屋の場合は何もしない
-				if (tileData.RoomIndex != 0) return;
+				if (tileData.RoomIndex != null) return;
 
 				// 通路の場合、そこは部屋の出口とする
 				if (tileData.HasFlag(TileFlag.Road))
@@ -393,7 +393,7 @@ namespace Ling.Map
 					var tileData = GetTileData(x, y);
 
 					// すでに値が入っていたら何もしない
-					if (tileData.RoomIndex != 0) continue;
+					if (tileData.RoomIndex != null) continue;
 					if (!tileData.HasFlag(TileFlag.Floor)) continue;
 
 					var roomIndex = ++value;

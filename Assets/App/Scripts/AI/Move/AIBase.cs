@@ -335,6 +335,8 @@ namespace Ling.AI.Move
 
 				var nextX = pos.x + addX;
 				var nextY = pos.x + addY;
+
+				if (!_tileDataMap.InRange(nextX, nextY)) continue;
 				
 				// 以前の座標と同じ場合は移動できない
 				if (_prevPos.x == nextX && _prevPos.y == nextY) continue;

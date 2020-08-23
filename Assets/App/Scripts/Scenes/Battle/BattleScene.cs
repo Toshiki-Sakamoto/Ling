@@ -211,6 +211,7 @@ namespace Ling.Scenes.Battle
 			{
 				var pos = MapControl.GetRandomPosInRoom(level);
 
+				enemy.Model.SetMapLevel(level);
 				MapControl.SetChara(enemy, level);
 				enemy.View.SetCellPos(pos);
 			}

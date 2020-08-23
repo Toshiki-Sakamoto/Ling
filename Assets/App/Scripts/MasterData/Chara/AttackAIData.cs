@@ -15,6 +15,7 @@ namespace Ling.MasterData.Chara
 	/// <summary>
 	/// 攻撃AIデータ
 	/// </summary>
+	[System.Serializable]
 	public class AttackAIData
     {
 		#region 定数, class, enum

@@ -69,7 +69,7 @@ namespace Ling.Chara.Process
 			_type = Type.Set;
 		}
 
-		public void Start()
+		protected override void ProcessStartInternal()
 		{
 			// 指定座標に移動させる
 			if (_type == Type.Add)

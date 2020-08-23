@@ -178,6 +178,11 @@ namespace Ling.Map
 		public Map.TileData GetTileData(int level, int x, int y)
 		{
 			var tileDatamap = FindTileDataMap(level);
+			if (tileDatamap == null)
+			{
+				Utility.Log.Error($"指定したレベルのマップが見つからない {level}");
+				return null;
+			}
 
 			return tileDatamap.GetTile(x, y);
 		}
