@@ -26,6 +26,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
+		private Chara.CharaManager _charaManager;
+
 		#endregion
 
 
@@ -43,30 +45,32 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Awake() 
 		{ 
-		}
-
-		public override void Init() 
-		{
+			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
 		public override void Proc() 
 		{
+			ExecuteAsync().Forget();
 		}
 
-		public override void Term() 
-		{ 
-		}
 
 		#endregion
 
 
 		#region private 関数
 
-		public async UniTask Execute()
+		public async UniTask ExecuteAsync()
 		{
 			// まずは移動Processをすべて叩く
+			_charaManager.ExecuteMoveProcesses();
+
+			// 移動が終わるまで待機
+			await _charaManager.WaitForMoveProcessAsync();
 
 			// 終わったら順番に攻撃・特技Processを叩く
+
+			// すべて終わったらターン終了
+			Change(BattleScene.Phase.PlayerAction);
 		}
 
 		#endregion

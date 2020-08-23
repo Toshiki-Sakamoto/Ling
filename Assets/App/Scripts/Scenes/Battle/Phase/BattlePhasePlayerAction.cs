@@ -19,7 +19,7 @@ using Zenject;
 namespace Ling.Scenes.Battle.Phase
 {
 	/// <summary>
-	/// 
+	/// プレイヤーの行動開始
 	/// </summary>
 	public class BattlePhasePlayerAction : BattlePhaseBase
 	{
@@ -84,18 +84,25 @@ namespace Ling.Scenes.Battle.Phase
 			if (moveDistance == Vector2Int.zero) return;
 
 			var playerModel = _charaManager.PlayerModel;
-			var player = _charaManager.PlayerView;
+			var playerView = _charaManager.PlayerView;
+			var player = _charaManager.Player;
 
 			// 移動できるか
 			if (!_mapManager.CanMoveChara(playerModel, moveDistance))
 			{
 				// 向きだけ変える
-				player.SetDirection(moveDistance);
+				playerView.SetDirection(moveDistance);
 				return;
 			}
 
 			// Playerの座標を変更する(見た目は反映させない)
 			playerModel.AddPos(moveDistance);
+
+			// 移動であればプロセスを追加し、敵思考に回す
+			var moveProcess = player.AddMoveProcess<Chara.Process.ProcessMove>();
+			moveProcess.SetAddPos(playerView, moveDistance);
+
+			Change(BattleScene.Phase.EnemyTink);
 
 			//var process = _processManager.Attach<Process.ProcessPlayerMoveStart>().Setup(moveDistance);
 

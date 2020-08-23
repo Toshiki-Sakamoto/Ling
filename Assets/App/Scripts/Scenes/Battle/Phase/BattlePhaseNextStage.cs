@@ -100,11 +100,10 @@ namespace Ling.Scenes.Battle.Phase
 
 			// 動きを制御
 			var process = _processManager.Attach<Process.ProcessNextStageAnim>();
-			process.OnFinish =
-				() =>
+			process.AddFinishAction(()=>
 				{
 					ApplyNextLevel();
-				};
+				});
 		}
 
 		private void ApplyNextLevel()

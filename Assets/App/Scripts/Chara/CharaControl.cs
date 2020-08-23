@@ -24,8 +24,8 @@ namespace Ling.Chara
 		
 		ViewBase View { get; }
 
-		TProcess AddMoveActionProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
-		TProcess AddAttackActionProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
+		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
+		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
 	}
 
 	/// <summary>
@@ -135,12 +135,12 @@ namespace Ling.Chara
 		/// 攻撃プロセスの追加
 		/// 実行は待機する
 		/// </summary>
-		public TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProecssBase, new()
+		public TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase, new()
 		{
-			var prcess = this.AttachProcess<TProcess>(waitForStart: true);
+			var process = this.AttachProcess<TProcess>(waitForStart: true);
 			_attackProcess.Add(process);
 
-			return _attackProcess;
+			return process;
 		}
 
 		/// <summary>
@@ -150,8 +150,23 @@ namespace Ling.Chara
 		{
 			foreach (var process in _moveProcesses)
 			{
+				// 終了時、移動プロセスリストから削除する
+				process.AddAllFinishAction(action_ => 
+					{
+						_moveProcesses.Remove(action_);
+					});
+
 				process.SetEnable(true);
 			}
+		}
+
+		/// <summary>
+		/// すべての移動プロセスが終了したか
+		/// </summary>
+		public bool IaAllMoveProcessEnded()
+		{
+			// 終わったものは自動で削除されるので存在だけ確認
+			return _moveProcesses.Count == 0;
 		}
 
 		/// <summary>

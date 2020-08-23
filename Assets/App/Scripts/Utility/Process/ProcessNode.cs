@@ -26,13 +26,13 @@ namespace Ling.Utility
 		public bool IsEmpty => _processes.Count <= 0;
 
 		/// <summary>
-		/// 自分のGameObjectにアタッチする
+		/// 自分にアタッチする
 		/// </summary>
-		/// <typeparam name="TProcess"></typeparam>
-		/// <returns></returns>
-		public TProcess Attach<TProcess>() where TProcess : ProcessBase, new()
+		public TProcess Attach<TProcess>() where TProcess : ProcessBase, new() =>
+			Attach(new TProcess());
+
+		public TProcess Attach<TProcess>(TProcess process) where TProcess : ProcessBase, new()
 		{
-			var process = new TProcess();
 			process.Setup(_diContainer);
 			process.Node = this;
 
@@ -45,22 +45,24 @@ namespace Ling.Utility
 		/// ProcessManagerからアタッチされたときに呼び出される
 		/// 最初のProcess
 		/// </summary>
-		/// <typeparam name="TProcess"></typeparam>
-		/// <returns></returns>
 		public TProcess StartAttach<TProcess>(bool waitForStart = false) where TProcess : ProcessBase, new()
 		{
 			var process = Attach<TProcess>();
 			_startProcesses.Add(process);
 
 			// 開始するか
-			if (waitForStart)
-			{
-				process.SetEnable(true);
-			}
-			else
-			{
-				process.SetEnable(false);
-			}
+			process.SetEnable(waitForStart);
+
+			return process;
+		}
+
+		public TProcess StartAttach<TProcess>(TProcess process, bool waitForStart = false) where TProcess : ProcessBase, new()
+		{
+			Attach(process);
+			_startProcesses.Add(process);
+
+			// 開始するか
+			process.SetEnable(waitForStart);
 
 			return process;
 		}

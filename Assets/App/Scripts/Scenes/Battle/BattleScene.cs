@@ -38,6 +38,7 @@ namespace Ling.Scenes.Battle
 			EnemyAction,
 			EnemyTink,
 			CharaProcessExecute,
+			CharaProcessEnd,
 			NextStage,
 			Adv,
 		}

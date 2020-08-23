@@ -31,6 +31,12 @@ namespace Ling.Utility
 
 		protected DiContainer _diContainer;
 
+		// 終了時呼び出される
+		public System.Action _onFinish;
+
+		// つながっているすべてのProcessが終了した場合だけ呼び出される
+		public System.Action<ProcessBase> _onAllFinish;
+
 		#endregion
 
 
@@ -49,12 +55,14 @@ namespace Ling.Utility
 		public ProcessNode Node { get; set; }
 
 		/// <summary>
-		/// 終了時呼び出される
+		/// プロセスが有効状態か
+		/// false(無効)の場合、更新もされない
 		/// </summary>
-		public System.Action OnFinish { get; set; }
-
 		public bool Enabled { get; private set; }
 
+		/// <summary>
+		/// 開始済みかどうか。(ProcessStartが呼び出された)
+		/// </summary>
 		public bool IsStarted { get; private set; }
 
 		#endregion
@@ -75,6 +83,7 @@ namespace Ling.Utility
 		public TProcess SetNext<TProcess>() where TProcess : ProcessBase, new()
 		{
 			var process = Node.Attach<TProcess>();
+			process.SetEnable(false);
 
 			if (Next != null)
 			{
@@ -119,13 +128,19 @@ namespace Ling.Utility
 
 		public void ProcessFinish()
 		{
-			OnFinish?.Invoke();
+			_onFinish?.Invoke();
 
 			// 次に進める
 			if (Next != null)
 			{
+				Next.AddAllFinishAction(_onAllFinish);
 				Next.SetEnable(true);
 				Next.ProcessStart();
+			}
+			else
+			{
+				// 次がないので全て終わり
+				_onAllFinish?.Invoke(this);
 			}
 
 			// 終了したものは削除する
@@ -135,6 +150,16 @@ namespace Ling.Utility
 		public void Update()
 		{
 
+		}
+
+		public void AddFinishAction(System.Action action)
+		{
+			_onFinish += action;
+		}
+
+		public void AddAllFinishAction(System.Action<ProcessBase> action)
+		{
+			_onAllFinish += action;
 		}
 
 		#endregion

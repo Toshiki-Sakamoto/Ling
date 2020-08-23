@@ -79,6 +79,9 @@ namespace Ling.Utility
 		public TProcess Attach<TProcess>(Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase, new() =>
 			GetOrCreateNode(parent, parent, OwnerScene.DiContainer, autoRemove).StartAttach<TProcess>(waitForStart);
 
+		public TProcess Attach<TProcess>(TProcess process, Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase, new() =>
+			GetOrCreateNode(parent, parent, OwnerScene.DiContainer, autoRemove).StartAttach(process, waitForStart);
+			
 		/// <summary>
 		/// 指定したobjectのProcessを全て破棄する。
 		/// 終了イベントは呼び出されない
@@ -165,6 +168,11 @@ namespace Ling
 		{
 			if (Utility.ProcessManager.IsNull) return null;
 			return Utility.ProcessManager.Instance.Attach<TProcess>(self.transform, autoRemove, waitForStart);
+		}
+		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, TProcess process, bool autoRemove = true, bool waitForStart = false) where TProcess : Utility.ProcessBase, new()
+		{
+			if (Utility.ProcessManager.IsNull) return null;
+			return Utility.ProcessManager.Instance.Attach(process, self.transform, autoRemove, waitForStart);
 		}
 	}
 }

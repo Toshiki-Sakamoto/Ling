@@ -237,18 +237,27 @@ namespace Ling.Chara
 		/// <summary>
 		/// すべてのキャラの移動Processを実効する
 		/// </summary>
-		public void ExecuteMoveProess()
+		public void ExecuteMoveProcesses()
 		{
-			foreach (var playerControl in _playerControlGroup)
-			{
-			}
-
+			_playerControlGroup.ExecuteMoveProcesses();
+			
 			foreach (var enemyControlGroup in _enemyControlGroups)
 			{
-				foreach (var enemyControl in enemyControlGroup)
-				{
-					
-				}
+				enemyControlGroup.ExecuteMoveProcesses();
+			}
+		}
+
+		/// <summary>
+		/// 移動プロセスがすべて終了するまで待機する
+		/// </summary>
+		/// <returns></returns>
+		public async UniTask WaitForMoveProcessAsync()
+		{
+			await _playerControlGroup.WaitForMoveProcessAsync();
+			
+			foreach (var enemyControlGroup in _enemyControlGroups)
+			{
+				await enemyControlGroup.WaitForMoveProcessAsync();
 			}
 		}
 

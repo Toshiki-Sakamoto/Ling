@@ -18,7 +18,7 @@ using Zenject;
 namespace Ling.Scenes.Battle.Phase
 {
 	/// <summary>
-	/// 
+	/// バトルシーンのPhaseベースクラス
 	/// </summary>
 	public class BattlePhaseBase : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
 	{
