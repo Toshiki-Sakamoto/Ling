@@ -24,7 +24,8 @@ namespace Ling.Chara
 		
 		ViewBase View { get; }
 
-		TProcess AddActionProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
+		TProcess AddMoveActionProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
+		TProcess AddAttackActionProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
 	}
 
 	/// <summary>
@@ -50,7 +51,8 @@ namespace Ling.Chara
 		[SerializeField] private TView _view = default;
 
 		private TModel _model = default;
-		private List<Utility.ProcessBase> _actionProcesses = new List<Utility.ProcessBase>();
+		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
+		private List<Utility.ProcessBase> _attackProcess = new List<Utility.ProcessBase>();
 
 		#endregion
 
@@ -118,17 +120,50 @@ namespace Ling.Chara
 		}
 
 		/// <summary>
-		/// 行動プロセスの追加
+		/// 移動プロセスの追加
 		/// 実行は待機する
 		/// </summary>
-		public TProcess AddActionProcess<TProcess>() where TProcess : Utility.ProcessBase, new()
+		public TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase, new()
 		{
 			var process = this.AttachProcess<TProcess>(waitForStart: true);
-			_actionProcesses.Add(process);
+			_moveProcesses.Add(process);
 
 			return process;
 		}
 
+		/// <summary>
+		/// 攻撃プロセスの追加
+		/// 実行は待機する
+		/// </summary>
+		public TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProecssBase, new()
+		{
+			var prcess = this.AttachProcess<TProcess>(waitForStart: true);
+			_attackProcess.Add(process);
+
+			return _attackProcess;
+		}
+
+		/// <summary>
+		/// 移動プロセスの実行
+		/// </summary>
+		public void ExecuteMoveProcess()
+		{
+			foreach (var process in _moveProcesses)
+			{
+				process.SetEnable(true);
+			}
+		}
+
+		/// <summary>
+		/// 攻撃プロセスの実行
+		/// </summary>
+		public void ExecuteAttackProcess()
+		{
+			foreach (var process in _attackProcess)
+			{
+				process.SetEnable(true);
+			}
+		}
 
 		#endregion
 

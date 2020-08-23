@@ -234,6 +234,24 @@ namespace Ling.Chara
 		public EnemyControlGroup FindEnemyControlGroup(int level) =>
 			_enemyControlDict[level];
 
+		/// <summary>
+		/// すべてのキャラの移動Processを実効する
+		/// </summary>
+		public void ExecuteMoveProess()
+		{
+			foreach (var playerControl in _playerControlGroup)
+			{
+			}
+
+			foreach (var enemyControlGroup in _enemyControlGroups)
+			{
+				foreach (var enemyControl in enemyControlGroup)
+				{
+					
+				}
+			}
+		}
+
 		#endregion
 
 

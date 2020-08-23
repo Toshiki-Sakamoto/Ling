@@ -381,7 +381,7 @@ namespace Ling.AI.Move
 			_unit.Model.SetPos(pos);
 
 			// 移動プロセスの設定
-			_unit.AddActionProcess<Chara.Process.ProcessMove>();
+			_unit.AddMoveProcess<Chara.Process.ProcessMove>();
 		}
 
 		#endregion

@@ -111,6 +111,17 @@ namespace Ling.Chara
 			Models.Clear();
 		}
 
+		/// <summary>
+		/// 移動Processをすべて実行する
+		/// </summary>
+		public void ExecuteMoveProcesses()
+		{
+			foreach (var control in Controls)
+			{
+
+			}
+		}
+
 		#endregion
 
 
