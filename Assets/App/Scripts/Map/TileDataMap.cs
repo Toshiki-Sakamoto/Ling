@@ -115,8 +115,11 @@ namespace Ling.Map
 				{
 					var index = y * Width + x;
 
-					Tiles[index].SetPos(x, y);
-					Tiles[index].SetIndex(index);
+					var tileData = new TileData();
+					tileData.SetPos(x, y);
+					tileData.SetIndex(index);
+
+					Tiles[index] = tileData;
 				}
 			}
 		}

@@ -28,7 +28,7 @@ namespace Ling.Map.TileDataMapExtension
 			self.GetTile(pos.x, pos.y);
 
 		public static TileData GetTile(this TileDataMap self, int index) =>
-			self.GetTile(index);
+			self.Tiles[index];
 
 
 		/// <summary>
