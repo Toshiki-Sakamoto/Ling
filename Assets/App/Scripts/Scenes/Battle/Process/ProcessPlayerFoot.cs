@@ -60,7 +60,7 @@ namespace Ling.Scenes.Battle.Process
 		/// <summary>
 		/// 前のプロセスが終了したときに呼び出される
 		/// </summary>
-		public override void ProcessStart()
+		protected override void ProcessStartInternal()
 		{
 			_player = _charaManager.PlayerView;
 
