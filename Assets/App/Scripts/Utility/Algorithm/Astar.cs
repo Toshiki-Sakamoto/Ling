@@ -91,13 +91,6 @@ namespace Ling.Utility.Algorithm
 			_param = param;
 			IsSuccess = false;
 
-			// そもそも開始地点が範囲内じゃない場合終了
-			if (!param.onCanMove(_param.start, false))
-			{
-				Log.Error("開始地点が範囲外です");
-				return false;
-			}
-
 			ResetNodeAll();
 
 			_openedNodes.Clear();
@@ -160,6 +153,10 @@ namespace Ling.Utility.Algorithm
 				{
 					var isDiagonalMove = addPos_.x != 0 && addPos_.y != 0;
 					var childNode = CreateNode(pos_, isDiagonalMove, node, node.count + 1);
+					if (childNode == null) 
+					{
+						return false;
+					}
 
 					// もしゴール地点なら終了！
 					if (_param.end == pos_)
@@ -269,8 +266,8 @@ namespace Ling.Utility.Algorithm
 		/// </summary>
 		private int CalcEstimatedCost(int x, int y)
 		{
-			var dx = _param.end.x - x;
-			var dy = _param.end.y - y;
+			var dx = (int)Mathf.Abs(_param.end.x - x);
+			var dy = (int)Mathf.Abs(_param.end.y - y);
 
 			if (_param.useDiagonal)
 			{
