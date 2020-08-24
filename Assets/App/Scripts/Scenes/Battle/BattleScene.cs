@@ -213,7 +213,7 @@ namespace Ling.Scenes.Battle
 
 				enemy.Model.SetMapLevel(level);
 				MapControl.SetChara(enemy, level);
-				enemy.View.SetCellPos(pos);
+				enemy.InitPos(pos);
 			}
 		}
 

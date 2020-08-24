@@ -109,9 +109,6 @@ namespace Ling.Map
 		/// </summary>
 		public void SetWall()
 		{
-			// 壁にするときに初期化する
-			Initialize();
-
 			AddFlag(TileFlag.Wall);
 		}
 

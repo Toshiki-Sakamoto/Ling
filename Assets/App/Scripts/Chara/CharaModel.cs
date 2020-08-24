@@ -135,6 +135,11 @@ namespace Ling.Chara
 			MapLevel = mapLevel;
 		}
 
+		public void InitPos(in Vector2Int pos)
+		{
+			Pos = pos;
+		}
+
 		/// <summary>
 		/// 座標の設定
 		/// </summary>

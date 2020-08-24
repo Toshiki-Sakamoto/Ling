@@ -282,11 +282,11 @@ namespace Ling.Map.Builder.Split
 		/// プレイヤーの初期座標をランダムに取得する
 		/// </summary>
 		/// <returns></returns>
-		public override Vector3Int GetPlayerInitPosition()
+		public override Vector2Int GetPlayerInitPosition()
 		{
 			// 数ある部屋の中から一つ選び、ランダムに配置する
 			var pos = GetRandomRoomCellPos();
-			return new Vector3Int(pos.x, pos.y, 0);
+			return new Vector2Int(pos.x, pos.y);
 		}
 
 		#endregion

@@ -121,6 +121,7 @@ namespace Ling.Map
 
 			var param = new Utility.Algorithm.Astar.Param();
 			param.start = chara.Model.Pos;
+			param.end = targetPos;
 			param.width = _tileDataMap.Width;
 
 			if (_charaMoveChecker == null)

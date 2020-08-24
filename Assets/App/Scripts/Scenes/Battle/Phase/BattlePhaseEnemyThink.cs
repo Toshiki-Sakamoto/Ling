@@ -56,11 +56,12 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			_timeAwaiter = new Utility.Async.TimeAwaiter();
 			_timeAwaiter.Setup(0.1f);
+
+			ThinkAIProcessesAsync().Forget();
 		}
 
 		public override void Proc()
 		{
-			ThinkAIProcessesAsync().Forget();
 		}
 
 		#endregion

@@ -122,6 +122,8 @@ namespace Ling.Map
 					Tiles[index] = tileData;
 				}
 			}
+
+			Scanner = new TileDataMapScanner(this);
 		}
 
 		public void AllTilesSetWall()

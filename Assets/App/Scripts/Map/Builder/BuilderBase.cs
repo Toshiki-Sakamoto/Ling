@@ -52,7 +52,7 @@ namespace Ling.Map.Builder
 		/// プレイヤーの初期座標をランダムに取得する
 		/// </summary>
 		/// <returns></returns>
-		Vector3Int GetPlayerInitPosition();
+		Vector2Int GetPlayerInitPosition();
 	}
 
 
@@ -178,10 +178,10 @@ namespace Ling.Map.Builder
 		/// プレイヤーの初期座標をランダムに取得する
 		/// </summary>
 		/// <returns></returns>
-		public virtual Vector3Int GetPlayerInitPosition()
+		public virtual Vector2Int GetPlayerInitPosition()
 		{
 			// todo: 仮
-			return new Vector3Int(10, 10, 0);
+			return new Vector2Int(10, 10);
 		}
 
 		#endregion

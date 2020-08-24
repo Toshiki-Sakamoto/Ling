@@ -48,9 +48,13 @@ namespace Ling.Scenes.Battle.Phase
 			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
-		public override void Proc() 
+		public override void Init()
 		{
 			ExecuteAsync().Forget();
+		}
+
+		public override void Proc() 
+		{
 		}
 
 

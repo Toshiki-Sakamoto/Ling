@@ -91,6 +91,15 @@ namespace Ling.Chara
 		}
 
 		/// <summary>
+		/// 初期座標設定
+		/// </summary>
+		public void InitPos(in Vector2Int pos)
+		{
+			_model.InitPos(pos);
+			_view.SetCellPos(pos);
+		}
+
+		/// <summary>
 		/// どういう行動をするか攻撃、移動AIクラスから思考し、決定する。
 		/// </summary>
 		public async UniTask ThinkAIProcess(Utility.Async.TimeAwaiter timeAwaiter)

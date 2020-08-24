@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Ling.Utility.Attribute;
 using System.Linq;
-
+using Ling.Const;
 
 namespace Ling._Debug.Builder
 {
@@ -171,7 +171,7 @@ namespace Ling._Debug.Builder
 			void DrawByIndex(int index, Const.TileFlag tileFlag)
 			{
 				var draw = _drawSprites[index];
-				
+
 				if (TryGetColor(tileFlag, out Color color))
 				{
 					draw.color = color;
