@@ -106,7 +106,7 @@ namespace Ling.Utility.Algorithm
 			if (param.awaiter == null)
 			{
 				var awaiter = new Utility.Async.TimeAwaiter();
-				awaiter.Setup(0.5f);
+				awaiter.Setup(0.2f);
 
 				param.awaiter = awaiter;
 			}
@@ -130,6 +130,26 @@ namespace Ling.Utility.Algorithm
 			positions = GetRoutePositions();
 
 			return true;
+		}
+		
+		/// <summary>
+		/// 到達したルートのNodeリストを取得する
+		/// </summary>
+		public List<Node> GetRouteNodes()
+		{
+			if (!IsSuccess) return null;
+			if (_lastNode == null) return null;
+
+			var result = new List<Node>(_lastNode.count);
+
+			var node = _lastNode;
+			while (node != null)
+			{
+				result.Insert(0, node);
+				node = node.parent;
+			}
+
+			return result;
 		}
 
 		#endregion
@@ -185,6 +205,10 @@ namespace Ling.Utility.Algorithm
 				var childNode = CreateNode(pos, isDiagonalMove, node, node.count + 1);
 				if (childNode == null) continue;
 
+				CalcScore(childNode, cost);
+					
+				_param.onCreatedNode?.Invoke(childNode);
+
 				// もしゴール地点なら終了！
 				if (_param.end == pos)
 				{
@@ -192,10 +216,6 @@ namespace Ling.Utility.Algorithm
 					IsSuccess = true;
 					return;
 				}
-
-				CalcScore(childNode, cost);
-					
-				_param.onCreatedNode?.Invoke(childNode);
 
 				if (awaiter != null)
 				{
@@ -305,7 +325,9 @@ namespace Ling.Utility.Algorithm
 			if (_param.useDiagonal)
 			{
 				// 斜めを許可している場合比較して高い値が推定コストとなる
-				return Mathf.Max(dx, dy);
+				// 距離にしてみるか
+				return dx*dx + dy+dy;
+				//return Mathf.Max(dx, dy);
 			}
 			else
 			{

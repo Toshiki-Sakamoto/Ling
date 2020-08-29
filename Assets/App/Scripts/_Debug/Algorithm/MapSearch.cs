@@ -42,6 +42,9 @@ namespace Ling._Debug.Algorithm
 		[SerializeField] private Text _secondSelected = default;
 		[SerializeField] private Transform _tileRoot = default;
 		[SerializeField] private AStarScoreTileView _astarScoreTileView = default;
+		[SerializeField] private Text _textNodeCost = default;
+		[SerializeField] private Text _textNodeEstimatedCost = default;
+		[SerializeField] private Text _textNodeScore = default;
 
 		[Zenject.Inject] private Utility.IEventManager _eventManager = null;
 		[Zenject.Inject] private Utility.Algorithm.Search _search = default;
@@ -138,13 +141,28 @@ namespace Ling._Debug.Algorithm
 					// ノード生成ごとにタイルに情報を書き込む
 					var tileView = _scoreTileView[node_.index];
 					tileView.gameObject.SetActive(true);
+					tileView.Node = node_;
 					tileView.SetScore(node_.score);
 				};
 
 			await _search.Astar.DebugExecuteAsync(param);
 
-			_firstTileData = null;
-			_secondTileData = null;
+			// 探索が終わったらルートを表示させる
+			var nodes = _search.Astar.GetRouteNodes();
+			foreach (var node in nodes)
+			{
+				var tileView = _scoreTileView[node.index];
+				tileView.SetTextColor(Color.red);			
+			}
+		}
+
+		private void SetNodeInfo(Utility.Algorithm.Astar.Node node)
+		{
+			if (node == null) return;
+
+			_textNodeCost.text = node.cost.ToString();
+			_textNodeEstimatedCost.text = node.estimatedCost.ToString();
+			_textNodeScore.text = node.score.ToString();
 		}
 
 		#endregion
@@ -168,6 +186,12 @@ namespace Ling._Debug.Algorithm
 				{
 					if (ev_.gameObject == null) return;
 					
+					if (ev_.intParam >= 0 && ev_.intParam < _scoreTileView.Length)
+					{
+						var scoreTileView = _scoreTileView[ev_.intParam];
+						SetNodeInfo(scoreTileView.Node);
+					}
+
 					var debugTile = ev_.gameObject.GetComponent<Builder.DebugTile>();
 					if (debugTile == null) return;
 

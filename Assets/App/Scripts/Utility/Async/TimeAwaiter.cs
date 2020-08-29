@@ -47,6 +47,10 @@ namespace Ling.Utility.Async
 		{
 			_waitMilliseconds = milliseconds;
 		}
+		public void Setup(float secods)
+		{
+			Setup((int)(secods * 1000));
+		}
 
 		/// <summary>
 		/// 処理実行時指定時間が過ぎていた場合awaitを行う

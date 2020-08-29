@@ -18,7 +18,8 @@ namespace Ling.Utility
 	public class EventTouchPoint
 	{
 		public EventTriggerType type;
-		public string id;
+		public string strParam;
+		public int intParam;
 		public GameObject gameObject;
 	}
 
@@ -42,13 +43,17 @@ namespace Ling.Utility
 		#region private 変数
 
 		[SerializeField] private bool _isCreateNewEvent;	// イベントが発行されるたびに新しいインスタンスを作成する
-		[SerializeField] private string _id;	// 特殊な文字列を贈りたいとき
+		[SerializeField] private string _stringParam;	// 特殊な文字列を贈りたいとき
+		[SerializeField] private int _intParam;
 		[SerializeField] private GameObject _gameObject = null;	// 設定すれば送られる
 
 		#endregion
 
 
 		#region プロパティ
+
+		public int IntParam { set { _intParam = value; } }
+		public string StringParam { set { _stringParam = value; } }
 
 		#endregion
 
@@ -89,7 +94,8 @@ namespace Ling.Utility
 			}
 
 			ev.type = type;
-			ev.id = _id;
+			ev.strParam = _stringParam;
+			ev.intParam = _intParam;
 			ev.gameObject = _gameObject;
 
 			EventManager.SafeTrigger(ev);

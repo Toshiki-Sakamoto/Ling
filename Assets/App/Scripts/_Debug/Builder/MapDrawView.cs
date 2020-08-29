@@ -193,7 +193,7 @@ namespace Ling._Debug.Builder
 					if (debugTile == null) return;
 
 					debugTile.TileFlag = tileFlag;
-					debugTile.TileData = tileData;
+					debugTile.SetTileData(tileData);
 				}
 			}
 

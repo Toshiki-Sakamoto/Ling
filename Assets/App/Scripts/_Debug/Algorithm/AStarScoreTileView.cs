@@ -35,6 +35,8 @@ namespace Ling._Debug.Algorithm
 
 		#region プロパティ
 
+		public Utility.Algorithm.Astar.Node Node { get; set; }
+
 		#endregion
 
 
