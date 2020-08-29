@@ -2,7 +2,7 @@
 // TimeAwaiter.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.08.29
+// Created by toshiki sakamoto on 2020.08.22
 //
 
 using Cysharp.Threading.Tasks;
@@ -11,9 +11,10 @@ using UnityEngine;
 namespace Ling.Utility.Async
 {
 	/// <summary>
-	/// 一定時間awaitを呼び出し、次に処理を移す
+	/// 指定時間が過ぎた場合、awaitを呼び出す。
+	/// 外部から経過時間を設定するようにしてもいいかも
 	/// </summary>
-	public class TimeAwaiter : BaseAwaiter
+	public class WorkTimeAwaiter : BaseAwaiter
     {
 		#region 定数, class, enum
 
@@ -27,7 +28,8 @@ namespace Ling.Utility.Async
 
 		#region private 変数
 
-		private int _waitMilliseconds;
+		private float _waitTimeSecond;
+		private float _timeCount;
 
 		#endregion
 
@@ -43,9 +45,12 @@ namespace Ling.Utility.Async
 
 
 		#region public, protected 関数
-		public void Setup(int milliseconds)
+
+		public void Setup(float second)
 		{
-			_waitMilliseconds = milliseconds;
+			_waitTimeSecond = second;
+
+			Reset();
 		}
 
 		/// <summary>
@@ -53,11 +58,18 @@ namespace Ling.Utility.Async
 		/// </summary>
 		public override async UniTask Wait()
 		{
-			await UniTask.Delay(_waitMilliseconds);
+			var diff = Time.realtimeSinceStartup - _timeCount;
+			if (diff >= _waitTimeSecond)
+			{
+				Reset();
+
+				await UniTask.DelayFrame(1);
+			}
 		}
 
 		public override void Reset()
 		{
+			_timeCount = Time.realtimeSinceStartup;
 		}
 
 		#endregion

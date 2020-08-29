@@ -1,19 +1,18 @@
 ﻿//
-// TimeAwaiter.cs
+// FrameAwaiter.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.08.29
+// Created by toshiki sakamoto on 2020.08.25
 //
 
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Ling.Utility.Async
 {
 	/// <summary>
-	/// 一定時間awaitを呼び出し、次に処理を移す
+	/// 指定フレームが経過するまでawaitを呼び出す
 	/// </summary>
-	public class TimeAwaiter : BaseAwaiter
+	public class FrameAwaiter : BaseAwaiter
     {
 		#region 定数, class, enum
 
@@ -27,7 +26,8 @@ namespace Ling.Utility.Async
 
 		#region private 変数
 
-		private int _waitMilliseconds;
+		private float _waitFrame;
+		private int _frameCount;
 
 		#endregion
 
@@ -43,9 +43,12 @@ namespace Ling.Utility.Async
 
 
 		#region public, protected 関数
-		public void Setup(int milliseconds)
+
+		public void Setup(int waitFrame)
 		{
-			_waitMilliseconds = milliseconds;
+			_waitFrame = waitFrame;
+
+			Reset();
 		}
 
 		/// <summary>
@@ -53,11 +56,17 @@ namespace Ling.Utility.Async
 		/// </summary>
 		public override async UniTask Wait()
 		{
-			await UniTask.Delay(_waitMilliseconds);
+			if (_frameCount++ < _waitFrame)
+			{
+				await UniTask.DelayFrame(1);
+			}
+			
+			Reset();
 		}
 
 		public override void Reset()
 		{
+			_frameCount = 0;
 		}
 
 		#endregion

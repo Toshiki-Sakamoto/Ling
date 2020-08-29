@@ -1,19 +1,18 @@
 ﻿//
-// TimeAwaiter.cs
+// BaseAwaiter.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.08.29
 //
 
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 
 namespace Ling.Utility.Async
 {
 	/// <summary>
-	/// 一定時間awaitを呼び出し、次に処理を移す
+	/// Awaiterのベースクラス
 	/// </summary>
-	public class TimeAwaiter : BaseAwaiter
+	public abstract class BaseAwaiter
     {
 		#region 定数, class, enum
 
@@ -26,8 +25,6 @@ namespace Ling.Utility.Async
 
 
 		#region private 変数
-
-		private int _waitMilliseconds;
 
 		#endregion
 
@@ -43,22 +40,12 @@ namespace Ling.Utility.Async
 
 
 		#region public, protected 関数
-		public void Setup(int milliseconds)
-		{
-			_waitMilliseconds = milliseconds;
-		}
-
 		/// <summary>
 		/// 処理実行時指定時間が過ぎていた場合awaitを行う
 		/// </summary>
-		public override async UniTask Wait()
-		{
-			await UniTask.Delay(_waitMilliseconds);
-		}
+		public abstract UniTask Wait();
 
-		public override void Reset()
-		{
-		}
+		public abstract void Reset();
 
 		#endregion
 
