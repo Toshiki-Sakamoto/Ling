@@ -118,7 +118,7 @@ namespace Ling._Debug.Algorithm
 			param.end = _secondTileData.Pos;
 			param.width = _searchMapTarget.Width;
 
-			param.onCanMove = (pos_, isDiagonal_) => 
+			param.onCanMove = (pos_) => 
 				{
 					var tileFlag = _searchMapTarget.GetTileFlag(pos_);
 					if (tileFlag.HasAny(TileFlag.Obstacle))
@@ -127,6 +127,17 @@ namespace Ling._Debug.Algorithm
 						return false;
 					}
 
+					return true;
+				};
+
+			param.onCanDiagonalMove = pos_ =>
+				{
+					var tileFlag = _searchMapTarget.GetTileFlag(pos_);
+					if (tileFlag.HasAny(TileFlag.Wall)) 
+					{
+						return false;
+					}
+					
 					return true;
 				};
 

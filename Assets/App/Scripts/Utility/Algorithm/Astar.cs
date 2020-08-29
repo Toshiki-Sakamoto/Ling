@@ -26,7 +26,8 @@ namespace Ling.Utility.Algorithm
 			public Vector2Int end;
 			public int width;
 			
-			public System.Func<Vector2Int, bool, bool> onCanMove;	// 移動可能か
+			public System.Func<Vector2Int, bool> onCanMove;	// 移動可能か
+			public System.Func<Vector2Int, bool> onCanDiagonalMove;	// 斜め移動可能か
 			public System.Func<Vector2Int, int> onTileCostGetter;	// 指定座標の移動コストを取得する(必要であれば)
 			public bool useDiagonal = true;	// 斜めを使用する
 
@@ -171,18 +172,22 @@ namespace Ling.Utility.Algorithm
 			_usedIndexes.Clear();
 			_lastNode = null;
 
-			// Nodeを作成する
-			_firstNode = CreateNode(_param.start, false, null, 1);
-			CalcScore(_firstNode, 0);
-
-			_param.onCreatedNode?.Invoke(_firstNode);
-
+			// 最初のNodeを作成する
+			_firstNode = PopNode();
+			_firstNode.pos = _param.start;
+			_firstNode.index = _param.start.y * _param.width + _param.start.x;;
+			_firstNode.count = 1;
+			
 			// Nodeの作成に失敗したときは何もしない
 			if (_firstNode == null)
 			{ 
 				Utility.Log.Error("開始位置のNodeの作成に失敗しました");
 				return false;
 			}
+
+			CalcScore(_firstNode, 0);
+
+			_param.onCreatedNode?.Invoke(_firstNode);
 
 			await ExecuteInternalAsync(_firstNode, param.awaiter);
 
@@ -197,12 +202,11 @@ namespace Ling.Utility.Algorithm
 			var dirMap = Utility.Map.GetDirArray(_param.useDiagonal);
 			for (int i = 0, size = dirMap.GetLength(0); i < size; ++i)
 			{
-				var dirX = dirMap[i, 0];
-				var dirY = dirMap[i, 1];
-				var pos = new Vector2Int(node.pos.x + dirX, node.pos.y + dirY);
+				var addX = dirMap[i, 0];
+				var addY = dirMap[i, 1];
+				var pos = new Vector2Int(node.pos.x + addX, node.pos.y + addY);
 
-				var isDiagonalMove = dirX != 0 && dirY != 0;
-				var childNode = CreateNode(pos, isDiagonalMove, node, node.count + 1);
+				var childNode = CreateNode(node, addX, addY, node.count + 1);
 				if (childNode == null) continue;
 
 				CalcScore(childNode, cost);
@@ -232,7 +236,7 @@ namespace Ling.Utility.Algorithm
 			var nodes = _openedNodes.FirstOrDefault().Value;
 			if (nodes.IsNullOrEmpty())
 			{
-				Utility.Log.Error("Nodeが残っていない");
+				Utility.Log.Warning($"Nodeが残っていない {_firstNode.pos}");
 				return;
 			}
 
@@ -258,16 +262,43 @@ namespace Ling.Utility.Algorithm
 		/// <param name="posY">Node Y座標<</param>
 		/// <param name="parent">親Node</param>
 		/// <returns></returns>
-		private Node CreateNode(in Vector2Int pos, bool isDiagonalMove, Node parent, int count)
+		private Node CreateNode(Node parent, int addX, int addY, int count)
 		{
 			// すでに一度通った場所は何もしない
+			var pos = new Vector2Int(parent.pos.x + addX, parent.pos.y + addY);
 			var index = pos.y * _param.width + pos.x;
 			if (_usedIndexes.Contains(index)) return null;
 
 			// 移動できない場合は何もしない
-			if (!_param.onCanMove(pos, isDiagonalMove))
-			{ 
-				// 一度通った場所としておくことで次回から判定されない
+			// 斜めの場合は斜め移動できるかを見る
+			bool isSuccess = false;
+
+			do
+			{
+				if (addX != 0 && addY != 0)
+				{
+					if (!_param.onCanDiagonalMove(new Vector2Int(parent.pos.x + addX, parent.pos.y)))
+					{
+						break;
+					}
+
+					if (!_param.onCanDiagonalMove(new Vector2Int(parent.pos.x, parent.pos.y + addY)))
+					{
+						break;
+					}
+				}
+
+				if (!_param.onCanMove(pos))
+				{ 
+					break;
+				}
+
+				isSuccess = true;
+
+			} while (false);
+
+			if (!isSuccess)
+			{
 				_usedIndexes.Add(index);
 				return null;
 			}

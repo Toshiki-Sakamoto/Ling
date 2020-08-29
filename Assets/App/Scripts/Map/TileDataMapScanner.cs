@@ -42,20 +42,20 @@ namespace Ling.Map
 		/// <summary>
 		/// 移動できるか
 		/// </summary>
-		public bool CanMove(in Vector2Int pos, bool isDiagonalMove)
+		public bool CanMove(in Vector2Int pos)
 		{
 			var tileFlag = _tileDataMap.GetTileFlag(pos);
 
 			// 移動できるか
-			if (isDiagonalMove)
-			{
-				// 斜め移動のとき
-				return _chara.Model.CanDiagonalMoveTileFlag(tileFlag);
-			}
-			else
-			{
-				return _chara.Model.CanMoveTileFlag(tileFlag);
-			}
+			return _chara.Model.CanMoveTileFlag(tileFlag);
+		}
+
+		public bool CanDiagonalMove(in Vector2Int pos)
+		{
+			var tileFlag = _tileDataMap.GetTileFlag(pos);
+
+			// 斜め移動のとき
+			return _chara.Model.CanDiagonalMoveTileFlag(tileFlag);
 		}
 
 		/// <summary>
@@ -130,8 +130,9 @@ namespace Ling.Map
 			}
 
 			_charaMoveChecker.Setup(chara);
-			param.onCanMove = (pos_, isDiagonal_) => _charaMoveChecker.CanMove(pos_, isDiagonal_);
-			param.onTileCostGetter = (pos_) => _charaMoveChecker.GetMoveCost(pos_);
+			param.onCanMove = pos_ => _charaMoveChecker.CanMove(pos_);
+			param.onCanDiagonalMove = pos_ => _charaMoveChecker.CanDiagonalMove(pos_);
+			param.onTileCostGetter = pos_ => _charaMoveChecker.GetMoveCost(pos_);
 
 			_search.Astar.Execute(param);
 			if (!_search.Astar.IsSuccess)

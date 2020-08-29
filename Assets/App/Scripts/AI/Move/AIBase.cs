@@ -106,7 +106,7 @@ namespace Ling.AI.Move
 		{
 			_waitCount = 0;
 			_destination = null;
-			_destinationRoutes.Clear();
+			_destinationRoutes?.Clear();
 		}
 
 		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit, Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
