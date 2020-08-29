@@ -128,8 +128,8 @@ namespace Ling.Chara
         public System.IObservable<AsyncUnit> MoveAtAddPos(in Vector2Int addCellPos) =>
             MoveController.SetMoveCellPos(CellPos + addCellPos.ToVector3Int());
 
-        public System.IObservable<AsyncUnit> MoveAtCellPos(in Vector2Int cellPos) =>
-            MoveController.SetMoveCellPos(cellPos.ToVector3Int());
+        public System.IObservable<AsyncUnit> Move(in Vector2Int startPos, in Vector2Int endPos) =>
+            MoveController.SetMoveCellPos(startPos.ToVector3Int(), endPos.ToVector3Int());
 
         #endregion
 

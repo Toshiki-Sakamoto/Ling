@@ -35,7 +35,8 @@ namespace Ling.Chara.Process
 
 		private Chara.ViewBase _charaView;	// 移動対象のキャラ
 		private Type _type;
-		private Vector2Int _pos;
+		private Vector2Int _startPos;
+		private Vector2Int _endPos;
 
 		#endregion
 
@@ -58,14 +59,15 @@ namespace Ling.Chara.Process
 		public void SetAddPos(Chara.ViewBase charaView, in Vector2Int addPos)
 		{
 			_charaView = charaView;
-			_pos = addPos;
+			_endPos = addPos;
 			_type = Type.Add;
 		}
 
-		public void SetPos(Chara.ViewBase charaView, in Vector2Int pos)
+		public void SetPos(Chara.ViewBase charaView, in Vector2Int startPos, in Vector2Int endPos)
 		{
 			_charaView = charaView;
-			_pos = pos;
+			_startPos = startPos;
+			_endPos = endPos;
 			_type = Type.Set;
 		}
 
@@ -75,13 +77,13 @@ namespace Ling.Chara.Process
 			if (_type == Type.Add)
 			{
 				_charaView
-					.MoveAtAddPos(_pos)
+					.MoveAtAddPos(_endPos)
 					.Subscribe(_ => ProcessFinish());
 			}
 			else
 			{
 				_charaView
-					.MoveAtCellPos(_pos)
+					.Move(_startPos, _endPos)
 					.Subscribe(_ => ProcessFinish());
 			}
 		}

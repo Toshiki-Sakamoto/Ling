@@ -374,17 +374,18 @@ namespace Ling.AI.Move
 		/// <summary>
 		/// 次移動するマスの座標
 		/// </summary>
-		protected void SetNextMovePos(in Vector2Int pos)
+		protected void SetNextMovePos(in Vector2Int movePos)
 		{
-			_nextMovePos = pos;
+			_nextMovePos = movePos;
 			_waitCount = 0;
 
 			// 移動したことをキャラに伝え、アニメーションも設定させる
-			_unit.Model.SetPos(pos);
+			var prevPos = _unit.Model.Pos;
+			_unit.Model.SetPos(movePos);
 
 			// 移動プロセスの設定
 			var process = _unit.AddMoveProcess<Chara.Process.ProcessMove>();
-			process.SetPos(_unit.View, pos);
+			process.SetPos(_unit.View, prevPos, movePos);
 		}
 
 		#endregion

@@ -66,7 +66,7 @@ namespace Ling.Utility.Algorithm
 		private HashSet<int> _usedIndexes = new HashSet<int>();	// 使用済みの座標
 
 		private Param _param;
-		private Node _lastNode;
+		private Node _firstNode, _lastNode;
 
 		#endregion
 
@@ -172,19 +172,19 @@ namespace Ling.Utility.Algorithm
 			_lastNode = null;
 
 			// Nodeを作成する
-			var rootNode = CreateNode(_param.start, false, null, 1);
-			CalcScore(rootNode, 0);
+			_firstNode = CreateNode(_param.start, false, null, 1);
+			CalcScore(_firstNode, 0);
 
-			_param.onCreatedNode?.Invoke(rootNode);
+			_param.onCreatedNode?.Invoke(_firstNode);
 
 			// Nodeの作成に失敗したときは何もしない
-			if (rootNode == null)
+			if (_firstNode == null)
 			{ 
 				Utility.Log.Error("開始位置のNodeの作成に失敗しました");
 				return false;
 			}
 
-			await ExecuteInternalAsync(rootNode, param.awaiter);
+			await ExecuteInternalAsync(_firstNode, param.awaiter);
 
 			return IsSuccess;
 		}
@@ -291,6 +291,11 @@ namespace Ling.Utility.Algorithm
 		private void CalcScore(Node node, int cost)
 		{
 			// 移動コストを取得
+			if (node == null || _param == null)
+			{
+				int test = 0;
+				test = 1;
+			}
 			var addCost = _param.onTileCostGetter?.Invoke(node.pos) ?? 1;
 			node.cost = cost + addCost;
 
@@ -344,11 +349,14 @@ namespace Ling.Utility.Algorithm
 			if (!IsSuccess) return null;
 			if (_lastNode == null) return null;
 
-			var result = new List<Vector2Int>(_lastNode.count);
+			var result = new List<Vector2Int>(_lastNode.count - 1);
 
 			var node = _lastNode;
 			while (node != null)
 			{
+				// 最初のノードは入れない
+				if (node.parent == null) break;
+
 				result.Insert(0, node.pos);
 				node = node.parent;
 			}
