@@ -29,7 +29,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
-		private Utility.Async.TimeAwaiter _timeAwaiter;
+		private Utility.Async.WorkTimeAwaiter _timeAwaiter;
 
 		#endregion
 
@@ -54,7 +54,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Init()
 		{
-			_timeAwaiter = new Utility.Async.TimeAwaiter();
+			_timeAwaiter = new Utility.Async.WorkTimeAwaiter();
 			_timeAwaiter.Setup(0.1f);
 
 			ThinkAIProcessesAsync().Forget();

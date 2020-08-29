@@ -54,6 +54,8 @@ namespace Ling._Debug.Builder
 		[SerializeField] private Setting _setting = null;
 		[SerializeField] private MapDrawView _drawView = null;
 
+		[Zenject.Inject] private Utility.IEventManager _eventManager = null;
+
 		#endregion
 
 
@@ -73,6 +75,17 @@ namespace Ling._Debug.Builder
 			_setting.Setup();
 
 			_setting.OnExecute = () => OnExecute?.Invoke(_setting);
+			
+			_eventManager.Add<Utility.EventTouchPoint>(this, 
+				ev_ => 
+				{
+					if (ev_.gameObject == null) return;
+					
+					var debugTile = ev_.gameObject.GetComponent<DebugTile>();
+					if (debugTile == null) return;
+
+					_drawView.SetTileText(debugTile.TileFlag.ToString());
+				});
 		}
 
 		#endregion
@@ -111,6 +124,7 @@ namespace Ling._Debug.Builder
 		/// </summary>
 		void OnDestoroy()
 		{
+			_eventManager.RemoveAll(this);
 		}
 
 		#endregion

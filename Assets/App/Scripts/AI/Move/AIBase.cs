@@ -109,7 +109,7 @@ namespace Ling.AI.Move
 			_destinationRoutes.Clear();
 		}
 
-		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit, Ling.Utility.Async.TimeAwaiter timeAwaiter)
+		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit, Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			_unit = unit;
 			_tileDataMap = null;
@@ -123,7 +123,7 @@ namespace Ling.AI.Move
 
 		#region private 関数
 
-		protected virtual async UniTask ExexuteInternalAsync(Ling.Utility.Async.TimeAwaiter timeAwaiter)
+		protected virtual async UniTask ExexuteInternalAsync(Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			// もっとも優先すべきものがあればそこに向かって歩く
 			if (SearchMustDestination())

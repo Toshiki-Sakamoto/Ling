@@ -102,7 +102,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// どういう行動をするか攻撃、移動AIクラスから思考し、決定する。
 		/// </summary>
-		public async UniTask ThinkAIProcess(Utility.Async.TimeAwaiter timeAwaiter)
+		public async UniTask ThinkAIProcess(Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			// 自分が状態異常で行動できない場合はスキップ
 

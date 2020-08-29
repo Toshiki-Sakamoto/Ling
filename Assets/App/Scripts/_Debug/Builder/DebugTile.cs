@@ -13,7 +13,7 @@ using UnityEngine.UI;
 namespace Ling._Debug.Builder
 {
 	/// <summary>
-	/// 
+	/// デバッグ表示用のタイルデータ
 	/// </summary>
 	public class DebugTile : MonoBehaviour 
     {
@@ -34,8 +34,10 @@ namespace Ling._Debug.Builder
 
 		#region プロパティ
 
-		public Vector2 Pos { get; set; }
+		public Map.TileData TileData { get; set; }
 		public Const.TileFlag TileFlag { get; set; }
+
+		public Vector2Int Pos => TileData.Pos;
 
 		#endregion
 

@@ -49,8 +49,6 @@ namespace Ling._Debug.Builder
 		[SerializeField] private Color[] _otherColor;
 		[SerializeField] private Text _tileFlagText = null;
 
-		[Zenject.Inject] private Utility.IEventManager _eventManager = null;
-
 		private int _width, _height;
 		private SpriteRenderer[] _drawSprites;
 		private Map.Builder.BuilderConst.BuilderType _builderType;
@@ -111,6 +109,21 @@ namespace Ling._Debug.Builder
 			}
 		}
 
+		public void SetTileText(string text)
+		{
+			_tileFlagText.text = text;
+		}
+
+		public bool TryGetSpriteRenderer(int index, out SpriteRenderer renderer)
+		{
+			renderer = null;
+
+			if (index < 0 || index >= _drawSprites.Length) return false;
+
+			renderer = _drawSprites[index];
+			return true;
+		}
+
 		#endregion
 
 
@@ -168,9 +181,9 @@ namespace Ling._Debug.Builder
 					}
 				}
 			}
-			void DrawByIndex(int index, Const.TileFlag tileFlag)
+			void DrawByTileData(Map.TileData tileData, Const.TileFlag tileFlag)
 			{
-				var draw = _drawSprites[index];
+				var draw = _drawSprites[tileData.Index];
 
 				if (TryGetColor(tileFlag, out Color color))
 				{
@@ -180,6 +193,7 @@ namespace Ling._Debug.Builder
 					if (debugTile == null) return;
 
 					debugTile.TileFlag = tileFlag;
+					debugTile.TileData = tileData;
 				}
 			}
 
@@ -198,7 +212,7 @@ namespace Ling._Debug.Builder
 				var tileDataMap = splitBuilder.TileDataMap;
 				foreach(var tileData in tileDataMap)
 				{
-					DrawByIndex(tileData.Index, tileData.Flag);
+					DrawByTileData(tileData, tileData.Flag);
 				}
 		
 				yield return new WaitForSeconds(enumerator.Current);
@@ -212,21 +226,10 @@ namespace Ling._Debug.Builder
 
 		private void Start()
 		{
-			_eventManager.Add<Utility.EventTouchPoint>(this, 
-				ev_ => 
-				{
-					if (ev_.gameObject == null) return;
-					
-					var debugTile = ev_.gameObject.GetComponent<DebugTile>();
-					if (debugTile == null) return;
-
-					_tileFlagText.text = debugTile.TileFlag.ToString();
-				});
 		}
 
 		private void OnDestroy()
 		{
-			_eventManager.RemoveAll(this);
 		}
 
 		#endregion
