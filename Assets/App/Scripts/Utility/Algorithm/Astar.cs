@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Utility.Algorithm
 {
@@ -28,13 +29,19 @@ namespace Ling.Utility.Algorithm
 			public System.Func<Vector2Int, bool, bool> onCanMove;	// 移動可能か
 			public System.Func<Vector2Int, int> onTileCostGetter;	// 指定座標の移動コストを取得する(必要であれば)
 			public bool useDiagonal = true;	// 斜めを使用する
+
+			public Utility.Async.BaseAwaiter awaiter = null;
+			
+			// Debug
+			public System.Action<Node> onCreatedNode;
 		}
 
-		private class Node
+		public class Node
 		{
 			public Node parent;	// 親ノード
 
 			public Vector2Int pos;
+			public int index;
 			public int cost;	// 実コスト
 			public int estimatedCost;	// 推定コスト
 			public int score;	// スコア
@@ -45,7 +52,6 @@ namespace Ling.Utility.Algorithm
 
 
 		#region public, protected 変数
-
 
 		#endregion
 
@@ -88,33 +94,25 @@ namespace Ling.Utility.Algorithm
 
 		public bool Execute(Param param)
 		{
-			_param = param;
-			IsSuccess = false;
+			ExexuteInternalAsync(param).Forget();
+			return IsSuccess;
+		}
 
-			ResetNodeAll();
-
-			_openedNodes.Clear();
-			_usedIndexes.Clear();
-			_lastNode = null;
-
-			// Nodeを作成する
-			var rootNode = CreateNode(_param.start, false, null, 1);
-			CalcScore(rootNode, 0);
-
-			// Nodeの作成に失敗したときは何もしない
-			if (rootNode == null)
-			{ 
-				Utility.Log.Error("開始位置のNodeの作成に失敗しました");
-				return false;
-			}
-
-			if (!ExecuteInternal(rootNode))
+		/// <summary>
+		/// 間隔を開けて走査する
+		/// </summary>
+		public async UniTask<bool> DebugExecuteAsync(Param param)
+		{
+			if (param.awaiter == null)
 			{
-				return false;
+				var awaiter = new Utility.Async.TimeAwaiter();
+				awaiter.Setup(0.5f);
+
+				param.awaiter = awaiter;
 			}
 
-			IsSuccess = true;
-			return true;
+			await ExexuteInternalAsync(param);
+			return IsSuccess;
 		}
 
 		/// <summary>
@@ -142,38 +140,72 @@ namespace Ling.Utility.Algorithm
 		/// <summary>
 		/// 実際のルートを見つける処理の実行
 		/// </summary>
-		/// <param name="node"></param>
-		private bool ExecuteInternal(Node node)
+		private async UniTask<bool> ExexuteInternalAsync(Param param)
+		{
+			_param = param;
+			IsSuccess = false;
+
+			ResetNodeAll();
+
+			_openedNodes.Clear();
+			_usedIndexes.Clear();
+			_lastNode = null;
+
+			// Nodeを作成する
+			var rootNode = CreateNode(_param.start, false, null, 1);
+			CalcScore(rootNode, 0);
+
+			_param.onCreatedNode?.Invoke(rootNode);
+
+			// Nodeの作成に失敗したときは何もしない
+			if (rootNode == null)
+			{ 
+				Utility.Log.Error("開始位置のNodeの作成に失敗しました");
+				return false;
+			}
+
+			await ExecuteInternalAsync(rootNode, param.awaiter);
+
+			return IsSuccess;
+		}
+
+		private async UniTask ExecuteInternalAsync(Node node, Utility.Async.BaseAwaiter awaiter)
 		{
 			var cost = node.cost;
 
 			// 周りを開ける
-			Utility.Map.CallDirectionWithAddPos(node.pos.x, node.pos.y, 
-				(pos_, addPos_) =>
+			var dirMap = Utility.Map.GetDirArray(_param.useDiagonal);
+			for (int i = 0, size = dirMap.GetLength(0); i < size; ++i)
+			{
+				var dirX = dirMap[i, 0];
+				var dirY = dirMap[i, 1];
+				var pos = new Vector2Int(node.pos.x + dirX, node.pos.y + dirY);
+
+				var isDiagonalMove = dirX != 0 && dirY != 0;
+				var childNode = CreateNode(pos, isDiagonalMove, node, node.count + 1);
+				if (childNode == null) continue;
+
+				// もしゴール地点なら終了！
+				if (_param.end == pos)
 				{
-					var isDiagonalMove = addPos_.x != 0 && addPos_.y != 0;
-					var childNode = CreateNode(pos_, isDiagonalMove, node, node.count + 1);
-					if (childNode == null) 
-					{
-						return false;
-					}
+					_lastNode = childNode;
+					IsSuccess = true;
+					return;
+				}
 
-					// もしゴール地点なら終了！
-					if (_param.end == pos_)
-					{
-						_lastNode = childNode;
-						return true;
-					}
+				CalcScore(childNode, cost);
+					
+				_param.onCreatedNode?.Invoke(childNode);
 
-					CalcScore(childNode, cost);
-
-					return false;
-				}, 
-				useDiagonal: _param.useDiagonal);
+				if (awaiter != null)
+				{
+					await awaiter.Wait();
+				}
+			}
 
 			if (_lastNode != null)
 			{
-				return true;
+				return;
 			}
 
 			// 一番スコアが低いNodeから走査していく
@@ -181,7 +213,7 @@ namespace Ling.Utility.Algorithm
 			if (nodes.IsNullOrEmpty())
 			{
 				Utility.Log.Error("Nodeが残っていない");
-				return false;
+				return;
 			}
 
 			// 走査前に先にCloseとしておく
@@ -196,7 +228,7 @@ namespace Ling.Utility.Algorithm
 				_openedNodes.Remove(score);
 			}
 
-			return ExecuteInternal(rootNode);
+			await ExecuteInternalAsync(rootNode, awaiter);
 		}
 
 		/// <summary>
@@ -222,6 +254,7 @@ namespace Ling.Utility.Algorithm
 
 			var node = PopNode();
 			node.pos = pos;
+			node.index = index;
 			node.count = count;
 			
 			// 親ノードを設定しておく
