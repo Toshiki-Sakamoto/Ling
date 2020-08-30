@@ -59,6 +59,8 @@ namespace Ling.Common.DebugConfig
 		protected abstract void DataUpdateInternal(T obj);
 	}
 
+
+
 	/// <summary>
 	/// デバッグ管理者
 	/// </summary>
@@ -78,56 +80,6 @@ namespace Ling.Common.DebugConfig
 			public GameObject Obj => _object;
 		}
 
-		public class Menu
-		{
-			private List<IItemData> _dataList = new List<IItemData>();
-
-			public string Name { get; private set; }
-
-			public int DataCount => _dataList.Count;
-
-
-			/// <summary>
-			/// リストの中身
-			/// </summary>
-			public IItemData this[int index] => _dataList[index];
-
-			public Menu(string name) =>
-				Name = name;
-
-			public void Add(IItemData item)
-			{
-				if (item == null)
-				{
-					Utility.Log.Error("追加しようとしたItemがNull");
-					return;
-				}
-
-				_dataList.Add(item);
-			}
-		}
-
-		/// <summary>
-		/// Menuクラスを子供として保持する
-		/// 親のMenuに子供のMenuを登録したい場合はこれに包んでからMenuクラスのAddItemに指定する
-		/// </summary>
-		public class MenuItem : ItemDataBase<Menu>
-		{
-			public Menu SubMenu { get; private set; }
-
-
-			public MenuItem(string title, Menu menu)
-				: base(title)
-			{
-				SubMenu = menu;
-			}
-
-			protected override void DataUpdateInternal(Menu obj) {}
-
-			public override Const.MenuType GetMenuType() =>
-				Const.MenuType.MenuItem;
-		}
-
 		#endregion
 
 
@@ -143,7 +95,7 @@ namespace Ling.Common.DebugConfig
 		[SerializeField] private Button _btnClose = null;
 		[SerializeField] private Text _txtTitle = null; // タイトルテキスト
 
-		private Menu _currMenu = null;  // 現在表示しているMenu
+		private DebugMenu _currMenu = null;  // 現在表示しているMenu
 		private Dictionary<Const.MenuType, MenuObject> _menuObjectCaches = new Dictionary<Const.MenuType, MenuObject>();
 
 		#endregion
@@ -156,7 +108,7 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		public int DataCount => _currMenu.DataCount;
 
-		public Menu RootMenu { get; } = new Menu("Root");
+		public DebugMenu RootMenu { get; } = new DebugMenu("Root");
 
 		#endregion
 
@@ -200,7 +152,10 @@ namespace Ling.Common.DebugConfig
 			return null;
 		}
 
-		public void DataUpdate(int index, GameObject obj)
+		/// <summary>
+		/// スクロール更新
+		/// </summary>
+		public void ScrollItemUpdate(int index, GameObject obj)
 		{
 			var item = _currMenu[index];
 			item.DataUpdate(obj);
