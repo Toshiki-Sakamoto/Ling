@@ -44,11 +44,9 @@ namespace Ling.Utility.UI
 			GameObject GetItemObj(int index);
 
 			/// <summary>
-			/// データのUpdateをしてもらう
+			/// スクロールアイテムの更新を行う
 			/// </summary>
-			/// <param name="index"></param>
-			/// <param name="obj"></param>
-			void DataUpdate(int index, GameObject obj);
+			void ScrollItemUpdate(int index, GameObject obj);
 		}
 
 		/// <summary>
@@ -276,7 +274,7 @@ namespace Ling.Utility.UI
 			recyclableItem.Obj.SetActive(true);
 
 			// 更新を伝える
-			_dataProvider.DataUpdate(index, recyclableItem.Obj);
+			_dataProvider.ScrollItemUpdate(index, recyclableItem.Obj);
 
 			return recyclableItem;
 		}
