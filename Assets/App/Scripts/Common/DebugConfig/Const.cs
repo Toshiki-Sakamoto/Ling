@@ -15,10 +15,10 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Utility.DebugConfig
+namespace Ling.Common.DebugConfig
 {
 	/// <summary>
-	/// 
+	/// Debug定数値
 	/// </summary>
 	public class Const
 	{

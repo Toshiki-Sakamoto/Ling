@@ -16,7 +16,7 @@ using Zenject;
 using UniRx;
 
 #if DEBUG
-namespace Ling.Utility.DebugConfig
+namespace Ling.Common.DebugConfig
 {
 	public interface IItemData
 	{
@@ -60,11 +60,11 @@ namespace Ling.Utility.DebugConfig
 	}
 
 	/// <summary>
-	/// 
+	/// デバッグ管理者
 	/// </summary>
 	public class DebugConfigManager : 
-		MonoSingleton<DebugConfigManager>, 
-		UI.RecyclableScrollView.IContentDataProvider 
+		Utility.MonoSingleton<DebugConfigManager>, 
+		Utility.UI.RecyclableScrollView.IContentDataProvider 
     {
 		#region 定数, class, enum
 
@@ -163,6 +163,9 @@ namespace Ling.Utility.DebugConfig
 
 		#region public, protected 関数
 
+		/// <summary>
+		/// デバッグ画面を開く
+		/// </summary>
 		public void Open()
 		{
 			gameObject.SetActive(true);
@@ -230,7 +233,7 @@ namespace Ling.Utility.DebugConfig
 		/// </summary>
 		void Start()
 		{
-			// 日アクティブで閉じる
+			// 非アクティブで閉じる
 			_btnClose.onClick.AsObservable().Subscribe(_ =>
 				{
 					gameObject.SetActive(false);

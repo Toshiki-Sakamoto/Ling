@@ -18,7 +18,7 @@ using Zenject;
 namespace Ling.Scenes.Battle
 {
 	/// <summary>
-	/// 
+	/// Battle
 	/// </summary>
 	public class BattleScene : Common.Scene.Base 
     {
@@ -53,7 +53,8 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[SerializeField] private BattleView _view = null;
+		[SerializeField] private BattleView _view = default;
+		[SerializeField] private Transform _debugRoot = default;
 
 		[Inject] private BattleModel _model = null;
 		[Inject] private Map.MapManager _mapManager = null;

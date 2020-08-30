@@ -13,16 +13,16 @@ using UnityEngine.UI;
 using Zenject;
 
 #if DEBUG
-namespace Ling.Utility.DebugConfig
+namespace Ling.Common.DebugConfig
 {
 	/// <summary>
 	/// チェックボックス
 	/// </summary>
-	public class ItemCheck : MonoBehaviour 
+	public class DebugCheckItem : MonoBehaviour 
     {
 		#region 定数, class, enum
 
-		public class Data : ItemDataBase<ItemCheck>
+		public class Data : ItemDataBase<DebugCheckItem>
 		{
 			public bool IsOn { get; private set; }
 
@@ -38,7 +38,7 @@ namespace Ling.Utility.DebugConfig
 			public override Const.MenuType GetMenuType() =>
 				Const.MenuType.Check;
 
-			protected override void DataUpdateInternal(ItemCheck obj)
+			protected override void DataUpdateInternal(DebugCheckItem obj)
 			{
 				obj.SetData(this);
 			}

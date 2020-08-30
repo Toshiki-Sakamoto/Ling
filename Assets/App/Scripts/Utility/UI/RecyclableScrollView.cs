@@ -6,11 +6,8 @@
 //
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -57,7 +54,7 @@ namespace Ling.Utility.UI
 		/// <summary>
 		/// パディング
 		/// </summary>
-		[SerializeField]
+		[System.Serializable]
 		public class Padding
 		{
 			public int top = 0;
@@ -120,10 +117,12 @@ namespace Ling.Utility.UI
 		#region プロパティ
 
 		protected RectTransform RectTransform 
-		{
-			get 
+		{ 
+			get
 			{
-				if (_rectTransform = null)
+				// C# 8
+				//return _rectTransform ??= GetComponent<RectTransform>(); 
+				if (_rectTransform == null)
 				{
 					_rectTransform = GetComponent<RectTransform>();
 				}
@@ -263,7 +262,7 @@ namespace Ling.Utility.UI
 				else
 				{
 					// なければ生成
-					// todo: ここは精製方法を選択できるようにしておくと良いかも
+					// todo: ここは生成方法を選択できるようにしておくと良いかも
 					recyclableItem = ItemData.Create(gameObj);
 				}
 			}

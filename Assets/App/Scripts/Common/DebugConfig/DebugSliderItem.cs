@@ -14,16 +14,16 @@ using UnityEngine.UI;
 using Zenject;
 
 #if DEBUG
-namespace Ling.Utility.DebugConfig
+namespace Ling.Common.DebugConfig
 {
 	/// <summary>
 	/// Slider
 	/// </summary>
-	public class ItemSlider : MonoBehaviour 
+	public class DebugSliderItem : MonoBehaviour 
     {
 		#region 定数, class, enum
 
-		public class Data : ItemDataBase<ItemSlider>
+		public class Data : ItemDataBase<DebugSliderItem>
 		{
 			public float Value { get; private set; }
 			public float MinValue { get; private set; }
@@ -54,7 +54,7 @@ namespace Ling.Utility.DebugConfig
 			public override Const.MenuType GetMenuType() =>
 				Const.MenuType.Slider;
 
-			protected override void DataUpdateInternal(ItemSlider obj)
+			protected override void DataUpdateInternal(DebugSliderItem obj)
 			{
 				obj.SetData(this);
 			}
