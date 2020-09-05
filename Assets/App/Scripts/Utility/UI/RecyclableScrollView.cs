@@ -95,6 +95,13 @@ namespace Ling.Utility.UI
 						index = index
 					};
 			}
+
+			public void RemoveObject()
+			{
+				if (obj == null) return;
+
+				GameObject.Destroy(obj);
+			}
 		}
 
 		#endregion
@@ -335,9 +342,21 @@ namespace Ling.Utility.UI
 		/// <summary>
 		/// リフレッシュ処理をかけて初期化からやり直す
 		/// </summary>
-		public void Refresh()
+		public void Refresh(bool needRemoveCache = true)
 		{
-			_itemDataCaches.Clear();
+			// キャッシュを削除するか
+			if (needRemoveCache)
+			{
+				foreach (var itemDataList in _itemDataCaches)
+				{
+					foreach (var itemData in itemDataList.Value)
+					{
+						itemData.RemoveObject();
+					}
+				}
+
+				_itemDataCaches.Clear();
+			}
 
 			Initialize(_dataProvider);
 		}
