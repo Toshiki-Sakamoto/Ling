@@ -23,7 +23,7 @@ namespace Ling.Common.DebugConfig
     {
 		#region 定数, class, enum
 
-		public class Data : ItemDataBase<DebugSliderItem>
+		public class Data : DebugItemDataBase<DebugSliderItem>
 		{
 			public float Value { get; private set; }
 			public float MinValue { get; private set; }

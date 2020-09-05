@@ -9,6 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
 
 using Zenject;
 
@@ -22,17 +23,17 @@ namespace Ling.Common.DebugConfig
     {
 		#region 定数, class, enum
 
-		public class Data : ItemDataBase<DebugCheckItem>
+		public class ItemData : DebugItemDataBase<DebugCheckItem>
 		{
-			public bool IsOn { get; private set; }
+			public BoolReactiveProperty IsOn { get; private set; }
 
-			public Data(string title)
+			public ItemData(string title)
 				: base(title)
 			{ }
 
 			public void SetValue(bool isOn)
 			{
-				IsOn = isOn;
+				IsOn = new BoolReactiveProperty(isOn);
 			}
 
 			public override Const.MenuType GetMenuType() =>
@@ -57,35 +58,35 @@ namespace Ling.Common.DebugConfig
 		[SerializeField] private Text _txtTitle = null;
 		[SerializeField] private Toggle _toggle = null;
 
-		private Data _data = null;
-
 		#endregion
 
 
 		#region プロパティ
 
-		public Action<bool> onUpdate { get; set; }
+		public ItemData Data { get; private set; }
+
+//		public Action<bool> onUpdate { get; set; }
 
 		#endregion
 
 
 		#region public, protected 関数
 
-		public static Data Create(bool isOn, string title)
+		public static ItemData Create(bool isOn, string title)
 		{
-			var data = new Data(title);
+			var data = new ItemData(title);
 			data.SetValue(isOn);
 
 			return data;
 		}
 
 
-		public void SetData(Data data)
+		public void SetData(ItemData data)
 		{
 			_txtTitle.text = data.Title;
-			_toggle.isOn = data.IsOn;
+			_toggle.isOn = data.IsOn.Value;
 
-			_data = data;
+			Data = data;
 		}
 
 		#endregion
@@ -103,34 +104,15 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		void Awake()
 		{
-			_toggle.onValueChanged.AddListener(value_ => 
+			_toggle
+				.OnValueChangedAsObservable()
+				.Subscribe(isOn_ => 
 				{
-					if (_data == null) return;
+					if (Data == null) return;
 
-					_data.SetValue(value_);
-					onUpdate?.Invoke(_data.IsOn);
+					Data.SetValue(isOn_);
+				//	onUpdate?.Invoke(Data.IsOn.Value);
 				});
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestoroy()
-		{
 		}
 
 		#endregion

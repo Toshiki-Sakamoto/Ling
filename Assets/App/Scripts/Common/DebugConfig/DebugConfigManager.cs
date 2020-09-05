@@ -18,7 +18,7 @@ using UniRx;
 #if DEBUG
 namespace Ling.Common.DebugConfig
 {
-	public interface IItemData
+	public interface IDebugItemData
 	{
 		/// <summary>
 		/// データの更新処理が入った
@@ -32,7 +32,7 @@ namespace Ling.Common.DebugConfig
 	/// <summary>
 	/// 全てのItemのDataベースクラス
 	/// </summary>
-	public abstract class ItemDataBase<T> : IItemData
+	public abstract class DebugItemDataBase<T> : IDebugItemData
 	{
 		/// <summary>
 		/// 表示されるアイテムのタイトル
@@ -45,7 +45,7 @@ namespace Ling.Common.DebugConfig
 		public bool IsSave { get; set; }
 
 
-		public ItemDataBase(string title) =>
+		public DebugItemDataBase(string title) =>
 			Title = title;
 
 		public void DataUpdate(GameObject obj)
@@ -95,7 +95,7 @@ namespace Ling.Common.DebugConfig
 		[SerializeField] private Button _btnClose = null;
 		[SerializeField] private Text _txtTitle = null; // タイトルテキスト
 
-		private DebugMenu _currMenu = null;  // 現在表示しているMenu
+		private DebugMenuItem.Data _currMenu = null;  // 現在表示しているMenu
 		private Dictionary<Const.MenuType, MenuObject> _menuObjectCaches = new Dictionary<Const.MenuType, MenuObject>();
 
 		#endregion
@@ -106,9 +106,11 @@ namespace Ling.Common.DebugConfig
 		/// <summary>
 		/// 現在データの個数
 		/// </summary>
-		public int DataCount => _currMenu.DataCount;
+		public int DataCount => _currMenu.Count;
 
-		public DebugMenu RootMenu { get; } = new DebugMenu("Root");
+		public DebugMenuItem.Data RootMenu { get; } = new DebugMenuItem.Data("Root");
+
+		public bool IsOpened => gameObject.activeSelf;
 
 		#endregion
 
@@ -120,21 +122,42 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		public void Open()
 		{
-			gameObject.SetActive(true);
+			if (gameObject.activeSelf) return;
 
 			_currMenu = RootMenu;
 
-			_scrollContent.Refresh();
-
 			_menuObjectCaches.Clear();
 			_menuObjectCaches = _menuObjects.ToDictionary(_menuObject => _menuObject.Type);
+			
+			gameObject.SetActive(true);
+
+			_scrollContent.Refresh(needRemoveCache: false);
+		}
+
+		public void Close()
+		{
+			if (gameObject.activeSelf)
+			{
+				gameObject.SetActive(false);
+			}
+		}
+
+		public void AddItemDataByRootMenu(IDebugItemData itemData)
+		{
+			RootMenu.Add(itemData);
+		}
+
+		public void RemoveItemDataByRootMenu(IDebugItemData itemData)
+		{
+			//RootMenu.Remove(itemData);
 		}
 
 
-
-		public float GetItemScale(int index)
+		public float GetItemSize(int index)
 		{
 			var obj = GetItemObj(index);
+			if (obj == null) return 0f;
+
 			var rectTrans = obj.GetComponent<RectTransform>();
 
 			return rectTrans.sizeDelta.y;
