@@ -14,6 +14,11 @@ namespace Ling.Common
 		public override void InstallBindings()
 		{
 			Container
+				.Bind<Launcher>()
+				.FromComponentInHierarchy()
+				.AsSingle();
+				
+			Container
 				.Bind<Scene.IExSceneManager>()
 				.To<Scene.ExSceneManager>()
 				.FromComponentInHierarchy()
@@ -30,11 +35,6 @@ namespace Ling.Common
 				.Bind<DebugConfig.DebugConfigManager>()
 				.FromInstance(debugManagerInstance)
 				.AsSingle();
-				/*
-            Container
-				.Bind<DebugConfig.DebugConfigManager>()
-				.FromComponentInHierarchy()
-				.AsSingle();*/
 #endif
 		}
 	}

@@ -17,7 +17,7 @@ using UnityEngine.UI;
 namespace Ling.Startup
 {
 	/// <summary>
-	/// 
+	/// 一番最初に起動されるシーン
 	/// </summary>
 	public class StartupScene : Common.Scene.Base
     {

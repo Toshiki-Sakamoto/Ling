@@ -36,6 +36,7 @@ namespace Ling.Common.Scene
 		#region private 変数
 
 		[Inject] protected DiContainer _diContainer;
+		[Inject] protected Launcher _launcher;
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 		[Inject] protected Utility.IEventManager _eventManager = null;
 		[Inject] protected Utility.ProcessManager _processManager = null;
@@ -83,7 +84,7 @@ namespace Ling.Common.Scene
 		/// 正規手順でシーンが実行されたのではなく
 		/// 直接起動された場合StartSceneよりも前に呼び出される
 		/// </summary>
-		public virtual void QuickStartScene() { }
+		public virtual UniTask QuickStartSceneAsync() { return default(UniTask); }
 
 		/// <summary>
 		/// シーンが開始される時
@@ -111,23 +112,8 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// 指定したシーンを直接起動する場合、必要な手続きを踏んでからシーン開始させる
 		/// </summary>
-		protected void QuickStart()
-		{
-			QuickStartInternalAsync().Forget();
-		}
-
-		protected virtual async UniTask QuickStartInternalAsync()
-		{
-			// マスタデータの読み込みが終わっていない場合読み込みを行う
-			if (!_masterManager.IsLoaded)
-			{
-				await _masterManager.LoadAllAsync();
-			}
-
-			QuickStartScene();
-
-			_sceneManager.QuickStart(this);
-		}
+		protected void QuickStart() =>
+			_launcher.QuickStart(this);
 
 		#endregion
 
@@ -137,6 +123,14 @@ namespace Ling.Common.Scene
 		private void Awake()
 		{
 			_processManager.SetupScene(this);
+
+			// 起動済みなら何もしない
+			if (!_launcher.IsSceneBooted) 
+			{
+				// シーンから直接起動した場合
+				// 必要な初期化処理をしたあと起動する
+				QuickStart();
+			}
 		}
 
 		#endregion

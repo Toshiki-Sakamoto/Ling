@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 using Ling.Common.Scene;
 using Zenject;
@@ -96,7 +97,7 @@ namespace Ling.Scenes.Battle
 		/// 正規手順でシーンが実行されたのではなく
 		/// 直接起動された場合StartSceneよりも前に呼び出される
 		/// </summary>
-		public override void QuickStartScene()
+		public override UniTask QuickStartSceneAsync()
 		{
 			// デバッグ用のコード直指定でバトルを始める
 			var stageMaster = _masterManager.StageRepository.FindByStageType(Const.StageType.First);
@@ -107,6 +108,8 @@ namespace Ling.Scenes.Battle
 				};
 
 			_model.Setup(param);
+
+			return default(UniTask);
 		}
 
 		/// <summary>
@@ -228,12 +231,6 @@ namespace Ling.Scenes.Battle
 
 
 		#region MonoBegaviour
-
-		private void Start()
-		{
-			// シーンから直接起動した場合、コード直設定でバトルを始める
-			QuickStart();
-		}
 
 		private void Update()
 		{
