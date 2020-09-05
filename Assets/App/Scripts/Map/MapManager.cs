@@ -6,15 +6,10 @@
 // 
 using Cysharp.Threading.Tasks;
 using Ling.MasterData.Stage;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
-using Ling.Map;
 using Ling.Map.TileDataMapExtension;
+using Ling.Const;
 
 using Zenject;
 
@@ -148,7 +143,7 @@ namespace Ling.Map
 			var tileFlag = tileDataMap.GetTileFlag(destPos.x, destPos.y);
 
 			// 移動できないフラグ
-			if (tileFlag.HasFlag(charaModel.CanNotMoveTileFlag))
+			if (tileFlag.HasAny(charaModel.CanNotMoveTileFlag))
 			{
 				return false;
 			}
