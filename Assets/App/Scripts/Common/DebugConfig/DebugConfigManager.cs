@@ -90,12 +90,16 @@ namespace Ling.Common.DebugConfig
 
 		#region private 変数
 
-		[SerializeField] private RecyclableScrollView _scrollContent = null;
-		[SerializeField] private MenuObject[] _menuObjects = null;
-		[SerializeField] private Button _btnClose = null;
-		[SerializeField] private Text _txtTitle = null; // タイトルテキスト
+		[SerializeField] private RecyclableScrollView _scrollContent = default;
+		[SerializeField] private MenuObject[] _menuObjects = default;
+		[SerializeField] private Button _btnClose = default;
+		[SerializeField] private Text _txtTitle = default; // タイトルテキスト
+		[SerializeField] private Button _btnBack = default;
+		[SerializeField] private Button _btnSave = default;
+		[SerializeField] private Button _btnDelete = default;
 
 		private DebugMenuItem.Data _currMenu = null;  // 現在表示しているMenu
+		private Stack<DebugMenuItem.Data> _menuStack = new Stack<DebugMenuItem.Data>();
 		private Dictionary<Const.MenuType, MenuObject> _menuObjectCaches = new Dictionary<Const.MenuType, MenuObject>();
 
 		#endregion
@@ -125,6 +129,7 @@ namespace Ling.Common.DebugConfig
 			if (gameObject.activeSelf) return;
 
 			_currMenu = RootMenu;
+			_menuStack.Clear();
 
 			gameObject.SetActive(true);
 
@@ -144,7 +149,10 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		public void UpdateMenuItemData(DebugMenuItem.Data menuItemData)
 		{
+			_menuStack.Push(_currMenu);
 			_currMenu = menuItemData;
+
+			_btnBack.gameObject.SetActive(menuItemData != RootMenu);
 
 			_scrollContent.Refresh(needRemoveCache: false);
 		}
@@ -208,7 +216,8 @@ namespace Ling.Common.DebugConfig
 		{
 			base.Awake();
 
-			_currMenu = RootMenu;
+			_menuStack.Clear();
+			_btnBack.gameObject.SetActive(false);
 
 			_menuObjectCaches.Clear();
 			_menuObjectCaches = _menuObjects.ToDictionary(_menuObject => _menuObject.Type);
@@ -225,6 +234,13 @@ namespace Ling.Common.DebugConfig
 			_btnClose.onClick.AsObservable().Subscribe(_ =>
 				{
 					gameObject.SetActive(false);
+				});
+
+			_btnBack.onClick.AsObservable().Subscribe(_ =>
+				{
+					if (_menuStack.Count <= 0) return;
+
+					UpdateMenuItemData(_menuStack.Pop());
 				});
 		}
 

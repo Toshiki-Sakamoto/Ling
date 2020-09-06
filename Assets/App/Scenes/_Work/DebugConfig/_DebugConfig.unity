@@ -496,11 +496,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConfigItemMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 263169897555144260, guid: c7b77ca83ae2640cca9a4ec65b679d39,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 263169897555144267, guid: c7b77ca83ae2640cca9a4ec65b679d39,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -866,10 +861,70 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1956387951294033569, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956387951294033569, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956387951294033569, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956387951294033569, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956387951294033569, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014749864971002530, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014749864971002530, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014749864971002530, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014749864971002530, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014749864971002530, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014749864971002530, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3127847312797308118, guid: c12ff4942d24db74e89fccd64f29609f,
         type: 3}
       propertyPath: m_Name
       value: DebugConfig
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127847312797308118, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3127847312797308122, guid: c12ff4942d24db74e89fccd64f29609f,
         type: 3}
@@ -974,6 +1029,66 @@ PrefabInstance:
     - target: {fileID: 3127847312797308122, guid: c12ff4942d24db74e89fccd64f29609f,
         type: 3}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127847313417811041, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127847313417811041, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127847313417811041, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127847313417811041, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127847313417811041, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3127847313417811041, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897982865092958633, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897982865092958633, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897982865092958633, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897982865092958633, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897982865092958633, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897982865092958633, guid: c12ff4942d24db74e89fccd64f29609f,
+        type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1184,6 +1299,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ConfigItemButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 8264897009426023635, guid: 9b7d1a1b5cda146148279bb5381803b4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8264897009426023644, guid: 9b7d1a1b5cda146148279bb5381803b4,
         type: 3}

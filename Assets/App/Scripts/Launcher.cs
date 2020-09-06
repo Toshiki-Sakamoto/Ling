@@ -91,26 +91,16 @@ namespace Ling
 		void Awake()
 		{
 #if DEBUG
-			// 最初のデバッグの設定
-			var menuItem = new Common.DebugConfig.DebugMenuItem.Data("Test2");
-			_debugManager.RootMenu.Add(menuItem);
+			//var saveMenuItem = new Common.DebugConfig.DebugMenuItem.Data("Save");
+			//_debugManager.RootMenu.Add(saveMenuItem);
 
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test3"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test4"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugSliderItem.Data("Slider1", 1, 100, "%f"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test5"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test6"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test7"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugSliderItem.Data("Slider2", 1, 100, "%f"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test8"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test9"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugSliderItem.Data("Slider3", 1, 100, "%f"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test10"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test11"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test12"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test13"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test14"));
-			_debugManager.RootMenu.Add(new Common.DebugConfig.DebugMenuItem.Data("Test15"));
+			// 最初のデバッグの設定
+			{
+				var menuItem = new Common.DebugConfig.DebugMenuItem.Data("Battle");
+				var aStarScoreShow = new Common.DebugConfig.DebugButtonItem.Data("AStarのスコアを表示する");
+				menuItem.Add(aStarScoreShow);
+				_debugManager.RootMenu.Add(menuItem);
+			}
 
 			Observable.EveryUpdate()
 				.Where(_ => Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D))

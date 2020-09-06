@@ -24,7 +24,7 @@ namespace Ling.Common.DebugConfig
 	{
 		public enum MenuType
 		{
-			None, Slider, Check, MenuItem,
+			None, Slider, Check, MenuItem, Button,
 		}
 
 	}
