@@ -25,7 +25,7 @@ namespace Ling.Common.DebugConfig
 
 		public class Data : DebugItemDataBase<DebugCheckItem>
 		{
-			public BoolReactiveProperty IsOn { get; private set; }
+			public bool IsOn { get; private set; }
 
 			public Data(string title)
 				: base(title)
@@ -33,7 +33,7 @@ namespace Ling.Common.DebugConfig
 
 			public void SetValue(bool isOn)
 			{
-				IsOn = new BoolReactiveProperty(isOn);
+				IsOn = isOn;
 			}
 
 			public override Const.MenuType GetMenuType() =>
@@ -85,7 +85,7 @@ namespace Ling.Common.DebugConfig
 		public void SetData(Data data)
 		{
 			_txtTitle.text = data.Title;
-			_toggle.isOn = data.IsOn.Value;
+			_toggle.isOn = data.IsOn;
 
 			_data = data;
 		}

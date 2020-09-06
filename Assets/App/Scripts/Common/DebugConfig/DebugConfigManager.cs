@@ -98,6 +98,8 @@ namespace Ling.Common.DebugConfig
 		[SerializeField] private Button _btnSave = default;
 		[SerializeField] private Button _btnDelete = default;
 
+		[Inject] private DiContainer _diContainer = default;
+
 		private DebugMenuItem.Data _currMenu = null;  // 現在表示しているMenu
 		private Stack<DebugMenuItem.Data> _menuStack = new Stack<DebugMenuItem.Data>();
 		private Dictionary<Const.MenuType, MenuObject> _menuObjectCaches = new Dictionary<Const.MenuType, MenuObject>();
@@ -112,7 +114,7 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		public int DataCount => _currMenu.Count;
 
-		public DebugRootMenuData RootMenu { get; } = new DebugRootMenuData();
+		public DebugRootMenuData Root { get; } = new DebugRootMenuData();
 
 		public bool IsOpened => gameObject.activeSelf;
 
@@ -128,7 +130,7 @@ namespace Ling.Common.DebugConfig
 		{
 			if (gameObject.activeSelf) return;
 
-			_currMenu = RootMenu;
+			_currMenu = Root;
 			_menuStack.Clear();
 
 			gameObject.SetActive(true);
@@ -152,14 +154,14 @@ namespace Ling.Common.DebugConfig
 			_menuStack.Push(_currMenu);
 			_currMenu = menuItemData;
 
-			_btnBack.gameObject.SetActive(menuItemData != RootMenu);
+			_btnBack.gameObject.SetActive(menuItemData != Root);
 
 			_scrollContent.Refresh(needRemoveCache: false);
 		}
 
 		public void AddItemDataByRootMenu(IDebugItemData itemData)
 		{
-			RootMenu.Add(itemData);
+			Root.Add(itemData);
 		}
 
 		public void RemoveItemDataByRootMenu(IDebugItemData itemData)
@@ -215,6 +217,12 @@ namespace Ling.Common.DebugConfig
 		protected override void Awake()
 		{
 			base.Awake();
+
+			// RootMenu
+			_diContainer
+				.Bind<DebugRootMenuData>()
+				.FromInstance(Root)
+				.AsSingle();
 
 			_menuStack.Clear();
 			_btnBack.gameObject.SetActive(false);

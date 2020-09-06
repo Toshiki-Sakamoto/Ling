@@ -41,6 +41,13 @@ namespace Ling.Map
 		[SerializeField] private Utility.Renderer.SortingLayerChanger _sortingChanger = default;
 		[SerializeField] private Chara.EnemyControlGroup _enemyControlGroup = default;
 
+#if DEBUG
+		[SerializeField] private Transform _tileDebugUIRoot = default;
+		[SerializeField] private _Debug.ScoreUIView _scoreTileViewPrefab = default;
+
+		private _Debug.ScoreUIView[] _scoreTileView = default;
+#endif
+
 		[Inject] private MasterData.MasterManager _masterManager = default;
 
 		#endregion
@@ -124,11 +131,16 @@ namespace Ling.Map
 				}
 			}
 #endif
+			DebugInitDebugTileUI(width, height);
+
 			for (int y = 0; y <= height; ++y)
 			{
 				for (int x = 0; x <= width; ++x)
 				{
-					_tilemap.SetTile(new Vector3Int(x, y, 0), tile);
+					var cellPosition = new Vector3Int(x, y, 0);
+					_tilemap.SetTile(cellPosition, tile);
+
+					DebugSetTileDebugView(cellPosition, width);
 				}
 			}
 
@@ -139,6 +151,41 @@ namespace Ling.Map
 
 
 		#region private 関数
+
+
+		[System.Diagnostics.Conditional("DEBUG")]
+		private void DebugInitDebugTileUI(int width, int height)
+		{
+#if DEBUG
+			foreach (var view in _scoreTileView)
+			{
+				Destroy(view.gameObject);
+			}
+
+			for (var y = 0; y < height; ++y)
+			{
+				for (var x = 0; x < width; ++x)
+				{
+					var index = y * width + x;
+					var view = GameObject.Instantiate(_scoreTileViewPrefab, _tileDebugUIRoot);
+					view.gameObject.SetActive(false);
+
+					_scoreTileView[index] = view;
+				}
+			}
+#endif
+		}
+
+		[System.Diagnostics.Conditional("DEBUG")]
+		public void DebugSetTileDebugView(in Vector3Int cellPosition, int width)
+		{
+#if DEBUG
+			var index = cellPosition.y * width + cellPosition.x;
+			if (index < 0 || index >= _scoreTileView.Length) return;
+			
+			_scoreTileView[index].SetTileData(_tilemap, cellPosition);
+#endif
+		}
 
 		#endregion
 	}

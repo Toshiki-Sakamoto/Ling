@@ -191,9 +191,10 @@ namespace Ling.AI.Move
 			}
 
 			// 目的地から最短距離を求める
-			if (_tileDataMap.Scanner.TryGetShotestDisancePosition(_unit, _destination.Value, out var routePositions))
+			var result = await _tileDataMap.Scanner.GetShotestDisancePositionAsync(_unit, _destination.Value);
+			if (result != null)
 			{
-				SetNextMovePos(routePositions.Front());
+				SetNextMovePos(result.routePositions.Front());
 				return true;
 			}
 

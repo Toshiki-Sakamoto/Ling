@@ -170,7 +170,7 @@ namespace Ling.Common.Scene
 		}
 
 
-		private IObservable<Base>InitLoadPrepareAsync(Base scene)
+		private IObservable<Base> InitLoadPrepareAsync(Base scene)
 		{
 			return Observable.Return(scene);
 		}

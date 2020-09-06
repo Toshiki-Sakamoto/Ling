@@ -9,7 +9,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Ling.Const;
 using Ling.Map.TileDataMapExtension;
-using Zenject;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Map
 {
@@ -72,14 +72,39 @@ namespace Ling.Map
 	/// </summary>
 	public class TileDataMapScanner
     {
+		public class ScoreAndRouteResult
+		{
+			public int score;
+			public List<Vector2Int> routePositions;
+		}
+
+		public class ShotestDistanceResult
+		{
+			public List<Vector2Int> routePositions;
+			public Vector2Int targetPos;
+		}
+
+
+
 		private TileDataMap _tileDataMap;
 		private Utility.Algorithm.Search _search;
 		private CharaMoveChecker _charaMoveChecker;
+		private ScoreAndRouteResult _scoreAndRouteResultCache = new ScoreAndRouteResult();
+		private ShotestDistanceResult _shotestDistanceResultCache = new ShotestDistanceResult();
+
+#if DEBUG
+		private Common.DebugConfig.DebugRootMenuData _debugRoot;
+		private _Debug.EventSearchNodeCreated _eventSearchNodeCreated = new _Debug.EventSearchNodeCreated();
+#endif
 
 		public TileDataMapScanner(TileDataMap tileDataMap)
 		{
 			_tileDataMap = tileDataMap;
 			_search = Utility.Algorithm.Search.Instance;
+
+#if DEBUG
+			_debugRoot = Common.DebugConfig.DebugConfigManager.Instance.Root;
+#endif
 		}
 
 		/// <summary>
@@ -96,28 +121,16 @@ namespace Ling.Map
 			return true;
 		}
 
-		/// <summary>
-		/// 指定した座標までのルートを取得する
-		/// </summary>
-		/// <param name="srcPos"></param>
-		/// <param name="tileFlag"></param>
-		/// <param name="cellNum"></param>
-		/// <param name="option"></param>
-		/// <returns></returns>
-		//public bool TryGetRouteAtEndPos(in Vector2Int srcPos, TileFlag tileFlag, int cellNum, ScanOption option, out List<Vector2Int> routes)
-		//{
-		//}
-
-		public bool TryGetRoutePositions(Chara.ICharaController chara, in Vector2Int targetPos, out List<Vector2Int> routePositions) =>
-			TryGetScoreAndRoutePositions(chara, targetPos, out var score, out routePositions);
+		public async UniTask<ScoreAndRouteResult> GetRoutePositions(Chara.ICharaController chara, Vector2Int targetPos) =>
+			await GetScoreAndRoutePositionsAsync(chara, targetPos);
 
 		/// <summary>
 		/// 指定座標までのルート座標を取得する
 		/// </summary>
-		public bool TryGetScoreAndRoutePositions(Chara.ICharaController chara, in Vector2Int targetPos, out int score, out List<Vector2Int> routePositions)
+		public async UniTask<ScoreAndRouteResult> GetScoreAndRoutePositionsAsync(Chara.ICharaController chara, Vector2Int targetPos)
 		{
-			score = 0;
-			routePositions = null;
+			_scoreAndRouteResultCache.score = 0;
+			_scoreAndRouteResultCache.routePositions = null;
 
 			var param = new Utility.Algorithm.Astar.Param();
 			param.start = chara.Model.Pos;
@@ -134,58 +147,78 @@ namespace Ling.Map
 			param.onCanDiagonalMove = pos_ => _charaMoveChecker.CanDiagonalMove(pos_);
 			param.onTileCostGetter = pos_ => _charaMoveChecker.GetMoveCost(pos_);
 
+#if DEBUG
+			// デバッグ機能が有効の場合
+			if (_debugRoot.battleMenu.aStarScoreShow.IsOn)
+			{
+				param.onCreatedNode = node_ => 
+					{
+						_eventSearchNodeCreated.node = node_;
+
+						Utility.EventManager.SafeTrigger(_eventSearchNodeCreated);
+					};
+
+				await _search.Astar.DebugExecuteAsync(param);
+			}
+			else
+			{
+				_search.Astar.Execute(param);
+			}
+#else
 			_search.Astar.Execute(param);
+#endif
 			if (!_search.Astar.IsSuccess)
 			{
-				return false;
+				return null;
 			}
 
-			if (!_search.Astar.TryGetScoreAndPositions(out score, out routePositions))
+			if (!_search.Astar.TryGetScoreAndPositions(out _scoreAndRouteResultCache.score, out _scoreAndRouteResultCache.routePositions))
 			{
-				return false;
+				return null;
 			}
 
-			return true;
+			return _scoreAndRouteResultCache;
 		}
 
 		/// <summary>
 		/// 指定した座標の最短距離の座標ルートを取得する
 		/// </summary>
-		public bool TryGetShotestDisancePosition(Chara.ICharaController chara, in Vector2Int targetPos, out List<Vector2Int> routePositions) =>
-			TryGetShotestDistancePositions(chara, new List<Vector2Int> { targetPos }, out var _, out routePositions);
+		public async UniTask<ShotestDistanceResult> GetShotestDisancePositionAsync(Chara.ICharaController chara, Vector2Int targetPos) =>
+			await GetShotestDistancePositionsAsync(chara, new List<Vector2Int> { targetPos });
 
 		/// <summary>
 		/// 指定した座標の中で最短距離の座標ルートを取得する
 		/// </summary>
-		public bool TryGetShotestDistancePositions(Chara.ICharaController chara, List<Vector2Int> targets, out Vector2Int targetPos, out List<Vector2Int> routePositions)
+		public async UniTask<ShotestDistanceResult> GetShotestDistancePositionsAsync(Chara.ICharaController chara, List<Vector2Int> targets)
 		{
-			targetPos = Vector2Int.zero;
-			routePositions = null;
+			_shotestDistanceResultCache.targetPos = Vector2Int.zero;
+			_shotestDistanceResultCache.routePositions = null;
 
 			int minScore = int.MaxValue;
 			
 			foreach (var target in targets)
 			{
-				if (!TryGetScoreAndRoutePositions(chara, target, out var score, out var tmpPositions))
+				var scoreAndRouteResult = await GetScoreAndRoutePositionsAsync(chara, target);
+				if (scoreAndRouteResult == null)
 				{
 					continue;
 				}
 
 				// 新しくルート取得した方のスコアのほうが小さい場合、そっちを採用
-				if (score < minScore)
+				if (scoreAndRouteResult.score < minScore)
 				{
-					minScore = score;
-					routePositions = tmpPositions;
-					targetPos = target;
+					minScore = scoreAndRouteResult.score;
+					_shotestDistanceResultCache.routePositions = scoreAndRouteResult.routePositions;
+					_shotestDistanceResultCache.targetPos = target;
 				}
 			}
 
-			if (routePositions == null)
+			if (_shotestDistanceResultCache.routePositions == null)
 			{
-				return false;
+				return null;
 			}
 
-			return true;
+			return _shotestDistanceResultCache;
 		}
 
 
