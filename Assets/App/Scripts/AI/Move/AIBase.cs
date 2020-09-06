@@ -135,8 +135,18 @@ namespace Ling.AI.Move
 			await timeAwaiter.Wait();
 
 			// 目的地が設定されていればそこに向かう
-			if (_destination != null)
+			do
 			{
+				if (_destination == null) break;
+					
+				// すでに目的地にいる場合は何もしない
+				if (_destination == _unit.Model.Pos)
+				{
+					ResetDestination();
+					break;
+				}
+
+				// 目的地が見つかったら終了
 				if (SearchNextMovePos())
 				{
 					return;
@@ -147,17 +157,15 @@ namespace Ling.AI.Move
 					// 2回以上失敗している場合は目的地をリセットする
 					ResetDestination();
 				}
-			}
+
+			} while (false);
 
 			await timeAwaiter.Wait();
 
 			// 目的地がなければ現在自分が動ける範囲で目的地を探す
 			if (SearchDestination())
 			{
-				if (!SearchNextMovePos())
-				{
-					return;
-				}
+				SearchNextMovePos();
 			}
 		}
 
@@ -169,26 +177,27 @@ namespace Ling.AI.Move
 			_nextMovePos = null;
 
 			// 目的地がない場合は動けない
-			if (_destination != null) 
+			if (_destination == null)
 			{
-				// ルートがすでに存在する場合は使用する
-				if (!_destinationRoutes.IsNullOrEmpty())
-				{
-					SetNextMovePos(_destinationRoutes.Front());
-					return true;
-				}
-
-				// 目的地から最短距離を求める
-				if (_tileDataMap.Scanner.TryGetShotestDisancePosition(_unit, _destination.Value, out var routePositions))
-				{
-					SetNextMovePos(routePositions.Front());
-					return true;
-				}
+				return false;
 			}
 
-			// 動けなかったカウントをすすめる
-			++_waitCount;
+			// ルートがすでに存在する場合は使用する
+			if (!_destinationRoutes.IsNullOrEmpty())
+			{
+				SetNextMovePos(_destinationRoutes.Front());
+				_destinationRoutes.Clear();
+				return true;
+			}
 
+			// 目的地から最短距離を求める
+			if (_tileDataMap.Scanner.TryGetShotestDisancePosition(_unit, _destination.Value, out var routePositions))
+			{
+				SetNextMovePos(routePositions.Front());
+				return true;
+			}
+
+			++_waitCount;
 			return false;
 		}
 
@@ -198,7 +207,6 @@ namespace Ling.AI.Move
 		/// </summary>
 		protected virtual bool SearchMustDestination()
 		{
-			// 1番目に優先するもの
 			bool Process(Const.TileFlag target)
 			{
 				if (_masterAIData.FirstTarget == Const.TileFlag.None)

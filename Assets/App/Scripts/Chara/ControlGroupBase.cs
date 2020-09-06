@@ -133,7 +133,7 @@ namespace Ling.Chara
 					// 条件は移動プロセスがすべて終わっているとき
 					foreach (var control in Controls)
 					{
-						if (!control.IaAllMoveProcessEnded())
+						if (!control.IsMoveAllProcessEnded())
 						{
 							return false;
 						}

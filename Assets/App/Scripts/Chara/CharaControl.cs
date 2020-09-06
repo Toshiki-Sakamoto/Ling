@@ -175,7 +175,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// すべての移動プロセスが終了したか
 		/// </summary>
-		public bool IaAllMoveProcessEnded()
+		public bool IsMoveAllProcessEnded()
 		{
 			// 終わったものは自動で削除されるので存在だけ確認
 			return _moveProcesses.Count == 0;
