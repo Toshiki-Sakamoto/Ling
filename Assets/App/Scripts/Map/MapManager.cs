@@ -195,22 +195,20 @@ namespace Ling.Map
 		/// <summary>
 		/// 非同期マップ読み込み
 		/// </summary>
-		/// <param name="mapIDs"></param>
-		/// <returns></returns>
-		private async UniTask LoadAsync(int[] mapIDs)
+		private async UniTask LoadAsync(int[] mapLevels)
 		{
-			foreach (var mapID in mapIDs)
+			foreach (var mapLevel in mapLevels)
 			{
 				var builderData = new Map.Builder.BuilderData();
 
 				var builder = _builderFactory.Create(Map.Builder.BuilderConst.BuilderType.Split);
-				builder.Initialize(20, 20);
+				builder.Initialize(20, 20, mapLevel);
 
 				_builderManager.SetData(builderData);
 				_builderManager.SetBuilder(builder);
 
 				// 一つ下のマップ
-				var prevTileDataMap = _mapModel.FindTileDataMap(mapID - 1);
+				var prevTileDataMap = _mapModel.FindTileDataMap(mapLevel - 1);
 
 				// マップの作成
 				await builder.Execute(prevTileDataMap);
@@ -222,7 +220,7 @@ namespace Ling.Map
 				mapData.Setup(builder, builder.TileDataMap);
 
 				// すでに存在する場合も上書きする
-				_mapModel.SetMapData(mapID, mapData);
+				_mapModel.SetMapData(mapLevel, mapData);
 			}
 		}
 

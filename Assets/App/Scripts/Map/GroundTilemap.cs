@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using Zenject;
+using Ling.Utility;
 
 namespace Ling.Map
 {
@@ -49,6 +50,7 @@ namespace Ling.Map
 #endif
 
 		[Inject] private MasterData.MasterManager _masterManager = default;
+		[Inject] private Utility.IEventManager _eventManager = default;
 
 		#endregion
 
@@ -173,6 +175,16 @@ namespace Ling.Map
 					_scoreTileView[index] = view;
 				}
 			}
+
+			this.AddEventListener<_Debug.EventDebugUIClearAll>(ev_ =>
+				{
+
+				});
+
+			this.AddEventListener<_Debug.EventSearchNodeCreated>(ev_ =>
+				{
+					
+				});
 #endif
 		}
 

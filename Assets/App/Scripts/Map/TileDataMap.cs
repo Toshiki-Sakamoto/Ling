@@ -65,6 +65,8 @@ namespace Ling.Map
 
 		public int Size => Width * Height;
 
+		public int MapLevel { get; private set; }
+
 		public TileData[] Tiles { get; private set; }
 
 		/// <summary>
@@ -102,10 +104,11 @@ namespace Ling.Map
 		public IEnumerator<TileData> GetEnumerator() => new Enumerator(this);
 		IEnumerator IEnumerable.GetEnumerator() => new Enumerator(this);
 
-		public void Initialize(int width, int height)
+		public void Initialize(int width, int height, int mapLevel)
 		{
 			Width = width;
 			Height = height;
+			MapLevel = mapLevel;
 
 			Tiles = new TileData[width * height];
 

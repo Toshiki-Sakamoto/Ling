@@ -30,7 +30,7 @@ namespace Ling.Map.Builder
 		TileDataMap TileDataMap { get; }
 
 
-		void Initialize(int width, int height);
+		void Initialize(int width, int height, int mapLevel);
 
 		void SetData(BuilderData data);
 
@@ -116,9 +116,9 @@ namespace Ling.Map.Builder
 		/// </summary>
 		/// <param name="width"></param>
 		/// <param name="height"></param>
-		public void Initialize(int width, int height)
+		public void Initialize(int width, int height, int mapLevel)
         {
-			TileDataMap.Initialize(width, height);
+			TileDataMap.Initialize(width, height, mapLevel);
 			Width = width;
             Height = height;
         }

@@ -71,7 +71,7 @@ namespace Ling._Debug.Builder
 					var builderData = new Map.Builder.BuilderData();
 
 					_builder = _builderFactory.Create(Map.Builder.BuilderConst.BuilderType.Split);
-					_builder.Initialize(setting_.Width, setting_.Height);
+					_builder.Initialize(setting_.Width, setting_.Height, 1);
 
 					_builder.SetData(builderData);
 
