@@ -34,7 +34,6 @@ namespace Ling.Common.DebugConfig
 			public Data(string title)
 				: base(title)
 			{
-				//SubMenu = menu;
 			}
 
 			protected override void DataUpdateInternal(DebugMenuItem obj) 

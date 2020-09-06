@@ -112,7 +112,7 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		public int DataCount => _currMenu.Count;
 
-		public DebugMenuItem.Data RootMenu { get; } = new DebugMenuItem.Data("Root");
+		public DebugRootMenuData RootMenu { get; } = new DebugRootMenuData();
 
 		public bool IsOpened => gameObject.activeSelf;
 

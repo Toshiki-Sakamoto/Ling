@@ -91,17 +91,6 @@ namespace Ling
 		void Awake()
 		{
 #if DEBUG
-			//var saveMenuItem = new Common.DebugConfig.DebugMenuItem.Data("Save");
-			//_debugManager.RootMenu.Add(saveMenuItem);
-
-			// 最初のデバッグの設定
-			{
-				var menuItem = new Common.DebugConfig.DebugMenuItem.Data("Battle");
-				var aStarScoreShow = new Common.DebugConfig.DebugButtonItem.Data("AStarのスコアを表示する");
-				menuItem.Add(aStarScoreShow);
-				_debugManager.RootMenu.Add(menuItem);
-			}
-
 			Observable.EveryUpdate()
 				.Where(_ => Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.D))
 				.ThrottleFirst(TimeSpan.FromSeconds(0.5))

@@ -17,7 +17,7 @@ namespace Ling.Common
 				.Bind<Launcher>()
 				.FromComponentInHierarchy()
 				.AsSingle();
-				
+
 			Container
 				.Bind<Scene.IExSceneManager>()
 				.To<Scene.ExSceneManager>()
@@ -30,7 +30,7 @@ namespace Ling.Common
 				.AsSingle();
 
 #if DEBUG
-			var debugManagerInstance = Instantiate<DebugConfig.DebugConfigManager>(_debugConfigManager, _debugConfigManagerRoot);
+			var debugManagerInstance = Container.InstantiatePrefabForComponent<DebugConfig.DebugConfigManager>(_debugConfigManager, _debugConfigManagerRoot);
 			Container
 				.Bind<DebugConfig.DebugConfigManager>()
 				.FromInstance(debugManagerInstance)
