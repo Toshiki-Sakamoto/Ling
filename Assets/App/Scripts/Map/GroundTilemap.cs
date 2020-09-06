@@ -46,7 +46,7 @@ namespace Ling.Map
 		[SerializeField] private Transform _tileDebugUIRoot = default;
 		[SerializeField] private _Debug.ScoreUIView _scoreTileViewPrefab = default;
 
-		private _Debug.ScoreUIView[] _scoreTileView = default;
+		private _Debug.ScoreUIView[] _scoreTileView = null;
 #endif
 
 		[Inject] private MasterData.MasterManager _masterManager = default;
@@ -159,10 +159,15 @@ namespace Ling.Map
 		private void DebugInitDebugTileUI(int width, int height)
 		{
 #if DEBUG
-			foreach (var view in _scoreTileView)
+			if (!_scoreTileView.IsNullOrEmpty())
 			{
-				Destroy(view.gameObject);
+				foreach (var view in _scoreTileView)
+				{
+					Destroy(view.gameObject);
+				}
 			}
+
+			_scoreTileView = new _Debug.ScoreUIView[width * height];
 
 			for (var y = 0; y < height; ++y)
 			{
@@ -178,12 +183,21 @@ namespace Ling.Map
 
 			this.AddEventListener<_Debug.EventDebugUIClearAll>(ev_ =>
 				{
+					if (ev_.mapLevel != _mapLevel) return;
 
+					foreach (var tileView in _scoreTileView)
+					{
+						tileView.gameObject.SetActive(false);
+					}
 				});
 
 			this.AddEventListener<_Debug.EventSearchNodeCreated>(ev_ =>
 				{
+					if (ev_.mapLevel != _mapLevel) return;
 					
+					var index = ev_.position.y * width + ev_.position.x;
+
+					_scoreTileView[index].SetScore(ev_.node.score);
 				});
 #endif
 		}

@@ -96,16 +96,15 @@ namespace Ling.Map
 		private Common.DebugConfig.DebugRootMenuData _debugRoot;
 		private _Debug.EventSearchNodeCreated _eventSearchNodeCreated = new _Debug.EventSearchNodeCreated();
 		private _Debug.EventDebugUIClearAll _eventDebugUIClearAll = new _Debug.EventDebugUIClearAll();
+
+		public Common.DebugConfig.DebugRootMenuData DebugRoot =>
+				_debugRoot ?? (_debugRoot = Common.DebugConfig.DebugConfigManager.Instance.Root);
 #endif
 
 		public TileDataMapScanner(TileDataMap tileDataMap)
 		{
 			_tileDataMap = tileDataMap;
 			_search = Utility.Algorithm.Search.Instance;
-
-#if DEBUG
-			_debugRoot = Common.DebugConfig.DebugConfigManager.Instance.Root;
-#endif
 		}
 
 		/// <summary>
@@ -150,7 +149,7 @@ namespace Ling.Map
 
 #if DEBUG
 			// デバッグ機能が有効の場合
-			if (_debugRoot.battleMenu.aStarScoreShow.IsOn)
+			if (DebugRoot.battleMenu.aStarScoreShow.IsOn)
 			{
 				_eventDebugUIClearAll.mapLevel = _tileDataMap.MapLevel;
 				_eventSearchNodeCreated.mapLevel = _tileDataMap.MapLevel;
