@@ -126,9 +126,9 @@ namespace Ling.AI.Move
 		protected virtual async UniTask ExexuteInternalAsync(Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			// もっとも優先すべきものがあればそこに向かって歩く
-			if (SearchMustDestination())
+			if (await SearchMustDestinationAsync())
 			{
-				SearchNextMovePos();
+				await SearchNextMovePosAsync();
 				return;
 			}
 
@@ -147,7 +147,7 @@ namespace Ling.AI.Move
 				}
 
 				// 目的地が見つかったら終了
-				if (SearchNextMovePos())
+				if (await SearchNextMovePosAsync())
 				{
 					return;
 				}
@@ -165,14 +165,14 @@ namespace Ling.AI.Move
 			// 目的地がなければ現在自分が動ける範囲で目的地を探す
 			if (SearchDestination())
 			{
-				SearchNextMovePos();
+				await SearchNextMovePosAsync();
 			}
 		}
 
 		/// <summary>
 		/// 次に移動すべき座標を目的地から計算する
 		/// </summary>
-		protected bool SearchNextMovePos()
+		protected async UniTask<bool> SearchNextMovePosAsync()
 		{
 			_nextMovePos = null;
 
@@ -206,32 +206,33 @@ namespace Ling.AI.Move
 		/// <summary>
 		/// 優先すべきターゲット座標取得する
 		/// </summary>
-		protected virtual bool SearchMustDestination()
+		protected virtual async UniTask<bool> SearchMustDestinationAsync()
 		{
-			bool Process(Const.TileFlag target)
+			async UniTask<bool> Process(Const.TileFlag target)
 			{
 				if (_masterAIData.FirstTarget == Const.TileFlag.None)
 				{
 					return false;
 				}
 
-				if (TryGetPosByTargetType(_masterAIData.FirstTarget, out var targetPos))
+				var result = await GetPosByTargetTypeAsync(_masterAIData.FirstTarget);
+				if (result.success)
 				{
 					ResetDestination();
 
-					_destination = targetPos;
+					_destination = result.targetPos;
 					return true;
 				}
 
 				return false;
 			}
 
-			if (Process(_masterAIData.FirstTarget)) 
+			if (await Process(_masterAIData.FirstTarget)) 
 			{
 				return true;
 			}
 			
-			if (Process(_masterAIData.SecondTarget)) 
+			if (await Process(_masterAIData.SecondTarget)) 
 			{
 				return true;
 			}
@@ -242,10 +243,8 @@ namespace Ling.AI.Move
 		/// <summary>
 		/// ターゲット座標を取得する
 		/// </summary>
-		protected virtual bool TryGetPosByTargetType(Const.TileFlag targetType, out Vector2Int targetPos)
+		protected virtual async UniTask<(bool success, Vector2Int targetPos)> GetPosByTargetTypeAsync(Const.TileFlag targetType)
 		{
-			targetPos = Vector2Int.zero;
-
 			// 部屋である必要があるか →　継承先で特別なことはやる
 
 			// 部屋か
@@ -254,22 +253,27 @@ namespace Ling.AI.Move
 			if (RoomData == null)
 			{
 				// 部屋じゃない
-				return false;
+				return (false, Vector2Int.zero);
 			}
 
 			// 同じ部屋にターゲットタイプがいないので終了
 			if (!RoomData.TryGetTilePositionList(targetType, out var targetPositions))
 			{
-				return false;
+				return (false, Vector2Int.zero);
 			}
 
 			// 存在する場合、もっとも自分から距離が近い対象座標を取得する
-			if (!TileDataMap.Scanner.TryGetShotestDistancePositions(_unit, targetPositions, out targetPos, out _destinationRoutes))
+			_destinationRoutes = null;
+
+			var shotestDistanceResult = await TileDataMap.Scanner.GetShotestDistancePositionsAsync(_unit, targetPositions);
+			if (shotestDistanceResult == null)
 			{
-				return false;
+				return (false, Vector2Int.zero);
 			}
 
-			return true;
+			_destinationRoutes = shotestDistanceResult.routePositions;
+
+			return (true, shotestDistanceResult.targetPos);
 		}
 
 		/// <summary>
