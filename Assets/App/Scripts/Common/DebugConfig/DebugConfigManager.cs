@@ -126,9 +126,6 @@ namespace Ling.Common.DebugConfig
 
 			_currMenu = RootMenu;
 
-			_menuObjectCaches.Clear();
-			_menuObjectCaches = _menuObjects.ToDictionary(_menuObject => _menuObject.Type);
-			
 			gameObject.SetActive(true);
 
 			_scrollContent.Refresh(needRemoveCache: false);
@@ -140,6 +137,16 @@ namespace Ling.Common.DebugConfig
 			{
 				gameObject.SetActive(false);
 			}
+		}
+
+		/// <summary>
+		/// 表示するMenu内容を更新する
+		/// </summary>
+		public void UpdateMenuItemData(DebugMenuItem.Data menuItemData)
+		{
+			_currMenu = menuItemData;
+
+			_scrollContent.Refresh(needRemoveCache: false);
 		}
 
 		public void AddItemDataByRootMenu(IDebugItemData itemData)
@@ -202,6 +209,9 @@ namespace Ling.Common.DebugConfig
 			base.Awake();
 
 			_currMenu = RootMenu;
+
+			_menuObjectCaches.Clear();
+			_menuObjectCaches = _menuObjects.ToDictionary(_menuObject => _menuObject.Type);
 
 			_scrollContent.Initialize(this);
 		}

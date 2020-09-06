@@ -83,14 +83,13 @@ namespace Ling.Utility.UI
 			public float size;
 			public int index;
 
-			public static ItemData Create(GameObject origin, int index, float size)
+			public static ItemData Create(GameObject newObject, GameObject origin, int index, float size)
 			{
-				var newObj = Instantiate(origin);
 				return new ItemData() 
 					{ 
-						obj = newObj, 
+						obj = newObject, 
 						objOrigin = origin, 
-						rectTransform = newObj.GetComponent<RectTransform>(),
+						rectTransform = newObject.GetComponent<RectTransform>(),
 						size = size,
 						index = index
 					};
@@ -119,6 +118,8 @@ namespace Ling.Utility.UI
 		[SerializeField] private Direction _direction = Direction.Vertical;
 		[SerializeField, Range(0, 20)] private int _instantateItemCount = 7;
 		[SerializeField] private bool _autoInitItemInstantiate = default;	// 初期化とき、自動でアイテムの生成を行う
+		
+		[Inject] DiContainer _container = null;
 
 		private ScrollRect _scrollRect;
 		private List<ItemData> _items = new List<ItemData>();
@@ -249,6 +250,7 @@ namespace Ling.Utility.UI
 		public void Initialize(IContentDataProvider dataProvider)
 		{
 			_dataProvider = dataProvider;
+			_currentItemNo = 0;
 
 			if (_autoInitItemInstantiate)
 			{
@@ -300,11 +302,14 @@ namespace Ling.Utility.UI
 			{
 				_positionCaches.Clear();
 
+				while (_items.Count > 0)
+				{
+					RemoveItem(_items[0]);
+				}
+				
 				for (var i = 0; i < _instantateItemCount; ++i)
 				{
-					var item = _items[0];
-					_items.RemoveAt(0);
-					_items.Add(GetItem(_currentItemNo + i, item));
+					_items.Add(GetItem(/*_currentItemNo + */i, null));
 				}
 			}
 
@@ -423,7 +428,8 @@ namespace Ling.Utility.UI
 				{
 					// なければ生成
 					// todo: ここは生成方法を選択できるようにしておくと良いかも
-					recyclableItem = ItemData.Create(gameObj, index, _dataProvider.GetItemSize(index));
+					var newObject = _container.InstantiatePrefab(gameObj, ScrollRect.content);
+					recyclableItem = ItemData.Create(newObject, gameObj, index, _dataProvider.GetItemSize(index));
 				}
 			}
 
@@ -487,6 +493,7 @@ namespace Ling.Utility.UI
 		protected void Update()
 		{
 			if (_dataProvider == null) return;
+			if (_items.Count <= 1) return;
 
 			// Yは下がプラスで上がマイナスになる
 			

@@ -23,11 +23,11 @@ namespace Ling.Common.DebugConfig
     {
 		#region 定数, class, enum
 
-		public class ItemData : DebugItemDataBase<DebugCheckItem>
+		public class Data : DebugItemDataBase<DebugCheckItem>
 		{
 			public BoolReactiveProperty IsOn { get; private set; }
 
-			public ItemData(string title)
+			public Data(string title)
 				: base(title)
 			{ }
 
@@ -58,12 +58,13 @@ namespace Ling.Common.DebugConfig
 		[SerializeField] private Text _txtTitle = null;
 		[SerializeField] private Toggle _toggle = null;
 
+		private Data _data;
+
 		#endregion
 
 
 		#region プロパティ
 
-		public ItemData Data { get; private set; }
 
 //		public Action<bool> onUpdate { get; set; }
 
@@ -72,21 +73,21 @@ namespace Ling.Common.DebugConfig
 
 		#region public, protected 関数
 
-		public static ItemData Create(bool isOn, string title)
+		public static Data Create(bool isOn, string title)
 		{
-			var data = new ItemData(title);
+			var data = new Data(title);
 			data.SetValue(isOn);
 
 			return data;
 		}
 
 
-		public void SetData(ItemData data)
+		public void SetData(Data data)
 		{
 			_txtTitle.text = data.Title;
 			_toggle.isOn = data.IsOn.Value;
 
-			Data = data;
+			_data = data;
 		}
 
 		#endregion
@@ -106,13 +107,13 @@ namespace Ling.Common.DebugConfig
 		{
 			_toggle
 				.OnValueChangedAsObservable()
-				.Subscribe(isOn_ => 
+				.Subscribe((Action<bool>)(isOn_ => 
 				{
-					if (Data == null) return;
+					if (this._data == null) return;
 
-					Data.SetValue(isOn_);
+					this._data.SetValue(isOn_);
 				//	onUpdate?.Invoke(Data.IsOn.Value);
-				});
+				}));
 		}
 
 		#endregion

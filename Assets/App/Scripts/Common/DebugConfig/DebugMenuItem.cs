@@ -104,11 +104,9 @@ namespace Ling.Common.DebugConfig
 				.Subscribe(_ => 
 					{
 						// 自分が持つリストを表示させる
-						// _data
+						_manager.UpdateMenuItemData(_data);
 					});
 		}
 	}
-
-	
 }
 #endif
