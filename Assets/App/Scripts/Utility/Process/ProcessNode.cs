@@ -51,7 +51,7 @@ namespace Ling.Utility
 			_startProcesses.Add(process);
 
 			// 開始するか
-			process.SetEnable(waitForStart);
+			process.SetEnable(!waitForStart);
 
 			return process;
 		}
@@ -62,7 +62,7 @@ namespace Ling.Utility
 			_startProcesses.Add(process);
 
 			// 開始するか
-			process.SetEnable(waitForStart);
+			process.SetEnable(!waitForStart);
 
 			return process;
 		}
