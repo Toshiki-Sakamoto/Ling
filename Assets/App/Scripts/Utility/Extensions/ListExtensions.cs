@@ -85,7 +85,7 @@ namespace Ling
 				if (front.Equals(value)) return false;
 
 				result = front;
-				return false;
+				return true;
 			}
 			
 			var index = self.IndexOf(value);
