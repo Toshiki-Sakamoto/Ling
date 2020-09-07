@@ -347,7 +347,10 @@ namespace Ling.Map
 		/// </summary>
 		public void UpdateRoomData()
 		{
-
+			foreach (var pair in Rooms)
+			{
+				pair.Value.UpdateFlagDataMap();
+			}
 		}
 
 		#endregion

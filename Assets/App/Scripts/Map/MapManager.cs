@@ -187,6 +187,15 @@ namespace Ling.Map
 		public Map.GroundTilemap FindGroundTilemap(int level) =>
 			MapControl.FindGroundTilemap(level);
 
+		/// <summary>
+		/// Map情報を更新する
+		/// </summary>
+		public void UpdateMapData()
+		{
+			// 部屋情報
+			UpdateRoomDataMap();
+		}
+
 		#endregion
 
 
@@ -221,6 +230,17 @@ namespace Ling.Map
 
 				// すでに存在する場合も上書きする
 				_mapModel.SetMapData(mapLevel, mapData);
+			}
+		}
+
+		/// <summary>
+		/// 各マップの部屋情報を更新する
+		/// </summary>
+		private void UpdateRoomDataMap()
+		{
+			foreach (var mapData in _mapModel.MapData.Values)
+			{
+				mapData.TileDataMap.UpdateRoomData();
 			}
 		}
 

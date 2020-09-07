@@ -66,9 +66,16 @@ namespace Ling.Map
 			TileData.Add(tileData);
 		}
 
+		/// <summary>
+		/// 現在の部屋情報を更新する
+		/// 部屋に更新があるたびに呼び出す
+		/// </summary>
 		public void UpdateFlagDataMap()
 		{
-			_tileFlagAndData.Clear();
+			foreach (var pair in _tileFlagAndData)
+			{
+				pair.Value.Clear();
+			}
 
 			foreach (var tileData in TileData)
 			{
@@ -92,8 +99,13 @@ namespace Ling.Map
 
 		public bool TryGetTileDataList(Const.TileFlag tileFlag, out List<TileData> list)
 		{
-			if (_tileFlagAndData.TryGetValue(tileFlag, out list))
+			list = null;
+
+			if (_tileFlagAndData.TryGetValue(tileFlag, out var result))
 			{
+				if (result.Count <= 0) return false;
+				list = result;
+
 				return true;
 			}
 
@@ -105,6 +117,8 @@ namespace Ling.Map
 
 			if (TryGetTileDataList(tileFlag, out var tileDataList))
 			{
+				if (tileDataList.Count <= 0) return false;
+
 				list = tileDataList.Select(tileData_ => tileData_.Pos).ToList();
 				return true;
 			}

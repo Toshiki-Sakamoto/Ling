@@ -195,7 +195,7 @@ namespace Ling.Map
 				{
 					if (ev_.mapLevel != _mapLevel) return;
 					
-					var index = ev_.position.y * width + ev_.position.x;
+					var index = ev_.node.pos.y * width + ev_.node.pos.x;
 
 					_scoreTileView[index].SetScore(ev_.node.score);
 				});

@@ -37,8 +37,7 @@ namespace Ling.Map
 		#region private 変数
 
 		private StageMaster _stageMaster;
-		private Dictionary<int, MapData> _mapData = new Dictionary<int, MapData>();
-
+		
 		#endregion
 
 
@@ -66,6 +65,11 @@ namespace Ling.Map
 		/// </summary>
 		public List<int> ShowMapIndexes { get; } = new List<int>();
 
+		/// <summary>
+		/// 全体のMapData
+		/// </summary>
+		public Dictionary<int, MapData> MapData { get; } = new Dictionary<int, MapData>();
+
 		#endregion
 
 
@@ -85,12 +89,12 @@ namespace Ling.Map
 		public void SetMapData(int level, MapData mapData)
 		{
 			// 現在のMapDataを上書きする
-			_mapData[level] = mapData;
+			MapData[level] = mapData;
 		}
 
 		public void ChangeMapByIndex(int level)
 		{
-			if (!_mapData.ContainsKey(level))
+			if (!MapData.ContainsKey(level))
 			{
 				Utility.Log.Error($"存在しないMap階層です {level}");
 				return;
@@ -98,7 +102,7 @@ namespace Ling.Map
 
 			CurrentMapIndex = level;
 
-			CurrentMapData = _mapData[level];
+			CurrentMapData = MapData[level];
 			CurrentTileDataMap = CurrentMapData.TileDataMap;
 
 			BuildShowMapIndexList();
@@ -113,7 +117,7 @@ namespace Ling.Map
 
 		public MapData FindMapData(int level)
 		{
-			if (_mapData.TryGetValue(level, out MapData value))
+			if (MapData.TryGetValue(level, out MapData value))
 			{
 				return value;
 			}
