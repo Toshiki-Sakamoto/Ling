@@ -51,19 +51,23 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region コンストラクタ, デストラクタ
 
-		public override void Awake()
+		public sealed override void Awake()
 		{
 			_model = Resolve<BattleModel>();
 
 			_gameManager = GameManager.Instance;
 			_eventManager = _gameManager.Resolve<Utility.IEventManager>();
 			_processManager = _gameManager.Resolve<Utility.ProcessManager>();
+
+			AwakeInternal();
 		}
 
 		#endregion
 
 
 		#region public, protected 関数
+
+		protected virtual void AwakeInternal() {}
 
 		#endregion
 

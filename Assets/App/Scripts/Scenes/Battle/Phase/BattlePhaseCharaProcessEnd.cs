@@ -39,10 +39,6 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake() 
-		{ 
-		}
-
 		public override void Init() 
 		{
 			// 今の所何もすることないのでプレイヤー行動開始時に戻す
