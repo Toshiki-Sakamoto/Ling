@@ -34,5 +34,11 @@ namespace Ling
 
         public static Vector2Int ToVector2Int(this Vector3Int self) =>
             new Vector2Int(self.x, self.y);
+
+        public static Vector3 ToVector3(this Vector2 self) =>
+            new Vector3(self.x, self.y);
+
+        public static Vector2 ToVector2(this Vector3 self) =>
+            new Vector2(self.x, self.y);
     }
 }

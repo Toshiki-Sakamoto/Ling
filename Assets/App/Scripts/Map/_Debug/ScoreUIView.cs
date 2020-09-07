@@ -8,6 +8,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using Ling;
 
 namespace Ling.Map._Debug
 {
@@ -49,8 +50,11 @@ namespace Ling.Map._Debug
 			_cellPosition = position;
 		}
 
-		public void SetScore(int score) =>
+		public void SetScore(int score)
+		{
+			gameObject.SetActive(true);
 			_text.text = score.ToString();
+		}
 
 		public void SetTextColor(Color color) =>
 			_text.color = color;
@@ -71,7 +75,10 @@ namespace Ling.Map._Debug
 		/// </summary>
 		void Update()
 		{
-			transform.position = _tileMap.GetCellCenterWorld(_cellPosition);
+			var worldPos = _tileMap.GetCellCenterWorld(_cellPosition);
+			var screenPos = RectTransformUtility.WorldToScreenPoint(Camera.main, worldPos);
+
+			transform.position = screenPos.ToVector3();
 		}
 
 		/// <summary>
