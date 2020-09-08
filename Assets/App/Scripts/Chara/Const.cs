@@ -38,16 +38,16 @@ namespace Ling.Chara
 
 	public static class ConstExtensions
 	{
-		public static Map.TileFlag ToTileFlag(this CharaType self)
+		public static Const.TileFlag ToTileFlag(this CharaType self)
 		{
 			switch (self)
 			{
-				case CharaType.Player: return Map.TileFlag.Player;
-				case CharaType.Enemy: return Map.TileFlag.Enemy;
+				case CharaType.Player: return Const.TileFlag.Player;
+				case CharaType.Enemy: return Const.TileFlag.Enemy;
 
 				default:
 					Utility.Log.Error("CharaTypeからTileFlagへの変換ができません " + self);
-					return Map.TileFlag.None;
+					return Const.TileFlag.None;
 			}
 		}
 

@@ -19,7 +19,7 @@ using Zenject;
 namespace Ling.Scenes.Battle.Phase
 {
 	/// <summary>
-	/// 
+	/// プレイヤーの行動開始
 	/// </summary>
 	public class BattlePhasePlayerAction : BattlePhaseBase
 	{
@@ -36,7 +36,7 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 		private Chara.CharaManager _charaManager;
-		private MapManager _mapManager;
+		private Map.MapManager _mapManager;
 
 		#endregion
 
@@ -53,10 +53,16 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Init()
+		protected override void AwakeInternal()
 		{
 			_charaManager = Resolve<Chara.CharaManager>();
-			_mapManager = Resolve<MapManager>();
+			_mapManager = Resolve<Map.MapManager>();
+		}
+
+		public override void Init()
+		{
+			// マップ情報を更新する
+			_mapManager.UpdateMapData();
 		}
 
 		public override void Proc()
@@ -84,18 +90,25 @@ namespace Ling.Scenes.Battle.Phase
 			if (moveDistance == Vector2Int.zero) return;
 
 			var playerModel = _charaManager.PlayerModel;
-			var player = _charaManager.PlayerView;
+			var playerView = _charaManager.PlayerView;
+			var player = _charaManager.Player;
 
 			// 移動できるか
 			if (!_mapManager.CanMoveChara(playerModel, moveDistance))
 			{
 				// 向きだけ変える
-				player.SetDirection(moveDistance);
+				playerView.SetDirection(moveDistance);
 				return;
 			}
 
 			// Playerの座標を変更する(見た目は反映させない)
 			playerModel.AddPos(moveDistance);
+
+			// 移動であればプロセスを追加し、敵思考に回す
+			var moveProcess = player.AddMoveProcess<Chara.Process.ProcessMove>();
+			moveProcess.SetAddPos(playerView, moveDistance);
+
+			Change(BattleScene.Phase.EnemyTink);
 
 			//var process = _processManager.Attach<Process.ProcessPlayerMoveStart>().Setup(moveDistance);
 

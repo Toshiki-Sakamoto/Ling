@@ -7,6 +7,9 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using Ling.Const;
+using Ling.Map.TileDataMapExtension;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Map
 {
@@ -21,16 +24,87 @@ namespace Ling.Map
 		public bool needsSameRoom = true;	// 同じ部屋であることが必要か(部屋じゃない場合1マスしか見ない)
 	}
 
+	public class CharaMoveChecker
+	{
+		private TileDataMap _tileDataMap;
+		private Chara.ICharaController _chara;
+
+		public CharaMoveChecker(TileDataMap tileDataMap)
+		{
+			_tileDataMap = tileDataMap;
+		}
+
+		public void Setup(Chara.ICharaController chara)
+		{
+			_chara = chara;
+		}
+
+		/// <summary>
+		/// 移動できるか
+		/// </summary>
+		public bool CanMove(in Vector2Int pos)
+		{
+			var tileFlag = _tileDataMap.GetTileFlag(pos);
+
+			// 移動できるか
+			return _chara.Model.CanMoveTileFlag(tileFlag);
+		}
+
+		public bool CanDiagonalMove(in Vector2Int pos)
+		{
+			var tileFlag = _tileDataMap.GetTileFlag(pos);
+
+			// 斜め移動のとき
+			return _chara.Model.CanDiagonalMoveTileFlag(tileFlag);
+		}
+
+		/// <summary>
+		/// 移動コスト
+		/// </summary>
+		public int GetMoveCost(in Vector2Int pos)
+		{
+			return 1;
+		}
+	}
+
 	/// <summary>
 	/// マップを走査する
 	/// </summary>
 	public class TileDataMapScanner
     {
+		public class ScoreAndRouteResult
+		{
+			public int score;
+			public List<Vector2Int> routePositions;
+		}
+
+		public class ShotestDistanceResult
+		{
+			public List<Vector2Int> routePositions;
+			public Vector2Int targetPos;
+		}
+
+
+
 		private TileDataMap _tileDataMap;
+		private Utility.Algorithm.Search _search;
+		private CharaMoveChecker _charaMoveChecker;
+		private ScoreAndRouteResult _scoreAndRouteResultCache = new ScoreAndRouteResult();
+		private ShotestDistanceResult _shotestDistanceResultCache = new ShotestDistanceResult();
+
+#if DEBUG
+		private Common.DebugConfig.DebugRootMenuData _debugRoot;
+		private _Debug.EventSearchNodeCreated _eventSearchNodeCreated = new _Debug.EventSearchNodeCreated();
+		private _Debug.EventDebugUIClearAll _eventDebugUIClearAll = new _Debug.EventDebugUIClearAll();
+
+		public Common.DebugConfig.DebugRootMenuData DebugRoot =>
+				_debugRoot ?? (_debugRoot = Common.DebugConfig.DebugConfigManager.Instance?.Root);
+#endif
 
 		public TileDataMapScanner(TileDataMap tileDataMap)
 		{
 			_tileDataMap = tileDataMap;
+			_search = Utility.Algorithm.Search.Instance;
 		}
 
 		/// <summary>
@@ -47,10 +121,110 @@ namespace Ling.Map
 			return true;
 		}
 
-		public bool GetRouteAtTileFlag()
-		{
+		public async UniTask<ScoreAndRouteResult> GetRoutePositions(Chara.ICharaController chara, Vector2Int targetPos) =>
+			await GetScoreAndRoutePositionsAsync(chara, targetPos);
 
+		/// <summary>
+		/// 指定座標までのルート座標を取得する
+		/// </summary>
+		public async UniTask<ScoreAndRouteResult> GetScoreAndRoutePositionsAsync(Chara.ICharaController chara, Vector2Int targetPos)
+		{
+			_scoreAndRouteResultCache.score = 0;
+			_scoreAndRouteResultCache.routePositions = null;
+
+			var param = new Utility.Algorithm.Astar.Param();
+			param.start = chara.Model.Pos;
+			param.end = targetPos;
+			param.width = _tileDataMap.Width;
+
+			if (_charaMoveChecker == null)
+			{
+				_charaMoveChecker = new CharaMoveChecker(_tileDataMap);
+			}
+
+			_charaMoveChecker.Setup(chara);
+			param.onCanMove = pos_ => _charaMoveChecker.CanMove(pos_);
+			param.onCanDiagonalMove = pos_ => _charaMoveChecker.CanDiagonalMove(pos_);
+			param.onTileCostGetter = pos_ => _charaMoveChecker.GetMoveCost(pos_);
+
+#if DEBUG
+			// デバッグ機能が有効の場合
+			if (DebugRoot != null && DebugRoot.battleMenu.aStarScoreShow.IsOn)
+			{
+				_eventDebugUIClearAll.mapLevel = _tileDataMap.MapLevel;
+				_eventSearchNodeCreated.mapLevel = _tileDataMap.MapLevel;
+				Utility.EventManager.SafeTrigger(_eventDebugUIClearAll);
+
+				param.onCreatedNode = node_ => 
+					{
+						_eventSearchNodeCreated.node = node_;
+
+						Utility.EventManager.SafeTrigger(_eventSearchNodeCreated);
+					};
+
+				await _search.Astar.DebugExecuteAsync(param);
+			}
+			else
+			{
+				_search.Astar.Execute(param);
+			}
+#else
+			_search.Astar.Execute(param);
+#endif
+			if (!_search.Astar.IsSuccess)
+			{
+				return null;
+			}
+
+			if (!_search.Astar.TryGetScoreAndPositions(out _scoreAndRouteResultCache.score, out _scoreAndRouteResultCache.routePositions))
+			{
+				return null;
+			}
+
+			return _scoreAndRouteResultCache;
 		}
+
+		/// <summary>
+		/// 指定した座標の最短距離の座標ルートを取得する
+		/// </summary>
+		public async UniTask<ShotestDistanceResult> GetShotestDisancePositionAsync(Chara.ICharaController chara, Vector2Int targetPos) =>
+			await GetShotestDistancePositionsAsync(chara, new List<Vector2Int> { targetPos });
+
+		/// <summary>
+		/// 指定した座標の中で最短距離の座標ルートを取得する
+		/// </summary>
+		public async UniTask<ShotestDistanceResult> GetShotestDistancePositionsAsync(Chara.ICharaController chara, List<Vector2Int> targets)
+		{
+			_shotestDistanceResultCache.targetPos = Vector2Int.zero;
+			_shotestDistanceResultCache.routePositions = null;
+
+			int minScore = int.MaxValue;
+			
+			foreach (var target in targets)
+			{
+				var scoreAndRouteResult = await GetScoreAndRoutePositionsAsync(chara, target);
+				if (scoreAndRouteResult == null)
+				{
+					continue;
+				}
+
+				// 新しくルート取得した方のスコアのほうが小さい場合、そっちを採用
+				if (scoreAndRouteResult.score < minScore)
+				{
+					minScore = scoreAndRouteResult.score;
+					_shotestDistanceResultCache.routePositions = scoreAndRouteResult.routePositions;
+					_shotestDistanceResultCache.targetPos = target;
+				}
+			}
+
+			if (_shotestDistanceResultCache.routePositions == null)
+			{
+				return null;
+			}
+
+			return _shotestDistanceResultCache;
+		}
+
 
 		/// <summary>
 		/// 指定した地点から指定マス分走査する
@@ -123,7 +297,7 @@ namespace Ling.Map
 				++scanNum;
 				--remCellNum;
 
-				return MapUtility.CallDirection(posX, posY, 
+				return Utility.Map.CallDirection(posX, posY, 
 					(posX_, posY_) => 
 					{
 						return ScanAllInternal(scanNum, remCellNum, posX_, posY_);

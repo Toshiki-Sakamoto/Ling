@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2020.08.10
 //
 
+using Ling.MasterData.Chara;
+
 namespace Ling.AI.Move
 {
 	/// <summary>
@@ -12,37 +14,35 @@ namespace Ling.AI.Move
 	/// </summary>
 	public class MoveAIFactory
     {
-		private Const.MoveAIType _moveAIType;
-		private int _param1;
+		private MoveAIData _moveAIData;
 
-		public MoveAIFactory(Const.MoveAIType moveAIType, int param1)
+		public MoveAIFactory(MoveAIData moveAIData)
 		{
-			_moveAIType = moveAIType;
-			_param1 = param1;
+			_moveAIData = moveAIData;
 		}
 
-		public AIBase Create()
+		public void Attach<TModel, TView>(Chara.CharaControl<TModel, TView> charaControl)
+			where TModel : Chara.CharaModel 
+			where TView : Chara.ViewBase
 		{
 			AIBase moveAI = null;
 
-			switch (_moveAIType)
+			switch (_moveAIData.MoveAIType)
 			{
 				case Const.MoveAIType.Random:
-					moveAI = new AIRandom();
+					moveAI = charaControl.AttachMoveAI<AIRandom>();
 					break;
 
 				case Const.MoveAIType.NormalTracking:
-					moveAI = new AINormalTracking();
+					moveAI = charaControl.AttachMoveAI<AINormalTracking>();
 					break;
 
 				default:
-					Utility.Log.Error("MoveAIを作成できませんでした。無効のタイプ " + _moveAIType);
-					return null;
+					Ling.Utility.Log.Error("MoveAIを作成できませんでした。無効のタイプ " + _moveAIData.MoveAIType);
+					return;
 			}
 
-			moveAI.Param1 = _param1;
-
-			return moveAI;
+			moveAI.Setup(_moveAIData);
 		}
 	}
 }

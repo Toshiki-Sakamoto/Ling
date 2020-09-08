@@ -20,7 +20,7 @@ namespace Ling.Utility
     }
 
     /// <summary>
-    /// 
+    /// 一つの行動をPhase単位で管理するためのベース
     /// </summary>
     public class PhaseScene<T, TScene> 
 		where T : Enum 

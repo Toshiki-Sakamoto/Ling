@@ -31,7 +31,7 @@ namespace Ling.Common.Scene
 
 
 	/// <summary>
-	/// 
+	/// シーン管理者
 	/// </summary>
 	[DefaultExecutionOrder(Common.ExcutionOrders.SceneManager)]
 	public class ExSceneManager : MonoBehaviour, IExSceneManager
@@ -170,11 +170,15 @@ namespace Ling.Common.Scene
 		}
 
 
-		private IObservable<Base>InitLoadPrepareAsync(Base scene)
+		private IObservable<Base> InitLoadPrepareAsync(Base scene)
 		{
 			return Observable.Return(scene);
 		}
 
+		/// <summary>
+		/// シーン読み込み処理
+		/// 非同期で読み込み、完了後切り替える
+		/// </summary>
 		private IObservable<Unit> LoadSceneAsync(string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single)
 		{
 			return Observable.FromCoroutine<Unit>(observer_ =>

@@ -30,6 +30,7 @@ namespace Ling._Debug.Builder
 		#region private 変数
 
 		[SerializeField] private View _view = null;
+		[SerializeField] private Algorithm.MapSearch _search = default;
 
 		[Inject] private Map.Builder.IManager _builderManager = null;
 		[Inject] private Map.Builder.BuilderFactory _builderFactory = null;
@@ -70,7 +71,7 @@ namespace Ling._Debug.Builder
 					var builderData = new Map.Builder.BuilderData();
 
 					_builder = _builderFactory.Create(Map.Builder.BuilderConst.BuilderType.Split);
-					_builder.Initialize(setting_.Width, setting_.Height);
+					_builder.Initialize(setting_.Width, setting_.Height, 1);
 
 					_builder.SetData(builderData);
 
@@ -84,6 +85,20 @@ namespace Ling._Debug.Builder
 
 					_view.MapDrawView.Setup(setting_.Width, setting_.Height, Map.Builder.BuilderConst.BuilderType.Split);
 					_view.MapDrawView.DrawUpdate(_builder);
+
+					_search.Setup(setting_.Width, setting_.Height);
+					_search.SetSearchParam(_builder.TileDataMap);
+
+					var size = setting_.Width * setting_.Height;
+					for (int i = 0; i < size; ++i)
+					{
+						if (!_view.MapDrawView.TryGetSpriteRenderer(i, out var renderer))
+						{
+							continue;
+						}
+
+						_search.SetFollowTargets(i, renderer.transform);
+					}
 				};
 		}
 

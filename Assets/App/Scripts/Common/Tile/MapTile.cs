@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using Ling.Utility.Extensions;
 using Zenject;
 using Ling.Map;
+using Ling.Map.TileDataMapExtension;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -44,7 +45,7 @@ namespace Ling.Common.Tile
 		[SerializeField] private MapTileSpriteData[] _spriteData = null;
 		[SerializeField] private Color _color = Color.white;
 
-		private Map.TileFlag _currentTileFlag;
+		private Const.TileFlag _currentTileFlag;
 
 		#endregion
 
@@ -71,11 +72,11 @@ namespace Ling.Common.Tile
 		public void SetupMapData()
 		{
 			// TileFlagの数だけSpriteデータクラスを作成しセットアップする
-			var tileFlags = System.Enum.GetValues(typeof(Map.TileFlag));
+			var tileFlags = System.Enum.GetValues(typeof(Const.TileFlag));
 			_spriteData = new MapTileSpriteData[tileFlags.Length];
 
 			int count = 0;
-			foreach (Map.TileFlag tileFlag in tileFlags)
+			foreach (Const.TileFlag tileFlag in tileFlags)
 			{
 				var miniMapData = new MapTileSpriteData();
 				miniMapData.Setup(tileFlag, SpriteMax);
@@ -158,7 +159,7 @@ namespace Ling.Common.Tile
 			}
 
 			// 壁と道は隣接とする
-			var floorAndRoad = Map.TileFlag.Floor | Map.TileFlag.Road;
+			var floorAndRoad = Const.TileFlag.Floor | Const.TileFlag.Road;
 			if (tileData.HasFlag(floorAndRoad) && oppsiteTileData.HasFlag(floorAndRoad))
 			{
 				return true;

@@ -68,12 +68,10 @@ namespace Ling.Chara
 		/// 敵のViewを一つプールから取り出す
 		/// </summary>
 		/// <returns></returns>
-		public EnemyControl GetEnemyByPool(CharaModel charaModel)
+		public EnemyControl GetEnemyByPool()
 		{
 			var enemy = EnemyPoolManager.Pop<EnemyControl>(EnemyType.Normal);
 			Controls.Add(enemy);
-
-			_keyModelValueControl.Add(charaModel, enemy);
 
 			return enemy;
 		}
@@ -121,22 +119,13 @@ namespace Ling.Chara
 
 			for (int i = 0, size = _mapMaster.InitCreateNum.GetRandomValue(); i < size; ++i)
 			{
-				var model = CreateEnemyModel();
+				// プールから敵を取得する
+				var enemyControl = GetEnemyByPool();
+				EnemyFactory.Create(enemyControl, _mapMaster.GetRandomEnemyDataFromPopRate());
 
-				// Poolから敵を一つ取り出し、Modelと結びつける
-				var control = GetEnemyByPool(model);
-				control.Setup(model);
+				Models.Add(enemyControl.Model);
+				_keyModelValueControl.Add(enemyControl.Model, enemyControl);
 			}
-		}
-
-		public CharaModel CreateEnemyModel()
-		{
-			var mapEnemyData = _mapMaster.GetRandomEnemyDataFromPopRate();
-			var enemyModel = EnemyFactory.Create(mapEnemyData);
-
-			Models.Add(enemyModel);
-
-			return enemyModel;
 		}
 
 		protected override async UniTask SetupAsyncInternal()

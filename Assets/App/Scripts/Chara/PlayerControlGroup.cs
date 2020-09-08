@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Ling.Chara
 {
@@ -34,6 +35,8 @@ namespace Ling.Chara
 		#region private 変数
 
 		[SerializeField] private PlayerControl _player = default;
+
+		[Inject] private DiContainer _diContainer;
 
 		#endregion
 
@@ -66,8 +69,12 @@ namespace Ling.Chara
 
 			model.Setup(param);
 			model.SetStatus(new CharaStatus(100));
+			model.SetMapLevel(1);
 
 			Player.Setup(model);
+
+			Controls.Add(Player);
+			Models.Add(model);
 		}
 
 		/// <summary>

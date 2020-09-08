@@ -18,9 +18,9 @@ using Zenject;
 namespace Ling.Utility
 {
 	/// <summary>
-	/// Processを一つのGameObjectとすることで生成、更新、削除をUnity側に任せる
+	/// 一つのタスク
 	/// </summary>
-	public abstract class ProcessBase : MonoBehaviour
+	public abstract class ProcessBase
     {
 		#region 定数, class, enum
 
@@ -28,6 +28,14 @@ namespace Ling.Utility
 
 
 		#region public, protected 変数
+
+		protected DiContainer _diContainer;
+
+		// 終了時呼び出される
+		public System.Action _onFinish;
+
+		// つながっているすべてのProcessが終了した場合だけ呼び出される
+		public System.Action<ProcessBase> _onAllFinish;
 
 		#endregion
 
@@ -47,9 +55,15 @@ namespace Ling.Utility
 		public ProcessNode Node { get; set; }
 
 		/// <summary>
-		/// 終了時呼び出される
+		/// プロセスが有効状態か
+		/// false(無効)の場合、更新もされない
 		/// </summary>
-		public System.Action OnFinish { get; set; }
+		public bool Enabled { get; private set; }
+
+		/// <summary>
+		/// 開始済みかどうか。(ProcessStartが呼び出された)
+		/// </summary>
+		public bool IsStarted { get; private set; }
 
 		#endregion
 
@@ -61,9 +75,15 @@ namespace Ling.Utility
 
 		#region public, protected 関数
 
-		public TProcess SetNext<TProcess>() where TProcess : ProcessBase
+		public void Setup(DiContainer diContainer)
+		{
+			_diContainer = diContainer;
+		}
+
+		public TProcess SetNext<TProcess>() where TProcess : ProcessBase, new()
 		{
 			var process = Node.Attach<TProcess>();
+			process.SetEnable(false);
 
 			if (Next != null)
 			{
@@ -80,7 +100,7 @@ namespace Ling.Utility
 		/// </summary>
 		/// <typeparam name="TProcess"></typeparam>
 		/// <returns></returns>
-		public TProcess SetNextLast<TProcess>() where TProcess : ProcessBase
+		public TProcess SetNextLast<TProcess>() where TProcess : ProcessBase, new()
 		{
 			if (Next != null)
 			{
@@ -90,24 +110,56 @@ namespace Ling.Utility
 			return SetNext<TProcess>();
 		}
 
+		public void SetEnable(bool enable)
+		{
+			Enabled = enable;
+		}
+
 		/// <summary>
 		/// 前のプロセスが終了したときに呼び出される
 		/// </summary>
-		public virtual void ProcessStart() {}
+		public void ProcessStart() 
+		{
+			IsStarted = true;
+			ProcessStartInternal();
+		}
+
+		protected virtual void ProcessStartInternal() {}
 
 		public void ProcessFinish()
 		{
-			OnFinish?.Invoke();
+			_onFinish?.Invoke();
 
 			// 次に進める
 			if (Next != null)
 			{
-				Next.enabled = true;
+				Next.AddAllFinishAction(_onAllFinish);
+				Next.SetEnable(true);
 				Next.ProcessStart();
+			}
+			else
+			{
+				// 次がないので全て終わり
+				_onAllFinish?.Invoke(this);
 			}
 
 			// 終了したものは削除する
 			Node.Remove(this);
+		}
+
+		public void Update()
+		{
+
+		}
+
+		public void AddFinishAction(System.Action action)
+		{
+			_onFinish += action;
+		}
+
+		public void AddAllFinishAction(System.Action<ProcessBase> action)
+		{
+			_onAllFinish += action;
 		}
 
 		#endregion

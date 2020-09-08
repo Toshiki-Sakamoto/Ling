@@ -13,6 +13,8 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Ling.Map;
+using Ling.Const;
+using Ling.Map.TileDataMapExtension;
 
 using Zenject;
 
@@ -58,7 +60,7 @@ namespace Ling.Scenes.Battle.Process
 		/// <summary>
 		/// 前のプロセスが終了したときに呼び出される
 		/// </summary>
-		public override void ProcessStart()
+		protected override void ProcessStartInternal()
 		{
 			_player = _charaManager.PlayerView;
 

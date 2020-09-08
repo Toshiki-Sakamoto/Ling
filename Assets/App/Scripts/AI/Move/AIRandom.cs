@@ -8,7 +8,7 @@
 namespace Ling.AI.Move
 {
 	/// <summary>
-	/// ランダムに移動する
+	/// 同じ部屋にプレイヤーがいても追っかけたりしない
 	/// </summary>
 	public class AIRandom : AIBase
     {

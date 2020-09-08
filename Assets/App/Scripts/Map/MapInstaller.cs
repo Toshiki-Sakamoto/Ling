@@ -7,6 +7,10 @@ namespace Ling.Map
 	{
 		public override void InstallBindings()
 		{
+            Container
+				.Bind<MapManager>()
+				.FromComponentInHierarchy()
+				.AsSingle();
 		}
 	}
 }

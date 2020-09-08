@@ -111,6 +111,51 @@ namespace Ling.Chara
 			Models.Clear();
 		}
 
+		/// <summary>
+		/// 移動Processをすべて実行する
+		/// </summary>
+		public void ExecuteMoveProcesses()
+		{
+			foreach (var control in Controls)
+			{
+				control.ExecuteMoveProcess();
+			}
+		}
+
+		/// <summary>
+		/// 移動プロセスがすべて終わるまで待機する
+		/// </summary>
+		public async UniTask WaitForMoveProcessAsync()
+		{
+			// 条件に達したら終了
+			await UniTask.WaitUntil(() => 
+				{ 
+					// 条件は移動プロセスがすべて終わっているとき
+					foreach (var control in Controls)
+					{
+						if (!control.IsMoveAllProcessEnded())
+						{
+							return false;
+						}
+					}
+
+					return true;
+				});
+
+			
+		}
+
+		/// <summary>
+		/// 攻撃Processを順番に実行していく
+		/// </summary>
+		public void ExecuteAttackProcesses()
+		{
+			foreach (var control in Controls)
+			{
+				control.ExecuteAttackProcess();
+			}
+		}
+
 		#endregion
 
 

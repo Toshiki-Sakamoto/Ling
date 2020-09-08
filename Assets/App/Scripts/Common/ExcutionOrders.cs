@@ -21,8 +21,9 @@ namespace Ling.Common
 	/// </summary>
 	public static class ExcutionOrders
 	{
-		public const int EventManager	= -1000;
-		public const int ActionManager	= -200;
-		public const int SceneManager	= -100;
+		public const int Launcher = -100;
+		public const int EventManager	= -90;
+		public const int ActionManager	= -80;
+		public const int SceneManager	= -50;
 	}
 }

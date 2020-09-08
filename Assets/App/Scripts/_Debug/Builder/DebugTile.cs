@@ -13,7 +13,7 @@ using UnityEngine.UI;
 namespace Ling._Debug.Builder
 {
 	/// <summary>
-	/// 
+	/// デバッグ表示用のタイルデータ
 	/// </summary>
 	public class DebugTile : MonoBehaviour 
     {
@@ -29,18 +29,28 @@ namespace Ling._Debug.Builder
 
 		#region private 変数
 
+		[SerializeField] private Utility.TouchPointEventTrigger _touchPointEventTrigger = default;
+
 		#endregion
 
 
 		#region プロパティ
 
-		public Vector2 Pos { get; set; }
-		public Map.TileFlag TileFlag { get; set; }
+		public Map.TileData TileData { get; set; }
+		public Const.TileFlag TileFlag { get; set; }
+
+		public Vector2Int Pos => TileData.Pos;
 
 		#endregion
 
 
 		#region public, protected 関数
+
+		public void SetTileData(Map.TileData tileData) 
+		{
+			_touchPointEventTrigger.IntParam = tileData.Index;
+			TileData = tileData;
+		}
 
 		#endregion
 

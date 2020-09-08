@@ -5,6 +5,7 @@
 // Created by toshiki sakamoto on 2019.12.23
 //
 
+using UnityEngine;
 
 namespace Ling.Utility
 {
@@ -69,17 +70,37 @@ namespace Ling.Utility
 			return false;
 		}
 
+		/// <summary>
+		/// 移動座標と追加座標したを返す
+		/// </summary>
+		public static bool CallDirectionWithAddPos(int x, int y, System.Func<Vector2Int, Vector2Int, bool> func, bool useDiagonal)
+		{
+			var dirArray = GetDirArray(useDiagonal);
+			for (int i = 0, size = dirArray.GetLength(0); i < size; ++i)
+			{
+				var dirPos = new Vector2Int(x + dirArray[i, 0], y + dirArray[i, 1]);
+				var addPos = new Vector2Int(dirArray[i, 0], dirArray[i, 1]);
+				if (func.Invoke(dirPos, addPos))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+
+		public static int[,] GetDirArray(bool useDiagonal)
+		{
+			if (useDiagonal) return DirWithDiagonal;
+			return Dir;
+		}
 
 		#endregion
 
 
 		#region private 関数
 
-		private static int[,] GetDirArray(bool useDiagonal)
-		{
-			if (useDiagonal) return DirWithDiagonal;
-			return Dir;
-		}
 
 		#endregion
 	}

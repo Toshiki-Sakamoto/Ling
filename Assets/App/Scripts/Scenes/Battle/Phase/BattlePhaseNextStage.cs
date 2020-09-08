@@ -36,7 +36,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private MapManager _mapManager = null;
+		private Map.MapManager _mapManager = null;
 		private Chara.CharaManager _charaManager = null;
 
 		#endregion
@@ -54,11 +54,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake() 
+		protected override void AwakeInternal() 
 		{
-			base.Awake();
-
-			_mapManager = Resolve<MapManager>();
+			_mapManager = Resolve<Map.MapManager>();
 			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
@@ -100,11 +98,10 @@ namespace Ling.Scenes.Battle.Phase
 
 			// 動きを制御
 			var process = _processManager.Attach<Process.ProcessNextStageAnim>();
-			process.OnFinish =
-				() =>
+			process.AddFinishAction(()=>
 				{
 					ApplyNextLevel();
-				};
+				});
 		}
 
 		private void ApplyNextLevel()

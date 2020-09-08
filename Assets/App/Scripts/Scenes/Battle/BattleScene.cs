@@ -11,15 +11,15 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
 
 using Ling.Common.Scene;
 using Zenject;
-using Ling.Scenes.Battle.BattleMap;
 
 namespace Ling.Scenes.Battle
 {
 	/// <summary>
-	/// 
+	/// Battle
 	/// </summary>
 	public class BattleScene : Common.Scene.Base 
     {
@@ -38,6 +38,8 @@ namespace Ling.Scenes.Battle
 			PlayerActionEnd,
 			EnemyAction,
 			EnemyTink,
+			CharaProcessExecute,
+			CharaProcessEnd,
 			NextStage,
 			Adv,
 		}
@@ -52,10 +54,11 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[SerializeField] private BattleView _view = null;
+		[SerializeField] private BattleView _view = default;
+		[SerializeField] private Transform _debugRoot = default;
 
 		[Inject] private BattleModel _model = null;
-		[Inject] private MapManager _mapManager = null;
+		[Inject] private Map.MapManager _mapManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
 
 		private bool _isInitialized;
@@ -74,7 +77,7 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// MapControl
 		/// </summary>
-		public MapControl MapControl => _mapManager.MapControl;
+		public Map.MapControl MapControl => _mapManager.MapControl;
 
 
 		#endregion
@@ -94,7 +97,7 @@ namespace Ling.Scenes.Battle
 		/// 正規手順でシーンが実行されたのではなく
 		/// 直接起動された場合StartSceneよりも前に呼び出される
 		/// </summary>
-		public override void QuickStartScene()
+		public override UniTask QuickStartSceneAsync()
 		{
 			// デバッグ用のコード直指定でバトルを始める
 			var stageMaster = _masterManager.StageRepository.FindByStageType(Const.StageType.First);
@@ -105,6 +108,8 @@ namespace Ling.Scenes.Battle
 				};
 
 			_model.Setup(param);
+
+			return default(UniTask);
 		}
 
 		/// <summary>
@@ -123,6 +128,7 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.Adv, new Battle.Phase.BattlePhaseAdv());
 			_phase.Add(Phase.NextStage, new Battle.Phase.BattlePhaseNextStage());
 			_phase.Add(Phase.EnemyTink, new Battle.Phase.BattlePhaseEnemyThink());
+			_phase.Add(Phase.CharaProcessExecute, new Battle.Phase.BattlePhaseCharaProcessExecuter());
 
 			_phase.Start(this, Phase.Start);
 
@@ -209,8 +215,9 @@ namespace Ling.Scenes.Battle
 			{
 				var pos = MapControl.GetRandomPosInRoom(level);
 
+				enemy.Model.SetMapLevel(level);
 				MapControl.SetChara(enemy, level);
-				enemy.View.SetCellPos(pos);
+				enemy.InitPos(pos);
 			}
 		}
 
@@ -224,12 +231,6 @@ namespace Ling.Scenes.Battle
 
 
 		#region MonoBegaviour
-
-		private void Start()
-		{
-			// シーンから直接起動した場合、コード直設定でバトルを始める
-			QuickStart();
-		}
 
 		private void Update()
 		{

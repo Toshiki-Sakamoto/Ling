@@ -10,6 +10,9 @@ using System;
 using System.Linq;
 using UniRx;
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
+using Ling;
+using Zenject;
 
 namespace Ling.Chara
 {
@@ -21,6 +24,9 @@ namespace Ling.Chara
 		CharaModel Model { get; }
 		
 		ViewBase View { get; }
+
+		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
+		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
 	}
 
 	/// <summary>
@@ -41,11 +47,15 @@ namespace Ling.Chara
 
 
 		#region private 変数
-
+		
         [SerializeField] private CharaStatus _status = default;
 		[SerializeField] private TView _view = default;
 
+		[Inject] private DiContainer _diContainer = default;
+
 		private TModel _model = default;
+		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
+		private List<Utility.ProcessBase> _attackProcess = new List<Utility.ProcessBase>();
 
 		#endregion
 
@@ -81,15 +91,105 @@ namespace Ling.Chara
 		}
 
 		/// <summary>
+		/// 初期座標設定
+		/// </summary>
+		public void InitPos(in Vector2Int pos)
+		{
+			_model.InitPos(pos);
+			_view.SetCellPos(pos);
+		}
+
+		/// <summary>
 		/// どういう行動をするか攻撃、移動AIクラスから思考し、決定する。
 		/// </summary>
-		public async UniTask ThinkAIProcess()
+		public async UniTask ThinkAIProcess(Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			// 自分が状態異常で行動できない場合はスキップ
 
 			// 第一優先として、自分が「特技」「攻撃」ができるか。
 
 			// それができない場合、「移動」をする。
+			await _model.MoveAI.ExecuteAsync(this, timeAwaiter);
+		}
+
+		/// <summary>
+		/// AIを設定する
+		/// </summary>
+		public TMoveAI AttachMoveAI<TMoveAI>() where TMoveAI : AI.Move.AIBase
+		{
+			var moveAI = _diContainer.InstantiateComponent<TMoveAI>(gameObject);
+			_model.SetMoveAI(moveAI);
+
+			return moveAI;
+		}
+
+		public TAttackAI AttachAttackAI<TAttackAI>() where TAttackAI : AI.Attack.AIBase
+		{
+			var attackAI = _diContainer.InstantiateComponent<TAttackAI>(gameObject);
+			_model.SetAttackAI(attackAI);
+
+			return attackAI;
+		}
+
+		/// <summary>
+		/// 移動プロセスの追加
+		/// 実行は待機する
+		/// </summary>
+		public TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase, new()
+		{
+			var process = this.AttachProcess<TProcess>(waitForStart: true);
+			_moveProcesses.Add(process);
+
+			return process;
+		}
+
+		/// <summary>
+		/// 攻撃プロセスの追加
+		/// 実行は待機する
+		/// </summary>
+		public TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase, new()
+		{
+			var process = this.AttachProcess<TProcess>(waitForStart: true);
+			_attackProcess.Add(process);
+
+			return process;
+		}
+
+		/// <summary>
+		/// 移動プロセスの実行
+		/// </summary>
+		public void ExecuteMoveProcess()
+		{
+			foreach (var process in _moveProcesses)
+			{
+				// 終了時、移動プロセスリストから削除する
+				process.AddAllFinishAction(action_ => 
+					{
+						_moveProcesses.Remove(action_);
+					});
+
+				process.SetEnable(true);
+			}
+		}
+
+		/// <summary>
+		/// すべての移動プロセスが終了したか
+		/// </summary>
+		public bool IsMoveAllProcessEnded()
+		{
+			// 終わったものは自動で削除されるので存在だけ確認
+			return _moveProcesses.Count == 0;
+		}
+
+		/// <summary>
+		/// 攻撃プロセスの実行
+		/// </summary>
+		public void ExecuteAttackProcess()
+		{
+			foreach (var process in _attackProcess)
+			{
+				process.SetEnable(true);
+			}
 		}
 
 		#endregion

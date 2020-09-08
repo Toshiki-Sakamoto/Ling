@@ -37,7 +37,7 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 		private PoolManager _poolManager;
-		private MapManager _mapManager = null;
+		private Map.MapManager _mapManager = null;
 		private Chara.CharaManager _charaManager = null;
 
 		private bool _isFinish = false;
@@ -58,11 +58,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Awake()
+		protected override void AwakeInternal()
 		{
-			base.Awake();
-
-			_mapManager = Resolve<MapManager>();
+			_mapManager = Resolve<Map.MapManager>();
 			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
@@ -116,15 +114,15 @@ namespace Ling.Scenes.Battle.Phase
 			var player = _charaManager.Player;
 			mapControl.SetChara(player);
 
-			player.View.SetCellPos(playerPos);
+			player.InitPos(playerPos);
 
 			// 初期マップの敵を生成する
 			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindGroundTilemap(1));
-			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindGroundTilemap(2));
+			//await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindGroundTilemap(2));
 
 			// 敵をマップに配置する
 			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(1), 1);
-			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(2), 2);
+		//	Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(2), 2);
 
 			_isFinish = true;
 		}

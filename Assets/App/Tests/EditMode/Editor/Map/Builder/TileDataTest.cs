@@ -18,6 +18,7 @@ using Assert = UnityEngine.Assertions.Assert;
 
 using Ling.Map.Builder;
 using Ling.Map;
+using Ling.Const;
 
 namespace Ling.Tests.Map.Builder
 {

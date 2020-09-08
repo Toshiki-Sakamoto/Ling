@@ -40,6 +40,7 @@ namespace Ling.Chara
         private bool _isMoving;         // 動いてるとき
         private ViewBase _trsModel;         // 動いている対象
         //private List<Vector3Int> _moveList = new List<Vector3Int>();
+        private Vector3Int _startPos;
         private Vector3Int _movePos;
         private Tilemap _tilemap;
 
@@ -71,12 +72,21 @@ namespace Ling.Chara
         /// 指定したセルに移動させる
         /// </summary>
         /// <param name="cellPos"></param>
-        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector3Int cellPos)
+        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector3Int endPos)
         {
             MoveStop();
 
-            //_moveList.Add(cellPos);
-            _movePos = cellPos;
+            _startPos = _trsModel.CellPos;
+            _movePos = endPos;
+
+            return Move().ToObservable();
+        }
+        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector3Int startPos, in Vector3Int endPos)
+        {
+            MoveStop();
+
+            _startPos = startPos;
+            _movePos = endPos;
 
             return Move().ToObservable();
         }
@@ -105,7 +115,7 @@ namespace Ling.Chara
         {
             //foreach (var elm in _moveList)
             {
-                var start = _tilemap.GetCellCenterWorld( _trsModel.CellPos);
+                var start = _tilemap.GetCellCenterWorld(_startPos);
                 var finish = _tilemap.GetCellCenterWorld(_movePos);
 
                 var diffVec = finish - start;

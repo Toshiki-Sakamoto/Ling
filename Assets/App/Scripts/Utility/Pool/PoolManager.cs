@@ -69,6 +69,8 @@ namespace Ling.Utility.Pool
 		[SerializeField] private Transform _defaultPoolRoot = null; // PoolItemがRootを持っていないときに設定されるデフォルトプールルート
 		[SerializeField] private List<PoolCreateItem> _createItems = null;
 
+		[Inject] private DiContainer _diContainer = default;
+
 		#endregion
 
 
@@ -98,7 +100,7 @@ namespace Ling.Utility.Pool
 				return null;
 			}
 
-			var creator = gameObject.AddComponent<TPoolCreator>();
+			var creator = _diContainer.InstantiateComponent<TPoolCreator>(gameObject);
 			creator.Setup(_defaultPoolRoot, poolObject, initCreateNum);
 
 			_createItems.Add(new PoolCreateItem { key = key, id = id, creator = creator });
@@ -183,7 +185,7 @@ namespace Ling.Utility.Pool
 				else
 				{
 					// クリエイターはこちらで作成する
-					creator = gameObject.AddComponent<TPoolCreator>();
+					creator = _diContainer.InstantiateComponent<TPoolCreator>(gameObject);
 					creator.SetInfo(createItem.createInfo);
 
 					createItem.creator = creator;

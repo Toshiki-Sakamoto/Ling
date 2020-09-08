@@ -9,6 +9,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Utility.Algorithm
 {
@@ -21,30 +22,37 @@ namespace Ling.Utility.Algorithm
 
 		public class Param
 		{
-			public int startX, startY;
-			public int endX, endY;
+			public Vector2Int start;
+			public Vector2Int end;
 			public int width;
 			
-			public System.Func<Vector2Int, bool> onCanMove;			// 移動可能か
+			public System.Func<Vector2Int, bool> onCanMove;	// 移動可能か
+			public System.Func<Vector2Int, bool> onCanDiagonalMove;	// 斜め移動可能か
 			public System.Func<Vector2Int, int> onTileCostGetter;	// 指定座標の移動コストを取得する(必要であれば)
 			public bool useDiagonal = true;	// 斜めを使用する
+
+			public Utility.Async.BaseAwaiter awaiter = null;
+			
+			// Debug
+			public System.Action<Node> onCreatedNode;
 		}
 
-		private class Node
+		public class Node
 		{
 			public Node parent;	// 親ノード
 
-			public int posX, posY;
+			public Vector2Int pos;
+			public int index;
 			public int cost;	// 実コスト
 			public int estimatedCost;	// 推定コスト
 			public int score;	// スコア
+			public int count;
 		}
 
 		#endregion
 
 
 		#region public, protected 変数
-
 
 		#endregion
 
@@ -59,7 +67,7 @@ namespace Ling.Utility.Algorithm
 		private HashSet<int> _usedIndexes = new HashSet<int>();	// 使用済みの座標
 
 		private Param _param;
-		private Node _goalNode;
+		private Node _firstNode, _lastNode;
 
 		#endregion
 
@@ -87,40 +95,62 @@ namespace Ling.Utility.Algorithm
 
 		public bool Execute(Param param)
 		{
-			_param = param;
-			IsSuccess = false;
+			ExexuteInternalAsync(param).Forget();
+			return IsSuccess;
+		}
 
-			// そもそも開始地点が範囲内じゃない場合終了
-			if (!param.onCanMove(new Vector2Int(_param.startX, _param.startY)))
+		/// <summary>
+		/// 間隔を開けて走査する
+		/// </summary>
+		public async UniTask<bool> DebugExecuteAsync(Param param)
+		{
+			if (param.awaiter == null)
 			{
-				Log.Error("開始地点が範囲外です");
-				return false;
+				var awaiter = new Utility.Async.TimeAwaiter();
+				awaiter.Setup(0.2f);
+
+				param.awaiter = awaiter;
 			}
 
-			ResetNodeAll();
+			await ExexuteInternalAsync(param);
+			return IsSuccess;
+		}
 
-			_openedNodes.Clear();
-			_usedIndexes.Clear();
-			_goalNode = null;
+		/// <summary>
+		/// 探索が正常に終わっている場合、スコアとルート座標を取得する
+		/// </summary>
+		public bool TryGetScoreAndPositions(out int score, out List<Vector2Int> positions)
+		{
+			score = 0;
+			positions = null;
 
-			// Nodeを作成する
-			var rootNode = CreateNode(_param.startX, _param.startY, null);
-			CalcScore(rootNode, 0);
+			// 失敗している場合はfalse
+			if (!IsSuccess) return false;
 
-			// Nodeの作成に失敗したときは何もしない
-			if (rootNode == null)
-			{ 
-				Utility.Log.Error("開始位置のNodeの作成に失敗しました");
-				return false;
-			}
+			score = _lastNode.score;
+			positions = GetRoutePositions();
 
-			if (!ExecuteInternal(rootNode))
-			{
-				return false;
-			}
-
-			IsSuccess = true;
 			return true;
+		}
+		
+		/// <summary>
+		/// 到達したルートのNodeリストを取得する
+		/// </summary>
+		public List<Node> GetRouteNodes()
+		{
+			if (!IsSuccess) return null;
+			if (_lastNode == null) return null;
+
+			var result = new List<Node>(_lastNode.count);
+
+			var node = _lastNode;
+			while (node != null)
+			{
+				result.Insert(0, node);
+				node = node.parent;
+			}
+
+			return result;
 		}
 
 		#endregion
@@ -131,41 +161,88 @@ namespace Ling.Utility.Algorithm
 		/// <summary>
 		/// 実際のルートを見つける処理の実行
 		/// </summary>
-		/// <param name="node"></param>
-		private bool ExecuteInternal(Node node)
+		private async UniTask<bool> ExexuteInternalAsync(Param param)
+		{
+			_param = param;
+			IsSuccess = false;
+
+			ResetNodeAll();
+
+			_openedNodes.Clear();
+			_usedIndexes.Clear();
+			_lastNode = null;
+
+			// 最初のNodeを作成する
+			_firstNode = PopNode();
+			_firstNode.pos = _param.start;
+			_firstNode.index = _param.start.y * _param.width + _param.start.x;;
+			_firstNode.count = 1;
+			
+			// Nodeの作成に失敗したときは何もしない
+			if (_firstNode == null)
+			{ 
+				Utility.Log.Error("開始位置のNodeの作成に失敗しました");
+				return false;
+			}
+
+			CalcScore(_firstNode, 0);
+
+			_param.onCreatedNode?.Invoke(_firstNode);
+
+			await ExecuteInternalAsync(_firstNode, param.awaiter);
+
+			return IsSuccess;
+		}
+
+		private async UniTask ExecuteInternalAsync(Node node, Utility.Async.BaseAwaiter awaiter)
 		{
 			var cost = node.cost;
 
 			// 周りを開ける
-			Utility.Map.CallDirection(node.posX, node.posY, 
-				(posX_, posY_) =>
-				{
-					var childNode = CreateNode(posX_, posY_, node);
-
-					// もしゴール地点なら終了！
-					if (_param.endX == posX_ && _param.endY == posY_)
-					{
-						_goalNode = childNode;
-						return true;
-					}
-
-					CalcScore(childNode, cost);
-
-					return false;
-				}, 
-				useDiagonal: _param.useDiagonal);
-
-			if (_goalNode != null)
+			var dirMap = Utility.Map.GetDirArray(_param.useDiagonal);
+			for (int i = 0, size = dirMap.GetLength(0); i < size; ++i)
 			{
-				return true;
+				if (node.pos.x == 10 && node.pos.y == 14)
+				{
+					int aa = 0;
+					aa = aa;
+				}
+				var addX = dirMap[i, 0];
+				var addY = dirMap[i, 1];
+				var pos = new Vector2Int(node.pos.x + addX, node.pos.y + addY);
+
+				var childNode = CreateNode(node, addX, addY, node.count + 1);
+				if (childNode == null) continue;
+
+				CalcScore(childNode, cost);
+					
+				_param.onCreatedNode?.Invoke(childNode);
+
+				// もしゴール地点なら終了！
+				if (_param.end == pos)
+				{
+					_lastNode = childNode;
+					IsSuccess = true;
+					return;
+				}
+
+				if (awaiter != null)
+				{
+					await awaiter.Wait();
+				}
+			}
+
+			if (_lastNode != null)
+			{
+				return;
 			}
 
 			// 一番スコアが低いNodeから走査していく
 			var nodes = _openedNodes.FirstOrDefault().Value;
 			if (nodes.IsNullOrEmpty())
 			{
-				Utility.Log.Error("Nodeが残っていない");
-				return false;
+				Utility.Log.Warning($"Nodeが残っていない {_firstNode.pos}");
+				return;
 			}
 
 			// 走査前に先にCloseとしておく
@@ -180,7 +257,7 @@ namespace Ling.Utility.Algorithm
 				_openedNodes.Remove(score);
 			}
 
-			return ExecuteInternal(rootNode);
+			await ExecuteInternalAsync(rootNode, awaiter);
 		}
 
 		/// <summary>
@@ -190,23 +267,58 @@ namespace Ling.Utility.Algorithm
 		/// <param name="posY">Node Y座標<</param>
 		/// <param name="parent">親Node</param>
 		/// <returns></returns>
-		private Node CreateNode(int posX, int posY, Node parent)
+		private Node CreateNode(Node parent, int addX, int addY, int count)
 		{
 			// すでに一度通った場所は何もしない
-			var index = posY * _param.width + posX;
+			var pos = new Vector2Int(parent.pos.x + addX, parent.pos.y + addY);
+			var index = pos.y * _param.width + pos.x;
 			if (_usedIndexes.Contains(index)) return null;
 
 			// 移動できない場合は何もしない
-			if (!_param.onCanMove(new Vector2Int(posX, posY)))
-			{ 
-				// 一度通った場所としておくことで次回から判定されない
-				_usedIndexes.Add(index);
+			// 斜めの場合は斜め移動できるかを見る
+			bool isSuccess = false;
+			bool isAddUsedIndex = true;	// 登録するか
+
+			do
+			{
+				if (!_param.onCanMove(pos))
+				{ 
+					break;
+				}
+				
+				if (addX != 0 && addY != 0)
+				{
+					if (!_param.onCanDiagonalMove(new Vector2Int(parent.pos.x + addX, parent.pos.y)))
+					{
+						isAddUsedIndex = false;	// 斜め移動できないときは登録はしない
+						break;
+					}
+
+					if (!_param.onCanDiagonalMove(new Vector2Int(parent.pos.x, parent.pos.y + addY)))
+					{
+						isAddUsedIndex = false; 	// 斜め移動できないときは登録はしない
+						break;
+					}
+				}
+
+				isSuccess = true;
+
+			} while (false);
+
+			if (!isSuccess)
+			{
+				if (isAddUsedIndex)
+				{
+					_usedIndexes.Add(index);
+				}
+
 				return null;
 			}
 
 			var node = PopNode();
-			node.posX = posX;
-			node.posY = posY;
+			node.pos = pos;
+			node.index = index;
+			node.count = count;
 			
 			// 親ノードを設定しておく
 			node.parent = parent;
@@ -222,11 +334,16 @@ namespace Ling.Utility.Algorithm
 		private void CalcScore(Node node, int cost)
 		{
 			// 移動コストを取得
-			var addCost = _param.onTileCostGetter?.Invoke(new Vector2Int(node.posX, node.posY)) ?? 1;
+			if (node == null || _param == null)
+			{
+				int test = 0;
+				test = 1;
+			}
+			var addCost = _param.onTileCostGetter?.Invoke(node.pos) ?? 1;
 			node.cost = cost + addCost;
 
 			// 推定コスト
-			node.estimatedCost = CalcEstimatedCost(node.posX, node.posY);
+			node.estimatedCost = CalcEstimatedCost(node.pos.x, node.pos.y);
 
 			// スコア = 実コスト＋推定コスト
 			node.score = node.cost + node.estimatedCost;
@@ -241,7 +358,7 @@ namespace Ling.Utility.Algorithm
 			nodes.Add(node);
 
 			// Indexを保存する
-			var index = node.posY * _param.width + node.posX;
+			var index = node.pos.y * _param.width + node.pos.x;
 			_usedIndexes.Add(index);
 		}
 
@@ -250,19 +367,44 @@ namespace Ling.Utility.Algorithm
 		/// </summary>
 		private int CalcEstimatedCost(int x, int y)
 		{
-			var dx = _param.endX - x;
-			var dy = _param.endY - y;
+			var dx = (int)Mathf.Abs(_param.end.x - x);
+			var dy = (int)Mathf.Abs(_param.end.y - y);
 
 			if (_param.useDiagonal)
 			{
 				// 斜めを許可している場合比較して高い値が推定コストとなる
-				return Mathf.Max(dx, dy);
+				// 距離にしてみるか
+				return dx*dx + dy+dy;
+				//return Mathf.Max(dx, dy);
 			}
 			else
 			{
 				// 斜めを許可していない場合、推定コストはdx+dy
 				return dx + dy;
 			}
+		}
+
+		/// <summary>
+		/// 探索終わったルートを取得する
+		/// </summary>
+		private List<Vector2Int> GetRoutePositions()
+		{
+			if (!IsSuccess) return null;
+			if (_lastNode == null) return null;
+
+			var result = new List<Vector2Int>(_lastNode.count - 1);
+
+			var node = _lastNode;
+			while (node != null)
+			{
+				// 最初のノードは入れない
+				if (node.parent == null) break;
+
+				result.Insert(0, node.pos);
+				node = node.parent;
+			}
+
+			return result;
 		}
 
 		/// <summary>

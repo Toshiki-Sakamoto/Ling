@@ -12,6 +12,8 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Ling.Const;
+using Ling.Map.TileDataMapExtension;
 
 using Zenject;
 
@@ -108,7 +110,7 @@ namespace Ling.Map.Builder.Split
 					tileDataMap.GetAdjastPosList(pos, TileFlag.Floor, adjastList);
 					if (adjastList.Count >= 3)
 					{
-						ref var tileData = ref tileDataMap.GetTile(pos);
+						var tileData = tileDataMap.GetTile(pos);
 						tileData.SetFlag(TileFlag.Floor);
 
 						// MapValueにも書き込む
@@ -120,16 +122,13 @@ namespace Ling.Map.Builder.Split
 					// 同じ部屋に囲まれているときは同じものとする
 					if (adjastList.Count == 2)
 					{
-						var mapValueA = tileDataMap.GetRoomMapValue(adjastList[0].x, adjastList[0].y);
-						var mapValueB = tileDataMap.GetRoomMapValue(adjastList[1].x, adjastList[1].y);
+						var mapValueA = tileDataMap.GetRoomIndex(adjastList[0].x, adjastList[0].y);
+						var mapValueB = tileDataMap.GetRoomIndex(adjastList[1].x, adjastList[1].y);
 
 						if (mapValueA == mapValueB)
 						{
-							ref var tileData = ref tileDataMap.GetTile(pos);
-							tileData.SetFlag(TileFlag.Floor);
-
 							// MapValueにも書き込む
-							tileDataMap.AddRoomMap(pos.x, pos.y, mapValueA);
+							tileDataMap.AddRoomData(pos.x, pos.y, mapValueA);
 						}
 
 						continue;
@@ -143,21 +142,18 @@ namespace Ling.Map.Builder.Split
 					{
 						// 自分の部屋と同じであれば自分を部屋にする
 						var roomPos = adjastList[0];
-						var mapValue = tileDataMap.GetRoomMapValue(roomPos.x, roomPos.y);
+						var roomIndex = tileDataMap.GetRoomIndex(roomPos.x, roomPos.y);
 
 						tileDataMap.GetAdjastPosList(roadPos[i + 1], TileFlag.Floor, adjastList);
 						if (adjastList.Count != 1) continue;
 
 						var nextRoomPos = adjastList[0];
-						var nextMapValue = tileDataMap.GetRoomMapValue(nextRoomPos.x, nextRoomPos.y);
+						var nextRoomIndex = tileDataMap.GetRoomIndex(nextRoomPos.x, nextRoomPos.y);
 
-						if (mapValue == nextMapValue)
+						if (roomIndex == nextRoomIndex)
 						{
-							ref var tileData = ref tileDataMap.GetTile(pos);
-							tileData.SetFlag(TileFlag.Floor);
-
 							// MapValueにも書き込む
-							tileDataMap.AddRoomMap(pos.x, pos.y, nextMapValue);
+							tileDataMap.AddRoomData(pos.x, pos.y, nextRoomIndex);
 						}
 					}
 

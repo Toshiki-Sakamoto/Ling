@@ -39,7 +39,7 @@ namespace Ling.Scenes.Battle.Process
 
 		[Inject] private GameManager _gameManager = null;
 		[Inject] private Utility.IEventManager _eventManager = null;
-		[Inject] private MapManager _mapManager = null;
+		[Inject] private Map.MapManager _mapManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
 		[Inject] private MasterData.MasterManager _masterManager = null;
 

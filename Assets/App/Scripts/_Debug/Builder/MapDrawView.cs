@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Ling.Utility.Attribute;
 using System.Linq;
-
+using Ling.Const;
 
 namespace Ling._Debug.Builder
 {
@@ -24,10 +24,10 @@ namespace Ling._Debug.Builder
 		[System.Serializable]
 		public class ColorData
 		{
-			[SerializeField, EnumFlags] private Map.TileFlag _tileFlag;
+			[SerializeField, EnumFlags] private Const.TileFlag _tileFlag;
 			[SerializeField] private Color _color = Color.white;
 
-			public bool HasFlag(Map.TileFlag tileFlag) =>
+			public bool HasFlag(Const.TileFlag tileFlag) =>
 				_tileFlag.HasFlag(tileFlag);
 
 			public Color Color => _color;
@@ -48,8 +48,6 @@ namespace Ling._Debug.Builder
 		[SerializeField] private ColorData[] _colorData = null;
 		[SerializeField] private Color[] _otherColor;
 		[SerializeField] private Text _tileFlagText = null;
-
-		[Zenject.Inject] private Utility.IEventManager _eventManager = null;
 
 		private int _width, _height;
 		private SpriteRenderer[] _drawSprites;
@@ -111,12 +109,27 @@ namespace Ling._Debug.Builder
 			}
 		}
 
+		public void SetTileText(string text)
+		{
+			_tileFlagText.text = text;
+		}
+
+		public bool TryGetSpriteRenderer(int index, out SpriteRenderer renderer)
+		{
+			renderer = null;
+
+			if (index < 0 || index >= _drawSprites.Length) return false;
+
+			renderer = _drawSprites[index];
+			return true;
+		}
+
 		#endregion
 
 
 		#region private 関数
 
-		private bool TryGetColor(Map.TileFlag tileFlag, out Color color)
+		private bool TryGetColor(Const.TileFlag tileFlag, out Color color)
 		{
 			color = Color.white;
 
@@ -168,10 +181,10 @@ namespace Ling._Debug.Builder
 					}
 				}
 			}
-			void DrawByIndex(int index, Map.TileFlag tileFlag)
+			void DrawByTileData(Map.TileData tileData, Const.TileFlag tileFlag)
 			{
-				var draw = _drawSprites[index];
-				
+				var draw = _drawSprites[tileData.Index];
+
 				if (TryGetColor(tileFlag, out Color color))
 				{
 					draw.color = color;
@@ -180,6 +193,7 @@ namespace Ling._Debug.Builder
 					if (debugTile == null) return;
 
 					debugTile.TileFlag = tileFlag;
+					debugTile.SetTileData(tileData);
 				}
 			}
 
@@ -198,7 +212,7 @@ namespace Ling._Debug.Builder
 				var tileDataMap = splitBuilder.TileDataMap;
 				foreach(var tileData in tileDataMap)
 				{
-					DrawByIndex(tileData.Index, tileData.Flag);
+					DrawByTileData(tileData, tileData.Flag);
 				}
 		
 				yield return new WaitForSeconds(enumerator.Current);
@@ -212,21 +226,10 @@ namespace Ling._Debug.Builder
 
 		private void Start()
 		{
-			_eventManager.Add<Utility.EventTouchPoint>(this, 
-				ev_ => 
-				{
-					if (ev_.gameObject == null) return;
-					
-					var debugTile = ev_.gameObject.GetComponent<DebugTile>();
-					if (debugTile == null) return;
-
-					_tileFlagText.text = debugTile.TileFlag.ToString();
-				});
 		}
 
 		private void OnDestroy()
 		{
-			_eventManager.RemoveAll(this);
 		}
 
 		#endregion

@@ -41,7 +41,8 @@ namespace Ling.Chara
 		[SerializeField] private PlayerControlGroup _playerControlGroup = default;
 		[SerializeField] private List<EnemyControlGroup> _enemyControlGroups = default;
 
-		[Inject] private Utility.IEventManager _eventManager = null;
+		[Inject] private Utility.IEventManager _eventManager = default;
+		[Inject] private DiContainer _diContainer = default;
 
 		private bool _isInitialized = false;    // 初期化済みであればtrue
 		private StageMaster _stageMaster = null;
@@ -234,6 +235,33 @@ namespace Ling.Chara
 		public EnemyControlGroup FindEnemyControlGroup(int level) =>
 			_enemyControlDict[level];
 
+		/// <summary>
+		/// すべてのキャラの移動Processを実効する
+		/// </summary>
+		public void ExecuteMoveProcesses()
+		{
+			_playerControlGroup.ExecuteMoveProcesses();
+			
+			foreach (var enemyControlGroup in _enemyControlGroups)
+			{
+				enemyControlGroup.ExecuteMoveProcesses();
+			}
+		}
+
+		/// <summary>
+		/// 移動プロセスがすべて終了するまで待機する
+		/// </summary>
+		/// <returns></returns>
+		public async UniTask WaitForMoveProcessAsync()
+		{
+			await _playerControlGroup.WaitForMoveProcessAsync();
+			
+			foreach (var enemyControlGroup in _enemyControlGroups)
+			{
+				await enemyControlGroup.WaitForMoveProcessAsync();
+			}
+		}
+
 		#endregion
 
 
@@ -257,7 +285,7 @@ namespace Ling.Chara
 		private void Awake()
 		{
 			// マップが削除されたとき敵をプールに戻す
-			_eventManager.Add<EventRemoveMap>(this, 
+			_eventManager.Add<Map.EventRemoveMap>(this, 
 				_ev => 
 				{
 					ResetEnemyGroup(_ev.level);

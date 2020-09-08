@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Ling.Const;
 
 namespace Ling.Chara
 {
@@ -80,8 +81,18 @@ namespace Ling.Chara
         /// 移動することができないタイルフラグ。
         /// これ以外は移動できるとする
         /// </summary>
-        public virtual Map.TileFlag CanNotMoveTileFlag =>
-            Map.TileFlag.None | Map.TileFlag.Wall;
+        public virtual Const.TileFlag CanNotMoveTileFlag =>
+            Const.TileFlag.None | 
+			Const.TileFlag.Wall | 
+			Const.TileFlag.Hole | 
+			Const.TileFlag.Chara;
+
+		/// <summary>
+		/// 斜め移動できないフラグ
+		/// </summary>
+		public virtual Const.TileFlag CanNotDiagonalMoveTileFlag =>
+			Const.TileFlag.None |
+			Const.TileFlag.Wall;
 
 		#endregion
 
@@ -111,17 +122,22 @@ namespace Ling.Chara
 		}
 
 		/// <summary>
-		/// AIを決定する
+		/// AI設定
 		/// </summary>
-		public void SetAI(AI.Attack.AIBase attackAI, AI.Move.AIBase moveAI)
-		{
-			AttackAI = attackAI;
+		public void SetMoveAI(AI.Move.AIBase moveAI) =>
 			MoveAI = moveAI;
-		}
+
+		public void SetAttackAI(AI.Attack.AIBase attackAI) =>
+			AttackAI = attackAI;
 
 		public void SetMapLevel(int mapLevel) 
 		{
 			MapLevel = mapLevel;
+		}
+
+		public void InitPos(in Vector2Int pos)
+		{
+			Pos = pos;
 		}
 
 		/// <summary>
@@ -146,6 +162,19 @@ namespace Ling.Chara
 		public void AddPos(in Vector2Int pos) =>
 			SetPos(Pos + pos);
 
+		/// <summary>
+		/// 移動できるかどうか
+		/// 一つでも引っかかった場合は移動できない
+		/// </summary>
+		public bool CanMoveTileFlag(TileFlag tileFlag) =>
+			!CanNotMoveTileFlag.HasAny(tileFlag);
+
+		/// <summary>
+		/// 斜め移動できるか
+		/// </summary>
+		public bool CanDiagonalMoveTileFlag(TileFlag tileFlag) =>
+			!CanNotDiagonalMoveTileFlag.HasAny(tileFlag);
+			
 		#endregion
 
 

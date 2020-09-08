@@ -125,8 +125,11 @@ namespace Ling.Chara
         /// <summary>
         /// 現在位置から指定した数を足して移動する
         /// </summary>
-        public System.IObservable<AsyncUnit> MoveByAddPos(in Vector2Int addCellPos) =>
+        public System.IObservable<AsyncUnit> MoveAtAddPos(in Vector2Int addCellPos) =>
             MoveController.SetMoveCellPos(CellPos + addCellPos.ToVector3Int());
+
+        public System.IObservable<AsyncUnit> Move(in Vector2Int startPos, in Vector2Int endPos) =>
+            MoveController.SetMoveCellPos(startPos.ToVector3Int(), endPos.ToVector3Int());
 
         #endregion
 

@@ -5,14 +5,17 @@
 // Created by toshiki sakamoto on 2020.08.10
 //
 
+using UnityEngine;
 using Cysharp.Threading.Tasks;
 
 namespace Ling.AI.Attack
 {
+	using CharaMaster = Ling.MasterData.Chara;
+
 	/// <summary>
 	/// 攻撃AIのベースクラス
 	/// </summary>
-	public abstract class AIBase
+	public abstract class AIBase : MonoBehaviour
     {
 		#region 定数, class, enum
 
@@ -25,6 +28,8 @@ namespace Ling.AI.Attack
 
 
 		#region private 変数
+
+		private CharaMaster.AttackAIData _masterAIData;
 
 		#endregion
 
@@ -45,6 +50,11 @@ namespace Ling.AI.Attack
 
 
 		#region public, protected 関数
+
+		public void Setup(CharaMaster.AttackAIData attackAIData)
+		{
+			_masterAIData = attackAIData;
+		}
 
 		/// <summary>
 		/// 思考処理

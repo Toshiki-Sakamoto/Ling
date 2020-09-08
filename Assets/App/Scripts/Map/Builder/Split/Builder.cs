@@ -14,7 +14,9 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
+using Ling.Const;
 using Zenject;
+using Ling.Map.TileDataMapExtension;
 
 
 namespace Ling.Map.Builder.Split
@@ -194,7 +196,7 @@ namespace Ling.Map.Builder.Split
 			if (shouldCreateRoad)
 			{
 				// 部屋マップの値を取得
-				var roomValue = TileDataMap.RoomMapArray[stepDownPos.y * Width + stepDownPos.x];
+				var roomValue = TileDataMap.GetRoomIndex(stepDownPos.x, stepDownPos.y);
 
 				// 一番近い部屋か道とつなげる
 				var route = new Route.Tracking();
@@ -280,11 +282,11 @@ namespace Ling.Map.Builder.Split
 		/// プレイヤーの初期座標をランダムに取得する
 		/// </summary>
 		/// <returns></returns>
-		public override Vector3Int GetPlayerInitPosition()
+		public override Vector2Int GetPlayerInitPosition()
 		{
 			// 数ある部屋の中から一つ選び、ランダムに配置する
 			var pos = GetRandomRoomCellPos();
-			return new Vector3Int(pos.x, pos.y, 0);
+			return new Vector2Int(pos.x, pos.y);
 		}
 
 		#endregion

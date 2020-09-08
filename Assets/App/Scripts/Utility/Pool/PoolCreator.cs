@@ -51,7 +51,9 @@ namespace Ling.Utility.Pool
 
 		#region private 変数
 
-		[SerializeField] private PoolCreateInfo _info = null;
+		[SerializeField] private PoolCreateInfo _info = default;
+
+		[Inject] private DiContainer _diContainer = default;
 
 		private List<PoolItem> _poolItems = new List<PoolItem>();		// 保存プール
 		private List<PoolItem> _usedPoolItems = new List<PoolItem>();	// 使用しているプールアイテム
@@ -213,7 +215,7 @@ namespace Ling.Utility.Pool
 		/// <returns></returns>
 		private PoolItem CreatePoolAdditional()
 		{
-			var poolObject = Instantiate(Info.poolObject, Info.poolRoot);
+			var poolObject = _diContainer.InstantiatePrefab(Info.poolObject, Info.poolRoot);
 			var poolItem = poolObject.AddComponent<PoolItem>();
 			poolItem.Setup(this);
 

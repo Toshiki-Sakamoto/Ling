@@ -6,11 +6,8 @@
 //
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,6 +19,8 @@ namespace Ling.Utility.UI
 	/// <summary>
 	/// 再利用可能なスクロールビュー
 	/// </summary>
+    [DisallowMultipleComponent]
+	[RequireComponent(typeof(RectTransform))]
 	public class RecyclableScrollView : UIBehaviour
     {
 		#region 定数, class, enum
@@ -39,7 +38,7 @@ namespace Ling.Utility.UI
 			/// <summary>
 			/// セルの高さor幅を返す
 			/// </summary>
-			float GetItemScale(int index);
+			float GetItemSize(int index);
 
 			/// <summary>
 			/// セルのGameObjectを返す
@@ -47,17 +46,15 @@ namespace Ling.Utility.UI
 			GameObject GetItemObj(int index);
 
 			/// <summary>
-			/// データのUpdateをしてもらう
+			/// スクロールアイテムの更新を行う
 			/// </summary>
-			/// <param name="index"></param>
-			/// <param name="obj"></param>
-			void DataUpdate(int index, GameObject obj);
+			void ScrollItemUpdate(int index, GameObject obj);
 		}
 
 		/// <summary>
 		/// パディング
 		/// </summary>
-		[SerializeField]
+		[System.Serializable]
 		public class Padding
 		{
 			public int top = 0;
@@ -80,14 +77,29 @@ namespace Ling.Utility.UI
 		/// </summary>
 		public class ItemData
 		{
-			public GameObject Obj { get; private set; }
-			public GameObject ObjOrigin { get; private set; }
-			public RectTransform RectTrs { get; private set; }
+			public GameObject obj;
+			public GameObject objOrigin;
+			public RectTransform rectTransform;
+			public float size;
+			public int index;
 
-			public static ItemData Create(GameObject origin)
+			public static ItemData Create(GameObject newObject, GameObject origin, int index, float size)
 			{
-				var newObj = Instantiate(origin);
-				return new ItemData() { Obj = newObj, ObjOrigin = origin, RectTrs = newObj.GetComponent<RectTransform>() };
+				return new ItemData() 
+					{ 
+						obj = newObject, 
+						objOrigin = origin, 
+						rectTransform = newObject.GetComponent<RectTransform>(),
+						size = size,
+						index = index
+					};
+			}
+
+			public void RemoveObject()
+			{
+				if (obj == null) return;
+
+				GameObject.Destroy(obj);
 			}
 		}
 
@@ -105,13 +117,17 @@ namespace Ling.Utility.UI
 		[SerializeField] private int _spacing = 0;
 		[SerializeField] private Direction _direction = Direction.Vertical;
 		[SerializeField, Range(0, 20)] private int _instantateItemCount = 7;
+		[SerializeField] private bool _autoInitItemInstantiate = default;	// 初期化とき、自動でアイテムの生成を行う
+		
+		[Inject] DiContainer _container = null;
 
+		private ScrollRect _scrollRect;
 		private List<ItemData> _items = new List<ItemData>();
 		private List<float> _positionCaches = new List<float>();
 		private IContentDataProvider _dataProvider = null;
 		private Dictionary<GameObject, List<ItemData>> _itemDataCaches = new Dictionary<GameObject, List<ItemData>>();
 		private RectTransform _rectTransform;
-		private float _diffPreFramePosition = 0f;
+		private RectTransform _contentRectTransform;
 		private int _currentItemNo = 0;
 
 		#endregion
@@ -119,11 +135,14 @@ namespace Ling.Utility.UI
 
 		#region プロパティ
 
-		protected RectTransform RectTransform 
+		/// <summary>
+		/// ScrollRect RectTransform
+		/// </summary>
+		protected RectTransform RectTransform
 		{
-			get 
+			get
 			{
-				if (_rectTransform = null)
+				if (_rectTransform == null)
 				{
 					_rectTransform = GetComponent<RectTransform>();
 				}
@@ -132,13 +151,89 @@ namespace Ling.Utility.UI
 			}
 		}
 
+		/// <summary>
+		/// ScrollView Content RectTransform
+		/// </summary>
+		protected RectTransform ContentRectTransform 
+		{ 
+			get
+			{
+				// C# 8
+				//return _rectTransform ??= GetComponent<RectTransform>(); 
+				if (_contentRectTransform == null)
+				{
+					//_rectTransform = GetComponent<RectTransform>();
+					_contentRectTransform = ScrollRect.content.GetComponent<RectTransform>();
+				}
+
+				return _contentRectTransform;
+			}
+		}
+
+		protected ScrollRect ScrollRect
+		{
+			get
+			{
+				if (_scrollRect != null) return _scrollRect;
+
+				_scrollRect = GetComponentInParent<ScrollRect>();
+				if (_scrollRect == null) 
+				{
+					Utility.Log.Error("ScrollRectが見つからない");
+					return null;
+				}
+
+				_scrollRect.horizontal = _direction == Direction.Horizontal;
+				_scrollRect.vertical = _direction == Direction.Vertical;
+
+				return _scrollRect;
+			}
+		}
+
+		/// <summary>
+		/// 現在のContentの左上の座標
+		/// </summary>
 		private float AnchoredPosition
 		{
 			get
 			{
 				return _direction == Direction.Vertical ?
-					-RectTransform.anchoredPosition.y :
-					RectTransform.anchoredPosition.x;
+					-ContentRectTransform.anchoredPosition.y :
+					ContentRectTransform.anchoredPosition.x;
+			}
+		}
+
+		/// <summary>
+		/// ScrollRect描画サイズ
+		/// </summary>
+		private float ScrollRectSize
+		{
+			get 
+			{
+				return _direction == Direction.Vertical ?
+					RectTransform.sizeDelta.y : 
+					RectTransform.sizeDelta.x;
+			}
+		}
+
+		/// <summary>
+		/// ScrollRect Conentサイズ
+		/// </summary>
+		private float ContentSize
+		{
+			get
+			{
+				return _direction == Direction.Vertical ?
+					ContentRectTransform.sizeDelta.y : 
+					ContentRectTransform.sizeDelta.x;
+			}
+		}
+
+		private float BottomPosition
+		{
+			get 
+			{
+				return AnchoredPosition;
 			}
 		}
 
@@ -155,6 +250,46 @@ namespace Ling.Utility.UI
 		public void Initialize(IContentDataProvider dataProvider)
 		{
 			_dataProvider = dataProvider;
+			_currentItemNo = 0;
+
+			if (_autoInitItemInstantiate)
+			{
+				// 初期化時に何個生成できるかを自動で判別する
+				var rectSizeDelta = RectTransform.sizeDelta;
+
+				int currentItemIndex = 0;
+				float totalSize = 0;
+
+				do
+				{
+					var itemScale = GetItemScale(currentItemIndex);
+					if (itemScale <= 0)
+					{
+						break;
+					}
+
+					++currentItemIndex;
+
+					if (currentItemIndex >= _dataProvider.DataCount)
+					{
+						break;
+					}
+
+					totalSize += itemScale + _spacing;
+
+					var contentSize = _direction == Direction.Vertical ? 
+							rectSizeDelta.y :
+							rectSizeDelta.x;
+
+					if (totalSize >= contentSize)
+					{
+						break;
+					}
+
+				} while (true);
+
+				_instantateItemCount = currentItemIndex;
+			}
 
 			if (_items.Count == 0)
 			{
@@ -167,42 +302,66 @@ namespace Ling.Utility.UI
 			{
 				_positionCaches.Clear();
 
+				while (_items.Count > 0)
+				{
+					RemoveItem(_items[0]);
+				}
+				
 				for (var i = 0; i < _instantateItemCount; ++i)
 				{
-					var item = _items[0];
-					_items.RemoveAt(0);
-					_items.Add(GetItem(_currentItemNo + i, item));
+					_items.Add(GetItem(/*_currentItemNo + */i, null));
 				}
 			}
 
-			var rectTransform = RectTransform;
-			var delta = rectTransform.sizeDelta;
+			var rectTransform = ContentRectTransform;
+			var sizeDelta = rectTransform.sizeDelta;
+
+			Vector2 newContentSize;
 
 			if (_direction == Direction.Vertical)
 			{
-				delta.y = _padding.top + _padding.bottom;
+				sizeDelta.y = _padding.top + _padding.bottom;
 
 				for (var i = 0; i < dataProvider.DataCount; ++i)
 				{
-					delta.y += GetItemScale(i) + _spacing;
+					sizeDelta.y += GetItemScale(i) + _spacing;
 				}
+
+				newContentSize = new Vector2(sizeDelta.x, Mathf.Max(sizeDelta.y, RectTransform.sizeDelta.y));
 			}
 			else
 			{
-				delta.x = _padding.left + _padding.right;
+				sizeDelta.x = _padding.left + _padding.right;
 
 				for (var i = 0; i < dataProvider.DataCount; ++i)
 				{
-					delta.x += GetItemScale(i) + _spacing;
+					sizeDelta.x += GetItemScale(i) + _spacing;
 				}
+
+				newContentSize = new Vector2(Mathf.Max(sizeDelta.x, RectTransform.sizeDelta.x), sizeDelta.y);
 			}
 
-			rectTransform.sizeDelta = delta;
+			rectTransform.sizeDelta = newContentSize;
 		}
 
-		public void Refresh()
+		/// <summary>
+		/// リフレッシュ処理をかけて初期化からやり直す
+		/// </summary>
+		public void Refresh(bool needRemoveCache = true)
 		{
-			_itemDataCaches.Clear();
+			// キャッシュを削除するか
+			if (needRemoveCache)
+			{
+				foreach (var itemDataList in _itemDataCaches)
+				{
+					foreach (var itemData in itemDataList.Value)
+					{
+						itemData.RemoveObject();
+					}
+				}
+
+				_itemDataCaches.Clear();
+			}
 
 			Initialize(_dataProvider);
 		}
@@ -219,20 +378,24 @@ namespace Ling.Utility.UI
 				return 0;
 			}
 
-			return _dataProvider.GetItemScale(Math.Max(0, Mathf.Min(index, _dataProvider.DataCount - 1)));
+			return _dataProvider.GetItemSize(Math.Max(0, Mathf.Min(index, _dataProvider.DataCount - 1)));
 		}
 
 		private ItemData GetItem(int index, ItemData recyclableItem)
 		{
 			if (_dataProvider == null || index < 0 || _dataProvider.DataCount <= index)
 			{
-				recyclableItem?.Obj?.gameObject.SetActive(false);
+				recyclableItem?.obj.SetActive(false);
 
 				return recyclableItem;
 			}
 
 			// 表示するGameObject
 			var gameObj = _dataProvider.GetItemObj(index);
+			if (gameObj == null)
+			{
+				return null;
+			}
 
 			// キャッシュに登録されているか
 			List<ItemData> objCaches;
@@ -244,9 +407,9 @@ namespace Ling.Utility.UI
 
 			if (recyclableItem != null)
 			{
-				if (gameObj != recyclableItem.ObjOrigin)
+				if (gameObj != recyclableItem.objOrigin)
 				{
-					var caches = _itemDataCaches[recyclableItem.ObjOrigin];
+					var caches = _itemDataCaches[recyclableItem.objOrigin];
 					caches.Add(recyclableItem);
 
 					recyclableItem = null;
@@ -258,26 +421,29 @@ namespace Ling.Utility.UI
 				if (objCaches.Count > 0)
 				{
 					recyclableItem = objCaches[0];
+					recyclableItem.index = index;	// 参照Index値を更新する
 					objCaches.RemoveAt(0);
 				}
 				else
 				{
 					// なければ生成
-					// todo: ここは精製方法を選択できるようにしておくと良いかも
-					recyclableItem = ItemData.Create(gameObj);
+					// todo: ここは生成方法を選択できるようにしておくと良いかも
+					var newObject = _container.InstantiatePrefab(gameObj, ScrollRect.content);
+					recyclableItem = ItemData.Create(newObject, gameObj, index, _dataProvider.GetItemSize(index));
 				}
 			}
 
-			if (recyclableItem.RectTrs.parent != transform)
+			if (recyclableItem.rectTransform.parent != ScrollRect.content)
 			{
-				recyclableItem.RectTrs.SetParent(transform, false);
+				recyclableItem.rectTransform.SetParent(ScrollRect.content, false);
 			}
 
-			recyclableItem.RectTrs.anchoredPosition = GetPosition(index);
-			recyclableItem.Obj.SetActive(true);
+			// 座標の設定
+			recyclableItem.rectTransform.anchoredPosition = GetVectorPositionByCache(index);
+			recyclableItem.obj.SetActive(true);
 
 			// 更新を伝える
-			_dataProvider.DataUpdate(index, recyclableItem.Obj);
+			_dataProvider.ScrollItemUpdate(index, recyclableItem.obj);
 
 			return recyclableItem;
 		}
@@ -286,9 +452,7 @@ namespace Ling.Utility.UI
 		/// 各Itemの座標を保存しておく。
 		/// 指定されたIndexの座標を取得する
 		/// </summary>
-		/// <param name="index"></param>
-		/// <returns></returns>
-		private float GetPositionCache(int index)
+		private float GetPositionByCache(int index)
 		{
 			for (var i = _positionCaches.Count; i <= index; ++i)
 			{
@@ -298,69 +462,116 @@ namespace Ling.Utility.UI
 			return _positionCaches[index];
 		}
 
-		private Vector2 GetPosition(int index)
+		/// <summary>
+		/// 指定した場所のアイテムの座標をVector2で取得する
+		/// </summary>
+		private Vector2 GetVectorPositionByCache(int index)
 		{
 			if (index < 0) return Vector2.zero;
 
 			return _direction == Direction.Vertical ? 
-				new Vector2(0, -GetPositionCache(index)) : 
-				new Vector2(GetPositionCache(index), 0);
+				new Vector2(0, -GetPositionByCache(index)) : 
+				new Vector2(GetPositionByCache(index), 0);
 		}
+
+		/// <summary>
+		/// 指定したアイテムを削除する
+		/// </summary>
+		private void RemoveItem(ItemData itemData)
+		{
+			itemData.obj.SetActive(false);
+			_items.Remove(itemData);
+
+			var caches = _itemDataCaches[itemData.objOrigin];
+			caches.Add(itemData);
+		}
+
+
 
 		#endregion
-
-
-
-		protected override void Start()
-		{
-			var scrollRect = GetComponentInParent<ScrollRect>();
-			if (scrollRect == null) 
-			{
-				Utility.Log.Error("ScrollRectが見つからない");
-				return;
-			}
-
-			scrollRect.horizontal = _direction == Direction.Horizontal;
-			scrollRect.vertical = _direction == Direction.Vertical;
-			scrollRect.content = RectTransform;
-		}
 
 		protected void Update()
 		{
 			if (_dataProvider == null) return;
+			if (_items.Count <= 1) return;
 
+			// Yは下がプラスで上がマイナスになる
+			
+			// 下にスクロール : AnchordPositionはマイナスになっていく
 			do
 			{
-				var itemScale = GetItemScale(_currentItemNo);
-				if (itemScale <= 0 || AnchoredPosition - _diffPreFramePosition >= -(itemScale - _spacing) * 2)
+				// 一番上のアイテムが見えなくなってれば削除
+				var item = _items[0];
+				var size = item.size;
+
+				var position = GetPositionByCache(item.index);
+				if (position + size + AnchoredPosition >= 0)
 				{
 					break;
 				}
 
-				var item = _items[0];
-				_items.RemoveAt(0);
-				_diffPreFramePosition -= itemScale + _spacing;
-				_items.Add(GetItem(_currentItemNo + _instantateItemCount, item));
+				// 先頭要素はもう見えないので削除する
+				RemoveItem(item);
 
 				++_currentItemNo;
+				
+			} while (true);
+
+			do
+			{
+				// 一番下にアイテムが追加できるならば追加する
+				// 追加できるものがなければ終わり
+				if (_currentItemNo + _items.Count >= _dataProvider.DataCount)
+				{
+					break;
+				}
+
+				var item = _items.Last();
+				var position = GetPositionByCache(item.index);
+				if (AnchoredPosition + position + item.size > ScrollRectSize)
+				{
+					break;
+				}
+
+				_items.Add(GetItem(_currentItemNo + _items.Count, null));
+
+			} while (true);
+
+			// 上にスクロール : AnchordPositionはプラスになっていく
+			do
+			{
+				// 一番下のアイテムが見えなくなってれば削除
+				var item = _items.Last();
+				var position = GetPositionByCache(item.index);
+
+				if (position + AnchoredPosition <= ScrollRectSize)
+				{
+					break;
+				}
+
+				RemoveItem(item);
 
 			} while (true);
 
 			do
 			{
-				var itemScale = GetItemScale(_currentItemNo + _instantateItemCount - 1);
-				if (itemScale <= 0 || AnchoredPosition - _diffPreFramePosition <= -(itemScale + _spacing))
+				// 一番上にアイテムが追加できるならば追加する
+				// 追加できるものがなければ終わり
+				if (_currentItemNo <= 0)
 				{
 					break;
 				}
 
-				var item = _items[_items.Count - 1];
-				_items.RemoveAt(_items.Count - 1);
+				var item = _items.First();
+				var position = GetPositionByCache(item.index);
+				if (AnchoredPosition + position <= 0)
+				{
+					break;
+				}
 
 				--_currentItemNo;
 
-				_diffPreFramePosition += GetItemScale(_currentItemNo) + _spacing;
-				_items.Insert(0, GetItem(_currentItemNo, item));
+				_items.Insert(0, GetItem(_currentItemNo, null));
 
 			} while (true);
 		}
