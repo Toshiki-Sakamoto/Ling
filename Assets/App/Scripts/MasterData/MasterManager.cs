@@ -19,7 +19,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using UtageExtensions;
+using Ling;
 using Zenject;
 using Ling.MasterData.Repository;
 
@@ -124,7 +124,7 @@ namespace Ling.MasterData
 			foreach (var guid in AssetDatabase.FindAssets($"t:{typeof(T).Name}"))
 			{
 				var filePath = AssetDatabase.GUIDToAssetPath(guid);
-				if (filePath.IsNullOrEmpty()) continue;
+				if (string.IsNullOrEmpty(filePath)) continue;
 
 				// Resourcesファイルパス以下にする
 				filePath = Regex.Replace(filePath, ".*/Resources/(.*).asset", "$1");
