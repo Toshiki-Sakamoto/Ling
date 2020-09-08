@@ -347,7 +347,7 @@ namespace Ling.AI.Move
 				var addY = dirArray[i, 1];
 
 				var nextX = pos.x + addX;
-				var nextY = pos.x + addY;
+				var nextY = pos.y + addY;
 
 				if (!_tileDataMap.InRange(nextX, nextY)) continue;
 				
