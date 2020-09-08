@@ -215,12 +215,11 @@ namespace Ling.AI.Move
 					return false;
 				}
 
-				var result = await GetPosByTargetTypeAsync(_masterAIData.FirstTarget);
-				if (result.success)
+				var result = await SearchPosByTargetTypeAsync(_masterAIData.FirstTarget);
+				if (result)
 				{
-					ResetDestination();
-
-					_destination = result.targetPos;
+					// 見つかった
+					_waitCount = 0;
 					return true;
 				}
 
@@ -243,7 +242,7 @@ namespace Ling.AI.Move
 		/// <summary>
 		/// ターゲット座標を取得する
 		/// </summary>
-		protected virtual async UniTask<(bool success, Vector2Int targetPos)> GetPosByTargetTypeAsync(Const.TileFlag targetType)
+		protected virtual async UniTask<bool> SearchPosByTargetTypeAsync(Const.TileFlag targetType)
 		{
 			// 部屋である必要があるか →　継承先で特別なことはやる
 
@@ -253,13 +252,13 @@ namespace Ling.AI.Move
 			if (RoomData == null)
 			{
 				// 部屋じゃない
-				return (false, Vector2Int.zero);
+				return false;
 			}
 
 			// 同じ部屋にターゲットタイプがいないので終了
 			if (!RoomData.TryGetTilePositionList(targetType, out var targetPositions))
 			{
-				return (false, Vector2Int.zero);
+				return false;
 			}
 
 			// 存在する場合、もっとも自分から距離が近い対象座標を取得する
@@ -268,12 +267,13 @@ namespace Ling.AI.Move
 			var shotestDistanceResult = await TileDataMap.Scanner.GetShotestDistancePositionsAsync(_unit, targetPositions);
 			if (shotestDistanceResult == null)
 			{
-				return (false, Vector2Int.zero);
+				return false;
 			}
 
 			_destinationRoutes = shotestDistanceResult.routePositions;
+			_destination = shotestDistanceResult.targetPos;
 
-			return (true, shotestDistanceResult.targetPos);
+			return true;
 		}
 
 		/// <summary>

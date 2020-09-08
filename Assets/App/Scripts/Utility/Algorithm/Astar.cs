@@ -202,6 +202,11 @@ namespace Ling.Utility.Algorithm
 			var dirMap = Utility.Map.GetDirArray(_param.useDiagonal);
 			for (int i = 0, size = dirMap.GetLength(0); i < size; ++i)
 			{
+				if (node.pos.x == 10 && node.pos.y == 14)
+				{
+					int aa = 0;
+					aa = aa;
+				}
 				var addX = dirMap[i, 0];
 				var addY = dirMap[i, 1];
 				var pos = new Vector2Int(node.pos.x + addX, node.pos.y + addY);
@@ -272,25 +277,28 @@ namespace Ling.Utility.Algorithm
 			// 移動できない場合は何もしない
 			// 斜めの場合は斜め移動できるかを見る
 			bool isSuccess = false;
+			bool isAddUsedIndex = true;	// 登録するか
 
 			do
 			{
+				if (!_param.onCanMove(pos))
+				{ 
+					break;
+				}
+				
 				if (addX != 0 && addY != 0)
 				{
 					if (!_param.onCanDiagonalMove(new Vector2Int(parent.pos.x + addX, parent.pos.y)))
 					{
+						isAddUsedIndex = false;	// 斜め移動できないときは登録はしない
 						break;
 					}
 
 					if (!_param.onCanDiagonalMove(new Vector2Int(parent.pos.x, parent.pos.y + addY)))
 					{
+						isAddUsedIndex = false; 	// 斜め移動できないときは登録はしない
 						break;
 					}
-				}
-
-				if (!_param.onCanMove(pos))
-				{ 
-					break;
 				}
 
 				isSuccess = true;
@@ -299,7 +307,11 @@ namespace Ling.Utility.Algorithm
 
 			if (!isSuccess)
 			{
-				_usedIndexes.Add(index);
+				if (isAddUsedIndex)
+				{
+					_usedIndexes.Add(index);
+				}
+
 				return null;
 			}
 

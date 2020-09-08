@@ -152,10 +152,10 @@ namespace Ling.Map
 		{
 			tileFlag.GetFlags(flag_ =>
 				{
-					if (!_tileFlagAndData.TryGetValue(tileFlag, out var list))
+					if (!_tileFlagAndData.TryGetValue(flag_, out var list))
 					{
 						list = new List<TileData>();
-						_tileFlagAndData.Add(tileFlag, list);
+						_tileFlagAndData.Add(flag_, list);
 					}
 
 					list.Add(tileData);
