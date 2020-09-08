@@ -14,8 +14,6 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
-using Utage;
-using UtageExtensions;
 using Zenject;
 using MinMaxAttribute = Ling.Utility.Attribute.MinMaxAttribute;
 
