@@ -29,7 +29,8 @@ namespace Ling.Map._Debug
 
 		#region private 変数
 
-		[SerializeField] private Text _text = default;
+		[SerializeField] private Text _scoreText = default;
+		[SerializeField] private Text _posText = default;
 
 		private Tilemap _tileMap;
 		private Vector3Int _cellPosition;
@@ -48,16 +49,23 @@ namespace Ling.Map._Debug
 		{
 			_tileMap = tileMap;
 			_cellPosition = position;
+
+			SetPosText();
 		}
 
 		public void SetScore(int score)
 		{
 			gameObject.SetActive(true);
-			_text.text = score.ToString();
+			_scoreText.text = score.ToString();
+		}
+
+		public void SetPosText()
+		{
+			_posText.text = _cellPosition.ToVector2Int().ToString();
 		}
 
 		public void SetTextColor(Color color) =>
-			_text.color = color;
+			_scoreText.color = color;
 
 
 		#endregion
