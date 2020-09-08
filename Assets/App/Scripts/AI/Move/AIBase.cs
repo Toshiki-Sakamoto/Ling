@@ -294,7 +294,7 @@ namespace Ling.AI.Move
 			else
 			{
 				// 部屋以外
-				if (TryGetNextMovePosition(out var targetPos))
+				if (TryGetNextMovePositionOutRoom(out var targetPos))
 				{
 					_destination = targetPos;
 					return true;
@@ -316,6 +316,13 @@ namespace Ling.AI.Move
 			if (RoomData == null) return false;
 
 			// 出口を目的地とする
+			
+			// 自分の周りに出口があるならそこに行く
+			if (TryGetNextMoveAroundPosition(out targetPos, TileFlag.Road))
+			{
+				return true;
+			}
+
 			// 部屋に入ったばかりのときは以前入ってきた通路以外の場所を探す。
 			// なければ戻る
 			var exitPositions = RoomData.ExitPositions;
@@ -330,13 +337,11 @@ namespace Ling.AI.Move
 		}
 
 		/// <summary>
-		/// 部屋以外にいるとき、次に進むべき場所を取得する
+		/// 自分の周りの座標で行ける場所を探す
 		/// </summary>
-		protected bool TryGetNextMovePosition(out Vector2Int targetPos)
+		protected bool TryGetNextMoveAroundPosition(out Vector2Int targetPos, TileFlag targetTileFlag)
 		{
 			targetPos = Vector2Int.zero;
-
-			if (RoomData != null) return false;
 
 			// 現在の座標の周りを調べ行ける場所を目的地とする
 			var pos = _unit.Model.Pos;
@@ -355,6 +360,15 @@ namespace Ling.AI.Move
 				if (_prevPos.x == nextX && _prevPos.y == nextY) continue;
 
 				var tileFlag = _tileDataMap.GetTileFlag(nextX, nextY);
+
+				// 指定したTileFlagか
+				if (targetTileFlag != TileFlag.None)
+				{
+					if (tileFlag != targetTileFlag)
+					{
+						continue;
+					}
+				}
 
 				// 移動できない場合は終了
 				if (!_unit.Model.CanMoveTileFlag(tileFlag)) continue;
@@ -383,6 +397,19 @@ namespace Ling.AI.Move
 			return false;
 		}
 
+		/// <summary>
+		/// 部屋の外で周りに行ける座標を検索する
+		/// </summary>
+		protected bool TryGetNextMovePositionOutRoom(out Vector2Int targetPos)
+		{
+			targetPos = Vector2Int.zero;
+
+			// 部屋の場合だめ
+			if (RoomData != null) return false;
+
+			return TryGetNextMoveAroundPosition(out targetPos, TileFlag.None);
+		}
+
 
 		/// <summary>
 		/// 次移動するマスの座標
@@ -393,12 +420,12 @@ namespace Ling.AI.Move
 			_waitCount = 0;
 
 			// 移動したことをキャラに伝え、アニメーションも設定させる
-			var prevPos = _unit.Model.Pos;
+			_prevPos = _unit.Model.Pos;	// 以前の座標を保持しておく
 			_unit.Model.SetPos(movePos);
 
 			// 移動プロセスの設定
 			var process = _unit.AddMoveProcess<Chara.Process.ProcessMove>();
-			process.SetPos(_unit.View, prevPos, movePos);
+			process.SetPos(_unit.View, _prevPos, movePos);
 		}
 
 		#endregion
