@@ -95,7 +95,7 @@ namespace Ling
 				return true;
 			}
 
-			var range = Enumerable.Range(0, self.Count - 1)
+			var range = Enumerable.Range(0, self.Count)
 				.Where(index_ => index_ != index);
 
 			index = range.ElementAt(Utility.Random.Range(self.Count - 1));
