@@ -44,7 +44,7 @@ namespace Ling.AI.Move
 		private Chara.ICharaController _unit;
 		private Map.TileDataMap _tileDataMap;
 		private Map.RoomData _roomData;
-		private Vector2Int _prevPos;	// 一つ前にいた座標
+		private Vector2Int? _prevPos;	// 一つ前にいた座標
 		private int _waitCount;	// 何回動けずに待機したか
 
 		#endregion
@@ -156,6 +156,9 @@ namespace Ling.AI.Move
 				{
 					// 2回以上失敗している場合は目的地をリセットする
 					ResetDestination();
+
+					// 前回いた位置もリセットする
+					_prevPos = null;
 				}
 
 			} while (false);
@@ -326,13 +329,24 @@ namespace Ling.AI.Move
 			// 部屋に入ったばかりのときは以前入ってきた通路以外の場所を探す。
 			// なければ戻る
 			var exitPositions = RoomData.ExitPositions;
-			if (!exitPositions.TryGetRandomWithoutValue(_prevPos, out targetPos))
+			if (exitPositions.Count > 0)
 			{
-				// 出口がない場合は現在の部屋ランダム座標を目的地にする
-				targetPos = RoomData.GetRandom().Pos;
-				return true;
+				if (_prevPos != null)
+				{
+					if (exitPositions.TryGetRandomWithoutValue(_prevPos.Value, out targetPos))
+					{
+						return true;
+					}
+				}
+				else
+				{
+					targetPos = exitPositions.GetRandom();
+					return true;
+				}
 			}
 			
+			// 出口がない場合は現在の部屋ランダム座標を目的地にする
+			targetPos = RoomData.GetRandom().Pos;
 			return true;
 		}
 
@@ -357,7 +371,11 @@ namespace Ling.AI.Move
 				if (!_tileDataMap.InRange(nextX, nextY)) continue;
 				
 				// 以前の座標と同じ場合は移動できない
-				if (_prevPos.x == nextX && _prevPos.y == nextY) continue;
+				if (_prevPos != null)
+				{
+					var prevPos = _prevPos.Value;
+					if (prevPos.x == nextX && prevPos.y == nextY) continue;
+				}
 
 				var tileFlag = _tileDataMap.GetTileFlag(nextX, nextY);
 
@@ -425,7 +443,7 @@ namespace Ling.AI.Move
 
 			// 移動プロセスの設定
 			var process = _unit.AddMoveProcess<Chara.Process.ProcessMove>();
-			process.SetPos(_unit.View, _prevPos, movePos);
+			process.SetPos(_unit.View, _prevPos.Value, movePos);
 		}
 
 		#endregion
