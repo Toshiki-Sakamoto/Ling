@@ -265,10 +265,14 @@ namespace Ling.Map
 			// キャラクタが移動した
 			this.AddEventListener<Chara.EventPosUpdate>(ev_ =>
 				{
-					// 以前の座標からフラグを削除する
-					var tileData = GetTileData(ev_.mapLevel, ev_.prevPos.x, ev_.prevPos.y);
 					var tileFlag = ev_.charaType.ToTileFlag();
-					tileData.RemoveFlag(tileFlag);
+
+					// 以前の座標からフラグを削除する
+					if (ev_.prevPos != null)
+					{
+						var tileData = GetTileData(ev_.mapLevel, ev_.prevPos.Value.x, ev_.prevPos.Value.y);
+						tileData.RemoveFlag(tileFlag);
+					}
 
 					// 新しい座標にTileFlagを設定する
 					var newTileData = GetTileData(ev_.mapLevel, ev_.newPos.x, ev_.newPos.y);

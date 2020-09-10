@@ -138,6 +138,14 @@ namespace Ling.Chara
 		public void InitPos(in Vector2Int pos)
 		{
 			Pos = pos;
+
+			_eventPosUpdate.prevPos = null;
+            _eventPosUpdate.newPos = pos;
+            _eventPosUpdate.charaType = CharaType;
+            _eventPosUpdate.mapLevel = MapLevel;
+			
+            // 移動したことのイベントを発行する
+			Utility.EventManager.SafeTrigger(_eventPosUpdate);
 		}
 
 		/// <summary>
