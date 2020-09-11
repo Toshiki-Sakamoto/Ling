@@ -11,8 +11,30 @@ using UniRx;
 using System;
 using Cysharp.Threading.Tasks;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.SceneManagement;
+#endif
+
 namespace Ling
 {
+#if UNITY_EDITOR
+	[InitializeOnLoad]
+	public class InitLauncher
+	{
+		static InitLauncher()
+		{
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+		}
+
+		private static void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+			//EditorSceneManager.OpenScene("Assets/App/Scenes/Manager.scene", OpenSceneMode.Additive);
+			//UnityEngine.SceneManagement.SceneManager.LoadScene("Manager");
+		}
+	}
+#endif
+
 	/// <summary>
 	/// 必ず一番初めに起動される
 	/// </summary>
@@ -65,6 +87,13 @@ namespace Ling
 
 
 		#region private 関数
+		
+		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+		private static void OnBeforeSceneLoadRuntimeMethod ()
+		{
+			// Editor再生時にも同様の処理をするほうがいいか
+			//Debug.Log("Before scene loaded " + UnityEngine.SceneManagement.SceneManager.GetAllScenes().ToString());
+		}
 
 		protected virtual async UniTask QuickStartInternalAsync(Common.Scene.Base scene)
 		{
