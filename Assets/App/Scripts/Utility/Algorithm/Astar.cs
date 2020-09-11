@@ -202,11 +202,6 @@ namespace Ling.Utility.Algorithm
 			var dirMap = Utility.Map.GetDirArray(_param.useDiagonal);
 			for (int i = 0, size = dirMap.GetLength(0); i < size; ++i)
 			{
-				if (node.pos.x == 10 && node.pos.y == 14)
-				{
-					int aa = 0;
-					aa = aa;
-				}
 				var addX = dirMap[i, 0];
 				var addY = dirMap[i, 1];
 				var pos = new Vector2Int(node.pos.x + addX, node.pos.y + addY);
@@ -334,11 +329,6 @@ namespace Ling.Utility.Algorithm
 		private void CalcScore(Node node, int cost)
 		{
 			// 移動コストを取得
-			if (node == null || _param == null)
-			{
-				int test = 0;
-				test = 1;
-			}
 			var addCost = _param.onTileCostGetter?.Invoke(node.pos) ?? 1;
 			node.cost = cost + addCost;
 

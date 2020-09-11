@@ -188,7 +188,10 @@ namespace Ling.AI.Move
 			// ルートがすでに存在する場合は使用する
 			if (!_destinationRoutes.IsNullOrEmpty())
 			{
-				SetNextMovePos(_destinationRoutes.Front());
+				// 移動できるか
+				var pos = _destinationRoutes.Front();
+				
+				SetNextMovePos(pos);
 				_destinationRoutes.Clear();
 				return true;
 			}

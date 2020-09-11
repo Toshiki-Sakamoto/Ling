@@ -97,6 +97,8 @@ namespace Ling.Chara
 		{
 			_model.InitPos(pos);
 			_view.SetCellPos(pos);
+
+			// マップ側に伝える
 		}
 
 		/// <summary>

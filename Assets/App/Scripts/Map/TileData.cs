@@ -22,15 +22,21 @@ namespace Ling.Map
 	/// </summary>
 	public class TileData
 	{
+		// TileDataが更新されたときに呼び出される
+		public System.Action<TileData, bool /* Add:true Remove:false*/> onUpdateTileFlag;
+
+
 		/// <summary>
 		/// タイルデータがもつフラグ
 		/// </summary>
 		public TileFlag Flag { get; private set; }
 
+		/// <summary>
+		/// タイルデータの座標
+		/// </summary>
 		public Vector2Int Pos { get; private set; }
 		public int X => Pos.x;
 		public int Y => Pos.y;
-
 
 		public int Index { get; private set; }
 
@@ -76,11 +82,15 @@ namespace Ling.Map
 		public void AddFlag(TileFlag tileFlag)
 		{
 			Flag |= tileFlag;
+
+			onUpdateTileFlag?.Invoke(this, true);
 		}
 
 		public void SetFlag(TileFlag tileFlag)
 		{
 			Flag = tileFlag;
+
+			onUpdateTileFlag?.Invoke(this, false);
 		}
 
 		/// <summary>

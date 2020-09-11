@@ -182,6 +182,26 @@ namespace Ling.Chara
 		/// </summary>
 		public bool CanDiagonalMoveTileFlag(TileFlag tileFlag) =>
 			!CanNotDiagonalMoveTileFlag.HasAny(tileFlag);
+
+		/// <summary>
+		/// コストを取得
+		/// </summary>
+		public int GetCostTileFlag(TileFlag tileFlag)
+		{
+			// キャラクタがいるところはコストを高くする
+			if (TileFlag.Chara.HasAny(tileFlag))
+			{
+				return 99;
+			}
+
+			// 移動できない場所はマイナスで返す
+			if (!CanMoveTileFlag(tileFlag))
+			{
+				return -1;
+			}
+
+			return 1;
+		}
 			
 		#endregion
 

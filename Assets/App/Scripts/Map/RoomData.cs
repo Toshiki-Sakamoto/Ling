@@ -64,6 +64,21 @@ namespace Ling.Map
 		{
 			tileData.SetRoomIndex(RoomIndex);
 			TileData.Add(tileData);
+
+			// TileData内のフラグが更新されたとき
+			tileData.onUpdateTileFlag = (tileData_, isAdded_) => 
+				{
+					if (isAdded_)
+					{
+						// 追加されたとき
+						AddFlagData(tileData_.Flag, tileData_);
+					}
+					else
+					{
+						// 削除されたとき
+						RemoveFlagData(tileData_.Flag, tileData_);
+					}
+				};
 		}
 
 		/// <summary>
@@ -94,8 +109,15 @@ namespace Ling.Map
 		/// <summary>
 		/// 指定したTileFlagを持っているか
 		/// </summary>
-		public bool ExistsTileFlags(Const.TileFlag tileFlag) =>
-			_tileFlagAndData.ContainsKey(tileFlag);
+		public bool ExistsTileFlags(Const.TileFlag tileFlag)
+		{
+			if (_tileFlagAndData.TryGetValue(tileFlag, out var list))
+			{
+				return list.Count > 0;
+			}
+
+			return false;
+		}
 
 		public bool TryGetTileDataList(Const.TileFlag tileFlag, out List<TileData> list)
 		{
@@ -159,6 +181,17 @@ namespace Ling.Map
 					}
 
 					list.Add(tileData);
+				});
+		}
+
+		private void RemoveFlagData(TileFlag tileFlag, TileData tileData)
+		{
+			tileFlag.GetFlags(flag_ =>
+				{
+					if (_tileFlagAndData.TryGetValue(flag_, out var list))
+					{
+						list.Remove(tileData);
+					}
 				});
 		}
 

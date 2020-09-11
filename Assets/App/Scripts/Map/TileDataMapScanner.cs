@@ -46,8 +46,8 @@ namespace Ling.Map
 		{
 			var tileFlag = _tileDataMap.GetTileFlag(pos);
 
-			// 移動できるか
-			return _chara.Model.CanMoveTileFlag(tileFlag);
+			// コストがマイナスのときは移動できないとする
+			return _chara.Model.GetCostTileFlag(tileFlag) >= 0;
 		}
 
 		public bool CanDiagonalMove(in Vector2Int pos)
@@ -63,7 +63,9 @@ namespace Ling.Map
 		/// </summary>
 		public int GetMoveCost(in Vector2Int pos)
 		{
-			return 1;
+			var tileFlag = _tileDataMap.GetTileFlag(pos);
+
+			return _chara.Model.GetCostTileFlag(tileFlag);
 		}
 	}
 
