@@ -19,6 +19,8 @@ namespace Ling.Common.Scene
 	public enum SceneID
 	{
 		None,
+		Manager,
+		Map,
 		StartUp, 
 		Title,
 		Main, 

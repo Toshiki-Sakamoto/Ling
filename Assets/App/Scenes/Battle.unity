@@ -1699,6 +1699,7 @@ MonoBehaviour:
   _contractNames: []
   _parentContractNames:
   - Manager
+  - Map
 --- !u!4 &1252449449
 Transform:
   m_ObjectHideFlags: 0
