@@ -143,7 +143,7 @@ namespace Ling.Map
 			var tileFlag = tileDataMap.GetTileFlag(destPos.x, destPos.y);
 
 			// 移動できないフラグ
-			if (tileFlag.HasAny(charaModel.CanNotMoveTileFlag))
+			if (tileFlag.HasAny(charaModel.UnmovableTileFlag))
 			{
 				return false;
 			}

@@ -81,7 +81,7 @@ namespace Ling.Chara
         /// 移動することができないタイルフラグ。
         /// これ以外は移動できるとする
         /// </summary>
-        public virtual Const.TileFlag CanNotMoveTileFlag =>
+        public virtual Const.TileFlag UnmovableTileFlag =>
             Const.TileFlag.None | 
 			Const.TileFlag.Wall | 
 			Const.TileFlag.Hole | 
@@ -90,7 +90,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 斜め移動できないフラグ
 		/// </summary>
-		public virtual Const.TileFlag CanNotDiagonalMoveTileFlag =>
+		public virtual Const.TileFlag UnDiagonalMovableTileFlag =>
 			Const.TileFlag.None |
 			Const.TileFlag.Wall;
 
@@ -175,13 +175,19 @@ namespace Ling.Chara
 		/// 一つでも引っかかった場合は移動できない
 		/// </summary>
 		public bool CanMoveTileFlag(TileFlag tileFlag) =>
-			!CanNotMoveTileFlag.HasAny(tileFlag);
+			!UnmovableTileFlag.HasAny(tileFlag);
+
+		/// <summary>
+		/// 移動できない場所か
+		/// </summary>
+		public bool CanNotMoveTileFlag(TileFlag tileFlag) =>
+			UnmovableTileFlag.HasAny(tileFlag);
 
 		/// <summary>
 		/// 斜め移動できるか
 		/// </summary>
 		public bool CanDiagonalMoveTileFlag(TileFlag tileFlag) =>
-			!CanNotDiagonalMoveTileFlag.HasAny(tileFlag);
+			!UnDiagonalMovableTileFlag.HasAny(tileFlag);
 
 		/// <summary>
 		/// コストを取得
@@ -191,7 +197,7 @@ namespace Ling.Chara
 			// キャラクタがいるところはコストを高くする
 			if (TileFlag.Chara.HasAny(tileFlag))
 			{
-				return 99;
+				return 3;
 			}
 
 			// 移動できない場所はマイナスで返す
