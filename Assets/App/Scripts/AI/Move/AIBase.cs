@@ -185,32 +185,40 @@ namespace Ling.AI.Move
 				return false;
 			}
 
-			// ルートがすでに存在する場合は使用する
-			if (!_destinationRoutes.IsNullOrEmpty())
+			// 次の場所に移動する処理
+			bool ProcessSetNextMovePos(in Vector2Int pos)
 			{
 				// 移動できない場合は現在地に待機
-				var pos = _destinationRoutes.Front();
-				_destinationRoutes.Clear();
-
 				var tileData = _tileDataMap.GetTileData(pos.x, pos.y);
 				if (_unit.Model.CanNotMoveTileFlag(tileData.Flag))
 				{
 					///////++ _waitCount;
-					return true;
 				}
-
-				SetNextMovePos(pos);
+				else
+				{
+					SetNextMovePos(pos);
+				}
+				
 				return true;
+			}
+
+			// ルートがすでに存在する場合は使用する
+			if (!_destinationRoutes.IsNullOrEmpty())
+			{
+				var pos = _destinationRoutes.Front();
+				_destinationRoutes.Clear();
+				
+				return ProcessSetNextMovePos(pos);
 			}
 
 			// 目的地から最短距離を求める
 			var result = await _tileDataMap.Scanner.GetShotestDisancePositionAsync(_unit, _destination.Value);
 			if (result != null)
 			{
-				SetNextMovePos(result.routePositions.Front());
-				return true;
+				return ProcessSetNextMovePos(result.routePositions.Front());
 			}
 
+			// 移動できなかった
 			++_waitCount;
 			return false;
 		}
