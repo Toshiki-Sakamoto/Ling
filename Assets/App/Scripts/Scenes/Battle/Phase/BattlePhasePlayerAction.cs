@@ -93,6 +93,8 @@ namespace Ling.Scenes.Battle.Phase
 			var playerView = _charaManager.PlayerView;
 			var player = _charaManager.Player;
 
+			// 攻撃できるか
+
 			// 移動できるか
 			if (!_mapManager.CanMoveChara(playerModel, moveDistance))
 			{
