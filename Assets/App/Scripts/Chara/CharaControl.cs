@@ -210,14 +210,20 @@ namespace Ling.Chara
 			}
 
 			var tileFlag = tileDataMap.GetTileFlag(destPos.x, destPos.y);
-
-			// 移動できないフラグ
 			if (tileFlag.HasAny(_model.UnmovableTileFlag))
 			{
 				return false;
 			}
 
 			return true;		
+		}
+
+		/// <summary>
+		/// 指定した座標に攻撃できるか
+		/// </summary>
+		public bool CanAttack(Map.TileDataMap tileDataMap, in Vector2Int addMoveDir)
+		{
+			return false;
 		}
 
 		#endregion

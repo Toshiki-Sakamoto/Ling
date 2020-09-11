@@ -130,6 +130,14 @@ namespace Ling.Scenes.Battle.Phase
 			Change(BattleScene.Phase.PlayerActionProcess, argument);
 		}
 
+		/// <summary>
+		/// 通常攻撃
+		/// </summary>
+		private void Attack()
+		{
+			Change(BattleScene.Phase.PlayerAttack);
+		}
+
 
 #if UNITY_EDITOR
 		private void KeyCommandProcess()
@@ -138,7 +146,12 @@ namespace Ling.Scenes.Battle.Phase
 			// 関連付けはInput Managerで行っている
 			var moveDir = Vector2Int.zero;
 
-			if (Input.GetKey(KeyCode.LeftArrow))
+			if (Input.GetKey(KeyCode.A))
+			{
+				// 通常攻撃
+				Attack();
+			}
+			else if (Input.GetKey(KeyCode.LeftArrow))
 			{
 				moveDir = Vector2Int.left;
 			}
@@ -180,13 +193,6 @@ namespace Ling.Scenes.Battle.Phase
 				var eventPlayerMove = _gameManager.EventHolder.PlayerMove;
 
 				eventPlayerMove.moveDistance = new Vector3Int(moveDir.x, moveDir.y, 0);
-				//_trsModel.SetDirection(new Vector3(moveDir.x, moveDir.y, 0.0f));
-
-				//var movePos = _trsModel.CellPos + moveDir;
-
-				//_moveList.Add(movePos);
-
-				//StartCoroutine(Move());
 			}
 		}
 #endif
