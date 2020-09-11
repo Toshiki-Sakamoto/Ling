@@ -90,7 +90,7 @@ namespace Ling.Map
 		{
 			Flag = tileFlag;
 
-			onUpdateTileFlag?.Invoke(this, false);
+			onUpdateTileFlag?.Invoke(this, true);
 		}
 
 		/// <summary>
@@ -99,6 +99,9 @@ namespace Ling.Map
 		/// <param name="tileFlag"></param>
 		public void RemoveFlag(TileFlag tileFlag)
 		{
+			// 先にフラグが削除される前の情報で更新処理をかける
+			onUpdateTileFlag?.Invoke(this, false);
+
 			Flag &= ~tileFlag;
 		}
 

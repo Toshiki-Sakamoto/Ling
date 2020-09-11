@@ -188,11 +188,18 @@ namespace Ling.AI.Move
 			// ルートがすでに存在する場合は使用する
 			if (!_destinationRoutes.IsNullOrEmpty())
 			{
-				// 移動できるか
+				// 移動できない場合は現在地に待機
 				var pos = _destinationRoutes.Front();
-				
-				SetNextMovePos(pos);
 				_destinationRoutes.Clear();
+
+				var tileData = _tileDataMap.GetTileData(pos.x, pos.y);
+				if (_unit.Model.CanNotMoveTileFlag(tileData.Flag))
+				{
+					///////++ _waitCount;
+					return true;
+				}
+
+				SetNextMovePos(pos);
 				return true;
 			}
 
