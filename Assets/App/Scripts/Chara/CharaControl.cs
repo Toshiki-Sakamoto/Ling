@@ -11,8 +11,9 @@ using System.Linq;
 using UniRx;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using Ling;
 using Zenject;
+using Ling.Map.TileDataMapExtensions;
+using Ling.Const;
 
 namespace Ling.Chara
 {
@@ -192,6 +193,31 @@ namespace Ling.Chara
 			{
 				process.SetEnable(true);
 			}
+		}
+
+		/// <summary>
+		/// 指定した座標に移動できるか
+		/// </summary>
+		public bool CanMove(Map.TileDataMap tileDataMap, in Vector2Int addMoveDir)
+		{
+			// 目的地
+			var destPos = _model.Pos + addMoveDir;
+
+			// 範囲外なら移動できない
+			if (!tileDataMap.InRange(destPos.x, destPos.y))
+			{
+				return false;
+			}
+
+			var tileFlag = tileDataMap.GetTileFlag(destPos.x, destPos.y);
+
+			// 移動できないフラグ
+			if (tileFlag.HasAny(_model.UnmovableTileFlag))
+			{
+				return false;
+			}
+
+			return true;		
 		}
 
 		#endregion

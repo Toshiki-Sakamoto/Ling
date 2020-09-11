@@ -10,7 +10,7 @@ using Ling;
 using Ling.Const;
 using Ling.Chara;
 
-namespace Ling.Map.TileDataMapExtensions.Chara
+namespace Ling.Map.TileDataMapExtensionss.Chara
 {
 	/// <summary>
 	/// Chara関連

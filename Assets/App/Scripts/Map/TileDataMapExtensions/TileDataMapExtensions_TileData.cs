@@ -8,7 +8,7 @@
 using UnityEngine;
 using Ling.Const;
 
-namespace Ling.Map.TileDataMapExtension
+namespace Ling.Map.TileDataMapExtensions
 {
 	/// <summary>
 	/// TileData系を直接扱う拡張メソッド群

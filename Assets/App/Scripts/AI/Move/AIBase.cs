@@ -8,10 +8,11 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Zenject;
-using Ling.Map.TileDataMapExtension;
-using Ling.Map.TileDataMapExtensions.Chara;
+using Ling.Map.TileDataMapExtensions;
+using Ling.Map.TileDataMapExtensionss.Chara;
 using System.Collections.Generic;
 using Ling.Const;
+using Ling.Utility.Extensions;
 
 namespace Ling.AI.Move
 {

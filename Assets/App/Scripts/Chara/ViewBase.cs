@@ -9,9 +9,7 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
-using Ling;
-using Ling.Utility;
+using Ling.Utility.Extensions;
 using Cysharp.Threading.Tasks;
 
 

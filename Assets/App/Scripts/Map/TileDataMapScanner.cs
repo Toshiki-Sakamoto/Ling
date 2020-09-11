@@ -8,7 +8,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Ling.Const;
-using Ling.Map.TileDataMapExtension;
+using Ling.Map.TileDataMapExtensions;
 using Cysharp.Threading.Tasks;
 
 namespace Ling.Map

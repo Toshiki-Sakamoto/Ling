@@ -13,7 +13,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Ling.Const;
-using Ling.Map.TileDataMapExtension;
+using Ling.Map.TileDataMapExtensions;
 
 using Zenject;
 

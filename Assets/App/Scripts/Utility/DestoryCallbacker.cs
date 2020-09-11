@@ -4,10 +4,7 @@
 //  
 // Created by toshiki sakamoto on 2020.06.03
 // 
-using Ling;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Ling.Utility.Extensions;
 using UnityEngine;
 
 namespace Ling.Utility

@@ -16,7 +16,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 using Ling.Const;
 using Zenject;
-using Ling.Map.TileDataMapExtension;
+using Ling.Map.TileDataMapExtensions;
 
 
 namespace Ling.Map.Builder.Split

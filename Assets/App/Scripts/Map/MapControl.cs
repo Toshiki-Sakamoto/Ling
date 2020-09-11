@@ -12,8 +12,8 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Ling.Utility;
 using Ling.Chara;
-using Ling.Map.TileDataMapExtension;
-using Ling.Map.TileDataMapExtensions.Chara;
+using Ling.Map.TileDataMapExtensions;
+using Ling.Map.TileDataMapExtensionss.Chara;
 
 using Zenject;
 
