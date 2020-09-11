@@ -15,3 +15,5 @@ MonoBehaviour:
   DefaultContracts:
   - ContractName: Manager
     Scene: {fileID: 102900000, guid: ece88fdce12b6de40b433766f3e18bf7, type: 3}
+  - ContractName: Map
+    Scene: {fileID: 102900000, guid: d448b27e179d4482c8f28d549bc28804, type: 3}
