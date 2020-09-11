@@ -70,6 +70,13 @@ namespace Ling.Scenes.Battle
 		#region プロパティ
 
 		/// <summary>
+		/// 自分のシーンに必要なシーンID
+		/// 自シーン読み込み前になければ読み込みを行う
+		/// </summary>
+		public override SceneID[] RequiredScene => 
+			new SceneID[] { SceneID.Map };
+
+		/// <summary>
 		/// BattleScene大元のView
 		/// </summary>
 		public BattleView View => _view;

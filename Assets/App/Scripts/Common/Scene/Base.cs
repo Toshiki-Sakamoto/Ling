@@ -63,6 +63,12 @@ namespace Ling.Common.Scene
 		/// </summary>
 		public DiContainer DiContainer  => _diContainer;
 
+		/// <summary>
+		/// 自分のシーンに必要なシーンID
+		/// 自シーン読み込み前になければ読み込みを行う
+		/// </summary>
+		public virtual SceneID[] RequiredScene => default(SceneID[]);
+
 		#endregion
 
 
