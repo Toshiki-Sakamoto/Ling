@@ -230,7 +230,7 @@ namespace Ling.Scenes.Battle
 
 				enemy.Model.SetMapLevel(level);
 				MapControl.SetChara(enemy, level);
-				enemy.InitPos(pos);
+				enemy.Model.InitPos(pos);
 			}
 		}
 

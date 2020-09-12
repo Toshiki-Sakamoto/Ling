@@ -124,9 +124,6 @@ namespace Ling.Chara
 			_isInitialized = true;
 		}
 
-		public Vector3Int GetPlayerCellPos() =>
-			PlayerView.CellPos;
-
 		/// <summary>
 		/// Playerが移動した上昇をもとに戻す
 		/// </summary>

@@ -6,7 +6,6 @@
 // 
 
 using UnityEngine;
-using System;
 using System.Linq;
 using UniRx;
 using Cysharp.Threading.Tasks;
@@ -14,6 +13,8 @@ using System.Collections.Generic;
 using Zenject;
 using Ling.Map.TileDataMapExtensions;
 using Ling.Const;
+using UnityEngine.Tilemaps;
+using Ling.Utility.Extensions;
 
 namespace Ling.Chara
 {
@@ -25,6 +26,8 @@ namespace Ling.Chara
 		CharaModel Model { get; }
 		
 		ViewBase View { get; }
+		
+		ICharaMoveController MoveController { get; }
 
 		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
 		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
@@ -33,7 +36,7 @@ namespace Ling.Chara
 	/// <summary>
 	/// キャラのModelとViewをつなげる役目と操作を行う
 	/// </summary>
-	public abstract class CharaControl<TModel, TView> : MonoBehaviour, ICharaController
+	public abstract partial class CharaControl<TModel, TView> : MonoBehaviour, ICharaController, ICharaMoveController
 		where TModel : CharaModel
 		where TView : ViewBase
     {
@@ -51,6 +54,7 @@ namespace Ling.Chara
 		
         [SerializeField] private CharaStatus _status = default;
 		[SerializeField] private TView _view = default;
+        [SerializeField] private CharaMover _charaMover = default;
 
 		[Inject] private DiContainer _diContainer = default;
 
@@ -68,6 +72,18 @@ namespace Ling.Chara
 
 		public TView View => _view;
 
+		/// <summary>
+		/// 動きの制御を行うメソッドにアクセスするためのInterface
+		/// </summary>
+		/// <value></value>
+		public ICharaMoveController MoveController => this;
+
+        /// <summary>
+        /// キャラクタを動かすヘルパクラス
+        /// </summary>
+        public CharaMover CharaMover => _charaMover;
+
+
 		// ICharaController
 		CharaModel ICharaController.Model => _model;
 		ViewBase ICharaController.View => _view;
@@ -77,10 +93,9 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		public void Setup(TModel model)
+		public void Setup()
 		{
-			_model = model;
-			_status = model.Status;
+			_status = _model.Status;
 
             // 死亡時
             _status.IsDead.Where(isDead_ => isDead_)
@@ -89,6 +104,18 @@ namespace Ling.Chara
 					// Viewにも伝える
 					Utility.Log.Print("死んだ！");
                 });
+
+			// 向きが変わったとき
+			_model.Dir.Subscribe(dir_ =>
+				{
+					_view.SetDirection(dir_);
+				});
+
+			// セルの座標が変更されたとき
+			_model.CellPosition.Subscribe(cellPosition_ => 
+				{
+					_view.SetCellPos(cellPosition_);
+				});
 		}
 
 		/// <summary>
@@ -97,10 +124,18 @@ namespace Ling.Chara
 		public void InitPos(in Vector2Int pos)
 		{
 			_model.InitPos(pos);
-			_view.SetCellPos(pos);
-
-			// マップ側に伝える
 		}
+
+
+		/// <summary>
+        /// Tilemap情報を設定する
+        /// </summary>
+        public void SetTilemap(Tilemap tilemap, int mapLevel)
+        {
+			_view.SetTilemap(tilemap, mapLevel);
+
+            CharaMover.SetTilemap(tilemap);
+        }
 
 		/// <summary>
 		/// どういう行動をするか攻撃、移動AIクラスから思考し、決定する。
@@ -247,6 +282,19 @@ namespace Ling.Chara
 
 
 		#region MonoBegaviour
+
+		private void Awake()
+		{
+			// Modelを生成する
+			_model = gameObject.AddComponent<TModel>();
+
+            if (_charaMover == null)
+            {
+                _charaMover = _view.GetComponent<CharaMover>();
+            }
+
+            _charaMover.SetModel(this);
+		}
 
 		#endregion
 	}

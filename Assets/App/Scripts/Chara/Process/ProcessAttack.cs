@@ -63,7 +63,7 @@ namespace Ling.Chara.Process
 		private async UniTask AttackAsync()
 		{
 			var view = _chara.View;
-			var dir = view.Dir * 0.3f;
+			var dir = _chara.Model.Dir.Value * 0.3f;
 			var movePos = new Vector3(dir.x, 0f, dir.y);
 
 			await view.transform.DOMove(movePos, 0.1f).SetRelative(true);

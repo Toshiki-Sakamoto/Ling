@@ -17,7 +17,7 @@ namespace Ling.Chara
     /// 移動コントローラー
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
-    public class MoveController : MonoBehaviour 
+    public class CharaMover : MonoBehaviour 
     {
         #region 定数, class, enum
 
@@ -35,7 +35,7 @@ namespace Ling.Chara
         [SerializeField] private Rigidbody2D _rigidBody = null;
 
         private bool _isMoving;         // 動いてるとき
-        private ViewBase _trsModel;         // 動いている対象
+        private ICharaController _chara;         // 動いている対象
         //private List<Vector3Int> _moveList = new List<Vector3Int>();
         private Vector3Int _startPos;
         private Vector3Int _movePos;
@@ -55,10 +55,8 @@ namespace Ling.Chara
         /// 
         /// </summary>
         /// <param name="model"></param>
-        public void SetModel(ViewBase model)
-        {
-            _trsModel = model;
-        }
+        public void SetModel(ICharaController chara) =>
+            _chara = chara;
 
         public void SetTilemap(Tilemap tilemap)
         {
@@ -73,7 +71,7 @@ namespace Ling.Chara
         {
             MoveStop();
 
-            _startPos = _trsModel.CellPos;
+            _startPos = _chara.Model.CellPosition.Value;
             _movePos = endPos;
 
             return Move().ToObservable();
@@ -117,11 +115,11 @@ namespace Ling.Chara
 
                 var diffVec = finish - start;
 
-                _trsModel.SetDirection(new Vector2(diffVec.x, diffVec.z));
+                _chara.Model.SetDirection(new Vector2(diffVec.x, diffVec.z));
 
-                await _trsModel.transform.DOMove(finish, 0.2f);
+                await _chara.View.transform.DOMove(finish, 0.2f);
 
-                _trsModel.SetCellPos(_movePos);
+                _chara.View.SetCellPos(_movePos);
             }
 
             _isMoving = false;
@@ -145,7 +143,7 @@ namespace Ling.Chara
         /// </summary>
         void Update()
         {
-            if (_trsModel == null)
+            if (_chara == null)
             {
                 return;
             }

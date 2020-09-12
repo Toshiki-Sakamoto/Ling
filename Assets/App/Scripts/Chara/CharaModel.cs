@@ -5,22 +5,17 @@
 // Created by toshiki sakamoto on 2020.07.09
 //
 
-using Ling.MasterData.Chara;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using Ling.Const;
+using Ling.Common.ReactiveProperty;
 
 namespace Ling.Chara
 {
 	/// <summary>
 	/// <see cref="CharaManager"/>に管理されるデータ
 	/// </summary>
-	public class CharaModel
+	public class CharaModel : MonoBehaviour
     {
 		#region 定数, class, enum
 
@@ -41,6 +36,7 @@ namespace Ling.Chara
 
 		private Param _param = null;
         private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
+        [SerializeField] private Vector3IntReactiveProperty _cellPosition = default; // マップ上の自分の位置
 
 		#endregion
 
@@ -66,6 +62,16 @@ namespace Ling.Chara
 		/// 現在座標
 		/// </summary>
 		public Vector2Int Pos { get; private set; }
+
+		/// <summary>
+		/// セル座標
+		/// </summary>
+		public Vector3IntReactiveProperty CellPosition => _cellPosition;
+
+		/// <summary>
+		/// 向き
+		/// </summary>
+		public Vector2ReactiveProperty Dir { get; private set; } = new Vector2ReactiveProperty(new Vector2(0f, -1f));
 
 		/// <summary>
 		/// 攻撃AI
@@ -169,6 +175,18 @@ namespace Ling.Chara
 		/// </summary>
 		public void AddPos(in Vector2Int pos) =>
 			SetPos(Pos + pos);
+
+		/// <summary>
+		/// マップのセル上の座標の設定
+		/// </summary>
+		public void SetCellPosition(in Vector3Int cellPosition) =>
+			_cellPosition.Value = cellPosition;
+
+		/// <summary>
+		/// 向き情報をセットする
+		/// </summary>
+		public void SetDirection(in Vector2 dir) =>
+			Dir.Value = dir;
 
 		/// <summary>
 		/// 移動できるかどうか

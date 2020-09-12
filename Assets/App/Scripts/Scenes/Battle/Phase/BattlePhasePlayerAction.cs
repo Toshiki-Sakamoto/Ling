@@ -90,7 +90,6 @@ namespace Ling.Scenes.Battle.Phase
 			if (moveDistance == Vector2Int.zero) return;
 
 			var playerModel = _charaManager.PlayerModel;
-			var playerView = _charaManager.PlayerView;
 			var player = _charaManager.Player;
 
 			// 攻撃できるか
@@ -99,7 +98,7 @@ namespace Ling.Scenes.Battle.Phase
 			if (!_mapManager.CanMoveChara(playerModel, moveDistance))
 			{
 				// 向きだけ変える
-				playerView.SetDirection(moveDistance);
+				playerModel.SetDirection(moveDistance);
 				return;
 			}
 
@@ -108,7 +107,7 @@ namespace Ling.Scenes.Battle.Phase
 
 			// 移動であればプロセスを追加し、敵思考に回す
 			var moveProcess = player.AddMoveProcess<Chara.Process.ProcessMove>();
-			moveProcess.SetAddPos(playerView, moveDistance);
+			moveProcess.SetAddPos(player, moveDistance);
 
 			Change(BattleScene.Phase.EnemyTink);
 

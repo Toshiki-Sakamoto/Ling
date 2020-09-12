@@ -462,7 +462,7 @@ namespace Ling.AI.Move
 
 			// 移動プロセスの設定
 			var process = _unit.AddMoveProcess<Chara.Process.ProcessMove>();
-			process.SetPos(_unit.View, _prevPos.Value, movePos);
+			process.SetPos(_unit.MoveController, _prevPos.Value, movePos);
 		}
 
 		#endregion

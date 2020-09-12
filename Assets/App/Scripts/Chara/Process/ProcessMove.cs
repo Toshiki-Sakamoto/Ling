@@ -33,7 +33,7 @@ namespace Ling.Chara.Process
 
 		#region private 変数
 
-		private Chara.ViewBase _charaView;	// 移動対象のキャラ
+		private Chara.ICharaMoveController _control;	// 移動対象のキャラ
 		private Type _type;
 		private Vector2Int _startPos;
 		private Vector2Int _endPos;
@@ -56,16 +56,16 @@ namespace Ling.Chara.Process
 		/// <summary>
 		/// 通常の移動
 		/// </summary>
-		public void SetAddPos(Chara.ViewBase charaView, in Vector2Int addPos)
+		public void SetAddPos(Chara.ICharaMoveController control, in Vector2Int addPos)
 		{
-			_charaView = charaView;
+			_control = control;
 			_endPos = addPos;
 			_type = Type.Add;
 		}
 
-		public void SetPos(Chara.ViewBase charaView, in Vector2Int startPos, in Vector2Int endPos)
+		public void SetPos(Chara.ICharaMoveController control, in Vector2Int startPos, in Vector2Int endPos)
 		{
-			_charaView = charaView;
+			_control = control;
 			_startPos = startPos;
 			_endPos = endPos;
 			_type = Type.Set;
@@ -76,13 +76,13 @@ namespace Ling.Chara.Process
 			// 指定座標に移動させる
 			if (_type == Type.Add)
 			{
-				_charaView
+				_control
 					.MoveAtAddPos(_endPos)
 					.Subscribe(_ => ProcessFinish());
 			}
 			else
 			{
-				_charaView
+				_control
 					.Move(_startPos, _endPos)
 					.Subscribe(_ => ProcessFinish());
 			}
