@@ -1,25 +1,23 @@
-﻿// 
-// EnemyControl.cs  
+﻿//
+// EnemyModel.cs
 // ProductName Ling
-//  
-// Created by toshiki sakamoto on 2020.08.10
-// 
-
-using UnityEngine;
+//
+// Created by toshiki sakamoto on 2020.09.12
+//
 
 namespace Ling.Chara
 {
 	/// <summary>
-	/// Enemy Control
+	/// EnemyModel
 	/// </summary>
-	public class EnemyControl : CharaControl<EnemyModel, EnemyView> 
+	public class EnemyModel : CharaModel
     {
 		#region 定数, class, enum
 
 		#endregion
 
 
-		#region public 変数
+		#region public, protected 変数
 
 		#endregion
 
@@ -34,17 +32,17 @@ namespace Ling.Chara
 		#endregion
 
 
+		#region コンストラクタ, デストラクタ
+
+		#endregion
+
+
 		#region public, protected 関数
 
 		#endregion
 
 
 		#region private 関数
-
-		#endregion
-
-
-		#region MonoBegaviour
 
 		#endregion
 	}

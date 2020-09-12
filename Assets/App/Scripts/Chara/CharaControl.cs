@@ -53,12 +53,12 @@ namespace Ling.Chara
 		#region private 変数
 		
         [SerializeField] private CharaStatus _status = default;
+		[SerializeField] private TModel _model = default;
 		[SerializeField] private TView _view = default;
         [SerializeField] private CharaMover _charaMover = default;
 
 		[Inject] private DiContainer _diContainer = default;
 
-		private TModel _model = default;
 		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
 		private List<Utility.ProcessBase> _attackProcess = new List<Utility.ProcessBase>();
 
@@ -285,9 +285,6 @@ namespace Ling.Chara
 
 		private void Awake()
 		{
-			// Modelを生成する
-			_model = gameObject.AddComponent<TModel>();
-
             if (_charaMover == null)
             {
                 _charaMover = _view.GetComponent<CharaMover>();

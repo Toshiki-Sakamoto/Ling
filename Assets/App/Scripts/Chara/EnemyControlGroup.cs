@@ -24,7 +24,7 @@ namespace Ling.Chara
 	/// <summary>
 	/// 敵のControl管理クラス
 	/// </summary>
-	public class EnemyControlGroup : ControlGroupBase<EnemyControl, CharaModel, EnemyView>
+	public class EnemyControlGroup : ControlGroupBase<EnemyControl, EnemyModel, EnemyView>
 	{
 		#region 定数, class, enum
 
