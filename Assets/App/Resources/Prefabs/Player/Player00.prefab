@@ -199,6 +199,7 @@ MonoBehaviour:
     _hp:
       value: 0
   _view: {fileID: 3244762123335931066}
+  _cameraFollow: {fileID: 6502881826932206427}
 --- !u!114 &3244762123335931066
 MonoBehaviour:
   m_ObjectHideFlags: 0

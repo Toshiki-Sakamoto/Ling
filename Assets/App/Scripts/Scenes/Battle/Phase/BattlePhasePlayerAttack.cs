@@ -26,6 +26,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
+		private Chara.PlayerControl _player;
 
 		#endregion
 
@@ -50,10 +51,22 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Init()
 		{
+			_player = _charaManager.Player;
+			_player.SetFollowCameraEnable(false);
+
+			var attackProcess = _player.AddAttackProcess<Chara.Process.ProcessAttack>();
+			attackProcess.SetChara(_player);
+
+			_player.ExecuteAttackProcess();
 		}
 
 		public override void Proc()
 		{
+			if (!_player.IsAttackAllProcessEnded()) return;
+
+			_player.SetFollowCameraEnable(true);
+
+			Change(BattleScene.Phase.PlayerAction);
 		}
 
 		public override void Term() 

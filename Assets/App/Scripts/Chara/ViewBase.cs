@@ -42,7 +42,6 @@ namespace Ling.Chara
         private Tilemap _tilemap;
         private Renderer[] _renderers = null;
         private int _mapLevel;
-
         #endregion
 
 
@@ -59,6 +58,11 @@ namespace Ling.Chara
         /// 動きを管理する
         /// </summary>
         public MoveController MoveController => _moveController;
+
+        /// <summary>
+        /// 向きベクトル
+        /// </summary>
+        public Vector2 Dir { get; private set; } = new Vector2(0f, 1f);
 
         #endregion
 
@@ -104,11 +108,12 @@ namespace Ling.Chara
         /// <summary>
         /// 向き
         /// </summary>
-        /// <param name="dir"></param>
         public void SetDirection(in Vector2 dir)
         {
             _animator.SetFloat("x", dir.x);
             _animator.SetFloat("y", dir.y);
+
+            Dir = dir;
         }
 
         public void SetSortingLayerAndOrder(string sortingName, int order)

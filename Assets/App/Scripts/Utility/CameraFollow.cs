@@ -4,16 +4,12 @@
 //  
 // Create by toshiki sakamoto on 2019.09.22.
 // 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-
-namespace Ling.Common
+namespace Ling.Utility
 {
     /// <summary>
-    /// 
+    /// 指定したカメラを自動的に追従する
     /// </summary>
     public class CameraFollow : MonoBehaviour 
     {

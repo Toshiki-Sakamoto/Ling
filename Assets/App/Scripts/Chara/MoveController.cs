@@ -4,20 +4,17 @@
 //  
 // Create by toshiki sakamoto on 2019.09.16.
 // 
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 using UniRx;
-using System;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
 
 namespace Ling.Chara
 {
     /// <summary>
-    /// 
+    /// 移動コントローラー
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
     public class MoveController : MonoBehaviour 
@@ -131,10 +128,10 @@ namespace Ling.Chara
             //_moveList.Clear();
         }
 
-#endregion
+        #endregion
 
 
-#region MonoBegaviour
+        #region MonoBegaviour
 
 
         private void Start()
@@ -159,6 +156,6 @@ namespace Ling.Chara
             }
         }
 
-#endregion
+#       endregion
 	}
 }
