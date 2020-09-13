@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 0
   _initCreateNum:
-    _min: 3
-    _max: 20
+    _min: 1
+    _max: 5
   _mapEnemyData:
   - _enemyType: 1
     _popRate: 100
