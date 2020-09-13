@@ -144,7 +144,7 @@ namespace Ling.Chara
 			PlayerModel.SetMapLevel(level);
 
 			// 移動後のTilemapをPlayerに登録し直す
-			PlayerView.SetTilemap(tilemap, level);
+			Player.SetTilemap(tilemap, level);
 		}
 
 		/// <summary>

@@ -111,7 +111,7 @@ namespace Ling.Map
 					break;
 			}
 
-			charaView.SetTilemap(tilemap, level);
+			chara.SetTilemap(tilemap, level);
 		}
 
 		public void SetCharaViewInCurrentMap(Chara.ICharaController chara) =>

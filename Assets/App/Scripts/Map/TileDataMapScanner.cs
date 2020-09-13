@@ -135,7 +135,7 @@ namespace Ling.Map
 			_scoreAndRouteResultCache.routePositions = null;
 
 			var param = new Utility.Algorithm.Astar.Param();
-			param.start = chara.Model.Pos;
+			param.start = chara.Model.CellPosition.Value;
 			param.end = targetPos;
 			param.width = _tileDataMap.Width;
 

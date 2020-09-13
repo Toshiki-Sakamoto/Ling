@@ -62,10 +62,10 @@ namespace Ling.Chara
         /// 現在位置から指定した数を足して移動する
         /// </summary>
         public System.IObservable<AsyncUnit> MoveAtAddPos(in Vector2Int addCellPos) =>
-            CharaMover.SetMoveCellPos(_model.CellPosition.Value + addCellPos.ToVector3Int());
+            CharaMover.SetMoveCellPos(_model.CellPosition.Value + addCellPos);
 
         public System.IObservable<AsyncUnit> Move(in Vector2Int startPos, in Vector2Int endPos) =>
-            CharaMover.SetMoveCellPos(startPos.ToVector3Int(), endPos.ToVector3Int());
+            CharaMover.SetMoveCellPos(startPos, endPos);
 
 		#endregion
 

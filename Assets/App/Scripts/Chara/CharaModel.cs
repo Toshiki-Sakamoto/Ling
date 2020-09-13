@@ -36,7 +36,8 @@ namespace Ling.Chara
 
 		private Param _param = null;
         private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
-        [SerializeField] private Vector3IntReactiveProperty _cellPosition = default; // マップ上の自分の位置
+        [SerializeField] private Vector2IntReactiveProperty _cellPosition = default; // マップ上の自分の位置
+		[SerializeField] private bool _isReactiveCellPosition = true;
 
 		#endregion
 
@@ -59,14 +60,14 @@ namespace Ling.Chara
 		public int MapLevel { get; private set; }
 		
 		/// <summary>
-		/// 現在座標
+		/// 現在のセル上の座標
 		/// </summary>
-		public Vector2Int Pos { get; private set; }
+		public Vector2IntReactiveProperty CellPosition => _cellPosition;
 
 		/// <summary>
-		/// セル座標
+		/// CellPositionを反映させるか
 		/// </summary>
-		public Vector3IntReactiveProperty CellPosition => _cellPosition;
+		public bool IsReactiveCellPosition => _isReactiveCellPosition;
 
 		/// <summary>
 		/// 向き
@@ -143,7 +144,8 @@ namespace Ling.Chara
 
 		public void InitPos(in Vector2Int pos)
 		{
-			Pos = pos;
+			_isReactiveCellPosition = true;
+			CellPosition.Value = pos;
 
 			_eventPosUpdate.prevPos = null;
             _eventPosUpdate.newPos = pos;
@@ -157,30 +159,28 @@ namespace Ling.Chara
 		/// <summary>
 		/// 座標の設定
 		/// </summary>
-		public void SetPos(in Vector2Int pos)
+		public void SetCellPosition(in Vector2Int pos, bool reactive, bool sendEvent = true)
         {
-            _eventPosUpdate.prevPos = Pos;
-            _eventPosUpdate.newPos = pos;
-            _eventPosUpdate.charaType = CharaType;
-            _eventPosUpdate.mapLevel = MapLevel;
+			if (sendEvent)
+			{
+				_eventPosUpdate.prevPos = CellPosition.Value;
+				_eventPosUpdate.newPos = pos;
+				_eventPosUpdate.charaType = CharaType;
+				_eventPosUpdate.mapLevel = MapLevel;
 
-            Pos = pos;
+				// 移動したことのイベントを発行する
+				Utility.EventManager.SafeTrigger(_eventPosUpdate);
+			}
 
-            // 移動したことのイベントを発行する
-			Utility.EventManager.SafeTrigger(_eventPosUpdate);
+			_isReactiveCellPosition = reactive;
+			_cellPosition.Value = pos;
         }
 
 		/// <summary>
 		/// 現在の座標に指定した分を加算する
 		/// </summary>
-		public void AddPos(in Vector2Int pos) =>
-			SetPos(Pos + pos);
-
-		/// <summary>
-		/// マップのセル上の座標の設定
-		/// </summary>
-		public void SetCellPosition(in Vector3Int cellPosition) =>
-			_cellPosition.Value = cellPosition;
+		public void AddCellPosition(in Vector2Int pos, bool reactive) =>
+			SetCellPosition(CellPosition.Value + pos, reactive);
 
 		/// <summary>
 		/// 向き情報をセットする

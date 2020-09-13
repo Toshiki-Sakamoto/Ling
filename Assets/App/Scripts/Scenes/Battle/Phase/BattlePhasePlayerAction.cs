@@ -101,13 +101,12 @@ namespace Ling.Scenes.Battle.Phase
 				playerModel.SetDirection(moveDistance);
 				return;
 			}
-
-			// Playerの座標を変更する(見た目は反映させない)
-			playerModel.AddPos(moveDistance);
-
 			// 移動であればプロセスを追加し、敵思考に回す
 			var moveProcess = player.AddMoveProcess<Chara.Process.ProcessMove>();
-			moveProcess.SetAddPos(player, moveDistance);
+			moveProcess.SetAddPos(player, playerModel.CellPosition.Value, moveDistance);
+
+			// Playerの座標を変更する(見た目は反映させない)
+			playerModel.AddCellPosition(moveDistance, reactive: false);
 
 			Change(BattleScene.Phase.EnemyTink);
 

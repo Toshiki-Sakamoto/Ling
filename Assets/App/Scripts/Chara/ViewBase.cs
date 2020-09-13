@@ -108,6 +108,8 @@ namespace Ling.Chara
         /// </summary>
         public void CellCenterFit(in Vector3Int cellPosition)
         {
+            if (_tilemap == null) return;
+
             var centerPos = _tilemap.GetCellCenterWorld(cellPosition);
 
             transform.position = centerPos;

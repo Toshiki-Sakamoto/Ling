@@ -10,6 +10,7 @@ using UnityEngine.Tilemaps;
 using UniRx;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using Ling.Utility.Extensions;
 
 namespace Ling.Chara
 {
@@ -36,9 +37,8 @@ namespace Ling.Chara
 
         private bool _isMoving;         // 動いてるとき
         private ICharaController _chara;         // 動いている対象
-        //private List<Vector3Int> _moveList = new List<Vector3Int>();
-        private Vector3Int _startPos;
-        private Vector3Int _movePos;
+        private Vector3Int _startPos, _endPos;
+        private Vector2Int _vector2IntEndPos;
         private Tilemap _tilemap;
 
         #endregion
@@ -67,21 +67,17 @@ namespace Ling.Chara
         /// 指定したセルに移動させる
         /// </summary>
         /// <param name="cellPos"></param>
-        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector3Int endPos)
+        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector2Int endPos) =>
+            SetMoveCellPos(_chara.Model.CellPosition.Value, endPos);
+            
+        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector2Int startPos, in Vector2Int endPos)
         {
             MoveStop();
 
-            _startPos = _chara.Model.CellPosition.Value;
-            _movePos = endPos;
+            _vector2IntEndPos = endPos;
 
-            return Move().ToObservable();
-        }
-        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector3Int startPos, in Vector3Int endPos)
-        {
-            MoveStop();
-
-            _startPos = startPos;
-            _movePos = endPos;
+            _startPos = startPos.ToVector3Int();
+            _endPos = endPos.ToVector3Int();
 
             return Move().ToObservable();
         }
@@ -111,7 +107,7 @@ namespace Ling.Chara
             //foreach (var elm in _moveList)
             {
                 var start = _tilemap.GetCellCenterWorld(_startPos);
-                var finish = _tilemap.GetCellCenterWorld(_movePos);
+                var finish = _tilemap.GetCellCenterWorld(_endPos);
 
                 var diffVec = finish - start;
 
@@ -119,7 +115,8 @@ namespace Ling.Chara
 
                 await _chara.View.transform.DOMove(finish, 0.2f);
 
-                _chara.View.SetCellPos(_movePos);
+                // 見た目だけ反映させる
+                _chara.Model.SetCellPosition(_vector2IntEndPos, reactive: true, sendEvent: false);
             }
 
             _isMoving = false;

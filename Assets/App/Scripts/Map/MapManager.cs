@@ -130,7 +130,7 @@ namespace Ling.Map
 		public bool CanMoveChara(int mapIndex, Chara.CharaModel charaModel, in Vector2Int addMoveDir)
 		{
 			var tileDataMap = _mapModel.FindTileDataMap(mapIndex);
-			var destPos = charaModel.Pos + addMoveDir;
+			var destPos = charaModel.CellPosition.Value + addMoveDir;
 
 			// 範囲外なら移動できない
 			if (!tileDataMap.InRange(destPos.x, destPos.y))

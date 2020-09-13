@@ -139,7 +139,7 @@ namespace Ling.Chara
 		/// </summary>
 		public bool ExistsCharaInPos(Vector2Int pos)
 		{
-			return Models.Exists(model => model.Pos == pos);
+			return Models.Exists(model => model.CellPosition.Value == pos);
 		}
 
 		#endregion

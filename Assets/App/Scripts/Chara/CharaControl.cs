@@ -29,6 +29,11 @@ namespace Ling.Chara
 		
 		ICharaMoveController MoveController { get; }
 
+		/// <summary>
+        /// Tilemap情報を設定する
+        /// </summary>
+		void SetTilemap(Tilemap tilemap, int mapLevel);
+
 		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
 		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
 	}
@@ -112,20 +117,13 @@ namespace Ling.Chara
 				});
 
 			// セルの座標が変更されたとき
-			_model.CellPosition.Subscribe(cellPosition_ => 
+			_model.CellPosition
+				.Where(_ => _model.IsReactiveCellPosition)
+				.Subscribe(cellPosition_ => 
 				{
 					_view.SetCellPos(cellPosition_);
 				});
 		}
-
-		/// <summary>
-		/// 初期座標設定
-		/// </summary>
-		public void InitPos(in Vector2Int pos)
-		{
-			_model.InitPos(pos);
-		}
-
 
 		/// <summary>
         /// Tilemap情報を設定する
@@ -247,7 +245,7 @@ namespace Ling.Chara
 		public bool CanMove(Map.TileDataMap tileDataMap, in Vector2Int addMoveDir)
 		{
 			// 目的地
-			var destPos = _model.Pos + addMoveDir;
+			var destPos = _model.CellPosition.Value + addMoveDir;
 
 			// 範囲外なら移動できない
 			if (!tileDataMap.InRange(destPos.x, destPos.y))

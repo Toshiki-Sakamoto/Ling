@@ -82,8 +82,8 @@ namespace Ling.Chara
 		/// </summary>
 		public bool ExistsCharaInPos(Vector2Int pos)
 		{
-			if (PlayerModel.Pos == pos) return true;
-			return Models.Exists(model => model.Pos == pos);
+			if (PlayerModel.CellPosition.Value == pos) return true;
+			return Models.Exists(model => model.CellPosition.Value == pos);
 		}
 
 		#endregion

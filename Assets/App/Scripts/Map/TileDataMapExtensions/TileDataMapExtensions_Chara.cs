@@ -19,7 +19,7 @@ namespace Ling.Map.TileDataMapExtensionss.Chara
     {
 		public static RoomData FindRoomData(this TileDataMap self, ICharaController chara)
 		{
-			var pos = chara.Model.Pos;
+			var pos = chara.Model.CellPosition.Value;
 			if (self.TryGetRoomData(pos.x, pos.y, out var roomData))
 			{
 				return roomData;
