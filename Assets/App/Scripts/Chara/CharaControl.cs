@@ -144,6 +144,14 @@ namespace Ling.Chara
 
 			// 第一優先として、自分が「特技」「攻撃」ができるか。
 
+			// 攻撃
+			await _model.AttackAI.ExecuteAsync(this, timeAwaiter);
+
+			if (_model.AttackAI.CanActable)
+			{
+				return;
+			}
+
 			// それができない場合、「移動」をする。
 			await _model.MoveAI.ExecuteAsync(this, timeAwaiter);
 		}

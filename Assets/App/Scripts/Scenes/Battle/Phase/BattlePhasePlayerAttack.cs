@@ -5,10 +5,12 @@
 // Created by toshiki sakamoto on 2020.05.01
 //
 
+using UnityEngine;
+
 namespace Ling.Scenes.Battle.Phase
 {
 	/// <summary>
-	/// プレイヤーの攻撃
+	/// プレイヤーの通常攻撃
 	/// </summary>
 	public class BattlePhasePlayerAttack : BattlePhaseBase
 	{
@@ -54,8 +56,14 @@ namespace Ling.Scenes.Battle.Phase
 			_player = _charaManager.Player;
 			_player.SetFollowCameraEnable(false);
 
+			// プレイヤーの向きから攻撃先を決める
+			// (武器によって範囲変えたり)
+			var position = _player.Model.CellPosition;
+			var dir = _player.Model.Dir;
+
 			var attackProcess = _player.AddAttackProcess<Chara.Process.ProcessAttack>();
-			attackProcess.SetChara(_player);
+			attackProcess.SetChara(_player, ignoreIfNoTarget: true);
+			attackProcess.SetTargetPos(position.Value + dir.Value);
 
 			_player.ExecuteAttackProcess();
 		}

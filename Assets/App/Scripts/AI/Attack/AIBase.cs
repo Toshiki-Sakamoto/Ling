@@ -8,6 +8,7 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Zenject;
+using Ling.Map.TileDataMapExtensions;
 
 namespace Ling.AI.Attack
 {
@@ -33,10 +34,10 @@ namespace Ling.AI.Attack
 		[Inject] private Map.MapManager _mapManager = default;
 		[Inject] private Chara.CharaManager _charaManager = default;
 
-		private CharaMaster.AttackAIData _masterAIData;
-		private Chara.ICharaController _unit;
-		private Map.TileDataMap _tileDataMap;
-		private Map.RoomData _roomData;
+		protected CharaMaster.AttackAIData _masterAIData;
+		protected Chara.ICharaController _unit;
+		protected Map.TileDataMap _tileDataMap;
+		protected Map.RoomData _roomData;
 
 
 		#endregion
@@ -47,7 +48,7 @@ namespace Ling.AI.Attack
 		/// <summary>
 		/// 行動できるか
 		/// </summary>
-		public bool IsActable { get; private set; }
+		public bool CanActable { get; protected set; }
 
 		public Map.TileDataMap TileDataMap
 		{
@@ -85,12 +86,14 @@ namespace Ling.AI.Attack
 			_tileDataMap = null;
 			_roomData = null;
 
+			CanActable = false;
+
 			await ExexuteInternalAsync(timeAwaiter);
 		}
 
 		public void Reset()
 		{
-			IsActable = false;
+			CanActable = false;
 		}
 
 
