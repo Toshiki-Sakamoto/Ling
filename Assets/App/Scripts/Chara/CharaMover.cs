@@ -69,7 +69,7 @@ namespace Ling.Chara
         /// <param name="cellPos"></param>
         public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector2Int endPos) =>
             SetMoveCellPos(_chara.Model.CellPosition.Value, endPos);
-            
+
         public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector2Int startPos, in Vector2Int endPos)
         {
             MoveStop();
@@ -113,14 +113,13 @@ namespace Ling.Chara
 
                 _chara.Model.SetDirection(new Vector2(diffVec.x, diffVec.z));
 
-                await _chara.View.transform.DOMove(finish, 0.2f);
+                await _chara.View.transform.DOMove(finish, 0.15f).SetEase(Ease.Linear);
 
                 // 見た目だけ反映させる
                 _chara.Model.SetCellPosition(_vector2IntEndPos, reactive: true, sendEvent: false);
             }
 
             _isMoving = false;
-            //_moveList.Clear();
         }
 
         #endregion

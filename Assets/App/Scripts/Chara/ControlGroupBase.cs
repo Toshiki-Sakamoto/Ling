@@ -128,21 +128,23 @@ namespace Ling.Chara
 		public async UniTask WaitForMoveProcessAsync()
 		{
 			// 条件に達したら終了
-			await UniTask.WaitUntil(() => 
-				{ 
-					// 条件は移動プロセスがすべて終わっているとき
-					foreach (var control in Controls)
+			// 条件は移動プロセスがすべて終わっているとき
+			bool isWait = false;
+			do
+			{
+				isWait = false;
+
+				foreach (var control in Controls)
+				{
+					if (!control.IsMoveAllProcessEnded())
 					{
-						if (!control.IsMoveAllProcessEnded())
-						{
-							return false;
-						}
+						isWait = true;
+						await UniTask.DelayFrame(1);
+						break;
 					}
+				}
 
-					return true;
-				});
-
-			
+			} while(isWait);
 		}
 
 		/// <summary>

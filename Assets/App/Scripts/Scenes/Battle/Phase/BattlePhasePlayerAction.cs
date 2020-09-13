@@ -63,6 +63,10 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			// マップ情報を更新する
 			_mapManager.UpdateMapData();
+
+#if UNITY_EDITOR
+			KeyCommandProcess();
+#endif
 		}
 
 		public override void Proc()

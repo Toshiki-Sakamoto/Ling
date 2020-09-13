@@ -173,7 +173,7 @@ namespace Ling.Chara
 			}
 
 			_isReactiveCellPosition = reactive;
-			_cellPosition.Value = pos;
+			_cellPosition.SetValueAndForceNotify(pos);
         }
 
 		/// <summary>
