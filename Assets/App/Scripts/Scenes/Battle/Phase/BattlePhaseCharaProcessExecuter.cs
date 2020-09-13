@@ -74,7 +74,7 @@ namespace Ling.Scenes.Battle.Phase
 			// 終わったら順番に攻撃・特技Processを叩く
 
 			// すべて終わったらターン終了
-			Change(BattleScene.Phase.PlayerAction);
+			Change(BattleScene.Phase.CharaProcessEnd);
 		}
 
 		#endregion

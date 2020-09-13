@@ -142,6 +142,7 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.NextStage, new Battle.Phase.BattlePhaseNextStage());
 			_phase.Add(Phase.EnemyTink, new Battle.Phase.BattlePhaseEnemyThink());
 			_phase.Add(Phase.CharaProcessExecute, new Battle.Phase.BattlePhaseCharaProcessExecuter());
+			_phase.Add(Phase.CharaProcessEnd, new Battle.Phase.BattlePhaseCharaProcessEnd());
 
 			_phase.Start(this, Phase.Start);
 
