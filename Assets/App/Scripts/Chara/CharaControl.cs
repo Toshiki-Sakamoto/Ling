@@ -196,7 +196,8 @@ namespace Ling.Chara
 		/// </summary>
 		public void ExecuteMoveProcess()
 		{
-			foreach (var process in _moveProcesses)
+			var tmp = _moveProcesses.ToArray();
+			foreach (var process in tmp)
 			{
 				// 終了時、移動プロセスリストから削除する
 				process.AddAllFinishAction(action_ => 
