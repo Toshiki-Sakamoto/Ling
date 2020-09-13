@@ -4,13 +4,10 @@
 //  
 // Created by toshiki sakamoto on 2020.05.02
 // 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Ling.Utility.Extensions;
 using System.Linq;
 
-using Zenject;
 using Ling.Common.Tile;
 
 #if UNITY_EDITOR

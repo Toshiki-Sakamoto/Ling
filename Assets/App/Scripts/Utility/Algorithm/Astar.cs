@@ -10,6 +10,7 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Ling.Utility.Extensions;
 
 namespace Ling.Utility.Algorithm
 {

@@ -18,11 +18,6 @@ namespace Ling.Chara.Process
     {
 		#region 定数, class, enum
 
-		public enum Type
-		{
-			Add, Set,
-		}
-
 		#endregion
 
 
@@ -33,8 +28,7 @@ namespace Ling.Chara.Process
 
 		#region private 変数
 
-		private Chara.ViewBase _charaView;	// 移動対象のキャラ
-		private Type _type;
+		private Chara.ICharaMoveController _control;	// 移動対象のキャラ
 		private Vector2Int _startPos;
 		private Vector2Int _endPos;
 
@@ -56,36 +50,22 @@ namespace Ling.Chara.Process
 		/// <summary>
 		/// 通常の移動
 		/// </summary>
-		public void SetAddPos(Chara.ViewBase charaView, in Vector2Int addPos)
-		{
-			_charaView = charaView;
-			_endPos = addPos;
-			_type = Type.Add;
-		}
+		public void SetAddPos(Chara.ICharaMoveController control, in Vector2Int startPos, in Vector2Int addPos) =>
+			SetPos(control, startPos, startPos + addPos);
 
-		public void SetPos(Chara.ViewBase charaView, in Vector2Int startPos, in Vector2Int endPos)
+		public void SetPos(Chara.ICharaMoveController control, in Vector2Int startPos, in Vector2Int endPos)
 		{
-			_charaView = charaView;
+			_control = control;
 			_startPos = startPos;
 			_endPos = endPos;
-			_type = Type.Set;
 		}
 
 		protected override void ProcessStartInternal()
 		{
 			// 指定座標に移動させる
-			if (_type == Type.Add)
-			{
-				_charaView
-					.MoveAtAddPos(_endPos)
-					.Subscribe(_ => ProcessFinish());
-			}
-			else
-			{
-				_charaView
-					.Move(_startPos, _endPos)
-					.Subscribe(_ => ProcessFinish());
-			}
+			_control
+				.Move(_startPos, _endPos)
+				.Subscribe(_ => ProcessFinish());
 		}
 
 		#endregion

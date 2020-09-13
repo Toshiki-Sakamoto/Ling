@@ -4,11 +4,11 @@
 //  
 // Create by toshiki sakamoto on 2019.10.04.
 // 
-using System.Collections;
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
+using Ling.Utility.Extensions;
 using System.Linq;
 
 

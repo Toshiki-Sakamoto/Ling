@@ -6,13 +6,15 @@
 // 
 
 using UnityEngine;
-using System;
 using System.Linq;
 using UniRx;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
-using Ling;
 using Zenject;
+using Ling.Map.TileDataMapExtensions;
+using Ling.Const;
+using UnityEngine.Tilemaps;
+using Ling.Utility.Extensions;
 
 namespace Ling.Chara
 {
@@ -24,6 +26,13 @@ namespace Ling.Chara
 		CharaModel Model { get; }
 		
 		ViewBase View { get; }
+		
+		ICharaMoveController MoveController { get; }
+
+		/// <summary>
+        /// Tilemap情報を設定する
+        /// </summary>
+		void SetTilemap(Tilemap tilemap, int mapLevel);
 
 		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
 		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
@@ -32,7 +41,7 @@ namespace Ling.Chara
 	/// <summary>
 	/// キャラのModelとViewをつなげる役目と操作を行う
 	/// </summary>
-	public abstract class CharaControl<TModel, TView> : MonoBehaviour, ICharaController
+	public abstract partial class CharaControl<TModel, TView> : MonoBehaviour, ICharaController, ICharaMoveController
 		where TModel : CharaModel
 		where TView : ViewBase
     {
@@ -49,11 +58,12 @@ namespace Ling.Chara
 		#region private 変数
 		
         [SerializeField] private CharaStatus _status = default;
+		[SerializeField] private TModel _model = default;
 		[SerializeField] private TView _view = default;
+        [SerializeField] private CharaMover _charaMover = default;
 
 		[Inject] private DiContainer _diContainer = default;
 
-		private TModel _model = default;
 		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
 		private List<Utility.ProcessBase> _attackProcess = new List<Utility.ProcessBase>();
 
@@ -67,6 +77,18 @@ namespace Ling.Chara
 
 		public TView View => _view;
 
+		/// <summary>
+		/// 動きの制御を行うメソッドにアクセスするためのInterface
+		/// </summary>
+		/// <value></value>
+		public ICharaMoveController MoveController => this;
+
+        /// <summary>
+        /// キャラクタを動かすヘルパクラス
+        /// </summary>
+        public CharaMover CharaMover => _charaMover;
+
+
 		// ICharaController
 		CharaModel ICharaController.Model => _model;
 		ViewBase ICharaController.View => _view;
@@ -76,10 +98,9 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		public void Setup(TModel model)
+		public void Setup()
 		{
-			_model = model;
-			_status = model.Status;
+			_status = _model.Status;
 
             // 死亡時
             _status.IsDead.Where(isDead_ => isDead_)
@@ -88,18 +109,31 @@ namespace Ling.Chara
 					// Viewにも伝える
 					Utility.Log.Print("死んだ！");
                 });
+
+			// 向きが変わったとき
+			_model.Dir.Subscribe(dir_ =>
+				{
+					_view.SetDirection(dir_);
+				});
+
+			// セルの座標が変更されたとき
+			_model.CellPosition
+				.Where(_ => _model.IsReactiveCellPosition)
+				.Subscribe(cellPosition_ => 
+				{
+					_view.SetCellPos(cellPosition_);
+				});
 		}
 
 		/// <summary>
-		/// 初期座標設定
-		/// </summary>
-		public void InitPos(in Vector2Int pos)
-		{
-			_model.InitPos(pos);
-			_view.SetCellPos(pos);
+        /// Tilemap情報を設定する
+        /// </summary>
+        public void SetTilemap(Tilemap tilemap, int mapLevel)
+        {
+			_view.SetTilemap(tilemap, mapLevel);
 
-			// マップ側に伝える
-		}
+            CharaMover.SetTilemap(tilemap);
+        }
 
 		/// <summary>
 		/// どういう行動をするか攻撃、移動AIクラスから思考し、決定する。
@@ -162,7 +196,8 @@ namespace Ling.Chara
 		/// </summary>
 		public void ExecuteMoveProcess()
 		{
-			foreach (var process in _moveProcesses)
+			var tmp = _moveProcesses.ToArray();
+			foreach (var process in tmp)
 			{
 				// 終了時、移動プロセスリストから削除する
 				process.AddAllFinishAction(action_ => 
@@ -190,8 +225,50 @@ namespace Ling.Chara
 		{
 			foreach (var process in _attackProcess)
 			{
+				// 終了時、移動プロセスリストから削除する
+				process.AddAllFinishAction(action_ => 
+					{
+						_attackProcess.Remove(action_);
+					});
+
 				process.SetEnable(true);
 			}
+		}
+
+		public bool IsAttackAllProcessEnded()
+		{
+			return _attackProcess.Count == 0;
+		}
+
+		/// <summary>
+		/// 指定した座標に移動できるか
+		/// </summary>
+		public bool CanMove(Map.TileDataMap tileDataMap, in Vector2Int addMoveDir)
+		{
+			// 目的地
+			var destPos = _model.CellPosition.Value + addMoveDir;
+
+			// 範囲外なら移動できない
+			if (!tileDataMap.InRange(destPos.x, destPos.y))
+			{
+				return false;
+			}
+
+			var tileFlag = tileDataMap.GetTileFlag(destPos.x, destPos.y);
+			if (tileFlag.HasAny(_model.UnmovableTileFlag))
+			{
+				return false;
+			}
+
+			return true;		
+		}
+
+		/// <summary>
+		/// 指定した座標に攻撃できるか
+		/// </summary>
+		public bool CanAttack(Map.TileDataMap tileDataMap, in Vector2Int addMoveDir)
+		{
+			return false;
 		}
 
 		#endregion
@@ -204,6 +281,16 @@ namespace Ling.Chara
 
 
 		#region MonoBegaviour
+
+		private void Awake()
+		{
+            if (_charaMover == null)
+            {
+                _charaMover = _view.GetComponent<CharaMover>();
+            }
+
+            _charaMover.SetModel(this);
+		}
 
 		#endregion
 	}

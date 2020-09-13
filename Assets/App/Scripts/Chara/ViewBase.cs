@@ -4,15 +4,8 @@
 //  
 // Create by toshiki sakamoto on 2019.09.22.
 // 
-using System.Collections;
-using System.Collections.Generic;
-using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
-using Ling;
-using Ling.Utility;
-using Cysharp.Threading.Tasks;
 
 
 namespace Ling.Chara
@@ -36,31 +29,18 @@ namespace Ling.Chara
 
         [SerializeField] private CharaType _charaType = default;
         [SerializeField] private Animator _animator = default;
-        [SerializeField] private Vector3Int _vecCellPos = default; // マップ上の自分の位置
-        [SerializeField] private MoveController _moveController = default;
         [SerializeField] private Ling.Const.MoveAIType _moveAIType = default;
         [SerializeField] private Ling.Const.AttackAIType _attackAIType = default;
 
         private Tilemap _tilemap;
         private Renderer[] _renderers = null;
         private int _mapLevel;
-
         #endregion
 
 
         #region プロパティ
 
         public CharaType CharaType => _charaType;
-
-        /// <summary>
-        /// マップ上の現在の位置
-        /// </summary>
-        public Vector3Int CellPos { get { return _vecCellPos; } }
-
-        /// <summary>
-        /// 動きを管理する
-        /// </summary>
-        public MoveController MoveController => _moveController;
 
         #endregion
 
@@ -75,8 +55,6 @@ namespace Ling.Chara
         {
             _tilemap = tilemap;
             _mapLevel = mapLevel;
-
-            MoveController.SetTilemap(tilemap);
         }
 
         /// <summary>
@@ -85,14 +63,12 @@ namespace Ling.Chara
         public void SetCellPos(in Vector2Int pos, bool needsFit = true) =>
             SetCellPos(new Vector3Int { x = pos.x, y = pos.y }, needsFit);
 
-        public void SetCellPos(Vector3Int pos, bool needsFit = true)
+        public void SetCellPos(in Vector3Int pos, bool needsFit = true)
         {
-            _vecCellPos = pos;
-
             if (needsFit)
             {
                 // 座標の中央に合わせる
-                CellCenterFit();
+                CellCenterFit(pos);
             }
         }
 
@@ -106,7 +82,6 @@ namespace Ling.Chara
         /// <summary>
         /// 向き
         /// </summary>
-        /// <param name="dir"></param>
         public void SetDirection(in Vector2 dir)
         {
             _animator.SetFloat("x", dir.x);
@@ -122,15 +97,6 @@ namespace Ling.Chara
 			}
 		}
 
-        /// <summary>
-        /// 現在位置から指定した数を足して移動する
-        /// </summary>
-        public System.IObservable<AsyncUnit> MoveAtAddPos(in Vector2Int addCellPos) =>
-            MoveController.SetMoveCellPos(CellPos + addCellPos.ToVector3Int());
-
-        public System.IObservable<AsyncUnit> Move(in Vector2Int startPos, in Vector2Int endPos) =>
-            MoveController.SetMoveCellPos(startPos.ToVector3Int(), endPos.ToVector3Int());
-
         #endregion
 
 
@@ -140,10 +106,11 @@ namespace Ling.Chara
         /// <summary>
         /// 指定したオブジェクトを現在のタイルの中央にぴったりと合わせる
         /// </summary>
-        public void CellCenterFit()
+        public void CellCenterFit(in Vector3Int cellPosition)
         {
-            //var cellPos = _tilemap.WorldToCell(transform.position);
-            var centerPos = _tilemap.GetCellCenterWorld(_vecCellPos);
+            if (_tilemap == null) return;
+
+            var centerPos = _tilemap.GetCellCenterWorld(cellPosition);
 
             transform.position = centerPos;
         }
@@ -158,13 +125,6 @@ namespace Ling.Chara
         /// </summary>
         void Awake()
         {
-            if (_moveController == null)
-            {
-                _moveController = GetComponent<MoveController>();
-            }
-
-            _moveController.SetModel(this);
-
             _renderers = GetComponentsInChildren<Renderer>();
         }
 

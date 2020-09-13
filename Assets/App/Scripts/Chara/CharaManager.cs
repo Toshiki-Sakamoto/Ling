@@ -124,9 +124,6 @@ namespace Ling.Chara
 			_isInitialized = true;
 		}
 
-		public Vector3Int GetPlayerCellPos() =>
-			PlayerView.CellPos;
-
 		/// <summary>
 		/// Playerが移動した上昇をもとに戻す
 		/// </summary>
@@ -147,7 +144,7 @@ namespace Ling.Chara
 			PlayerModel.SetMapLevel(level);
 
 			// 移動後のTilemapをPlayerに登録し直す
-			PlayerView.SetTilemap(tilemap, level);
+			Player.SetTilemap(tilemap, level);
 		}
 
 		/// <summary>

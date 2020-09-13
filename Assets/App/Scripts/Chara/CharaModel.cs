@@ -5,22 +5,17 @@
 // Created by toshiki sakamoto on 2020.07.09
 //
 
-using Ling.MasterData.Chara;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using Ling.Const;
+using Ling.Common.ReactiveProperty;
 
 namespace Ling.Chara
 {
 	/// <summary>
 	/// <see cref="CharaManager"/>に管理されるデータ
 	/// </summary>
-	public class CharaModel
+	public class CharaModel : MonoBehaviour
     {
 		#region 定数, class, enum
 
@@ -41,6 +36,8 @@ namespace Ling.Chara
 
 		private Param _param = null;
         private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
+        [SerializeField] private Vector2IntReactiveProperty _cellPosition = default; // マップ上の自分の位置
+		[SerializeField] private bool _isReactiveCellPosition = true;
 
 		#endregion
 
@@ -63,9 +60,19 @@ namespace Ling.Chara
 		public int MapLevel { get; private set; }
 		
 		/// <summary>
-		/// 現在座標
+		/// 現在のセル上の座標
 		/// </summary>
-		public Vector2Int Pos { get; private set; }
+		public Vector2IntReactiveProperty CellPosition => _cellPosition;
+
+		/// <summary>
+		/// CellPositionを反映させるか
+		/// </summary>
+		public bool IsReactiveCellPosition => _isReactiveCellPosition;
+
+		/// <summary>
+		/// 向き
+		/// </summary>
+		public Vector2ReactiveProperty Dir { get; private set; } = new Vector2ReactiveProperty(new Vector2(0f, -1f));
 
 		/// <summary>
 		/// 攻撃AI
@@ -137,7 +144,8 @@ namespace Ling.Chara
 
 		public void InitPos(in Vector2Int pos)
 		{
-			Pos = pos;
+			_isReactiveCellPosition = true;
+			CellPosition.Value = pos;
 
 			_eventPosUpdate.prevPos = null;
             _eventPosUpdate.newPos = pos;
@@ -151,24 +159,34 @@ namespace Ling.Chara
 		/// <summary>
 		/// 座標の設定
 		/// </summary>
-		public void SetPos(in Vector2Int pos)
+		public void SetCellPosition(in Vector2Int pos, bool reactive, bool sendEvent = true)
         {
-            _eventPosUpdate.prevPos = Pos;
-            _eventPosUpdate.newPos = pos;
-            _eventPosUpdate.charaType = CharaType;
-            _eventPosUpdate.mapLevel = MapLevel;
+			if (sendEvent)
+			{
+				_eventPosUpdate.prevPos = CellPosition.Value;
+				_eventPosUpdate.newPos = pos;
+				_eventPosUpdate.charaType = CharaType;
+				_eventPosUpdate.mapLevel = MapLevel;
 
-            Pos = pos;
+				// 移動したことのイベントを発行する
+				Utility.EventManager.SafeTrigger(_eventPosUpdate);
+			}
 
-            // 移動したことのイベントを発行する
-			Utility.EventManager.SafeTrigger(_eventPosUpdate);
+			_isReactiveCellPosition = reactive;
+			_cellPosition.SetValueAndForceNotify(pos);
         }
 
 		/// <summary>
 		/// 現在の座標に指定した分を加算する
 		/// </summary>
-		public void AddPos(in Vector2Int pos) =>
-			SetPos(Pos + pos);
+		public void AddCellPosition(in Vector2Int pos, bool reactive) =>
+			SetCellPosition(CellPosition.Value + pos, reactive);
+
+		/// <summary>
+		/// 向き情報をセットする
+		/// </summary>
+		public void SetDirection(in Vector2 dir) =>
+			Dir.Value = dir;
 
 		/// <summary>
 		/// 移動できるかどうか

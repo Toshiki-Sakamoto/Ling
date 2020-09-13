@@ -6,11 +6,8 @@
 // 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 
 using Ling.Common.Scene;
@@ -33,9 +30,14 @@ namespace Ling.Scenes.Battle
 			Load,
 			FloorSetup,
 			CharaSetup,
+
+			// Player
 			PlayerAction,
+			PlayerAttack,
 			PlayerActionProcess,
 			PlayerActionEnd,
+
+			// Enemy
 			EnemyAction,
 			EnemyTink,
 			CharaProcessExecute,
@@ -129,9 +131,13 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.Start, new Battle.Phase.BattlePhaseStart());
 			_phase.Add(Phase.Load, new Battle.Phase.BattlePhaseLoad());
 			_phase.Add(Phase.FloorSetup, new Battle.Phase.BattlePhaseFloorSetup());
+
+			// Player
 			_phase.Add(Phase.PlayerAction, new Battle.Phase.BattlePhasePlayerAction());
+			_phase.Add(Phase.PlayerAttack, new Battle.Phase.BattlePhasePlayerAttack());
 			_phase.Add(Phase.PlayerActionProcess, new Battle.Phase.BattlePhasePlayerActionProcess());
 			_phase.Add(Phase.PlayerActionEnd, new Battle.Phase.BattlePhasePlayerActionEnd());
+
 			_phase.Add(Phase.Adv, new Battle.Phase.BattlePhaseAdv());
 			_phase.Add(Phase.NextStage, new Battle.Phase.BattlePhaseNextStage());
 			_phase.Add(Phase.EnemyTink, new Battle.Phase.BattlePhaseEnemyThink());
@@ -224,7 +230,7 @@ namespace Ling.Scenes.Battle
 
 				enemy.Model.SetMapLevel(level);
 				MapControl.SetChara(enemy, level);
-				enemy.InitPos(pos);
+				enemy.Model.InitPos(pos);
 			}
 		}
 

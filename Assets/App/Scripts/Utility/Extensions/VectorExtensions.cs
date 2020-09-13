@@ -14,7 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling
+namespace Ling.Utility.Extensions
 {
 	/// <summary>
 	/// Vector拡張メソッド

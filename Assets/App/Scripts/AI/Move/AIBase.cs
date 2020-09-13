@@ -8,10 +8,11 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Zenject;
-using Ling.Map.TileDataMapExtension;
-using Ling.Map.TileDataMapExtensions.Chara;
+using Ling.Map.TileDataMapExtensions;
+using Ling.Map.TileDataMapExtensionss.Chara;
 using System.Collections.Generic;
 using Ling.Const;
+using Ling.Utility.Extensions;
 
 namespace Ling.AI.Move
 {
@@ -140,7 +141,7 @@ namespace Ling.AI.Move
 				if (_destination == null) break;
 					
 				// すでに目的地にいる場合は何もしない
-				if (_destination == _unit.Model.Pos)
+				if (_destination == _unit.Model.CellPosition.Value)
 				{
 					ResetDestination();
 					break;
@@ -376,7 +377,7 @@ namespace Ling.AI.Move
 			targetPos = Vector2Int.zero;
 
 			// 現在の座標の周りを調べ行ける場所を目的地とする
-			var pos = _unit.Model.Pos;
+			var pos = _unit.Model.CellPosition.Value;
 			var dirArray = Ling.Utility.Map.GetDirArray(true);
 			for (int i = 0, size = dirArray.GetLength(0); i < size; ++i)
 			{
@@ -456,12 +457,12 @@ namespace Ling.AI.Move
 			_waitCount = 0;
 
 			// 移動したことをキャラに伝え、アニメーションも設定させる
-			_prevPos = _unit.Model.Pos;	// 以前の座標を保持しておく
-			_unit.Model.SetPos(movePos);
+			_prevPos = _unit.Model.CellPosition.Value;	// 以前の座標を保持しておく
+			_unit.Model.SetCellPosition(movePos, reactive: false);
 
 			// 移動プロセスの設定
 			var process = _unit.AddMoveProcess<Chara.Process.ProcessMove>();
-			process.SetPos(_unit.View, _prevPos.Value, movePos);
+			process.SetPos(_unit.MoveController, _prevPos.Value, movePos);
 		}
 
 		#endregion

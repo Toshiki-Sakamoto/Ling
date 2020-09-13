@@ -8,7 +8,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
-using Ling;
+using Ling.Utility.Extensions;
 
 namespace Ling.Map._Debug
 {

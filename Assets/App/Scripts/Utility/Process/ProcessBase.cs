@@ -113,6 +113,12 @@ namespace Ling.Utility
 		public void SetEnable(bool enable)
 		{
 			Enabled = enable;
+
+			// 有効にしたとき開始してなければスタートさせる
+			if (Enabled && !IsStarted)
+			{
+				ProcessStart();
+			}
 		}
 
 		/// <summary>

@@ -63,6 +63,10 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			// マップ情報を更新する
 			_mapManager.UpdateMapData();
+
+#if UNITY_EDITOR
+			KeyCommandProcess();
+#endif
 		}
 
 		public override void Proc()
@@ -90,23 +94,23 @@ namespace Ling.Scenes.Battle.Phase
 			if (moveDistance == Vector2Int.zero) return;
 
 			var playerModel = _charaManager.PlayerModel;
-			var playerView = _charaManager.PlayerView;
 			var player = _charaManager.Player;
+
+			// 攻撃できるか
 
 			// 移動できるか
 			if (!_mapManager.CanMoveChara(playerModel, moveDistance))
 			{
 				// 向きだけ変える
-				playerView.SetDirection(moveDistance);
+				playerModel.SetDirection(moveDistance);
 				return;
 			}
-
-			// Playerの座標を変更する(見た目は反映させない)
-			playerModel.AddPos(moveDistance);
-
 			// 移動であればプロセスを追加し、敵思考に回す
 			var moveProcess = player.AddMoveProcess<Chara.Process.ProcessMove>();
-			moveProcess.SetAddPos(playerView, moveDistance);
+			moveProcess.SetAddPos(player, playerModel.CellPosition.Value, moveDistance);
+
+			// Playerの座標を変更する(見た目は反映させない)
+			playerModel.AddCellPosition(moveDistance, reactive: false);
 
 			Change(BattleScene.Phase.EnemyTink);
 
@@ -128,6 +132,14 @@ namespace Ling.Scenes.Battle.Phase
 			Change(BattleScene.Phase.PlayerActionProcess, argument);
 		}
 
+		/// <summary>
+		/// 通常攻撃
+		/// </summary>
+		private void Attack()
+		{
+			Change(BattleScene.Phase.PlayerAttack);
+		}
+
 
 #if UNITY_EDITOR
 		private void KeyCommandProcess()
@@ -136,7 +148,12 @@ namespace Ling.Scenes.Battle.Phase
 			// 関連付けはInput Managerで行っている
 			var moveDir = Vector2Int.zero;
 
-			if (Input.GetKey(KeyCode.LeftArrow))
+			if (Input.GetKey(KeyCode.A))
+			{
+				// 通常攻撃
+				Attack();
+			}
+			else if (Input.GetKey(KeyCode.LeftArrow))
 			{
 				moveDir = Vector2Int.left;
 			}
@@ -178,13 +195,6 @@ namespace Ling.Scenes.Battle.Phase
 				var eventPlayerMove = _gameManager.EventHolder.PlayerMove;
 
 				eventPlayerMove.moveDistance = new Vector3Int(moveDir.x, moveDir.y, 0);
-				//_trsModel.SetDirection(new Vector3(moveDir.x, moveDir.y, 0.0f));
-
-				//var movePos = _trsModel.CellPos + moveDir;
-
-				//_moveList.Add(movePos);
-
-				//StartCoroutine(Move());
 			}
 		}
 #endif

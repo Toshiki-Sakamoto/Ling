@@ -5,16 +5,12 @@
 // Created by toshiki sakamoto on 2020.04.21
 //
 
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
+using Ling.Utility.Extensions;
 using UnityEngine;
-using UnityEngine.UI;
 using Ling.Const;
-using Ling.Map.TileDataMapExtension;
+using Ling.Map.TileDataMapExtensions;
 
 
 namespace Ling.Map

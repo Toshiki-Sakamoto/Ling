@@ -72,7 +72,11 @@ namespace Ling.Scenes.Battle.Process
 		{
 			var mapControl = _mapManager.MapControl;
 
-			await UniTask.WhenAll(mapControl.MoveUpAsync(), PlayerMoveAsync());
+			await
+			(
+				mapControl.MoveUpAsync(), 
+				PlayerMoveAsync()
+			);
 
 			ProcessFinish();
 		}

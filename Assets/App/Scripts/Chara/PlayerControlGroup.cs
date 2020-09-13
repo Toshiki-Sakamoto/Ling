@@ -63,7 +63,7 @@ namespace Ling.Chara
 		protected override async UniTask SetupAsyncInternal()
 		{
 			// プレイヤーが未生成ならば生成する
-			var model = new PlayerModel();
+			var model = Player.Model;
 			var param = new CharaModel.Param();
 			param.charaType = CharaType.Player;
 
@@ -71,7 +71,7 @@ namespace Ling.Chara
 			model.SetStatus(new CharaStatus(100));
 			model.SetMapLevel(1);
 
-			Player.Setup(model);
+			Player.Setup();
 
 			Controls.Add(Player);
 			Models.Add(model);
@@ -82,8 +82,8 @@ namespace Ling.Chara
 		/// </summary>
 		public bool ExistsCharaInPos(Vector2Int pos)
 		{
-			if (PlayerModel.Pos == pos) return true;
-			return Models.Exists(model => model.Pos == pos);
+			if (PlayerModel.CellPosition.Value == pos) return true;
+			return Models.Exists(model => model.CellPosition.Value == pos);
 		}
 
 		#endregion

@@ -14,7 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Ling.Map;
 using Ling.Const;
-using Ling.Map.TileDataMapExtension;
+using Ling.Map.TileDataMapExtensions;
 
 using Zenject;
 
@@ -40,7 +40,7 @@ namespace Ling.Scenes.Battle.Process
 		[Inject] private Chara.CharaManager _charaManager = null;
 		[Inject] private MapManager _mapManager = null;
 
-		private Chara.PlayerView _player;
+		private Chara.PlayerControl _player;
 
 		#endregion
 
@@ -62,10 +62,10 @@ namespace Ling.Scenes.Battle.Process
 		/// </summary>
 		protected override void ProcessStartInternal()
 		{
-			_player = _charaManager.PlayerView;
+			_player = _charaManager.Player;
 
 			var tileDataMap = _mapManager.CurrentTileDataMap;
-			var tileFlag = tileDataMap.GetTileFlag(_player.CellPos);
+			var tileFlag = tileDataMap.GetTileFlag(_player.Model.CellPosition.Value);
 
 			// 下り階段
 			if (tileFlag.HasStepDown())

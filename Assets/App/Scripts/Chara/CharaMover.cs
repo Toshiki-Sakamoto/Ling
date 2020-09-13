@@ -4,23 +4,21 @@
 //  
 // Create by toshiki sakamoto on 2019.09.16.
 // 
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UI;
 using UniRx;
-using System;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
+using Ling.Utility.Extensions;
 
 namespace Ling.Chara
 {
     /// <summary>
-    /// 
+    /// 移動コントローラー
     /// </summary>
     [RequireComponent(typeof(Rigidbody2D))]
-    public class MoveController : MonoBehaviour 
+    public class CharaMover : MonoBehaviour 
     {
         #region 定数, class, enum
 
@@ -38,10 +36,9 @@ namespace Ling.Chara
         [SerializeField] private Rigidbody2D _rigidBody = null;
 
         private bool _isMoving;         // 動いてるとき
-        private ViewBase _trsModel;         // 動いている対象
-        //private List<Vector3Int> _moveList = new List<Vector3Int>();
-        private Vector3Int _startPos;
-        private Vector3Int _movePos;
+        private ICharaController _chara;         // 動いている対象
+        private Vector3Int _startPos, _endPos;
+        private Vector2Int _vector2IntEndPos;
         private Tilemap _tilemap;
 
         #endregion
@@ -58,10 +55,8 @@ namespace Ling.Chara
         /// 
         /// </summary>
         /// <param name="model"></param>
-        public void SetModel(ViewBase model)
-        {
-            _trsModel = model;
-        }
+        public void SetModel(ICharaController chara) =>
+            _chara = chara;
 
         public void SetTilemap(Tilemap tilemap)
         {
@@ -72,21 +67,17 @@ namespace Ling.Chara
         /// 指定したセルに移動させる
         /// </summary>
         /// <param name="cellPos"></param>
-        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector3Int endPos)
+        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector2Int endPos) =>
+            SetMoveCellPos(_chara.Model.CellPosition.Value, endPos);
+
+        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector2Int startPos, in Vector2Int endPos)
         {
             MoveStop();
 
-            _startPos = _trsModel.CellPos;
-            _movePos = endPos;
+            _vector2IntEndPos = endPos;
 
-            return Move().ToObservable();
-        }
-        public System.IObservable<AsyncUnit> SetMoveCellPos(in Vector3Int startPos, in Vector3Int endPos)
-        {
-            MoveStop();
-
-            _startPos = startPos;
-            _movePos = endPos;
+            _startPos = startPos.ToVector3Int();
+            _endPos = endPos.ToVector3Int();
 
             return Move().ToObservable();
         }
@@ -116,25 +107,25 @@ namespace Ling.Chara
             //foreach (var elm in _moveList)
             {
                 var start = _tilemap.GetCellCenterWorld(_startPos);
-                var finish = _tilemap.GetCellCenterWorld(_movePos);
+                var finish = _tilemap.GetCellCenterWorld(_endPos);
 
                 var diffVec = finish - start;
 
-                _trsModel.SetDirection(new Vector2(diffVec.x, diffVec.z));
+                _chara.Model.SetDirection(new Vector2(diffVec.x, diffVec.z));
 
-                await _trsModel.transform.DOMove(finish, 0.2f);
+                await _chara.View.transform.DOMove(finish, 0.15f).SetEase(Ease.Linear);
 
-                _trsModel.SetCellPos(_movePos);
+                // 見た目だけ反映させる
+                _chara.Model.SetCellPosition(_vector2IntEndPos, reactive: true, sendEvent: false);
             }
 
             _isMoving = false;
-            //_moveList.Clear();
         }
 
-#endregion
+        #endregion
 
 
-#region MonoBegaviour
+        #region MonoBegaviour
 
 
         private void Start()
@@ -148,7 +139,7 @@ namespace Ling.Chara
         /// </summary>
         void Update()
         {
-            if (_trsModel == null)
+            if (_chara == null)
             {
                 return;
             }
@@ -159,6 +150,6 @@ namespace Ling.Chara
             }
         }
 
-#endregion
+#       endregion
 	}
 }

@@ -10,7 +10,7 @@ using Ling;
 using Ling.Const;
 using Ling.Chara;
 
-namespace Ling.Map.TileDataMapExtensions.Chara
+namespace Ling.Map.TileDataMapExtensionss.Chara
 {
 	/// <summary>
 	/// Chara関連
@@ -19,7 +19,7 @@ namespace Ling.Map.TileDataMapExtensions.Chara
     {
 		public static RoomData FindRoomData(this TileDataMap self, ICharaController chara)
 		{
-			var pos = chara.Model.Pos;
+			var pos = chara.Model.CellPosition.Value;
 			if (self.TryGetRoomData(pos.x, pos.y, out var roomData))
 			{
 				return roomData;

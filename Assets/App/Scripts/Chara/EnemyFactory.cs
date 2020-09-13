@@ -55,14 +55,14 @@ namespace Ling.Chara
 		public static void Create(EnemyControl control, MapEnemyData mapEnemyData)
 		{
 			var enemyMaster = MasterManager.Instance.EnemyRepository.Find(mapEnemyData.EnemyType);
-			var charaModel = new CharaModel();
+			var model = control.Model;
 			var param = new CharaModel.Param();
 			param.charaType = CharaType.Enemy;
 
-			charaModel.Setup(param);
-			charaModel.SetStatus(enemyMaster.Status);
+			model.Setup(param);
+			model.SetStatus(enemyMaster.Status);
 
-			control.Setup(charaModel);
+			control.Setup();
 
 			// AIの設定
 			var attackAIFactory = enemyMaster.AttackAIData.CreateFactory();

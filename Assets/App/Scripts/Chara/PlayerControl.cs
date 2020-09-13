@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2020.08.11
 // 
 
+using UnityEngine;
+
 namespace Ling.Chara
 {
 	/// <summary>
@@ -24,6 +26,8 @@ namespace Ling.Chara
 
 		#region private 変数
 
+		[SerializeField] private Utility.CameraFollow _cameraFollow = default;
+
 		#endregion
 
 
@@ -33,6 +37,9 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
+
+		public void SetFollowCameraEnable(bool enable) =>
+			_cameraFollow.enabled = enable;
 
 		#endregion
 

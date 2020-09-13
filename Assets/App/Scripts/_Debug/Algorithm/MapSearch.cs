@@ -7,7 +7,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-using Ling.Map.TileDataMapExtension;
+using Ling.Map.TileDataMapExtensions;
 using Ling.Const;
 using Cysharp.Threading.Tasks;
 

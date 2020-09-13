@@ -12,10 +12,11 @@ GameObject:
   - component: {fileID: 2512035358522948222}
   - component: {fileID: 2512035358522948223}
   - component: {fileID: 2512035358522948220}
-  - component: {fileID: 2512035358522948211}
   - component: {fileID: 2512035358522948208}
   - component: {fileID: 1836035001706704608}
   - component: {fileID: 1529985993504369042}
+  - component: {fileID: 130432264557164191}
+  - component: {fileID: 4903053820824908404}
   m_Layer: 0
   m_Name: EnemyNormal
   m_TagString: Untagged
@@ -129,20 +130,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &2512035358522948211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2512035358522948216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a94ba944b2c1917429d36e5d792baf76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: 300
-  _rigidBody: {fileID: 2512035358522948220}
 --- !u!61 &2512035358522948208
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -184,7 +171,9 @@ MonoBehaviour:
   _status:
     _hp:
       value: 0
+  _model: {fileID: 4903053820824908404}
   _view: {fileID: 1529985993504369042}
+  _charaMover: {fileID: 130432264557164191}
 --- !u!114 &1529985993504369042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,7 +188,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _charaType: 0
   _animator: {fileID: 2512035358522948223}
-  _vecCellPos: {x: 0, y: 0, z: 0}
-  _moveController: {fileID: 2512035358522948211}
   _moveAIType: 0
   _attackAIType: 0
+--- !u!114 &130432264557164191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512035358522948216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a87103df37de4aceb6413c16546c189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 1
+  _rigidBody: {fileID: 2512035358522948220}
+--- !u!114 &4903053820824908404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512035358522948216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49e04e25d1aab48988402f24fa1f79bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cellPosition:
+    value: {x: 0, y: 0, z: 0}

@@ -114,7 +114,7 @@ namespace Ling.Scenes.Battle.Phase
 			var player = _charaManager.Player;
 			mapControl.SetChara(player);
 
-			player.InitPos(playerPos);
+			player.Model.InitPos(playerPos);
 
 			// 初期マップの敵を生成する
 			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindGroundTilemap(1));

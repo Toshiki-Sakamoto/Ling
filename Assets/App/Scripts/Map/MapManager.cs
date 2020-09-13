@@ -8,7 +8,7 @@ using Cysharp.Threading.Tasks;
 using Ling.MasterData.Stage;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Ling.Map.TileDataMapExtension;
+using Ling.Map.TileDataMapExtensions;
 using Ling.Const;
 
 using Zenject;
@@ -121,18 +121,16 @@ namespace Ling.Map
 		public Vector3 GetCellCenterWorldByMap(int mapIndex, int x, int y) =>
 			MapControl.GetCellCenterWorld(mapIndex, x, y);
 
-
 		/// <summary>
 		/// キャラが移動できるか
 		/// </summary>
-		/// <param name="chara"></param>
 		public bool CanMoveChara(Chara.CharaModel charaModel, in Vector2Int addMoveDir) =>
 			CanMoveChara(CurrentMapIndex, charaModel, addMoveDir);
 
 		public bool CanMoveChara(int mapIndex, Chara.CharaModel charaModel, in Vector2Int addMoveDir)
 		{
 			var tileDataMap = _mapModel.FindTileDataMap(mapIndex);
-			var destPos = charaModel.Pos + addMoveDir;
+			var destPos = charaModel.CellPosition.Value + addMoveDir;
 
 			// 範囲外なら移動できない
 			if (!tileDataMap.InRange(destPos.x, destPos.y))

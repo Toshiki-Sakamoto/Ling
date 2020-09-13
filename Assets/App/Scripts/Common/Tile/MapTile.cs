@@ -12,7 +12,7 @@ using UnityEngine.UI;
 using Ling.Utility.Extensions;
 using Zenject;
 using Ling.Map;
-using Ling.Map.TileDataMapExtension;
+using Ling.Map.TileDataMapExtensions;
 
 #if UNITY_EDITOR
 using UnityEditor;
