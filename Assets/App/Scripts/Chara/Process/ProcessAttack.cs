@@ -79,7 +79,11 @@ namespace Ling.Chara.Process
 		private async UniTask AttackAsync()
 		{
 			// ターゲットがいない場合何もしない
-			if (_ignoreIfNoTarget && !ExistsTarget) return;
+			if (!_ignoreIfNoTarget && !ExistsTarget) 
+			{
+				ProcessFinish();
+				return;
+			}
 
 			// ターゲット方向を見る
 			_unit.Model.SetDirectionByTargetPos(_targetPos);
