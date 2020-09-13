@@ -95,9 +95,15 @@ namespace Ling.Utility
 				}
 
 				// 開始済みのProcessは削除する
-				var startedProcesses = _startProcesses.Where(process_ => process_.IsStarted);
-				foreach (var process in startedProcesses)
+				for (int i = 0; i < _startProcesses.Count;)
 				{
+					var process = _startProcesses[i];
+					if (!process.IsStarted)
+					{
+						++i;
+						continue;
+					}
+
 					_startProcesses.Remove(process);
 				}
 			}
