@@ -74,6 +74,24 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
+		/// <summary>
+		/// HPを設定する
+		/// </summary>
+		public void SetHP(long value) =>
+			HP.SetValueAndForceNotify(value);
+
+		/// <summary>
+		/// HPに足す
+		/// </summary>
+		public void AddHP(long value) =>
+			SetHP(HP.Value + value);
+
+		/// <summary>
+		/// HPから引く
+		/// </summary>
+		public void SubHP(long value) =>
+			SetHP(HP.Value - value);
+
 		#endregion
 
 

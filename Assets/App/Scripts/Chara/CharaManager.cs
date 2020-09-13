@@ -227,6 +227,23 @@ namespace Ling.Chara
 		}
 
 		/// <summary>
+		/// 指定マップの指定座標のキャラを検索する
+		/// </summary>
+		public Chara.ICharaController FindCharaInPos(int level, in Vector2Int pos)
+		{
+			var result = PlayerControlGroup.FindInPos(pos);
+			if (result != null)
+			{
+				return result;
+			}
+
+			var enemyControlGroup = FindEnemyControlGroup(level);
+			if (enemyControlGroup == null) return null;
+
+			return enemyControlGroup.FindInPos(pos);
+		}
+
+		/// <summary>
 		/// 指定階層のEnemyControlGroupを検索
 		/// </summary>
 		public EnemyControlGroup FindEnemyControlGroup(int level) =>

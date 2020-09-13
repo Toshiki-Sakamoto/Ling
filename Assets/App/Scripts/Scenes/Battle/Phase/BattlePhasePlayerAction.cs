@@ -137,6 +137,7 @@ namespace Ling.Scenes.Battle.Phase
 		/// </summary>
 		private void Attack()
 		{
+			// 攻撃対象がいるかどうか関わらず攻撃に移行する
 			Change(BattleScene.Phase.PlayerAttack);
 		}
 

@@ -111,7 +111,7 @@ namespace Ling.Chara
 
                 var diffVec = finish - start;
 
-                _chara.Model.SetDirection(new Vector2(diffVec.x, diffVec.z));
+                _chara.Model.SetDirection(new Vector2Int(Mathf.RoundToInt(diffVec.x), Mathf.RoundToInt(diffVec.z)));
 
                 await _chara.View.transform.DOMove(finish, 0.15f).SetEase(Ease.Linear);
 

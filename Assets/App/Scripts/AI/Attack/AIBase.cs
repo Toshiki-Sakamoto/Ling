@@ -7,6 +7,8 @@
 
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Zenject;
+using Ling.Map.TileDataMapExtensions;
 
 namespace Ling.AI.Attack
 {
@@ -29,7 +31,14 @@ namespace Ling.AI.Attack
 
 		#region private 変数
 
-		private CharaMaster.AttackAIData _masterAIData;
+		[Inject] private Map.MapManager _mapManager = default;
+		[Inject] private Chara.CharaManager _charaManager = default;
+
+		protected CharaMaster.AttackAIData _masterAIData;
+		protected Chara.ICharaController _unit;
+		protected Map.TileDataMap _tileDataMap;
+		protected Map.RoomData _roomData;
+
 
 		#endregion
 
@@ -39,7 +48,18 @@ namespace Ling.AI.Attack
 		/// <summary>
 		/// 行動できるか
 		/// </summary>
-		public bool IsActable { get; private set; }
+		public bool CanActable { get; protected set; }
+
+		public Map.TileDataMap TileDataMap
+		{
+			get 
+			{
+				if (_tileDataMap != null) return _tileDataMap;
+
+				_tileDataMap = _mapManager.MapControl.FindTileDataMap(_unit.Model.MapLevel);
+				return _tileDataMap;
+			}
+		}
 
 		#endregion
 
@@ -60,17 +80,31 @@ namespace Ling.AI.Attack
 		/// 思考処理
 		/// 非同期にしているのは、逐次処理を戻すことで１フレーム内の思考時間最大数超えていた場合次フレームに回すため
 		/// </summary>
-		public abstract UniTask ThinkAsync(Chara.ICharaController chara);
+		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit, Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
+		{
+			_unit = unit;
+			_tileDataMap = null;
+			_roomData = null;
+
+			CanActable = false;
+
+			await ExexuteInternalAsync(timeAwaiter);
+		}
 
 		public void Reset()
 		{
-			IsActable = false;
+			CanActable = false;
 		}
+
+
+		protected virtual UniTask ExexuteInternalAsync(Ling.Utility.Async.WorkTimeAwaiter timeAwaiter) =>
+			default(UniTask);
 
 		#endregion
 
 
 		#region private 関数
+
 
 		#endregion
 	}

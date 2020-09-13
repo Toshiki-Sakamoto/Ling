@@ -36,6 +36,9 @@ namespace Ling.MasterData.Chara
 
 		[SerializeField, FieldName("攻撃AIパラメータ１")]
 		private string _attackAIParam1 = default;
+		
+		[SerializeField, FieldName("攻撃AIの最も優先すべきターゲット")]
+		private Const.TileFlag _firstTarget = default;
 
 		#endregion
 
@@ -45,6 +48,8 @@ namespace Ling.MasterData.Chara
 		public Const.AttackAIType AttackAIType => _attackAIType;
 
 		public string AttackAIParam1 => _attackAIParam1;
+
+		public Const.TileFlag FirstTarget => _firstTarget;
 
 		#endregion
 

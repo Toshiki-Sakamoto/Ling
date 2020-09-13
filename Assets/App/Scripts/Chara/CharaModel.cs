@@ -72,7 +72,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 向き
 		/// </summary>
-		public Vector2ReactiveProperty Dir { get; private set; } = new Vector2ReactiveProperty(new Vector2(0f, -1f));
+		public Vector2IntReactiveProperty Dir { get; private set; } = new Vector2IntReactiveProperty(new Vector2Int(0, -1));
 
 		/// <summary>
 		/// 攻撃AI
@@ -98,6 +98,13 @@ namespace Ling.Chara
 		/// 斜め移動できないフラグ
 		/// </summary>
 		public virtual Const.TileFlag UnDiagonalMovableTileFlag =>
+			Const.TileFlag.None |
+			Const.TileFlag.Wall;
+
+		/// <summary>
+		/// 斜め攻撃できないフラグ
+		/// </summary>
+		public virtual Const.TileFlag UnDiagonalAttacableTileFlag =>
 			Const.TileFlag.None |
 			Const.TileFlag.Wall;
 
@@ -185,7 +192,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 向き情報をセットする
 		/// </summary>
-		public void SetDirection(in Vector2 dir) =>
+		public void SetDirection(in Vector2Int dir) =>
 			Dir.Value = dir;
 
 		/// <summary>
@@ -206,6 +213,12 @@ namespace Ling.Chara
 		/// </summary>
 		public bool CanDiagonalMoveTileFlag(TileFlag tileFlag) =>
 			!UnDiagonalMovableTileFlag.HasAny(tileFlag);
+
+		/// <summary>
+		/// 斜め攻撃できるか
+		/// </summary>
+		public bool CanDiagonalAttackTileFlag(TileFlag tileFlag) =>
+			!UnDiagonalAttacableTileFlag.HasAny(tileFlag);
 
 		/// <summary>
 		/// コストを取得
