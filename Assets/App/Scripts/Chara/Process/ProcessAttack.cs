@@ -81,6 +81,9 @@ namespace Ling.Chara.Process
 			// ターゲットがいない場合何もしない
 			if (_ignoreIfNoTarget && !ExistsTarget) return;
 
+			// ターゲット方向を見る
+			_unit.Model.SetDirectionByTargetPos(_targetPos);
+
 			var view = _unit.View;
 			var dir = _unit.Model.Dir.Value;
 			var movePos = new Vector3(dir.x * 0.3f, 0f, dir.y * 0.3f);

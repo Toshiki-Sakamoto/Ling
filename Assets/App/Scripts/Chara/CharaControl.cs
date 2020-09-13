@@ -233,7 +233,7 @@ namespace Ling.Chara
 		{
 			foreach (var process in _attackProcess)
 			{
-				// 終了時、移動プロセスリストから削除する
+				// 終了時、攻撃プロセスリストから削除する
 				process.AddAllFinishAction(action_ => 
 					{
 						_attackProcess.Remove(action_);
