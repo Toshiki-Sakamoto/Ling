@@ -84,7 +84,8 @@ namespace Ling.Utility
 			if (_startProcesses.Count > 0)
 			{
 				// 開始されていないプロセスをスタートさせる
-				foreach(var process in _startProcesses)
+				var notStaredProcesses = _startProcesses.Where(process_ => !process_.IsStarted);
+				foreach(var process in notStaredProcesses)
 				{
 					// 有効なプロセスのみ開始させる
 					if (process.Enabled)
@@ -94,7 +95,7 @@ namespace Ling.Utility
 				}
 
 				// 開始済みのProcessは削除する
-				var startedProcesses = _startProcesses.Where(process_ => process_.IsStarted).ToArray();
+				var startedProcesses = _startProcesses.Where(process_ => process_.IsStarted);
 				foreach (var process in startedProcesses)
 				{
 					_startProcesses.Remove(process);
