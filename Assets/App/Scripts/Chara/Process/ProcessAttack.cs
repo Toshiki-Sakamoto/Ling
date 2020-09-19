@@ -8,6 +8,8 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using Ling.Utility.Extensions;
+using System.Collections.Generic;
 
 namespace Ling.Chara.Process
 {
@@ -28,8 +30,10 @@ namespace Ling.Chara.Process
 
 		#region private 変数
 		
+		private Chara.CharaManager _charaManager;
 		private Chara.ICharaController _unit;	// 攻撃対象のキャラ
-		private Chara.ICharaController _target;	// ターゲット
+		private List<Chara.ICharaController> _targets = new List<ICharaController>();	// ターゲット
+		private List<Chara.ICharaController> _deadChara = new List<ICharaController>();
 		private Vector2Int _targetPos;
 		private bool _ignoreIfNoTarget;
 
@@ -41,12 +45,17 @@ namespace Ling.Chara.Process
 		/// <summary>
 		/// ターゲットが存在するか
 		/// </summary>
-		public bool ExistsTarget => _target != null;
+		public bool ExistsTarget => !_targets.IsNullOrEmpty();
 
 		#endregion
 
 
 		#region コンストラクタ, デストラクタ
+
+		public ProcessAttack()
+		{
+			_charaManager = _diContainer.Resolve<Chara.CharaManager>();
+		}
 
 		#endregion
 
@@ -95,9 +104,23 @@ namespace Ling.Chara.Process
 			await view.transform.DOMove(movePos, 0.1f).SetRelative(true);
 
 			// ダメージ計算をここで行う
-			CalcDamage();
+			foreach (var target in _targets)
+			{
+				CalcDamage(target);
+			}
 
 			await view.transform.DOMove(movePos * -1, 0.1f).SetRelative(true);
+
+			// 主人公が死んだ場合、ゲームオーバー処理となる
+			if (_charaManager.IsPlayerDead)
+			{
+			}
+			else if (_deadChara.Count > 0)
+			{
+				// 死んだキャラが居る場合レベルアップ処理
+				var processLevelUp = SetNext<ProcessLevelUp>();
+				processLevelUp.Setup(_unit, _deadChara);
+			}
 
 			ProcessFinish();
 		}
@@ -105,12 +128,24 @@ namespace Ling.Chara.Process
 		/// <summary>
 		/// ダメージ計算を行う
 		/// </summary>
-		private void CalcDamage()
+		private void CalcDamage(Chara.ICharaController target)
 		{
 			// 座標に攻撃対象がいるか
 			if (!ExistsTarget) return;
 
-			_target.Model.Status.SubHP(1);
+			target.Status.SubHP(1);
+
+			// 死んだエフェクト待機
+			if (target.Status.IsDead.Value)
+			{
+				
+			}
+
+			// 死んだ場合、キャラが死んだときの処理を行う
+			if (target.Model.Status.IsDead.Value)
+			{
+				_deadChara.Add(target);
+			}
 		}
 
 		/// <summary>
@@ -119,7 +154,7 @@ namespace Ling.Chara.Process
 		private void SearchTargetUnit()
 		{
 			var charaManager = _diContainer.Resolve<Chara.CharaManager>();
-			_target = charaManager.FindCharaInPos(_unit.Model.MapLevel, _targetPos);
+			_targets.Add(charaManager.FindCharaInPos(_unit.Model.MapLevel, _targetPos));
 		}
 
 		#endregion
