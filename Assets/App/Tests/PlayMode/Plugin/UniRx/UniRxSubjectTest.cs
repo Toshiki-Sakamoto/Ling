@@ -83,6 +83,26 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(15, totalCount, "1~5までをカウントしていけば答えは15になるはず");
 		}
 
+		[Test]
+		public void SubjectMultiTest()
+		{
+			var subject = new Subject<int>();
+
+			int count = 0;
+
+			// 複数登録
+			subject.Subscribe(num => count += num);
+			subject.Subscribe(num => count += num);
+			subject.Subscribe(num => count += num);
+			
+			// イベントメッセージ発行
+			subject.OnNext(1);
+			Assert.AreEqual(3, count, "３回購読されたはずなので値は3");
+
+			subject.OnNext(2);			
+			Assert.AreEqual(9, count, "追加で2を３回購読されたはずなので値は9");
+		}
+
 		#endregion
 
 
