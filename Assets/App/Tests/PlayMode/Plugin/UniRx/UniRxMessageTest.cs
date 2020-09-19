@@ -58,10 +58,39 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			subject.Subscribe(_ =>  count++);
 
 			// Unit型はそれ自身は特に意味はない。通知を贈りたいときに利用
+			// イベントは飛ばしたいけどイベントの中身の値は何でも良いシチュエーションで使われる
 			subject.OnNext(Unit.Default);
 
 			Assert.AreEqual(1, count, "通知が届いているので1");
 		}
+
+		/// <summary>
+		/// ストリームの途中で例外が発生したときにOnErrorが呼ばれるかのテスト
+		/// </summary>
+		[Test]
+		public void MessageOnErrorTest()
+		{
+			int count = 0;
+
+			var subject = new Subject<string>();
+			subject
+				.Select(str => int.Parse(str))
+				.Subscribe(
+					num => count += num,	// OnNext
+					ex => count = 0);		// OnError
+
+			subject.OnNext("1");
+			subject.OnNext("1");
+			Assert.AreEqual(2, count, "OnNextがよばれて2になっている");
+
+			subject.OnNext("Hello");	
+			Assert.AreEqual(0, count, "Parseエラーが発生し、countの値が0に戻っているはず");
+
+			subject.OnNext("1");
+			Assert.AreEqual(0, count, "ストリームの途中で例外が発生して終了したのでOnNextが呼ばれなくなっている");
+		}
+
+
 
 		#endregion
 
