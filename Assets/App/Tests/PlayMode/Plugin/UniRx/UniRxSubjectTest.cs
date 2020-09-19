@@ -103,6 +103,70 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(9, count, "追加で2を３回購読されたはずなので値は9");
 		}
 
+		[Test]
+		public void SubjectSubscribeTest()
+		{
+			int count = 0;
+
+			{
+				// OnNextのみ
+				var subject = new Subject<int>();
+				subject.Subscribe(num => count = 1);
+				subject.OnNext(1);
+
+				Assert.AreEqual(1, count, "OnNextに設定したものが呼び出されて1になっている");
+			}
+
+			{
+				// OnNext&OnError
+				count = 0;
+
+				var subject = new Subject<int>();
+				subject.Subscribe(
+					num => count += num,
+					error => count += 1);
+
+				subject.OnNext(1);
+				subject.OnError(new ArgumentNullException("error"));
+
+				Assert.AreEqual(2, count, "OnNext, OnErrorを呼び出したので2になっている");
+			}
+
+			{
+				// OnNext&OnCompleted
+				count = 0;
+
+				var subject = new Subject<int>();
+				subject.Subscribe(
+					num => count += num,
+					() => count += 1);
+
+				subject.OnNext(1);
+				subject.OnCompleted();
+
+				Assert.AreEqual(2, count, "OnNext, OnCompletedを呼び出したので2になっている");
+			}
+
+			{
+				// OnNext & OnError & OnCompleted
+				count = 0;
+
+				var subject = new Subject<int>();
+				subject.Subscribe(
+					num => count += num,
+					error => count += 1,
+					() => count += 1);
+
+				subject.OnNext(1);
+				subject.OnError(new ArgumentNullException("error"));
+
+				// OnErrorの後なのでCnCompleteはもう呼び出されない
+				subject.OnCompleted();
+
+				Assert.AreEqual(2, count, "OnNext, OnError, OnCompletedを呼び出したがOnCompleteはOnErrorで止められたので2");
+			}
+		}
+
 		#endregion
 
 
