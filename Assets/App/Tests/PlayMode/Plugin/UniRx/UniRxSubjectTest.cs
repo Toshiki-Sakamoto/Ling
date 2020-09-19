@@ -185,11 +185,137 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(1, count, "Whereで１以外はフィルタリングされたので1");
 		}
 
+		[Test]
+		public void SubjectMyWhereTest()
+		{
+			var subject = new Subject<int>();
+
+			int count = 0;
+
+			// 自分で作ったFilterを挟んでSubscribeしてみる
+			subject
+				.FilterOperator(num => num == 1)
+				.Subscribe(num => count += num);
+
+			subject.OnNext(1);
+			subject.OnNext(2);
+			subject.OnNext(3);
+
+			Assert.AreEqual(1, count, "自作したフィルタで1以外は弾く");
+		}
+
 		#endregion
 
 
 		#region private 関数
 
 		#endregion
+	}
+
+	
+	/// <summary>
+	/// フィルタリングオペレータ
+	/// </summary>
+	public class MyFilter<T> : IObservable<T>
+	{
+		/// <summary>
+		/// 上流となるObservable
+		/// </summary>
+		private IObservable<T> _source;
+
+		/// <summary>
+		/// 判定式
+		/// </summary>
+		private Func<T, bool> _conditionalFunc;
+
+
+		public MyFilter(IObservable<T> source, Func<T, bool> conditionalFunc)
+		{
+			_source = source;
+			_conditionalFunc = conditionalFunc;
+		}
+
+		public IDisposable Subscribe(IObserver<T> observer)
+		{
+			// Subscribeされたら、MyFilterOperator本体を作って返却
+			return new MyFilterInternal(this, observer).Run();
+		}
+
+		/// <summary>
+		/// ObserverとしてMyFilterInternalが実際に機能する
+		/// </summary>
+		private class MyFilterInternal : IObserver<T>
+		{
+			private MyFilter<T> _parent;
+			private IObserver<T> _observer;
+			private object lockObject = new object();
+
+
+			public MyFilterInternal(MyFilter<T> parent, IObserver<T> observer)
+			{
+				_observer = observer;
+				_parent = parent;
+			}
+
+			public IDisposable Run()
+			{
+				return _parent._source.Subscribe(this);
+			}
+
+			public void OnNext(T value)
+			{
+				lock (lockObject)
+				{
+					if (_observer == null) return;
+
+					try
+					{
+						// 条件を満たす場合のみOnNextを通過
+						if (_parent._conditionalFunc(value))
+						{
+							_observer.OnNext(value);
+						}
+					}
+					catch (Exception e)
+					{
+						// 途中でエラーが発生したらエラーを送信
+						_observer.OnError(e);
+						_observer = null;
+					}
+				}
+			}
+
+			public void OnError(Exception error)
+			{
+				lock (lockObject)
+				{
+					// エラーを伝播して停止
+					_observer.OnError(error);
+					_observer = null;
+				}
+			}
+
+			public void OnCompleted()
+			{
+				lock (lockObject)
+				{
+					// 停止
+					_observer.OnCompleted();
+					_observer = null;
+				}
+			}
+		}
+	}
+
+	/// <summary>
+	/// オペレータ使うたびにインスタンス化が必要になり使い勝手が悪いので
+	/// オペレータチェーンでこのFilterを挟み込めるようにする
+	/// </summary>
+	public static class ObservableOperators
+	{
+		public static IObservable<T> FilterOperator<T>(this IObservable<T> source, Func<T, bool> conditionalFunc)
+		{
+			return new MyFilter<T>(source, conditionalFunc);	
+		}
 	}
 }
