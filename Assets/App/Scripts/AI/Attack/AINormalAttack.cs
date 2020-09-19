@@ -51,6 +51,7 @@ namespace Ling.AI.Attack
 			// なければもう何もしない
 			if (TryGetAttackTargetPosition(_masterAIData.FirstTarget, out var targetPos))
 			{
+				SetAttackProcess(targetPos);
 				CanActable = true;
 			}
 		}
@@ -78,7 +79,7 @@ namespace Ling.AI.Attack
 				var tileFlag = TileDataMap.GetTileFlag(nextX, nextY);
 
 				// 指定したTileFlagか
-				if (tileFlag != targetTileFlag)
+				if (!tileFlag.HasAny(targetTileFlag))
 				{
 					continue;
 				}
@@ -114,6 +115,8 @@ namespace Ling.AI.Attack
 		{
 			// 移動プロセスの設定
 			var process = _unit.AddAttackProcess<Chara.Process.ProcessAttack>();
+			process.SetChara(_unit, ignoreIfNoTarget: false);
+			process.SetTargetPos(targetPos);
 		}
 
 		#endregion

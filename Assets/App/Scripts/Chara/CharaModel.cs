@@ -196,6 +196,17 @@ namespace Ling.Chara
 			Dir.Value = dir;
 
 		/// <summary>
+		/// ターゲットの座標から向きを設定する
+		/// </summary>
+		public void SetDirectionByTargetPos(in Vector2Int targetPos)
+		{
+			var pos = CellPosition.Value;
+			var x = targetPos.x - pos.x;
+			var y = targetPos.y - pos.y;
+			SetDirection(new Vector2Int(x != 0 ? x / Mathf.Abs(x) : 0, y != 0 ? y / Mathf.Abs(y) : 0));
+		}
+
+		/// <summary>
 		/// 移動できるかどうか
 		/// 一つでも引っかかった場合は移動できない
 		/// </summary>

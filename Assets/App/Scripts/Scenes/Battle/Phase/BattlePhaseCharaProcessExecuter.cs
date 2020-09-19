@@ -72,9 +72,26 @@ namespace Ling.Scenes.Battle.Phase
 			await _charaManager.WaitForMoveProcessAsync();
 
 			// 終わったら順番に攻撃・特技Processを叩く
+			foreach (var enemyGroupPair in _charaManager.EnemyControlDict)
+			{
+				foreach (var enemyControl in enemyGroupPair.Value)
+				{
+					await ExecuteEnemyAttackAsync(enemyControl);
+				}
+			}
 
 			// すべて終わったらターン終了
-			Change(BattleScene.Phase.PlayerAction);
+			Change(BattleScene.Phase.CharaProcessEnd);
+		}
+
+		private async UniTask ExecuteEnemyAttackAsync(Chara.EnemyControl enemy)
+		{
+			enemy.ExecuteAttackProcess();
+			
+			await UniTask.WaitUntil(() => 
+				{
+					return enemy.IsAttackAllProcessEnded();
+				});
 		}
 
 		#endregion
