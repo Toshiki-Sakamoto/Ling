@@ -26,6 +26,8 @@ namespace Ling.Chara
 		CharaModel Model { get; }
 		
 		ViewBase View { get; }
+
+		CharaStatus Status { get; }
 		
 		ICharaMoveController MoveController { get; }
 
@@ -76,6 +78,8 @@ namespace Ling.Chara
 		public TModel Model => _model;
 
 		public TView View => _view;
+		
+		public CharaStatus Status => _model.Status;
 
 		/// <summary>
 		/// 動きの制御を行うメソッドにアクセスするためのInterface
