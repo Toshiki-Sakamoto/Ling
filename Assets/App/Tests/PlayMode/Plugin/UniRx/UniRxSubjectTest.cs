@@ -167,6 +167,24 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			}
 		}
 
+		[Test]
+		public void SubjectWhereTest()
+		{
+			var subject = new Subject<int>();
+
+			int count = 0;
+			subject
+				.Where(num => num == 1)
+				.Subscribe(num => count += num);
+
+			subject.OnNext(1);
+			subject.OnNext(2);
+			subject.OnNext(3);
+			subject.OnNext(4);
+
+			Assert.AreEqual(1, count, "Whereで１以外はフィルタリングされたので1");
+		}
+
 		#endregion
 
 
