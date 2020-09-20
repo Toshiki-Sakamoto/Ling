@@ -147,6 +147,23 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(1, count, "OnCompletedが呼び出され済みなのですぐにOnCompletedが呼び出される");
 		}
 
+		[Test]
+		public void MessageDisaposeTest()
+		{
+			int count = 0;
+			var subject = new Subject<int>();
+			var disposable = subject.Subscribe(num => count += num, () => count += 1);
+			subject.OnNext(1);
+
+			// 購読終了
+			disposable.Dispose();
+
+			subject.OnNext(1);
+			subject.OnCompleted();
+
+			Assert.AreEqual(1, count, "Disposeを呼び出したので途中で購読が中止されている");
+		}
+
 
 
 		#endregion
