@@ -119,6 +119,34 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(4, count, "OnNextとOnError, OnErrorRetryで5になっている");
 		}
 
+		/// <summary>
+		/// OnCompletedを検知する
+		/// </summary>
+		[Test]
+		public void MessageOnCompletedTest()
+		{
+			int count = 0;
+
+			var subject = new Subject<int>();
+			subject.Subscribe(
+				num => count += num,
+				() => count += 1
+			);
+
+			subject.OnNext(1);
+			subject.OnCompleted();
+
+			Assert.AreEqual(2, count, "OnNextとOnCompletedで2になっている");
+
+			count = 0;
+			subject.Subscribe(
+				num => count += num, 
+				() => count += 1
+				);
+
+			Assert.AreEqual(1, count, "OnCompletedが呼び出され済みなのですぐにOnCompletedが呼び出される");
+		}
+
 
 
 		#endregion
