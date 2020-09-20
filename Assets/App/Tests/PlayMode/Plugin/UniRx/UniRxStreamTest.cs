@@ -138,6 +138,26 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(1, count, "removeが呼び出されて1");
 		}
 
+		[Test]
+		public void ObservableCreateTest()
+		{
+			int count = 0;
+
+			Observable.Create<int>(observer =>
+				{
+					observer.OnNext(1);
+					observer.OnCompleted();
+
+					return Disposable.Create(() =>
+						{
+							// 終了時の処理
+							count += 1;
+						});
+				}).Subscribe(num => count += num);
+
+			Assert.AreEqual(2, count, "Observable.Create内でOnNextが呼び出されたのと、終了時の処理で2");
+		}
+
 		#endregion
 
 
