@@ -8,6 +8,11 @@
 using NUnit.Framework;
 using UniRx;
 using System;
+using System.Collections;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
 
 using Assert = UnityEngine.Assertions.Assert;
 
@@ -25,7 +30,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 
 
 		#region public, protected 変数
-
+		
 		#endregion
 
 
@@ -179,6 +184,24 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			subject.OnNext(1);
 
 			Assert.AreEqual(1, count, "一つストリームの購読を中止しているので1");
+		}
+
+		[UnityTest]
+		public IEnumerator MessageAddToTest()
+		{
+			SceneManager.LoadScene("UniRxAddToTestScene");
+
+			yield return null;
+
+			var addToTestObject = GameObject.FindObjectOfType<MessageAddTo_Object>();
+			Assert.IsNotNull(addToTestObject, "Classが見つからない");
+
+			// 6フレーム待機して例外でなきゃOK
+			int count = 6;
+			while (count-- >= 0) 
+			{
+				yield return null;
+			}
 		}
 
 
