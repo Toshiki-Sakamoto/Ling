@@ -99,6 +99,23 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			}
 		}
 
+		[Test]
+		public void ReactivePropetyTest()
+		{
+			var rp = new ReactiveProperty<int>(10);
+			rp.Value = 20;
+			Assert.AreEqual(20, rp.Value, "値を代入したので20");
+
+			// Subscribeもできる(Subscribe時に現在の値も発行される)
+			int count = 0;
+			rp.Subscribe(num => count += num);
+			Assert.AreEqual(20, count, "Subscribeしたときに現在の値が発行されて20");
+
+			// 値を書き換えたときにOnNextが飛ぶ
+			rp.Value = 30;
+			Assert.AreEqual(50, count, "30を代入することでSubscribeが呼び出されて50");
+		}
+
 		#endregion
 
 
