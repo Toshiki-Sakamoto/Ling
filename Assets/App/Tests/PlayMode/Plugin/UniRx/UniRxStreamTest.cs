@@ -5,12 +5,13 @@
 // Created by toshiki sakamoto on 2020.09.20
 //
 
-using System;
+using System.IO;
 using System.Collections;
 using Assert = UnityEngine.Assertions.Assert;
 using NUnit.Framework;
 using UniRx;
 using UnityEngine.TestTools;
+using System.Net;
 
 namespace Ling.Tests.PlayMode.Plugin.UniRx
 {
@@ -156,6 +157,31 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 				}).Subscribe(num => count += num);
 
 			Assert.AreEqual(2, count, "Observable.Create内でOnNextが呼び出されたのと、終了時の処理で2");
+		}
+
+		[UnityTest]
+		public IEnumerator ObservableStartTest()
+		{
+			int count = 0;
+
+			Observable.Start(() =>
+				{
+					// GoogleのTopページをHttpでGetする
+					var req = (HttpWebRequest)WebRequest.Create("Https://google.com");
+					var res = (HttpWebResponse)req.GetResponse();
+					using (var reader = new StreamReader(res.GetResponseStream()))
+					{
+						return reader.ReadToEnd();
+					}
+				}).ObserveOnMainThread()	// メッセージを別スレッドからUnityメインスレッドに切り替える
+				.Subscribe(x => count++);
+
+			while (count == 0)
+			{
+				yield return null;
+			}
+
+			Assert.AreEqual(1, count, "Observable.Start内の処理が終わってイベントが発行された");
 		}
 
 		#endregion
