@@ -164,6 +164,23 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(1, count, "Disposeを呼び出したので途中で購読が中止されている");
 		}
 
+		[Test]
+		public void MessageSpecificDisaposeTest()
+		{
+			int count = 0;
+
+			var subject = new Subject<int>();
+			var disposable1 = subject.Subscribe(num => count += num);
+			var disposable2 = subject.Subscribe(num => count += num);
+
+			// 特定のストリームだけ購読終了
+			disposable1.Dispose();
+
+			subject.OnNext(1);
+
+			Assert.AreEqual(1, count, "一つストリームの購読を中止しているので1");
+		}
+
 
 
 		#endregion
