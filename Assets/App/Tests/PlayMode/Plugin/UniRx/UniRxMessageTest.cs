@@ -90,6 +90,35 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(0, count, "ストリームの途中で例外が発生して終了したのでOnNextが呼ばれなくなっている");
 		}
 
+		/// <summary>
+		/// 途中で例外が発生したら再購読する
+		/// </summary>
+		[Test]
+		public void MessageOnErrorRetryTest()
+		{
+			int count = 0;
+
+			var subject = new Subject<string>();
+			subject
+				.Select(str => int.Parse(str))
+				.OnErrorRetry((FormatException ex) =>	// 例外の型指定でフィルタリング可能
+				{
+					// 例外が発生したため再購読
+					count += 1;
+				})
+				.Subscribe(
+					num => count += num,	// OnNext
+					ex => count += 1	// OnError
+				);
+
+			subject.OnNext("1");
+			subject.OnNext("1");
+			subject.OnNext("Hello");
+			subject.OnNext("1");
+
+			Assert.AreEqual(4, count, "OnNextとOnError, OnErrorRetryで5になっている");
+		}
+
 
 
 		#endregion
