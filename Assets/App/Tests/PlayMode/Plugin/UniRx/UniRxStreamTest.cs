@@ -13,6 +13,7 @@ using UniRx;
 using UnityEngine.TestTools;
 using System.Net;
 using UnityEngine;
+using System;
 
 namespace Ling.Tests.PlayMode.Plugin.UniRx
 {
@@ -204,6 +205,30 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			yield return new WaitUntil(() => count >= 2);
 
 			Assert.AreEqual(2, count, "0.1秒置きにイベントが呼び出された");
+		}
+
+		[UnityTest]
+		public IEnumerator ObservableFromCoroutineTest()
+		{
+			IEnumerator TimerCoroutine(IObserver<int> observer)
+			{
+				int timer = 2;
+				while (timer-- >= 0) 
+				{
+					yield return null;
+				}
+
+				observer.OnNext(1);
+				observer.OnCompleted();
+			}
+
+			int count = 0;
+			Observable.FromCoroutine<int>(observer => TimerCoroutine(observer))
+				.Subscribe(num => count += num);
+
+			yield return new WaitUntil(() => count != 0);
+			
+			Assert.AreEqual(1, count, "コルーチンメソッドが呼び出されてOnNextが発行されて1になった");
 		}
 
 
