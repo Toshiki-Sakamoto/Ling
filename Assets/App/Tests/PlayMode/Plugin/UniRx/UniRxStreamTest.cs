@@ -116,6 +116,28 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(50, count, "30を代入することでSubscribeが呼び出されて50");
 		}
 
+		[Test]
+		public void ReactiveCollectionTest()
+		{
+			int count = 0;
+			
+			var collection = new ReactiveCollection<int>();
+			collection
+				.ObserveAdd()
+				.Subscribe(num => count += num.Value);
+
+			collection
+				.ObserveRemove()
+				.Subscribe(num => count -= num.Value);
+
+			collection.Add(1);
+			collection.Add(1);
+			Assert.AreEqual(2, count, "Add呼び出し時にSubscribeが呼び出されて2");
+
+			collection.Remove(1);
+			Assert.AreEqual(1, count, "removeが呼び出されて1");
+		}
+
 		#endregion
 
 
