@@ -12,6 +12,7 @@ using NUnit.Framework;
 using UniRx;
 using UnityEngine.TestTools;
 using System.Net;
+using UnityEngine;
 
 namespace Ling.Tests.PlayMode.Plugin.UniRx
 {
@@ -183,6 +184,28 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 
 			Assert.AreEqual(1, count, "Observable.Start内の処理が終わってイベントが発行された");
 		}
+
+		[UnityTest]
+		public IEnumerator ObservableTimerTest()
+		{
+			bool isSubscribed = false;
+			Observable.Timer(System.TimeSpan.FromSeconds(0.1))
+				.Subscribe(_ => isSubscribed = true);
+
+			yield return new WaitUntil(() => isSubscribed);
+
+			Assert.IsTrue(isSubscribed, "指定秒数後Subscribeされた");
+
+			// 1秒おきにメッセージ発行
+			int count = 0;
+			Observable.Timer(System.TimeSpan.FromSeconds(0.1), System.TimeSpan.FromSeconds(0.1))
+				.Subscribe(_ => count++);
+
+			yield return new WaitUntil(() => count >= 2);
+
+			Assert.AreEqual(2, count, "0.1秒置きにイベントが呼び出された");
+		}
+
 
 		#endregion
 
