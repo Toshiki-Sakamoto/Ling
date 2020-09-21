@@ -95,6 +95,21 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.AreEqual(3, convertFromCoroutineToObserver.Count, "引数で渡してIObserverのOnNextで値を正常に受け取れている");
 		}
 
+		[UnityTest]
+		public IEnumerator ConvertToCortouine()
+		{
+			SceneManager.LoadScene("UniRxAddToTestScene");
+
+			yield return null;
+
+			var convertToCortouine = GameObject.FindObjectOfType<ConvertToCortouine>();
+			Assert.IsNotNull(convertToCortouine, "Classが見つからない");
+
+			yield return new WaitUntil(() => convertToCortouine.Finished);
+
+			Assert.IsTrue(convertToCortouine.Finished, "ToYieldInstructionの処理がうまく行った");
+		}
+
 		#endregion
 
 
