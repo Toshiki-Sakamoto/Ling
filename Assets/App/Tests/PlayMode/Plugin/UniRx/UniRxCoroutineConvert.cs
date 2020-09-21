@@ -65,6 +65,21 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Assert.IsTrue(convertFromCoroutine.TriggerdOnCompleted, "OnCompletedが呼び出されている");
 		}
 
+		[UnityTest]
+		public IEnumerator ConvertFromCoroutineValueTest()
+		{
+			SceneManager.LoadScene("UniRxAddToTestScene");
+
+			yield return null;
+
+			var convertFromCoroutineValue = GameObject.FindObjectOfType<ConvertFromCoroutineValue>();
+			Assert.IsNotNull(convertFromCoroutineValue, "Classが見つからない");
+
+			yield return new WaitUntil(() => convertFromCoroutineValue.Finished);
+
+			Assert.AreEqual(3, convertFromCoroutineValue.Count, "yield returnの値を正常に受け取れている");
+		}
+
 		#endregion
 
 
