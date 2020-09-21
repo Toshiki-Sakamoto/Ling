@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using System.Collections;
 using UniRx;
+using System;
 
 
 namespace Ling.Tests.PlayMode.Plugin.UniRx
@@ -136,6 +137,44 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			yield return new WaitUntil(() => isFinished);
 
 			Assert.IsTrue(execudedCoroutineB, "SelectManyで処理を合成した");
+		}
+
+		[UnityTest]
+		public IEnumerator WhenAllTest()
+		{
+			int count = 0;
+			bool isFinished = false;
+			IEnumerator CoroutineA(IObserver<int> observer)
+			{
+				yield return new WaitForSeconds(0.1f);
+				observer.OnNext(1);
+				observer.OnCompleted();
+			}
+
+			IEnumerator CoroutineB(IObserver<int> observer)
+			{
+				yield return new WaitForSeconds(0.1f);
+				observer.OnNext(1);
+				observer.OnCompleted();
+			}
+
+			// コルーチンAとBを同時に起動して終了を待つ
+			Observable.WhenAll(
+				Observable.FromCoroutine<int>(o => CoroutineA(o)),
+				Observable.FromCoroutine<int>(o => CoroutineB(o))
+			).Subscribe(xi => 
+			{
+				foreach (var x in xi)
+				{
+					count += x;
+				}
+			}, 
+			() => isFinished = true);
+
+
+			yield return new WaitUntil(() => isFinished);
+
+			Assert.AreEqual(2, count, "WhenAllで２つのコルーチンの終了処理をした。内部でOnNextが呼び出されたので2");
 		}
 
 		#endregion
