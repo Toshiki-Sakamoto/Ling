@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using System.Collections;
+using UniRx;
 
 
 namespace Ling.Tests.PlayMode.Plugin.UniRx
@@ -108,6 +109,33 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			yield return new WaitUntil(() => convertToCortouine.Finished);
 
 			Assert.IsTrue(convertToCortouine.Finished, "ToYieldInstructionの処理がうまく行った");
+		}
+
+		[UnityTest]
+		public IEnumerator SelectManyTest()
+		{
+			bool execudedCoroutineB = false;
+
+			IEnumerator CoroutineA()
+			{
+				yield return new WaitForSeconds(0.1f);
+			}
+
+			IEnumerator CoroutineB()
+			{
+				yield return new WaitForSeconds(0.1f);
+				execudedCoroutineB = true;
+			}
+
+			bool isFinished = false; 
+			Observable.FromCoroutine(CoroutineA)
+				.SelectMany(CoroutineB)	// SelectManyで合成可能
+				.Subscribe(_ => isFinished = true);
+
+
+			yield return new WaitUntil(() => isFinished);
+
+			Assert.IsTrue(execudedCoroutineB, "SelectManyで処理を合成した");
 		}
 
 		#endregion
