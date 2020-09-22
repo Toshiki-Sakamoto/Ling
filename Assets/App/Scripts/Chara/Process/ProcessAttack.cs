@@ -138,7 +138,7 @@ namespace Ling.Chara.Process
 			// 死んだエフェクト待機
 			if (target.Status.IsDead.Value)
 			{
-				
+				//await target.View.WaitForAnimation();
 			}
 
 			// 死んだ場合、キャラが死んだときの処理を行う

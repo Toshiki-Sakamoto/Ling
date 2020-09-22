@@ -17,7 +17,7 @@ MonoBehaviour:
   _attackAIData:
     _attackAIType: 1
     _attackAIParam1: 
-    _firstTarget: 0
+    _firstTarget: 256
   _moveAIData:
     _moveAIType: 3
     _moveAIParam1: 0

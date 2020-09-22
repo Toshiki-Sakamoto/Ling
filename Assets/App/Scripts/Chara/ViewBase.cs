@@ -7,6 +7,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 
 namespace Ling.Chara
@@ -41,6 +42,7 @@ namespace Ling.Chara
 
 
         #region プロパティ
+
 
         public CharaType CharaType => _charaType;
 
@@ -112,7 +114,9 @@ namespace Ling.Chara
         /// </summary>
         public void PlayDeadAnimation()
         {
-
+            // 今は非アクティブにしてみるか
+            
+            IsAnimationPlaying = false;
         }
 
 
@@ -120,7 +124,7 @@ namespace Ling.Chara
         /// 再生中のアニメーションが終わるまで待機する
         /// </summary>
         /// <returns></returns>
-        public async void WaitForAnimation()
+        public async UniTask WaitForAnimation()
         {
             // WaitXXは必ず1フレーム待機が入るのでそれを避ける
             if (!IsAnimationPlaying) return;
