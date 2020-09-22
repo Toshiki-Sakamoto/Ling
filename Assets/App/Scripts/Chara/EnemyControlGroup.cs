@@ -133,6 +133,10 @@ namespace Ling.Chara
 					{
 						Controls.Remove(enemy_);
 						Models.Remove(enemy_.Model);
+
+						var poolItem = enemy_.GetComponent<PoolItem>();
+						poolItem?.Detach();
+						
 						_keyModelValueControl.Remove(enemy_.Model);
 					});
 
