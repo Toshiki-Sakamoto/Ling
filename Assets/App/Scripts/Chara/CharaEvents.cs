@@ -19,4 +19,12 @@ namespace Ling.Chara
 		public int mapLevel;
 		public CharaType charaType;
 	}
+
+	/// <summary>
+	/// 削除された
+	/// </summary>
+	public class EventRemove
+	{
+		public ICharaController chara;
+	}
 }

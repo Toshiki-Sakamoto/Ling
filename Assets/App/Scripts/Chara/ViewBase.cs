@@ -6,6 +6,9 @@
 // 
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Cysharp.Threading.Tasks;
+using UniRx;
+using System;
 
 
 namespace Ling.Chara
@@ -35,12 +38,19 @@ namespace Ling.Chara
         private Tilemap _tilemap;
         private Renderer[] _renderers = null;
         private int _mapLevel;
+
         #endregion
 
 
         #region プロパティ
 
+
         public CharaType CharaType => _charaType;
+
+        /// <summary>
+        /// アニメーション再生中の場合true
+        /// </summary>
+        public bool IsAnimationPlaying { get; private set; }
 
         #endregion
 
@@ -88,6 +98,9 @@ namespace Ling.Chara
             _animator.SetFloat("y", dir.y);
         }
 
+        /// <summary>
+        /// 指定したSort名とOrder値を設定する
+        /// </summary>
         public void SetSortingLayerAndOrder(string sortingName, int order)
 		{
             foreach (var renderer in _renderers)
@@ -96,6 +109,31 @@ namespace Ling.Chara
                 renderer.sortingOrder = order;
 			}
 		}
+
+        /// <summary>
+        /// 死亡アニメーションを再生する
+        /// </summary>
+        public IObservable<AsyncUnit> PlayDeadAnimation()
+        {
+            return UniTask.Create(async () => 
+                {
+                    IsAnimationPlaying = false; 
+
+                }).ToObservable();
+        }
+
+
+        /// <summary>
+        /// 再生中のアニメーションが終わるまで待機する
+        /// </summary>
+        /// <returns></returns>
+        public async UniTask WaitForAnimation()
+        {
+            // WaitXXは必ず1フレーム待機が入るのでそれを避ける
+            if (!IsAnimationPlaying) return;
+
+            await UniTask.WaitWhile(() => IsAnimationPlaying);
+        }
 
         #endregion
 

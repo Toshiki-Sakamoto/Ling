@@ -6,6 +6,7 @@
 // 
 
 using UnityEngine;
+using System;
 
 namespace Ling.Chara
 {
@@ -20,6 +21,11 @@ namespace Ling.Chara
 
 
 		#region public 変数
+
+		/// <summary>
+		/// 削除時に呼び出される
+		/// </summary>
+		public IObserver<PlayerControl> OnDestroyed;
 
 		#endregion
 
@@ -40,6 +46,12 @@ namespace Ling.Chara
 
 		public void SetFollowCameraEnable(bool enable) =>
 			_cameraFollow.enabled = enable;
+
+		protected override void DestroyProcessInternal()
+		{
+			OnDestroyed?.OnNext(this);
+			OnDestroyed?.OnCompleted();
+		}
 
 		#endregion
 

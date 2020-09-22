@@ -15,6 +15,7 @@ using Ling.Map.TileDataMapExtensions;
 using Ling.Const;
 using UnityEngine.Tilemaps;
 using Ling.Utility.Extensions;
+using System;
 
 namespace Ling.Chara
 {
@@ -26,6 +27,8 @@ namespace Ling.Chara
 		CharaModel Model { get; }
 		
 		ViewBase View { get; }
+
+		CharaStatus Status { get; }
 		
 		ICharaMoveController MoveController { get; }
 
@@ -76,6 +79,8 @@ namespace Ling.Chara
 		public TModel Model => _model;
 
 		public TView View => _view;
+		
+		public CharaStatus Status => _model.Status;
 
 		/// <summary>
 		/// 動きの制御を行うメソッドにアクセスするためのInterface
@@ -104,11 +109,22 @@ namespace Ling.Chara
 
             // 死亡時
             _status.IsDead.Where(isDead_ => isDead_)
-                .Subscribe(_ =>
+                .SelectMany(_ =>
                 {
 					// Viewにも伝える
 					Utility.Log.Print("死んだ！");
-                });
+
+					return View.PlayDeadAnimation();
+                })
+				.Subscribe(_ => 
+				{
+					// 死亡処理
+					DestroyProcess();
+				}, 
+				() => 
+				{
+					Utility.Log.Print("死にアニメーション終わり");
+				}).AddTo(gameObject);
 
 			// 向きが変わったとき
 			_model.Dir.Subscribe(dir_ =>
@@ -279,10 +295,28 @@ namespace Ling.Chara
 			return false;
 		}
 
+		protected virtual void DestroyProcessInternal()
+		{
+
+		}
+
 		#endregion
 
 
 		#region private 関数
+
+		/// <summary>
+		/// 削除処理
+		/// </summary>
+		private void DestroyProcess()
+		{
+			// 削除イベントを投げる
+			var eventRemove = _model.EventRemove;
+			eventRemove.chara = this;
+			Utility.EventManager.SafeTrigger(eventRemove);
+
+			DestroyProcessInternal();
+		}
 
 
 		#endregion

@@ -8,6 +8,11 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using Ling.Utility.Extensions;
+using System.Collections.Generic;
+using System;
+using UniRx;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Chara.Process
 {
@@ -28,8 +33,10 @@ namespace Ling.Chara.Process
 
 		#region private 変数
 		
+		private Chara.CharaManager _charaManager;
 		private Chara.ICharaController _unit;	// 攻撃対象のキャラ
-		private Chara.ICharaController _target;	// ターゲット
+		private List<Chara.ICharaController> _targets = new List<ICharaController>();	// ターゲット
+		private List<Chara.ICharaController> _deadChara = new List<ICharaController>();
 		private Vector2Int _targetPos;
 		private bool _ignoreIfNoTarget;
 
@@ -41,7 +48,7 @@ namespace Ling.Chara.Process
 		/// <summary>
 		/// ターゲットが存在するか
 		/// </summary>
-		public bool ExistsTarget => _target != null;
+		public bool ExistsTarget => !_targets.IsNullOrEmpty();
 
 		#endregion
 
@@ -66,6 +73,8 @@ namespace Ling.Chara.Process
 
 		protected override void ProcessStartInternal()
 		{
+			_charaManager = _diContainer.Resolve<Chara.CharaManager>();
+
 			SearchTargetUnit();
 
 			AttackAsync().Forget();
@@ -94,23 +103,48 @@ namespace Ling.Chara.Process
 
 			await view.transform.DOMove(movePos, 0.1f).SetRelative(true);
 
-			// ダメージ計算をここで行う
-			CalcDamage();
+			// ダメージ計算
+			var subject = new Subject<Chara.ICharaController>();
+			subject.Where(_ => ExistsTarget)
+				.Where(target => 
+				{
+					// HPをへらす
+					target.Status.SubHP(1);
+
+					// 死亡している場合のみ先に進ませる
+					return target.Status.IsDead.Value;
+				}).Subscribe(target => _deadChara.Add(target));
+
+			foreach (var target in _targets)
+			{
+				subject.OnNext(target);
+			}
+			subject.OnCompleted();
 
 			await view.transform.DOMove(movePos * -1, 0.1f).SetRelative(true);
 
+			// 主人公が死んだ場合、ゲームオーバー処理となる
+			if (_charaManager.IsPlayerDead)
+			{
+				return;
+			}
+
+			foreach (var chara in _deadChara)
+			{
+				if (!chara.View.IsAnimationPlaying) continue;
+
+				// 1フレーム必ず待機する
+				await UniTask.WaitUntil(() => chara.View.IsAnimationPlaying);
+			}
+
+			if (!_deadChara.IsNullOrEmpty())
+			{
+				// 死んだキャラが居る場合レベルアップ処理
+				//var processLevelUp = SetNext<ProcessLevelUp>();
+				//processLevelUp.Setup(_unit, _deadChara);
+			}
+
 			ProcessFinish();
-		}
-
-		/// <summary>
-		/// ダメージ計算を行う
-		/// </summary>
-		private void CalcDamage()
-		{
-			// 座標に攻撃対象がいるか
-			if (!ExistsTarget) return;
-
-			_target.Model.Status.SubHP(1);
 		}
 
 		/// <summary>
@@ -119,7 +153,7 @@ namespace Ling.Chara.Process
 		private void SearchTargetUnit()
 		{
 			var charaManager = _diContainer.Resolve<Chara.CharaManager>();
-			_target = charaManager.FindCharaInPos(_unit.Model.MapLevel, _targetPos);
+			_targets.Add(charaManager.FindCharaInPos(_unit.Model.MapLevel, _targetPos));
 		}
 
 		#endregion

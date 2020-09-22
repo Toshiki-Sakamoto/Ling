@@ -78,6 +78,11 @@ namespace Ling.Chara
 		/// </summary>
 		public Chara.PlayerView PlayerView => Player.View;
 
+		/// <summary>
+		/// Playerが死んだ場合true
+		/// </summary>
+		public bool IsPlayerDead => false;
+
 		#endregion
 
 
@@ -138,6 +143,10 @@ namespace Ling.Chara
 		/// </summary>
 		public void ChangeNextLevel(UnityEngine.Tilemaps.Tilemap tilemap, int level)
 		{
+			// 元のマップからPlayerを削除する
+			var playerPos = PlayerModel.CellPosition.Value;
+			_eventManager.Trigger(Map.EventTileFlagUpdate.CreateAtRemove(PlayerModel.MapLevel, playerPos.x, playerPos.y, Const.TileFlag.Player));
+
 			// 座標をもとに戻す
 			ResetPlayerUpPosition();
 
