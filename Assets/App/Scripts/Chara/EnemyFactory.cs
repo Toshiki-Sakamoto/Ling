@@ -52,7 +52,7 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		public static void Create(EnemyControl control, MapEnemyData mapEnemyData)
+		public static void Create(EnemyControlGroup controlGroup, EnemyControl control, MapEnemyData mapEnemyData)
 		{
 			var enemyMaster = MasterManager.Instance.EnemyRepository.Find(mapEnemyData.EnemyType);
 			var model = control.Model;

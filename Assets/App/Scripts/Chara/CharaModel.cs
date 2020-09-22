@@ -29,6 +29,8 @@ namespace Ling.Chara
 
 		#region public, protected 変数
 
+		public EventRemove EventRemove = new EventRemove();
+
 		#endregion
 
 
@@ -36,6 +38,7 @@ namespace Ling.Chara
 
 		private Param _param = null;
         private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
+
         [SerializeField] private Vector2IntReactiveProperty _cellPosition = default; // マップ上の自分の位置
 		[SerializeField] private bool _isReactiveCellPosition = true;
 
@@ -48,6 +51,11 @@ namespace Ling.Chara
 		/// ステイタス
 		/// </summary>
 		public CharaStatus Status { get; private set; }
+
+		/// <summary>
+		/// 死んでいる場合true
+		/// </summary>
+		public bool IsDead => Status.IsDead.Value;
 
 		/// <summary>
 		/// キャラの種類

@@ -18,6 +18,7 @@ using UnityEngine.UI;
 
 using Ling.Utility.Pool;
 using Zenject;
+using UniRx;
 
 namespace Ling.Chara
 {
@@ -121,10 +122,21 @@ namespace Ling.Chara
 			{
 				// プールから敵を取得する
 				var enemyControl = GetEnemyByPool();
-				EnemyFactory.Create(enemyControl, _mapMaster.GetRandomEnemyDataFromPopRate());
+				EnemyFactory.Create(this, enemyControl, _mapMaster.GetRandomEnemyDataFromPopRate());
 
 				Models.Add(enemyControl.Model);
 				_keyModelValueControl.Add(enemyControl.Model, enemyControl);
+
+				// 削除時
+				var subject = new Subject<EnemyControl>();
+				subject.Subscribe(enemy_ => 
+					{
+						Controls.Remove(enemy_);
+						Models.Remove(enemy_.Model);
+						_keyModelValueControl.Remove(enemy_.Model);
+					});
+
+				enemyControl.OnDestroyed = subject;
 			}
 		}
 

@@ -15,6 +15,7 @@ using Ling.Map.TileDataMapExtensions;
 using Ling.Const;
 using UnityEngine.Tilemaps;
 using Ling.Utility.Extensions;
+using System;
 
 namespace Ling.Chara
 {
@@ -294,6 +295,11 @@ namespace Ling.Chara
 			return false;
 		}
 
+		protected virtual void DestroyProcessInternal()
+		{
+
+		}
+
 		#endregion
 
 
@@ -304,7 +310,12 @@ namespace Ling.Chara
 		/// </summary>
 		private void DestroyProcess()
 		{
-			// マップから削除する
+			// 削除イベントを投げる
+			var eventRemove = _model.EventRemove;
+			eventRemove.chara = this;
+			Utility.EventManager.SafeTrigger(eventRemove);
+
+			DestroyProcessInternal();
 		}
 
 

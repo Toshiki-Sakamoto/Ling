@@ -6,6 +6,8 @@
 // 
 
 using UnityEngine;
+using UniRx;
+using System;
 
 namespace Ling.Chara
 {
@@ -21,6 +23,11 @@ namespace Ling.Chara
 
 		#region public 変数
 
+		/// <summary>
+		/// 削除時に呼び出される
+		/// </summary>
+		public IObserver<EnemyControl> OnDestroyed;
+
 		#endregion
 
 
@@ -35,6 +42,12 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
+
+		protected override void DestroyProcessInternal()
+		{
+			OnDestroyed?.OnNext(this);
+			OnDestroyed?.OnCompleted();
+		}
 
 		#endregion
 
