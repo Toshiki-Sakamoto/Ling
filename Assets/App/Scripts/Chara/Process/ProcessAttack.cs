@@ -153,7 +153,10 @@ namespace Ling.Chara.Process
 		private void SearchTargetUnit()
 		{
 			var charaManager = _diContainer.Resolve<Chara.CharaManager>();
-			_targets.Add(charaManager.FindCharaInPos(_unit.Model.MapLevel, _targetPos));
+			var target = charaManager.FindCharaInPos(_unit.Model.MapLevel, _targetPos);
+			if (target == null) return;
+
+			_targets.Add(target);
 		}
 
 		#endregion
