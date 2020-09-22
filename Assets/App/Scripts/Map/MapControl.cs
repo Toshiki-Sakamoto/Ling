@@ -262,6 +262,20 @@ namespace Ling.Map
 					}
 				});
 
+			/// <summary>
+			/// キャラを削除する
+			/// </summary>
+			this.AddEventListener<Chara.EventRemove>(ev_ => 
+				{
+					var chara = ev_.chara;
+					var model = chara.Model;
+
+					var tileFlag = model.CharaType.ToTileFlag();
+
+					var tileData = GetTileData(model.MapLevel, model.CellPosition.Value.x, model.CellPosition.Value.y);
+					tileData.RemoveFlag(tileFlag);
+				});
+
 			// キャラクタが移動した
 			this.AddEventListener<Chara.EventPosUpdate>(ev_ =>
 				{
