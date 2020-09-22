@@ -55,11 +55,6 @@ namespace Ling.Chara.Process
 
 		#region コンストラクタ, デストラクタ
 
-		public ProcessAttack()
-		{
-			_charaManager = _diContainer.Resolve<Chara.CharaManager>();
-		}
-
 		#endregion
 
 
@@ -78,6 +73,8 @@ namespace Ling.Chara.Process
 
 		protected override void ProcessStartInternal()
 		{
+			_charaManager = _diContainer.Resolve<Chara.CharaManager>();
+
 			SearchTargetUnit();
 
 			AttackAsync().Forget();
@@ -143,8 +140,8 @@ namespace Ling.Chara.Process
 			if (!_deadChara.IsNullOrEmpty())
 			{
 				// 死んだキャラが居る場合レベルアップ処理
-				var processLevelUp = SetNext<ProcessLevelUp>();
-				processLevelUp.Setup(_unit, _deadChara);
+				//var processLevelUp = SetNext<ProcessLevelUp>();
+				//processLevelUp.Setup(_unit, _deadChara);
 			}
 
 			ProcessFinish();
