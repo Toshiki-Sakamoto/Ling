@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using System;
 
 
 namespace Ling.Chara
@@ -112,11 +113,13 @@ namespace Ling.Chara
         /// <summary>
         /// 死亡アニメーションを再生する
         /// </summary>
-        public void PlayDeadAnimation()
+        public IObservable<AsyncUnit> PlayDeadAnimation()
         {
-            // 今は非アクティブにしてみるか
-            
-            IsAnimationPlaying = false;
+            return UniTask.Create(async () => 
+                {
+                    IsAnimationPlaying = false; 
+
+                }).ToObservable();
         }
 
 

@@ -10,6 +10,9 @@ using DG.Tweening;
 using UnityEngine;
 using Ling.Utility.Extensions;
 using System.Collections.Generic;
+using System;
+using UniRx;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Chara.Process
 {
@@ -103,19 +106,41 @@ namespace Ling.Chara.Process
 
 			await view.transform.DOMove(movePos, 0.1f).SetRelative(true);
 
-			// ダメージ計算をここで行う
+			// ダメージ計算
+			var subject = new Subject<Chara.ICharaController>();
+			subject.Where(_ => ExistsTarget)
+				.Where(target => 
+				{
+					// HPをへらす
+					target.Status.SubHP(1);
+
+					// 死亡している場合のみ先に進ませる
+					return target.Status.IsDead.Value;
+				}).Subscribe(target => _deadChara.Add(target));
+
 			foreach (var target in _targets)
 			{
-				CalcDamage(target);
+				subject.OnNext(target);
 			}
+			subject.OnCompleted();
 
 			await view.transform.DOMove(movePos * -1, 0.1f).SetRelative(true);
 
 			// 主人公が死んだ場合、ゲームオーバー処理となる
 			if (_charaManager.IsPlayerDead)
 			{
+				return;
 			}
-			else if (_deadChara.Count > 0)
+
+			foreach (var chara in _deadChara)
+			{
+				if (!chara.View.IsAnimationPlaying) continue;
+
+				// 1フレーム必ず待機する
+				await UniTask.WaitUntil(() => chara.View.IsAnimationPlaying);
+			}
+
+			if (!_deadChara.IsNullOrEmpty())
 			{
 				// 死んだキャラが居る場合レベルアップ処理
 				var processLevelUp = SetNext<ProcessLevelUp>();
@@ -123,29 +148,6 @@ namespace Ling.Chara.Process
 			}
 
 			ProcessFinish();
-		}
-
-		/// <summary>
-		/// ダメージ計算を行う
-		/// </summary>
-		private void CalcDamage(Chara.ICharaController target)
-		{
-			// 座標に攻撃対象がいるか
-			if (!ExistsTarget) return;
-
-			target.Status.SubHP(1);
-
-			// 死んだエフェクト待機
-			if (target.Status.IsDead.Value)
-			{
-				//await target.View.WaitForAnimation();
-			}
-
-			// 死んだ場合、キャラが死んだときの処理を行う
-			if (target.Model.Status.IsDead.Value)
-			{
-				_deadChara.Add(target);
-			}
 		}
 
 		/// <summary>

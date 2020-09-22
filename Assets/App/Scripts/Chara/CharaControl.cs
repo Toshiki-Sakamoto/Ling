@@ -108,11 +108,22 @@ namespace Ling.Chara
 
             // 死亡時
             _status.IsDead.Where(isDead_ => isDead_)
-                .Subscribe(_ =>
+                .SelectMany(_ =>
                 {
 					// Viewにも伝える
 					Utility.Log.Print("死んだ！");
-                });
+
+					return View.PlayDeadAnimation();
+                })
+				.Subscribe(_ => 
+				{
+					// 死亡処理
+					DestroyProcess();
+				}, 
+				() => 
+				{
+					Utility.Log.Print("死にアニメーション終わり");
+				}).AddTo(gameObject);
 
 			// 向きが変わったとき
 			_model.Dir.Subscribe(dir_ =>
@@ -287,6 +298,14 @@ namespace Ling.Chara
 
 
 		#region private 関数
+
+		/// <summary>
+		/// 削除処理
+		/// </summary>
+		private void DestroyProcess()
+		{
+			// マップから削除する
+		}
 
 
 		#endregion
