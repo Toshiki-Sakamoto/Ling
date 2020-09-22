@@ -185,6 +185,7 @@ namespace Ling.Common.Scene
 				LoadSceneOperationAsync(SceneManager.LoadSceneAsync(sceneName, mode), observer_))
 				.Select(_ =>
 				{
+					// LoadSceneOperationAsync内のOnNextが呼び出されたときに来る
 					var scene = GameObject.FindObjectOfType<Base>();
 					if (scene == null)
 					{
@@ -202,11 +203,13 @@ namespace Ling.Common.Scene
 					// 必要なデータが読み込まれていない場合、読み込みを行う
 					//Observable.FromCoroutine<Base>(observer_ => LoadScenePrepareAsync(observer_));
 
+					// Sceneに変換
 					return scene;
 				})
 				.ContinueWith(scene_ => InitLoadPrepareAsync(scene_))
 				.SelectMany(scene_ =>
 				{
+					// 別の処理に合成
 					return scene_.ScenePrepareAsync().Do(unit_ =>
 						{
 							_sceneInstance = scene_;
