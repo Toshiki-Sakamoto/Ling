@@ -67,7 +67,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 		}
 
 		[UnityTest]
-		public IEnumerator MeageArrayTest()
+		public IEnumerator MergeArrayTest()
 		{
 			// 配列を受け取る
 			int count = 0;
@@ -81,6 +81,28 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			yield return new WaitUntil(() => finished);
 
 			Assert.AreEqual(3, count, "Mergeによって２つのIObservableが合成された");
+		}
+
+		[UnityTest]
+		public IEnumerator MergeResultObservableTest()
+		{
+			int count = 0;
+			bool finished = false;
+
+			var subject = new Subject<int>();
+			subject
+				// IObservable<int>からIObservable<IObservable<int>>に変換
+				.Select(i => Observable.IntervalFrame(1).Take(2).Select(_ => 1))
+				// IObservable<IObservable<T>>からIObservabel<T>へマージ
+				.Merge()
+				.Subscribe(num => count += num, () => finished = true);
+
+			subject.OnNext(1);
+			subject.OnCompleted();
+			
+			yield return new WaitUntil(() => finished);
+
+			Assert.AreEqual(2, count, "MergeによってIObservabvle<IObservabvle<T>>からIObservavble<T>にマージされた");
 		}
 
 		#endregion
