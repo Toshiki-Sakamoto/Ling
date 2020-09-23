@@ -6,6 +6,7 @@
 //
 
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 namespace Ling.Scenes.Battle.Phase
 {
@@ -76,22 +77,16 @@ namespace Ling.Scenes.Battle.Phase
 			{
 				foreach (var enemyControl in enemyGroupPair.Value)
 				{
-					await ExecuteEnemyAttackAsync(enemyControl);
+					enemyControl.ExecuteAttackProcess();
+
+					if (enemyControl.IsAttackAllProcessEnded()) continue;
+
+					await UniTask.WaitUntil(() => enemyControl.IsAttackAllProcessEnded());
 				}
 			}
 
 			// すべて終わったらターン終了
 			Change(BattleScene.Phase.CharaProcessEnd);
-		}
-
-		private async UniTask ExecuteEnemyAttackAsync(Chara.EnemyControl enemy)
-		{
-			enemy.ExecuteAttackProcess();
-			
-			await UniTask.WaitUntil(() => 
-				{
-					return enemy.IsAttackAllProcessEnded();
-				});
 		}
 
 		#endregion
