@@ -47,6 +47,20 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.device-simulator": {
+      "version": "2.2.3-preview",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.editorcoroutines": {
+      "version": "1.0.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.0",
       "depth": 0,
@@ -71,10 +85,19 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.1",
+      "version": "1.2.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.memoryprofiler": {
+      "version": "0.2.6-preview.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.editorcoroutines": "1.0.0"
+      },
       "url": "https://packages.unity.com"
     },
     "com.unity.multiplayer-hlapi": {
@@ -87,7 +110,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.performance.profile-analyzer": {
-      "version": "1.0.1",
+      "version": "1.0.3",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -100,8 +123,41 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.quicksearch": {
+      "version": "1.5.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.render-pipelines.core": {
+      "version": "8.2.0",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.searcher": {
+      "version": "4.0.9",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.shadergraph": {
+      "version": "8.2.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "8.2.0",
+        "com.unity.searcher": "4.0.9"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.test-framework": {
-      "version": "1.1.16",
+      "version": "1.1.18",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -121,7 +177,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.3.4",
+      "version": "1.3.6",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
