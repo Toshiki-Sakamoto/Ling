@@ -1,0 +1,108 @@
+trackSelection = true
+fetchPreview = true
+wantsMore = true
+keepOpen = false
+itemIconSize = 0
+queryFolder = "Assets/Editor/Queries"
+onBoardingDoNotAskAgain = true
+showPackageIndexes = false
+debounceMs = 40
+scopes = {
+	"last_search.B6046BBC" = "battle"
+	"asset.B6046BBC" = "True"
+	"menu.B6046BBC" = "True"
+	"scene.B6046BBC" = "True"
+	"settings.B6046BBC" = "True"
+	"m_ShownPanels.B6046BBC" = "3"
+	"m_SideBarSplitter.B6046BBC" = "180"
+	"m_DetailsPanelSplitter.B6046BBC" = "791"
+	"last_search.1C60DB97" = "battle"
+	"asset.1C60DB97" = "True"
+	"menu.1C60DB97" = "True"
+	"scene.1C60DB97" = "True"
+	"settings.1C60DB97" = "True"
+	"m_ShownPanels.1C60DB97" = "3"
+	"m_SideBarSplitter.1C60DB97" = "180"
+	"m_DetailsPanelSplitter.1C60DB97" = "791"
+}
+providers = {
+	asset = {
+		active = true
+		priority = 25
+		defaultAction = null
+	}
+	store = {
+		active = false
+		priority = 100
+		defaultAction = null
+	}
+	find = {
+		active = true
+		priority = 25
+		defaultAction = null
+	}
+	log = {
+		active = false
+		priority = 210
+		defaultAction = null
+	}
+	object = {
+		active = true
+		priority = 55
+		defaultAction = null
+	}
+	packages = {
+		active = true
+		priority = 90
+		defaultAction = null
+	}
+	scene = {
+		active = true
+		priority = 80
+		defaultAction = null
+	}
+	query = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	menu = {
+		active = true
+		priority = 50
+		defaultAction = null
+	}
+	settings = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	help = {
+		active = false
+		priority = -1
+		defaultAction = null
+	}
+	calculator = {
+		active = true
+		priority = 10
+		defaultAction = null
+	}
+	static_methods = {
+		active = true
+		priority = 85
+		defaultAction = null
+	}
+	res = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+}
+recentSearches = [
+	"battle"
+	"s:"
+	"?"
+	"set:"
+	"pkg:"
+	"Battle"
+]
+savedSearchesSortOrder = 0
