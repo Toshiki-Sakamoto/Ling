@@ -22,9 +22,9 @@ namespace Ling.Common.Scene
 
 		void StartScene(SceneID sceneID);
 
-		void ChangeScene(SceneID sceneID, Argument argument = null);
+		void ChangeScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
 
-		void AddScene(SceneID sceneID, Argument argument = null);
+		void AddScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
 
 		void QuickStart(Base scene);
 	}
@@ -52,7 +52,8 @@ namespace Ling.Common.Scene
 
 		[SerializeField] private Transform _sceneRoot;  // シーンインスタンスが配置されるルート
 
-		[Inject] private MasterData.MasterManager _masterManager = null;
+		[Inject] private ZenjectSceneLoader _zenjectSceneLoader = default;
+		[Inject] private MasterData.MasterManager _masterManager = default;
 
 		private SceneID _nextSceneID = SceneID.None;
 		private Base _sceneInstance = null;
@@ -86,9 +87,9 @@ namespace Ling.Common.Scene
 		/// </summary>
 		/// <param name="sceneID"></param>
 		/// <param name="arg"></param>
-		public void ChangeScene(SceneID sceneID, Argument argument = null)
+		public void ChangeScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null)
 		{
-			SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Single).Forget();
+			SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Single, bindAction).Forget();
 		}
 
 		/// <summary>
@@ -96,9 +97,9 @@ namespace Ling.Common.Scene
 		/// </summary>
 		/// <param name="scene"></param>
 		/// <param name="argument"></param>
-		public void AddScene(SceneID sceneID, Argument argument = null)
+		public void AddScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null)
 		{
-			SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Additive).Forget();
+			SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Additive, bindAction).Forget();
 		}
 
 		/// <summary>
@@ -117,7 +118,7 @@ namespace Ling.Common.Scene
 
 		#region private 関数
 
-		private async UniTask SceneChangeInternalAsync(SceneID sceneID, Argument argument, LoadSceneMode mode)
+		private async UniTask SceneChangeInternalAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction = null)
 		{
 			_nextSceneID = sceneID;
 
@@ -166,7 +167,7 @@ namespace Ling.Common.Scene
 			}
 
 			// シーン遷移処理
-			await LoadSceneAsync(sceneID.GetName(), argument, LoadSceneMode.Additive);
+			await LoadSceneAsync(sceneID.GetName(), argument, LoadSceneMode.Additive, bindAction);
 		}
 
 
@@ -179,10 +180,10 @@ namespace Ling.Common.Scene
 		/// シーン読み込み処理
 		/// 非同期で読み込み、完了後切り替える
 		/// </summary>
-		private IObservable<Unit> LoadSceneAsync(string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single)
+		private IObservable<Unit> LoadSceneAsync(string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single, System.Action<DiContainer> bindAction = null)
 		{
 			return Observable.FromCoroutine<Unit>(observer_ =>
-				LoadSceneOperationAsync(SceneManager.LoadSceneAsync(sceneName, mode), observer_))
+				LoadSceneOperationAsync(_zenjectSceneLoader.LoadSceneAsync(sceneName, mode, bindAction), observer_))
 				.Select(_ =>
 				{
 					// LoadSceneOperationAsync内のOnNextが呼び出されたときに来る
