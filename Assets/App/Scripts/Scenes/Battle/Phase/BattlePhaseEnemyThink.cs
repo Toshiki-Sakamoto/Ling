@@ -17,6 +17,12 @@ namespace Ling.Scenes.Battle.Phase
 	{
 		#region 定数, class, enum
 
+		public class Argument : Utility.PhaseArgBase
+		{
+			public Chara.EnemyControl target;	// 特定のターゲットを指定する場合
+			public BattleScene.Phase nextPhase;	// 行動終了後指定した特定のフェーズに移行したい場合
+		}
+
 		#endregion
 
 
@@ -27,6 +33,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
+		private Argument _argment;
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
 		private Utility.Async.WorkTimeAwaiter _timeAwaiter;
@@ -54,6 +61,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		public override void Init()
 		{
+			_argment = Arg as Argument;
+
 			_timeAwaiter = new Utility.Async.WorkTimeAwaiter();
 			_timeAwaiter.Setup(0.1f);
 
@@ -71,14 +80,24 @@ namespace Ling.Scenes.Battle.Phase
 
 		private async UniTask ThinkAIProcessesAsync()
 		{
-			// 敵は生成された順番から思考する
-			// 階層の浅い順から思考を開始する
-			foreach (var pair in _charaManager.EnemyControlDict)
+			if (_argment?.target != null)
 			{
-				foreach (var enemy in pair.Value)
+				var target = _argment.target;
+				
+				// 特定のターゲットのみ思考させる
+				await target.ThinkAIProcess(_timeAwaiter);
+			}
+			else
+			{
+				// 敵は生成された順番から思考する
+				// 階層の浅い順から思考を開始する
+				foreach (var pair in _charaManager.EnemyControlDict)
 				{
-					// 敵が持つAIによって行動を自由に変更する
-					await enemy.ThinkAIProcess(_timeAwaiter);
+					foreach (var enemy in pair.Value)
+					{
+						// 敵が持つAIによって行動を自由に変更する
+						await enemy.ThinkAIProcess(_timeAwaiter);
+					}
 				}
 			}
 
