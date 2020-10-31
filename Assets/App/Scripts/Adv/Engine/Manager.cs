@@ -17,8 +17,11 @@ using UnityEngine.UI;
 namespace Ling.Adv.Engine
 {
 	/// <summary>
-	/// 
+	/// アドベンチャー全体を管理する
 	/// </summary>
+    /// <remark>
+    /// アドベンチャーViewにアタッチさせる
+    /// </remark>     
     public class Manager : MonoBehaviour
     {
         #region 定数, class, enum

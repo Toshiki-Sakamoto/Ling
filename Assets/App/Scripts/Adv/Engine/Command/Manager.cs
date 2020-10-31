@@ -17,7 +17,8 @@ using UnityEngine.UI;
 namespace Ling.Adv.Engine.Command
 {
     /// <summary>
-    /// 
+    /// アドベンチャーコマンド管理者
+    /// スクリプトファイルに記載されたコマンドはここを通して処理を行う
     /// </summary>
     public class Manager
     {
