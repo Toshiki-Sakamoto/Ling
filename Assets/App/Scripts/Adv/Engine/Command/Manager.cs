@@ -17,7 +17,8 @@ using UnityEngine.UI;
 namespace Ling.Adv.Engine.Command
 {
     /// <summary>
-    /// 
+    /// アドベンチャーコマンド管理者
+    /// スクリプトファイルに記載されたコマンドはここを通して処理を行う
     /// </summary>
     public class Manager
     {
@@ -67,7 +68,7 @@ namespace Ling.Adv.Engine.Command
         {
             _dictCreator.Clear();
             Command.Clear();
-
+ 
             // コマンドを登録する
             Regist("set", (c_, l_) => Set.Create(c_, l_));
             Regist("calc", (c_, l_) => Set.Create(c_, l_));

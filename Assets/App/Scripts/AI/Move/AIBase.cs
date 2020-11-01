@@ -124,76 +124,66 @@ namespace Ling.AI.Move
 
 		#region private 関数
 
+		/// <summary>
+		/// WaitCountを一つ増やす
+		/// </summary>
+		/// <remark>
+		/// 指定したWait数を超えた場合、目的地等をリセットする
+		/// </reamrk>
+		protected void IncWaitCount()
+		{
+			if (++_waitCount >= 2)
+			{
+				// 2回以上失敗している場合は目的地をリセットする
+				ResetDestination();
+
+				// 前回いた位置もリセットする
+				_prevPos = null;
+			}
+		}
+
 		protected virtual async UniTask ExexuteInternalAsync(Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			// もっとも優先すべきものがあればそこに向かって歩く
 			if (await SearchMustDestinationAsync())
 			{
-				await SearchNextMovePosAsync();
+				await ApplyNextMoveAsync();
 				return;
 			}
 
 			await timeAwaiter.Wait();
 
 			// 目的地が設定されていればそこに向かう
-			do
+			if (await MoveDestinationProcessAsync())
 			{
-				if (_destination == null) break;
-					
-				// すでに目的地にいる場合は何もしない
-				if (_destination == _unit.Model.CellPosition.Value)
-				{
-					ResetDestination();
-					break;
-				}
-
-				// 目的地が見つかったら終了
-				if (await SearchNextMovePosAsync())
-				{
-					return;
-				}
-
-				if (_waitCount >= 2)
-				{
-					// 2回以上失敗している場合は目的地をリセットする
-					ResetDestination();
-
-					// 前回いた位置もリセットする
-					_prevPos = null;
-				}
-
-			} while (false);
+				// 移動したので終了
+				return;
+			}
 
 			await timeAwaiter.Wait();
 
 			// 目的地がなければ現在自分が動ける範囲で目的地を探す
 			if (SearchDestination())
 			{
-				await SearchNextMovePosAsync();
+				await ApplyNextMoveAsync();
 			}
 		}
 
 		/// <summary>
 		/// 次に移動すべき座標を目的地から計算する
 		/// </summary>
-		protected async UniTask<bool> SearchNextMovePosAsync()
+		protected async UniTask<bool> ApplyNextMoveAsync()
 		{
-			_nextMovePos = null;
-
-			// 目的地がない場合は動けない
-			if (_destination == null)
-			{
-				return false;
-			}
-
 			// 次の場所に移動する処理
-			bool ProcessSetNextMovePos(in Vector2Int pos)
+			bool SetNextMovePosProcess(in Vector2Int pos)
 			{
 				// 移動できない場合は現在地に待機
 				var tileData = _tileDataMap.GetTileData(pos.x, pos.y);
 				if (_unit.Model.CanNotMoveTileFlag(tileData.Flag))
 				{
-					///////++ _waitCount;
+					// 移動できなかった
+					IncWaitCount();
+					return false;
 				}
 				else
 				{
@@ -203,26 +193,65 @@ namespace Ling.AI.Move
 				return true;
 			}
 
+			_nextMovePos = null;
+
+			// 目的地がない場合は動けない
+			if (_destination == null)
+			{
+				return false;
+			}
+
 			// ルートがすでに存在する場合は使用する
 			if (!_destinationRoutes.IsNullOrEmpty())
 			{
 				var pos = _destinationRoutes.Front();
 				_destinationRoutes.Clear();
 				
-				return ProcessSetNextMovePos(pos);
+				return SetNextMovePosProcess(pos);
 			}
 
 			// 目的地から最短距離を求める
 			var result = await _tileDataMap.Scanner.GetShotestDisancePositionAsync(_unit, _destination.Value);
 			if (result != null)
 			{
-				return ProcessSetNextMovePos(result.routePositions.Front());
+				return SetNextMovePosProcess(result.routePositions.Front());
 			}
 
 			// 移動できなかった
-			++_waitCount;
+			IncWaitCount();
+			
 			return false;
 		}
+
+
+		/// <summary>
+		/// 目的地に移動する処理を行う
+		/// </summary>
+		protected async UniTask<bool> MoveDestinationProcessAsync()
+		{
+			if (_destination == null) 
+			{
+				return false;
+			}
+					
+			// すでに目的地にいる場合は何もしない
+			if (_destination == _unit.Model.CellPosition.Value)
+			{
+				ResetDestination();
+
+				// 移動してないのでfalseを返すことで次の目的地を決定させる
+				return false;
+			}
+
+			// 目的地が見つかったら終了
+			if (await ApplyNextMoveAsync())
+			{
+				return true;
+			}
+
+			return false;
+		}
+
 
 
 		/// <summary>
@@ -324,6 +353,7 @@ namespace Ling.AI.Move
 			}
 
 			// どこにもいけない場合は現在の座標に待機する
+			IncWaitCount();
 			return false;
 		}
 
