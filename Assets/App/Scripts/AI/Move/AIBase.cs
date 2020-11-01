@@ -238,7 +238,9 @@ namespace Ling.AI.Move
 			if (_destination == _unit.Model.CellPosition.Value)
 			{
 				ResetDestination();
-				return true;
+
+				// 移動してないのでfalseを返すことで次の目的地を決定させる
+				return false;
 			}
 
 			// 目的地が見つかったら終了
