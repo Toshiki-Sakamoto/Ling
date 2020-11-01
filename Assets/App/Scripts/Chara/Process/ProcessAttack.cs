@@ -60,10 +60,11 @@ namespace Ling.Chara.Process
 
 		#region public, protected 関数
 
-		public void SetChara(Chara.ICharaController unit, bool ignoreIfNoTarget)
+		public void SetChara(Chara.ICharaController unit, bool ignoreIfNoTarget, in Vector2Int targetPos)
 		{
 			_unit = unit;
 			_ignoreIfNoTarget = ignoreIfNoTarget;
+			_targetPos = targetPos;
 		}
 
 		public void SetTargets(List<Chara.ICharaController> targets) =>

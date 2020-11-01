@@ -67,7 +67,7 @@ namespace Ling.Scenes.Battle.Phase
 			SearchTargetUnit(targetPos);
 
 			var attackProcess = _player.AddAttackProcess<Chara.Process.ProcessAttack>();
-			attackProcess.SetChara(_player, ignoreIfNoTarget: true);
+			attackProcess.SetChara(_player, ignoreIfNoTarget: true, targetPos: targetPos);
 			attackProcess.SetTargets(_targets);
 
 			_player.ExecuteAttackProcess();

@@ -120,7 +120,7 @@ namespace Ling.AI.Attack
 
 			// 移動プロセスの設定
 			var process = _unit.AddAttackProcess<Chara.Process.ProcessAttack>();
-			process.SetChara(_unit, ignoreIfNoTarget: false);
+			process.SetChara(_unit, ignoreIfNoTarget: false, targetPos: targetPos);
 			process.SetTargets(_targets);
 		}
 
