@@ -154,7 +154,7 @@ namespace Ling.AI.Move
 			await timeAwaiter.Wait();
 
 			// 目的地が設定されていればそこに向かう
-			if (await MoveDestinationProcess())
+			if (await MoveDestinationProcessAsync())
 			{
 				// 移動したので終了
 				return;
