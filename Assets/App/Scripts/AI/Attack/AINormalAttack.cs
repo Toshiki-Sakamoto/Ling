@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Ling.Const;
 using Ling.Map.TileDataMapExtensions;
+using System.Collections.Generic;
 
 namespace Ling.AI.Attack
 {
@@ -29,6 +30,8 @@ namespace Ling.AI.Attack
 
 
 		#region private 変数
+
+		private List<Chara.ICharaController> _targets = new List<Chara.ICharaController>();	// ターゲット
 
 		#endregion
 
@@ -113,10 +116,12 @@ namespace Ling.AI.Attack
 		/// </summary>
 		protected void SetAttackProcess(in Vector2Int targetPos)
 		{
+			SearchTargets(targetPos);
+
 			// 移動プロセスの設定
 			var process = _unit.AddAttackProcess<Chara.Process.ProcessAttack>();
 			process.SetChara(_unit, ignoreIfNoTarget: false);
-			process.SetTargetPos(targetPos);
+			process.SetTargets(_targets);
 		}
 
 		#endregion
@@ -124,6 +129,16 @@ namespace Ling.AI.Attack
 
 		#region private 関数
 		
+		/// <summary>
+		/// ターゲットを検索する
+		/// </summary>
+		private void SearchTargets(in Vector2Int targetPos)
+		{
+			var target = _charaManager.FindCharaInPos(_unit.Model.MapLevel, targetPos);
+			if (target == null) return;
+
+			_targets.Add(target);
+		}
 
 		#endregion
 	}
