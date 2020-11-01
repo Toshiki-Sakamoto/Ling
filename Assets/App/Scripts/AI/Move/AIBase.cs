@@ -229,7 +229,10 @@ namespace Ling.AI.Move
 		/// </summary>
 		protected async UniTask<bool> MoveDestinationProcessAsync()
 		{
-			if (_destination == null) break;
+			if (_destination == null) 
+			{
+				return false;
+			}
 					
 			// すでに目的地にいる場合は何もしない
 			if (_destination == _unit.Model.CellPosition.Value)
