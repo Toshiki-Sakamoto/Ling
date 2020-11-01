@@ -36,7 +36,7 @@ jobs:
           key: Library-${{ env.PROJECT_ROOT }}
 
       # Test
-      - uses: webbertakken/unity-test-runner@v1.6
+      - uses: webbertakken/unity-test-runner@v1.7
         id: tests
         with:
           customParameters: '-nographics'
