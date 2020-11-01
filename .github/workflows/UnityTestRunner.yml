@@ -39,6 +39,7 @@ jobs:
       - uses: webbertakken/unity-test-runner@v1.6
         id: tests
         with:
+          customParameters: '-nographics'
           projectPath: ${{ env.PROJECT_ROOT }}
           unityVersion: ${{ matrix.unityVersion }}
           testMode: ${{ matrix.testMode }}
