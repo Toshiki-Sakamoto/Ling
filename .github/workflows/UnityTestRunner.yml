@@ -30,7 +30,7 @@ jobs:
           lfs: true
     
       # Cache
-      - uses: actions/cache@v1.1.0
+      - uses: actions/cache@v2.1.2
         with:
           path: ${{ env.PROJECT_ROOT }}/Library
           key: Library-${{ env.PROJECT_ROOT }}
