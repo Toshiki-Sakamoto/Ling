@@ -175,13 +175,14 @@ namespace Ling.AI.Move
 		protected async UniTask<bool> ApplyNextMoveAsync()
 		{
 			// 次の場所に移動する処理
-			bool ProcessSetNextMovePos(in Vector2Int pos)
+			bool SetNextMovePosProcess(in Vector2Int pos)
 			{
 				// 移動できない場合は現在地に待機
 				var tileData = _tileDataMap.GetTileData(pos.x, pos.y);
 				if (_unit.Model.CanNotMoveTileFlag(tileData.Flag))
 				{
-					++_waitCount;
+					// 移動できなかった
+					IncWaitCount();
 					return false;
 				}
 				else
@@ -206,14 +207,14 @@ namespace Ling.AI.Move
 				var pos = _destinationRoutes.Front();
 				_destinationRoutes.Clear();
 				
-				return ProcessSetNextMovePos(pos);
+				return SetNextMovePosProcess(pos);
 			}
 
 			// 目的地から最短距離を求める
 			var result = await _tileDataMap.Scanner.GetShotestDisancePositionAsync(_unit, _destination.Value);
 			if (result != null)
 			{
-				return ProcessSetNextMovePos(result.routePositions.Front());
+				return SetNextMovePosProcess(result.routePositions.Front());
 			}
 
 			// 移動できなかった
