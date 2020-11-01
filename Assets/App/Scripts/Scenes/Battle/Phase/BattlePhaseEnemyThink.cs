@@ -87,10 +87,17 @@ namespace Ling.Scenes.Battle.Phase
 				var targets = _argment.Targets;
 				
 				// 特定のターゲットのみ思考させる
-				foreach (var target in Targets)
+				foreach (var target in targets)
 				{
-					await target.ThinkAIProcess(_timeAwaiter);
+					// 敵じゃなければ何もしない
+					if (target is Chara.EnemyControl enemy)
+					{
+						await enemy.ThinkAIProcess(_timeAwaiter);
+					}
 				}
+
+				// すべて終わったら次に行く
+				Change(_argment.nextPhase);
 			}
 			else
 			{
@@ -104,10 +111,10 @@ namespace Ling.Scenes.Battle.Phase
 						await enemy.ThinkAIProcess(_timeAwaiter);
 					}
 				}
-			}
 
-			// すべて終わったら次に行く
-			Change(BattleScene.Phase.CharaProcessExecute);
+				// すべて終わったら次に行く
+				Change(BattleScene.Phase.CharaProcessExecute);
+			}
 		}
 
 		#endregion

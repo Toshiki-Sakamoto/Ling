@@ -82,6 +82,11 @@ namespace Ling.Scenes.Battle.Phase
 			//Change(BattleScene.Phase.PlayerAction);
 			// 攻撃した敵が生きている場合、最優先で行動させる
 			// 敵思考に移行する
+			var argument = new BattlePhaseEnemyThink.Argument();
+			argument.Targets = _targets;
+			argument.nextPhase = BattleScene.Phase.PlayerAction;
+
+			Change(BattleScene.Phase.EnemyTink, argument);
 		}
 
 		public override void Term() 
