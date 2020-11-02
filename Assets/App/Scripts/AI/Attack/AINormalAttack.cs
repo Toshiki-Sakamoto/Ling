@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Ling.Const;
 using Ling.Map.TileDataMapExtensions;
+using System.Collections.Generic;
 
 namespace Ling.AI.Attack
 {
@@ -29,6 +30,8 @@ namespace Ling.AI.Attack
 
 
 		#region private 変数
+
+		private List<Chara.ICharaController> _targets = new List<Chara.ICharaController>();	// ターゲット
 
 		#endregion
 
@@ -51,6 +54,9 @@ namespace Ling.AI.Attack
 			// なければもう何もしない
 			if (TryGetAttackTargetPosition(_masterAIData.FirstTarget, out var targetPos))
 			{
+				// 目的地を取得したターゲットに更新する(部屋から逃げたときに追跡できるように)
+				_unit.Model.MoveAI.SetDestination(targetPos);
+
 				SetAttackProcess(targetPos);
 				CanActable = true;
 			}
@@ -113,10 +119,12 @@ namespace Ling.AI.Attack
 		/// </summary>
 		protected void SetAttackProcess(in Vector2Int targetPos)
 		{
+			SearchTargets(targetPos);
+
 			// 移動プロセスの設定
 			var process = _unit.AddAttackProcess<Chara.Process.ProcessAttack>();
-			process.SetChara(_unit, ignoreIfNoTarget: false);
-			process.SetTargetPos(targetPos);
+			process.SetChara(_unit, ignoreIfNoTarget: false, targetPos: targetPos);
+			process.SetTargets(_targets);
 		}
 
 		#endregion
@@ -124,6 +132,16 @@ namespace Ling.AI.Attack
 
 		#region private 関数
 		
+		/// <summary>
+		/// ターゲットを検索する
+		/// </summary>
+		private void SearchTargets(in Vector2Int targetPos)
+		{
+			var target = _charaManager.FindCharaInPos(_unit.Model.MapLevel, targetPos);
+			if (target == null) return;
+
+			_targets.Add(target);
+		}
 
 		#endregion
 	}

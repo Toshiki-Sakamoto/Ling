@@ -6,6 +6,7 @@
 //
 
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace Ling.Scenes.Battle.Phase
 {
@@ -29,6 +30,7 @@ namespace Ling.Scenes.Battle.Phase
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
 		private Chara.PlayerControl _player;
+		private List<Chara.ICharaController> _targets = new List<Chara.ICharaController>();	// ターゲット
 
 		#endregion
 
@@ -60,10 +62,13 @@ namespace Ling.Scenes.Battle.Phase
 			// (武器によって範囲変えたり)
 			var position = _player.Model.CellPosition;
 			var dir = _player.Model.Dir;
+			var targetPos = position.Value + dir.Value;
+
+			SearchTargetUnit(targetPos);
 
 			var attackProcess = _player.AddAttackProcess<Chara.Process.ProcessAttack>();
-			attackProcess.SetChara(_player, ignoreIfNoTarget: true);
-			attackProcess.SetTargetPos(position.Value + dir.Value);
+			attackProcess.SetChara(_player, ignoreIfNoTarget: true, targetPos: targetPos);
+			attackProcess.SetTargets(_targets);
 
 			_player.ExecuteAttackProcess();
 		}
@@ -77,6 +82,11 @@ namespace Ling.Scenes.Battle.Phase
 			//Change(BattleScene.Phase.PlayerAction);
 			// 攻撃した敵が生きている場合、最優先で行動させる
 			// 敵思考に移行する
+			var argument = new BattlePhaseEnemyThink.Argument();
+			argument.Targets = _targets;
+			argument.nextPhase = BattleScene.Phase.PlayerAction;
+
+			Change(BattleScene.Phase.EnemyTink, argument);
 		}
 
 		public override void Term() 
@@ -88,6 +98,16 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 関数
 
+		/// <summary>
+		/// ターゲットを検索する
+		/// </summary>
+		private void SearchTargetUnit(in Vector2Int targetPos)
+		{
+			var target = _charaManager.FindCharaInPos(_player.Model.MapLevel, targetPos);
+			if (target == null) return;
+
+			_targets.Add(target);
+		}
 
 		#endregion
 	}

@@ -119,6 +119,16 @@ namespace Ling.AI.Move
 			await ExexuteInternalAsync(timeAwaiter);
 		}
 
+		/// <summary>
+		/// 目的地を外部から設定する
+		/// </summary>
+		public void SetDestination(in Vector2Int pos)
+		{
+			ResetDestination();
+
+			_destination = pos;
+		}
+
 		#endregion
 
 

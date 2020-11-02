@@ -7,6 +7,8 @@
 
 using Cysharp.Threading.Tasks;
 using Ling;
+using System.Collections.Generic;
+using Ling.Utility.Extensions;
 
 namespace Ling.Scenes.Battle.Phase
 {
@@ -19,7 +21,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		public class Argument : Utility.PhaseArgBase
 		{
-			public Chara.EnemyControl target;	// 特定のターゲットを指定する場合
+			public List<Chara.ICharaController> Targets; // 特定のターゲットを指定する場合
 			public BattleScene.Phase nextPhase;	// 行動終了後指定した特定のフェーズに移行したい場合
 		}
 
@@ -80,12 +82,22 @@ namespace Ling.Scenes.Battle.Phase
 
 		private async UniTask ThinkAIProcessesAsync()
 		{
-			if (_argment?.target != null)
+			if (_argment?.Targets?.IsNullOrEmpty() ?? false)
 			{
-				var target = _argment.target;
+				var targets = _argment.Targets;
 				
 				// 特定のターゲットのみ思考させる
-				await target.ThinkAIProcess(_timeAwaiter);
+				foreach (var target in targets)
+				{
+					// 敵じゃなければ何もしない
+					if (target is Chara.EnemyControl enemy)
+					{
+						await enemy.ThinkAIProcess(_timeAwaiter);
+					}
+				}
+
+				// すべて終わったら次に行く
+				Change(_argment.nextPhase);
 			}
 			else
 			{
@@ -99,10 +111,10 @@ namespace Ling.Scenes.Battle.Phase
 						await enemy.ThinkAIProcess(_timeAwaiter);
 					}
 				}
-			}
 
-			// すべて終わったら次に行く
-			Change(BattleScene.Phase.CharaProcessExecute);
+				// すべて終わったら次に行く
+				Change(BattleScene.Phase.CharaProcessExecute);
+			}
 		}
 
 		#endregion

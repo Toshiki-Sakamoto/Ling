@@ -158,7 +158,7 @@ namespace Ling.Chara
 			}
 		}
 
-		public Chara.ICharaController FindInPos(Vector2Int cellPosition)
+		public TControl FindInPos(Vector2Int cellPosition)
 		{
 			return Controls.Find(control_ => control_.Model.CellPosition.Value == cellPosition);
 		}

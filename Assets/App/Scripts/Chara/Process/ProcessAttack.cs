@@ -60,22 +60,19 @@ namespace Ling.Chara.Process
 
 		#region public, protected 関数
 
-		public void SetChara(Chara.ICharaController unit, bool ignoreIfNoTarget)
+		public void SetChara(Chara.ICharaController unit, bool ignoreIfNoTarget, in Vector2Int targetPos)
 		{
 			_unit = unit;
 			_ignoreIfNoTarget = ignoreIfNoTarget;
-		}
-
-		public void SetTargetPos(in Vector2Int targetPos)
-		{
 			_targetPos = targetPos;
 		}
+
+		public void SetTargets(List<Chara.ICharaController> targets) =>
+			_targets = targets;
 
 		protected override void ProcessStartInternal()
 		{
 			_charaManager = _diContainer.Resolve<Chara.CharaManager>();
-
-			SearchTargetUnit();
 
 			AttackAsync().Forget();
 		}
@@ -145,18 +142,6 @@ namespace Ling.Chara.Process
 			}
 
 			ProcessFinish();
-		}
-
-		/// <summary>
-		/// ターゲットを検索する
-		/// </summary>
-		private void SearchTargetUnit()
-		{
-			var charaManager = _diContainer.Resolve<Chara.CharaManager>();
-			var target = charaManager.FindCharaInPos(_unit.Model.MapLevel, _targetPos);
-			if (target == null) return;
-
-			_targets.Add(target);
 		}
 
 		#endregion

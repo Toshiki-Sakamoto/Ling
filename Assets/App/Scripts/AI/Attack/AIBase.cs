@@ -31,8 +31,8 @@ namespace Ling.AI.Attack
 
 		#region private 変数
 
-		[Inject] private Map.MapManager _mapManager = default;
-		[Inject] private Chara.CharaManager _charaManager = default;
+		[Inject] protected Map.MapManager _mapManager = default;
+		[Inject] protected Chara.CharaManager _charaManager = default;
 
 		protected CharaMaster.AttackAIData _masterAIData;
 		protected Chara.ICharaController _unit;
