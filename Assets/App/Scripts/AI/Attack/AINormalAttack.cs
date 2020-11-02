@@ -54,6 +54,9 @@ namespace Ling.AI.Attack
 			// なければもう何もしない
 			if (TryGetAttackTargetPosition(_masterAIData.FirstTarget, out var targetPos))
 			{
+				// 目的地を取得したターゲットに更新する(部屋から逃げたときに追跡できるように)
+				_unit.Model.MoveAI.SetDestination(targetPos);
+
 				SetAttackProcess(targetPos);
 				CanActable = true;
 			}
