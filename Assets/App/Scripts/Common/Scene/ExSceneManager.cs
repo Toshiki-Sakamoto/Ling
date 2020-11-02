@@ -128,17 +128,6 @@ namespace Ling.Common.Scene
 				argument = Argument.Create();
 			}
 
-			// 遷移前処理
-			if (_sceneInstance != null)
-			{
-				_sceneInstance.IsStartScene = false;
-				_sceneInstance.StopScene();
-
-				await _sceneInstance.SceneStopAsync(argument);
-
-				GameObject.Destroy(_sceneInstance.gameObject);
-			}
-
 			var sceneData = new SceneData() { SceneID = sceneID, Argument = argument };
 
 			if (mode == LoadSceneMode.Additive)
@@ -147,6 +136,17 @@ namespace Ling.Common.Scene
 			}
 			else
 			{
+				// 遷移前処理
+				if (_sceneInstance != null)
+				{
+					_sceneInstance.IsStartScene = false;
+					_sceneInstance.StopScene();
+
+					await _sceneInstance.SceneStopAsync(argument);
+
+					GameObject.Destroy(_sceneInstance.gameObject);
+				}
+
 				for (int i = 1; i < SceneManager.sceneCount; ++i)
 				{
 					var scene = SceneManager.GetSceneAt(i);
