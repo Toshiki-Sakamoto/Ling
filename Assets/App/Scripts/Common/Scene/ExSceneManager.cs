@@ -302,9 +302,20 @@ namespace Ling.Common.Scene
 		void Update()
 		{
 			if (_currentScene == null) return;
-			if (!_currentScene.IsStartScene) return;
+			
+			if (_currentScene.IsStartScene) return;
+			{
+				_currentScene.UpdateScene();
+			}
 
-			_currentScene.UpdateScene();
+			// AddScene
+			foreach (var scene in _addScenes)
+			{
+				if (scene.IsStartScene)
+				{
+					scene.UpdateScene();
+				}
+			}
 		}
 
 		/// <summary>
