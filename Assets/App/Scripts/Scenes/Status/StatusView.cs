@@ -27,12 +27,14 @@ namespace Ling.Scenes.Status
 
 		#region private 変数
 
-		[SerializeField] private Text _hpText = default;
+		[SerializeField] private HPView _hpView = default;
 
 		#endregion
 
 
 		#region プロパティ
+
+		public HPView HP => _hpView;
 
 		#endregion
 

@@ -148,9 +148,6 @@ namespace Ling.Scenes.Battle
 
 			_isInitialized = true;
 
-			// ステイタスUIを表示する
-			_sceneManager.AddScene(SceneID.Status, argument: null);
-
 			// 行動終了時等、特定のタイミングでフェーズを切り替える
 			_eventManager.Add<EventChangePhase>(this, 
 				_ev => 

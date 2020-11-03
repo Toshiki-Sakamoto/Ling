@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using Zenject;
+using UniRx;
 
 namespace Ling.Scenes.Status
 {
@@ -49,8 +50,17 @@ namespace Ling.Scenes.Status
 		/// </summary>
 		public override void StartScene() 
 		{
+			// PlayerのHPが変化したら反映させるようにする
 			var player = _charaManager.Player;
-			player = player;
+			player.Status.HP
+				.AsObservable()
+				.Subscribe(hp_ => 
+				{
+					_view.HP.SetHP(hp_);
+				});
+
+			// Viewのセットアップ
+			_view.HP.Setup(player.Status.HP.Value);
 		}
 
 		#endregion
