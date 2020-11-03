@@ -6,6 +6,7 @@
 // 
 
 using UnityEngine;
+using Zenject;
 
 namespace Ling.Scenes.Status
 {
@@ -31,6 +32,8 @@ namespace Ling.Scenes.Status
 
 		[SerializeField] private StatusView _view = default;
 
+		[Inject] private Chara.CharaManager _charaManager = default;
+
 		#endregion
 
 
@@ -40,6 +43,15 @@ namespace Ling.Scenes.Status
 
 
 		#region public, protected 関数
+
+		/// <summary>
+		/// シーンが開始される時
+		/// </summary>
+		public override void StartScene() 
+		{
+			var player = _charaManager.Player;
+			player = player;
+		}
 
 		#endregion
 
