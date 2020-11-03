@@ -13,7 +13,7 @@ using UnityEngine.UI;
 namespace Ling.Scenes.TItle
 {
 	/// <summary>
-	/// 
+	/// タイトル
 	/// </summary>
 	public class TitleScene : Common.Scene.Base 
     {

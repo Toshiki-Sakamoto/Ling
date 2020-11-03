@@ -68,6 +68,7 @@ namespace Ling.AI.Attack
 		protected bool TryGetAttackTargetPosition(TileFlag targetTileFlag, out Vector2Int targetPos)
 		{
 			targetPos = Vector2Int.zero;
+			_targets.Clear();
 
 			// 現在の座標の周りを調べ行ける場所を目的地とする
 			var pos = _unit.Model.CellPosition.Value;

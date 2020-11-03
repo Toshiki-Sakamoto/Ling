@@ -13,6 +13,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
+using System.Linq;
 
 namespace Ling.Common.Scene
 {
@@ -56,7 +57,8 @@ namespace Ling.Common.Scene
 		[Inject] private MasterData.MasterManager _masterManager = default;
 
 		private SceneID _nextSceneID = SceneID.None;
-		private Base _sceneInstance = null;
+		private Base _currentScene = null;
+		private List<Base> _addScenes = new List<Base>();	// AddSceneインスタンス
 		private Stack<SceneData> _sceneData = new Stack<SceneData>();
 		private Stack<SceneData> _addSceneData = new Stack<SceneData>();
 
@@ -66,7 +68,7 @@ namespace Ling.Common.Scene
 
 		#region プロパティ
 
-		public Base Current => _sceneInstance;
+		public Base Current => _currentScene;
 
 		#endregion
 
@@ -107,7 +109,7 @@ namespace Ling.Common.Scene
 		/// </summary>
 		public void QuickStart(Base scene)
 		{
-			_sceneInstance = scene;
+			_currentScene = scene;
 
 			scene.IsStartScene = true;
 			scene.StartScene();
@@ -128,17 +130,6 @@ namespace Ling.Common.Scene
 				argument = Argument.Create();
 			}
 
-			// 遷移前処理
-			if (_sceneInstance != null)
-			{
-				_sceneInstance.IsStartScene = false;
-				_sceneInstance.StopScene();
-
-				await _sceneInstance.SceneStopAsync(argument);
-
-				GameObject.Destroy(_sceneInstance.gameObject);
-			}
-
 			var sceneData = new SceneData() { SceneID = sceneID, Argument = argument };
 
 			if (mode == LoadSceneMode.Additive)
@@ -147,16 +138,36 @@ namespace Ling.Common.Scene
 			}
 			else
 			{
+				// 遷移前処理
+				
+				// AddSceneすべて削除
+				foreach (var scene in _addScenes)
+				{
+					scene.IsStartScene = false;
+					scene.StopScene();
+
+					GameObject.Destroy(scene.gameObject);
+				}
+
+				_addScenes.Clear();
+				_addSceneData.Clear();
+
+				if (_currentScene != null)
+				{
+					_currentScene.IsStartScene = false;
+					_currentScene.StopScene();
+
+					await _currentScene.SceneStopAsync(argument);
+
+					GameObject.Destroy(_currentScene.gameObject);
+				}
+
 				for (int i = 1; i < SceneManager.sceneCount; ++i)
 				{
 					var scene = SceneManager.GetSceneAt(i);
 
 					await SceneManager.UnloadSceneAsync(scene);
 				}
-
-				// AddSceneすべて削除
-				_addSceneData.Clear();
-
 				// StackClear
 				if (argument.IsStackClear)
 				{
@@ -167,7 +178,7 @@ namespace Ling.Common.Scene
 			}
 
 			// シーン遷移処理
-			await LoadSceneAsync(sceneID.GetName(), argument, LoadSceneMode.Additive, bindAction);
+			await LoadSceneAsync(sceneID.GetName(), argument, mode, bindAction);
 		}
 
 
@@ -184,10 +195,22 @@ namespace Ling.Common.Scene
 		{
 			return Observable.FromCoroutine<Unit>(observer_ =>
 				LoadSceneOperationAsync(_zenjectSceneLoader.LoadSceneAsync(sceneName, mode, bindAction), observer_))
-				.Select(_ =>
+				.Select(scene_ =>
 				{
 					// LoadSceneOperationAsync内のOnNextが呼び出されたときに来る
-					var scene = GameObject.FindObjectOfType<Base>();
+					var activeSceneInstance = SceneManager.GetSceneByName(sceneName);
+					var scene = default(Base);
+
+					// 読み込んだシーンからシーンクラスのインスタンスを取得する
+					foreach (var rootObject in activeSceneInstance.GetRootGameObjects())
+					{
+						scene = rootObject.GetComponent<Base>();
+						if (scene != null)
+						{
+							break;
+						}
+					}
+					
 					if (scene == null)
 					{
 						Utility.Log.Error($"Scene.Base クラスが見つかりません {typeof(Base).ToString()}");
@@ -213,7 +236,17 @@ namespace Ling.Common.Scene
 					// 別の処理に合成
 					return scene_.ScenePrepareAsync().Do(unit_ =>
 						{
-							_sceneInstance = scene_;
+							switch (mode)
+							{
+								case LoadSceneMode.Additive:
+									_addScenes.Add(scene_);
+									break;
+
+								// AddSceneの場合は現在のシーンインスタンスとはしない　
+								default:
+									_currentScene = scene_;
+									break;
+							}
 
 							// 事前準備が終わったのでここで始める
 							scene_.gameObject.SetActive(true);
@@ -268,10 +301,21 @@ namespace Ling.Common.Scene
 		/// </summary>
 		void Update()
 		{
-			if (_sceneInstance == null) return;
-			if (!_sceneInstance.IsStartScene) return;
+			if (_currentScene == null) return;
+			
+			if (_currentScene.IsStartScene) return;
+			{
+				_currentScene.UpdateScene();
+			}
 
-			_sceneInstance.UpdateScene();
+			// AddScene
+			foreach (var scene in _addScenes)
+			{
+				if (scene.IsStartScene)
+				{
+					scene.UpdateScene();
+				}
+			}
 		}
 
 		/// <summary>

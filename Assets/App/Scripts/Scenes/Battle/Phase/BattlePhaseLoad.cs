@@ -39,6 +39,7 @@ namespace Ling.Scenes.Battle.Phase
 		private PoolManager _poolManager;
 		private Map.MapManager _mapManager = null;
 		private Chara.CharaManager _charaManager = null;
+		private Common.Scene.IExSceneManager _sceneManager = default;
 
 		private bool _isFinish = false;
 
@@ -62,6 +63,7 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			_mapManager = Resolve<Map.MapManager>();
 			_charaManager = Resolve<Chara.CharaManager>();
+			_sceneManager = Resolve<Common.Scene.IExSceneManager>();
 		}
 
 		public override void Init()
@@ -123,6 +125,10 @@ namespace Ling.Scenes.Battle.Phase
 			// 敵をマップに配置する
 			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(1), 1);
 			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(2), 2);
+
+			// Player ステイタスUIを表示する
+			_sceneManager.AddScene(Common.Scene.SceneID.Status, argument: null);
+
 
 			_isFinish = true;
 		}

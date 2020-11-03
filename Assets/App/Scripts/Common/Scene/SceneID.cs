@@ -24,7 +24,8 @@ namespace Ling.Common.Scene
 		StartUp, 
 		Title,
 		Main, 
-		Battle
+		Battle,
+		Status,
 	}
 
 	/// <summary>
@@ -39,6 +40,7 @@ namespace Ling.Common.Scene
 					[SceneID.Title] = "Title",
 					[SceneID.Main] = "Main",
 					[SceneID.Battle] = "Battle",
+					[SceneID.Status] = "Status",
 				};
 
 
