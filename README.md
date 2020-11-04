@@ -17,7 +17,6 @@ https://user-images.githubusercontent.com/9328751/97722836-73ba1880-1b0e-11eb-91
 * UniTask
 * Zenject
 
-### メインゲームパート
-
-### アドベンチャーパート
-
+### Manual
+「十字キー」：移動
+「A」: 一マス前に攻撃
