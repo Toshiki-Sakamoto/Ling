@@ -18,5 +18,5 @@ https://user-images.githubusercontent.com/9328751/97722836-73ba1880-1b0e-11eb-91
 * Zenject
 
 ### Manual
-「十字キー」：移動
+「十字キー」：移動<br>
 「A」: 一マス前に攻撃
