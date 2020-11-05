@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using System;
+using Cinemachine;
 
 namespace Ling.Chara
 {
@@ -33,6 +34,7 @@ namespace Ling.Chara
 		#region private 変数
 
 		[SerializeField] private Utility.CameraFollow _cameraFollow = default;
+		[SerializeField] private CinemachineVirtualCamera _cinemaVCamera = default;
 
 		#endregion
 
@@ -45,7 +47,8 @@ namespace Ling.Chara
 		#region public, protected 関数
 
 		public void SetFollowCameraEnable(bool enable) =>
-			_cameraFollow.enabled = enable;
+			_cinemaVCamera.enabled = enable;
+			//_cameraFollow.enabled = enable;
 
 		protected override void DestroyProcessInternal()
 		{

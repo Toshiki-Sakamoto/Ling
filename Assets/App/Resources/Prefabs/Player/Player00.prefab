@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 6502881826932206419}
   - component: {fileID: 6502881826932206416}
   - component: {fileID: 6502881826932206428}
-  - component: {fileID: 6502881826932206427}
   - component: {fileID: 8349078638631848763}
   - component: {fileID: 3244762123335931066}
   - component: {fileID: 1041008047864628833}
@@ -157,19 +156,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.64, y: 0.35}
   m_EdgeRadius: 0
---- !u!114 &6502881826932206427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6502881826932206420}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7778c5e5a199a24997dc464bae0b60a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _followCamera: {fileID: 0}
 --- !u!114 &8349078638631848763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,7 +174,7 @@ MonoBehaviour:
   _model: {fileID: 1041008047864628833}
   _view: {fileID: 3244762123335931066}
   _charaMover: {fileID: 5041012265545398259}
-  _cameraFollow: {fileID: 6502881826932206427}
+  _cameraFollow: {fileID: 0}
 --- !u!114 &3244762123335931066
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cellPosition:
-    value: {x: 0, y: 0, z: 0}
+    value: {x: 0, y: 0}
+  _isReactiveCellPosition: 1
 --- !u!114 &5041012265545398259
 MonoBehaviour:
   m_ObjectHideFlags: 0
