@@ -27,6 +27,10 @@ namespace Ling.Utility
 
         [SerializeField] private Camera _followCamera = null;
 
+        // カメラ座標と回転値
+        [SerializeField] private Vector3 _position = default;
+        [SerializeField] private Quaternion _initRotation = default;
+
         private Vector3 _cameraPos;
 
         #endregion
@@ -57,10 +61,13 @@ namespace Ling.Utility
             }
 
             // 角度
-            _cameraPos = _followCamera.transform.localPosition;
+            //_cameraPos = _followCamera.transform.localPosition;
 
-            var angle = Mathf.Atan2(_cameraPos.y, _cameraPos.z) * Mathf.Rad2Deg;
-            _followCamera.transform.rotation = Quaternion.Euler(angle, 0.0f, 0.0f);
+            //var angle = Mathf.Atan2(_cameraPos.y, _cameraPos.z) * Mathf.Rad2Deg;
+            //_followCamera.transform.rotation = Quaternion.Euler(angle, 0.0f, 0.0f);
+
+            _cameraPos = _position;
+            _followCamera.transform.rotation = _initRotation;
         }
 
         private void LateUpdate()
@@ -68,7 +75,7 @@ namespace Ling.Utility
             _followCamera.transform.position =
                 new Vector3(transform.position.x,
                 _cameraPos.y,
-                 transform.position.z - _cameraPos.z);//_followCamera.transform.position.z);
+                transform.position.z + _cameraPos.z);//_followCamera.transform.position.z);
         }
 
         #endregion
