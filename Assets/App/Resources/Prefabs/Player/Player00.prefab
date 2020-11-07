@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -2394346196037722465, guid: b50cc53c9a2dce24eb53873c5b812f9b,
     type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.5310609, g: 0.8092565, b: 0.9622642, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -175,6 +175,7 @@ MonoBehaviour:
   _view: {fileID: 3244762123335931066}
   _charaMover: {fileID: 5041012265545398259}
   _cameraFollow: {fileID: 0}
+  _cinemaVCamera: {fileID: 0}
 --- !u!114 &3244762123335931066
 MonoBehaviour:
   m_ObjectHideFlags: 0
