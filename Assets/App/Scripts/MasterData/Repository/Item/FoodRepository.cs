@@ -1,20 +1,19 @@
 ﻿//
-// FoodMaster.cs
+// FoodRepository.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.11.08
+// Created by toshiki sakamoto on 2020.11.09
 //
 
-using UnityEngine;
-using Ling.Utility.Attribute;
 
-namespace Ling.MasterData.Item
+using Ling.MasterData.Item;
+
+namespace Ling.MasterData.Repository.Item
 {
 	/// <summary>
-	/// 食べ物Master
+	/// FoodMaster Repository
 	/// </summary>
-	[CreateAssetMenu(menuName = "MasterData/FoodMaster", fileName = "FoodMaster")]
-	public class FoodMaster : MasterBase<FoodMaster>
+	public class FoodRepository : MasterRepository<FoodMaster>
     {
 		#region 定数, class, enum
 
@@ -28,15 +27,10 @@ namespace Ling.MasterData.Item
 
 		#region private 変数
 
-		[SerializeField, FieldName("種類")]
-		private Const.Item.Food _type = default;
-
 		#endregion
 
 
 		#region プロパティ
-
-		public Const.Item.Food Type => _type;
 
 		#endregion
 
@@ -47,6 +41,10 @@ namespace Ling.MasterData.Item
 
 
 		#region public, protected 関数
+
+		public FoodMaster Find(Const.Item.Food type) =>
+			Entities.Find(entity => entity.Type == type);
+
 
 		#endregion
 

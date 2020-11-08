@@ -1,18 +1,18 @@
 ﻿//
-// ItemRepository.cs
+// BoolRepository.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.11.08
+// Created by toshiki sakamoto on 2020.11.09
 //
 
 using Ling.MasterData.Item;
 
-namespace Ling.MasterData.Repository
+namespace Ling.MasterData.Repository.Item
 {
 	/// <summary>
-	/// アイテム関連のマスタ操作
+	/// BookMaster Repository
 	/// </summary>
-	public class ItemRepository : MasterRepository<ItemMaster>
+	public class BookRepository : MasterRepository<BookMaster>
     {
 		#region 定数, class, enum
 
@@ -40,6 +40,9 @@ namespace Ling.MasterData.Repository
 
 
 		#region public, protected 関数
+
+		public FoodMaster Find(Const.Item.Book type) =>
+			Entities.Find(entity => entity.Type == type);
 
 		#endregion
 

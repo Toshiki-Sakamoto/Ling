@@ -14,7 +14,7 @@ namespace Ling.MasterData.Item
 	/// Item Master
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/ItemMaster", fileName = "ItemMaster")]
-	public class ItemMaster  : MasterBase<ItemMaster>
+	public class ItemMaster : MasterBase<ItemMaster>
     {
 		#region 定数, class, enum
 

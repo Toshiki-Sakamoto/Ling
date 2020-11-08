@@ -23,6 +23,7 @@ using UnityEngine.UI;
 using Ling;
 using Zenject;
 using Ling.MasterData.Repository;
+using Ling.MasterData.Repository.Item;
 
 namespace Ling.MasterData
 {
@@ -64,7 +65,10 @@ namespace Ling.MasterData
 
 		public StageRepository StageRepository { get; } = new StageRepository();
 
-		public ItemRepository ItemRepository { get; } = new ItemRepository();
+		public BookRepository BookRepository { get; } = new BookRepository();
+
+		public FoodRepository FoodRepository { get; } = new FoodRepository();
+
 
 		#endregion
 
@@ -85,7 +89,8 @@ namespace Ling.MasterData
 			AddLoadTask<ConstMaster>(master => Const = master);
 			AddLoadRepositoryTask<EnemyMaster>(EnemyRepository);
 			AddLoadRepositoryTask<StageMaster>(StageRepository);
-			AddLoadRepositoryTask<ItemMaster>(ItemRepository);
+			AddLoadRepositoryTask<BookMaster>(BookRepository);
+			AddLoadRepositoryTask<FoodMaster>(FoodRepository);
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(loadTasks_);

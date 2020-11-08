@@ -1,8 +1,8 @@
 ﻿//
-// FoodMaster.cs
+// BoolRepository.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.11.08
+// Created by toshiki sakamoto on 2020.11.09
 //
 
 using UnityEngine;
@@ -11,10 +11,10 @@ using Ling.Utility.Attribute;
 namespace Ling.MasterData.Item
 {
 	/// <summary>
-	/// 食べ物Master
+	/// スキル本 Master
 	/// </summary>
-	[CreateAssetMenu(menuName = "MasterData/FoodMaster", fileName = "FoodMaster")]
-	public class FoodMaster : MasterBase<FoodMaster>
+	[CreateAssetMenu(menuName = "MasterData/BookMaster", fileName = "BookMaster")]
+	public class BookMaster : MasterBase<BookMaster>
     {
 		#region 定数, class, enum
 
@@ -29,14 +29,14 @@ namespace Ling.MasterData.Item
 		#region private 変数
 
 		[SerializeField, FieldName("種類")]
-		private Const.Item.Food _type = default;
+		private Const.Item.Book _type = default;
 
 		#endregion
 
 
 		#region プロパティ
 
-		public Const.Item.Food Type => _type;
+		public Const.Item.Book Type => _type;
 
 		#endregion
 
