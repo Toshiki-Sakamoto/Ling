@@ -31,12 +31,16 @@ namespace Ling.MasterData.Item
 		[SerializeField, FieldName("種類")]
 		private Const.Item.Food _type = default;
 
+		[SerializeField, FieldName("回復量")]
+		private int _value = 0;
+
 		#endregion
 
 
 		#region プロパティ
 
 		public Const.Item.Food Type => _type;
+		public int Value => _value;
 
 		#endregion
 

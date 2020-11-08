@@ -28,8 +28,7 @@ namespace Ling.Const
 		/// </summary>
 		public enum Food
 		{
-			Apple,	// りんご
-			BigApple,	// 巨大りんご
+			Race,	// 飯
 		}
 
 		/// <summary>
