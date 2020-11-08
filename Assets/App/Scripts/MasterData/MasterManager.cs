@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using Ling.Chara;
 using Ling.MasterData.Chara;
 using Ling.MasterData.Stage;
+using Ling.MasterData.Item;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -63,6 +64,8 @@ namespace Ling.MasterData
 
 		public StageRepository StageRepository { get; } = new StageRepository();
 
+		public ItemRepository ItemRepository { get; } = new ItemRepository();
+
 		#endregion
 
 
@@ -82,6 +85,7 @@ namespace Ling.MasterData
 			AddLoadTask<ConstMaster>(master => Const = master);
 			AddLoadRepositoryTask<EnemyMaster>(EnemyRepository);
 			AddLoadRepositoryTask<StageMaster>(StageRepository);
+			AddLoadRepositoryTask<ItemMaster>(ItemRepository);
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(loadTasks_);
