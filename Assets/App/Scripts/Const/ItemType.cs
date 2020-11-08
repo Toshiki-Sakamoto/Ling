@@ -17,8 +17,6 @@ namespace Ling.Const
 		/// </summary>
 		public enum Category
 		{
-			None,
-
 			Food,	// 食べ物
 			Book,	// 本 (読むと効果が発揮するもの)
 			Weapon,	// 武器
@@ -30,9 +28,8 @@ namespace Ling.Const
 		/// </summary>
 		public enum Food
 		{
-			None, 
-			
 			Apple,	// りんご
+			BigApple,	// 巨大りんご
 		}
 
 		/// <summary>
@@ -40,7 +37,7 @@ namespace Ling.Const
 		/// </summary>
 		public enum Book
 		{
-			None, 
+			Fire,
 		}
 
 		/// <summary>
@@ -48,7 +45,7 @@ namespace Ling.Const
 		/// </summary>
 		public enum Weapon
 		{
-			None, 
+			WoodSword
 		}
 
 		/// <summary>
@@ -56,7 +53,7 @@ namespace Ling.Const
 		/// </summary>
 		public enum Shield
 		{
-			None, 
+			WoodShield,
 		}
 	}
 }

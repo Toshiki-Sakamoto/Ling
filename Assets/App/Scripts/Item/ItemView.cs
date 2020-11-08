@@ -26,6 +26,9 @@ namespace Ling.Item
 
 		#region private 変数
 
+		[SerializeField] private Const.Item.Category _category = default;
+//		[SerializeField] private Animator _animator = default; // 使わないかな
+
 		#endregion
 
 
