@@ -41,7 +41,7 @@ namespace Ling.MasterData.Repository.Item
 
 		#region public, protected 関数
 
-		public FoodMaster Find(Const.Item.Book type) =>
+		public BookMaster Find(Const.Item.Book type) =>
 			Entities.Find(entity => entity.Type == type);
 
 		#endregion
