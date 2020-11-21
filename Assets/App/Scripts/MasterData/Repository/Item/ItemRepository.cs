@@ -1,22 +1,21 @@
 ﻿//
-// ItemMaster.cs
+// ItemRepository.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.11.21
 //
 
-using UnityEngine;
-using Ling.Utility.Attribute;
+using Ling.MasterData.Item;
 
-namespace Ling.MasterData.Item
+namespace Ling.MasterData.Repository.Item
 {
 	/// <summary>
-	/// アイテムマスタ
+	/// アイテム全てをまとめたリポジトリ
 	/// </summary>
 	/// <remarks>
-	/// アイテムに関する共通処理
+	/// カテゴリごとに検索することも可能
 	/// </remarks>
-	public abstract class ItemMaster : MasterDataBase
+	public class ItemRepository
     {
 		#region 定数, class, enum
 
@@ -34,11 +33,6 @@ namespace Ling.MasterData.Item
 
 
 		#region プロパティ
-
-		/// <summary>
-		/// アイテムカテゴリ
-		/// </summary>
-		public abstract Const.Item.Category Category { get; }
 
 		#endregion
 

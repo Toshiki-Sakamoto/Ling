@@ -23,7 +23,7 @@ namespace Ling.MasterData
 	/// ゲーム全体の定数
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/ConstMaster", fileName = "ConstMaster")]
-	public class ConstMaster : MasterBase<ConstMaster>
+	public class ConstMaster : MasterDataBase
     {
 		#region 定数, class, enum
 

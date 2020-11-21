@@ -85,7 +85,7 @@ namespace Ling.MasterData
 		/// すべてのマスタデータを読み込む
 		/// すでに読み込んでいる場合は削除して読み込み
 		/// </summary>
-		public IObservable<AsyncUnit> LoadAll()
+		public IObservable<Unit> LoadAll()
 		{
 			AddLoadTask<ConstMaster>(master => Const = master);
 			AddLoadRepositoryTask<EnemyMaster>(EnemyRepository);
@@ -95,7 +95,11 @@ namespace Ling.MasterData
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			return UniTask.WhenAll(loadTasks_)
-				.ToObservable();
+				.ToObservable()
+				.Select(_ => 
+					{
+						return new UniRx.Unit();
+					});
 		}
 
 		#endregion
@@ -106,16 +110,16 @@ namespace Ling.MasterData
 		/// <summary>
 		/// ロード処理リストに突っ込む
 		/// </summary>
-		private void AddLoadTask<T>(System.Action<T> onSuccess) where T : MasterBase<T> =>
+		private void AddLoadTask<T>(System.Action<T> onSuccess) where T : MasterDataBase =>
 			loadTasks_.Add(LoadAsync<T>(onSuccess));
 
-		private void AddLoadRepositoryTask<T>(MasterRepository<T> repository) where T : MasterBase<T> =>
+		private void AddLoadRepositoryTask<T>(MasterRepository<T> repository) where T : MasterDataBase =>
 			loadTasks_.Add(LoadRepositoryAsync<T>(repository));
 
 		/// <summary>
 		/// 実際の非同期読み込み処理
 		/// </summary>
-		private async UniTask LoadAsync<T>(System.Action<T> onSuccess) where T : MasterBase<T>
+		private async UniTask LoadAsync<T>(System.Action<T> onSuccess) where T : MasterDataBase
 		{
 			var master = await LoadAsyncAtPath<T>($"MasterData/{typeof(T).Name}");
 
@@ -125,7 +129,7 @@ namespace Ling.MasterData
 		/// <summary>
 		/// 指定Masterを検索し、Repositoryにmasterを格納する
 		/// </summary>
-		private async UniTask LoadRepositoryAsync<T>(MasterRepository<T> repository) where T : MasterBase<T>
+		private async UniTask LoadRepositoryAsync<T>(MasterRepository<T> repository) where T : MasterDataBase
 		{
 			// 指定マスタデータをすべて読み込む
 			foreach (var guid in AssetDatabase.FindAssets($"t:{typeof(T).Name}"))
@@ -142,7 +146,7 @@ namespace Ling.MasterData
 			}
 		}
 
-		private async UniTask<T> LoadAsyncAtPath<T>(string path) where T : MasterBase<T>
+		private async UniTask<T> LoadAsyncAtPath<T>(string path) where T : MasterDataBase
 		{
 			var masterData = Resources.LoadAsync(path);//.ToUniTask();
 

@@ -14,7 +14,7 @@ namespace Ling.MasterData.Item
 	/// スキル本 Master
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/BookMaster", fileName = "BookMaster")]
-	public class BookMaster : ItemMaster<BookMaster>
+	public class BookMaster : ItemMaster
     {
 		#region 定数, class, enum
 

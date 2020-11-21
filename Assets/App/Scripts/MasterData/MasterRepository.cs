@@ -20,7 +20,7 @@ namespace Ling.MasterData
 	/// <summary>
 	/// 指定したMasterを配列で保持する
 	/// </summary>
-	public class MasterRepository<T> where T : MasterBase<T>
+	public class MasterRepository<T> where T : MasterDataBase
     {
 		#region 定数, class, enum
 
