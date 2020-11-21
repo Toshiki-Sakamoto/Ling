@@ -56,10 +56,14 @@ namespace Ling.MasterData
 			Entities.Add(master);
 		}
 
-		public void Clear()
-		{
+		public void Clear() =>
 			Entities.Clear();
-		}
+
+		/// <summary>
+		/// IDから検索
+		/// </summary>
+		public T FindById(int id) =>
+			Entities.Find(entity => entity.ID == id);
 
 		#endregion
 

@@ -100,7 +100,7 @@ namespace Ling
 			// マスタデータの読み込みが終わっていない場合読み込みを行う
 			if (!_masterManager.IsLoaded)
 			{
-				await _masterManager.LoadAllAsync();
+				await _masterManager.LoadAll();
 			}
 
 			// シーン固有の処理を呼び出す

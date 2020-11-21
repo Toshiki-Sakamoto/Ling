@@ -6,6 +6,7 @@
 //
 
 using Ling.MasterData.Item;
+using System.Collections.Generic;
 
 namespace Ling.MasterData.Repository.Item
 {
@@ -34,6 +35,9 @@ namespace Ling.MasterData.Repository.Item
 
 		#region プロパティ
 
+		public BookRepository Book { get; private set; }
+		public FoodRepository Food { get; private set; }
+
 		#endregion
 
 
@@ -43,6 +47,26 @@ namespace Ling.MasterData.Repository.Item
 
 
 		#region public, protected 関数
+
+		public void Setup(BookRepository book, FoodRepository food)
+		{
+			Book = book;
+			Food = food;
+		}
+
+		public ItemMaster Find(Const.Item.Category category, int id)
+		{
+			switch (category)
+			{
+				case Const.Item.Category.Book:
+					return Book.FindById(id);
+
+				case Const.Item.Category.Food:
+					return Food.FindById(id);
+			}
+
+			return null;
+		}
 
 		#endregion
 

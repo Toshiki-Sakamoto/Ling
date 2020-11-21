@@ -41,6 +41,8 @@ namespace Ling.MasterData
 
 		#region プロパティ
 
+		public int ID => _id;
+
 		#endregion
 
 
