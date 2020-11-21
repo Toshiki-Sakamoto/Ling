@@ -24,6 +24,7 @@ using Ling;
 using Zenject;
 using Ling.MasterData.Repository;
 using Ling.MasterData.Repository.Item;
+using UniRx;
 
 namespace Ling.MasterData
 {
@@ -84,7 +85,7 @@ namespace Ling.MasterData
 		/// すべてのマスタデータを読み込む
 		/// すでに読み込んでいる場合は削除して読み込み
 		/// </summary>
-		public async UniTask LoadAllAsync()
+		public IObservable<AsyncUnit> LoadAll()
 		{
 			AddLoadTask<ConstMaster>(master => Const = master);
 			AddLoadRepositoryTask<EnemyMaster>(EnemyRepository);
@@ -93,11 +94,8 @@ namespace Ling.MasterData
 			AddLoadRepositoryTask<FoodMaster>(FoodRepository);
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
-			await UniTask.WhenAll(loadTasks_);
-
-			// todo: 失敗した場合どうするか..
-
-			IsLoaded = true;
+			return UniTask.WhenAll(loadTasks_)
+				.ToObservable();
 		}
 
 		#endregion
