@@ -17,6 +17,8 @@ namespace Ling.Const
 		/// </summary>
 		public enum Category
 		{
+			None,
+			
 			Food,	// 食べ物
 			Book,	// 本 (読むと効果が発揮するもの)
 			Weapon,	// 武器

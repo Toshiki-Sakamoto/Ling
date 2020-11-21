@@ -1,8 +1,8 @@
 ﻿//
-// BoolRepository.cs
+// ItemMaster.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.11.09
+// Created by toshiki sakamoto on 2020.11.21
 //
 
 using UnityEngine;
@@ -11,10 +11,13 @@ using Ling.Utility.Attribute;
 namespace Ling.MasterData.Item
 {
 	/// <summary>
-	/// スキル本 Master
+	/// アイテムマスタ
 	/// </summary>
-	[CreateAssetMenu(menuName = "MasterData/BookMaster", fileName = "BookMaster")]
-	public class BookMaster : ItemMaster<BookMaster>
+	/// <remarks>
+	/// アイテムに関する共通処理
+	/// </remarks>
+	public abstract class ItemMaster<TMaster> : MasterBase<TMaster> 
+		where TMaster : ItemMaster<TMaster>
     {
 		#region 定数, class, enum
 
@@ -28,9 +31,6 @@ namespace Ling.MasterData.Item
 
 		#region private 変数
 
-		[SerializeField, FieldName("種類")]
-		private Const.Item.Book _type = default;
-
 		#endregion
 
 
@@ -39,9 +39,7 @@ namespace Ling.MasterData.Item
 		/// <summary>
 		/// アイテムカテゴリ
 		/// </summary>
-		public override Const.Item.Category Category => Const.Item.Category.Book;
-
-		public Const.Item.Book Type => _type;
+		public abstract Const.Item.Category Category { get; }
 
 		#endregion
 

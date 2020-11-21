@@ -14,7 +14,7 @@ namespace Ling.MasterData.Item
 	/// 食べ物Master
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/FoodMaster", fileName = "FoodMaster")]
-	public class FoodMaster : MasterBase<FoodMaster>
+	public class FoodMaster : ItemMaster<FoodMaster>
     {
 		#region 定数, class, enum
 
@@ -38,6 +38,11 @@ namespace Ling.MasterData.Item
 
 
 		#region プロパティ
+
+		/// <summary>
+		/// アイテムカテゴリ
+		/// </summary>
+		public override Const.Item.Category Category => Const.Item.Category.Food;
 
 		public Const.Item.Food Type => _type;
 		public int Value => _value;
