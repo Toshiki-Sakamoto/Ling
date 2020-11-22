@@ -87,7 +87,7 @@ namespace Ling.MasterData
 		/// すべてのマスタデータを読み込む
 		/// すでに読み込んでいる場合は削除して読み込み
 		/// </summary>
-		public IObservable<Unit> LoadAll()
+		public IObservable<AsyncUnit> LoadAll()
 		{
 			AddLoadTask<ConstMaster>(master => Const = master);
 			AddLoadRepositoryTask<EnemyMaster>(EnemyRepository);
@@ -98,11 +98,9 @@ namespace Ling.MasterData
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			return UniTask.WhenAll(loadTasks_)
 				.ToObservable()
-				.Select(_ => 
+				.Do(_ => 
 					{
 						Utility.EventManager.SafeTrigger(new MasterLoadedEvent { Manager = this });
-
-						return new UniRx.Unit();
 					});
 		}
 
