@@ -92,8 +92,8 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 			_subject.OnCompleted();
 		}
 
-		[UnityTest]
-		public IEnumerator OperatorTest()
+		[Test]
+		public void OperatorTest()
 		{
 			var subject = new Subject<int>();
 
@@ -101,7 +101,7 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 			subject.Subscribe(x => Debug.Log("raw:" + x));
 
 			subject
-				.Where(x => x > 0);
+				.Where(x => x > 0)
 				.Subscribe(x => Debug.Log("filter:" + x));
 
 			subject.OnNext(1);
@@ -111,6 +111,48 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 
 			subject.OnCompleted();
 			subject.Dispose();
+		}
+
+		[Test]
+		public void ErrorTest()
+		{
+			int counter = 0;
+			bool error = false;
+			var subject = new Subject<string>();
+
+			subject
+				.Select(str => int.Parse(str))
+				.Subscribe(
+					x => { Debug.Log(x); counter++; },
+					ex => { Debug.LogWarning("例外が発生しました:" + ex.Message); error = true; },
+					() => Debug.Log("OnCOmpleted"));
+
+			subject.OnNext("1");
+			subject.OnNext("2");
+
+			// int.Parseに失敗して例外が発生する
+			subject.OnNext("Three");
+
+			Assert.IsTrue(error, "エラーが発行されたのでカウンタが1");
+
+			// OnErrorメッセージ発生により購読は終了済み
+			subject.OnNext("4");
+
+			Assert.AreNotEqual(counter, 3, "終了しているのでカウントされない");
+
+			// ただしSubject自体が例外出したわけじゃないのでSubjectは正常稼働中
+			// そのため再購読すれば利用ができる
+			counter = 0;
+
+			subject.Subscribe(
+				x => { Debug.Log(x); counter = 1; },
+				() => Debug.Log("Completed"));
+
+			subject.OnNext("Hellor");
+			subject.OnCompleted();
+			subject.Dispose();
+
+			Assert.AreEqual(1, counter, "再購読したらカウントが 1 になった");
 		}
 
 		#endregion
