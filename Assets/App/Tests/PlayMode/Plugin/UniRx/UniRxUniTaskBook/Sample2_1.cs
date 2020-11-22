@@ -155,6 +155,33 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 			Assert.AreEqual(1, counter, "再購読したらカウントが 1 になった");
 		}
 
+
+		/// <summary>
+		/// Subscribeを呼び出すタイミングと挙動についてのテスト
+		/// </summary>
+		[Test]
+		public void SubscriveTimingTest()
+		{
+			string result = "";
+			var subject = new Subject<string>();
+
+			// OnNextの内容をスペース区切りで連結し、最後の一つだけを出力するObservable
+			var appendStringObservable = subject
+				.Scan((prev, current) => prev + " " + current)
+				.Last();
+
+			appendStringObservable.Subscribe(x => result = x);
+
+			subject.OnNext("I");
+			subject.OnNext("have");
+			subject.OnNext("a");
+			subject.OnNext("pen.");
+			subject.OnCompleted();
+			subject.Dispose();
+
+			Assert.AreEqual("I have a pen.", result, "文字列が連結されている");
+		}
+
 		#endregion
 
 
