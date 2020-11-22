@@ -92,6 +92,27 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 			_subject.OnCompleted();
 		}
 
+		[UnityTest]
+		public IEnumerator OperatorTest()
+		{
+			var subject = new Subject<int>();
+
+			// そのまま
+			subject.Subscribe(x => Debug.Log("raw:" + x));
+
+			subject
+				.Where(x => x > 0);
+				.Subscribe(x => Debug.Log("filter:" + x));
+
+			subject.OnNext(1);
+			subject.OnNext(-1);
+			subject.OnNext(3);
+			subject.OnNext(0);
+
+			subject.OnCompleted();
+			subject.Dispose();
+		}
+
 		#endregion
 
 
