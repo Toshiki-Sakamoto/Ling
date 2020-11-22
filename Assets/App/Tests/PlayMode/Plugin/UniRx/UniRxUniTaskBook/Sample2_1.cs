@@ -165,21 +165,44 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 			string result = "";
 			var subject = new Subject<string>();
 
-			// OnNextの内容をスペース区切りで連結し、最後の一つだけを出力するObservable
-			var appendStringObservable = subject
-				.Scan((prev, current) => prev + " " + current)
-				.Last();
+			{
+				// OnNextの内容をスペース区切りで連結し、最後の一つだけを出力するObservable
+				var appendStringObservable = subject
+					.Scan((prev, current) => prev + " " + current)
+					.Last();
 
-			appendStringObservable.Subscribe(x => result = x);
+				appendStringObservable.Subscribe(x => result = x);
 
-			subject.OnNext("I");
-			subject.OnNext("have");
-			subject.OnNext("a");
-			subject.OnNext("pen.");
-			subject.OnCompleted();
-			subject.Dispose();
+				subject.OnNext("I");
+				subject.OnNext("have");
+				subject.OnNext("a");
+				subject.OnNext("pen.");
+				subject.OnCompleted();
+				subject.Dispose();
 
-			Assert.AreEqual("I have a pen.", result, "文字列が連結されている");
+				Assert.AreEqual("I have a pen.", result, "文字列が連結されている");
+			}
+			{
+				subject = new Subject<string>();
+
+				var appendStringObservable = subject
+					.Scan((prev, current) => prev + " " + current)
+					.Last();
+
+				// Subscribeされる前に値を発行する
+				subject.OnNext("I");
+				subject.OnNext("have");
+
+				// 途中でSubscribeする
+				appendStringObservable.Subscribe(x => result = x);
+
+				subject.OnNext("a");
+				subject.OnNext("pen.");
+				subject.OnCompleted();
+				subject.Dispose();
+
+				Assert.AreNotEqual("I have a pen.", result, "Subscribeより前に発行してもメッセージを受信できない");
+			}
 		}
 
 		#endregion
