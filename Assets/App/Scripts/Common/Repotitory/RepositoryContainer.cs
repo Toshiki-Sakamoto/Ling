@@ -44,7 +44,7 @@ namespace Ling.Common.Repotitory
 
 		#region public, protected 関数
 
-		public void Add<TEntity>(TCategory category, IRepository<TEntity> repository) where TEntity : class, TBaseEntity =>
+		public void Update<TEntity>(TCategory category, IRepository<TEntity> repository) where TEntity : class, TBaseEntity =>
 			_repositoryDict.Add(category, (IRepository<TBaseEntity>)repository);
 
 		public IRepository<TBaseEntity> FindRepository(TCategory category) =>

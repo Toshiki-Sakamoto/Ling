@@ -98,6 +98,8 @@ namespace Ling.MasterData
 				.ToObservable()
 				.Select(_ => 
 					{
+						Utility.EventManager.SafeTrigger(new MasterLoadedEvent { Manager = this });
+						
 						return new UniRx.Unit();
 					});
 		}

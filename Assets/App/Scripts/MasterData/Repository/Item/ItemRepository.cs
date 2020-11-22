@@ -48,13 +48,23 @@ namespace Ling.MasterData.Repository.Item
 
 		#region public, protected 関数
 
-		public void Setup(BookRepository book, FoodRepository food)
+		public ItemRepository()
 		{
-			Book = book;
-			Food = food;
+			Utility.EventManager.SafeAdd<MasterLoadedEvent>(this, ev =>
+				{
+					var manager = ev.Manager;
+					
+					Book = manager.BookRepository;
+					Food = manager.FoodRepository;
 
-			Add(Const.Item.Category.Book, Book);
-			Add(Const.Item.Category.Food, Food);
+					Update(Const.Item.Category.Book, Book);
+					Update(Const.Item.Category.Food, Food);
+				});
+		}
+
+		~ItemRepository()
+		{
+			Utility.EventManager.SafeAllRemove(this);
 		}
 
 		#endregion
