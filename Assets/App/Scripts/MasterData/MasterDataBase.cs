@@ -18,9 +18,9 @@ using Zenject;
 namespace Ling.MasterData
 {
 	/// <summary>
-	/// 
+	/// Masterデータベースクラス
 	/// </summary>
-	public class MasterBase<T> : ScriptableObject
+	public class MasterDataBase : ScriptableObject
 	{
 		#region 定数, class, enum
 
@@ -40,6 +40,8 @@ namespace Ling.MasterData
 
 
 		#region プロパティ
+
+		public int ID => _id;
 
 		#endregion
 

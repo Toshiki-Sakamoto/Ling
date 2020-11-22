@@ -9,6 +9,7 @@ using Cysharp.Threading.Tasks;
 using Ling.Chara;
 using Ling.MasterData.Chara;
 using Ling.MasterData.Stage;
+using Ling.MasterData.Item;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -22,6 +23,8 @@ using UnityEngine.UI;
 using Ling;
 using Zenject;
 using Ling.MasterData.Repository;
+using Ling.MasterData.Repository.Item;
+using UniRx;
 
 namespace Ling.MasterData
 {
@@ -63,6 +66,13 @@ namespace Ling.MasterData
 
 		public StageRepository StageRepository { get; } = new StageRepository();
 
+		public BookRepository BookRepository { get; } = new BookRepository();
+
+		public FoodRepository FoodRepository { get; } = new FoodRepository();
+
+		public ItemRepositoryContainer ItemRepositoryContainer { get; } = new ItemRepositoryContainer();
+
+
 		#endregion
 
 
@@ -77,18 +87,23 @@ namespace Ling.MasterData
 		/// すべてのマスタデータを読み込む
 		/// すでに読み込んでいる場合は削除して読み込み
 		/// </summary>
-		public async UniTask LoadAllAsync()
+		public IObservable<Unit> LoadAll()
 		{
 			AddLoadTask<ConstMaster>(master => Const = master);
 			AddLoadRepositoryTask<EnemyMaster>(EnemyRepository);
 			AddLoadRepositoryTask<StageMaster>(StageRepository);
+			AddLoadRepositoryTask<BookMaster>(BookRepository);
+			AddLoadRepositoryTask<FoodMaster>(FoodRepository);
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
-			await UniTask.WhenAll(loadTasks_);
+			return UniTask.WhenAll(loadTasks_)
+				.ToObservable()
+				.Select(_ => 
+					{
+						Utility.EventManager.SafeTrigger(new MasterLoadedEvent { Manager = this });
 
-			// todo: 失敗した場合どうするか..
-
-			IsLoaded = true;
+						return new UniRx.Unit();
+					});
 		}
 
 		#endregion
@@ -99,16 +114,16 @@ namespace Ling.MasterData
 		/// <summary>
 		/// ロード処理リストに突っ込む
 		/// </summary>
-		private void AddLoadTask<T>(System.Action<T> onSuccess) where T : MasterBase<T> =>
+		private void AddLoadTask<T>(System.Action<T> onSuccess) where T : MasterDataBase =>
 			loadTasks_.Add(LoadAsync<T>(onSuccess));
 
-		private void AddLoadRepositoryTask<T>(MasterRepository<T> repository) where T : MasterBase<T> =>
+		private void AddLoadRepositoryTask<T>(MasterRepository<T> repository) where T : MasterDataBase =>
 			loadTasks_.Add(LoadRepositoryAsync<T>(repository));
 
 		/// <summary>
 		/// 実際の非同期読み込み処理
 		/// </summary>
-		private async UniTask LoadAsync<T>(System.Action<T> onSuccess) where T : MasterBase<T>
+		private async UniTask LoadAsync<T>(System.Action<T> onSuccess) where T : MasterDataBase
 		{
 			var master = await LoadAsyncAtPath<T>($"MasterData/{typeof(T).Name}");
 
@@ -118,7 +133,7 @@ namespace Ling.MasterData
 		/// <summary>
 		/// 指定Masterを検索し、Repositoryにmasterを格納する
 		/// </summary>
-		private async UniTask LoadRepositoryAsync<T>(MasterRepository<T> repository) where T : MasterBase<T>
+		private async UniTask LoadRepositoryAsync<T>(MasterRepository<T> repository) where T : MasterDataBase
 		{
 			// 指定マスタデータをすべて読み込む
 			foreach (var guid in AssetDatabase.FindAssets($"t:{typeof(T).Name}"))
@@ -135,7 +150,7 @@ namespace Ling.MasterData
 			}
 		}
 
-		private async UniTask<T> LoadAsyncAtPath<T>(string path) where T : MasterBase<T>
+		private async UniTask<T> LoadAsyncAtPath<T>(string path) where T : MasterDataBase
 		{
 			var masterData = Resources.LoadAsync(path);//.ToUniTask();
 

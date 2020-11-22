@@ -145,6 +145,14 @@ namespace Ling.Map
 		}
 
 		/// <summary>
+		/// アイテムを指定したレベルのマップに設定する
+		/// </summary>
+		public void SetItem(int level)
+		{
+
+		}
+
+		/// <summary>
 		/// 敵を指定したレベルのマップに設定する
 		/// </summary>
 		public void SetEnemy(Chara.ViewBase enemy, int level)
@@ -156,6 +164,14 @@ namespace Ling.Map
 			enemy.transform.SetParent(root, worldPositionStays: false);
 			enemy.SetSortingLayerAndOrder(groundTilemap.LayerName, (int)OrderType.Chara);
 		}
+
+		/// <summary>
+		/// 指定階層のアイテムルートを取得する
+		/// </summary>
+		/// <param name="level"></param>
+		/// <returns></returns>
+		public Transform GetItemRoot(int level) =>
+			FindGroundTilemap(level)?.ItemRoot;
 
 		/// <summary>
 		/// 指定階層の敵ルートを取得する

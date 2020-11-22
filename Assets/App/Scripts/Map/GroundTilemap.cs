@@ -33,6 +33,7 @@ namespace Ling.Map
 		[SerializeField] private Grid _grid = default;
 		[SerializeField] private Tilemap _tilemap = default;
 		[SerializeField] private int _mapLevel = default;
+		[SerializeField] private Transform _itemRoot = default;
 		[SerializeField] private Transform _enemyRoot = default;
 		[SerializeField] private Utility.Renderer.SortingLayerChanger _sortingChanger = default;
 		[SerializeField] private Chara.EnemyControlGroup _enemyControlGroup = default;
@@ -56,6 +57,8 @@ namespace Ling.Map
 
 		public int Level => _mapLevel;
 
+		public Transform ItemRoot => _itemRoot;
+		
 		public Transform EnemyRoot => _enemyRoot;
 
 		/// <summary>

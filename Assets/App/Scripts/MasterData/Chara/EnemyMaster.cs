@@ -21,7 +21,7 @@ namespace Ling.MasterData.Chara
 	/// </summary>
 
 	[CreateAssetMenu(menuName = "MasterData/EnemyMaster", fileName = "EnemyMaster")]
-	public class EnemyMaster : MasterBase<EnemyMaster>
+	public class EnemyMaster : MasterDataBase
 	{
 		#region 定数, class, enum
 

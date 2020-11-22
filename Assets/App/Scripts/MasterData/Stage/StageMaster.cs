@@ -23,7 +23,7 @@ namespace Ling.MasterData.Stage
 	/// <see cref="MapMaster"/>を内部で複数持つ
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/StageMaster", fileName = "StageMaster")]
-	public class StageMaster : MasterBase<StageMaster>
+	public class StageMaster : MasterDataBase
 	{
 		#region 定数, class, enum
 
