@@ -16,7 +16,7 @@ namespace Ling.MasterData.Repository.Item
 	/// <remarks>
 	/// カテゴリごとに検索することも可能
 	/// </remarks>
-	public class ItemRepository
+	public class ItemRepository : Common.Repotitory.RepositoryContainer<Const.Item.Category, ItemMaster>
     {
 		#region 定数, class, enum
 
@@ -52,20 +52,9 @@ namespace Ling.MasterData.Repository.Item
 		{
 			Book = book;
 			Food = food;
-		}
 
-		public ItemMaster Find(Const.Item.Category category, int id)
-		{
-			switch (category)
-			{
-				case Const.Item.Category.Book:
-					return Book.FindById(id);
-
-				case Const.Item.Category.Food:
-					return Food.FindById(id);
-			}
-
-			return null;
+			Add(Const.Item.Category.Book, Book);
+			Add(Const.Item.Category.Food, Food);
 		}
 
 		#endregion

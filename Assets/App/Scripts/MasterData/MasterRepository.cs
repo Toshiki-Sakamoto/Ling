@@ -20,7 +20,8 @@ namespace Ling.MasterData
 	/// <summary>
 	/// 指定したMasterを配列で保持する
 	/// </summary>
-	public class MasterRepository<T> where T : MasterDataBase
+	public class MasterRepository<T> : Common.Repotitory.IRepository<T> 
+		where T : MasterDataBase
     {
 		#region 定数, class, enum
 
@@ -62,7 +63,7 @@ namespace Ling.MasterData
 		/// <summary>
 		/// IDから検索
 		/// </summary>
-		public T FindById(int id) =>
+		public T Find(int id) =>
 			Entities.Find(entity => entity.ID == id);
 
 		#endregion
