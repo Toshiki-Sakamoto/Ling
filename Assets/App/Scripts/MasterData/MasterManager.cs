@@ -70,6 +70,8 @@ namespace Ling.MasterData
 
 		public FoodRepository FoodRepository { get; } = new FoodRepository();
 
+		public ItemRepositoryContainer ItemRepositoryContainer { get; } = new ItemRepositoryContainer();
+
 
 		#endregion
 
@@ -99,7 +101,7 @@ namespace Ling.MasterData
 				.Select(_ => 
 					{
 						Utility.EventManager.SafeTrigger(new MasterLoadedEvent { Manager = this });
-						
+
 						return new UniRx.Unit();
 					});
 		}
