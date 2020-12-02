@@ -11,6 +11,8 @@ using System;
 using UnityEngine.TestTools;
 using UnityEngine;
 using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Assert = UnityEngine.Assertions.Assert;
 
@@ -202,6 +204,37 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 				subject.Dispose();
 
 				Assert.AreNotEqual("I have a pen.", result, "Subscribeより前に発行してもメッセージを受信できない");
+			}
+		}
+
+		[UnityTest]
+		public IEnumerator CurrentThreadTest()
+		{
+			{
+				int counter = 0;
+				var subject = new Subject<Unit>();
+
+				subject
+					// OnNextメッセージを現行スレッドにて処理する。つまりそのまま素通しするのと変わらない
+					.ObserveOn(Scheduler.Immediate)
+					.Subscribe(_ =>
+					{
+						counter++;
+						Debug.Log("Thread Id:" + Thread.CurrentThread.ManagedThreadId);
+					}, 
+					() => 
+					{
+					});
+
+				// メインスレッドにてOnNext
+				subject.OnNext(Unit.Default);
+
+				// 別スレッドから実行
+				Task.Run(() => subject.OnNext(Unit.Default));
+
+				subject.OnCompleted();
+
+				return new WaitUntil(() => counter == 2);
 			}
 		}
 
