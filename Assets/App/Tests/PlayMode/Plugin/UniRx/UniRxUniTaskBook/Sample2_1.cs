@@ -232,9 +232,9 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 				// 別スレッドから実行
 				Task.Run(() => subject.OnNext(Unit.Default));
 
+				yield return new WaitUntil(() => counter == 2);
+				
 				subject.OnCompleted();
-
-				return new WaitUntil(() => counter == 2);
 			}
 		}
 
