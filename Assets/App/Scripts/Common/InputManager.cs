@@ -15,7 +15,7 @@ namespace Ling.Common
 	/// <summary>
 	/// キー入力を管理する
 	/// </summary>
-	public class InputManager : MonoBehaviour, IInputProvider
+	public class InputManager : IInputProvider
     {
 		#region 定数, class, enum
 

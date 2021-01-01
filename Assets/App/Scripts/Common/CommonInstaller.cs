@@ -29,6 +29,11 @@ namespace Ling.Common
 				.FromComponentInHierarchy()
 				.AsSingle();
 
+			Container
+				.Bind<InputManager>()
+				.FromInstance(new InputManager())
+				.AsSingle();
+
 #if DEBUG
 			var debugManagerInstance = Container.InstantiatePrefabForComponent<DebugConfig.DebugConfigManager>(_debugConfigManager, _debugConfigManagerRoot);
 			Container
