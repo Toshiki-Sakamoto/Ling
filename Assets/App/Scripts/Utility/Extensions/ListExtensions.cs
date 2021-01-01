@@ -23,6 +23,7 @@ namespace Ling.Utility.Extensions
     public static class ListExtensions
     {
 		public delegate void RefAction<T>(ref T item);
+		public delegate TResult RefFunc<T, TResult>(ref T item);
 
 
 		/// <summary>
@@ -57,6 +58,40 @@ namespace Ling.Utility.Extensions
 			for (int i = 0; i < list.Count; ++i)
 			{
 				list[i] = func(list[i]);
+			}
+		}
+
+		/// <summary>
+		/// 構造体で保存されているリストに対して参照を渡して条件を見て削除する
+		/// </summary>
+		public static void RemoveOnceWithRef<T>(this IList<T> self, RefFunc<T, bool> func)
+		{
+			if (func == null) { throw new ArgumentNullException(nameof(func)); }
+
+			for (int i = 0; i < self.Count; ++i)
+			{
+				var item = self[i];
+				if (func(ref item))
+				{
+					// 削除して終わり
+					self.RemoveAt(i);
+					return;
+				}
+			}
+		}
+
+		public static void RemoveAllWithRef<T>(this IList<T> self, RefFunc<T, bool> func)
+		{
+			if (func == null) { throw new ArgumentNullException(nameof(func)); }
+
+			for (int i = 0; i < self.Count; ++i)
+			{
+				var item = self[i];
+				if (func(ref item))
+				{
+					self.Remove(item);
+					--i;
+				}
 			}
 		}
 
@@ -120,6 +155,18 @@ namespace Ling.Utility.Extensions
 		{
 			if (self.IsNullOrEmpty()) return default(T);
 			return self[self.Count - 1];
+		}
+
+		/// <summary>
+		/// Listを逆順にループさせる。
+		/// reverseと違い、中身が変更された瞬間例外が出るので注意
+		/// </summary>
+		public static IEnumerable<T> FastReverse<T>(this IList<T> items)
+		{
+			for (int i = items.Count - 1; i >= 0; i--)
+			{
+				yield return items[i];
+			}
 		}
     }
 }
