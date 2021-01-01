@@ -1,5 +1,4 @@
-﻿using System;
-//
+﻿//
 // InputManager.cs
 // ProductName Ling
 //
@@ -9,6 +8,7 @@
 using System.Collections.Generic;
 using Ling.Utility.Extensions;
 using UnityEngine;
+using Ling.Utility;
 
 namespace Ling.Common
 {
@@ -61,7 +61,22 @@ namespace Ling.Common
 
 		public void AddProvider(IInputProvider provider, GameObject owner = null)
 		{
+			if (provider == (IInputProvider)this) 
+			{
+				throw new System.Exception("自分自身を追加しようとしました");
+			}
+
 			_inputProviders.Add((owner, provider));
+
+			// ownerがあればそのownerが削除されるときに一緒にRemoveする
+			if (owner != null)
+			{
+				DestoryCallbacker.AddOnDestoryCallback(owner, 
+					_ => 
+					{
+						RemoveProvider(provider);
+					});
+			}
 		}
 
 		public void RemoveProvider(IInputProvider provider)
@@ -102,7 +117,7 @@ namespace Ling.Common
 		public bool GetKeyUp(KeyCode keyCode)
 		{
 			if (!Enabled) return false;
-			
+
 			foreach (var provider in _inputProviders.FastReverse())
 			{
 				if (provider.Item2.GetKeyUp(keyCode))
