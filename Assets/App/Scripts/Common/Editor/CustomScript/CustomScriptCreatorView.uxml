@@ -1,0 +1,26 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:VisualElement style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;">
+        <ui:VisualElement text="Create" style="justify-content: space-between; align-items: center; flex-direction: row; margin-top: 10px;">
+            <ui:Label text="Template Script Name" display-tooltip-when-elided="true" name="TemplateScriptNameTitle" style="margin-top: 0; -unity-text-align: middle-left;" />
+            <ui:Label display-tooltip-when-elided="true" name="TemplateScriptNameValue" style="-unity-text-align: middle-left;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-top: 10px;">
+            <ui:Label text="Created Data" display-tooltip-when-elided="true" name="CreatedDataTitle" style="-unity-text-align: middle-left;" />
+            <ui:Label display-tooltip-when-elided="true" name="CreatedDataValue" style="margin-top: 0; -unity-text-align: middle-left;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: column; justify-content: flex-start; margin-top: 10px; align-items: stretch;">
+            <ui:TextField picking-mode="Ignore" label="NewScriptName" name="NewScriptName" binding-path="_newScriptName" style="margin-top: 0;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: column; justify-content: flex-start; margin-top: 10px; align-items: stretch;">
+            <ui:TextField picking-mode="Ignore" label="TextScript Summary" value="text" name="Summary" multiline="true" binding-path="_scriptSummary" style="margin-top: 0; flex-direction: row;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-top: 10px; align-items: stretch;">
+            <ui:Label text="Author Name" display-tooltip-when-elided="true" name="AuthorNameTitle" style="-unity-text-align: middle-left;" />
+            <ui:Label display-tooltip-when-elided="true" name="AuthorNameValue" style="margin-top: 0; -unity-text-align: middle-left;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: column; justify-content: flex-start; margin-top: 10px; align-items: stretch;">
+            <ui:TextField picking-mode="Ignore" label="Param1" name="Param1" readonly="false" style="margin-top: 0;" />
+        </ui:VisualElement>
+        <ui:Button display-tooltip-when-elided="true" name="CreateButton" text="Create" style="margin-top: 20px; align-items: stretch; margin-left: 0; margin-right: 0; margin-bottom: 0;" />
+    </ui:VisualElement>
+</ui:UXML>
