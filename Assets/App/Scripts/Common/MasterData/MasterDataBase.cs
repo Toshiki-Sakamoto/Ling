@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.MasterData
+namespace Ling.Common.MasterData
 {
 	/// <summary>
 	/// Masterデータベースクラス

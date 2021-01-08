@@ -12,7 +12,7 @@ namespace Ling.MasterData.Repository.Item
 	/// <summary>
 	/// BookMaster Repository
 	/// </summary>
-	public class BookRepository : MasterRepository<BookMaster>
+	public class BookRepository : Common.MasterData.MasterRepository<BookMaster>
     {
 		#region 定数, class, enum
 

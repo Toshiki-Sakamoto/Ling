@@ -14,13 +14,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Zenject;
+using Ling.Common.MasterData;
 
-namespace Ling.MasterData
+namespace Ling.Common.MasterData
 {
+	public interface IMasterRepository
+	{
+		void Clear();
+	}
+
 	/// <summary>
 	/// 指定したMasterを配列で保持する
 	/// </summary>
-	public class MasterRepository<T> : Common.Repotitory.IRepository<T> 
+	public class MasterRepository<T> : Common.Repotitory.IRepository<T>, IMasterRepository
 		where T : MasterDataBase
     {
 		#region 定数, class, enum

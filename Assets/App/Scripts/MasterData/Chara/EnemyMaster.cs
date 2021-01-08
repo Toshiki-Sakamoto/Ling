@@ -1,4 +1,5 @@
-﻿//
+﻿using System.Security.AccessControl;
+//
 // EnemyMaster.cs
 // ProductName Ling
 //
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Ling.Common.MasterData;
 
 namespace Ling.MasterData.Chara
 {
