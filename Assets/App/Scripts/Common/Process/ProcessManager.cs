@@ -1,4 +1,5 @@
-﻿//
+﻿using System.Security.AccessControl;
+//
 // ProcessManager.cs
 // ProductName Ling
 //
@@ -12,10 +13,10 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Ling.Utility;
 using Zenject;
 
-namespace Ling.Utility
+namespace Ling.Common
 {
 
 	/// <summary>
@@ -164,15 +165,15 @@ namespace Ling
 		/// <summary>
 		/// 自分をProcessNodeの親としてアタッチする
 		/// </summary>
-		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, bool autoRemove = true, bool waitForStart = false) where TProcess : Utility.ProcessBase, new()
+		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, bool autoRemove = true, bool waitForStart = false) where TProcess : Common.ProcessBase, new()
 		{
-			if (Utility.ProcessManager.IsNull) return null;
-			return Utility.ProcessManager.Instance.Attach<TProcess>(self.transform, autoRemove, waitForStart);
+			if (Common.ProcessManager.IsNull) return null;
+			return Common.ProcessManager.Instance.Attach<TProcess>(self.transform, autoRemove, waitForStart);
 		}
-		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, TProcess process, bool autoRemove = true, bool waitForStart = false) where TProcess : Utility.ProcessBase, new()
+		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, TProcess process, bool autoRemove = true, bool waitForStart = false) where TProcess : Common.ProcessBase, new()
 		{
-			if (Utility.ProcessManager.IsNull) return null;
-			return Utility.ProcessManager.Instance.Attach(process, self.transform, autoRemove, waitForStart);
+			if (Common.ProcessManager.IsNull) return null;
+			return Common.ProcessManager.Instance.Attach(process, self.transform, autoRemove, waitForStart);
 		}
 	}
 }
