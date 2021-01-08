@@ -40,19 +40,19 @@ namespace Ling.Common
 		/// キーが押されている間
 		/// </summary>
 		public bool GetKey(KeyCode keyCode) =>
-			Input.GetKey(keyCode);
+			UnityEngine.Input.GetKey(keyCode);
 
 		/// <summary>
 		/// キーが押されたとき一回だけ
 		/// </summary>
 		public bool GetKeyDown(KeyCode keyCode) =>
-			Input.GetKeyDown(keyCode);
+			UnityEngine.Input.GetKeyDown(keyCode);
 
 		/// <summary>
 		/// キーが離されたとき一回だけ
 		/// </summary>
 		public bool GetKeyUp(KeyCode keyCode) =>
-			Input.GetKeyUp(keyCode);
+			UnityEngine.Input.GetKeyUp(keyCode);
 	}
 #endif
 }
