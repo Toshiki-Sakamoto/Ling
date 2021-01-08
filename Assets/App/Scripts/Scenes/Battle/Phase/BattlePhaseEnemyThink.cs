@@ -19,7 +19,7 @@ namespace Ling.Scenes.Battle.Phase
 	{
 		#region 定数, class, enum
 
-		public class Argument : Utility.PhaseArgBase
+		public class Argument : Common.Scene.PhaseArgBase
 		{
 			public List<Chara.ICharaController> Targets; // 特定のターゲットを指定する場合
 			public BattleScene.Phase nextPhase;	// 行動終了後指定した特定のフェーズに移行したい場合

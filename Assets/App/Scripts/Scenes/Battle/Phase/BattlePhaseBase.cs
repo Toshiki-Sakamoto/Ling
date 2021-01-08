@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Ling.Common.Scene;
 using Zenject;
 
 namespace Ling.Scenes.Battle.Phase
@@ -20,7 +20,7 @@ namespace Ling.Scenes.Battle.Phase
 	/// <summary>
 	/// バトルシーンのPhaseベースクラス
 	/// </summary>
-	public class BattlePhaseBase : Utility.PhaseScene<BattleScene.Phase, BattleScene>.Base
+	public class BattlePhaseBase : PhaseScene<BattleScene.Phase, BattleScene>.Base
 	{
 		#region 定数, class, enum
 
@@ -37,7 +37,7 @@ namespace Ling.Scenes.Battle.Phase
 		protected BattleModel _model;
 		protected GameManager _gameManager;
 		protected Utility.IEventManager _eventManager;
-		protected Utility.ProcessManager _processManager;
+		protected Common.ProcessManager _processManager;
 
 		#endregion
 
@@ -57,7 +57,7 @@ namespace Ling.Scenes.Battle.Phase
 
 			_gameManager = GameManager.Instance;
 			_eventManager = _gameManager.Resolve<Utility.IEventManager>();
-			_processManager = _gameManager.Resolve<Utility.ProcessManager>();
+			_processManager = _gameManager.Resolve<Common.ProcessManager>();
 
 			AwakeInternal();
 		}

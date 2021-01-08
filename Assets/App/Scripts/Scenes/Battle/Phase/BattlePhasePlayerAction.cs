@@ -12,7 +12,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using Ling.Utility.Process;
+using Ling.Common.Process;
 
 using Zenject;
 
