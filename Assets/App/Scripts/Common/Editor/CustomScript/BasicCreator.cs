@@ -6,7 +6,7 @@ using UnityEditor;
 
 namespace Ling.Common.Editor.CustomScript
 {
-    public class BasicCreator : CreatorEditorWindow
+    public class BasicCreator : CreatorEditorWindow<BasicCreator>
     {
         private const string TEMPLATE_SCRIPT_NAME = "BasicClass";
 

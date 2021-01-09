@@ -17,27 +17,40 @@ using UnityEditor.UIElements;
 
 namespace Ling.Common.Editor.CustomScript
 {
-    public class CreatorEditorWindow : EditorWindow
+    public class CreatorEditorWindow<T> : EditorWindow where T : EditorWindow
     {
+        private const string UXMLPath = "Assets/App/Scripts/Common/Editor/CustomScript/CustomScriptCreatorView.uxml";
+
+
         // 作成する元のテンプレート名
         private static string _templateScriptName = "";
+
         // 新しく作成するスクリプト及びクラス名
-//        private static string _newScriptName = "";
         [SerializeField] private string _newScriptName = default;
 
         // スクリプトの説明文
         [SerializeField] private string _scriptSummary = default;
-//        private static string _scriptSummary = "";
 
         // 作者名
         private static string _authorName = "";
+
         // 作成日
         private static string _createdData = "";
+
         // 汎用的なパラメータ(使い方はテンプレートに任せる)
-        private static string _param1 = "";
+        [SerializeField] private string _param1 = default;
 
 
-        private const string UXMLPath = "Assets/App/Scripts/Common/Editor/CustomScript/CustomScriptCreatorView.uxml";
+        /// <summary>
+        /// Param1を利用するか
+        /// </summary>
+        protected virtual bool UseParam1 { get; }
+
+        /// <summary>
+        /// Param1のタイトル
+        /// </summary>
+        protected virtual string Param1Title { get; }
+
 
 
         /// <summary>
@@ -48,7 +61,6 @@ namespace Ling.Common.Editor.CustomScript
         {
             // 各項目を初期化
             _templateScriptName = templateScriptName;
-//            _newScriptName = string.Empty;// templateScriptName;
             _createdData = DateTime.Now.ToString("yyyy.MM.dd");
 
             // 作者名は既に設定されてある場合は初期化しない
@@ -59,7 +71,7 @@ namespace Ling.Common.Editor.CustomScript
             }
 
             // ウィンドウ作成
-            GetWindow<CreatorEditorWindow>("Create Script");
+            GetWindow<T>("Create Script");
         }
 
         /// <summary>
@@ -67,6 +79,7 @@ namespace Ling.Common.Editor.CustomScript
         /// </summary>
         private void OnGUI()
         {
+            // old 
             #if false
             // 作成日と元テンプレートを表示
             EditorGUILayout.LabelField("Template Script Name : " + _templateScriptName);
@@ -137,6 +150,15 @@ namespace Ling.Common.Editor.CustomScript
             authorNameLabel.text = _authorName;
 
             // 各種パラメータ
+            var param1ViewElement = rootElement.Q<VisualElement>("Param1VisualElement");
+            param1ViewElement.SetEnabled(UseParam1);
+
+            if (UseParam1)
+            {
+                // Param1を表示状態にする
+                var param1 = rootElement.Q<TextField>("Param1");
+                param1.label = Param1Title;
+            }
 
             // 作成ボタン
             var createButton = rootElement.Q<Button>("CreateButton");
