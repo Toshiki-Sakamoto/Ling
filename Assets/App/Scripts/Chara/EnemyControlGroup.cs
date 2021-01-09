@@ -41,6 +41,8 @@ namespace Ling.Chara
 
 		[SerializeField] private Chara.EnemyPoolManager _enemyPoolManager = null;
 
+		[Inject] MasterData.IMasterHolder _masterHolder = default;
+
 		private Dictionary<CharaModel, EnemyControl> _keyModelValueControl = new Dictionary<CharaModel, EnemyControl>();
 		private MapMaster _mapMaster;
 
@@ -122,7 +124,9 @@ namespace Ling.Chara
 			{
 				// プールから敵を取得する
 				var enemyControl = GetEnemyByPool();
-				EnemyFactory.Create(this, enemyControl, _mapMaster.GetRandomEnemyDataFromPopRate());
+				var mapEnemyData = _mapMaster.GetRandomEnemyDataFromPopRate();
+				var enemyMaster = _masterHolder.EnemyRepository.Find(mapEnemyData.EnemyType);
+				EnemyFactory.Create(this, enemyControl, enemyMaster);
 
 				Models.Add(enemyControl.Model);
 				_keyModelValueControl.Add(enemyControl.Model, enemyControl);
