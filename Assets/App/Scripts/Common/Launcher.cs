@@ -52,7 +52,7 @@ namespace Ling.Common
 
 		#region private 変数
 
-		[Inject] protected Common.MasterData.MasterManager _masterManager = null;
+		[Inject] protected Common.MasterData.IMasterManager _masterManager = null;
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 
 #if DEBUG

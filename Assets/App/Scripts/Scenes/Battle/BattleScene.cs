@@ -63,6 +63,7 @@ namespace Ling.Scenes.Battle
 		[Inject] private BattleModel _model = null;
 		[Inject] private Map.MapManager _mapManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
+		[Inject] private MasterData.IMasterHolder _masterHolder = default;
 
 		private bool _isInitialized;
 		private Common.Scene.PhaseScene<Phase, BattleScene> _phase = new Common.Scene.PhaseScene<Phase, BattleScene>();
@@ -110,7 +111,7 @@ namespace Ling.Scenes.Battle
 		public override UniTask QuickStartSceneAsync()
 		{
 			// デバッグ用のコード直指定でバトルを始める
-			var stageMaster = _diContainer.Resolve<StageRepository>().FindByStageType(Const.StageType.First);
+			var stageMaster = _masterHolder.StageRepository.FindByStageType(Const.StageType.First);
 
 			var param = new BattleModel.Param 
 				{ 

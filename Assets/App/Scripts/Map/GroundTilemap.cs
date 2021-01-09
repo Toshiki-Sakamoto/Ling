@@ -45,7 +45,7 @@ namespace Ling.Map
 		private _Debug.ScoreUIView[] _scoreTileView = null;
 #endif
 
-		[Inject] private MasterData.MasterManager _masterManager = default;
+		[Inject] private MasterData.IMasterHolder _masterHolder = default;
 		[Inject] private Utility.IEventManager _eventManager = default;
 
 		#endregion
@@ -122,7 +122,7 @@ namespace Ling.Map
 
 			// 見えない壁補正をつける
 #if false
-			var correct = _masterManager.Const.CorrectionMapSize;
+			var correct = _masterHolder.Const.CorrectionMapSize;
 			for (int y = 0, ySize = height + correct.y; y <= ySize; ++y)
 			{
 				for (int x = 0, xSize = width + correct.x; x <= xSize; ++x)

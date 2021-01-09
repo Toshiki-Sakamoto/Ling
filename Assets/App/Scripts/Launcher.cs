@@ -8,7 +8,8 @@
 namespace Ling
 {
 	/// <summary>
-	/// 
+	/// プロジェクト側のLauncher
+	/// Common.Launcherを継承して使用する
 	/// </summary>
 	public class Launcher : Common.Launcher
     {

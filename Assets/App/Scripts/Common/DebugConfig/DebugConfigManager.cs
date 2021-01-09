@@ -125,19 +125,7 @@ namespace Ling.Common.DebugConfig
 
 		public void Setup(DebugRootMenuData rootMenuData)
 		{
-			// RootMenu
-			_diContainer
-				.Bind<DebugRootMenuData>()
-				.FromInstance(Root)
-				.AsSingle();
-
-			_menuStack.Clear();
-			_btnBack.gameObject.SetActive(false);
-
-			_menuObjectCaches.Clear();
-			_menuObjectCaches = _menuObjects.ToDictionary(_menuObject => _menuObject.Type);
-
-			_scrollContent.Initialize(this);
+			Root = rootMenuData;
 		}
 
 		/// <summary>
@@ -234,6 +222,20 @@ namespace Ling.Common.DebugConfig
 		protected override void Awake()
 		{
 			base.Awake();
+
+			// RootMenu
+			_diContainer
+				.Bind<DebugRootMenuData>()
+				.FromInstance(Root)
+				.AsSingle();
+
+			_menuStack.Clear();
+			_btnBack.gameObject.SetActive(false);
+
+			_menuObjectCaches.Clear();
+			_menuObjectCaches = _menuObjects.ToDictionary(_menuObject => _menuObject.Type);
+
+			_scrollContent.Initialize(this);
 		}
 
 		/// <summary>

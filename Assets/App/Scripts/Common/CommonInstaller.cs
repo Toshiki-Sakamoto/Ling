@@ -27,7 +27,7 @@ namespace Ling.Common
 
 			Container
 				.Bind<InputManager>()
-				.FromInstance(new InputManager())
+				.FromComponentInHierarchy()
 				.AsSingle();
 
 			Container

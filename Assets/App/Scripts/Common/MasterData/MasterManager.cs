@@ -18,6 +18,17 @@ namespace Ling.Common.MasterData
 {
 	public interface IMasterManager
 	{
+		/// <summary>
+		/// マスタデータ読み込み済みの場合true
+		/// </summary>
+		bool IsLoaded { get; }
+
+		/// <summary>
+		/// 全マスタデータの読み込みを行う
+		/// </summary>
+		IObservable<AsyncUnit> LoadAll();
+
+		
 		TMaster GetMaster<TMaster>() where TMaster : MasterDataBase;
 
 		TRepository GetRepository<TRepository>();
