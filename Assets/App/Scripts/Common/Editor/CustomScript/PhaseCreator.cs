@@ -10,8 +10,8 @@ namespace Ling.Common.Editor.CustomScript
 	{
 		private const string TEMPLATE_SCRIPT_NAME = "PhaseClass";
 
-        protected override bool UseParam1 => true;
-        protected override string Param1Title => "シーン名";
+		protected override bool UseParam1 => true;
+		protected override string Param1Title => "シーン名";
         
 
 		[MenuItem(TEMPLATE_SCRIPT_NAME, menuItem = Const.MENU_PATH + TEMPLATE_SCRIPT_NAME, priority = 1)]
