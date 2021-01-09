@@ -18,8 +18,8 @@
             <ui:Label text="Author Name" display-tooltip-when-elided="true" name="AuthorNameTitle" style="-unity-text-align: middle-left;" />
             <ui:Label display-tooltip-when-elided="true" name="AuthorNameValue" style="margin-top: 0; -unity-text-align: middle-left;" />
         </ui:VisualElement>
-        <ui:VisualElement style="flex-direction: column; justify-content: flex-start; margin-top: 10px; align-items: stretch;">
-            <ui:TextField picking-mode="Ignore" label="Param1" name="Param1" readonly="false" style="margin-top: 0;" />
+        <ui:VisualElement focusable="false" name="Param1VisualElement" style="flex-direction: column; justify-content: flex-start; margin-top: 10px; align-items: stretch; display: flex;">
+            <ui:TextField picking-mode="Ignore" label="Param1" name="Param1" readonly="false" binding-path="_param1" style="margin-top: 0;" />
         </ui:VisualElement>
         <ui:Button display-tooltip-when-elided="true" name="CreateButton" text="Create" style="margin-top: 20px; align-items: stretch; margin-left: 0; margin-right: 0; margin-bottom: 0;" />
     </ui:VisualElement>
