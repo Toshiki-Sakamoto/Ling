@@ -12,14 +12,7 @@ namespace Ling.Common.DebugConfig
 	/// </summary>
 	public class DebugRootMenuData : DebugMenuItem.Data
 	{
-		public _Debug.BattleMenuData battleMenu;
-
-		public DebugRootMenuData()
-			: base("Root")
-		{
-			battleMenu = new _Debug.BattleMenuData();
-
-			Add(battleMenu);
-		}
+		public DebugRootMenuData(string name)
+			: base(name) {}
 	}
 }

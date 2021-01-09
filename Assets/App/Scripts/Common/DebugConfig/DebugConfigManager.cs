@@ -114,7 +114,7 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		public int DataCount => _currMenu.Count;
 
-		public DebugRootMenuData Root { get; } = new DebugRootMenuData();
+		public DebugRootMenuData Root { get; private set; }
 
 		public bool IsOpened => gameObject.activeSelf;
 
@@ -122,6 +122,23 @@ namespace Ling.Common.DebugConfig
 
 
 		#region public, protected 関数
+
+		public void Setup(DebugRootMenuData rootMenuData)
+		{
+			// RootMenu
+			_diContainer
+				.Bind<DebugRootMenuData>()
+				.FromInstance(Root)
+				.AsSingle();
+
+			_menuStack.Clear();
+			_btnBack.gameObject.SetActive(false);
+
+			_menuObjectCaches.Clear();
+			_menuObjectCaches = _menuObjects.ToDictionary(_menuObject => _menuObject.Type);
+
+			_scrollContent.Initialize(this);
+		}
 
 		/// <summary>
 		/// デバッグ画面を開く
@@ -217,20 +234,6 @@ namespace Ling.Common.DebugConfig
 		protected override void Awake()
 		{
 			base.Awake();
-
-			// RootMenu
-			_diContainer
-				.Bind<DebugRootMenuData>()
-				.FromInstance(Root)
-				.AsSingle();
-
-			_menuStack.Clear();
-			_btnBack.gameObject.SetActive(false);
-
-			_menuObjectCaches.Clear();
-			_menuObjectCaches = _menuObjects.ToDictionary(_menuObject => _menuObject.Type);
-
-			_scrollContent.Initialize(this);
 		}
 
 		/// <summary>
