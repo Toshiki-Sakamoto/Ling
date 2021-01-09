@@ -19,7 +19,7 @@ using UnityEditor;
 #endif
 
 
-namespace Ling.Common.Tile
+namespace Ling.Map.Tile
 {
 	/// <summary>
 	/// MiniMap用のTile

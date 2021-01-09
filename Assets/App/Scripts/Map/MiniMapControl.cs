@@ -37,7 +37,7 @@ namespace Ling.Map
 
 		[SerializeField] private MiniMapView _view = default;
 		
-		private Common.Tile.MapTile _miniMapTile;
+		private Tile.MapTile _miniMapTile;
 
 		#endregion
 
@@ -61,7 +61,7 @@ namespace Ling.Map
 
 		public void Setup(Map.TileDataMap tileDataMap)
 		{
-			_miniMapTile = Resources.Load<Common.Tile.MapTile>("Tiles/MiniMapTile");
+			_miniMapTile = Resources.Load<Tile.MapTile>("Tiles/MiniMapTile");
 			if (_miniMapTile == null)
 			{
 				Utility.Log.Error("MiniMapTileリソースが見つかりません");

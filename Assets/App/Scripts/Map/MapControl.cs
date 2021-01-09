@@ -42,7 +42,7 @@ namespace Ling.Map
 		[Inject] private Chara.CharaManager _charaManager = null;
 
 		private MapModel _model;
-		private Common.Tile.MapTile _mapTile;
+		private Tile.MapTile _mapTile;
 
 		#endregion
 

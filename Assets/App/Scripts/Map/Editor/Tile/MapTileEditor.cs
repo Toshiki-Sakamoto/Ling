@@ -8,13 +8,13 @@ using UnityEngine;
 using Ling.Utility.Extensions;
 using System.Linq;
 
-using Ling.Common.Tile;
+using Ling.Map.Tile;
 
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
 
-namespace Ling.Common.Editor.Tile
+namespace Ling.Map.Editor.Tile
 {
 	/// <summary>
 	/// 

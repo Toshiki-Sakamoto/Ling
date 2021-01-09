@@ -114,7 +114,7 @@ namespace Ling.Map
 		/// <summary>
 		/// マップ情報を作成する
 		/// </summary>
-		public void BuildMap(int mapIndex, int width, int height, Common.Tile.MapTile tile)
+		public void BuildMap(int mapIndex, int width, int height, Tile.MapTile tile)
 		{
 			_tilemap.ClearAllTiles();
 

@@ -9,7 +9,7 @@
 using Ling.Utility.Extensions;
 using UnityEngine;
 
-namespace Ling.Common.Tile
+namespace Ling.Map.Tile
 {
 	/// <summary>
 	/// 

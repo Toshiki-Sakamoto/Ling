@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Ling.Const;
 using Ling.Map.TileDataMapExtensions;
 using Cysharp.Threading.Tasks;
+using Ling._Debug;
 
 namespace Ling.Map
 {
@@ -95,12 +96,13 @@ namespace Ling.Map
 		private ShotestDistanceResult _shotestDistanceResultCache = new ShotestDistanceResult();
 
 #if DEBUG
-		private Common.DebugConfig.DebugRootMenuData _debugRoot;
+		private DebugRootMenuData _debugRoot;
 		private _Debug.EventSearchNodeCreated _eventSearchNodeCreated = new _Debug.EventSearchNodeCreated();
 		private _Debug.EventDebugUIClearAll _eventDebugUIClearAll = new _Debug.EventDebugUIClearAll();
 
-		public Common.DebugConfig.DebugRootMenuData DebugRoot =>
-				_debugRoot ?? (_debugRoot = Common.DebugConfig.DebugConfigManager.Instance?.Root);
+		// todo: 今は DebugRootMenuData のキャストで対応する。今後はキャストではなくLing._Debug.DebugROotMenuDataを直接取得できるように
+		public DebugRootMenuData DebugRoot =>
+				_debugRoot ?? (_debugRoot = (DebugRootMenuData)Common.DebugConfig.DebugConfigManager.Instance?.Root);
 #endif
 
 		public TileDataMapScanner(TileDataMap tileDataMap)

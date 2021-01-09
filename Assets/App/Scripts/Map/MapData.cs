@@ -51,7 +51,7 @@ namespace Ling.Map
 		/// <summary>
 		/// マップタイル情報を持つ
 		/// </summary>
-		public Common.Tile.MapTile MapTileRenderData { get; private set; }
+		public Tile.MapTile MapTileRenderData { get; private set; }
 
 		/// <summary>
 		/// マップ作成時のビルダー
@@ -73,14 +73,14 @@ namespace Ling.Map
 			Builder = builder;
 			TileDataMap = tileDataMap;
 
-			var mapTile = Resources.Load<Common.Tile.MapTile>("Tiles/SimpleMapTile");
+			var mapTile = Resources.Load<Tile.MapTile>("Tiles/SimpleMapTile");
 			if (mapTile == null)
 			{
 				Utility.Log.Error("MapTileリソースが見つかりません");
 			}
 
 			// 複製を作成する
-			MapTileRenderData = UnityEngine.Object.Instantiate(mapTile) as Common.Tile.MapTile;
+			MapTileRenderData = UnityEngine.Object.Instantiate(mapTile) as Tile.MapTile;
 
 			// タイル情報の再設定
 			MapTileRenderData.SetTileDataMap(tileDataMap);
