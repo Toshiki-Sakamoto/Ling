@@ -38,11 +38,11 @@ namespace Ling.Map
 
 		[SerializeField] private MapView _view = default;
 
-		[Inject] private MasterData.MasterManager _masterManager = null;
+		[Inject] private MasterData.IMasterHolder _masterManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
 
 		private MapModel _model;
-		private Common.Tile.MapTile _mapTile;
+		private Tile.MapTile _mapTile;
 
 		#endregion
 

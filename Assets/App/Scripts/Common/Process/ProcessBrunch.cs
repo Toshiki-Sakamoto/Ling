@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.08.10
 //
 
-namespace Ling.Utility.Process
+namespace Ling.Common.Process
 {
 	/// <summary>
 	/// 分岐

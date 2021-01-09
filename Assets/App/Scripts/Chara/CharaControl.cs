@@ -37,8 +37,8 @@ namespace Ling.Chara
         /// </summary>
 		void SetTilemap(Tilemap tilemap, int mapLevel);
 
-		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
-		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase, new();
+		TProcess AddMoveProcess<TProcess>() where TProcess : Common.ProcessBase, new();
+		TProcess AddAttackProcess<TProcess>() where TProcess : Common.ProcessBase, new();
 	}
 
 	/// <summary>
@@ -67,8 +67,8 @@ namespace Ling.Chara
 
 		[Inject] private DiContainer _diContainer = default;
 
-		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
-		private List<Utility.ProcessBase> _attackProcess = new List<Utility.ProcessBase>();
+		private List<Common.ProcessBase> _moveProcesses = new List<Common.ProcessBase>();
+		private List<Common.ProcessBase> _attackProcess = new List<Common.ProcessBase>();
 
 		#endregion
 
@@ -195,7 +195,7 @@ namespace Ling.Chara
 		/// 移動プロセスの追加
 		/// 実行は待機する
 		/// </summary>
-		public TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase, new()
+		public TProcess AddMoveProcess<TProcess>() where TProcess : Common.ProcessBase, new()
 		{
 			var process = this.AttachProcess<TProcess>(waitForStart: true);
 			_moveProcesses.Add(process);
@@ -207,7 +207,7 @@ namespace Ling.Chara
 		/// 攻撃プロセスの追加
 		/// 実行は待機する
 		/// </summary>
-		public TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase, new()
+		public TProcess AddAttackProcess<TProcess>() where TProcess : Common.ProcessBase, new()
 		{
 			var process = this.AttachProcess<TProcess>(waitForStart: true);
 			_attackProcess.Add(process);

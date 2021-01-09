@@ -21,7 +21,7 @@ namespace Ling.Scenes.Battle.Process
 	/// <summary>
 	/// プレイヤーの移動始め
 	/// </summary>
-	public class ProcessPlayerMoveStart : Utility.ProcessBase
+	public class ProcessPlayerMoveStart : Common.ProcessBase
 	{
 		#region 定数, class, enum
 

@@ -52,9 +52,8 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-		public static void Create(EnemyControlGroup controlGroup, EnemyControl control, MapEnemyData mapEnemyData)
+		public static void Create(EnemyControlGroup controlGroup, EnemyControl control, MasterData.Chara.EnemyMaster enemyMaster)
 		{
-			var enemyMaster = MasterManager.Instance.EnemyRepository.Find(mapEnemyData.EnemyType);
 			var model = control.Model;
 			var param = new CharaModel.Param();
 			param.charaType = CharaType.Enemy;

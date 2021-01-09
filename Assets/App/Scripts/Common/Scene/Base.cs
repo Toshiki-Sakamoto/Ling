@@ -39,8 +39,7 @@ namespace Ling.Common.Scene
 		[Inject] protected Launcher _launcher;
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 		[Inject] protected Utility.IEventManager _eventManager = null;
-		[Inject] protected Utility.ProcessManager _processManager = null;
-		[Inject] protected MasterData.MasterManager _masterManager = null;
+		[Inject] protected Common.ProcessManager _processManager = null;
 
 		#endregion
 

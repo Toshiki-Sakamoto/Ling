@@ -26,13 +26,13 @@ namespace Ling.Common
 				.AsSingle();
 
 			Container
-				.Bind<MasterData.MasterManager>()
+				.Bind<InputManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
 
 			Container
-				.Bind<InputManager>()
-				.FromInstance(new InputManager())
+				.Bind<ProcessManager>()
+				.FromComponentInHierarchy()
 				.AsSingle();
 
 #if DEBUG

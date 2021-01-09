@@ -41,7 +41,6 @@ namespace Ling.Utility
 	}
 
 
-	[DefaultExecutionOrder(Common.ExcutionOrders.EventManager)]
 	public class EventManager : MonoBehaviour, IEventManager
 	{
 		public interface IEventListener

@@ -24,6 +24,14 @@ scopes = {
 	"m_ShownPanels.1C60DB97" = "3"
 	"m_SideBarSplitter.1C60DB97" = "180"
 	"m_DetailsPanelSplitter.1C60DB97" = "791"
+	"last_search.4AD09EE6" = "ææ"
+	"asset.4AD09EE6" = "True"
+	"menu.4AD09EE6" = "True"
+	"scene.4AD09EE6" = "True"
+	"settings.4AD09EE6" = "True"
+	"m_ShownPanels.4AD09EE6" = "3"
+	"m_SideBarSplitter.4AD09EE6" = "180"
+	"m_DetailsPanelSplitter.4AD09EE6" = "700"
 }
 providers = {
 	asset = {
@@ -98,6 +106,7 @@ providers = {
 	}
 }
 recentSearches = [
+	"ææ"
 	"battle"
 	"s:"
 	"?"

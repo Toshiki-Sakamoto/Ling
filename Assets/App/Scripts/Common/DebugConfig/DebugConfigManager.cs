@@ -114,7 +114,7 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		public int DataCount => _currMenu.Count;
 
-		public DebugRootMenuData Root { get; } = new DebugRootMenuData();
+		public DebugRootMenuData Root { get; private set; }
 
 		public bool IsOpened => gameObject.activeSelf;
 
@@ -122,6 +122,11 @@ namespace Ling.Common.DebugConfig
 
 
 		#region public, protected 関数
+
+		public void Setup(DebugRootMenuData rootMenuData)
+		{
+			Root = rootMenuData;
+		}
 
 		/// <summary>
 		/// デバッグ画面を開く

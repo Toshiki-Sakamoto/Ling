@@ -13,7 +13,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-namespace Ling.Utility
+namespace Ling.Common.Scene
 {
     public class PhaseArgBase
     {

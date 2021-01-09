@@ -13,7 +13,7 @@ namespace Ling.Chara.Process
 	/// <summary>
 	/// Attackの後処理（経験値等）
 	/// </summary>
-	public class ProcessLevelUp : Utility.ProcessBase
+	public class ProcessLevelUp : Common.ProcessBase
     {
 		#region 定数, class, enum
 

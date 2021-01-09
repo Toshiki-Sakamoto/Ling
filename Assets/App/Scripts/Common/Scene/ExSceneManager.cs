@@ -34,7 +34,6 @@ namespace Ling.Common.Scene
 	/// <summary>
 	/// シーン管理者
 	/// </summary>
-	[DefaultExecutionOrder(Common.ExcutionOrders.SceneManager)]
 	public class ExSceneManager : MonoBehaviour, IExSceneManager
 	{
 		#region 定数, class, enum
@@ -54,7 +53,6 @@ namespace Ling.Common.Scene
 		[SerializeField] private Transform _sceneRoot;  // シーンインスタンスが配置されるルート
 
 		[Inject] private ZenjectSceneLoader _zenjectSceneLoader = default;
-		[Inject] private MasterData.MasterManager _masterManager = default;
 
 		private SceneID _nextSceneID = SceneID.None;
 		private Base _currentScene = null;

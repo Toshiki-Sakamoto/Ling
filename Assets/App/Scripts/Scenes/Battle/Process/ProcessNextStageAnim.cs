@@ -23,7 +23,7 @@ namespace Ling.Scenes.Battle.Process
 	/// <summary>
 	/// 階層を移動するときのアニメーション
 	/// </summary>
-	public class ProcessNextStageAnim : Utility.ProcessBase
+	public class ProcessNextStageAnim : Common.ProcessBase
 	{
 		#region 定数, class, enum
 
@@ -39,7 +39,7 @@ namespace Ling.Scenes.Battle.Process
 
 		private Map.MapManager _mapManager = null;
 		private Chara.CharaManager _charaManager = null;
-		private MasterData.MasterManager _masterManager = null;
+		private MasterData.IMasterHolder _masterManager = null;
 
 		#endregion
 
@@ -60,7 +60,7 @@ namespace Ling.Scenes.Battle.Process
 		{
 			_mapManager = _diContainer.Resolve<Map.MapManager>();
 			_charaManager = _diContainer.Resolve<Chara.CharaManager>();
-			_masterManager = _diContainer.Resolve<MasterData.MasterManager>();
+			_masterManager = _diContainer.Resolve<MasterData.IMasterHolder>();
 
 			MoveAsync().Forget();
 		}

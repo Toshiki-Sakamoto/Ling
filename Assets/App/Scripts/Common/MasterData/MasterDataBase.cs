@@ -1,8 +1,8 @@
 ﻿//
-// IProcess.cs
+// MasterBase.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.04
+// Created by toshiki sakamoto on 2020.06.24
 //
 
 using System;
@@ -15,13 +15,13 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Utility.Process
+namespace Ling.Common.MasterData
 {
 	/// <summary>
-	/// 
+	/// Masterデータベースクラス
 	/// </summary>
-	public class IProcess
-    {
+	public class MasterDataBase : ScriptableObject
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -34,10 +34,14 @@ namespace Ling.Utility.Process
 
 		#region private 変数
 
+		[SerializeField] private int _id = default; // 大体存在する一意なID
+
 		#endregion
 
 
 		#region プロパティ
+
+		public int ID => _id;
 
 		#endregion
 
@@ -48,6 +52,8 @@ namespace Ling.Utility.Process
 
 
 		#region public, protected 関数
+
+		public virtual void Setup() { }
 
 		#endregion
 

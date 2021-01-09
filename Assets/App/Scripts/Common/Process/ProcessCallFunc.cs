@@ -12,10 +12,10 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-
+using Ling.Utility;
 using Zenject;
 
-namespace Ling.Utility.Process
+namespace Ling.Common.Process
 {
 	/// <summary>
 	/// 指定されたメソッドを呼び出す
@@ -34,7 +34,7 @@ namespace Ling.Utility.Process
 
 		#region private 変数
 
-		private IFunction _function;
+		private Utility.IFunction _function;
 
 		#endregion
 

@@ -1,8 +1,8 @@
 ﻿//
-// MasterRepository.cs
+// IProcess.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.07.11
+// Created by toshiki sakamoto on 2020.05.04
 //
 
 using System;
@@ -15,13 +15,12 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.MasterData
+namespace Ling.Common.Process
 {
 	/// <summary>
-	/// 指定したMasterを配列で保持する
+	/// 
 	/// </summary>
-	public class MasterRepository<T> : Common.Repotitory.IRepository<T> 
-		where T : MasterDataBase
+	public class IProcess
     {
 		#region 定数, class, enum
 
@@ -40,8 +39,6 @@ namespace Ling.MasterData
 
 		#region プロパティ
 
-		public List<T> Entities { get; } = new List<T>();
-
 		#endregion
 
 
@@ -51,20 +48,6 @@ namespace Ling.MasterData
 
 
 		#region public, protected 関数
-
-		public void Add(T master)
-		{
-			Entities.Add(master);
-		}
-
-		public void Clear() =>
-			Entities.Clear();
-
-		/// <summary>
-		/// IDから検索
-		/// </summary>
-		public T Find(int id) =>
-			Entities.Find(entity => entity.ID == id);
 
 		#endregion
 

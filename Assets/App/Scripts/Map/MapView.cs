@@ -43,7 +43,7 @@ namespace Ling.Map
 		[SerializeField] private Transform _playerRoot = default;
 		[SerializeField] private List<Map.GroundTilemap> _groundMaps = default;
 
-		[Inject] private MasterData.MasterManager _masterManager = default;
+		[Inject] private MasterData.IMasterHolder _masterHolder = default;
 		[Inject] private IEventManager _eventManager = default;
 
 		private List<Map.GroundTilemap> _usedItems = new List<Map.GroundTilemap>();
@@ -193,7 +193,7 @@ namespace Ling.Map
 		public void ForceTransformAdjustment(int startLevel)
 		{
 			var currentIndex = _usedItems.FindIndex(tile_ => tile_.Level == startLevel);
-			var height = _masterManager.Const.MapDiffHeight;
+			var height = _masterHolder.Const.MapDiffHeight;
 
 			for (int i = 0; i < _usedItems.Count; ++i)
 			{

@@ -45,7 +45,7 @@ namespace Ling.Map
 
 		#region public, protected 関数
 
-		public void Setup(int width, int height, Common.Tile.MapTile tile)
+		public void Setup(int width, int height, Tile.MapTile tile)
 		{
 			for (int y = 0; y <= height; ++y)
 			{

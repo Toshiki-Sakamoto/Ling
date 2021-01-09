@@ -21,7 +21,7 @@ namespace Ling.MasterData.Repository
 	/// <summary>
 	/// <see cref="EnemyMaster"/>
 	/// </summary>
-	public class EnemyRepository : MasterRepository<EnemyMaster>
+	public class EnemyRepository : Common.MasterData.MasterRepository<EnemyMaster>
 	{
 		#region 定数, class, enum
 
