@@ -10,8 +10,6 @@ using Ling.Utility.Attribute;
 
 namespace Ling.MasterData.Chara
 {
-	using MoveAI = Ling.AI.Move;
-
 	/// <summary>
 	/// 移動AIデータ
 	/// </summary>
@@ -69,9 +67,6 @@ namespace Ling.MasterData.Chara
 
 
 		#region public, protected 関数
-
-		public MoveAI.MoveAIFactory CreateFactory() =>
-			new MoveAI.MoveAIFactory(this);
 
 		#endregion
 

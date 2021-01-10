@@ -10,8 +10,6 @@ using Ling.Utility.Attribute;
 
 namespace Ling.MasterData.Chara
 {
-	using AttackAI = Ling.AI.Attack;
-
 	/// <summary>
 	/// 攻撃AIデータ
 	/// </summary>
@@ -61,9 +59,6 @@ namespace Ling.MasterData.Chara
 
 		#region public, protected 関数
 
-		public AttackAI.AttackAIFactory CreateFactory() =>
-			new AttackAI.AttackAIFactory(this);
-			
 		#endregion
 
 
