@@ -1,0 +1,21 @@
+{
+    "name": "MasterData",
+    "rootNamespace": "",
+    "references": [
+        "GUID:258053230626a4e92b6385b92ddefb03",
+        "GUID:2b796359ba3a84b1999ef355af2c1b1b",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
+        "GUID:5c01796d064528144a599661eaab93a6",
+        "GUID:5e3bb967ae7244b8d8e352893e2dbe46"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

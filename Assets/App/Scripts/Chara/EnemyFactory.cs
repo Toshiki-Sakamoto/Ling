@@ -64,8 +64,8 @@ namespace Ling.Chara
 			control.Setup();
 
 			// AIの設定
-			var attackAIFactory = enemyMaster.AttackAIData.CreateFactory();
-			var moveAIFactory = enemyMaster.MoveAIData.CreateFactory();
+			var attackAIFactory = new AI.Attack.AttackAIFactory(enemyMaster.AttackAIData);
+			var moveAIFactory = new AI.Move.MoveAIFactory(enemyMaster.MoveAIData);
 
 			attackAIFactory.Attach(control);
 			moveAIFactory.Attach(control);

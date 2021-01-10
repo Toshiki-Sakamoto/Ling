@@ -7,7 +7,6 @@
 
 using UnityEngine;
 using System.Collections.Generic;
-using Ling.Chara;
 using Ling.MasterData.Chara;
 using Ling.MasterData.Stage;
 using Ling.MasterData.Item;
