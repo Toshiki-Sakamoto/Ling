@@ -1,0 +1,28 @@
+@startuml ゲームアクティビティ
+' [*] で開始。[*]が含まれているとPlantUMLが状態マシン図と判断
+[*] --> ゲームシーンから直接起動
+
+
+マスタデータを読み込む --> Scene.QuickStartSceneAsync
+Scene.QuickStartSceneAsync --> Scene.Manager
+
+state Scene.Manager {
+    [*] --> Scene.Manager.QuickStart
+    Scene.Manager.QuickStart --> シーン移動したときの処理
+    シーン移動したときの処理 --> [*]
+}
+
+state ゲームシーンから直接起動 {
+    [*] --> Scene.Awake
+    Scene.Awake --> Scene.QuickStart : 初期化処理が終わってない
+    Scene.QuickStart--> Launcher
+}
+
+state Launcher {
+    [*] --> Launcher.QuickStart
+    Launcher.QuickStart --> QuickStartInternalAsync
+    QuickStartInternalAsync --> マスタデータを読み込む
+}
+
+
+@enduml

@@ -1,0 +1,4 @@
+@startuml
+title ゲームシーケンス
+Launcher -> MasterManager
+@enduml
