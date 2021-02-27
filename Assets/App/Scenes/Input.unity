@@ -706,15 +706,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6a5727329cb4f91bf6865db558db82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftButton: {fileID: 1101960200}
-  _leftUpButton: {fileID: 1471803195}
-  _upButton: {fileID: 985003457}
-  _rightUpButton: {fileID: 341691654}
-  _rightButton: {fileID: 1552866883}
-  _leftDownButton: {fileID: 2019645015}
-  _downButton: {fileID: 1827683623}
-  _rightDownButton: {fileID: 1234656645}
-  _dirCSwitchButton: {fileID: 400981261}
+  _keyData:
+  - _button: {fileID: 1101960200}
+    _keyCodes: 14010000
+  - _button: {fileID: 1471803195}
+    _keyCodes: 1401000011010000
+  - _button: {fileID: 985003457}
+    _keyCodes: 11010000
+  - _button: {fileID: 341691654}
+    _keyCodes: 1301000011010000
+  - _button: {fileID: 1552866883}
+    _keyCodes: 13010000
+  - _button: {fileID: 2019645015}
+    _keyCodes: 1401000012010000
+  - _button: {fileID: 1827683623}
+    _keyCodes: 12010000
+  - _button: {fileID: 1234656645}
+    _keyCodes: 1301000012010000
+  _dirSwitchButton: {fileID: 0}
 --- !u!114 &676265058
 MonoBehaviour:
   m_ObjectHideFlags: 0
