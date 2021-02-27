@@ -723,6 +723,8 @@ MonoBehaviour:
     _keyCodes: 12010000
   - _button: {fileID: 1234656645}
     _keyCodes: 1301000012010000
+  - _button: {fileID: 400981261}
+    _keyCodes: 64000000
   _dirSwitchButton: {fileID: 0}
 --- !u!114 &676265058
 MonoBehaviour:
