@@ -707,14 +707,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _leftButton: {fileID: 1101960200}
-  _leftUpButton: {fileID: 0}
-  _upButton: {fileID: 0}
-  _rightUpButton: {fileID: 0}
-  _rightButton: {fileID: 0}
-  _leftDownButton: {fileID: 0}
-  _downButton: {fileID: 0}
-  _rightDownButton: {fileID: 0}
-  _dirCSwitchButton: {fileID: 0}
+  _leftUpButton: {fileID: 1471803195}
+  _upButton: {fileID: 985003457}
+  _rightUpButton: {fileID: 341691654}
+  _rightButton: {fileID: 1552866883}
+  _leftDownButton: {fileID: 2019645015}
+  _downButton: {fileID: 1827683623}
+  _rightDownButton: {fileID: 1234656645}
+  _dirCSwitchButton: {fileID: 400981261}
 --- !u!114 &676265058
 MonoBehaviour:
   m_ObjectHideFlags: 0
