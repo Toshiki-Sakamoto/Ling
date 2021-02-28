@@ -145,6 +145,7 @@ namespace Ling.Scenes.Battle.Phase
 #if UNITY_EDITOR
 		private void KeyCommandProcess()
 		{
+			/*
 			// x, y の入力
 			// 関連付けはInput Managerで行っている
 			var moveDir = Vector2Int.zero;
@@ -196,7 +197,7 @@ namespace Ling.Scenes.Battle.Phase
 				var eventPlayerMove = _gameManager.EventHolder.PlayerMove;
 
 				eventPlayerMove.moveDistance = new Vector3Int(moveDir.x, moveDir.y, 0);
-			}
+			}*/
 		}
 #endif
 

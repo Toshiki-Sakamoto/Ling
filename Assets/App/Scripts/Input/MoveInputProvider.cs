@@ -24,8 +24,12 @@ namespace Ling.InputUI
 		[System.Serializable]
 		public class KeyData
 		{
-			[SerializeField] private Button _button = default;
+			[SerializeField] private Common.UI.ButtonEx _button = default;
 			[SerializeField] private List<KeyCode> _keyCodes = default;
+
+			public void Setup()
+			{
+			}
 		}
 
 		#endregion
