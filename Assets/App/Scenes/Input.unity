@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 341691656}
   - component: {fileID: 341691655}
   - component: {fileID: 341691654}
+  - component: {fileID: 341691657}
   m_Layer: 0
   m_Name: RightUpButton
   m_TagString: Untagged
@@ -329,6 +330,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 341691652}
   m_CullTransparentMesh: 1
+--- !u!114 &341691657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 341691652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Keyboard>/e
 --- !u!1 &400981259
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +355,7 @@ GameObject:
   - component: {fileID: 400981263}
   - component: {fileID: 400981262}
   - component: {fileID: 400981261}
+  - component: {fileID: 400981264}
   m_Layer: 0
   m_Name: DirSwitchButton
   m_TagString: Untagged
@@ -456,6 +471,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 400981259}
   m_CullTransparentMesh: 1
+--- !u!114 &400981264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400981259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Keyboard>/s
 --- !u!1 &444053043
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +655,7 @@ GameObject:
   - component: {fileID: 676265056}
   - component: {fileID: 676265057}
   - component: {fileID: 676265058}
+  - component: {fileID: 676265059}
   m_Layer: 0
   m_Name: Input
   m_TagString: Untagged
@@ -719,25 +748,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _keyData:
-  - _button: {fileID: 1101960200}
-    _keyCodes: 14010000
-  - _button: {fileID: 1471803195}
-    _keyCodes: 1401000011010000
-  - _button: {fileID: 985003457}
-    _keyCodes: 11010000
-  - _button: {fileID: 341691654}
-    _keyCodes: 1301000011010000
-  - _button: {fileID: 1552866883}
-    _keyCodes: 13010000
-  - _button: {fileID: 2019645015}
-    _keyCodes: 1401000012010000
-  - _button: {fileID: 1827683623}
-    _keyCodes: 12010000
-  - _button: {fileID: 1234656645}
-    _keyCodes: 1301000012010000
-  - _button: {fileID: 400981261}
-    _keyCodes: 64000000
-  _dirSwitchButton: {fileID: 0}
+  - {_button: {fileID: 1101960200}, _keyCodes: 14010000}
+  - {_button: {fileID: 1471803195}, _keyCodes: 1401000011010000}
+  - {_button: {fileID: 985003457}, _keyCodes: 11010000}
+  - {_button: {fileID: 341691654}, _keyCodes: 1301000011010000}
+  - {_button: {fileID: 1552866883}, _keyCodes: 13010000}
+  - {_button: {fileID: 2019645015}, _keyCodes: 1401000012010000}
+  - {_button: {fileID: 1827683623}, _keyCodes: 12010000}
+  - {_button: {fileID: 1234656645}, _keyCodes: 1301000012010000}
+  - {_button: {fileID: 400981261}, _keyCodes: 64000000}
 --- !u!114 &676265058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,6 +774,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &676265059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676265053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fd1c3200afa8431cbb83bdf824fb831, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &985003455
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,6 +798,7 @@ GameObject:
   - component: {fileID: 985003459}
   - component: {fileID: 985003458}
   - component: {fileID: 985003457}
+  - component: {fileID: 985003460}
   m_Layer: 0
   m_Name: UpButton
   m_TagString: Untagged
@@ -882,6 +914,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 985003455}
   m_CullTransparentMesh: 1
+--- !u!114 &985003460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985003455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Keyboard>/w
 --- !u!1 &1016805765
 GameObject:
   m_ObjectHideFlags: 0
@@ -973,6 +1018,7 @@ GameObject:
   - component: {fileID: 1101960202}
   - component: {fileID: 1101960201}
   - component: {fileID: 1101960200}
+  - component: {fileID: 1101960203}
   m_Layer: 0
   m_Name: LeftButton
   m_TagString: Untagged
@@ -1088,6 +1134,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101960198}
   m_CullTransparentMesh: 1
+--- !u!114 &1101960203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1101960198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Keyboard>/a
 --- !u!1 &1161197022
 GameObject:
   m_ObjectHideFlags: 0
@@ -1193,6 +1252,7 @@ GameObject:
   - component: {fileID: 1234656647}
   - component: {fileID: 1234656646}
   - component: {fileID: 1234656645}
+  - component: {fileID: 1234656648}
   m_Layer: 0
   m_Name: RightDownButton
   m_TagString: Untagged
@@ -1308,6 +1368,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1234656643}
   m_CullTransparentMesh: 1
+--- !u!114 &1234656648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1234656643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Keyboard>/c
 --- !u!1 &1245335996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1478,6 +1551,7 @@ GameObject:
   - component: {fileID: 1471803197}
   - component: {fileID: 1471803196}
   - component: {fileID: 1471803195}
+  - component: {fileID: 1471803198}
   m_Layer: 0
   m_Name: LeftUpButton
   m_TagString: Untagged
@@ -1593,6 +1667,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1471803193}
   m_CullTransparentMesh: 1
+--- !u!114 &1471803198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471803193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Keyboard>/q
 --- !u!1 &1552866881
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,6 +1692,7 @@ GameObject:
   - component: {fileID: 1552866885}
   - component: {fileID: 1552866884}
   - component: {fileID: 1552866883}
+  - component: {fileID: 1552866886}
   m_Layer: 0
   m_Name: RightButton
   m_TagString: Untagged
@@ -1720,6 +1808,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1552866881}
   m_CullTransparentMesh: 1
+--- !u!114 &1552866886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552866881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Keyboard>/d
 --- !u!1 &1708851841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1894,6 +1995,7 @@ GameObject:
   - component: {fileID: 1827683625}
   - component: {fileID: 1827683624}
   - component: {fileID: 1827683623}
+  - component: {fileID: 1827683626}
   m_Layer: 0
   m_Name: DownButton
   m_TagString: Untagged
@@ -2009,6 +2111,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1827683621}
   m_CullTransparentMesh: 1
+--- !u!114 &1827683626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827683621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Keyboard>/x
 --- !u!1 &2010922789
 GameObject:
   m_ObjectHideFlags: 0
@@ -2100,6 +2215,7 @@ GameObject:
   - component: {fileID: 2019645017}
   - component: {fileID: 2019645016}
   - component: {fileID: 2019645015}
+  - component: {fileID: 2019645018}
   m_Layer: 0
   m_Name: LeftDownButton
   m_TagString: Untagged
@@ -2215,6 +2331,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019645013}
   m_CullTransparentMesh: 1
+--- !u!114 &2019645018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2019645013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ControlPath: <Keyboard>/z
 --- !u!1 &2087587522
 GameObject:
   m_ObjectHideFlags: 0
@@ -2242,16 +2371,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 2087587522}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_SubmitAction: {fileID: 2064916234097673511, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_CancelAction: {fileID: -1967631576421560919, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_LeftClickAction: {fileID: 8056856818456041789, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_MiddleClickAction: {fileID: 3279352641294131588, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_RightClickAction: {fileID: 3837173908680883260, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_ScrollWheelAction: {fileID: 4502412055082496612, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
 --- !u!114 &2087587524
 MonoBehaviour:
   m_ObjectHideFlags: 0
