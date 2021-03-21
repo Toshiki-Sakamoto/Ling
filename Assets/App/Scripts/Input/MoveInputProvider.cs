@@ -7,9 +7,13 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using System;
 
-namespace Ling.InputActions
+namespace Ling.Input
 {
+
+
 	/// <summary>
 	/// IMoveActionsを継承した移動用InputProvider
 	/// </summary>
@@ -33,6 +37,8 @@ namespace Ling.InputActions
 
 
 		#region プロパティ
+
+		public InputControls.MoveActions Control => _controls.Move;
 
 		#endregion
 
