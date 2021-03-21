@@ -8,6 +8,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+#if false
 namespace Ling.Common
 {
 	/// <summary>
@@ -56,14 +57,5 @@ namespace Ling.Common
 			UnityEngine.Input.GetKeyUp(keyCode);
 	}
 #endif
-
-
-
-	public class InputProvider
-	{
-		public void Bind<TInterface>()
-		{
-			var test = new Ling.Input.MoveInputProvider();
-		}
-	}
 }
+#endif

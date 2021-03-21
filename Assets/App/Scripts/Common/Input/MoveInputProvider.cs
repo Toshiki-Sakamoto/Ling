@@ -10,14 +10,14 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System;
 
-namespace Ling.Input
+namespace Ling.Common.Input
 {
-
-
 	/// <summary>
 	/// IMoveActionsを継承した移動用InputProvider
 	/// </summary>
-	public class MoveInputProvider : MonoBehaviour, InputControls.IMoveActions
+	public class MoveInputProvider : MonoBehaviour, 
+		InputControls.IMoveActions, 
+		IInputProvider<InputControls.IMoveActions>
     {
 		#region 定数, class, enum
 
@@ -38,7 +38,7 @@ namespace Ling.Input
 
 		#region プロパティ
 
-		public InputControls.MoveActions Control => _controls.Move;
+		public InputControls Controls => _controls;
 
 		#endregion
 

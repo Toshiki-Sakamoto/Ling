@@ -10,20 +10,30 @@ using UnityEngine.InputSystem;
 using System.Collections.Generic;
 using System;
 
-namespace Ling.Input
+namespace Ling.Common.Input
 {
-	///
+	/// <summary>
+	/// InputProvider継承用インターフェイス
+	/// </summary>
 	public interface IInputProvider<TInputActions>
 		where TInputActions : class
 	{
 		InputControls Controls { get; }
 	}
 
+	public interface IInputManager
+	{
+		void Bind<TInputActions>(IInputProvider<TInputActions> inputProvider)
+			where TInputActions : class;
+
+		TInputActions Resolve<TInputActions>()
+			where TInputActions : class;
+	}
 	
 	/// <summary>
 	/// InputProvider管理者
 	/// </summary>
-	public class InputManager : MonoBehaviour 
+	public class InputManager : MonoBehaviour, IInputManager
     {
 		#region 定数, class, enum
 
@@ -63,7 +73,7 @@ namespace Ling.Input
 			_providersDict.Add(inputType, inputProvider);
 		}
 
-		public IInputProvider<TInputActions> Resolve<TInputActions>()
+		public TInputActions Resolve<TInputActions>()
 			where TInputActions : class
 		{
 			var inputType = typeof(TInputActions);
@@ -73,7 +83,7 @@ namespace Ling.Input
 				return null;
 			}
 
-			return (IInputProvider<TInputActions>)result;
+			return (TInputActions)result;
 		}
 
 		#endregion
@@ -85,6 +95,11 @@ namespace Ling.Input
 
 
 		#region MonoBegaviour
+
+		void Awake()
+		{
+			
+		}
 
 		#endregion
 	}

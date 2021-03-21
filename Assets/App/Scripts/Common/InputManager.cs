@@ -1,17 +1,18 @@
-﻿using System.Linq;
-//
+﻿//
 // InputManager.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.12.31
 //
 
+#if false
 using System.Collections.Generic;
 using Ling.Utility.Extensions;
 using UnityEngine;
 using Ling.Utility;
 using UniRx;
 using UniRx.Triggers;
+using System.Linq;
 
 namespace Ling.Common.Input
 {
@@ -325,3 +326,4 @@ namespace Ling.Common.Input
 		#endregion
 	}
 }
+#endif
