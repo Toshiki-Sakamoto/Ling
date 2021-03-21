@@ -175,8 +175,31 @@ namespace Ling.Common.Scene
 				_sceneData.Push(sceneData);
 			}
 
+			await SceneLoadProcessAsync(sceneID, argument, mode, bindAction);
+		}
+
+		/// <summary>
+		/// シーン読み込みの一連の処理を行う
+		/// </summary>
+		private async UniTask<Base> SceneLoadProcessAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction)
+		{
 			// シーン遷移処理
-			await LoadSceneAsync(sceneID.GetName(), argument, mode, bindAction);
+			var loadedScene = await LoadSceneAsync(sceneID.GetName(), argument, mode, bindAction: bindAction);
+
+			// 事前準備が終わったのでここで始める
+			loadedScene.gameObject.SetActive(true);
+
+			// 読み込み後ほかシーンに依存する設定がある場合
+			foreach (var dependenceData in loadedScene.Dependences.Where(data => data.Timing.IsLoaded()))
+			{
+				await SceneLoadProcessAsync(dependenceData.SceneID, dependenceData.Argument, LoadSceneMode.Additive, bindAction /* todo */);
+			}
+
+			// すべてのシーンを読み込み終わったらStartSceneを呼び出す
+			loadedScene.IsStartScene = true;
+			loadedScene.StartScene();
+
+			return loadedScene;
 		}
 
 
@@ -189,7 +212,7 @@ namespace Ling.Common.Scene
 		/// シーン読み込み処理
 		/// 非同期で読み込み、完了後切り替える
 		/// </summary>
-		private IObservable<Unit> LoadSceneAsync(string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single, System.Action<DiContainer> bindAction = null)
+		private IObservable<Base> LoadSceneAsync(string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single, System.Action<DiContainer> bindAction = null, System.Action onLoaded = null)
 		{
 			return Observable.FromCoroutine<Unit>(observer_ =>
 				LoadSceneOperationAsync(_zenjectSceneLoader.LoadSceneAsync(sceneName, mode, bindAction), observer_))
@@ -232,7 +255,7 @@ namespace Ling.Common.Scene
 				.SelectMany(scene_ =>
 				{
 					// 別の処理に合成
-					return scene_.ScenePrepareAsync().Do(unit_ =>
+					return scene_.ScenePrepareAsync().Select(scene_ =>
 						{
 							switch (mode)
 							{
@@ -246,11 +269,7 @@ namespace Ling.Common.Scene
 									break;
 							}
 
-							// 事前準備が終わったのでここで始める
-							scene_.gameObject.SetActive(true);
-
-							scene_.IsStartScene = true;
-							scene_.StartScene();
+							return scene_;
 						});
 				});
 		}
