@@ -246,7 +246,7 @@ namespace Ling.Common.Scene
 						return null;
 					}
 
-					scene.transform.SetParent(_sceneRoot);
+				/////	scene.transform.SetParent(_sceneRoot);
 					scene.Argument = argument;
 
 					// 準備が整うまで非アクティブ
