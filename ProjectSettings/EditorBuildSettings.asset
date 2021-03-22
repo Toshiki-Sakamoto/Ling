@@ -26,4 +26,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/App/Scenes/Status.unity
     guid: b337acad6d35f48729b97846d299e75d
+  - enabled: 1
+    path: Assets/App/Scenes/Manager.unity
+    guid: ece88fdce12b6de40b433766f3e18bf7
+  - enabled: 1
+    path: Assets/App/Scenes/Map.unity
+    guid: d448b27e179d4482c8f28d549bc28804
+  - enabled: 1
+    path: Assets/App/Scenes/MoveInput.unity
+    guid: 1052d275babf14f78a3256dcfec9bbd1
   m_configObjects: {}
