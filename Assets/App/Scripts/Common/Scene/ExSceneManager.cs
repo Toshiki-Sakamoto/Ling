@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 using System.Linq;
+using Ling.Utility.Extensions;
 
 namespace Ling.Common.Scene
 {
@@ -27,7 +28,7 @@ namespace Ling.Common.Scene
 
 		void AddScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
 
-		void QuickStart(Base scene);
+		UniTask QuickStartAsync(Base scene);
 	}
 
 
@@ -105,12 +106,13 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// 正規の手順ではなく、指定したシーンからゲームを始める
 		/// </summary>
-		public void QuickStart(Base scene)
+		public async UniTask QuickStartAsync(Base scene)
 		{
 			_currentScene = scene;
 
-			scene.IsStartScene = true;
-			scene.StartScene();
+			// 依存しているシーンを呼び出す
+			// tood: 今めっちゃ仮で適当に起動してる
+			await SceneLoadProcessAsync(SceneID.Main, null, LoadSceneMode.Single, null, _currentScene);
 		}
 
 		#endregion
@@ -181,18 +183,24 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// シーン読み込みの一連の処理を行う
 		/// </summary>
-		private async UniTask<Base> SceneLoadProcessAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction)
+		private async UniTask<Base> SceneLoadProcessAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction, Base loadedScene = null)
 		{
 			// シーン遷移処理
-			var loadedScene = await LoadSceneAsync(sceneID.GetName(), argument, mode, bindAction: bindAction);
+			if (loadedScene == null)
+			{
+				loadedScene = await LoadSceneAsync(sceneID.GetName(), argument, mode, bindAction: bindAction);
+			}
 
 			// 事前準備が終わったのでここで始める
 			loadedScene.gameObject.SetActive(true);
 
 			// 読み込み後ほかシーンに依存する設定がある場合
-			foreach (var dependenceData in loadedScene.Dependences.Where(data => data.Timing.IsLoaded()))
+			if (!loadedScene.Dependences.IsNullOrEmpty())
 			{
-				await SceneLoadProcessAsync(dependenceData.SceneID, dependenceData.Argument, LoadSceneMode.Additive, bindAction /* todo */);
+				foreach (var dependenceData in loadedScene.Dependences.Where(data => data.Timing.IsLoaded()))
+				{
+					await SceneLoadProcessAsync(dependenceData.SceneID, dependenceData.Argument, LoadSceneMode.Additive, bindAction /* todo */);
+				}
 			}
 
 			// すべてのシーンを読み込み終わったらStartSceneを呼び出す
@@ -201,7 +209,6 @@ namespace Ling.Common.Scene
 
 			return loadedScene;
 		}
-
 
 		private IObservable<Base> InitLoadPrepareAsync(Base scene)
 		{

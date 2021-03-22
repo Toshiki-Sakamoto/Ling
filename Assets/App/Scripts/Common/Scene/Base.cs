@@ -150,10 +150,10 @@ namespace Ling.Common.Scene
 
 		private void Awake()
 		{
-			_processManager.SetupScene(this);
+			_processManager?.SetupScene(this);
 
 			// 起動済みなら何もしない
-			if (!_launcher.IsSceneBooted) 
+			if (!_launcher?.IsSceneBooted ?? false) 
 			{
 				// シーンから直接起動した場合
 				// 必要な初期化処理をしたあと起動する

@@ -37,6 +37,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
+		private Common.Input.MoveInputProvider _moveInputProvider;
 
 		#endregion
 
@@ -57,6 +58,9 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			_charaManager = Resolve<Chara.CharaManager>();
 			_mapManager = Resolve<Map.MapManager>();
+
+			var inputManager = Resolve<Common.Input.IInputManager>();
+			_moveInputProvider = inputManager.Resolve<Common.Input.MoveInputProvider>();
 		}
 
 		public override void Init()
@@ -145,6 +149,15 @@ namespace Ling.Scenes.Battle.Phase
 #if UNITY_EDITOR
 		private void KeyCommandProcess()
 		{
+			// 通常攻撃
+			var move = _moveInputProvider.Controls.Move;
+			var isTest = move.Left.ReadValue<bool>();
+
+			if (isTest)
+			{
+				Utility.Log.Print("Left Test");
+			}
+			
 			/*
 			// x, y の入力
 			// 関連付けはInput Managerで行っている

@@ -312,6 +312,7 @@ GameObject:
   - component: {fileID: 8411614102256058168}
   - component: {fileID: 8411614102256058170}
   - component: {fileID: 8411614102256058171}
+  - component: {fileID: 8411614102663562074}
   m_Layer: 0
   m_Name: MoveInput
   m_TagString: Untagged
@@ -418,6 +419,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0fd1c3200afa8431cbb83bdf824fb831, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8411614102663562074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8411614102256058117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b62876ce7fae74597a7dfbfa42c94d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8411614102458224220

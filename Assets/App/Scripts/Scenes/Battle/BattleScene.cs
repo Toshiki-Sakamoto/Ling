@@ -75,10 +75,13 @@ namespace Ling.Scenes.Battle
 
 		/// <summary>
 		/// 自分のシーンに必要なシーンID
-		/// 自シーン読み込み前になければ読み込みを行う
+		/// 自シーン読み込み後になければ読み込みを行う
 		/// </summary>
-		public override SceneID[] RequiredScene => 
-			new SceneID[] { SceneID.Map };
+		public override DependenceData[] Dependences => 
+			new DependenceData[] 
+			{
+				DependenceData.CreateAtLoaded(SceneID.MoveInput),
+			};
 
 		/// <summary>
 		/// BattleScene大元のView
@@ -90,7 +93,6 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		public Map.MapControl MapControl => _mapManager.MapControl;
 
-
 		#endregion
 
 
@@ -100,8 +102,8 @@ namespace Ling.Scenes.Battle
 		/// 遷移後まずは呼び出される
 		/// </summary>
 		/// <returns></returns>
-		public override IObservable<Unit> ScenePrepareAsync() =>
-			Observable.Return(Unit.Default);
+		public override IObservable<Base> ScenePrepareAsync() =>
+			Observable.Return(this);
 
 
 		/// <summary>
