@@ -52,8 +52,8 @@ namespace #NAMESPACE#
 		/// 遷移後まずは呼び出される
 		/// </summary>
 		/// <returns></returns>
-		public override IObservable<Unit> ScenePrepareAsync() =>
-			Observable.Return(Unit.Default);
+		public override IObservable<Base> ScenePrepareAsync() =>
+			Observable.Return(this);
 
 		/// <summary>
 		/// シーンが開始される時

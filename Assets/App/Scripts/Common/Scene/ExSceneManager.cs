@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 using System.Linq;
+using Ling.Utility.Extensions;
 
 namespace Ling.Common.Scene
 {
@@ -27,7 +28,7 @@ namespace Ling.Common.Scene
 
 		void AddScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
 
-		void QuickStart(Base scene);
+		UniTask QuickStartAsync(Base scene);
 	}
 
 
@@ -105,12 +106,13 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// 正規の手順ではなく、指定したシーンからゲームを始める
 		/// </summary>
-		public void QuickStart(Base scene)
+		public async UniTask QuickStartAsync(Base scene)
 		{
 			_currentScene = scene;
 
-			scene.IsStartScene = true;
-			scene.StartScene();
+			// 依存しているシーンを呼び出す
+			// tood: 今めっちゃ仮で適当に起動してる
+			await SceneLoadProcessAsync(SceneID.Main, null, LoadSceneMode.Single, null, _currentScene);
 		}
 
 		#endregion
@@ -175,10 +177,38 @@ namespace Ling.Common.Scene
 				_sceneData.Push(sceneData);
 			}
 
-			// シーン遷移処理
-			await LoadSceneAsync(sceneID.GetName(), argument, mode, bindAction);
+			await SceneLoadProcessAsync(sceneID, argument, mode, bindAction);
 		}
 
+		/// <summary>
+		/// シーン読み込みの一連の処理を行う
+		/// </summary>
+		private async UniTask<Base> SceneLoadProcessAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction, Base loadedScene = null)
+		{
+			// シーン遷移処理
+			if (loadedScene == null)
+			{
+				loadedScene = await LoadSceneAsync(sceneID.GetName(), argument, mode, bindAction: bindAction);
+			}
+
+			// 事前準備が終わったのでここで始める
+			loadedScene.gameObject.SetActive(true);
+
+			// 読み込み後ほかシーンに依存する設定がある場合
+			if (!loadedScene.Dependences.IsNullOrEmpty())
+			{
+				foreach (var dependenceData in loadedScene.Dependences.Where(data => data.Timing.IsLoaded()))
+				{
+					await SceneLoadProcessAsync(dependenceData.SceneID, dependenceData.Argument, LoadSceneMode.Additive, bindAction /* todo */);
+				}
+			}
+
+			// すべてのシーンを読み込み終わったらStartSceneを呼び出す
+			loadedScene.IsStartScene = true;
+			loadedScene.StartScene();
+
+			return loadedScene;
+		}
 
 		private IObservable<Base> InitLoadPrepareAsync(Base scene)
 		{
@@ -189,7 +219,7 @@ namespace Ling.Common.Scene
 		/// シーン読み込み処理
 		/// 非同期で読み込み、完了後切り替える
 		/// </summary>
-		private IObservable<Unit> LoadSceneAsync(string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single, System.Action<DiContainer> bindAction = null)
+		private IObservable<Base> LoadSceneAsync(string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single, System.Action<DiContainer> bindAction = null, System.Action onLoaded = null)
 		{
 			return Observable.FromCoroutine<Unit>(observer_ =>
 				LoadSceneOperationAsync(_zenjectSceneLoader.LoadSceneAsync(sceneName, mode, bindAction), observer_))
@@ -232,7 +262,7 @@ namespace Ling.Common.Scene
 				.SelectMany(scene_ =>
 				{
 					// 別の処理に合成
-					return scene_.ScenePrepareAsync().Do(unit_ =>
+					return scene_.ScenePrepareAsync().Select(scene_ =>
 						{
 							switch (mode)
 							{
@@ -246,11 +276,7 @@ namespace Ling.Common.Scene
 									break;
 							}
 
-							// 事前準備が終わったのでここで始める
-							scene_.gameObject.SetActive(true);
-
-							scene_.IsStartScene = true;
-							scene_.StartScene();
+							return scene_;
 						});
 				});
 		}

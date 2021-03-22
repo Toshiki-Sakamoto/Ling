@@ -6,6 +6,7 @@
 // 
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 using UniRx;
 using System;
@@ -105,7 +106,7 @@ namespace Ling.Common
 			// シーン固有の処理を呼び出す
 			await scene.QuickStartSceneAsync();
 
-			_sceneManager.QuickStart(scene);
+			await _sceneManager.QuickStartAsync(scene);
 		}
 
 		#endregion
@@ -118,9 +119,9 @@ namespace Ling.Common
 		/// </summary>
 		protected virtual void Awake()
 		{
-#if DEBUG
+#if false//DEBUG
 			Observable.EveryUpdate()
-				.Where(_ => UnityEngine.Input.GetKey(KeyCode.LeftShift) && UnityEngine.Input.GetKey(KeyCode.D))
+				.Where(_ => Keyboard.current.leftShiftKey.isPressed && Keyboard.current.dKey.isPressed)
 				.ThrottleFirst(TimeSpan.FromSeconds(0.5))
 				.Subscribe(_ => 
 				{

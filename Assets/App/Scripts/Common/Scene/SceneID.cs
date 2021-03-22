@@ -26,6 +26,7 @@ namespace Ling.Common.Scene
 		Main, 
 		Battle,
 		Status,
+		MoveInput,
 	}
 
 	/// <summary>
@@ -41,6 +42,7 @@ namespace Ling.Common.Scene
 					[SceneID.Main] = "Main",
 					[SceneID.Battle] = "Battle",
 					[SceneID.Status] = "Status",
+					[SceneID.MoveInput] = "MoveInput",
 				};
 
 

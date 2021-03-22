@@ -6,7 +6,9 @@
 //
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+#if false
 namespace Ling.Common
 {
 	/// <summary>
@@ -56,3 +58,4 @@ namespace Ling.Common
 	}
 #endif
 }
+#endif

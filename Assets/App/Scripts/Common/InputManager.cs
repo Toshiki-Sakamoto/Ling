@@ -1,17 +1,18 @@
-﻿using System.Linq;
-//
+﻿//
 // InputManager.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.12.31
 //
 
+#if false
 using System.Collections.Generic;
 using Ling.Utility.Extensions;
 using UnityEngine;
 using Ling.Utility;
 using UniRx;
 using UniRx.Triggers;
+using System.Linq;
 
 namespace Ling.Common.Input
 {
@@ -45,6 +46,31 @@ namespace Ling.Common.Input
 	public interface IInputAllListener : IInputPressedListener, IInputDownListener, IInputUpListener
 	{
 	}
+
+
+	/// <summary>
+	/// 押されている間フレームごとに投げられるイベント
+	/// </summary>
+	public class InputPressedEvent
+	{
+	}
+
+	/// <summary>
+	/// キーが押された瞬間投げられるイベント
+	/// </summary>
+	public class InputDownEvent
+	{
+
+	}
+
+	/// <summary>
+	/// キーが離された瞬間投げられるイベント
+	/// </summary>
+	public class InputUpEvent
+	{
+
+	}
+
 
 	/// <summary>
 	/// キー入力を管理する
@@ -300,3 +326,4 @@ namespace Ling.Common.Input
 		#endregion
 	}
 }
+#endif

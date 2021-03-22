@@ -25,6 +25,29 @@ namespace Ling.Common.Scene
 	{
 		#region 定数, class, enum
 
+		/// <summary>
+		/// 依存するシーンのデータを持つ
+		/// </summary>
+		public class DependenceData
+		{
+			public enum TimingType
+			{
+				Prev,	// シーン読み込み前のタイミングで読み込む
+				Loaded,	// シーン読み込み後のタイミングで読み込む
+			}
+
+			public TimingType Timing { get; set; }
+			public SceneID SceneID { get; set; }
+			public Argument Argument { get; set; }
+
+
+			public static DependenceData CreateAtPrev(SceneID sceneID, Argument argument = null) =>
+				new DependenceData { Timing = TimingType.Prev, SceneID = sceneID, Argument = argument };
+
+ 			public static DependenceData CreateAtLoaded(SceneID sceneID, Argument argument = null) =>
+				new DependenceData { Timing = TimingType.Loaded, SceneID = sceneID, Argument = argument };
+		}
+
 		#endregion
 
 
@@ -64,9 +87,9 @@ namespace Ling.Common.Scene
 
 		/// <summary>
 		/// 自分のシーンに必要なシーンID
-		/// 自シーン読み込み前になければ読み込みを行う
+		/// 自シーン読み込み後になければ読み込みを行う
 		/// </summary>
-		public virtual SceneID[] RequiredScene => default(SceneID[]);
+		public virtual DependenceData[] Dependences => default(DependenceData[]);
 
 		#endregion
 
@@ -82,8 +105,8 @@ namespace Ling.Common.Scene
 		/// 遷移後まずは呼び出される
 		/// </summary>
 		/// <returns></returns>
-		public virtual IObservable<Unit> ScenePrepareAsync() =>
-			Observable.Return(Unit.Default);
+		public virtual IObservable<Base> ScenePrepareAsync() =>
+			Observable.Return(this);
 
 		/// <summary>
 		/// 正規手順でシーンが実行されたのではなく
@@ -127,10 +150,10 @@ namespace Ling.Common.Scene
 
 		private void Awake()
 		{
-			_processManager.SetupScene(this);
+			_processManager?.SetupScene(this);
 
 			// 起動済みなら何もしない
-			if (!_launcher.IsSceneBooted) 
+			if (!_launcher?.IsSceneBooted ?? false) 
 			{
 				// シーンから直接起動した場合
 				// 必要な初期化処理をしたあと起動する
@@ -139,5 +162,15 @@ namespace Ling.Common.Scene
 		}
 
 		#endregion
+	}
+
+
+	public static class TimingTypeExtensions
+	{
+		public static bool IsLoaded(this Base.DependenceData.TimingType self) =>
+			self == Base.DependenceData.TimingType.Loaded;
+
+		public static bool IsPrev(this Base.DependenceData.TimingType self) =>
+			self == Base.DependenceData.TimingType.Prev;
 	}
 }
