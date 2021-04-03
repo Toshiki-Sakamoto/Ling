@@ -53,12 +53,10 @@ namespace Ling.Common.Input
 
         public void OnLeft(InputAction.CallbackContext context)
 		{
-			Debug.Log("OnLeft");
 		}
 
 		public void OnLeftUp(InputAction.CallbackContext context)
 		{
-			Debug.Log("OnLeftUp");
 		}
 
         public void OnUp(InputAction.CallbackContext context)

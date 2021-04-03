@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Ling.Common.Process;
 using Ling.Common.Input;
+using UnityEngine.InputSystem;
 
 using Zenject;
 
@@ -70,25 +71,68 @@ namespace Ling.Scenes.Battle.Phase
 			_mapManager.UpdateMapData();
 
 #if UNITY_EDITOR
-			KeyCommandProcess();
+		//	KeyCommandProcess();
 #endif
+			// 移動
+			var move = _moveInputProvider.Controls.Move;
+			move.Left.performed += OnLeftClick;
+			move.LeftUp.performed += OnLeftUpClick;
+			move.LeftDown.performed += OnLeftDownClick;
+			move.Down.performed += OnDownClick;
+			move.Up.performed += OnUpClick;
+			move.Right.performed += OnRightClick;
+			move.RightUp.performed += OnRightUpClick;
+			move.RightDown.performed += OnRightDownClick;
 		}
 
 		public override void Proc()
 		{
 #if UNITY_EDITOR
-			KeyCommandProcess();
+		//	KeyCommandProcess();
 #endif
 		}
 
 		public override void Term() 
-		{ 
+		{
+			var move = _moveInputProvider.Controls.Move;
+			move.Left.performed -= OnLeftClick;
+			move.LeftUp.performed -= OnLeftUpClick;
+			move.LeftDown.performed -= OnLeftDownClick;
+			move.Down.performed -= OnDownClick;
+			move.Up.performed -= OnUpClick;
+			move.Right.performed -= OnRightClick;
+			move.RightUp.performed -= OnRightUpClick;
+			move.RightDown.performed -= OnRightDownClick;
 		}
 
 		#endregion
 
 
 		#region private 関数
+
+		private void OnLeftClick(InputAction.CallbackContext callbackContext) =>
+			Move(Vector2Int.left);
+
+		private void OnLeftUpClick(InputAction.CallbackContext callbackContext) =>
+			Move(new Vector2Int(-1, 1));
+
+		private void OnLeftDownClick(InputAction.CallbackContext callbackContext) =>
+			Move(new Vector2Int(-1, -1));
+
+		private void OnDownClick(InputAction.CallbackContext callbackContext) =>
+			Move(Vector2Int.down);
+
+		private void OnRightClick(InputAction.CallbackContext callbackContext) =>
+			Move(Vector2Int.right);
+
+		private void OnRightUpClick(InputAction.CallbackContext callbackContext) =>
+			Move(new Vector2Int(1, 1));
+
+		private void OnRightDownClick(InputAction.CallbackContext callbackContext) =>
+			Move(new Vector2Int(1, -1));
+
+		private void OnUpClick(InputAction.CallbackContext callbackContext) =>
+			Move(Vector2Int.up);
 
 		/// <summary>
 		/// 移動コマンド
@@ -144,6 +188,19 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			// 攻撃対象がいるかどうか関わらず攻撃に移行する
 			Change(BattleScene.Phase.PlayerAttack);
+		}
+
+		/// <summary>
+        /// 移動
+        /// </summary>
+		private void Move(Vector2Int move)
+		{
+			if (move == Vector2Int.zero) return;
+
+			MoveCommand(move);
+
+			var eventPlayerMove = _gameManager.EventHolder.PlayerMove;
+			eventPlayerMove.moveDistance = new Vector3Int(move.x, move.y, 0);
 		}
 
 
