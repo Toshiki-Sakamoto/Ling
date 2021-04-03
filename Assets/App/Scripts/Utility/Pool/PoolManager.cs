@@ -71,6 +71,8 @@ namespace Ling.Utility.Pool
 
 		[Inject] private DiContainer _diContainer = default;
 
+		private bool _isInitialized = false;
+
 		#endregion
 
 
@@ -113,6 +115,8 @@ namespace Ling.Utility.Pool
 		/// </summary>
 		public async UniTask CreateObjectsAsync()
 		{
+			Initialize();
+
 			var list = new List<UniTask>();
 
 			foreach(var poolItemData in _createItems)
@@ -164,6 +168,27 @@ namespace Ling.Utility.Pool
 		#region private 関数
 
 		/// <summary>
+        /// 最初の一回、初期化処理を行う
+        /// </summary>
+		private void Initialize()
+		{
+			if (_isInitialized) return;
+
+			// デフォルトのプール先がNullの場合は自分を指定する
+			if (_defaultPoolRoot == null)
+			{
+				Utility.Log.Print("デフォルトのプール先が無いため自分を指定します");
+
+				_defaultPoolRoot = transform;
+			}
+
+			// 設定されているCreatorのセットアップを行う
+			SetupCreatorItems();
+
+			_isInitialized = true;
+		}
+
+		/// <summary>
 		/// Creatorのセットアップを行う
 		/// </summary>
 		private void SetupCreatorItems()
@@ -203,21 +228,10 @@ namespace Ling.Utility.Pool
 			}
 		}
 
+		// todo: そもそもAwake時に初期化する作業行うのがおかしいかも。ユーザーのタイミングにさせてあげるべきでは
+		protected virtual void Awake() =>
+			Initialize();
 
-		protected virtual void Awake()
-		{
-			// デフォルトのプール先がNullの場合は自分を指定する
-			if (_defaultPoolRoot == null)
-			{
-				Utility.Log.Print("デフォルトのプール先が無いため自分を指定します");
-
-				_defaultPoolRoot = transform;
-			}
-
-			// 設定されているCreatorのセットアップを行う
-			SetupCreatorItems();
-		}
-		
 		#endregion
 	}
 }

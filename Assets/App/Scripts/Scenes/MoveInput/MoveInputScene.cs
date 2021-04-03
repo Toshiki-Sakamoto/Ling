@@ -6,6 +6,7 @@
 // 
 
 using UnityEngine;
+using Zenject;
 
 namespace Ling.Scenes.MoveInput
 {
@@ -25,6 +26,10 @@ namespace Ling.Scenes.MoveInput
 
 
 		#region private 変数
+
+		[SerializeField] private Common.Input.MoveInputProvider _provider = default;
+
+		[Inject] private Common.Input.IInputManager _inputManager = default;
 
 		#endregion
 
@@ -46,6 +51,10 @@ namespace Ling.Scenes.MoveInput
 
 		#region MonoBegaviour
 
+		private void Awake()
+		{
+			_inputManager?.Bind(_provider);
+		}
 
 		#endregion
 	}

@@ -26,7 +26,7 @@ namespace Ling.Common.Input
 		void Bind<TInputActions>(IInputProvider<TInputActions> inputProvider)
 			where TInputActions : class;
 
-		TInputActions Resolve<TInputActions>()
+		IInputProvider<TInputActions> Resolve<TInputActions>()
 			where TInputActions : class;
 	}
 	
@@ -73,7 +73,7 @@ namespace Ling.Common.Input
 			_providersDict.Add(inputType, inputProvider);
 		}
 
-		public TInputActions Resolve<TInputActions>()
+		public IInputProvider<TInputActions> Resolve<TInputActions>()
 			where TInputActions : class
 		{
 			var inputType = typeof(TInputActions);
@@ -83,7 +83,7 @@ namespace Ling.Common.Input
 				return null;
 			}
 
-			return (TInputActions)result;
+			return (IInputProvider<TInputActions>)result;
 		}
 
 		#endregion
