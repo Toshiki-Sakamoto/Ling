@@ -40,6 +40,7 @@ namespace Ling.Scenes.Battle.Phase
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
 		private IInputProvider<InputControls.IMoveActions> _moveInputProvider;
+		private Dictionary<InputAction, System.Func<bool>> _inputActionDict = new Dictionary<InputAction, System.Func<bool>>();
 
 		#endregion
 
@@ -70,39 +71,30 @@ namespace Ling.Scenes.Battle.Phase
 			// マップ情報を更新する
 			_mapManager.UpdateMapData();
 
-#if UNITY_EDITOR
-		//	KeyCommandProcess();
-#endif
+			// キーが押されたときの処理
+
 			// 移動
 			var move = _moveInputProvider.Controls.Move;
-			move.Left.performed += OnLeftClick;
-			move.LeftUp.performed += OnLeftUpClick;
-			move.LeftDown.performed += OnLeftDownClick;
-			move.Down.performed += OnDownClick;
-			move.Up.performed += OnUpClick;
-			move.Right.performed += OnRightClick;
-			move.RightUp.performed += OnRightUpClick;
-			move.RightDown.performed += OnRightDownClick;
+			_inputActionDict.Add(move.Left,			() => MoveCommand(new Vector2Int(-1, 0)));
+			_inputActionDict.Add(move.LeftUp,		() => MoveCommand(new Vector2Int(-1, 1)));
+			_inputActionDict.Add(move.LeftDown,		() => MoveCommand(new Vector2Int(-1,-1)));
+			_inputActionDict.Add(move.Right,		() => MoveCommand(new Vector2Int( 1, 0)));
+			_inputActionDict.Add(move.RightUp,		() => MoveCommand(new Vector2Int( 1, 1)));
+			_inputActionDict.Add(move.RightDown,	() => MoveCommand(new Vector2Int( 1,-1)));
+			_inputActionDict.Add(move.Up,			() => MoveCommand(new Vector2Int( 0, 1)));
+			_inputActionDict.Add(move.Down,			() => MoveCommand(new Vector2Int( 0,-1)));
+
+			KeyCommandProcess();
 		}
 
 		public override void Proc()
 		{
-#if UNITY_EDITOR
-		//	KeyCommandProcess();
-#endif
+			KeyCommandProcess();
 		}
 
-		public override void Term() 
+		public override void Term()
 		{
-			var move = _moveInputProvider.Controls.Move;
-			move.Left.performed -= OnLeftClick;
-			move.LeftUp.performed -= OnLeftUpClick;
-			move.LeftDown.performed -= OnLeftDownClick;
-			move.Down.performed -= OnDownClick;
-			move.Up.performed -= OnUpClick;
-			move.Right.performed -= OnRightClick;
-			move.RightUp.performed -= OnRightUpClick;
-			move.RightDown.performed -= OnRightDownClick;
+			_inputActionDict.Clear();
 		}
 
 		#endregion
@@ -110,37 +102,13 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 関数
 
-		private void OnLeftClick(InputAction.CallbackContext callbackContext) =>
-			Move(Vector2Int.left);
-
-		private void OnLeftUpClick(InputAction.CallbackContext callbackContext) =>
-			Move(new Vector2Int(-1, 1));
-
-		private void OnLeftDownClick(InputAction.CallbackContext callbackContext) =>
-			Move(new Vector2Int(-1, -1));
-
-		private void OnDownClick(InputAction.CallbackContext callbackContext) =>
-			Move(Vector2Int.down);
-
-		private void OnRightClick(InputAction.CallbackContext callbackContext) =>
-			Move(Vector2Int.right);
-
-		private void OnRightUpClick(InputAction.CallbackContext callbackContext) =>
-			Move(new Vector2Int(1, 1));
-
-		private void OnRightDownClick(InputAction.CallbackContext callbackContext) =>
-			Move(new Vector2Int(1, -1));
-
-		private void OnUpClick(InputAction.CallbackContext callbackContext) =>
-			Move(Vector2Int.up);
-
 		/// <summary>
 		/// 移動コマンド
 		/// </summary>
 		/// <param name="moveDistance"></param>
-		private void MoveCommand(Vector2Int moveDistance)
+		private bool MoveCommand(Vector2Int moveDistance)
 		{
-			if (moveDistance == Vector2Int.zero) return;
+			if (moveDistance == Vector2Int.zero) return false;
 
 			var playerModel = _charaManager.PlayerModel;
 			var player = _charaManager.Player;
@@ -152,7 +120,7 @@ namespace Ling.Scenes.Battle.Phase
 			{
 				// 向きだけ変える
 				playerModel.SetDirection(moveDistance);
-				return;
+				return false;
 			}
 			// 移動であればプロセスを追加し、敵思考に回す
 			var moveProcess = player.AddMoveProcess<Chara.Process.ProcessMove>();
@@ -168,6 +136,12 @@ namespace Ling.Scenes.Battle.Phase
 			// Player行動中に遷移
 			//var argument = new BattlePhasePlayerActionProcess.Argument { process = process };
 			//Change(BattleScene.Phase.PlayerActionProcess, argument);
+
+			// 移動したイベントを投げる
+			var eventPlayerMove = _gameManager.EventHolder.PlayerMove;
+			eventPlayerMove.moveDistance = new Vector3Int(moveDistance.x, moveDistance.y, 0);
+
+			return true;
 		}
 
 		/// <summary>
@@ -204,18 +178,17 @@ namespace Ling.Scenes.Battle.Phase
 		}
 
 
-#if UNITY_EDITOR
 		private void KeyCommandProcess()
 		{
-			// 通常攻撃
-			var move = _moveInputProvider.Controls.Move;
-			var isTest = move.Left.ReadValue<bool>();
-
-			if (isTest)
+			// 先頭から入力を確認する
+			foreach (var pair in _inputActionDict)
 			{
-				Utility.Log.Print("Left Test");
+				if (!pair.Key.IsPressed()) continue;
+
+				// 処理されたら終了
+				if (pair.Value.Invoke()) return;
 			}
-			
+
 			/*
 			// x, y の入力
 			// 関連付けはInput Managerで行っている
@@ -270,7 +243,6 @@ namespace Ling.Scenes.Battle.Phase
 				eventPlayerMove.moveDistance = new Vector3Int(moveDir.x, moveDir.y, 0);
 			}*/
 		}
-#endif
 
 		#endregion
 	}
