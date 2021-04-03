@@ -13,6 +13,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Ling.Common.Process;
+using Ling.Common.Input;
 
 using Zenject;
 
@@ -37,7 +38,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
-		private Common.Input.MoveInputProvider _moveInputProvider;
+		private IInputProvider<InputControls.IMoveActions> _moveInputProvider;
 
 		#endregion
 
@@ -60,7 +61,7 @@ namespace Ling.Scenes.Battle.Phase
 			_mapManager = Resolve<Map.MapManager>();
 
 			var inputManager = Resolve<Common.Input.IInputManager>();
-			_moveInputProvider = inputManager.Resolve<Common.Input.MoveInputProvider>();
+			_moveInputProvider = inputManager.Resolve<InputControls.IMoveActions>();
 		}
 
 		public override void Init()

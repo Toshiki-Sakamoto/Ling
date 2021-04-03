@@ -298,6 +298,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: MoveInput
       objectReference: {fileID: 0}
+    - target: {fileID: 8411614102256058118, guid: e7c464483aa5b445c9368c8726ce254f,
+        type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411614102256058118, guid: e7c464483aa5b445c9368c8726ce254f,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411614102256058118, guid: e7c464483aa5b445c9368c8726ce254f,
+        type: 3}
+      propertyPath: m_TargetDisplay
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8411614102256058119, guid: e7c464483aa5b445c9368c8726ce254f,
         type: 3}
       propertyPath: m_Pivot.x
@@ -341,6 +356,21 @@ PrefabInstance:
     - target: {fileID: 8411614102256058119, guid: e7c464483aa5b445c9368c8726ce254f,
         type: 3}
       propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411614102256058119, guid: e7c464483aa5b445c9368c8726ce254f,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411614102256058119, guid: e7c464483aa5b445c9368c8726ce254f,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411614102256058119, guid: e7c464483aa5b445c9368c8726ce254f,
+        type: 3}
+      propertyPath: m_LocalScale.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8411614102256058119, guid: e7c464483aa5b445c9368c8726ce254f,
@@ -401,6 +431,11 @@ PrefabInstance:
     - target: {fileID: 8411614102256058119, guid: e7c464483aa5b445c9368c8726ce254f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411614102256058168, guid: e7c464483aa5b445c9368c8726ce254f,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
