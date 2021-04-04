@@ -77,7 +77,7 @@ namespace Ling.Scenes.Battle._Debug
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

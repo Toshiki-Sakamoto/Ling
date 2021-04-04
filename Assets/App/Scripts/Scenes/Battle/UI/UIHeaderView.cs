@@ -82,7 +82,7 @@ namespace Ling.Scenes.Battle.UI
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

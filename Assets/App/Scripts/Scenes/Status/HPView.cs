@@ -92,7 +92,7 @@ namespace Ling.Scenes.Status
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

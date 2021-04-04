@@ -75,7 +75,7 @@ namespace Ling.Scenes.Battle.View
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

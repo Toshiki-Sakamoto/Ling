@@ -345,7 +345,7 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 			if (Instance == this)
 			{

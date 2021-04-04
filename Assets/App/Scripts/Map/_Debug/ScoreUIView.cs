@@ -92,7 +92,7 @@ namespace Ling.Map._Debug
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

@@ -80,7 +80,7 @@ namespace Ling.Adv.Window
         /// <summary>
         /// 終了処理
         /// </summary>
-        void OnDestoroy()
+        void OnDestroy()
         {
             Ling.Utility.EventManager.SafeAllRemove(this);
         }

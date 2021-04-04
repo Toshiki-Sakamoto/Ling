@@ -122,7 +122,7 @@ namespace Ling._Debug.Builder
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 			_eventManager.RemoveAll(this);
 		}

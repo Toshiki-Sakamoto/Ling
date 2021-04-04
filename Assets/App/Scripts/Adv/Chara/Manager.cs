@@ -127,7 +127,7 @@ namespace Ling.Adv.Chara
         /// <summary>
         /// 終了処理
         /// </summary>
-        void OnDestoroy()
+        void OnDestroy()
         {
         }
 
