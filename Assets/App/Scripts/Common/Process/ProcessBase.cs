@@ -21,7 +21,7 @@ namespace Ling.Common
 	/// 一つのタスク
 	/// </summary>
 	public abstract class ProcessBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -124,13 +124,13 @@ namespace Ling.Common
 		/// <summary>
 		/// 前のプロセスが終了したときに呼び出される
 		/// </summary>
-		public void ProcessStart() 
+		public void ProcessStart()
 		{
 			IsStarted = true;
 			ProcessStartInternal();
 		}
 
-		protected virtual void ProcessStartInternal() {}
+		protected virtual void ProcessStartInternal() { }
 
 		public void ProcessFinish()
 		{

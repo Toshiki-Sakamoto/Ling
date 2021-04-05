@@ -25,11 +25,11 @@ namespace Ling.Common
 	{
 		static InitLauncher()
 		{
-            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+			EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
 		}
 
 		private static void OnPlayModeStateChanged(PlayModeStateChange state)
-        {
+		{
 			//EditorSceneManager.OpenScene("Assets/App/Scenes/Manager.scene", OpenSceneMode.Additive);
 			//UnityEngine.SceneManagement.SceneManager.LoadScene("Manager");
 		}
@@ -39,8 +39,8 @@ namespace Ling.Common
 	/// <summary>
 	/// 必ず一番初めに起動される
 	/// </summary>
-	public class Launcher : MonoBehaviour 
-    {
+	public class Launcher : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -87,9 +87,9 @@ namespace Ling.Common
 
 
 		#region private 関数
-		
+
 		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-		private static void OnBeforeSceneLoadRuntimeMethod ()
+		private static void OnBeforeSceneLoadRuntimeMethod()
 		{
 			// Editor再生時にも同様の処理をするほうがいいか
 			//Debug.Log("Before scene loaded " + UnityEngine.SceneManagement.SceneManager.GetAllScenes().ToString());

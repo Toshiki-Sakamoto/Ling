@@ -21,7 +21,7 @@ namespace Ling.Common.Process
 	/// 
 	/// </summary>
 	public class ProcessSpawn
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

@@ -21,7 +21,7 @@ namespace Ling.Common.Process
 	/// 指定されたメソッドを呼び出す
 	/// </summary>
 	public class ProcessCallFunc : ProcessBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

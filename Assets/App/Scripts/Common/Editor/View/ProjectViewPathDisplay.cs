@@ -41,8 +41,8 @@ namespace Ling.Editor.View
 
 		private static GUIStyle _style;
 		private static bool _enable;
-		private static List<string> _removePathLists = new List<string> 
-			{ 
+		private static List<string> _removePathLists = new List<string>
+			{
 				@"Assets\",
 				@"App\",
 				@"Scripts\",

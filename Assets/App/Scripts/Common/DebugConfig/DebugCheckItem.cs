@@ -19,8 +19,8 @@ namespace Ling.Common.DebugConfig
 	/// <summary>
 	/// チェックボックス
 	/// </summary>
-	public class DebugCheckItem : MonoBehaviour 
-    {
+	public class DebugCheckItem : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		public class Data : DebugItemDataBase<DebugCheckItem>
@@ -66,7 +66,7 @@ namespace Ling.Common.DebugConfig
 		#region プロパティ
 
 
-//		public Action<bool> onUpdate { get; set; }
+		//		public Action<bool> onUpdate { get; set; }
 
 		#endregion
 
@@ -107,12 +107,12 @@ namespace Ling.Common.DebugConfig
 		{
 			_toggle
 				.OnValueChangedAsObservable()
-				.Subscribe((Action<bool>)(isOn_ => 
+				.Subscribe((Action<bool>)(isOn_ =>
 				{
 					if (this._data == null) return;
 
 					this._data.SetValue(isOn_);
-				//	onUpdate?.Invoke(Data.IsOn.Value);
+					//	onUpdate?.Invoke(Data.IsOn.Value);
 				}));
 		}
 

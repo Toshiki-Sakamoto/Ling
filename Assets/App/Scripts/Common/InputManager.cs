@@ -77,17 +77,17 @@ namespace Ling.Common.Input
 	/// </summary>
 	public class InputManager : MonoBehaviour, IInputProvider
     {
-		#region 定数, class, enum
+#region 定数, class, enum
 
-		#endregion
-
-
-		#region public, protected 変数
-
-		#endregion
+#endregion
 
 
-		#region private 変数
+#region public, protected 変数
+
+#endregion
+
+
+#region private 変数
 
 		private List<(GameObject, IInputProvider)> _inputProviders = new List<(GameObject, IInputProvider)>();
 		private Dictionary<KeyCode, List<GameObject>> _keyEventDataDict = new Dictionary<KeyCode, List<GameObject>>();
@@ -96,25 +96,25 @@ namespace Ling.Common.Input
 		private Dictionary<IInputUpListener, List<KeyCode>> _keyUpListeners = new Dictionary<IInputUpListener, List<KeyCode>>();
 		
 
-		#endregion
+#endregion
 
 
-		#region プロパティ
+#region プロパティ
 
 		/// <summary>
 		/// キー入力が有効状態の時true
 		/// </summary>
 		public bool Enabled { get; private set; }
 
-		#endregion
+#endregion
 
 
-		#region コンストラクタ, デストラクタ
+#region コンストラクタ, デストラクタ
 
-		#endregion
+#endregion
 
 
-		#region public, protected 関数
+#region public, protected 関数
 
 		/// <summary>
 		/// キー入力を有効/無効化する
@@ -236,10 +236,10 @@ namespace Ling.Common.Input
 			return false;
 		}
 
-		#endregion
+#endregion
 
 
-		#region private 関数
+#region private 関数
 
 		
 		private void AddListenerInternal<TListener>(KeyCode keyCode, TListener listener, Dictionary<TListener, List<KeyCode>> listeners)
@@ -323,7 +323,7 @@ namespace Ling.Common.Input
 				});
 		}
 
-		#endregion
+#endregion
 	}
 }
 #endif

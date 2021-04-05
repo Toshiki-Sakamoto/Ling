@@ -64,10 +64,10 @@ namespace Ling.Common.DebugConfig
 	/// <summary>
 	/// デバッグ管理者
 	/// </summary>
-	public class DebugConfigManager : 
-		Utility.MonoSingleton<DebugConfigManager>, 
-		Utility.UI.RecyclableScrollView.IContentDataProvider 
-    {
+	public class DebugConfigManager :
+		Utility.MonoSingleton<DebugConfigManager>,
+		Utility.UI.RecyclableScrollView.IContentDataProvider
+	{
 		#region 定数, class, enum
 
 		[Serializable]

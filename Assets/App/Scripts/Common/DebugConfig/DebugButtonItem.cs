@@ -16,8 +16,8 @@ namespace Ling.Common.DebugConfig
 	/// <summary>
 	/// DebugItemボタン
 	/// </summary>
-	public class DebugButtonItem : MonoBehaviour 
-    {
+	public class DebugButtonItem : MonoBehaviour
+	{
 		public class Data : DebugItemDataBase<DebugButtonItem>
 		{
 			public Data(string title)
@@ -25,7 +25,7 @@ namespace Ling.Common.DebugConfig
 			{
 			}
 
-			protected override void DataUpdateInternal(DebugButtonItem obj) 
+			protected override void DataUpdateInternal(DebugButtonItem obj)
 			{
 				obj.SetData(this);
 			}
@@ -51,7 +51,7 @@ namespace Ling.Common.DebugConfig
 		{
 			_button
 				.OnClickAsObservable()
-				.Subscribe(_ => 
+				.Subscribe(_ =>
 					{
 					});
 		}

@@ -20,7 +20,7 @@ namespace Ling.Common
 	/// ゲーム内定数
 	/// </summary>
 	public class GameDefine
-    {
+	{
 
 	}
 }

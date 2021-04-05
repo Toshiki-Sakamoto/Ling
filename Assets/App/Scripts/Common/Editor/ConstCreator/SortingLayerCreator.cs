@@ -20,7 +20,7 @@ namespace Ling.Common.Editor.DefineCreator
 	/// SortingLayerの定数スクリプトを作成する
 	/// </summary>
 	public class SortingLayerCreator
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

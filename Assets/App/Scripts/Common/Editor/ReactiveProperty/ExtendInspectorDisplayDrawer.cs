@@ -20,6 +20,6 @@ namespace Ling.Common.Editor.ReactiveProperty
 	[UnityEditor.CustomPropertyDrawer(typeof(Vector2IntReactiveProperty))]
 	[UnityEditor.CustomPropertyDrawer(typeof(Vector3IntReactiveProperty))]
 	public class ExtendInspectorDisplayDrawer : InspectorDisplayDrawer
-    {
+	{
 	}
 }

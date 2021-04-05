@@ -52,7 +52,7 @@ namespace Ling.Editor.View
 	/// Edit > Project Settings から開発者情報を記録できる
 	/// </summary>
 	public class DeveloperSetting : SettingsProvider
-    {
+	{
 		#region 定数, class, enum
 
 		private const string NameKey = "DeveloperName";

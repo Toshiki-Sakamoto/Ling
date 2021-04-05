@@ -21,9 +21,9 @@ namespace Ling.Common.Scene
 		None,
 		Manager,
 		Map,
-		StartUp, 
+		StartUp,
 		Title,
-		Main, 
+		Main,
 		Battle,
 		Status,
 		MoveInput,
@@ -34,19 +34,19 @@ namespace Ling.Common.Scene
 	/// </summary>
 	public static class SceneIDExtensions
 	{
-		public static readonly Dictionary<SceneID, string> _sceneIDs = 
-			new Dictionary<SceneID, string> 
-				{
-					[SceneID.StartUp] = "StartUp",
-					[SceneID.Title] = "Title",
-					[SceneID.Main] = "Main",
-					[SceneID.Battle] = "Battle",
-					[SceneID.Status] = "Status",
-					[SceneID.MoveInput] = "MoveInput",
-				};
+		public static readonly Dictionary<SceneID, string> _sceneIDs =
+			new Dictionary<SceneID, string>
+			{
+				[SceneID.StartUp] = "StartUp",
+				[SceneID.Title] = "Title",
+				[SceneID.Main] = "Main",
+				[SceneID.Battle] = "Battle",
+				[SceneID.Status] = "Status",
+				[SceneID.MoveInput] = "MoveInput",
+			};
 
 
-		public static string GetName(this SceneID id) => 
+		public static string GetName(this SceneID id) =>
 			_sceneIDs[id];
 	}
 }

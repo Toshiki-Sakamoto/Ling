@@ -22,7 +22,7 @@ namespace Ling.Common
 	/// MinとMax両方保持できる
 	/// </summary>
 	public class MinMax<T>
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -67,7 +67,7 @@ namespace Ling.Common
 
 	[System.Serializable]
 	public class MinMaxFloat : MinMax<float>
-	{ 
+	{
 	}
 
 	[System.Serializable]

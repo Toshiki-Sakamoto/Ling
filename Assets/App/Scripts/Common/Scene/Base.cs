@@ -32,8 +32,8 @@ namespace Ling.Common.Scene
 		{
 			public enum TimingType
 			{
-				Prev,	// シーン読み込み前のタイミングで読み込む
-				Loaded,	// シーン読み込み後のタイミングで読み込む
+				Prev,   // シーン読み込み前のタイミングで読み込む
+				Loaded, // シーン読み込み後のタイミングで読み込む
 			}
 
 			public TimingType Timing { get; set; }
@@ -44,8 +44,8 @@ namespace Ling.Common.Scene
 			public static DependenceData CreateAtPrev(SceneID sceneID, Argument argument = null) =>
 				new DependenceData { Timing = TimingType.Prev, SceneID = sceneID, Argument = argument };
 
- 			public static DependenceData CreateAtLoaded(SceneID sceneID, Argument argument = null) =>
-				new DependenceData { Timing = TimingType.Loaded, SceneID = sceneID, Argument = argument };
+			public static DependenceData CreateAtLoaded(SceneID sceneID, Argument argument = null) =>
+			   new DependenceData { Timing = TimingType.Loaded, SceneID = sceneID, Argument = argument };
 		}
 
 		#endregion
@@ -83,7 +83,7 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// DIContainerを取得する
 		/// </summary>
-		public DiContainer DiContainer  => _diContainer;
+		public DiContainer DiContainer => _diContainer;
 
 		/// <summary>
 		/// 自分のシーンに必要なシーンID
@@ -153,7 +153,7 @@ namespace Ling.Common.Scene
 			_processManager?.SetupScene(this);
 
 			// 起動済みなら何もしない
-			if (!_launcher?.IsSceneBooted ?? false) 
+			if (!_launcher?.IsSceneBooted ?? false)
 			{
 				// シーンから直接起動した場合
 				// 必要な初期化処理をしたあと起動する

@@ -20,7 +20,7 @@ namespace Ling.Common.Scene
 	/// 
 	/// </summary>
 	public class Argument
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

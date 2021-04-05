@@ -28,7 +28,7 @@ namespace Ling.Common.MasterData
 	/// </summary>
 	public class MasterRepository<T> : Common.Repotitory.IRepository<T>, IMasterRepository
 		where T : MasterDataBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

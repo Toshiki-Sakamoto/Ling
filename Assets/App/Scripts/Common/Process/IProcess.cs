@@ -21,7 +21,7 @@ namespace Ling.Common.Process
 	/// 
 	/// </summary>
 	public class IProcess
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

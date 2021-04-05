@@ -85,7 +85,7 @@ namespace Ling.Common
 			{
 				// 開始されていないプロセスをスタートさせる
 				var notStaredProcesses = _startProcesses.Where(process_ => !process_.IsStarted);
-				foreach(var process in notStaredProcesses)
+				foreach (var process in notStaredProcesses)
 				{
 					// 有効なプロセスのみ開始させる
 					if (process.Enabled)

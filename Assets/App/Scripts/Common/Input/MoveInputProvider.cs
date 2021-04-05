@@ -15,10 +15,10 @@ namespace Ling.Common.Input
 	/// <summary>
 	/// IMoveActionsを継承した移動用InputProvider
 	/// </summary>
-	public class MoveInputProvider : MonoBehaviour, 
-		InputControls.IMoveActions, 
+	public class MoveInputProvider : MonoBehaviour,
+		InputControls.IMoveActions,
 		IInputProvider<InputControls.IMoveActions>
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -51,7 +51,7 @@ namespace Ling.Common.Input
 		#region public, protected 関数
 
 
-        public void OnLeft(InputAction.CallbackContext context)
+		public void OnLeft(InputAction.CallbackContext context)
 		{
 		}
 
@@ -59,27 +59,27 @@ namespace Ling.Common.Input
 		{
 		}
 
-        public void OnUp(InputAction.CallbackContext context)
+		public void OnUp(InputAction.CallbackContext context)
 		{
 		}
 
-        public void OnRightUp(InputAction.CallbackContext context)
-		{}
+		public void OnRightUp(InputAction.CallbackContext context)
+		{ }
 
-        public void OnRight(InputAction.CallbackContext context)
-		{}
+		public void OnRight(InputAction.CallbackContext context)
+		{ }
 
-        public void OnRightDown(InputAction.CallbackContext context)
-		{}
+		public void OnRightDown(InputAction.CallbackContext context)
+		{ }
 
-        public void OnDown(InputAction.CallbackContext context)
-		{}
+		public void OnDown(InputAction.CallbackContext context)
+		{ }
 
-        public void OnLeftDown(InputAction.CallbackContext context)
-		{}
-		
+		public void OnLeftDown(InputAction.CallbackContext context)
+		{ }
+
 		public void OnDirSwitch(InputAction.CallbackContext context)
-		{}
+		{ }
 
 		#endregion
 
