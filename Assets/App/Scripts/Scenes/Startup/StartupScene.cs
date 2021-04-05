@@ -20,7 +20,7 @@ namespace Ling.Startup
 	/// 一番最初に起動されるシーン
 	/// </summary>
 	public class StartupScene : Common.Scene.Base
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
