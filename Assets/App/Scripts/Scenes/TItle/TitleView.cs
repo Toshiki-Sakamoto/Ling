@@ -17,8 +17,8 @@ namespace Ling.Scenes.TItle
 	/// <summary>
 	/// 
 	/// </summary>
-	public class TitleView : MonoBehaviour 
-    {
+	public class TitleView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion

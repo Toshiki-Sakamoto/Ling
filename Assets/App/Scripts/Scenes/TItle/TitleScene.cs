@@ -15,8 +15,8 @@ namespace Ling.Scenes.TItle
 	/// <summary>
 	/// タイトル
 	/// </summary>
-	public class TitleScene : Common.Scene.Base 
-    {
+	public class TitleScene : Common.Scene.Base
+	{
 		#region 定数, class, enum
 
 		#endregion
