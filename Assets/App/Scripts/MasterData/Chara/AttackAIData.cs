@@ -15,7 +15,7 @@ namespace Ling.MasterData.Chara
 	/// </summary>
 	[System.Serializable]
 	public class AttackAIData
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -34,7 +34,7 @@ namespace Ling.MasterData.Chara
 
 		[SerializeField, FieldName("攻撃AIパラメータ１")]
 		private string _attackAIParam1 = default;
-		
+
 		[SerializeField, FieldName("攻撃AIの最も優先すべきターゲット")]
 		private Const.TileFlag _firstTarget = default;
 

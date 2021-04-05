@@ -15,7 +15,7 @@ namespace Ling.MasterData.Item
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/FoodMaster", fileName = "FoodMaster")]
 	public class FoodMaster : ItemMaster
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

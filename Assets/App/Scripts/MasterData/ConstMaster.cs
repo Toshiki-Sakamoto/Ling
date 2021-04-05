@@ -24,7 +24,7 @@ namespace Ling.MasterData
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/ConstMaster", fileName = "ConstMaster")]
 	public class ConstMaster : Common.MasterData.MasterDataBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -40,11 +40,11 @@ namespace Ling.MasterData
 		[Header("Map関連")]
 		[SerializeField, FieldName("Map間隔")]
 		private float _mapDiffHeight = 20f;
-		
-		[SerializeField, FieldName("プレイヤー階層移動時間")] 
+
+		[SerializeField, FieldName("プレイヤー階層移動時間")]
 		private float _playerLevelMoveTime = 1.0f;
-		
-		[SerializeField, FieldName("マップ階層移動時間")] 
+
+		[SerializeField, FieldName("マップ階層移動時間")]
 		private float _mapLevelMoveTime = 1.2f;
 
 		[SerializeField, FieldName("敵の最大生成数")]

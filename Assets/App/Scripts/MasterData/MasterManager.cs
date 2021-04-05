@@ -36,7 +36,7 @@ namespace Ling.MasterData
 	/// プロジェクト固有のマスターマネージャー
 	/// </summary>
 	public class MasterManager : Common.MasterData.MasterManager, IMasterHolder
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -87,7 +87,7 @@ namespace Ling.MasterData
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			return UniTask.WhenAll(_loadTasks)
 				.ToObservable()
-				.Do(_ => 
+				.Do(_ =>
 					{
 						LoadFinished();
 					});
