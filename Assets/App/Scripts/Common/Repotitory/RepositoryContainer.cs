@@ -14,7 +14,7 @@ namespace Ling.Common.Repotitory
 	/// </summary>
 	public abstract class RepositoryContainer<TCategory, TBaseEntity>
 		where TBaseEntity : class
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

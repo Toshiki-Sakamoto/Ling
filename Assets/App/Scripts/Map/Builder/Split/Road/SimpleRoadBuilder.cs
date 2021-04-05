@@ -20,7 +20,7 @@ namespace Ling.Map.Builder.Split.Road
 	/// 
 	/// </summary>
 	public class SimpleRoadBuilder : ISplitRoadBuilder
-    {
+	{
 		#region 定数, class, enum
 
 		public class Factory : PlaceholderFactory<SimpleRoadBuilder> { }
@@ -82,7 +82,7 @@ namespace Ling.Map.Builder.Split.Road
 
 			var roadData = new RoadData();
 
-			System.Predicate<TileData> createRoadData = 
+			System.Predicate<TileData> createRoadData =
 				(tileData_) =>
 				{
 					roadData.Add(tileData_.Pos);
@@ -207,7 +207,7 @@ namespace Ling.Map.Builder.Split.Road
 						tileDataMap.FillRectRoad(x + 1, y2, roomB.xMin, y2 + 1, createRoadData);
 					}
 				}
-				
+
 				// AとB両方に道のデータをもたせる
 				dataA.roads.Add(roadData);
 

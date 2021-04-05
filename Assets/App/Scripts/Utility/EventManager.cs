@@ -337,7 +337,7 @@ namespace Ling.Utility
 
 	public static class EventManagerExtensions
 	{
-		private static System.Action<GameObject> eventRemoveAction = 
+		private static System.Action<GameObject> eventRemoveAction =
 			instance =>
 			{
 				EventManager.Instance?.RemoveAll(instance);

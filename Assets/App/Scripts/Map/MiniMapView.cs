@@ -18,8 +18,8 @@ namespace Ling.Map
 	/// <summary>
 	/// 
 	/// </summary>
-	public class MiniMapView : MonoBehaviour 
-    {
+	public class MiniMapView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -99,7 +99,7 @@ namespace Ling.Map
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

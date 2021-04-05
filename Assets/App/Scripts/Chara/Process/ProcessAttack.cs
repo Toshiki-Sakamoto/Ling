@@ -20,7 +20,7 @@ namespace Ling.Chara.Process
 	/// 通常攻撃プロセス
 	/// </summary>
 	public class ProcessAttack : Common.ProcessBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -32,10 +32,10 @@ namespace Ling.Chara.Process
 
 
 		#region private 変数
-		
+
 		private Chara.CharaManager _charaManager;
-		private Chara.ICharaController _unit;	// 攻撃対象のキャラ
-		private List<Chara.ICharaController> _targets = new List<ICharaController>();	// ターゲット
+		private Chara.ICharaController _unit;   // 攻撃対象のキャラ
+		private List<Chara.ICharaController> _targets = new List<ICharaController>();   // ターゲット
 		private List<Chara.ICharaController> _deadChara = new List<ICharaController>();
 		private Vector2Int _targetPos;
 		private bool _ignoreIfNoTarget;
@@ -85,7 +85,7 @@ namespace Ling.Chara.Process
 		private async UniTask AttackAsync()
 		{
 			// ターゲットがいない場合何もしない
-			if (!_ignoreIfNoTarget && !ExistsTarget) 
+			if (!_ignoreIfNoTarget && !ExistsTarget)
 			{
 				ProcessFinish();
 				return;
@@ -103,7 +103,7 @@ namespace Ling.Chara.Process
 			// ダメージ計算
 			var subject = new Subject<Chara.ICharaController>();
 			subject.Where(_ => ExistsTarget)
-				.Where(target => 
+				.Where(target =>
 				{
 					// HPをへらす
 					target.Status.SubHP(1);

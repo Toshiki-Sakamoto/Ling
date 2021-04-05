@@ -17,7 +17,7 @@ namespace Ling.Common.Editor
 	/// ショートカット
 	/// </summary>
 	public static class ShortCut
-    {
+	{
 		/// <summary>
 		/// StartUpシーンを起動する
 		/// </summary>

@@ -18,55 +18,55 @@ namespace Ling.Adv.Engine
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Log
-    {
-        #region 定数, class, enum
+	public class Log
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        #endregion
-
-
-        #region プロパティ
-
-        #endregion
+		#endregion
 
 
-        #region コンストラクタ, デストラクタ
+		#region private 変数
 
-        #endregion
-
-
-        #region public, protected 関数
-
-        public static void Print(string format, params object[] args)
-        {
-            Utility.Log.Print(format, args);
-        }
-
-        public static void Warning(string format, params object[] args)
-        {
-            Utility.Log.Warning(format, args);
-        }
-
-        public static void Error(string format, params object[] args)
-        {
-            Utility.Log.Error(format, args);
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region プロパティ
 
-        #endregion
-    }
+		#endregion
+
+
+		#region コンストラクタ, デストラクタ
+
+		#endregion
+
+
+		#region public, protected 関数
+
+		public static void Print(string format, params object[] args)
+		{
+			Utility.Log.Print(format, args);
+		}
+
+		public static void Warning(string format, params object[] args)
+		{
+			Utility.Log.Warning(format, args);
+		}
+
+		public static void Error(string format, params object[] args)
+		{
+			Utility.Log.Error(format, args);
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+	}
 }

@@ -14,7 +14,7 @@ namespace Ling.Utility.Async
 	/// 一定時間awaitを呼び出し、次に処理を移す
 	/// </summary>
 	public class TimeAwaiter : BaseAwaiter
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

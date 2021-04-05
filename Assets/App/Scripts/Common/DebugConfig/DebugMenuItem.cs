@@ -25,7 +25,7 @@ namespace Ling.Common.DebugConfig
 			public List<IDebugItemData> children = new List<IDebugItemData>();
 
 			public int Count => children.Count;
-			
+
 			/// <summary>
 			/// リストの中身
 			/// </summary>
@@ -36,7 +36,7 @@ namespace Ling.Common.DebugConfig
 			{
 			}
 
-			protected override void DataUpdateInternal(DebugMenuItem obj) 
+			protected override void DataUpdateInternal(DebugMenuItem obj)
 			{
 				obj.SetData(this);
 			}
@@ -60,7 +60,7 @@ namespace Ling.Common.DebugConfig
 		[SerializeField] private Text _buttonText = default;
 
 		[Inject] private DebugConfigManager _manager = default;
-		
+
 		private Data _data;
 		private List<IDebugItemData> _dataList = new List<IDebugItemData>();
 		public int DataCount => _dataList.Count;
@@ -100,7 +100,7 @@ namespace Ling.Common.DebugConfig
 		{
 			_button
 				.OnClickAsObservable()
-				.Subscribe(_ => 
+				.Subscribe(_ =>
 					{
 						// 自分が持つリストを表示させる
 						_manager.UpdateMenuItemData(_data);

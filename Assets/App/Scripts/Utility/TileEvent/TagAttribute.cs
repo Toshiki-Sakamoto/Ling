@@ -12,11 +12,11 @@ using UnityEngine.UI;
 
 namespace Ling.Utility.TileEvent
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class TagAttribute : PropertyAttribute 
-    {
-        public bool UseDefaultTagFieldDrawer;
-    }
+	/// <summary>
+	/// 
+	/// </summary>
+	public class TagAttribute : PropertyAttribute
+	{
+		public bool UseDefaultTagFieldDrawer;
+	}
 }

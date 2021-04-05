@@ -19,7 +19,7 @@ namespace Ling.Map
 	/// <see cref="TileData"/>を管理する
 	/// </summary>
 	public class TileDataMap : IEnumerable<TileData>
-    {
+	{
 		#region 定数, class, enum
 
 		public struct Enumerator : IEnumerator<TileData>
@@ -36,7 +36,7 @@ namespace Ling.Map
 
 			public TileData Current => _list.GetTile(_index);
 			object IEnumerator.Current => _list.GetTile(_index);
-			public  void Dispose() {}
+			public void Dispose() { }
 			public bool MoveNext() => ++_index < _list.Size;
 			public void Reset() => _index = 0;
 		}
@@ -170,15 +170,15 @@ namespace Ling.Map
 		//	BuildMapInternal(RoadMap, TileFlag.Road);
 
 
-        /// <summary>
-        /// 指定区画を指定フラグで上書きする
-        /// </summary>
-        public void FillRect(int left, int top, int right, int bottom, TileFlag flag, System.Predicate<TileData> predicate = null)
-        {
-            for (int y = top; y < bottom; ++y)
-            {
-                for (int x = left; x < right; ++x)
-                {
+		/// <summary>
+		/// 指定区画を指定フラグで上書きする
+		/// </summary>
+		public void FillRect(int left, int top, int right, int bottom, TileFlag flag, System.Predicate<TileData> predicate = null)
+		{
+			for (int y = top; y < bottom; ++y)
+			{
+				for (int x = left; x < right; ++x)
+				{
 					if (!InRange(x, y)) continue;
 
 					var tileData = this.GetTile(x, y);
@@ -193,9 +193,9 @@ namespace Ling.Map
 					}
 
 					tileData.SetFlag(flag);
-                }
-            }
-        }
+				}
+			}
+		}
 
 		/// <summary>
 		/// 道を作成する。
@@ -215,7 +215,7 @@ namespace Ling.Map
 					if (!predicate?.Invoke(tileData) ?? false) continue;
 
 					// 部屋の場所は書き換えない
-				//	if (tileData.HasFlag(TileFlag.Floor)) continue;
+					//	if (tileData.HasFlag(TileFlag.Floor)) continue;
 
 					// 部屋と隣接していたらtrueをいれる
 					tileData.SetFlag(TileFlag.Road);
@@ -243,7 +243,7 @@ namespace Ling.Map
 		/// <summary>
 		/// TileDataを取得する
 		/// </summary>
-		public TileData GetTileData(int x, int y) 
+		public TileData GetTileData(int x, int y)
 		{
 			if (!InRange(x, y)) return null;
 			return Tiles[y * Width + x];
@@ -315,7 +315,7 @@ namespace Ling.Map
 
 			Utility.Map.CallDirection(pos.x, pos.y,
 				(_x, _y) =>
-				{ 
+				{
 					if (this.GetTile(_x, _y).HasFlag(tileFlag))
 					{
 						lists.Add(new Vector2Int(_x, _y));

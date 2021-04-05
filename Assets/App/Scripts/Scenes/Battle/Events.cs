@@ -22,7 +22,7 @@ namespace Ling.Scenes.Battle
 	/// </summary>
 	public class EventPlayerMove
 	{
-		public Vector3Int moveDistance;	// 移動距離
+		public Vector3Int moveDistance; // 移動距離
 	}
 
 	public class EventMessageText

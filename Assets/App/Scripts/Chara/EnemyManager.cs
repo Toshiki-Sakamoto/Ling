@@ -22,7 +22,7 @@ namespace Ling.Chara
 	/// 更に<see cref="EnemyMapLevelManager"/>が階層ごとに敵を管理する
 	/// </summary>
 	public class EnemyManager
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

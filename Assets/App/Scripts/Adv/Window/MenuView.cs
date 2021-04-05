@@ -12,79 +12,79 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Window
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class MenuView : MonoBehaviour 
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 
+	/// </summary>
+	public class MenuView : MonoBehaviour
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        [SerializeField] private Button _btn = null;
-        [SerializeField] private Text _txtBtn = null;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		[SerializeField] private Button _btn = null;
+		[SerializeField] private Text _txtBtn = null;
 
-
-        #region public, protected 関数
-
-        public void Setup()
-        {
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region プロパティ
 
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region public, protected 関数
 
-        /// <summary>
-        /// 初期処理
-        /// </summary>
-        void Awake()
-        {
-        }
+		public void Setup()
+		{
+		}
 
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
+		#endregion
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-        }
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        void OnDestoroy()
-        {
-            Ling.Utility.EventManager.SafeAllRemove(this);
-        }
+		#region private 関数
 
-        #endregion
-    }
+		#endregion
+
+
+		#region MonoBegaviour
+
+		/// <summary>
+		/// 初期処理
+		/// </summary>
+		void Awake()
+		{
+		}
+
+		/// <summary>
+		/// 更新前処理
+		/// </summary>
+		void Start()
+		{
+		}
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		void OnDestroy()
+		{
+			Ling.Utility.EventManager.SafeAllRemove(this);
+		}
+
+		#endregion
+	}
 }

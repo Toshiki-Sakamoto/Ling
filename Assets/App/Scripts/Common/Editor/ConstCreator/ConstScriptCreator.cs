@@ -22,13 +22,13 @@ namespace Ling.Common.Editor.DefineCreator
 	/// 定数スクリプトファイルを作成するEditor機能
 	/// </summary>
 	public class ConstScriptCreator
-    {
+	{
 		#region 定数, class, enum
 
 		public class Param<T>
 		{
-			public Dictionary<string, T> constPairs;		// 定数
-			public bool needsInsertComments;				// コメントを挿入する場合
+			public Dictionary<string, T> constPairs;        // 定数
+			public bool needsInsertComments;                // コメントを挿入する場合
 			public Dictionary<string, string> commentPairs; // コメント
 
 

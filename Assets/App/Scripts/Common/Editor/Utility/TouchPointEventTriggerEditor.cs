@@ -11,7 +11,7 @@ using UnityEngine.UI;
 using UnityEditor;
 using UnityEditor.EventSystems;
 using Ling.Utility;
- 
+
 
 
 namespace Ling.Editor.Utility
@@ -20,8 +20,8 @@ namespace Ling.Editor.Utility
 	/// 
 	/// </summary>
 	[CustomEditor(typeof(TouchPointEventTrigger))]
-	public class TouchPointEventTriggerEditor : EventTriggerEditor 
-    {
+	public class TouchPointEventTriggerEditor : EventTriggerEditor
+	{
 		#region 定数, class, enum
 
 		#endregion

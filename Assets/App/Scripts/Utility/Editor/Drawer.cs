@@ -19,7 +19,7 @@ namespace Ling.Utility.Editor
 	/// <see cref="UnityEditor.PropertyDrawer"/>関連の便利関数定義
 	/// </summary>
 	public static class Drawer
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

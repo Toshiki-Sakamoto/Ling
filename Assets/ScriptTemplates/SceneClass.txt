@@ -13,7 +13,7 @@ namespace #NAMESPACE#
 	/// #SUMMARY#
 	/// </summary>
 	public class #SCRIPTNAME# : Common.Scene.Base 
-    {
+	{
 		#region 定数, class, enum
 
 		public enum Phase

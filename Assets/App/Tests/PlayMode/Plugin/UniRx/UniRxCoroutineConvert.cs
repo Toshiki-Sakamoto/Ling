@@ -23,7 +23,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// コルーチン変換
 	/// </summary>
 	public class UniRxCoroutineConvert
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -128,9 +128,9 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 				execudedCoroutineB = true;
 			}
 
-			bool isFinished = false; 
+			bool isFinished = false;
 			Observable.FromCoroutine(CoroutineA)
-				.SelectMany(CoroutineB)	// SelectManyで合成可能
+				.SelectMany(CoroutineB) // SelectManyで合成可能
 				.Subscribe(_ => isFinished = true);
 
 
@@ -162,13 +162,13 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			Observable.WhenAll(
 				Observable.FromCoroutine<int>(o => CoroutineA(o)),
 				Observable.FromCoroutine<int>(o => CoroutineB(o))
-			).Subscribe(xi => 
+			).Subscribe(xi =>
 			{
 				foreach (var x in xi)
 				{
 					count += x;
 				}
-			}, 
+			},
 			() => isFinished = true);
 
 

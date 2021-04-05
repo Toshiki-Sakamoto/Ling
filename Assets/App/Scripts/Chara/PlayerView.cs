@@ -14,45 +14,45 @@ using Cysharp.Threading.Tasks;
 
 namespace Ling.Chara
 {
-    /// <summary>
-    /// PlayerView
-    /// </summary>
-    public class PlayerView : ViewBase 
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// PlayerView
+	/// </summary>
+	public class PlayerView : ViewBase
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        #endregion
-
-
-        #region プロパティ
+		#endregion
 
 
-        #endregion
+		#region private 変数
+
+		#endregion
 
 
-        #region public, protected 関数
+		#region プロパティ
 
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
-
-        #endregion
+		#region public, protected 関数
 
 
-        #region MonoBegaviour
+		#endregion
 
-        #endregion
-    }
+
+		#region private 関数
+
+		#endregion
+
+
+		#region MonoBegaviour
+
+		#endregion
+	}
 }

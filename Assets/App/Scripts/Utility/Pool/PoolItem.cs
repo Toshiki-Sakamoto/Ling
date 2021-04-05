@@ -17,8 +17,8 @@ namespace Ling.Utility.Pool
 	/// <summary>
 	/// 
 	/// </summary>
-	public class PoolItem : MonoBehaviour 
-    {
+	public class PoolItem : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -31,7 +31,7 @@ namespace Ling.Utility.Pool
 
 		#region private 変数
 
-		private PoolCreator _poolCreator;	// 自分を生成したPoolCreator
+		private PoolCreator _poolCreator;   // 自分を生成したPoolCreator
 
 		#endregion
 

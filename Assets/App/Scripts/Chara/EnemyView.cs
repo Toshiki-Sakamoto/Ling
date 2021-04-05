@@ -21,7 +21,7 @@ namespace Ling.Chara
 	/// 敵の基本的なデータを持つ
 	/// </summary>
 	public class EnemyView : ViewBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

@@ -43,7 +43,7 @@ namespace Ling.Map.Builder
 
 		#region private 変数
 
-		private BuilderData _data = null;		// データ
+		private BuilderData _data = null;       // データ
 		private IBuilder _builder = null;   // 現在のビルダー
 
 		#endregion

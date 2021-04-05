@@ -22,7 +22,7 @@ namespace Ling.Adv
 	/// 
 	/// </summary>
 	public interface IDocument
-    {
+	{
 		/// <summary>
 		/// 描画情報をリストにまとめたもの
 		/// </summary>

@@ -21,8 +21,8 @@ namespace Ling.Scenes.Battle.Message
 	/// <summary>
 	/// 
 	/// </summary>
-	public class MessageView : MonoBehaviour 
-    {
+	public class MessageView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		class TextData
@@ -199,7 +199,7 @@ namespace Ling.Scenes.Battle.Message
 		{
 			float posY = _topPadding;
 
-			foreach(var item in _activeTextItemQueue)
+			foreach (var item in _activeTextItemQueue)
 			{
 				item.SetPositionY(posY);
 

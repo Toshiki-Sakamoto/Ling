@@ -16,56 +16,56 @@ using UnityEditor;
 #if UNITY_EDITOR
 namespace Ling.Utility.TileEvent
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    [CustomEditor(typeof(TileEvents))]
-    public class Inspector : UnityEditor.Editor
+	/// <summary>
+	/// 
+	/// </summary>
+	[CustomEditor(typeof(TileEvents))]
+	public class Inspector : UnityEditor.Editor
 	{
-        #region 定数, class, enum
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        #endregion
-
-
-        #region プロパティ
-
-        #endregion
+		#endregion
 
 
-        #region public, protected 関数
+		#region private 変数
 
-        #endregion
-
-
-        #region private 関数
-
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region プロパティ
 
-        public override void OnInspectorGUI()
-        {
-            var map = (TileEvents)target;
+		#endregion
 
-            map.SetDeleted(true);
-            map.CreateTilesList(true);
-            map.RemoveDeleteTiles(true);
 
-            DrawDefaultInspector();
-        }
+		#region public, protected 関数
 
-        #endregion
-    }
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+
+
+		#region MonoBegaviour
+
+		public override void OnInspectorGUI()
+		{
+			var map = (TileEvents)target;
+
+			map.SetDeleted(true);
+			map.CreateTilesList(true);
+			map.RemoveDeleteTiles(true);
+
+			DrawDefaultInspector();
+		}
+
+		#endregion
+	}
 }
 #endif

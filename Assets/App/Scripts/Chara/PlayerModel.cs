@@ -11,7 +11,7 @@ namespace Ling.Chara
 	/// PlayerModel
 	/// </summary>
 	public class PlayerModel : CharaModel
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

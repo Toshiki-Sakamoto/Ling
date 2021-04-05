@@ -13,7 +13,7 @@ namespace Ling.Utility.Extensions
 	/// System.Action, System.Func 等の拡張機能
 	/// </summary>
 	public static class MulticastDelegateExtensions
-    {
+	{
 		public static int GetLength(this MulticastDelegate self)
 		{
 			var invocationList = self.GetInvocationList();

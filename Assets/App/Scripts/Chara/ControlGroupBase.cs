@@ -23,13 +23,13 @@ namespace Ling.Chara
 	/// <summary>
 	/// 複数のCharaControlを管理する
 	/// </summary>
-	public abstract class ControlGroupBase<TControl, TModel, TView> : 
+	public abstract class ControlGroupBase<TControl, TModel, TView> :
 		MonoBehaviour,
 		IEnumerable<TControl>
 		where TControl : CharaControl<TModel, TView>
 		where TModel : CharaModel
 		where TView : Chara.ViewBase
-    {
+	{
 		#region 定数, class, enum
 
 		public struct Enumerator : IEnumerator<TControl>
@@ -46,7 +46,7 @@ namespace Ling.Chara
 			public TControl Current => _list[_index];
 			object IEnumerator.Current => _list[_index];
 
-			public void Dispose() {}
+			public void Dispose() { }
 			public bool MoveNext() => ++_index < _list.Count();
 			public void Reset() => _index = 0;
 
@@ -103,7 +103,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 内部データをすべて初期値に戻す
 		/// </summary>
-		public void Reset() 
+		public void Reset()
 		{
 			ResetInternal();
 
@@ -144,7 +144,7 @@ namespace Ling.Chara
 					}
 				}
 
-			} while(isWait);
+			} while (isWait);
 		}
 
 		/// <summary>
@@ -171,7 +171,7 @@ namespace Ling.Chara
 		protected virtual UniTask SetupAsyncInternal() =>
 			UniTask.FromResult(default(object));
 
-		protected virtual void ResetInternal() {}
+		protected virtual void ResetInternal() { }
 
 		#endregion
 	}

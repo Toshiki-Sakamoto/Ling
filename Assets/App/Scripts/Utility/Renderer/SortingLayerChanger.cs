@@ -18,8 +18,8 @@ namespace Ling.Utility.Renderer
 	/// コンポーネント下のSortingLayerを一度に切り替える
 	/// </summary>
 	[ExecuteInEditMode]
-	public class SortingLayerChanger : MonoBehaviour 
-    {
+	public class SortingLayerChanger : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion

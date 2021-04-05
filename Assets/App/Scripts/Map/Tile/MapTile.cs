@@ -25,8 +25,8 @@ namespace Ling.Map.Tile
 	/// MiniMap用のTile
 	/// </summary>
 	[System.Serializable]
-	public class MapTile : TileBase 
-    {
+	public class MapTile : TileBase
+	{
 		#region 定数, class, enum
 
 		public static readonly int SpriteMax = 15;
@@ -190,13 +190,13 @@ namespace Ling.Map.Tile
 			int mask = 0;
 
 			// 全部存在する場合255
-			mask += IsNighbor(tilemap, position, position + new Vector3Int(0, 1, 0)) ? 1 : 0;	// y + 1
+			mask += IsNighbor(tilemap, position, position + new Vector3Int(0, 1, 0)) ? 1 : 0;   // y + 1
 			mask += IsNighbor(tilemap, position, position + new Vector3Int(1, 1, 0)) ? 2 : 0;
-			mask += IsNighbor(tilemap, position, position + new Vector3Int(1, 0, 0)) ? 4 : 0;	// x + 1
+			mask += IsNighbor(tilemap, position, position + new Vector3Int(1, 0, 0)) ? 4 : 0;   // x + 1
 			mask += IsNighbor(tilemap, position, position + new Vector3Int(1, -1, 0)) ? 8 : 0;
-			mask += IsNighbor(tilemap, position, position + new Vector3Int(0, -1, 0)) ? 16 : 0;	// y - 1
+			mask += IsNighbor(tilemap, position, position + new Vector3Int(0, -1, 0)) ? 16 : 0; // y - 1
 			mask += IsNighbor(tilemap, position, position + new Vector3Int(-1, -1, 0)) ? 32 : 0;
-			mask += IsNighbor(tilemap, position, position + new Vector3Int(-1, 0, 0)) ? 64 : 0;	// x - 1
+			mask += IsNighbor(tilemap, position, position + new Vector3Int(-1, 0, 0)) ? 64 : 0; // x - 1
 			mask += IsNighbor(tilemap, position, position + new Vector3Int(-1, 1, 0)) ? 128 : 0;
 
 			byte original = (byte)mask;
@@ -209,7 +209,7 @@ namespace Ling.Map.Tile
 			if (index >= 0)
 			{
 				tileData.sprite = miniMapData.GetSpriteByInex(index);
-				tileData.transform = GetTransform((byte)mask);	// 回転させてSpriteを合わせる
+				tileData.transform = GetTransform((byte)mask);  // 回転させてSpriteを合わせる
 				tileData.color = _color;
 				tileData.flags = (TileFlags.LockTransform | TileFlags.LockColor);
 				tileData.colliderType = UnityEngine.Tilemaps.Tile.ColliderType.None;
@@ -223,11 +223,11 @@ namespace Ling.Map.Tile
 			switch (mask)
 			{
 				// Filled 周り全てが異なる
-				case 0: 
+				case 0:
 					return 0;
 
 				// Three Sides 上方向だけつながっている
-				case 1: 
+				case 1:
 				case 4:
 				case 16:
 				case 64:
@@ -290,11 +290,11 @@ namespace Ling.Map.Tile
 
 				// Two Oppsite Corners 上と右上と右と下と左下と左がつながっている
 				case 119:
-                case 221: return 12;
+				case 221: return 12;
 
 				// Oner Corner 上と右上と右と右下と下と左下と左がつながっている
 				case 127:
-                case 253:
+				case 253:
 				case 247:
 				case 223: return 13;
 
@@ -351,14 +351,14 @@ namespace Ling.Map.Tile
 
 			return Matrix4x4.identity;
 		}
-		
+
 		#endregion
 
 
-		
+
 		#region MonoBegaviour
 
-		
+
 		#endregion
 	}
 }

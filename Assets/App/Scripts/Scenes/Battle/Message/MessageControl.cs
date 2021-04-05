@@ -22,7 +22,7 @@ namespace Ling.Scenes.Battle.Message
 	/// 
 	/// </summary>
 	public class MessageControl : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -79,7 +79,7 @@ namespace Ling.Scenes.Battle.Message
 					var onSelected = ev_.onSelected;
 
 					// メッセージ表示後選択肢表示
-					_view.SetText(ev_.text, 
+					_view.SetText(ev_.text,
 						() =>
 						{
 							_select.onSelected = selectIndex_ =>

@@ -23,7 +23,7 @@ namespace Ling.Scenes.Battle.Phase
 	/// 
 	/// </summary>
 	public class BattlePhaseNextStage : BattlePhaseBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -54,23 +54,23 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		protected override void AwakeInternal() 
+		protected override void AwakeInternal()
 		{
 			_mapManager = Resolve<Map.MapManager>();
 			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
-		public override void Init() 
+		public override void Init()
 		{
 			BuildNextMapAsync().Forget();
 		}
 
-		public override void Proc() 
+		public override void Proc()
 		{
 		}
 
-		public override void Term() 
-		{ 
+		public override void Term()
+		{
 		}
 
 		#endregion
@@ -98,7 +98,7 @@ namespace Ling.Scenes.Battle.Phase
 
 			// 動きを制御
 			var process = _processManager.Attach<Process.ProcessNextStageAnim>();
-			process.AddFinishAction(()=>
+			process.AddFinishAction(() =>
 				{
 					ApplyNextLevel();
 				});

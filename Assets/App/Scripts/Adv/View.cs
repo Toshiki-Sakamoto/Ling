@@ -12,134 +12,134 @@ using UnityEngine.UI;
 
 namespace Ling.Adv
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class View : Utility.ObjCreator<View> 
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 
+	/// </summary>
+	public class View : Utility.ObjCreator<View>
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        [SerializeField] private Window.View _window = null;
-        [SerializeField] private Select.View _select = null;
-        [SerializeField] private Chara.View _chara = null;
-
-        private System.Action<int> _actOnSelect = null;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        public Window.View Win { get { return _window; } }
+		[SerializeField] private Window.View _window = null;
+		[SerializeField] private Select.View _select = null;
+		[SerializeField] private Chara.View _chara = null;
 
-        #endregion
+		private System.Action<int> _actOnSelect = null;
 
-
-        #region public, protected 関数
-
-        public static string PrefabName()
-        {
-            return Common.GetResourcePath("AdvMain");
-        }
-
-        public static bool IsAwakeActive()
-        {
-            return false; 
-        }
+		#endregion
 
 
-        public override void Setup()
-        {
-            _window.Setup();
-            _select.Setup();
-            _chara.Setup();
+		#region プロパティ
 
-            // 選択肢を出す
-            Utility.EventManager.SafeAdd<Select.EventSelect>(this, 
-                (ev_) => 
-                {
-                    _select.Show(ev_.SelectList);
-                    _actOnSelect = ev_.ActOnSelect;
-                });
+		public Window.View Win { get { return _window; } }
 
-            // 選択肢が選ばれた
-            Utility.EventManager.SafeAdd<Select.EventSelected>(this,
-                (ev_) => 
-                {
-                    _select.Hide();
-
-                    _actOnSelect?.Invoke(ev_.SelectIndex);
-                    _actOnSelect = null;
-                });
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-        }
-
-        public void Hide(Window.EventHide eventHide)
-        {
-            if (eventHide.IsAdv)
-            {            
-                gameObject.SetActive(false);
-            }
-
-            if (eventHide.IsWindow)
-            {
-                _window.Hide(); 
-            }
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region public, protected 関数
 
-        #endregion
+		public static string PrefabName()
+		{
+			return Common.GetResourcePath("AdvMain");
+		}
+
+		public static bool IsAwakeActive()
+		{
+			return false;
+		}
 
 
-        #region MonoBegaviour
+		public override void Setup()
+		{
+			_window.Setup();
+			_select.Setup();
+			_chara.Setup();
 
-        /// <summary>
-        /// 初期処理
-        /// </summary>
-        void Awake()
-        {
-        }
+			// 選択肢を出す
+			Utility.EventManager.SafeAdd<Select.EventSelect>(this,
+				(ev_) =>
+				{
+					_select.Show(ev_.SelectList);
+					_actOnSelect = ev_.ActOnSelect;
+				});
 
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
+			// 選択肢が選ばれた
+			Utility.EventManager.SafeAdd<Select.EventSelected>(this,
+				(ev_) =>
+				{
+					_select.Hide();
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-        }
+					_actOnSelect?.Invoke(ev_.SelectIndex);
+					_actOnSelect = null;
+				});
+		}
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        void OnDestoroy()
-        {
-            Utility.EventManager.SafeAllRemove(this);
-        }
+		public void Show()
+		{
+			gameObject.SetActive(true);
+		}
 
-        #endregion
-    }
+		public void Hide(Window.EventHide eventHide)
+		{
+			if (eventHide.IsAdv)
+			{
+				gameObject.SetActive(false);
+			}
+
+			if (eventHide.IsWindow)
+			{
+				_window.Hide();
+			}
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+
+
+		#region MonoBegaviour
+
+		/// <summary>
+		/// 初期処理
+		/// </summary>
+		void Awake()
+		{
+		}
+
+		/// <summary>
+		/// 更新前処理
+		/// </summary>
+		void Start()
+		{
+		}
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		void OnDestroy()
+		{
+			Utility.EventManager.SafeAllRemove(this);
+		}
+
+		#endregion
+	}
 }

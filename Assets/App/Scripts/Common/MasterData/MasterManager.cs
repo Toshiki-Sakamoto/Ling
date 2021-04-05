@@ -28,7 +28,7 @@ namespace Ling.Common.MasterData
 		/// </summary>
 		IObservable<AsyncUnit> LoadAll();
 
-		
+
 		TMaster GetMaster<TMaster>() where TMaster : MasterDataBase;
 
 		TRepository GetRepository<TRepository>();
@@ -39,7 +39,7 @@ namespace Ling.Common.MasterData
 	/// マスタデータ管理者
 	/// </summary>
 	public abstract class MasterManager : MonoBehaviour, IMasterManager
-    {
+	{
 		#region 定数, class, enum
 
 
@@ -116,21 +116,21 @@ namespace Ling.Common.MasterData
 		/// </summary>
 		protected void AddLoadTask<TMaster>() where TMaster : MasterDataBase
 		{
-			_loadTasks.Add(LoadAsync<TMaster>(master => 
+			_loadTasks.Add(LoadAsync<TMaster>(master =>
 				{
 					// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
 					_masters.Add(typeof(TMaster), master);
 				}));
 		}
 
-		protected void AddLoadRepositoryTask<TMaster, TRepository>() 
+		protected void AddLoadRepositoryTask<TMaster, TRepository>()
 			where TMaster : MasterDataBase
 			where TRepository : MasterRepository<TMaster>, new()
 		{
 			// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
 			var repository = new TRepository();
 			_repositories.Add(typeof(TRepository), repository);
-			
+
 			_loadTasks.Add(LoadRepositoryAsync<TMaster>(repository));
 		}
 
@@ -181,7 +181,7 @@ namespace Ling.Common.MasterData
 		/// </summary>
 		protected void LoadFinished()
 		{
-			Utility.EventManager.SafeTrigger(new MasterLoadedEvent {  });
+			Utility.EventManager.SafeTrigger(new MasterLoadedEvent { });
 		}
 
 		#endregion

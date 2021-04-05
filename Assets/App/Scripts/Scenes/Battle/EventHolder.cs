@@ -21,7 +21,7 @@ namespace Ling.Scenes.Battle
 	/// 
 	/// </summary>
 	public class EventHolder
-    {
+	{
 		public EventPlayerMove PlayerMove { get; } = new EventPlayerMove();
 		public EventMessageText MessageText { get; } = new EventMessageText();
 		public EventMessageTextSelect MessageTextSelect { get; } = new EventMessageTextSelect();

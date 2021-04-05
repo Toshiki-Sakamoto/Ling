@@ -13,7 +13,7 @@ namespace Ling.Utility.Async
 	/// 指定フレームが経過するまでawaitを呼び出す
 	/// </summary>
 	public class FrameAwaiter : BaseAwaiter
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -60,7 +60,7 @@ namespace Ling.Utility.Async
 			{
 				await UniTask.DelayFrame(1);
 			}
-			
+
 			Reset();
 		}
 

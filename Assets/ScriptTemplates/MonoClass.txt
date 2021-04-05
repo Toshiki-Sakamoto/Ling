@@ -13,7 +13,7 @@ namespace #NAMESPACE#
 	/// #SUMMARY#
 	/// </summary>
 	public class #SCRIPTNAME# : MonoBehaviour 
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -70,7 +70,7 @@ namespace #NAMESPACE#
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

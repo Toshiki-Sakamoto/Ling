@@ -38,7 +38,7 @@ namespace Ling.Utility.Pool
 	/// </summary>
 	[System.Serializable]
 	public abstract class PoolCreator : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -55,9 +55,9 @@ namespace Ling.Utility.Pool
 
 		[Inject] private DiContainer _diContainer = default;
 
-		private List<PoolItem> _poolItems = new List<PoolItem>();		// 保存プール
-		private List<PoolItem> _usedPoolItems = new List<PoolItem>();	// 使用しているプールアイテム
-		private Stack<PoolItem> _unusedPoolItems = new Stack<PoolItem>();	// 使用していないプールアイテム
+		private List<PoolItem> _poolItems = new List<PoolItem>();       // 保存プール
+		private List<PoolItem> _usedPoolItems = new List<PoolItem>();   // 使用しているプールアイテム
+		private Stack<PoolItem> _unusedPoolItems = new Stack<PoolItem>();   // 使用していないプールアイテム
 
 		#endregion
 
@@ -161,7 +161,7 @@ namespace Ling.Utility.Pool
 				result = _unusedPoolItems.Pop();
 			}
 
-			
+
 			// 使用リストに追加する
 			_usedPoolItems.Add(result);
 
@@ -206,7 +206,7 @@ namespace Ling.Utility.Pool
 
 		#endregion
 
- 
+
 		#region private 関数
 
 		/// <summary>

@@ -82,7 +82,7 @@ namespace Ling.Common
 
 		public TProcess Attach<TProcess>(TProcess process, Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase, new() =>
 			GetOrCreateNode(parent, parent, OwnerScene.DiContainer, autoRemove).StartAttach(process, waitForStart);
-			
+
 		/// <summary>
 		/// 指定したobjectのProcessを全て破棄する。
 		/// 終了イベントは呼び出されない
@@ -104,7 +104,7 @@ namespace Ling.Common
 		public void RemovePureList()
 		{
 			var removeList = _processNodes.Where(node_ => node_.Value.IsEmpty);
-			foreach(var elm in removeList)
+			foreach (var elm in removeList)
 			{
 				RemoveAll(elm.Key);
 			}
@@ -140,7 +140,7 @@ namespace Ling.Common
 			// 削除時にRemoveしてもらう
 			if (autoRemove)
 			{
-				parent.gameObject.AddDestroyCallbackIfNeeded(gameObject_ => 
+				parent.gameObject.AddDestroyCallbackIfNeeded(gameObject_ =>
 					{
 						RemoveAll(gameObject_);
 					});

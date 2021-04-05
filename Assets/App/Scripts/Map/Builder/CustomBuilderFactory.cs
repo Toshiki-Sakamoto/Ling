@@ -18,14 +18,14 @@ using Zenject;
 namespace Ling.Map.Builder
 {
 	public class BuilderFactory : PlaceholderFactory<BuilderConst.BuilderType, IBuilder>
-	{ 
+	{
 	}
 
 	/// <summary>
 	/// 
 	/// </summary>
 	public class CustomBuilderFactory : IFactory<BuilderConst.BuilderType, IBuilder>
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

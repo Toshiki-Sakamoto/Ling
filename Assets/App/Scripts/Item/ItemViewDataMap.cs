@@ -16,7 +16,7 @@ namespace Ling.Item
 	/// </summary>
 	[System.Serializable]
 	public class ItemViewDataMap : ScriptableObject
-    {
+	{
 		#region 定数, class, enum
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace Ling.Item
 		private SpriteData<TType>[] SetupDataMapInternal<TType>(SpriteData<TType>[] spriteDataMap) where TType : Enum
 		{
 			spriteDataMap = CreateDataMap<TType>(spriteDataMap);
-			
+
 			for (int i = 0; i < spriteDataMap.Length; ++i)
 			{
 				if (spriteDataMap[i] == null)

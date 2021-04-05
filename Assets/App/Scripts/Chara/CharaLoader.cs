@@ -22,7 +22,7 @@ namespace Ling.Chara
 	/// 1キャラクタを生成するための読み込み処理＋生成処理を兼ね備えたもの
 	/// </summary>
 	public class CharaLoader : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

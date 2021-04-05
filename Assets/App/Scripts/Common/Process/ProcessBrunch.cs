@@ -11,7 +11,7 @@ namespace Ling.Common.Process
 	/// 分岐
 	/// </summary>
 	public class ProcessBrunch : ProcessBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

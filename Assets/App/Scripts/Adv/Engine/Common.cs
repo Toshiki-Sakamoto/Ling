@@ -19,26 +19,26 @@ namespace Ling.Adv.Engine
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Common
-    {
-        #region 定数, class, enum
+	public class Common
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		#endregion
+
+
+		#region プロパティ
+
+		#endregion
 
 
 		#region コンストラクタ, デストラクタ
@@ -46,13 +46,13 @@ namespace Ling.Adv.Engine
 		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 関数
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region private 関数
 
-        #endregion
-    }
+		#endregion
+	}
 }

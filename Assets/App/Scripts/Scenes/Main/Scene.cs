@@ -12,82 +12,82 @@ using UnityEngine.UI;
 
 namespace Ling.Main
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Scene : MonoBehaviour 
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Scene : MonoBehaviour
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        [SerializeField] private View _view = null;
-
-      //  private Utility.PhaseScene<Const.State> _phaseObj = new Utility.PhaseScene<Const.State>();
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        public View View { get { return _view; } }
+		[SerializeField] private View _view = null;
 
-        #endregion
+		//  private Utility.PhaseScene<Const.State> _phaseObj = new Utility.PhaseScene<Const.State>();
 
-
-        #region public, protected 関数
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region プロパティ
 
-        #endregion
+		public View View { get { return _view; } }
+
+		#endregion
 
 
-        #region MonoBegaviour
+		#region public, protected 関数
 
-        /// <summary>
-        /// 初期処理
-        /// </summary>
-        void Awake()
-        {
-     //       _phaseObj.Add(Const.State.Adv, Phase.Creator<Phase.Adv>.Create(this));
-     //       _phaseObj.Add(Const.State.Start, Phase.Creator<Phase.Start>.Create(this));
+		#endregion
 
-     //       _phaseObj.Start(Const.State.Start);
-        }
 
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
+		#region private 関数
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-         //   _phaseObj.Update();
-        }
+		#endregion
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        void OnDestoroy()
-        {
-        }
 
-        #endregion
-    }
+		#region MonoBegaviour
+
+		/// <summary>
+		/// 初期処理
+		/// </summary>
+		void Awake()
+		{
+			//       _phaseObj.Add(Const.State.Adv, Phase.Creator<Phase.Adv>.Create(this));
+			//       _phaseObj.Add(Const.State.Start, Phase.Creator<Phase.Start>.Create(this));
+
+			//       _phaseObj.Start(Const.State.Start);
+		}
+
+		/// <summary>
+		/// 更新前処理
+		/// </summary>
+		void Start()
+		{
+		}
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+			//   _phaseObj.Update();
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		void OnDestroy()
+		{
+		}
+
+		#endregion
+	}
 }

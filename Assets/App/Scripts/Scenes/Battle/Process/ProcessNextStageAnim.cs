@@ -76,7 +76,7 @@ namespace Ling.Scenes.Battle.Process
 
 			await
 			(
-				mapControl.MoveUpAsync(), 
+				mapControl.MoveUpAsync(),
 				PlayerMoveAsync()
 			);
 

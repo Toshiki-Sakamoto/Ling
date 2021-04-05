@@ -17,13 +17,13 @@ using System.Threading.Tasks;
 using Assert = UnityEngine.Assertions.Assert;
 
 
-namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
+namespace Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 {
 	/// <summary>
 	/// 
 	/// </summary>
 	public class Sample2_1
-    {
+	{
 		#region 定数, class, enum
 
 		public class PrintLogObserver<T> : IObserver<T>
@@ -57,7 +57,7 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 		#region private 変数
 
 		private Subject<int> _subject;
-		
+
 		#endregion
 
 
@@ -221,8 +221,8 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 					{
 						counter++;
 						Debug.Log("Thread Id:" + Thread.CurrentThread.ManagedThreadId);
-					}, 
-					() => 
+					},
+					() =>
 					{
 					});
 
@@ -233,7 +233,7 @@ namespace  Ling.Tests.PlayMode.Plugin.UniRx.UniRxUniTaskBook
 				Task.Run(() => subject.OnNext(Unit.Default));
 
 				yield return new WaitUntil(() => counter == 2);
-				
+
 				subject.OnCompleted();
 			}
 		}

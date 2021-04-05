@@ -16,7 +16,7 @@ namespace #NAMESPACE#
 	/// #SUMMARY#
 	/// </summary>
 	public class #SCRIPTNAME#
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

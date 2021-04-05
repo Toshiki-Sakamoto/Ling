@@ -21,7 +21,7 @@ namespace Ling.Common.Editor.DefineCreator
 	/// </summary>
 	[CreateAssetMenu(menuName = "Ling/DefineCreator/Settings")]
 	public class ConstCreatorSettings : ScriptableObject
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

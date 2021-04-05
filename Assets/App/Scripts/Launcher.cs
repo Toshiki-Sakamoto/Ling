@@ -12,7 +12,7 @@ namespace Ling
 	/// Common.Launcherを継承して使用する
 	/// </summary>
 	public class Launcher : Common.Launcher
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -46,8 +46,8 @@ namespace Ling
 		#region private 関数
 
 		protected override void Awake()
-		{	
-#if DEBUG		
+		{
+#if DEBUG
 			_debugManager.Setup(new _Debug.DebugRootMenuData());
 #endif
 

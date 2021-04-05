@@ -22,7 +22,7 @@ namespace Ling.Chara
 	/// <see cref="Chara.ViewBase"/>の作成＆セットアップを行う
 	/// </summary>
 	public class CharaFactory
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

@@ -12,8 +12,8 @@ namespace Ling.Utility.UI
 	/// <summary>
 	/// 指定したターゲットオブジェクトを追従する
 	/// </summary>
-	public class ObjectFollower : MonoBehaviour 
-    {
+	public class ObjectFollower : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -77,7 +77,7 @@ namespace Ling.Utility.UI
 				_camera = Camera.main;
 			}
 
-			_rectTransform.position = RectTransformUtility.WorldToScreenPoint(_camera, _target.position);	
+			_rectTransform.position = RectTransformUtility.WorldToScreenPoint(_camera, _target.position);
 		}
 
 		#endregion

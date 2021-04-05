@@ -16,8 +16,8 @@ namespace Ling._Debug.Builder
 	/// <summary>
 	/// 
 	/// </summary>
-	public class View : MonoBehaviour 
-    {
+	public class View : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		[System.Serializable]
@@ -75,12 +75,12 @@ namespace Ling._Debug.Builder
 			_setting.Setup();
 
 			_setting.OnExecute = () => OnExecute?.Invoke(_setting);
-			
-			_eventManager.Add<Utility.EventTouchPoint>(this, 
-				ev_ => 
+
+			_eventManager.Add<Utility.EventTouchPoint>(this,
+				ev_ =>
 				{
 					if (ev_.gameObject == null) return;
-					
+
 					var debugTile = ev_.gameObject.GetComponent<DebugTile>();
 					if (debugTile == null) return;
 
@@ -122,7 +122,7 @@ namespace Ling._Debug.Builder
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 			_eventManager.RemoveAll(this);
 		}

@@ -13,7 +13,7 @@ namespace Ling.Scenes.Battle._Debug
 	/// 
 	/// </summary>
 	public class BattleDebugControl : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

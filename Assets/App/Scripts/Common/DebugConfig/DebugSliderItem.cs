@@ -19,8 +19,8 @@ namespace Ling.Common.DebugConfig
 	/// <summary>
 	/// Slider
 	/// </summary>
-	public class DebugSliderItem : MonoBehaviour 
-    {
+	public class DebugSliderItem : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		public class Data : DebugItemDataBase<DebugSliderItem>
@@ -122,7 +122,7 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		void Awake()
 		{
-			_slider.onValueChanged.AddListener(value_ => 
+			_slider.onValueChanged.AddListener(value_ =>
 				{
 					if (_data == null) return;
 

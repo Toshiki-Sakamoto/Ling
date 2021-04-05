@@ -14,8 +14,8 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// <summary>
 	/// Updateテスト
 	/// </summary>
-	public class UpdateSample : MonoBehaviour 
-    {
+	public class UpdateSample : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion

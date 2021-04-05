@@ -15,68 +15,68 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Engine.Command
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class Load : Base
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 
+	/// </summary>
+	public class Load : Base
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        private string _filename;   // 読み込むファイル名
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        /// <summary>
-        /// コマンドタイプ
-        /// </summary>
-        /// <value>The type.</value>
-        public override ScriptType Type { get { return ScriptType.LOAD_CMD; } }
+		private string _filename;   // 読み込むファイル名
 
-        #endregion
+		#endregion
 
 
-        #region コンストラクタ, デストラクタ
+		#region プロパティ
 
-        #endregion
+		/// <summary>
+		/// コマンドタイプ
+		/// </summary>
+		/// <value>The type.</value>
+		public override ScriptType Type { get { return ScriptType.LOAD_CMD; } }
 
-
-        #region public, protected 関数
-
-        public static Load Create(Creator creator, Lexer lexer)
-        {
-            var instance = new Load();
-
-            var str1 = lexer.GetString();
-            var str2 = lexer.GetString();
-
-            if (string.IsNullOrEmpty(str1) || string.IsNullOrEmpty(str2) ||
-                !string.IsNullOrEmpty(lexer.GetString()))
-            {
-                Log.Error("構文エラー(load)");
-                return null;
-            }
+		#endregion
 
 
-            creator.AddCommand(instance);
+		#region コンストラクタ, デストラクタ
+
+		#endregion
 
 
-            return instance;
-        }
+		#region public, protected 関数
 
-        /*
+		public static Load Create(Creator creator, Lexer lexer)
+		{
+			var instance = new Load();
+
+			var str1 = lexer.GetString();
+			var str2 = lexer.GetString();
+
+			if (string.IsNullOrEmpty(str1) || string.IsNullOrEmpty(str2) ||
+				!string.IsNullOrEmpty(lexer.GetString()))
+			{
+				Log.Error("構文エラー(load)");
+				return null;
+			}
+
+
+			creator.AddCommand(instance);
+
+
+			return instance;
+		}
+
+		/*
         /// <summary>
         /// コマンド実行
         /// </summary>
@@ -85,11 +85,11 @@ namespace Ling.Adv.Engine.Command
             yield break;
         }*/
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region private 関数
 
-        #endregion
-    }
+		#endregion
+	}
 }

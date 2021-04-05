@@ -12,8 +12,8 @@ namespace Ling.Scenes.Menu
 	/// <summary>
 	/// Menu Scene
 	/// </summary>
-	public class MenuScene : MonoBehaviour 
-    {
+	public class MenuScene : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -70,7 +70,7 @@ namespace Ling.Scenes.Menu
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

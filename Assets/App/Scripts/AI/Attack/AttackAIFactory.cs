@@ -14,7 +14,7 @@ namespace Ling.AI.Attack
 	/// 攻撃AIファクトリ
 	/// </summary>
 	public class AttackAIFactory
-    {
+	{
 		private AttackAIData _attackAIData;
 
 		public AttackAIFactory(AttackAIData attackAIData)
@@ -23,9 +23,9 @@ namespace Ling.AI.Attack
 		}
 
 		public void Attach<TModel, TView>(Chara.CharaControl<TModel, TView> charaControl)
-			where TModel : Chara.CharaModel 
+			where TModel : Chara.CharaModel
 			where TView : Chara.ViewBase
-		{			
+		{
 			AIBase attackAI = null;
 
 			switch (_attackAIData.AttackAIType)

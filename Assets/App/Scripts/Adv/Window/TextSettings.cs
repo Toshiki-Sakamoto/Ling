@@ -12,81 +12,81 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Window
 {
-    /// <summary>
-    /// 禁則処理などのテキスト描画に必要な設定
-    /// </summary>
-    public class TextSettings : MonoBehaviour 
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 禁則処理などのテキスト描画に必要な設定
+	/// </summary>
+	public class TextSettings : MonoBehaviour
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        #endregion
-
-
-        #region プロパティ
-
-        #endregion
+		#endregion
 
 
-        #region public, protected 関数
+		#region private 変数
 
-        #endregion
-
-
-        #region private 関数
-
-        /// <summary>
-        /// 禁則文字のチェック
-        /// trueだった場合、禁則文字
-        /// </summary>
-        /// <returns></returns>
-        private bool CheckWordProcess()
-        {
-            return true;
-        }
-
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region プロパティ
 
-        /// <summary>
-        /// 初期処理
-        /// </summary>
-        void Awake()
-        {
-        }
+		#endregion
 
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-        }
+		#region public, protected 関数
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        void OnDestoroy()
-        {
-        }
+		#endregion
 
-        #endregion
-    }
+
+		#region private 関数
+
+		/// <summary>
+		/// 禁則文字のチェック
+		/// trueだった場合、禁則文字
+		/// </summary>
+		/// <returns></returns>
+		private bool CheckWordProcess()
+		{
+			return true;
+		}
+
+		#endregion
+
+
+		#region MonoBegaviour
+
+		/// <summary>
+		/// 初期処理
+		/// </summary>
+		void Awake()
+		{
+		}
+
+		/// <summary>
+		/// 更新前処理
+		/// </summary>
+		void Start()
+		{
+		}
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		void OnDestroy()
+		{
+		}
+
+		#endregion
+	}
 }

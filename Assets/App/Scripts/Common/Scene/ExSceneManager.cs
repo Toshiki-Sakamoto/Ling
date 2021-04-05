@@ -57,7 +57,7 @@ namespace Ling.Common.Scene
 
 		private SceneID _nextSceneID = SceneID.None;
 		private Base _currentScene = null;
-		private List<Base> _addScenes = new List<Base>();	// AddSceneインスタンス
+		private List<Base> _addScenes = new List<Base>();   // AddSceneインスタンス
 		private Stack<SceneData> _sceneData = new Stack<SceneData>();
 		private Stack<SceneData> _addSceneData = new Stack<SceneData>();
 
@@ -139,7 +139,7 @@ namespace Ling.Common.Scene
 			else
 			{
 				// 遷移前処理
-				
+
 				// AddSceneすべて削除
 				foreach (var scene in _addScenes)
 				{
@@ -238,7 +238,7 @@ namespace Ling.Common.Scene
 							break;
 						}
 					}
-					
+
 					if (scene == null)
 					{
 						Utility.Log.Error($"Scene.Base クラスが見つかりません {typeof(Base).ToString()}");
@@ -246,7 +246,7 @@ namespace Ling.Common.Scene
 						return null;
 					}
 
-				/////	scene.transform.SetParent(_sceneRoot);
+					/////	scene.transform.SetParent(_sceneRoot);
 					scene.Argument = argument;
 
 					// 準備が整うまで非アクティブ
@@ -326,7 +326,7 @@ namespace Ling.Common.Scene
 		void Update()
 		{
 			if (_currentScene == null) return;
-			
+
 			if (_currentScene.IsStartScene) return;
 			{
 				_currentScene.UpdateScene();
@@ -345,7 +345,7 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 			if (Instance == this)
 			{

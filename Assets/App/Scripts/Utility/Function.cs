@@ -21,7 +21,7 @@ namespace Ling.Utility
 	/// 
 	/// </summary>
 	public interface IFunction
-    {
+	{
 		void Execute();
 	}
 

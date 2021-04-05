@@ -14,7 +14,7 @@ namespace Ling.Scenes.Battle.Phase
 	/// キャラクタの行動プロセスをすべて実行する
 	/// </summary>
 	public class BattlePhaseCharaProcessExecuter : BattlePhaseBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -44,8 +44,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		protected override void AwakeInternal() 
-		{ 
+		protected override void AwakeInternal()
+		{
 			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
@@ -54,7 +54,7 @@ namespace Ling.Scenes.Battle.Phase
 			ExecuteAsync().Forget();
 		}
 
-		public override void Proc() 
+		public override void Proc()
 		{
 		}
 

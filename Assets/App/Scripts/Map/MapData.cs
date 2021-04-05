@@ -22,7 +22,7 @@ namespace Ling.Map
 	/// １階層の情報(サイズや見た目)を持つ
 	/// </summary>
 	public class MapData
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

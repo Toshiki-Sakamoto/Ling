@@ -25,7 +25,7 @@ namespace Ling.Map.Tile
 		/// <summary>
 		/// 描画有効/無効か
 		/// </summary>
-		public bool IsValid { get { return _isValid; } set { _isValid = value; } } 
+		public bool IsValid { get { return _isValid; } set { _isValid = value; } }
 
 		public Sprite[] Sprites { get { return _sprites; } private set { _sprites = value; } }
 
@@ -35,7 +35,7 @@ namespace Ling.Map.Tile
 		public void Setup(Const.TileFlag tileFlag, int spriteMax)
 		{
 			TileFlag = tileFlag;
-			
+
 			if (Sprites.IsNullOrEmpty())
 			{
 				Sprites = new Sprite[spriteMax];

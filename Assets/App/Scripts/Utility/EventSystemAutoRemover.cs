@@ -16,8 +16,8 @@ namespace Ling.Utility
 	/// 起動時にEventSystemを一つにする。このスクリプトがついているシーン以外を破棄する
 	/// 新しく読み込まれたシーンのなかにEventSystemがあれば無効化する
 	/// </summary>
-	public class EventSystemAutoRemover : MonoBehaviour 
-    {
+	public class EventSystemAutoRemover : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -79,7 +79,7 @@ namespace Ling.Utility
 			}
 
 			// シーン読み込み時のトリガー
-			SceneManager.sceneLoaded += (scene_, loadMode_) => 
+			SceneManager.sceneLoaded += (scene_, loadMode_) =>
 				{
 					RemoveEventSystemByScene(scene_);
 				};

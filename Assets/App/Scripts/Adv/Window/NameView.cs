@@ -12,99 +12,99 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Window
 {
-    /// <summary>
-    /// 名前Window
-    /// </summary>
-    public class NameView : MonoBehaviour
-    {
-        #region 定数
+	/// <summary>
+	/// 名前Window
+	/// </summary>
+	public class NameView : MonoBehaviour
+	{
+		#region 定数
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        [SerializeField] private Text _txtName = null;
-        [SerializeField] private Image _img = null;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		[SerializeField] private Text _txtName = null;
+		[SerializeField] private Image _img = null;
 
-
-        #region public 関数
-
-        public void Setup()
-        {
-            _txtName.text = "";
-
-            gameObject.SetActive(false);
+		#endregion
 
 
-            // Window消す
-            Ling.Utility.EventManager.SafeAdd<EventNameWindowHide>(this, 
-                (ev_) => 
-                {
-                    gameObject.SetActive(false);
-                });
+		#region プロパティ
 
-            // 名前を設定する
-            Ling.Utility.EventManager.SafeAdd<EventNameSet>(this, 
-                (ev_) => 
-                {
-                    gameObject.SetActive(true);
-
-                    _txtName.text = ev_.Text;
-                });
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region public 関数
 
-        #endregion
+		public void Setup()
+		{
+			_txtName.text = "";
+
+			gameObject.SetActive(false);
 
 
-        #region MonoBegaviour
+			// Window消す
+			Ling.Utility.EventManager.SafeAdd<EventNameWindowHide>(this,
+				(ev_) =>
+				{
+					gameObject.SetActive(false);
+				});
 
-        /// <summary>
-        /// 初期処理
-        /// </summary>
-        void Awake()
-        {
-        }
+			// 名前を設定する
+			Ling.Utility.EventManager.SafeAdd<EventNameSet>(this,
+				(ev_) =>
+				{
+					gameObject.SetActive(true);
 
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
+					_txtName.text = ev_.Text;
+				});
+		}
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-        }
+		#endregion
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        void OnDestoroy()
-        {
-            Ling.Utility.EventManager.SafeAllRemove(this);
-        }
 
-        #endregion
-    }
+		#region private 関数
+
+		#endregion
+
+
+		#region MonoBegaviour
+
+		/// <summary>
+		/// 初期処理
+		/// </summary>
+		void Awake()
+		{
+		}
+
+		/// <summary>
+		/// 更新前処理
+		/// </summary>
+		void Start()
+		{
+		}
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		void OnDestroy()
+		{
+			Ling.Utility.EventManager.SafeAllRemove(this);
+		}
+
+		#endregion
+	}
 }

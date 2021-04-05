@@ -21,7 +21,7 @@ namespace Ling.Map.Builder.Split
 	/// 道情報
 	/// </summary>
 	public class RoadData
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

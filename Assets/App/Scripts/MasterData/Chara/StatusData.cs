@@ -22,7 +22,7 @@ namespace Ling.MasterData.Chara
 	/// </summary>
 	[System.Serializable]
 	public class StatusData
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

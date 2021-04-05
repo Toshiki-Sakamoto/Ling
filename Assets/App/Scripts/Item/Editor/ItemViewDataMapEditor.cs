@@ -18,7 +18,7 @@ namespace Ling.Item.Editor
 	/// </summary>
 	[CustomEditor(typeof(ItemViewDataMap))]
 	public class ItemViewDataMapEditor : UnityEditor.Editor
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -90,7 +90,7 @@ namespace Ling.Item.Editor
 
 		#region private 関数
 
-		
+
 		/// <summary>
 		/// リストの折りたたみ処理
 		/// </summary>

@@ -13,6 +13,6 @@ namespace Ling.Common.DebugConfig
 	public class DebugRootMenuData : DebugMenuItem.Data
 	{
 		public DebugRootMenuData(string name)
-			: base(name) {}
+			: base(name) { }
 	}
 }

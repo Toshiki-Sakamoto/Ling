@@ -30,7 +30,7 @@ namespace Ling.Chara
 	public partial class CharaControl<TModel, TView> : MonoBehaviour, ICharaController, ICharaMoveController
 		where TModel : CharaModel
 		where TView : ViewBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -58,14 +58,14 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
-        /// <summary>
-        /// 現在位置から指定した数を足して移動する
-        /// </summary>
-        public System.IObservable<AsyncUnit> MoveAtAddPos(in Vector2Int addCellPos) =>
-            CharaMover.SetMoveCellPos(_model.CellPosition.Value + addCellPos);
+		/// <summary>
+		/// 現在位置から指定した数を足して移動する
+		/// </summary>
+		public System.IObservable<AsyncUnit> MoveAtAddPos(in Vector2Int addCellPos) =>
+			CharaMover.SetMoveCellPos(_model.CellPosition.Value + addCellPos);
 
-        public System.IObservable<AsyncUnit> Move(in Vector2Int startPos, in Vector2Int endPos) =>
-            CharaMover.SetMoveCellPos(startPos, endPos);
+		public System.IObservable<AsyncUnit> Move(in Vector2Int startPos, in Vector2Int endPos) =>
+			CharaMover.SetMoveCellPos(startPos, endPos);
 
 		#endregion
 

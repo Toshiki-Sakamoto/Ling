@@ -17,8 +17,8 @@ namespace Ling._Debug.Builder
 	/// <summary>
 	/// 
 	/// </summary>
-	public class MapDrawView : MonoBehaviour 
-    {
+	public class MapDrawView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		[System.Serializable]
@@ -168,14 +168,14 @@ namespace Ling._Debug.Builder
 			if (splitBuilder == null) yield break;
 
 			void Draw(RectInt rect, int colorIndex)
-			{ 
+			{
 				for (int y = rect.yMin; y < rect.yMax; ++y)
 				{
 					for (int x = rect.xMin; x < rect.xMax; ++x)
 					{
 						//DrawByIndex(y * _width + x, tileFlag, colorIndex);
 						var draw = _drawSprites[y * _width + x];
-						var color = _otherColor[Mathf.Min(colorIndex, _otherColor.Length -1)]; 
+						var color = _otherColor[Mathf.Min(colorIndex, _otherColor.Length - 1)];
 
 						draw.color = color;
 					}
@@ -210,11 +210,11 @@ namespace Ling._Debug.Builder
 				}
 
 				var tileDataMap = splitBuilder.TileDataMap;
-				foreach(var tileData in tileDataMap)
+				foreach (var tileData in tileDataMap)
 				{
 					DrawByTileData(tileData, tileData.Flag);
 				}
-		
+
 				yield return new WaitForSeconds(enumerator.Current);
 			}
 		}

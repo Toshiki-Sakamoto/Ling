@@ -11,7 +11,7 @@ namespace Ling.Common.Repotitory
 	/// Repository管理
 	/// </summary>
 	public interface IRepository<T> where T : class
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

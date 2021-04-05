@@ -22,7 +22,7 @@ namespace Ling.Scenes.Battle
 	/// 
 	/// </summary>
 	public class BattleModel : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		public class Param

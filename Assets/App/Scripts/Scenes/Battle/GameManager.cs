@@ -21,7 +21,7 @@ namespace Ling.Scenes.Battle
 	/// BattleScene全体を管理する
 	/// </summary>
 	public class GameManager : Utility.MonoSingleton<GameManager>
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -44,7 +44,7 @@ namespace Ling.Scenes.Battle
 
 		public EventHolder EventHolder { get; } = new EventHolder();
 
-		public BattleModel Model  => _model;
+		public BattleModel Model => _model;
 
 		#endregion
 

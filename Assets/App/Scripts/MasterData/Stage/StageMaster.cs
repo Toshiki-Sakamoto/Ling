@@ -31,8 +31,8 @@ namespace Ling.MasterData.Stage
 		public class MapEntity
 		{
 			[FieldName("階層")]
-			public int level;	// 指定階層までMapMasterを適用させる
-			
+			public int level;   // 指定階層までMapMasterを適用させる
+
 			[FieldName("適用するMapMaster")]
 			public MapMaster mapMaster; // Stage内にある１Mapの情報を持つ
 		}
@@ -50,10 +50,10 @@ namespace Ling.MasterData.Stage
 		[SerializeField, FieldName("ステージの種類")]
 		private Const.StageType stageType;
 
-		[SerializeField, FieldName("最大階層")] 
+		[SerializeField, FieldName("最大階層")]
 		private int _maxLevel = default;    // 最大階層(Map数)
 
-		[SerializeField] 
+		[SerializeField]
 		private MapEntity[] _mapEntities = default;
 
 		#endregion

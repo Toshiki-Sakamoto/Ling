@@ -25,16 +25,16 @@ namespace Ling.Chara
 	public interface ICharaController
 	{
 		CharaModel Model { get; }
-		
+
 		ViewBase View { get; }
 
 		CharaStatus Status { get; }
-		
+
 		ICharaMoveController MoveController { get; }
 
 		/// <summary>
-        /// Tilemap情報を設定する
-        /// </summary>
+		/// Tilemap情報を設定する
+		/// </summary>
 		void SetTilemap(Tilemap tilemap, int mapLevel);
 
 		TProcess AddMoveProcess<TProcess>() where TProcess : Common.ProcessBase, new();
@@ -47,7 +47,7 @@ namespace Ling.Chara
 	public abstract partial class CharaControl<TModel, TView> : MonoBehaviour, ICharaController, ICharaMoveController
 		where TModel : CharaModel
 		where TView : ViewBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -59,11 +59,11 @@ namespace Ling.Chara
 
 
 		#region private 変数
-		
-        [SerializeField] private CharaStatus _status = default;
+
+		[SerializeField] private CharaStatus _status = default;
 		[SerializeField] private TModel _model = default;
 		[SerializeField] private TView _view = default;
-        [SerializeField] private CharaMover _charaMover = default;
+		[SerializeField] private CharaMover _charaMover = default;
 
 		[Inject] private DiContainer _diContainer = default;
 
@@ -75,11 +75,11 @@ namespace Ling.Chara
 
 		#region プロパティ
 
-		
+
 		public TModel Model => _model;
 
 		public TView View => _view;
-		
+
 		public CharaStatus Status => _model.Status;
 
 		/// <summary>
@@ -88,10 +88,10 @@ namespace Ling.Chara
 		/// <value></value>
 		public ICharaMoveController MoveController => this;
 
-        /// <summary>
-        /// キャラクタを動かすヘルパクラス
-        /// </summary>
-        public CharaMover CharaMover => _charaMover;
+		/// <summary>
+		/// キャラクタを動かすヘルパクラス
+		/// </summary>
+		public CharaMover CharaMover => _charaMover;
 
 
 		// ICharaController
@@ -107,21 +107,21 @@ namespace Ling.Chara
 		{
 			_status = _model.Status;
 
-            // 死亡時
-            _status.IsDead.Where(isDead_ => isDead_)
-                .SelectMany(_ =>
-                {
+			// 死亡時
+			_status.IsDead.Where(isDead_ => isDead_)
+				.SelectMany(_ =>
+				{
 					// Viewにも伝える
 					Utility.Log.Print("死んだ！");
 
 					return View.PlayDeadAnimation();
-                })
-				.Subscribe(_ => 
+				})
+				.Subscribe(_ =>
 				{
 					// 死亡処理
 					DestroyProcess();
-				}, 
-				() => 
+				},
+				() =>
 				{
 					Utility.Log.Print("死にアニメーション終わり");
 				}).AddTo(gameObject);
@@ -135,21 +135,21 @@ namespace Ling.Chara
 			// セルの座標が変更されたとき
 			_model.CellPosition
 				.Where(_ => _model.IsReactiveCellPosition)
-				.Subscribe(cellPosition_ => 
+				.Subscribe(cellPosition_ =>
 				{
 					_view.SetCellPos(cellPosition_);
 				});
 		}
 
 		/// <summary>
-        /// Tilemap情報を設定する
-        /// </summary>
-        public void SetTilemap(Tilemap tilemap, int mapLevel)
-        {
+		/// Tilemap情報を設定する
+		/// </summary>
+		public void SetTilemap(Tilemap tilemap, int mapLevel)
+		{
 			_view.SetTilemap(tilemap, mapLevel);
 
-            CharaMover.SetTilemap(tilemap);
-        }
+			CharaMover.SetTilemap(tilemap);
+		}
 
 		/// <summary>
 		/// どういう行動をするか攻撃、移動AIクラスから思考し、決定する。
@@ -224,7 +224,7 @@ namespace Ling.Chara
 			foreach (var process in tmp)
 			{
 				// 終了時、移動プロセスリストから削除する
-				process.AddAllFinishAction(action_ => 
+				process.AddAllFinishAction(action_ =>
 					{
 						_moveProcesses.Remove(action_);
 					});
@@ -250,7 +250,7 @@ namespace Ling.Chara
 			foreach (var process in _attackProcess)
 			{
 				// 終了時、攻撃プロセスリストから削除する
-				process.AddAllFinishAction(action_ => 
+				process.AddAllFinishAction(action_ =>
 					{
 						_attackProcess.Remove(action_);
 					});
@@ -284,7 +284,7 @@ namespace Ling.Chara
 				return false;
 			}
 
-			return true;		
+			return true;
 		}
 
 		/// <summary>
@@ -326,12 +326,12 @@ namespace Ling.Chara
 
 		private void Awake()
 		{
-            if (_charaMover == null)
-            {
-                _charaMover = _view.GetComponent<CharaMover>();
-            }
+			if (_charaMover == null)
+			{
+				_charaMover = _view.GetComponent<CharaMover>();
+			}
 
-            _charaMover.SetModel(this);
+			_charaMover.SetModel(this);
 		}
 
 		#endregion

@@ -12,97 +12,97 @@ using UnityEngine.UI;
 
 namespace Ling.Utility
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 
+	/// </summary>
+	public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        private static T _instance = null;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        public static T Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
+		private static T _instance = null;
 
-        public static bool IsNull { get { return _instance == null; } }
-
-        #endregion
+		#endregion
 
 
-        #region public, protected 関数
+		#region プロパティ
 
-        #endregion
+		public static T Instance
+		{
+			get
+			{
+				return _instance;
+			}
+		}
+
+		public static bool IsNull { get { return _instance == null; } }
+
+		#endregion
 
 
-        #region private 関数
+		#region public, protected 関数
 
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region private 関数
 
-        /// <summary>
-        /// 初期処理
-        /// </summary>
-        protected virtual void Awake()
-        {
-            if (_instance != null)
-            {
-                if (this != _instance)
-                {
-                    Destroy(_instance.gameObject);
-                }
-                else
-                {
-                    return;
-                }
-            }
+		#endregion
 
-            _instance = this.GetComponent<T>();
-        }
 
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
+		#region MonoBegaviour
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-        }
+		/// <summary>
+		/// 初期処理
+		/// </summary>
+		protected virtual void Awake()
+		{
+			if (_instance != null)
+			{
+				if (this != _instance)
+				{
+					Destroy(_instance.gameObject);
+				}
+				else
+				{
+					return;
+				}
+			}
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        protected virtual void OnDestroy()
-        {
-            _instance = null;
-        }
+			_instance = this.GetComponent<T>();
+		}
 
-        #endregion
-    }
+		/// <summary>
+		/// 更新前処理
+		/// </summary>
+		void Start()
+		{
+		}
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		protected virtual void OnDestroy()
+		{
+			_instance = null;
+		}
+
+		#endregion
+	}
 }

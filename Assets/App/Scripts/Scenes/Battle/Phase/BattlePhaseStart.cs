@@ -50,7 +50,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Init() 
+		public override void Init()
 		{
 		}
 
@@ -59,8 +59,8 @@ namespace Ling.Scenes.Battle.Phase
 			Change(BattleScene.Phase.Load);
 		}
 
-		public override void Term() 
-		{ 
+		public override void Term()
+		{
 		}
 
 		#endregion

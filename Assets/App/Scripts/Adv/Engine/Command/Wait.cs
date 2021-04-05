@@ -19,102 +19,102 @@ namespace Ling.Adv.Engine.Command
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Wait : Base
-    {
-        #region 定数, class, enum
+	public class Wait : Base
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        private Value.Data _waitValue = null;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        /// <summary>
-        /// コマンドタイプ
-        /// </summary>
-        /// <value>The type.</value>
-        public override ScriptType Type { get { return ScriptType.WAIT_CMD; } }
+		private Value.Data _waitValue = null;
 
-        #endregion
+		#endregion
 
 
-        #region コンストラクタ, デストラクタ
+		#region プロパティ
 
-        #endregion
+		/// <summary>
+		/// コマンドタイプ
+		/// </summary>
+		/// <value>The type.</value>
+		public override ScriptType Type { get { return ScriptType.WAIT_CMD; } }
 
-
-        #region public, protected 関数
-
-        /// <summary>
-        /// コマンド作成
-        /// </summary>
-        /// <returns>The create.</returns>
-        public static Wait Create(Creator creator, Lexer lexer)
-        {
-            var value = lexer.GetValue();
-
-            if (value == null || 
-                (value.Type != Value.Data.ValueType.Float && value.Type != Value.Data.ValueType.Int))
-            {
-                Log.Error("構文エラー(wait)");
-                return null;
-            }
-
-            var instance = new Wait();
-
-            instance._waitValue = value;
-
-            creator.AddCommand(instance);
-
-            return instance;
-        }
-
-        public override IEnumerator Process()
-        {
-            float time = 0.0f;
-
-            float waitTime = 0.0f;
-
-            if (_waitValue is Value.ValueInt)
-            {
-                waitTime = ((Value.ValueInt)_waitValue).Value;
-            }
-            else if (_waitValue is Value.ValueFloat)
-            {
-                waitTime = ((Value.ValueFloat)_waitValue).Value; 
-            }
-
-            if (waitTime <= 0.0f)
-            {
-                yield break; 
-            }
-
-            while (time < waitTime)
-            {
-                yield return null;
-
-                time += Time.deltaTime;
-            }
-
-            yield break;
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region コンストラクタ, デストラクタ
 
-        #endregion
-    }
+		#endregion
+
+
+		#region public, protected 関数
+
+		/// <summary>
+		/// コマンド作成
+		/// </summary>
+		/// <returns>The create.</returns>
+		public static Wait Create(Creator creator, Lexer lexer)
+		{
+			var value = lexer.GetValue();
+
+			if (value == null ||
+				(value.Type != Value.Data.ValueType.Float && value.Type != Value.Data.ValueType.Int))
+			{
+				Log.Error("構文エラー(wait)");
+				return null;
+			}
+
+			var instance = new Wait();
+
+			instance._waitValue = value;
+
+			creator.AddCommand(instance);
+
+			return instance;
+		}
+
+		public override IEnumerator Process()
+		{
+			float time = 0.0f;
+
+			float waitTime = 0.0f;
+
+			if (_waitValue is Value.ValueInt)
+			{
+				waitTime = ((Value.ValueInt)_waitValue).Value;
+			}
+			else if (_waitValue is Value.ValueFloat)
+			{
+				waitTime = ((Value.ValueFloat)_waitValue).Value;
+			}
+
+			if (waitTime <= 0.0f)
+			{
+				yield break;
+			}
+
+			while (time < waitTime)
+			{
+				yield return null;
+
+				time += Time.deltaTime;
+			}
+
+			yield break;
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+	}
 }

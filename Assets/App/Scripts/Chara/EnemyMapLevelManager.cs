@@ -21,7 +21,7 @@ namespace Ling.Chara
 	/// 
 	/// </summary>
 	public class EnemyMapLevelManager
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

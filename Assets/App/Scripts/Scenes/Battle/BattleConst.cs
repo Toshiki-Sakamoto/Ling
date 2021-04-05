@@ -21,7 +21,7 @@ namespace Ling.Scenes.Battle
 	/// 
 	/// </summary>
 	public class BattleConst
-    {
+	{
 		#region 定数, class, enum
 
 		public const int AddShowMap = 1;    // 一度に見せる追加の階層数 ( 1なら +- 1層)

@@ -23,7 +23,7 @@ namespace Ling.Const
 	public enum EnemyType
 	{
 		None,
-		Slime,	// スライム
+		Slime,  // スライム
 	}
 
 	/// <summary>
@@ -32,19 +32,19 @@ namespace Ling.Const
 	public enum StageType
 	{
 		None,
-		First,	// 最初
+		First,  // 最初
 	}
 
 	/// <summary>
 	/// 移動AIの種類
 	/// </summary>
 	public enum MoveAIType
-	{ 
+	{
 		None,
 
-		Manual,				// 手動操作
-		Random,				// ランダム移動
-		NormalTracking,		// 通常の追跡型
+		Manual,             // 手動操作
+		Random,             // ランダム移動
+		NormalTracking,     // 通常の追跡型
 	}
 
 	/// <summary>
@@ -54,6 +54,6 @@ namespace Ling.Const
 	{
 		None,
 
-		Normal,	// 通常の攻撃しかしない
+		Normal, // 通常の攻撃しかしない
 	}
 }

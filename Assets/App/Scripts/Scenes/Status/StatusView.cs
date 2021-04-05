@@ -14,7 +14,7 @@ namespace Ling.Scenes.Status
 	/// Status View
 	/// </summary>
 	public class StatusView : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

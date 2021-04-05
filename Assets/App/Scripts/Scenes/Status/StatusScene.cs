@@ -17,8 +17,8 @@ namespace Ling.Scenes.Status
 	/// <remark>
 	/// プレイヤーのHPやアイテムなどのUI
 	/// </reamsk>
-	public class StatusScene : Common.Scene.Base  
-    {
+	public class StatusScene : Common.Scene.Base
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -48,13 +48,13 @@ namespace Ling.Scenes.Status
 		/// <summary>
 		/// シーンが開始される時
 		/// </summary>
-		public override void StartScene() 
+		public override void StartScene()
 		{
 			// PlayerのHPが変化したら反映させるようにする
 			var player = _charaManager.Player;
 			player.Status.HP
 				.AsObservable()
-				.Subscribe(hp_ => 
+				.Subscribe(hp_ =>
 				{
 					_view.HP.SetHP(hp_);
 				});

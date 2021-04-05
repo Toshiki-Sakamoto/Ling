@@ -21,7 +21,7 @@ namespace Ling.UserData
 	/// 
 	/// </summary>
 	public class UserDataManager
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

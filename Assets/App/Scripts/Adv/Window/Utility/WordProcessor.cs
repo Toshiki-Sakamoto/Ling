@@ -16,112 +16,114 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Window.Utility
 {
-    /// <summary>
-    /// 禁則処理
-    /// </summary>
-    public class WordProcessor
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 禁則処理
+	/// </summary>
+	public class WordProcessor
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        /// <summary>
-        /// 行頭の禁則文字
-        /// </summary>
-        [SerializeField] private string _begin =
-            ",)]}、〕〉》」』】〙〗〟’”｠»" +
-            "ゝゞーァィゥェォッャュョヮヵヶぁぃぅぇぉっゃゅょゎゕゖㇰㇱㇲㇳㇴㇵㇶㇷㇸㇹㇷ゚ㇺㇻㇼㇽㇾㇿ々〻" +
-            "‐゠–〜～" +
-            "?!‼⁇⁈⁉" +
-            "・:;/" +
-            "。." +
-            "，）］｝＝？！：；／";
-
-        /// <summary>
-        /// 行末の禁則文字
-        /// </summary>
-        [SerializeField] private string _end =
-            "([{〔〈《「『【〘〖〝‘“｟«" +
-            "（［｛";
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        /// <summary>
-        /// 行頭の禁則文字
-        /// </summary>
-        public string Begin { get { return _begin; } }
+		/// <summary>
+		/// 行頭の禁則文字
+		/// </summary>
+		[SerializeField]
+		private string _begin =
+			",)]}、〕〉》」』】〙〗〟’”｠»" +
+			"ゝゞーァィゥェォッャュョヮヵヶぁぃぅぇぉっゃゅょゎゕゖㇰㇱㇲㇳㇴㇵㇶㇷㇸㇹㇷ゚ㇺㇻㇼㇽㇾㇿ々〻" +
+			"‐゠–〜～" +
+			"?!‼⁇⁈⁉" +
+			"・:;/" +
+			"。." +
+			"，）］｝＝？！：；／";
 
-        /// <summary>
-        /// 行末の禁則文字
-        /// </summary>
-        public string End { get { return _end; } }
+		/// <summary>
+		/// 行末の禁則文字
+		/// </summary>
+		[SerializeField]
+		private string _end =
+			"([{〔〈《「『【〘〖〝‘“｟«" +
+			"（［｛";
 
-        #endregion
-
-
-        #region コンストラクタ, デストラクタ
-
-        #endregion
-
-
-        #region public, protected 関数
-
-        /// <summary>
-        /// 禁則文字のチェック
-        /// </summary>
-        /// <returns></returns>
-        public bool Check(TextConfig config, Info.Chara current, Info.Chara prev)
-        {
-            // とりあえず日本語だけ
-            if (IsCheckBegin(current))
-            {
-                return true;
-            }
-
-            if (IsCheckEnd(prev))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region プロパティ
 
-        /// <summary>
-        /// 行頭の禁則文字チェック
-        /// </summary>
-        /// <param name="chara"></param>
-        /// <returns></returns>
-        private bool IsCheckBegin(Info.Chara chara)
-        {
-            return Begin.IndexOf(chara.Char) >= 0;
-        }
+		/// <summary>
+		/// 行頭の禁則文字
+		/// </summary>
+		public string Begin { get { return _begin; } }
 
-        /// <summary>
-        /// 行末の禁則文字チェック
-        /// </summary>
-        /// <param name="chara"></param>
-        /// <returns></returns>
-        private bool IsCheckEnd(Info.Chara chara)
-        {
-            return End.IndexOf(chara.Char) >= 0;
-        }
+		/// <summary>
+		/// 行末の禁則文字
+		/// </summary>
+		public string End { get { return _end; } }
 
-        #endregion
-    }
+		#endregion
+
+
+		#region コンストラクタ, デストラクタ
+
+		#endregion
+
+
+		#region public, protected 関数
+
+		/// <summary>
+		/// 禁則文字のチェック
+		/// </summary>
+		/// <returns></returns>
+		public bool Check(TextConfig config, Info.Chara current, Info.Chara prev)
+		{
+			// とりあえず日本語だけ
+			if (IsCheckBegin(current))
+			{
+				return true;
+			}
+
+			if (IsCheckEnd(prev))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		/// <summary>
+		/// 行頭の禁則文字チェック
+		/// </summary>
+		/// <param name="chara"></param>
+		/// <returns></returns>
+		private bool IsCheckBegin(Info.Chara chara)
+		{
+			return Begin.IndexOf(chara.Char) >= 0;
+		}
+
+		/// <summary>
+		/// 行末の禁則文字チェック
+		/// </summary>
+		/// <param name="chara"></param>
+		/// <returns></returns>
+		private bool IsCheckEnd(Info.Chara chara)
+		{
+			return End.IndexOf(chara.Char) >= 0;
+		}
+
+		#endregion
+	}
 }

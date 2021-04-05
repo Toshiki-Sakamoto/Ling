@@ -7,7 +7,7 @@ namespace Ling.Map
 	{
 		public override void InstallBindings()
 		{
-            Container
+			Container
 				.Bind<MapManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();

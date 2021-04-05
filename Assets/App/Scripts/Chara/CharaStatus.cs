@@ -23,7 +23,7 @@ namespace Ling.Chara
 	/// </summary>
 	[System.Serializable]
 	public class CharaStatus
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

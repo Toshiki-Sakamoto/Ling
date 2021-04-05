@@ -47,7 +47,7 @@ namespace Ling.Editor.Attribute
 		#region private 変数
 
 		private bool[] _buttonPressed = default;
-		private int _buttonLineNum = 0;	// ボタンの行数
+		private int _buttonLineNum = 0; // ボタンの行数
 
 		#endregion
 

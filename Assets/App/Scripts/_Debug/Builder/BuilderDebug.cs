@@ -15,8 +15,8 @@ namespace Ling._Debug.Builder
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BuilderDebug : MonoBehaviour 
-    {
+	public class BuilderDebug : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -80,7 +80,7 @@ namespace Ling._Debug.Builder
 					// ランダム値を変化させたい場合
 					if (setting_.RandomSeed > 0)
 					{
-                        Random.InitState(setting_.RandomSeed);
+						Random.InitState(setting_.RandomSeed);
 					}
 
 					_view.MapDrawView.Setup(setting_.Width, setting_.Height, Map.Builder.BuilderConst.BuilderType.Split);
@@ -120,7 +120,7 @@ namespace Ling._Debug.Builder
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

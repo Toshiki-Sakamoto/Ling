@@ -13,8 +13,8 @@ namespace Ling.Scenes.Battle._Debug
 	/// <summary>
 	/// Battle Debug View
 	/// </summary>
-	public class BattleDebugView : MonoBehaviour 
-    {
+	public class BattleDebugView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		[SerializeField]
@@ -77,7 +77,7 @@ namespace Ling.Scenes.Battle._Debug
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

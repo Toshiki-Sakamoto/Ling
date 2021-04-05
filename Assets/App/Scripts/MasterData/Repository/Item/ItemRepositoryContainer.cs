@@ -17,7 +17,7 @@ namespace Ling.MasterData.Repository.Item
 	/// カテゴリごとに検索することも可能
 	/// </remarks>
 	public class ItemRepositoryContainer : Common.Repotitory.RepositoryContainer<Const.Item.Category, ItemMaster>
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -50,7 +50,7 @@ namespace Ling.MasterData.Repository.Item
 
 		public ItemRepositoryContainer()
 		{
-			#if false
+#if false
 			Utility.EventManager.SafeAdd<MasterLoadedEvent>(this, ev =>
 				{
 					var manager = ev.Manager;
@@ -61,10 +61,10 @@ namespace Ling.MasterData.Repository.Item
 					Update(Const.Item.Category.Book, Book);
 					Update(Const.Item.Category.Food, Food);
 				});
-				#endif
+#endif
 		}
 
-			#if false
+#if false
 		~ItemRepositoryContainer()
 		{
 			Utility.EventManager.SafeAllRemove(this);

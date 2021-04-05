@@ -19,8 +19,8 @@ namespace Ling.Scenes.Battle
 	/// <summary>
 	/// Battle
 	/// </summary>
-	public class BattleScene : Common.Scene.Base 
-    {
+	public class BattleScene : Common.Scene.Base
+	{
 		#region 定数, class, enum
 
 		public enum Phase
@@ -77,8 +77,8 @@ namespace Ling.Scenes.Battle
 		/// 自分のシーンに必要なシーンID
 		/// 自シーン読み込み後になければ読み込みを行う
 		/// </summary>
-		public override DependenceData[] Dependences => 
-			new DependenceData[] 
+		public override DependenceData[] Dependences =>
+			new DependenceData[]
 			{
 				DependenceData.CreateAtLoaded(SceneID.MoveInput),
 			};
@@ -115,10 +115,10 @@ namespace Ling.Scenes.Battle
 			// デバッグ用のコード直指定でバトルを始める
 			var stageMaster = _masterHolder.StageRepository.FindByStageType(Const.StageType.First);
 
-			var param = new BattleModel.Param 
-				{ 
-					stageMaster = stageMaster 
-				};
+			var param = new BattleModel.Param
+			{
+				stageMaster = stageMaster
+			};
 
 			_model.Setup(param);
 
@@ -153,8 +153,8 @@ namespace Ling.Scenes.Battle
 			_isInitialized = true;
 
 			// 行動終了時等、特定のタイミングでフェーズを切り替える
-			_eventManager.Add<EventChangePhase>(this, 
-				_ev => 
+			_eventManager.Add<EventChangePhase>(this,
+				_ev =>
 				{
 					// 行動終了時のPhase切り替えの予約
 					_model.NextPhaseMoveReservation = _ev.phase;
@@ -200,10 +200,10 @@ namespace Ling.Scenes.Battle
 			View.UIHeaderView.SetLevel(_model.Level);
 
 			_eventManager.Trigger(new EventChangeNextStage
-				{
-					level = _mapManager.CurrentMapIndex,
-					tilemap = _mapManager.CurrentTilemap
-				});
+			{
+				level = _mapManager.CurrentMapIndex,
+				tilemap = _mapManager.CurrentTilemap
+			});
 		}
 
 		/// <summary>

@@ -17,8 +17,8 @@ namespace Ling.Scenes.Battle
 	/// <summary>
 	/// 
 	/// </summary>
-	public class TileView : MonoBehaviour 
-    {
+	public class TileView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -82,7 +82,7 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

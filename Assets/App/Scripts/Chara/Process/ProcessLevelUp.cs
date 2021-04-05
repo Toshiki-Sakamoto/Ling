@@ -14,7 +14,7 @@ namespace Ling.Chara.Process
 	/// Attackの後処理（経験値等）
 	/// </summary>
 	public class ProcessLevelUp : Common.ProcessBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -27,8 +27,8 @@ namespace Ling.Chara.Process
 
 		#region private 変数
 
-		private Chara.ICharaController _unit;	// 経験値を受けるキャラ
-		private List<Chara.ICharaController> _deadChara = new List<ICharaController>();	// 死んだキャラ
+		private Chara.ICharaController _unit;   // 経験値を受けるキャラ
+		private List<Chara.ICharaController> _deadChara = new List<ICharaController>(); // 死んだキャラ
 
 		#endregion
 

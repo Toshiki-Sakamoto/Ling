@@ -10,7 +10,7 @@ namespace Ling.Map.Builder.Split
 		{
 			Container
 				.BindFactory<Half.Splitter, Half.Splitter.Factory>();
-			
+
 			Container
 				.BindFactory<ISplitter, SplitBuilderFactory>()
 				.FromFactory<CustomSplitBuilderFactory>();

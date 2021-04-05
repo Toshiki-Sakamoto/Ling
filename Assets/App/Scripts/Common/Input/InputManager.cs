@@ -29,12 +29,12 @@ namespace Ling.Common.Input
 		IInputProvider<TInputActions> Resolve<TInputActions>()
 			where TInputActions : class;
 	}
-	
+
 	/// <summary>
 	/// InputProvider管理者
 	/// </summary>
 	public class InputManager : MonoBehaviour, IInputManager
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -46,7 +46,7 @@ namespace Ling.Common.Input
 
 
 		#region private 変数
-		
+
 		private Dictionary<Type, System.Object> _providersDict = new Dictionary<Type, System.Object>();
 
 		#endregion
@@ -59,7 +59,7 @@ namespace Ling.Common.Input
 
 		#region public, protected 関数
 
-		
+
 		public void Bind<TInputActions>(IInputProvider<TInputActions> inputProvider)
 			where TInputActions : class
 		{
@@ -98,7 +98,7 @@ namespace Ling.Common.Input
 
 		void Awake()
 		{
-			
+
 		}
 
 		#endregion

@@ -19,33 +19,33 @@ namespace Ling.Adv.Config
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Manager : Utility.Singleton<Manager>
-    {
-        #region 定数, class, enum
+	public class Manager : Utility.Singleton<Manager>
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        /// <summary>
-        /// テキストの速度 : 0.1 ~ 1.0 
-        /// 1.0 が一瞬
-        /// </summary>
-        /// <value>The text speed.</value>
-        public float TextSpeed { get; private set; } = 0.5f;
+		#endregion
 
-        #endregion
+
+		#region プロパティ
+
+		/// <summary>
+		/// テキストの速度 : 0.1 ~ 1.0 
+		/// 1.0 が一瞬
+		/// </summary>
+		/// <value>The text speed.</value>
+		public float TextSpeed { get; private set; } = 0.5f;
+
+		#endregion
 
 
 		#region コンストラクタ, デストラクタ
@@ -53,13 +53,13 @@ namespace Ling.Adv.Config
 		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 関数
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region private 関数
 
-        #endregion
-    }
+		#endregion
+	}
 }

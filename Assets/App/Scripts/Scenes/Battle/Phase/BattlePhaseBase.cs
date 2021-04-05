@@ -67,7 +67,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		protected virtual void AwakeInternal() {}
+		protected virtual void AwakeInternal() { }
 
 		#endregion
 

@@ -16,30 +16,30 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Chara
 {
-    /// <summary>
-    /// キャラクタを表示する
-    /// </summary>
-    public class EventCharaShow : EventStackBase
-    {
-        public Data Data { get; set; }
+	/// <summary>
+	/// キャラクタを表示する
+	/// </summary>
+	public class EventCharaShow : EventStackBase
+	{
+		public Data Data { get; set; }
 
-        /// <summary>
-        /// キャラの立ち位置
-        /// </summary>
-        public Const.CharaPos CharaPos { get; set; }
+		/// <summary>
+		/// キャラの立ち位置
+		/// </summary>
+		public Const.CharaPos CharaPos { get; set; }
 
-        /// <summary>
-        /// キャラファイル名
-        /// </summary>
-        public string CharaFilename { get; set; }
-    }
+		/// <summary>
+		/// キャラファイル名
+		/// </summary>
+		public string CharaFilename { get; set; }
+	}
 
 
-    /// <summary>
-    /// キャラクタを非表示する
-    /// </summary>
-    public class EventCharaHide : EventStackBase
-    {
-        public Data Data { get; set; }
-    };
+	/// <summary>
+	/// キャラクタを非表示する
+	/// </summary>
+	public class EventCharaHide : EventStackBase
+	{
+		public Data Data { get; set; }
+	};
 }

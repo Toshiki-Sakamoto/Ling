@@ -15,8 +15,8 @@ namespace Ling.Common.UI
 	/// <summary>
 	/// UnityのButton拡張
 	/// </summary>
-	public class ButtonEx : Button 
-    {
+	public class ButtonEx : Button
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -42,60 +42,60 @@ namespace Ling.Common.UI
 		public UnityEvent OnPressedDown => _pressedDownEvent;
 		public UnityEvent OnPressedUp => _pressedUpEvent;
 
-        #endregion
+		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 関数
 
-        public override void OnPointerDown(PointerEventData eventData)
-        {
-            base.OnPointerDown(eventData);
+		public override void OnPointerDown(PointerEventData eventData)
+		{
+			base.OnPointerDown(eventData);
 
 			_isDown = true;
 			OnPressedDown.Invoke();
-        }
+		}
 
-        public override void OnPointerUp(PointerEventData eventData)
-        {
-            base.OnPointerUp(eventData);
+		public override void OnPointerUp(PointerEventData eventData)
+		{
+			base.OnPointerUp(eventData);
 
 			if (!_isDown)
 			{
 
 			}
-        }
+		}
 
-        #endregion
-
-
-        #region private 関数
-
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region private 関数
 
-        #endregion
-
-        #region private 関数
-
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region MonoBegaviour
 
-        #endregion
-    
+		#endregion
 
+		#region private 関数
 
-        #region private 関数
-
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region MonoBegaviour
 
-        #endregion
+		#endregion
+
+
+
+		#region private 関数
+
+		#endregion
+
+
+		#region MonoBegaviour
+
+		#endregion
 
 
 		#region private 関数

@@ -13,8 +13,8 @@ namespace Ling.Item
 	/// アイテムの見た目を管理
 	/// </summary>
 	[RequireComponent(typeof(SpriteRenderer))]
-	public class ItemView : MonoBehaviour 
-    {
+	public class ItemView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -28,7 +28,7 @@ namespace Ling.Item
 		#region private 変数
 
 		[SerializeField] private Const.Item.Category _category = default;
-//		[SerializeField] private Animator _animator = default; // 使わないかな
+		//		[SerializeField] private Animator _animator = default; // 使わないかな
 
 		private SpriteRenderer _renderer = default;
 
@@ -44,7 +44,7 @@ namespace Ling.Item
 
 		public void Setup()
 		{
-			
+
 		}
 
 		#endregion
@@ -82,7 +82,7 @@ namespace Ling.Item
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

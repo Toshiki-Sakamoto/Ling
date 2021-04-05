@@ -11,7 +11,7 @@ namespace Ling.Chara
 	/// EnemyModel
 	/// </summary>
 	public class EnemyModel : CharaModel
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

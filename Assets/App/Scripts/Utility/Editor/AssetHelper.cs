@@ -15,7 +15,7 @@ namespace Ling.Utility.Editor
 	/// Asset操作ヘルパークラス
 	/// </summary>
 	public class AssetHelper
-    {
+	{
 		/// <summary>
 		/// 指定クラスのアセットを検索し、取得する。
 		/// 複数あった場合は最初に見つかったもの

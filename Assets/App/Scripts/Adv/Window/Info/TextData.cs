@@ -19,44 +19,44 @@ namespace Ling.Adv.Window.Info
 	/// <summary>
 	/// 
 	/// </summary>
-    public class TextData
-    {
-        #region 定数, class, enum
-
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
-
-
-        #region private 変数
-
-        #endregion
-
-
-        #region プロパティ
-
-        #endregion
-
-
-        #region コンストラクタ, デストラクタ
-
-        public TextData(string text)
-        {
-        }
+	public class TextData
+	{
+		#region 定数, class, enum
 
 		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 変数
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region private 変数
 
-        #endregion
-    }
+		#endregion
+
+
+		#region プロパティ
+
+		#endregion
+
+
+		#region コンストラクタ, デストラクタ
+
+		public TextData(string text)
+		{
+		}
+
+		#endregion
+
+
+		#region public, protected 関数
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+	}
 }

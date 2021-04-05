@@ -17,7 +17,7 @@ namespace Ling.Map
 	/// GroundGrid一つのデータ
 	/// </summary>
 	public class GroundTilemap : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -58,7 +58,7 @@ namespace Ling.Map
 		public int Level => _mapLevel;
 
 		public Transform ItemRoot => _itemRoot;
-		
+
 		public Transform EnemyRoot => _enemyRoot;
 
 		/// <summary>
@@ -192,7 +192,7 @@ namespace Ling.Map
 			this.AddEventListener<_Debug.EventSearchNodeCreated>(ev_ =>
 				{
 					if (ev_.mapLevel != _mapLevel) return;
-					
+
 					var index = ev_.node.pos.y * width + ev_.node.pos.x;
 
 					_scoreTileView[index].SetScore(ev_.node.score);
@@ -206,7 +206,7 @@ namespace Ling.Map
 #if DEBUG
 			var index = cellPosition.y * width + cellPosition.x;
 			if (index < 0 || index >= _scoreTileView.Length) return;
-			
+
 			_scoreTileView[index].SetTileData(_tilemap, cellPosition);
 #endif
 		}

@@ -10,15 +10,15 @@ using UnityEngine.Tilemaps;
 
 namespace Ling.Editor
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    [CustomEditor(typeof(Tilemap))]
-    public class TilemapInspector : UnityEditor.Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            base.OnInspectorGUI();
-        }
-    }
+	/// <summary>
+	/// 
+	/// </summary>
+	[CustomEditor(typeof(Tilemap))]
+	public class TilemapInspector : UnityEditor.Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
+		}
+	}
 }

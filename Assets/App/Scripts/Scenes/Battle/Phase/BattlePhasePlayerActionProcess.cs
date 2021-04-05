@@ -21,7 +21,7 @@ namespace Ling.Scenes.Battle.Phase
 	/// 
 	/// </summary>
 	public class BattlePhasePlayerActionProcess : BattlePhaseBase
-    {
+	{
 		#region 定数, class, enum
 
 		public class Argument : Common.Scene.PhaseArgBase
@@ -62,7 +62,7 @@ namespace Ling.Scenes.Battle.Phase
 
 			arg.process
 				.SetNextLast<Common.Process.ProcessCallFunc>()
-				.Setup(() => 
+				.Setup(() =>
 				{
 					_isFinish = true;
 				});

@@ -28,7 +28,7 @@ namespace Ling.Tests.PlayMode.Plugin.ZenjectTest
 	/// <summary>
 	/// IDで違うインスタンスが取れるかテストするクラス
 	/// </summary>
-	public interface IExampleIdTest {}
+	public interface IExampleIdTest { }
 	public class ExampleIdTest : IExampleIdTest
 	{
 		public enum ID { First, Second }
@@ -82,7 +82,7 @@ namespace Ling.Tests.PlayMode.Plugin.ZenjectTest
 			_injectTextClass = GameObject.FindObjectOfType<InjectTestClass>();
 
 			Assert.IsNotNull(_injectTextClass, "InjectTestClassが見つからない");
-		
+
 			Assert.IsNotNull(_injectTextClass.FieldInjection, "フィールドに対して依存性の注入がされた");
 			Assert.IsNotNull(_injectTextClass.PropertyInjection, "プロパティに対して依存性の注入がされた");
 			Assert.IsNotNull(_injectTextClass.MethodInjection, "メソッドに対して依存性の注入がされた");

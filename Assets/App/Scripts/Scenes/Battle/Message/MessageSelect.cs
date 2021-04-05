@@ -18,8 +18,8 @@ namespace Ling.Scenes.Battle.Message
 	/// <summary>
 	/// 
 	/// </summary>
-	public class MessageSelect : MonoBehaviour 
-    {
+	public class MessageSelect : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		[System.Serializable]
@@ -124,7 +124,7 @@ namespace Ling.Scenes.Battle.Message
 		{
 			_wall.gameObject.SetActive(false);
 
-			foreach(var item in _selectData)
+			foreach (var item in _selectData)
 			{
 				item.Hide();
 			}
@@ -142,7 +142,7 @@ namespace Ling.Scenes.Battle.Message
 
 		public void Awake()
 		{
-			foreach(var data in _selectData)
+			foreach (var data in _selectData)
 			{
 				data.Setup();
 			}

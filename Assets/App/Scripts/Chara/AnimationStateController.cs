@@ -12,78 +12,78 @@ using UnityEngine.UI;
 
 namespace Ling.Chara
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class AnimationStateController : MonoBehaviour 
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 
+	/// </summary>
+	public class AnimationStateController : MonoBehaviour
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        [SerializeField] private Animator _animator = null;
-        [SerializeField] private Rigidbody2D _rigidbody = null;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		[SerializeField] private Animator _animator = null;
+		[SerializeField] private Rigidbody2D _rigidbody = null;
 
-
-        #region public, protected 関数
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region プロパティ
 
-        private void SetStateToAnimator(Vector2? vec)
-        {
-            if (!vec.HasValue || vec == Vector2.zero)
-            {
-                //_animator.speed = 0.0f;
-                return;
-            }
-
-//            _animator.speed = 1.0f;
-            _animator.SetFloat("x", vec.Value.x);
-            _animator.SetFloat("y", vec.Value.y);
-        }
-
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region public, protected 関数
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-            // RigidBodyのvelocityから向きを求める
-            var velocity = _rigidbody.velocity;
+		#endregion
 
 
-            SetStateToAnimator(velocity);
-        }
+		#region private 関数
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        void OnDestoroy()
-        {
-        }
+		private void SetStateToAnimator(Vector2? vec)
+		{
+			if (!vec.HasValue || vec == Vector2.zero)
+			{
+				//_animator.speed = 0.0f;
+				return;
+			}
 
-        #endregion
-    }
+			//            _animator.speed = 1.0f;
+			_animator.SetFloat("x", vec.Value.x);
+			_animator.SetFloat("y", vec.Value.y);
+		}
+
+		#endregion
+
+
+		#region MonoBegaviour
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+			// RigidBodyのvelocityから向きを求める
+			var velocity = _rigidbody.velocity;
+
+
+			SetStateToAnimator(velocity);
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		void OnDestroy()
+		{
+		}
+
+		#endregion
+	}
 }

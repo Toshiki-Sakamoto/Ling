@@ -14,9 +14,9 @@ namespace Ling.AI.AIUtility
 	/// キャラクタ検索便利関数群
 	/// </summary>
 	public class CharaFinder : MonoBehaviour
-    {
-		
-	#if false
+	{
+
+#if false
 		#region 定数, class, enum
 
 		public class Param 
@@ -120,6 +120,6 @@ namespace Ling.AI.AIUtility
 		#region private 関数
 
 		#endregion
-	#endif
+#endif
 	}
 }

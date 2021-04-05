@@ -74,7 +74,7 @@ namespace Ling.Scenes.Battle.Message
 
 			Observable
 				.Timer(TimeSpan.FromSeconds(0), TimeSpan.FromSeconds(_messageDisplaySpeed))
-				.Select(value_ => 
+				.Select(value_ =>
 					{
 						// 一文字すすめる
 						Document.NextTextIndex();
@@ -84,10 +84,10 @@ namespace Ling.Scenes.Battle.Message
 						return Document.IsEnd;
 					})
 				.TakeWhile(isEnd_ => isEnd_ ? false : true)
-				.Subscribe(_ => {}, onCompleted: () =>
-					{
-						OnTextShowEnd?.Invoke();
-					});
+				.Subscribe(_ => { }, onCompleted: () =>
+					 {
+						 OnTextShowEnd?.Invoke();
+					 });
 		}
 
 		/// <summary>
@@ -121,7 +121,7 @@ namespace Ling.Scenes.Battle.Message
 
 			StartCoroutine(MovePosY());
 
-//			_animator.SetTrigger(UpperTrigger);
+			//			_animator.SetTrigger(UpperTrigger);
 			IsPlayAnimation = true;
 		}
 

@@ -19,17 +19,17 @@ namespace Ling.Utility.UI
 	/// <summary>
 	/// 再利用可能なスクロールビュー
 	/// </summary>
-    [DisallowMultipleComponent]
+	[DisallowMultipleComponent]
 	[RequireComponent(typeof(RectTransform))]
 	public class RecyclableScrollView : UIBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		/// <summary>
 		/// スクロールに必要なデータを提供する
 		/// </summary>
 		public interface IContentDataProvider
-		{ 
+		{
 			/// <summary>
 			/// データの個数
 			/// </summary>
@@ -68,8 +68,8 @@ namespace Ling.Utility.UI
 		/// </summary>
 		public enum Direction
 		{
-			Vertical,	// 縦
-			Horizontal,	// 横
+			Vertical,   // 縦
+			Horizontal, // 横
 		}
 
 		/// <summary>
@@ -85,14 +85,14 @@ namespace Ling.Utility.UI
 
 			public static ItemData Create(GameObject newObject, GameObject origin, int index, float size)
 			{
-				return new ItemData() 
-					{ 
-						obj = newObject, 
-						objOrigin = origin, 
-						rectTransform = newObject.GetComponent<RectTransform>(),
-						size = size,
-						index = index
-					};
+				return new ItemData()
+				{
+					obj = newObject,
+					objOrigin = origin,
+					rectTransform = newObject.GetComponent<RectTransform>(),
+					size = size,
+					index = index
+				};
 			}
 
 			public void RemoveObject()
@@ -117,8 +117,8 @@ namespace Ling.Utility.UI
 		[SerializeField] private int _spacing = 0;
 		[SerializeField] private Direction _direction = Direction.Vertical;
 		[SerializeField, Range(0, 20)] private int _instantateItemCount = 7;
-		[SerializeField] private bool _autoInitItemInstantiate = default;	// 初期化とき、自動でアイテムの生成を行う
-		
+		[SerializeField] private bool _autoInitItemInstantiate = default;   // 初期化とき、自動でアイテムの生成を行う
+
 		[Inject] DiContainer _container = null;
 
 		private ScrollRect _scrollRect;
@@ -154,8 +154,8 @@ namespace Ling.Utility.UI
 		/// <summary>
 		/// ScrollView Content RectTransform
 		/// </summary>
-		protected RectTransform ContentRectTransform 
-		{ 
+		protected RectTransform ContentRectTransform
+		{
 			get
 			{
 				// C# 8
@@ -177,7 +177,7 @@ namespace Ling.Utility.UI
 				if (_scrollRect != null) return _scrollRect;
 
 				_scrollRect = GetComponentInParent<ScrollRect>();
-				if (_scrollRect == null) 
+				if (_scrollRect == null)
 				{
 					Utility.Log.Error("ScrollRectが見つからない");
 					return null;
@@ -208,10 +208,10 @@ namespace Ling.Utility.UI
 		/// </summary>
 		private float ScrollRectSize
 		{
-			get 
+			get
 			{
 				return _direction == Direction.Vertical ?
-					RectTransform.sizeDelta.y : 
+					RectTransform.sizeDelta.y :
 					RectTransform.sizeDelta.x;
 			}
 		}
@@ -224,14 +224,14 @@ namespace Ling.Utility.UI
 			get
 			{
 				return _direction == Direction.Vertical ?
-					ContentRectTransform.sizeDelta.y : 
+					ContentRectTransform.sizeDelta.y :
 					ContentRectTransform.sizeDelta.x;
 			}
 		}
 
 		private float BottomPosition
 		{
-			get 
+			get
 			{
 				return AnchoredPosition;
 			}
@@ -277,7 +277,7 @@ namespace Ling.Utility.UI
 
 					totalSize += itemScale + _spacing;
 
-					var contentSize = _direction == Direction.Vertical ? 
+					var contentSize = _direction == Direction.Vertical ?
 							rectSizeDelta.y :
 							rectSizeDelta.x;
 
@@ -306,7 +306,7 @@ namespace Ling.Utility.UI
 				{
 					RemoveItem(_items[0]);
 				}
-				
+
 				for (var i = 0; i < _instantateItemCount; ++i)
 				{
 					_items.Add(GetItem(/*_currentItemNo + */i, null));
@@ -415,13 +415,13 @@ namespace Ling.Utility.UI
 					recyclableItem = null;
 				}
 			}
-			else 
+			else
 			{
 				// キャッシュがあればそれを使用する。なければ新しく生成
 				if (objCaches.Count > 0)
 				{
 					recyclableItem = objCaches[0];
-					recyclableItem.index = index;	// 参照Index値を更新する
+					recyclableItem.index = index;   // 参照Index値を更新する
 					objCaches.RemoveAt(0);
 				}
 				else
@@ -469,8 +469,8 @@ namespace Ling.Utility.UI
 		{
 			if (index < 0) return Vector2.zero;
 
-			return _direction == Direction.Vertical ? 
-				new Vector2(0, -GetPositionByCache(index)) : 
+			return _direction == Direction.Vertical ?
+				new Vector2(0, -GetPositionByCache(index)) :
 				new Vector2(GetPositionByCache(index), 0);
 		}
 
@@ -496,7 +496,7 @@ namespace Ling.Utility.UI
 			if (_items.Count <= 1) return;
 
 			// Yは下がプラスで上がマイナスになる
-			
+
 			// 下にスクロール : AnchordPositionはマイナスになっていく
 			do
 			{
@@ -514,7 +514,7 @@ namespace Ling.Utility.UI
 				RemoveItem(item);
 
 				++_currentItemNo;
-				
+
 			} while (true);
 
 			do
