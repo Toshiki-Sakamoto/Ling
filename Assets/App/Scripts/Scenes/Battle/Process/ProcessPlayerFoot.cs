@@ -56,7 +56,7 @@ namespace Ling.Scenes.Battle.Process
 
 
 		#region public, protected 関数
-		
+
 		/// <summary>
 		/// 前のプロセスが終了したときに呼び出される
 		/// </summary>

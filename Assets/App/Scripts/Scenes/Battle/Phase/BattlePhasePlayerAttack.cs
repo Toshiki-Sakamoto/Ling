@@ -30,7 +30,7 @@ namespace Ling.Scenes.Battle.Phase
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
 		private Chara.PlayerControl _player;
-		private List<Chara.ICharaController> _targets = new List<Chara.ICharaController>();	// ターゲット
+		private List<Chara.ICharaController> _targets = new List<Chara.ICharaController>(); // ターゲット
 
 		#endregion
 
@@ -89,8 +89,8 @@ namespace Ling.Scenes.Battle.Phase
 			Change(BattleScene.Phase.EnemyTink, argument);
 		}
 
-		public override void Term() 
-		{ 
+		public override void Term()
+		{
 		}
 
 		#endregion

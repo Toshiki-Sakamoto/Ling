@@ -75,14 +75,14 @@ namespace Ling.Scenes.Battle.Phase
 
 			// 移動
 			var move = _moveInputProvider.Controls.Move;
-			_inputActionDict.Add(move.Left,			() => MoveCommand(new Vector2Int(-1, 0)));
-			_inputActionDict.Add(move.LeftUp,		() => MoveCommand(new Vector2Int(-1, 1)));
-			_inputActionDict.Add(move.LeftDown,		() => MoveCommand(new Vector2Int(-1, -1)));
-			_inputActionDict.Add(move.Right,		() => MoveCommand(new Vector2Int(1, 0)));
-			_inputActionDict.Add(move.RightUp,		() => MoveCommand(new Vector2Int(1, 1)));
-			_inputActionDict.Add(move.RightDown,	() => MoveCommand(new Vector2Int(1, -1)));
-			_inputActionDict.Add(move.Up,			() => MoveCommand(new Vector2Int(0, 1)));
-			_inputActionDict.Add(move.Down,			() => MoveCommand(new Vector2Int(0, -1)));
+			_inputActionDict.Add(move.Left, () => MoveCommand(new Vector2Int(-1, 0)));
+			_inputActionDict.Add(move.LeftUp, () => MoveCommand(new Vector2Int(-1, 1)));
+			_inputActionDict.Add(move.LeftDown, () => MoveCommand(new Vector2Int(-1, -1)));
+			_inputActionDict.Add(move.Right, () => MoveCommand(new Vector2Int(1, 0)));
+			_inputActionDict.Add(move.RightUp, () => MoveCommand(new Vector2Int(1, 1)));
+			_inputActionDict.Add(move.RightDown, () => MoveCommand(new Vector2Int(1, -1)));
+			_inputActionDict.Add(move.Up, () => MoveCommand(new Vector2Int(0, 1)));
+			_inputActionDict.Add(move.Down, () => MoveCommand(new Vector2Int(0, -1)));
 
 			KeyCommandProcess();
 		}

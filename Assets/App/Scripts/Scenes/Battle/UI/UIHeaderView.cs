@@ -17,8 +17,8 @@ namespace Ling.Scenes.Battle.UI
 	/// <summary>
 	/// 
 	/// </summary>
-	public class UIHeaderView : MonoBehaviour 
-    {
+	public class UIHeaderView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -31,13 +31,13 @@ namespace Ling.Scenes.Battle.UI
 
 		#region private 変数
 
-		[SerializeField] private Text _txtLevel = null;	// ○層
+		[SerializeField] private Text _txtLevel = null; // ○層
 
 		#endregion
-		
-		
+
+
 		#region プロパティ
-		
+
 		#endregion
 
 
@@ -47,7 +47,7 @@ namespace Ling.Scenes.Battle.UI
 		{
 			_txtLevel.text = level.ToString();
 		}
-		
+
 		#endregion
 
 

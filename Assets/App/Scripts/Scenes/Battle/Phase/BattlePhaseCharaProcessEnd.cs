@@ -14,7 +14,7 @@ namespace Ling.Scenes.Battle.Phase
 	/// キャラのプロセス終了処理
 	/// </summary>
 	public class BattlePhaseCharaProcessEnd : BattlePhaseBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -52,11 +52,11 @@ namespace Ling.Scenes.Battle.Phase
 			_mapManager = Resolve<Map.MapManager>();
 		}
 
-		public override void Init() 
+		public override void Init()
 		{
 			// 今の所何もすることないのでプレイヤー行動開始時に戻す
 			// 足元確認とか次に入れるほうが良さそう
-			
+
 			var player = _charaManager.Player;
 
 			var tileDataMap = _mapManager.CurrentTileDataMap;
