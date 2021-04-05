@@ -27,7 +27,8 @@ namespace Ling.Scenes.Input
 
 		#region private 変数
 
-		[SerializeField] private Common.Input.MoveInputProvider _provider = default;
+		[SerializeField] private Common.Input.MoveInputProvider _moveProvider = default;
+		[SerializeField] private Common.Input.ActionInputProvider _actionProvider = default;
 
 		[Inject] private Common.Input.IInputManager _inputManager = default;
 
@@ -53,7 +54,8 @@ namespace Ling.Scenes.Input
 
 		private void Awake()
 		{
-			_inputManager?.Bind(_provider);
+			_inputManager?.Bind(_moveProvider);
+			_inputManager?.Bind(_actionProvider);
 		}
 
 		#endregion
