@@ -18,11 +18,11 @@ namespace Ling.Const
 		public enum Category
 		{
 			None,
-			
-			Food,	// 食べ物
-			Book,	// 本 (読むと効果が発揮するもの)
-			Weapon,	// 武器
-			Shield,	// 盾
+
+			Food,   // 食べ物
+			Book,   // 本 (読むと効果が発揮するもの)
+			Weapon, // 武器
+			Shield, // 盾
 		}
 
 		/// <summary>
@@ -30,7 +30,7 @@ namespace Ling.Const
 		/// </summary>
 		public enum Food
 		{
-			Race,	// 飯
+			Race,   // 飯
 		}
 
 		/// <summary>
