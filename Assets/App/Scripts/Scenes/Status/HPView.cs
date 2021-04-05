@@ -13,8 +13,8 @@ namespace Ling.Scenes.Status
 	/// <summary>
 	/// HPStatus View
 	/// </summary>
-	public class HPView : MonoBehaviour 
-    {
+	public class HPView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -57,7 +57,7 @@ namespace Ling.Scenes.Status
 
 		#region private 関数
 
-		
+
 		private void SetHPText(long current, long max)
 		{
 			_text.text = $"{current}/{max}";
