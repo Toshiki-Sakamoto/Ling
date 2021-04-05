@@ -40,6 +40,7 @@ namespace Ling.Scenes.Battle.Phase
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
 		private IInputProvider<InputControls.IMoveActions> _moveInputProvider;
+		private IInputProvider<InputControls.IActionActions> _actionInputProvider;
 		private Dictionary<InputAction, System.Func<bool>> _inputActionDict = new Dictionary<InputAction, System.Func<bool>>();
 
 		#endregion
@@ -64,6 +65,7 @@ namespace Ling.Scenes.Battle.Phase
 
 			var inputManager = Resolve<Common.Input.IInputManager>();
 			_moveInputProvider = inputManager.Resolve<InputControls.IMoveActions>();
+			_actionInputProvider = inputManager.Resolve<InputControls.IActionActions>();
 		}
 
 		public override void Init()
@@ -83,6 +85,10 @@ namespace Ling.Scenes.Battle.Phase
 			_inputActionDict.Add(move.RightDown, () => MoveCommand(new Vector2Int(1, -1)));
 			_inputActionDict.Add(move.Up, () => MoveCommand(new Vector2Int(0, 1)));
 			_inputActionDict.Add(move.Down, () => MoveCommand(new Vector2Int(0, -1)));
+
+			// 攻撃
+			var action = _actionInputProvider.Controls.Action;
+			_inputActionDict.Add(action.Attack, () => Attack());
 
 			KeyCommandProcess();
 		}
@@ -158,10 +164,12 @@ namespace Ling.Scenes.Battle.Phase
 		/// <summary>
 		/// 通常攻撃
 		/// </summary>
-		private void Attack()
+		private bool Attack()
 		{
 			// 攻撃対象がいるかどうか関わらず攻撃に移行する
 			Change(BattleScene.Phase.PlayerAttack);
+
+			return true;
 		}
 
 		/// <summary>
