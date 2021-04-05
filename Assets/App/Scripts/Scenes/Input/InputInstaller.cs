@@ -3,9 +3,9 @@ using Zenject;
 using Ling.Common.Input;
 
 
-namespace Ling.Scenes.MoveInput
+namespace Ling.Scenes.Input
 {
-	public class MoveInputInstaller : MonoInstaller
+	public class InputInstaller : MonoInstaller
 	{
 		[SerializeField] private IInputProvider<InputControls.IMoveActions> _moveInputProvider = default;
 
