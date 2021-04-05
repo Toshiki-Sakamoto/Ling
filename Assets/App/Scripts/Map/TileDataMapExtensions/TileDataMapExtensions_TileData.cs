@@ -14,7 +14,7 @@ namespace Ling.Map.TileDataMapExtensions
 	/// TileData系を直接扱う拡張メソッド群
 	/// </summary>
 	public static class TileDataMapExtensions_TileData
-    {
+	{
 		/// <summary>
 		/// [x, y] から指定したタイル情報を返す
 		/// </summary>
@@ -55,7 +55,7 @@ namespace Ling.Map.TileDataMapExtensions
 			tileData.SetFlag(tileFlag);
 		}
 
-		
+
 		/// <summary>
 		/// 指定したマスが指定したTileFlagを持っている場合true
 		/// </summary>
