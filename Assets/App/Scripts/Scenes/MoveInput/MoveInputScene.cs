@@ -13,8 +13,8 @@ namespace Ling.Scenes.MoveInput
 	/// <summary>
 	/// 移動入力UI
 	/// </summary>
-	public class MoveInputScene : Common.Scene.Base 
-    {
+	public class MoveInputScene : Common.Scene.Base
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -27,9 +27,9 @@ namespace Ling.Scenes.MoveInput
 
 		#region private 変数
 
-		[SerializeField] private Common.Input.MoveInputProvider _provider = default;
+		lizeField] private Common.Input.MoveInputProvider _provider = default;
 
-		[Inject] private Common.Input.IInputManager _inputManager = default;
+		t] private Common.Input.IInputManager _inputManager = default;
 
 		#endregion
 
@@ -51,11 +51,11 @@ namespace Ling.Scenes.MoveInput
 
 		#region MonoBegaviour
 
-		private void Awake()
+		e void Awake()
 		{
-			_inputManager?.Bind(_provider);
+			ager?.Bind(_provider);
 		}
 
 		#endregion
+
 	}
-}
