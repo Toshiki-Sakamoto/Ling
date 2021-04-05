@@ -12,8 +12,8 @@ namespace Ling.Scenes.Menu
 	/// <summary>
 	/// Menu View
 	/// </summary>
-	public class MenuView : MonoBehaviour 
-    {
+	public class MenuView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
