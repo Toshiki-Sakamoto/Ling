@@ -33,6 +33,6 @@ EditorBuildSettings:
     path: Assets/App/Scenes/Map.unity
     guid: d448b27e179d4482c8f28d549bc28804
   - enabled: 1
-    path: Assets/App/Scenes/MoveInput.unity
+    path: Assets/App/Scenes/Input.unity
     guid: 1052d275babf14f78a3256dcfec9bbd1
   m_configObjects: {}

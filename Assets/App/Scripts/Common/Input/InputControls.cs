@@ -17,10 +17,10 @@ using UnityEngine.InputSystem.Utilities;
 
 public partial class @InputControls : IInputActionCollection2, IDisposable
 {
-	public InputActionAsset asset { get; }
-	public @InputControls()
-	{
-		asset = InputActionAsset.FromJson(@"{
+    public InputActionAsset asset { get; }
+    public @InputControls()
+    {
+        asset = InputActionAsset.FromJson(@"{
     ""name"": ""InputControls"",
     ""maps"": [
         {
@@ -201,183 +201,250 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Action"",
+            ""id"": ""dcb8c57a-181c-4801-9963-7c6da412717c"",
+            ""actions"": [
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""55eeb224-2f91-46f3-a3fd-6d744e95102f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""c2d89934-343b-4b19-97a7-bba18527cf48"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
 }");
-		// Move
-		m_Move = asset.FindActionMap("Move", throwIfNotFound: true);
-		m_Move_Left = m_Move.FindAction("Left", throwIfNotFound: true);
-		m_Move_LeftUp = m_Move.FindAction("LeftUp", throwIfNotFound: true);
-		m_Move_Up = m_Move.FindAction("Up", throwIfNotFound: true);
-		m_Move_RightUp = m_Move.FindAction("RightUp", throwIfNotFound: true);
-		m_Move_Right = m_Move.FindAction("Right", throwIfNotFound: true);
-		m_Move_RightDown = m_Move.FindAction("RightDown", throwIfNotFound: true);
-		m_Move_Down = m_Move.FindAction("Down", throwIfNotFound: true);
-		m_Move_LeftDown = m_Move.FindAction("LeftDown", throwIfNotFound: true);
-		m_Move_DirSwitch = m_Move.FindAction("DirSwitch", throwIfNotFound: true);
-	}
+        // Move
+        m_Move = asset.FindActionMap("Move", throwIfNotFound: true);
+        m_Move_Left = m_Move.FindAction("Left", throwIfNotFound: true);
+        m_Move_LeftUp = m_Move.FindAction("LeftUp", throwIfNotFound: true);
+        m_Move_Up = m_Move.FindAction("Up", throwIfNotFound: true);
+        m_Move_RightUp = m_Move.FindAction("RightUp", throwIfNotFound: true);
+        m_Move_Right = m_Move.FindAction("Right", throwIfNotFound: true);
+        m_Move_RightDown = m_Move.FindAction("RightDown", throwIfNotFound: true);
+        m_Move_Down = m_Move.FindAction("Down", throwIfNotFound: true);
+        m_Move_LeftDown = m_Move.FindAction("LeftDown", throwIfNotFound: true);
+        m_Move_DirSwitch = m_Move.FindAction("DirSwitch", throwIfNotFound: true);
+        // Action
+        m_Action = asset.FindActionMap("Action", throwIfNotFound: true);
+        m_Action_Attack = m_Action.FindAction("Attack", throwIfNotFound: true);
+    }
 
-	public void Dispose()
-	{
-		UnityEngine.Object.Destroy(asset);
-	}
+    public void Dispose()
+    {
+        UnityEngine.Object.Destroy(asset);
+    }
 
-	public InputBinding? bindingMask
-	{
-		get => asset.bindingMask;
-		set => asset.bindingMask = value;
-	}
+    public InputBinding? bindingMask
+    {
+        get => asset.bindingMask;
+        set => asset.bindingMask = value;
+    }
 
-	public ReadOnlyArray<InputDevice>? devices
-	{
-		get => asset.devices;
-		set => asset.devices = value;
-	}
+    public ReadOnlyArray<InputDevice>? devices
+    {
+        get => asset.devices;
+        set => asset.devices = value;
+    }
 
-	public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
+    public ReadOnlyArray<InputControlScheme> controlSchemes => asset.controlSchemes;
 
-	public bool Contains(InputAction action)
-	{
-		return asset.Contains(action);
-	}
+    public bool Contains(InputAction action)
+    {
+        return asset.Contains(action);
+    }
 
-	public IEnumerator<InputAction> GetEnumerator()
-	{
-		return asset.GetEnumerator();
-	}
+    public IEnumerator<InputAction> GetEnumerator()
+    {
+        return asset.GetEnumerator();
+    }
 
-	IEnumerator IEnumerable.GetEnumerator()
-	{
-		return GetEnumerator();
-	}
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
 
-	public void Enable()
-	{
-		asset.Enable();
-	}
+    public void Enable()
+    {
+        asset.Enable();
+    }
 
-	public void Disable()
-	{
-		asset.Disable();
-	}
-	public IEnumerable<InputBinding> bindings => asset.bindings;
+    public void Disable()
+    {
+        asset.Disable();
+    }
+    public IEnumerable<InputBinding> bindings => asset.bindings;
 
-	public InputAction FindAction(string actionNameOrId, bool throwIfNotFound = false)
-	{
-		return asset.FindAction(actionNameOrId, throwIfNotFound);
-	}
-	public int FindBinding(InputBinding bindingMask, out InputAction action)
-	{
-		return asset.FindBinding(bindingMask, out action);
-	}
+    public InputAction FindAction(string actionNameOrId, bool throwIfNotFound = false)
+    {
+        return asset.FindAction(actionNameOrId, throwIfNotFound);
+    }
+    public int FindBinding(InputBinding bindingMask, out InputAction action)
+    {
+        return asset.FindBinding(bindingMask, out action);
+    }
 
-	// Move
-	private readonly InputActionMap m_Move;
-	private IMoveActions m_MoveActionsCallbackInterface;
-	private readonly InputAction m_Move_Left;
-	private readonly InputAction m_Move_LeftUp;
-	private readonly InputAction m_Move_Up;
-	private readonly InputAction m_Move_RightUp;
-	private readonly InputAction m_Move_Right;
-	private readonly InputAction m_Move_RightDown;
-	private readonly InputAction m_Move_Down;
-	private readonly InputAction m_Move_LeftDown;
-	private readonly InputAction m_Move_DirSwitch;
-	public struct MoveActions
-	{
-		private @InputControls m_Wrapper;
-		public MoveActions(@InputControls wrapper) { m_Wrapper = wrapper; }
-		public InputAction @Left => m_Wrapper.m_Move_Left;
-		public InputAction @LeftUp => m_Wrapper.m_Move_LeftUp;
-		public InputAction @Up => m_Wrapper.m_Move_Up;
-		public InputAction @RightUp => m_Wrapper.m_Move_RightUp;
-		public InputAction @Right => m_Wrapper.m_Move_Right;
-		public InputAction @RightDown => m_Wrapper.m_Move_RightDown;
-		public InputAction @Down => m_Wrapper.m_Move_Down;
-		public InputAction @LeftDown => m_Wrapper.m_Move_LeftDown;
-		public InputAction @DirSwitch => m_Wrapper.m_Move_DirSwitch;
-		public InputActionMap Get() { return m_Wrapper.m_Move; }
-		public void Enable() { Get().Enable(); }
-		public void Disable() { Get().Disable(); }
-		public bool enabled => Get().enabled;
-		public static implicit operator InputActionMap(MoveActions set) { return set.Get(); }
-		public void SetCallbacks(IMoveActions instance)
-		{
-			if (m_Wrapper.m_MoveActionsCallbackInterface != null)
-			{
-				@Left.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeft;
-				@Left.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeft;
-				@Left.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeft;
-				@LeftUp.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftUp;
-				@LeftUp.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftUp;
-				@LeftUp.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftUp;
-				@Up.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnUp;
-				@Up.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnUp;
-				@Up.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnUp;
-				@RightUp.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightUp;
-				@RightUp.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightUp;
-				@RightUp.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightUp;
-				@Right.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnRight;
-				@Right.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnRight;
-				@Right.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnRight;
-				@RightDown.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightDown;
-				@RightDown.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightDown;
-				@RightDown.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightDown;
-				@Down.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnDown;
-				@Down.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnDown;
-				@Down.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnDown;
-				@LeftDown.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftDown;
-				@LeftDown.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftDown;
-				@LeftDown.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftDown;
-				@DirSwitch.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnDirSwitch;
-				@DirSwitch.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnDirSwitch;
-				@DirSwitch.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnDirSwitch;
-			}
-			m_Wrapper.m_MoveActionsCallbackInterface = instance;
-			if (instance != null)
-			{
-				@Left.started += instance.OnLeft;
-				@Left.performed += instance.OnLeft;
-				@Left.canceled += instance.OnLeft;
-				@LeftUp.started += instance.OnLeftUp;
-				@LeftUp.performed += instance.OnLeftUp;
-				@LeftUp.canceled += instance.OnLeftUp;
-				@Up.started += instance.OnUp;
-				@Up.performed += instance.OnUp;
-				@Up.canceled += instance.OnUp;
-				@RightUp.started += instance.OnRightUp;
-				@RightUp.performed += instance.OnRightUp;
-				@RightUp.canceled += instance.OnRightUp;
-				@Right.started += instance.OnRight;
-				@Right.performed += instance.OnRight;
-				@Right.canceled += instance.OnRight;
-				@RightDown.started += instance.OnRightDown;
-				@RightDown.performed += instance.OnRightDown;
-				@RightDown.canceled += instance.OnRightDown;
-				@Down.started += instance.OnDown;
-				@Down.performed += instance.OnDown;
-				@Down.canceled += instance.OnDown;
-				@LeftDown.started += instance.OnLeftDown;
-				@LeftDown.performed += instance.OnLeftDown;
-				@LeftDown.canceled += instance.OnLeftDown;
-				@DirSwitch.started += instance.OnDirSwitch;
-				@DirSwitch.performed += instance.OnDirSwitch;
-				@DirSwitch.canceled += instance.OnDirSwitch;
-			}
-		}
-	}
-	public MoveActions @Move => new MoveActions(this);
-	public interface IMoveActions
-	{
-		void OnLeft(InputAction.CallbackContext context);
-		void OnLeftUp(InputAction.CallbackContext context);
-		void OnUp(InputAction.CallbackContext context);
-		void OnRightUp(InputAction.CallbackContext context);
-		void OnRight(InputAction.CallbackContext context);
-		void OnRightDown(InputAction.CallbackContext context);
-		void OnDown(InputAction.CallbackContext context);
-		void OnLeftDown(InputAction.CallbackContext context);
-		void OnDirSwitch(InputAction.CallbackContext context);
-	}
+    // Move
+    private readonly InputActionMap m_Move;
+    private IMoveActions m_MoveActionsCallbackInterface;
+    private readonly InputAction m_Move_Left;
+    private readonly InputAction m_Move_LeftUp;
+    private readonly InputAction m_Move_Up;
+    private readonly InputAction m_Move_RightUp;
+    private readonly InputAction m_Move_Right;
+    private readonly InputAction m_Move_RightDown;
+    private readonly InputAction m_Move_Down;
+    private readonly InputAction m_Move_LeftDown;
+    private readonly InputAction m_Move_DirSwitch;
+    public struct MoveActions
+    {
+        private @InputControls m_Wrapper;
+        public MoveActions(@InputControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Left => m_Wrapper.m_Move_Left;
+        public InputAction @LeftUp => m_Wrapper.m_Move_LeftUp;
+        public InputAction @Up => m_Wrapper.m_Move_Up;
+        public InputAction @RightUp => m_Wrapper.m_Move_RightUp;
+        public InputAction @Right => m_Wrapper.m_Move_Right;
+        public InputAction @RightDown => m_Wrapper.m_Move_RightDown;
+        public InputAction @Down => m_Wrapper.m_Move_Down;
+        public InputAction @LeftDown => m_Wrapper.m_Move_LeftDown;
+        public InputAction @DirSwitch => m_Wrapper.m_Move_DirSwitch;
+        public InputActionMap Get() { return m_Wrapper.m_Move; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(MoveActions set) { return set.Get(); }
+        public void SetCallbacks(IMoveActions instance)
+        {
+            if (m_Wrapper.m_MoveActionsCallbackInterface != null)
+            {
+                @Left.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeft;
+                @Left.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeft;
+                @Left.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeft;
+                @LeftUp.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftUp;
+                @LeftUp.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftUp;
+                @LeftUp.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftUp;
+                @Up.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnUp;
+                @Up.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnUp;
+                @Up.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnUp;
+                @RightUp.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightUp;
+                @RightUp.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightUp;
+                @RightUp.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightUp;
+                @Right.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnRight;
+                @Right.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnRight;
+                @Right.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnRight;
+                @RightDown.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightDown;
+                @RightDown.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightDown;
+                @RightDown.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnRightDown;
+                @Down.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnDown;
+                @Down.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnDown;
+                @Down.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnDown;
+                @LeftDown.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftDown;
+                @LeftDown.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftDown;
+                @LeftDown.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnLeftDown;
+                @DirSwitch.started -= m_Wrapper.m_MoveActionsCallbackInterface.OnDirSwitch;
+                @DirSwitch.performed -= m_Wrapper.m_MoveActionsCallbackInterface.OnDirSwitch;
+                @DirSwitch.canceled -= m_Wrapper.m_MoveActionsCallbackInterface.OnDirSwitch;
+            }
+            m_Wrapper.m_MoveActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Left.started += instance.OnLeft;
+                @Left.performed += instance.OnLeft;
+                @Left.canceled += instance.OnLeft;
+                @LeftUp.started += instance.OnLeftUp;
+                @LeftUp.performed += instance.OnLeftUp;
+                @LeftUp.canceled += instance.OnLeftUp;
+                @Up.started += instance.OnUp;
+                @Up.performed += instance.OnUp;
+                @Up.canceled += instance.OnUp;
+                @RightUp.started += instance.OnRightUp;
+                @RightUp.performed += instance.OnRightUp;
+                @RightUp.canceled += instance.OnRightUp;
+                @Right.started += instance.OnRight;
+                @Right.performed += instance.OnRight;
+                @Right.canceled += instance.OnRight;
+                @RightDown.started += instance.OnRightDown;
+                @RightDown.performed += instance.OnRightDown;
+                @RightDown.canceled += instance.OnRightDown;
+                @Down.started += instance.OnDown;
+                @Down.performed += instance.OnDown;
+                @Down.canceled += instance.OnDown;
+                @LeftDown.started += instance.OnLeftDown;
+                @LeftDown.performed += instance.OnLeftDown;
+                @LeftDown.canceled += instance.OnLeftDown;
+                @DirSwitch.started += instance.OnDirSwitch;
+                @DirSwitch.performed += instance.OnDirSwitch;
+                @DirSwitch.canceled += instance.OnDirSwitch;
+            }
+        }
+    }
+    public MoveActions @Move => new MoveActions(this);
+
+    // Action
+    private readonly InputActionMap m_Action;
+    private IActionActions m_ActionActionsCallbackInterface;
+    private readonly InputAction m_Action_Attack;
+    public struct ActionActions
+    {
+        private @InputControls m_Wrapper;
+        public ActionActions(@InputControls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Attack => m_Wrapper.m_Action_Attack;
+        public InputActionMap Get() { return m_Wrapper.m_Action; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ActionActions set) { return set.Get(); }
+        public void SetCallbacks(IActionActions instance)
+        {
+            if (m_Wrapper.m_ActionActionsCallbackInterface != null)
+            {
+                @Attack.started -= m_Wrapper.m_ActionActionsCallbackInterface.OnAttack;
+                @Attack.performed -= m_Wrapper.m_ActionActionsCallbackInterface.OnAttack;
+                @Attack.canceled -= m_Wrapper.m_ActionActionsCallbackInterface.OnAttack;
+            }
+            m_Wrapper.m_ActionActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Attack.started += instance.OnAttack;
+                @Attack.performed += instance.OnAttack;
+                @Attack.canceled += instance.OnAttack;
+            }
+        }
+    }
+    public ActionActions @Action => new ActionActions(this);
+    public interface IMoveActions
+    {
+        void OnLeft(InputAction.CallbackContext context);
+        void OnLeftUp(InputAction.CallbackContext context);
+        void OnUp(InputAction.CallbackContext context);
+        void OnRightUp(InputAction.CallbackContext context);
+        void OnRight(InputAction.CallbackContext context);
+        void OnRightDown(InputAction.CallbackContext context);
+        void OnDown(InputAction.CallbackContext context);
+        void OnLeftDown(InputAction.CallbackContext context);
+        void OnDirSwitch(InputAction.CallbackContext context);
+    }
+    public interface IActionActions
+    {
+        void OnAttack(InputAction.CallbackContext context);
+    }
 }

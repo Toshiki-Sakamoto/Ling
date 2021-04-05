@@ -1756,6 +1756,7 @@ MonoBehaviour:
   _parentContractNames:
   - Manager
   - Map
+  - Input
 --- !u!4 &1252449449
 Transform:
   m_ObjectHideFlags: 0
@@ -2510,8 +2511,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 91.2}
-  m_SizeDelta: {x: 589.16, y: 287.59}
+  m_AnchoredPosition: {x: 0, y: 281.9}
+  m_SizeDelta: {x: 589.16, y: 187.2}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1870920871
 MonoBehaviour:

@@ -80,7 +80,7 @@ namespace Ling.Scenes.Battle
 		public override DependenceData[] Dependences =>
 			new DependenceData[]
 			{
-				DependenceData.CreateAtLoaded(SceneID.MoveInput),
+				//DependenceData.CreateAtLoaded(SceneID.MoveInput),
 			};
 
 		/// <summary>

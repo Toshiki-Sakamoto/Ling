@@ -1,5 +1,5 @@
 ﻿// 
-// MoveInputScene.cs  
+// InputScene.cs  
 // ProductName Ling
 //  
 // Created by toshiki sakamoto on 2021.03.22
@@ -8,12 +8,12 @@
 using UnityEngine;
 using Zenject;
 
-namespace Ling.Scenes.MoveInput
+namespace Ling.Scenes.Input
 {
 	/// <summary>
-	/// 移動入力UI
+	/// 入力UI
 	/// </summary>
-	public class MoveInputScene : Common.Scene.Base
+	public class InputScene : Common.Scene.Base
 	{
 		#region 定数, class, enum
 
@@ -27,7 +27,8 @@ namespace Ling.Scenes.MoveInput
 
 		#region private 変数
 
-		[SerializeField] private Common.Input.MoveInputProvider _provider = default;
+		[SerializeField] private Common.Input.MoveInputProvider _moveProvider = default;
+		[SerializeField] private Common.Input.ActionInputProvider _actionProvider = default;
 
 		[Inject] private Common.Input.IInputManager _inputManager = default;
 
@@ -53,7 +54,8 @@ namespace Ling.Scenes.MoveInput
 
 		private void Awake()
 		{
-			_inputManager?.Bind(_provider);
+			_inputManager?.Bind(_moveProvider);
+			_inputManager?.Bind(_actionProvider);
 		}
 
 		#endregion
