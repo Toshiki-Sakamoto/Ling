@@ -23,7 +23,7 @@ namespace Ling.MasterData.Stage
 	/// </summary>
 	[System.Serializable]
 	public class MapEnemyData
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -36,10 +36,10 @@ namespace Ling.MasterData.Stage
 
 		#region private 変数
 
-		[SerializeField, FieldName("敵の種類")] 
+		[SerializeField, FieldName("敵の種類")]
 		private Const.EnemyType _enemyType = default;
-		
-		[SerializeField, FieldName("出現率")] 
+
+		[SerializeField, FieldName("出現率")]
 		private int _popRate = default;
 
 		#endregion
