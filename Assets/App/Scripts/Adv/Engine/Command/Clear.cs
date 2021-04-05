@@ -19,105 +19,105 @@ namespace Ling.Adv.Engine.Command
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Clear : Base
-    {
-        #region 定数, class, enum
+	public class Clear : Base
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        private ScriptType _scriptType = ScriptType.CLEAR_CMD;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        /// <summary>
-        /// コマンドタイプ
-        /// </summary>
-        /// <value>The type.</value>
-        public override ScriptType Type { get { return _scriptType; } }
+		private ScriptType _scriptType = ScriptType.CLEAR_CMD;
 
-        #endregion
+		#endregion
 
 
-        #region コンストラクタ, デストラクタ
+		#region プロパティ
 
-        #endregion
+		/// <summary>
+		/// コマンドタイプ
+		/// </summary>
+		/// <value>The type.</value>
+		public override ScriptType Type { get { return _scriptType; } }
 
-
-        #region public, protected 関数
-
-        public static Clear Create(Creator creator, Lexer lexer)
-        {
-            var str = lexer.GetString();
-
-            if (string.IsNullOrEmpty(str) || !string.IsNullOrEmpty(lexer.GetString()))
-            {
-                Log.Error("構文エラー(clear)");
-                return null; 
-            }
-
-            var instance = new Clear();
-            creator.AddCommand(instance);
-
-            if (str == "text")
-            {
-                instance._scriptType = ScriptType.CLEAR_TEXT_CMD;
-            }
-            else if (str == "window")
-            {
-                instance._scriptType = ScriptType.CLEAR_WINDOW_CMD;
-            }
-
-            return instance;
-        }
+		#endregion
 
 
-        public override string ToString()
-        {
-            return "Clear";
-        }
+		#region コンストラクタ, デストラクタ
 
-        public override IEnumerator Process()
-        {
-            switch (_scriptType)
-            {
-                case ScriptType.CLEAR_TEXT_CMD:
-                    {
-                        EventManager.SafeTrigger<Window.EventNameSet>((obj_) => 
-                            {
-                                obj_.Text = ""; 
-                            }); 
-                    }
-                    break;
-
-                case ScriptType.CLEAR_WINDOW_CMD:
-                    {
-                        EventManager.SafeTrigger<Window.EventWindowClear>();
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-
-            yield break;
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region public, protected 関数
 
-        #endregion
-    }
+		public static Clear Create(Creator creator, Lexer lexer)
+		{
+			var str = lexer.GetString();
+
+			if (string.IsNullOrEmpty(str) || !string.IsNullOrEmpty(lexer.GetString()))
+			{
+				Log.Error("構文エラー(clear)");
+				return null;
+			}
+
+			var instance = new Clear();
+			creator.AddCommand(instance);
+
+			if (str == "text")
+			{
+				instance._scriptType = ScriptType.CLEAR_TEXT_CMD;
+			}
+			else if (str == "window")
+			{
+				instance._scriptType = ScriptType.CLEAR_WINDOW_CMD;
+			}
+
+			return instance;
+		}
+
+
+		public override string ToString()
+		{
+			return "Clear";
+		}
+
+		public override IEnumerator Process()
+		{
+			switch (_scriptType)
+			{
+				case ScriptType.CLEAR_TEXT_CMD:
+					{
+						EventManager.SafeTrigger<Window.EventNameSet>((obj_) =>
+							{
+								obj_.Text = "";
+							});
+					}
+					break;
+
+				case ScriptType.CLEAR_WINDOW_CMD:
+					{
+						EventManager.SafeTrigger<Window.EventWindowClear>();
+					}
+					break;
+
+				default:
+					break;
+			}
+
+			yield break;
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+	}
 }

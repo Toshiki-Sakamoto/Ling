@@ -18,62 +18,62 @@ namespace Ling.Adv
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Common
-    {
-        #region 定数, class, enum
-
-        
-
-        #endregion
+	public class Common
+	{
+		#region 定数, class, enum
 
 
-        #region public, protected 変数
 
-        #endregion
-
-
-        #region private 変数
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region public, protected 変数
 
-        #endregion
-
-
-        #region コンストラクタ, デストラクタ
-
-        #endregion
+		#endregion
 
 
-        #region public, protected 関数
+		#region private 変数
 
-        /// <summary>
-        /// GameのPrefabが置いてあるパス
-        /// </summary>
-        /// <returns>The resourc path.</returns>
-        /// <param name="name">Name.</param>
-        public static string GetResourcePath(string name)
-        {
-            return Const.PrefabPath + name;
-        }
-
-        /// <summary>
-        /// GameのImageが置いてあるパス
-        /// </summary>
-        /// <returns>The image path.</returns>
-        /// <param name="name">Name.</param>
-        public static string GetImagePath(string name)
-        {
-            return Const.ImagePath + name;
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region プロパティ
 
-        #endregion
-    }
+		#endregion
+
+
+		#region コンストラクタ, デストラクタ
+
+		#endregion
+
+
+		#region public, protected 関数
+
+		/// <summary>
+		/// GameのPrefabが置いてあるパス
+		/// </summary>
+		/// <returns>The resourc path.</returns>
+		/// <param name="name">Name.</param>
+		public static string GetResourcePath(string name)
+		{
+			return Const.PrefabPath + name;
+		}
+
+		/// <summary>
+		/// GameのImageが置いてあるパス
+		/// </summary>
+		/// <returns>The image path.</returns>
+		/// <param name="name">Name.</param>
+		public static string GetImagePath(string name)
+		{
+			return Const.ImagePath + name;
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+	}
 }

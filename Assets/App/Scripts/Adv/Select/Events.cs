@@ -16,26 +16,26 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Select
 {
-    /// <summary>
-    /// 選択肢を出す
-    /// </summary>
-    public class EventSelect : EventStackBase
-    {
-        public List<Engine.Command.Select.Item> SelectList { get; set; }
-        public System.Action<int> ActOnSelect { get; set; }
+	/// <summary>
+	/// 選択肢を出す
+	/// </summary>
+	public class EventSelect : EventStackBase
+	{
+		public List<Engine.Command.Select.Item> SelectList { get; set; }
+		public System.Action<int> ActOnSelect { get; set; }
 
-        public override void Clear()
-        {
-            SelectList = null;
-            ActOnSelect = null;
-        }
-    }
+		public override void Clear()
+		{
+			SelectList = null;
+			ActOnSelect = null;
+		}
+	}
 
-    /// <summary>
-    /// 選択肢が選ばれた
-    /// </summary>
-    public class EventSelected : EventStackBase
-    {
-        public int SelectIndex { get; set; }
-    }
+	/// <summary>
+	/// 選択肢が選ばれた
+	/// </summary>
+	public class EventSelected : EventStackBase
+	{
+		public int SelectIndex { get; set; }
+	}
 }

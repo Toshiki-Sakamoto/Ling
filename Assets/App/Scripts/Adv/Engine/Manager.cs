@@ -19,83 +19,83 @@ namespace Ling.Adv.Engine
 	/// <summary>
 	/// アドベンチャー全体を管理する
 	/// </summary>
-    /// <remark>
-    /// アドベンチャーViewにアタッチさせる
-    /// </remark>     
-    public class Manager : MonoBehaviour
-    {
-        #region 定数, class, enum
+	/// <remark>
+	/// アドベンチャーViewにアタッチさせる
+	/// </remark>     
+	public class Manager : MonoBehaviour
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
+		#endregion
 
 
-        #endregion
+		#region public, protected 変数
 
 
-        #region private 変数
-
-        [SerializeField] private View _view = null;
-
-        private int _cmdIndex = 0;  // 現在再生中のコマンドインデックス
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        public static Manager Instance { get; private set; }
+		[SerializeField] private View _view = null;
 
-        /// <summary>
-        /// コマンド管理者
-        /// </summary>
-        /// <value>The command.</value>
-        public Command.Manager Cmd { get; private set; } = new Command.Manager();
-        
-        /// <summary>
-        /// 変数管理者
-        /// </summary>
-        public Value.Manager Value { get; private set; } = new Value.Manager();
+		private int _cmdIndex = 0;  // 現在再生中のコマンドインデックス
 
-        /// <summary>
-        /// キャラ管理者
-        /// </summary>
-        public Chara.Manager Chara { get; private set; } = new Chara.Manager();
-
-        /// <summary>
-        /// リソース管理者
-        /// </summary>
-        public ResourceManager Resource { get; private set; } = new ResourceManager();
+		#endregion
 
 
-        /// <summary>
-        /// Windowインスタンス
-        /// </summary>
-        /// <value>The window.</value>
-        public Window.View Win { get { return _view.Win; } }
+		#region プロパティ
+
+		public static Manager Instance { get; private set; }
+
+		/// <summary>
+		/// コマンド管理者
+		/// </summary>
+		/// <value>The command.</value>
+		public Command.Manager Cmd { get; private set; } = new Command.Manager();
+
+		/// <summary>
+		/// 変数管理者
+		/// </summary>
+		public Value.Manager Value { get; private set; } = new Value.Manager();
+
+		/// <summary>
+		/// キャラ管理者
+		/// </summary>
+		public Chara.Manager Chara { get; private set; } = new Chara.Manager();
+
+		/// <summary>
+		/// リソース管理者
+		/// </summary>
+		public ResourceManager Resource { get; private set; } = new ResourceManager();
 
 
-        /// <summary>
-        /// 再生中
-        /// </summary>
-        /// <value><c>true</c> if is playing; otherwise, <c>false</c>.</value>
-        public bool IsPlaying { get; private set; }
-
-        /// <summary>
-        /// タップされたらtrue
-        /// </summary>
-        /// <value><c>true</c> if is tap; otherwise, <c>false</c>.</value>
-        public bool IsTap { get; private set; }
-
-        /// <summary>
-        /// 終了時呼び出される
-        /// </summary>
-        public System.Action OnFinish { get; set; }
+		/// <summary>
+		/// Windowインスタンス
+		/// </summary>
+		/// <value>The window.</value>
+		public Window.View Win { get { return _view.Win; } }
 
 
-        #endregion
+		/// <summary>
+		/// 再生中
+		/// </summary>
+		/// <value><c>true</c> if is playing; otherwise, <c>false</c>.</value>
+		public bool IsPlaying { get; private set; }
+
+		/// <summary>
+		/// タップされたらtrue
+		/// </summary>
+		/// <value><c>true</c> if is tap; otherwise, <c>false</c>.</value>
+		public bool IsTap { get; private set; }
+
+		/// <summary>
+		/// 終了時呼び出される
+		/// </summary>
+		public System.Action OnFinish { get; set; }
+
+
+		#endregion
 
 
 		#region コンストラクタ, デストラクタ
@@ -103,189 +103,189 @@ namespace Ling.Adv.Engine
 		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 関数
 
-        /// <summary>
-        /// ファイルからスクリプトを読み出す
-        /// </summary>
-        /// <param name="filename">Filename.</param>
-        public void Load(string filename)
-        {
-            // テーブルにコマンドを格納する
-            Cmd.Setup();
-	        
-            var creator = new Creator(Cmd, Value);
-            creator.Read(filename);
-            
-            // 読み込んだコマンドを表示する
-            Utility.Log.Print("-------- Command ------");
+		/// <summary>
+		/// ファイルからスクリプトを読み出す
+		/// </summary>
+		/// <param name="filename">Filename.</param>
+		public void Load(string filename)
+		{
+			// テーブルにコマンドを格納する
+			Cmd.Setup();
 
-            foreach (var elm in Cmd.Command)
-            {
-	            Utility.Log.Print("{0}", elm.ToString());
-            }
-            
-            Utility.Log.Print("-------- Command ------");
+			var creator = new Creator(Cmd, Value);
+			creator.Read(filename);
 
-            // 終了時
-            Cmd.OnCmdFinish = 
-                () =>
-                {
-                    AdvStop(); 
-                };
-        }
+			// 読み込んだコマンドを表示する
+			Utility.Log.Print("-------- Command ------");
 
-        /// <summary>
-        /// アドベンチャーを開始する
-        /// </summary>
-        public void AdvStart()
-        {
-            gameObject.SetActive(true);
+			foreach (var elm in Cmd.Command)
+			{
+				Utility.Log.Print("{0}", elm.ToString());
+			}
 
-            Utility.EventManager.SafeTrigger(new EventStart());
+			Utility.Log.Print("-------- Command ------");
 
-            // 処理を開始する
-            if (Cmd.Command.Count == 0)
-            {
-                AdvStop();
-                return;
-            }
+			// 終了時
+			Cmd.OnCmdFinish =
+				() =>
+				{
+					AdvStop();
+				};
+		}
 
-            _cmdIndex = 0;
-            IsPlaying = true;
+		/// <summary>
+		/// アドベンチャーを開始する
+		/// </summary>
+		public void AdvStart()
+		{
+			gameObject.SetActive(true);
 
-            // 事前読み込み処理
-            //Cmd.Load();
+			Utility.EventManager.SafeTrigger(new EventStart());
 
-            StartCoroutine(Process());
-        }
+			// 処理を開始する
+			if (Cmd.Command.Count == 0)
+			{
+				AdvStop();
+				return;
+			}
 
-        /// <summary>
-        /// アドベンチャー終わり
-        /// </summary>
-        public void AdvStop()
-        {
-            IsPlaying = false;
+			_cmdIndex = 0;
+			IsPlaying = true;
 
-            StopAllCoroutines();
+			// 事前読み込み処理
+			//Cmd.Load();
 
-            Utility.EventManager.SafeTrigger(new EventStop());
+			StartCoroutine(Process());
+		}
 
-            OnFinish?.Invoke();
+		/// <summary>
+		/// アドベンチャー終わり
+		/// </summary>
+		public void AdvStop()
+		{
+			IsPlaying = false;
 
-            _view?.SetActive(false);
-        }
+			StopAllCoroutines();
 
-        /// <summary>
-        /// 指定したラベルまで移動する
-        /// </summary>
-        public void GotoLabel(Command.LabelRef labelRef)
-        { 
-            // ジャンプがあるか
-            if (labelRef.Jump == null)
-            {
-                Utility.Log.Error("ジャンプ先がない {0}", labelRef.Name);
-                return; 
-            }
+			Utility.EventManager.SafeTrigger(new EventStop());
 
-            for (int i = 0; i < Cmd.Command.Count; ++i)
-            {
-                if (Cmd.Command[i] != labelRef.Jump)
-                {
-                    continue; 
-                }
+			OnFinish?.Invoke();
 
-                _cmdIndex = i;
+			_view?.SetActive(false);
+		}
 
-                return;
-            }
+		/// <summary>
+		/// 指定したラベルまで移動する
+		/// </summary>
+		public void GotoLabel(Command.LabelRef labelRef)
+		{
+			// ジャンプがあるか
+			if (labelRef.Jump == null)
+			{
+				Utility.Log.Error("ジャンプ先がない {0}", labelRef.Name);
+				return;
+			}
 
-            Utility.Log.Error("ジャンプ先のラベルが見つからない {0}", labelRef.Name);
-        }
+			for (int i = 0; i < Cmd.Command.Count; ++i)
+			{
+				if (Cmd.Command[i] != labelRef.Jump)
+				{
+					continue;
+				}
 
-        #endregion
+				_cmdIndex = i;
 
+				return;
+			}
 
-        #region private 関数
+			Utility.Log.Error("ジャンプ先のラベルが見つからない {0}", labelRef.Name);
+		}
 
-        /// <summary>
-        /// 実装する
-        /// </summary>
-        /// <returns>The proecss.</returns>
-        private IEnumerator Process()
-        {
-            do
-            {
-                IsTap = false;
-
-                if (_cmdIndex >= Cmd.Command.Count)
-                {
-                    break;
-                }
-
-                // コマンドを進める
-                var cmd = Cmd.Command[_cmdIndex++];
-
-                var process = cmd.Process();
-                while (process.MoveNext())
-                {
-                    IsTap = false;
-
-                    yield return null; 
-                }
-
-                // タップ待機するか
-                if (cmd.IsTapWait())
-                {
-                    IsTap = false;
-
-                    // オート設定なってたら別
-
-                    while (!IsTap)
-                    {
-                        yield return null; 
-                    }
-                }
-
-            } while (true); 
-        }
-
-        private void Awake()
-        {
-            if (Instance != null)
-            {
-                Destroy(Instance);
-            }
-
-            Instance = this;
+		#endregion
 
 
-            // 画面がタップされた
-            Utility.EventManager.SafeAdd<Window.EventWindowTap>(this,
-                (ev_) => 
-                {
-                    IsTap = true;
-                });
-        }
+		#region private 関数
 
-        private void Update()
-        {
-            if (!IsPlaying)
-            {
-                return;
-            }
-        }
+		/// <summary>
+		/// 実装する
+		/// </summary>
+		/// <returns>The proecss.</returns>
+		private IEnumerator Process()
+		{
+			do
+			{
+				IsTap = false;
 
-        private void OnDestroy()
-        {
-            Cmd.OnDestory();
+				if (_cmdIndex >= Cmd.Command.Count)
+				{
+					break;
+				}
 
-            if (Instance == this)
-            {
-                Instance = null;
-            }
-        }
+				// コマンドを進める
+				var cmd = Cmd.Command[_cmdIndex++];
 
-        #endregion
-    }
+				var process = cmd.Process();
+				while (process.MoveNext())
+				{
+					IsTap = false;
+
+					yield return null;
+				}
+
+				// タップ待機するか
+				if (cmd.IsTapWait())
+				{
+					IsTap = false;
+
+					// オート設定なってたら別
+
+					while (!IsTap)
+					{
+						yield return null;
+					}
+				}
+
+			} while (true);
+		}
+
+		private void Awake()
+		{
+			if (Instance != null)
+			{
+				Destroy(Instance);
+			}
+
+			Instance = this;
+
+
+			// 画面がタップされた
+			Utility.EventManager.SafeAdd<Window.EventWindowTap>(this,
+				(ev_) =>
+				{
+					IsTap = true;
+				});
+		}
+
+		private void Update()
+		{
+			if (!IsPlaying)
+			{
+				return;
+			}
+		}
+
+		private void OnDestroy()
+		{
+			Cmd.OnDestory();
+
+			if (Instance == this)
+			{
+				Instance = null;
+			}
+		}
+
+		#endregion
+	}
 }

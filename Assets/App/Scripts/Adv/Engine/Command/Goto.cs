@@ -19,99 +19,99 @@ namespace Ling.Adv.Engine.Command
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Goto : Base
-    {
-        #region 定数, class, enum
+	public class Goto : Base
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        #endregion
-
-
-        #region プロパティ
+		#endregion
 
 
-        /// <summary>
-        /// コマンドタイプ
-        /// </summary>
-        /// <value>The type.</value>
-        public override ScriptType Type { get { return ScriptType.GOTO_CMD; } }
+		#region private 変数
 
-        public LabelRef LabelRef { get; private set; }
-
-        #endregion
+		#endregion
 
 
-        #region コンストラクタ, デストラクタ
-
-        #endregion
+		#region プロパティ
 
 
-        #region public, protected 関数
+		/// <summary>
+		/// コマンドタイプ
+		/// </summary>
+		/// <value>The type.</value>
+		public override ScriptType Type { get { return ScriptType.GOTO_CMD; } }
 
-        /// <summary>
-        /// コマンド作成
-        /// </summary>
-        /// <returns>The create.</returns>
-        public static Goto Create(Creator creator, Lexer lexer)
-        {
-            var labelName = lexer.GetString();
+		public LabelRef LabelRef { get; private set; }
 
-            if (string.IsNullOrEmpty(labelName) || !string.IsNullOrEmpty(lexer.GetString()))
-            {
-                Log.Error("書式がおかしい(goto)");
-                return null; 
-            }
-
-            var instance = new Goto();
-            creator.AddCommand(instance);
-
-            instance.LabelRef = new LabelRef();
-
-            creator.FindLabel(labelName, instance.LabelRef);
-
-            return instance;
-        }
-
-        public static Goto Create(Creator creator, string labelName)
-        {
-            var instance = new Goto();
-            creator.AddCommand(instance);
-
-            instance.LabelRef = new LabelRef();
-
-            creator.FindLabel(labelName, instance.LabelRef);
-
-            return instance;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("goto labelName:{0}", LabelRef.Name);
-        }
-
-        public override IEnumerator Process()
-        {
-            var manager = Engine.Manager.Instance;
-
-            manager.GotoLabel(LabelRef);
-
-            yield break;
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region コンストラクタ, デストラクタ
 
-        #endregion
-    }
+		#endregion
+
+
+		#region public, protected 関数
+
+		/// <summary>
+		/// コマンド作成
+		/// </summary>
+		/// <returns>The create.</returns>
+		public static Goto Create(Creator creator, Lexer lexer)
+		{
+			var labelName = lexer.GetString();
+
+			if (string.IsNullOrEmpty(labelName) || !string.IsNullOrEmpty(lexer.GetString()))
+			{
+				Log.Error("書式がおかしい(goto)");
+				return null;
+			}
+
+			var instance = new Goto();
+			creator.AddCommand(instance);
+
+			instance.LabelRef = new LabelRef();
+
+			creator.FindLabel(labelName, instance.LabelRef);
+
+			return instance;
+		}
+
+		public static Goto Create(Creator creator, string labelName)
+		{
+			var instance = new Goto();
+			creator.AddCommand(instance);
+
+			instance.LabelRef = new LabelRef();
+
+			creator.FindLabel(labelName, instance.LabelRef);
+
+			return instance;
+		}
+
+		public override string ToString()
+		{
+			return string.Format("goto labelName:{0}", LabelRef.Name);
+		}
+
+		public override IEnumerator Process()
+		{
+			var manager = Engine.Manager.Instance;
+
+			manager.GotoLabel(LabelRef);
+
+			yield break;
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+	}
 }

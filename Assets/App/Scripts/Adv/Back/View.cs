@@ -12,73 +12,73 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Back
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class View : MonoBehaviour 
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 
+	/// </summary>
+	public class View : MonoBehaviour
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        [SerializeField] private Image _image = null;   // 背景
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		[SerializeField] private Image _image = null;   // 背景
 
-
-        #region public, protected 関数
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region プロパティ
 
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region public, protected 関数
 
-        /// <summary>
-        /// 初期処理
-        /// </summary>
-        void Awake()
-        {
-        }
+		#endregion
 
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-        }
+		#region private 関数
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        void OnDestroy()
-        {
-        }
+		#endregion
 
-        #endregion
-    }
+
+		#region MonoBegaviour
+
+		/// <summary>
+		/// 初期処理
+		/// </summary>
+		void Awake()
+		{
+		}
+
+		/// <summary>
+		/// 更新前処理
+		/// </summary>
+		void Start()
+		{
+		}
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		void OnDestroy()
+		{
+		}
+
+		#endregion
+	}
 }

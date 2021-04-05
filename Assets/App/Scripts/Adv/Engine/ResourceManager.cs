@@ -19,67 +19,67 @@ namespace Ling.Adv.Engine
 	/// <summary>
 	/// 
 	/// </summary>
-    public class ResourceManager
-    {
-        #region 定数, class, enum
+	public class ResourceManager
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        private Dictionary<string, Sprite> _dictSprites = new Dictionary<string, Sprite>();
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		private Dictionary<string, Sprite> _dictSprites = new Dictionary<string, Sprite>();
 
-
-        #region コンストラクタ, デストラクタ
-
-        #endregion
+		#endregion
 
 
-        #region public, protected 関数
+		#region プロパティ
 
-        /// <summary>
-        /// Spriteを読み込む
-        /// </summary>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        public Sprite LoadSprite(string filename)
-        {
-            Sprite sprite = null;
-
-            if (!_dictSprites.TryGetValue(filename, out sprite))
-            {
-                var fullPath = Const.CharFilepath(filename);
-
-                sprite = Resources.Load<Sprite>(fullPath);
-                if (sprite == null)
-                {
-                    return null;
-                }
-
-                _dictSprites.Add(filename, sprite);
-            }
-
-            return sprite;
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region コンストラクタ, デストラクタ
 
-        #endregion
-    }
+		#endregion
+
+
+		#region public, protected 関数
+
+		/// <summary>
+		/// Spriteを読み込む
+		/// </summary>
+		/// <param name="filename"></param>
+		/// <returns></returns>
+		public Sprite LoadSprite(string filename)
+		{
+			Sprite sprite = null;
+
+			if (!_dictSprites.TryGetValue(filename, out sprite))
+			{
+				var fullPath = Const.CharFilepath(filename);
+
+				sprite = Resources.Load<Sprite>(fullPath);
+				if (sprite == null)
+				{
+					return null;
+				}
+
+				_dictSprites.Add(filename, sprite);
+			}
+
+			return sprite;
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+	}
 }

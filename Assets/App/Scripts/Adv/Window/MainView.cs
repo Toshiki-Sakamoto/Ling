@@ -12,108 +12,108 @@ using UnityEngine.UI;
 
 namespace Ling.Adv.Window
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public class MainView : MonoBehaviour 
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 
+	/// </summary>
+	public class MainView : MonoBehaviour
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        [SerializeField] private AdvText _txtMain = null;
-        [SerializeField] private Image _img = null;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		[SerializeField] private AdvText _txtMain = null;
+		[SerializeField] private Image _img = null;
 
-
-        #region public, protected 関数
-
-        public void Setup()
-        {
-            _txtMain.text = "";
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region プロパティ
 
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region public, protected 関数
 
-        /// <summary>
-        /// 初期処理
-        /// </summary>
-        void Awake()
-        {
-            // テキストを追加
-            Ling.Utility.EventManager.SafeAdd<EventAddText>(this, 
-                (ev_) => 
-                {
-                    _txtMain.text += ev_.Text;
-                });
+		public void Setup()
+		{
+			_txtMain.text = "";
+		}
 
-            Ling.Utility.EventManager.SafeAdd<EventSetText>(this,
-                (ev_) =>
-                {
-                    _txtMain.SetDocument(ev_.Document);
-                    _txtMain.SetLengthOfView(0);
-                    _txtMain.text = ev_.Text;
+		#endregion
 
-                });
 
-            Ling.Utility.EventManager.SafeAdd<EventNextText>(this,
-                (ev_) =>
-                {
-                    _txtMain.SetLengthOfView(ev_.next);
-                });
+		#region private 関数
 
-            // Window削除
-            Ling.Utility.EventManager.SafeAdd<EventWindowClear>(this,
-                (ev_) =>
-                {
-                    _txtMain.text = ""; 
-                });
-        }
+		#endregion
 
-        /// <summary>
-        /// 更新前処理
-        /// </summary>
-        void Start()
-        {
-        }
 
-        /// <summary>
-        /// 更新処理
-        /// </summary>
-        void Update()
-        {
-        }
+		#region MonoBegaviour
 
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        void OnDestroy()
-        {
-            Ling.Utility.EventManager.SafeAllRemove(this);
-        }
+		/// <summary>
+		/// 初期処理
+		/// </summary>
+		void Awake()
+		{
+			// テキストを追加
+			Ling.Utility.EventManager.SafeAdd<EventAddText>(this,
+				(ev_) =>
+				{
+					_txtMain.text += ev_.Text;
+				});
 
-        #endregion
-    }
+			Ling.Utility.EventManager.SafeAdd<EventSetText>(this,
+				(ev_) =>
+				{
+					_txtMain.SetDocument(ev_.Document);
+					_txtMain.SetLengthOfView(0);
+					_txtMain.text = ev_.Text;
+
+				});
+
+			Ling.Utility.EventManager.SafeAdd<EventNextText>(this,
+				(ev_) =>
+				{
+					_txtMain.SetLengthOfView(ev_.next);
+				});
+
+			// Window削除
+			Ling.Utility.EventManager.SafeAdd<EventWindowClear>(this,
+				(ev_) =>
+				{
+					_txtMain.text = "";
+				});
+		}
+
+		/// <summary>
+		/// 更新前処理
+		/// </summary>
+		void Start()
+		{
+		}
+
+		/// <summary>
+		/// 更新処理
+		/// </summary>
+		void Update()
+		{
+		}
+
+		/// <summary>
+		/// 終了処理
+		/// </summary>
+		void OnDestroy()
+		{
+			Ling.Utility.EventManager.SafeAllRemove(this);
+		}
+
+		#endregion
+	}
 }
