@@ -22,7 +22,7 @@ namespace Ling.AI.Move
 	/// 移動AIのベースクラス
 	/// </summary>
 	public abstract class AIBase : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -39,14 +39,14 @@ namespace Ling.AI.Move
 		[Inject] private Chara.CharaManager _charaManager = default;
 
 		private CharaMaster.MoveAIData _masterAIData;
-		private Vector2Int? _destination;	// 目的地
+		private Vector2Int? _destination;   // 目的地
 		private List<Vector2Int> _destinationRoutes;
-		private Vector2Int? _nextMovePos;	// 次に移動する座標
+		private Vector2Int? _nextMovePos;   // 次に移動する座標
 		private Chara.ICharaController _unit;
 		private Map.TileDataMap _tileDataMap;
 		private Map.RoomData _roomData;
-		private Vector2Int? _prevPos;	// 一つ前にいた座標
-		private int _waitCount;	// 何回動けずに待機したか
+		private Vector2Int? _prevPos;   // 一つ前にいた座標
+		private int _waitCount; // 何回動けずに待機したか
 
 		#endregion
 
@@ -65,7 +65,7 @@ namespace Ling.AI.Move
 
 		public Map.TileDataMap TileDataMap
 		{
-			get 
+			get
 			{
 				if (_tileDataMap != null) return _tileDataMap;
 
@@ -199,7 +199,7 @@ namespace Ling.AI.Move
 				{
 					SetNextMovePos(pos);
 				}
-				
+
 				return true;
 			}
 
@@ -216,7 +216,7 @@ namespace Ling.AI.Move
 			{
 				var pos = _destinationRoutes.Front();
 				_destinationRoutes.Clear();
-				
+
 				return SetNextMovePosProcess(pos);
 			}
 
@@ -229,7 +229,7 @@ namespace Ling.AI.Move
 
 			// 移動できなかった
 			IncWaitCount();
-			
+
 			return false;
 		}
 
@@ -239,11 +239,11 @@ namespace Ling.AI.Move
 		/// </summary>
 		protected async UniTask<bool> MoveDestinationProcessAsync()
 		{
-			if (_destination == null) 
+			if (_destination == null)
 			{
 				return false;
 			}
-					
+
 			// すでに目的地にいる場合は何もしない
 			if (_destination == _unit.Model.CellPosition.Value)
 			{
@@ -287,12 +287,12 @@ namespace Ling.AI.Move
 				return false;
 			}
 
-			if (await Process(_masterAIData.FirstTarget)) 
+			if (await Process(_masterAIData.FirstTarget))
 			{
 				return true;
 			}
-			
-			if (await Process(_masterAIData.SecondTarget)) 
+
+			if (await Process(_masterAIData.SecondTarget))
 			{
 				return true;
 			}
@@ -378,7 +378,7 @@ namespace Ling.AI.Move
 			if (RoomData == null) return false;
 
 			// 出口を目的地とする
-			
+
 			// 自分の周りに出口があるならそこに行く
 			if (TryGetNextMoveAroundPosition(out targetPos, TileFlag.Road))
 			{
@@ -403,7 +403,7 @@ namespace Ling.AI.Move
 					return true;
 				}
 			}
-			
+
 			// 出口がない場合は現在の部屋ランダム座標を目的地にする
 			targetPos = RoomData.GetRandom().Pos;
 			return true;
@@ -428,7 +428,7 @@ namespace Ling.AI.Move
 				var nextY = pos.y + addY;
 
 				if (!_tileDataMap.InRange(nextX, nextY)) continue;
-				
+
 				// 以前の座標と同じ場合は移動できない
 				if (_prevPos != null)
 				{
@@ -497,7 +497,7 @@ namespace Ling.AI.Move
 			_waitCount = 0;
 
 			// 移動したことをキャラに伝え、アニメーションも設定させる
-			_prevPos = _unit.Model.CellPosition.Value;	// 以前の座標を保持しておく
+			_prevPos = _unit.Model.CellPosition.Value;  // 以前の座標を保持しておく
 			_unit.Model.SetCellPosition(movePos, reactive: false);
 
 			// 移動プロセスの設定

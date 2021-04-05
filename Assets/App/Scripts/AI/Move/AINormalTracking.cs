@@ -13,7 +13,7 @@ namespace Ling.AI.Move
 	/// 同じ部屋にいればプレイヤーの隣まで移動する。
 	/// </summary>
 	public class AINormalTracking : AIBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

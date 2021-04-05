@@ -13,7 +13,7 @@ namespace Ling.AI.Move
 	/// 移動AI作成Factory
 	/// </summary>
 	public class MoveAIFactory
-    {
+	{
 		private MoveAIData _moveAIData;
 
 		public MoveAIFactory(MoveAIData moveAIData)
@@ -22,7 +22,7 @@ namespace Ling.AI.Move
 		}
 
 		public void Attach<TModel, TView>(Chara.CharaControl<TModel, TView> charaControl)
-			where TModel : Chara.CharaModel 
+			where TModel : Chara.CharaModel
 			where TView : Chara.ViewBase
 		{
 			AIBase moveAI = null;

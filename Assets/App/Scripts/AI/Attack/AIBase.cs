@@ -18,7 +18,7 @@ namespace Ling.AI.Attack
 	/// 攻撃AIのベースクラス
 	/// </summary>
 	public abstract class AIBase : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -52,7 +52,7 @@ namespace Ling.AI.Attack
 
 		public Map.TileDataMap TileDataMap
 		{
-			get 
+			get
 			{
 				if (_tileDataMap != null) return _tileDataMap;
 

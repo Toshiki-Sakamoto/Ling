@@ -13,8 +13,8 @@ namespace Ling.AI
 	/// <summary>
 	/// AI管理クラス
 	/// </summary>
-	public class AIManager : MonoBehaviour 
-    {
+	public class AIManager : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -73,7 +73,7 @@ namespace Ling.AI
 		/// <summary>
 		/// 終了処理
 		/// </summary>
-		void OnDestoroy()
+		void OnDestroy()
 		{
 		}
 

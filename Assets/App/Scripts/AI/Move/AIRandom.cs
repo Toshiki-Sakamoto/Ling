@@ -11,7 +11,7 @@ namespace Ling.AI.Move
 	/// 同じ部屋にプレイヤーがいても追っかけたりしない
 	/// </summary>
 	public class AIRandom : AIBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

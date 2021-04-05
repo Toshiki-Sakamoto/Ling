@@ -18,7 +18,7 @@ namespace Ling.AI.Attack
 	/// 隣のマスにPlayerがいたら攻撃するだけ
 	/// </summary>
 	public class AINormalAttack : AIBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -31,7 +31,7 @@ namespace Ling.AI.Attack
 
 		#region private 変数
 
-		private List<Chara.ICharaController> _targets = new List<Chara.ICharaController>();	// ターゲット
+		private List<Chara.ICharaController> _targets = new List<Chara.ICharaController>(); // ターゲット
 
 		#endregion
 
@@ -48,7 +48,7 @@ namespace Ling.AI.Attack
 
 		#region public, protected 関数
 
-		protected override async UniTask ExexuteInternalAsync(Ling.Utility.Async.WorkTimeAwaiter timeAwaiter) 
+		protected override async UniTask ExexuteInternalAsync(Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			// 自分の８方向のマスにターゲットが存在するか
 			// なければもう何もしない
@@ -82,7 +82,7 @@ namespace Ling.AI.Attack
 				var nextY = pos.y + addY;
 
 				if (!TileDataMap.InRange(nextX, nextY)) continue;
-				
+
 				var tileFlag = TileDataMap.GetTileFlag(nextX, nextY);
 
 				// 指定したTileFlagか
@@ -132,7 +132,7 @@ namespace Ling.AI.Attack
 
 
 		#region private 関数
-		
+
 		/// <summary>
 		/// ターゲットを検索する
 		/// </summary>
