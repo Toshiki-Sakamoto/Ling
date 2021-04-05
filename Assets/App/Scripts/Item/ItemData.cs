@@ -11,7 +11,7 @@ namespace Ling.Item
 	/// 
 	/// </summary>
 	public class ItemData
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
