@@ -24,7 +24,7 @@ namespace Ling.Utility.TileEvent
     /// </summary>
     public class ContextMenu : MonoBehaviour 
     {
-#region 定数, class, enum
+	#region 定数, class, enum
 
         [MenuItem("GameObject/2D Object/Tilemap Event", false, 0)]
         public static void CreateTilemap()
@@ -64,35 +64,35 @@ namespace Ling.Utility.TileEvent
             }
         }
 
-#endregion
+	#endregion
 
 
-#region public 変数
+	#region public 変数
 
-#endregion
-
-
-#region private 変数
-
-#endregion
+	#endregion
 
 
-#region プロパティ
+	#region private 変数
 
-#endregion
-
-
-#region public, protected 関数
-
-#endregion
+	#endregion
 
 
-#region private 関数
+	#region プロパティ
 
-#endregion
+	#endregion
 
 
-#region MonoBegaviour
+	#region public, protected 関数
+
+	#endregion
+
+
+	#region private 関数
+
+	#endregion
+
+
+	#region MonoBegaviour
 
         /// <summary>
         /// 初期処理
@@ -122,7 +122,7 @@ namespace Ling.Utility.TileEvent
         {
         }
 
-#endregion
+	#endregion
     }
 #endif
 #endif

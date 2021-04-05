@@ -20,8 +20,8 @@ namespace Ling.Utility.Extensions
 	/// <summary>
 	/// Listの拡張メソッド
 	/// </summary>
-    public static class ListExtensions
-    {
+	public static class ListExtensions
+	{
 		public delegate void RefAction<T>(ref T item);
 		public delegate TResult RefFunc<T, TResult>(ref T item);
 
@@ -36,7 +36,7 @@ namespace Ling.Utility.Extensions
 		/// refを使用した構造体への作用の反映
 		/// </summary>
 		public static void ForEach<T>(this IList<T> list, RefAction<T> action)
-		{ 
+		{
 			if (action == null) { throw new ArgumentNullException(nameof(action)); }
 
 			for (int i = 0; i < list.Count; ++i)
@@ -122,9 +122,9 @@ namespace Ling.Utility.Extensions
 				result = front;
 				return true;
 			}
-			
+
 			var index = self.IndexOf(value);
-			if (index < 0) 
+			if (index < 0)
 			{
 				result = GetRandom(self);
 				return true;
@@ -135,7 +135,7 @@ namespace Ling.Utility.Extensions
 
 			index = range.ElementAt(Utility.Random.Range(self.Count - 1));
 			result = self[index];
-			
+
 			return true;
 		}
 
@@ -168,5 +168,5 @@ namespace Ling.Utility.Extensions
 				yield return items[i];
 			}
 		}
-    }
+	}
 }

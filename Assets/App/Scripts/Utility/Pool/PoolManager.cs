@@ -47,14 +47,14 @@ namespace Ling.Utility.Pool
 		{
 			public TEnum key;
 			public string id;
-			public bool isUsedCreator;	// 直接PoolCreatorを使用する場合はtrue
+			public bool isUsedCreator;  // 直接PoolCreatorを使用する場合はtrue
 			public TPoolCreator creator;
 			public PoolCreateInfo createInfo;
 
 			public bool Equal(TEnum key, string id) =>
 				EqualityComparer<TEnum>.Default.Equals(this.key, key) && this.id == id;
 		}
-		
+
 
 		#endregion
 
@@ -119,7 +119,7 @@ namespace Ling.Utility.Pool
 
 			var list = new List<UniTask>();
 
-			foreach(var poolItemData in _createItems)
+			foreach (var poolItemData in _createItems)
 			{
 				list.Add(poolItemData.creator.CreateObjectAsync());
 			}
@@ -168,8 +168,8 @@ namespace Ling.Utility.Pool
 		#region private 関数
 
 		/// <summary>
-        /// 最初の一回、初期化処理を行う
-        /// </summary>
+		/// 最初の一回、初期化処理を行う
+		/// </summary>
 		private void Initialize()
 		{
 			if (_isInitialized) return;

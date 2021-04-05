@@ -18,7 +18,7 @@ namespace Ling.Utility.Pool
 	/// 
 	/// </summary>
 	public class DefaultPoolCreator : PoolCreator
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

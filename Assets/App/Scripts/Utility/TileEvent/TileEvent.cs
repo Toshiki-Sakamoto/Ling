@@ -20,78 +20,78 @@ using UnityEngine.UI;
 
 namespace Ling.Utility.TileEvent
 {
-    public enum EventTriggerType
-    {
-        OnEnterCollision = 0,
-        OnInteraction = 1,
-    }
+	public enum EventTriggerType
+	{
+		OnEnterCollision = 0,
+		OnInteraction = 1,
+	}
 
 
 	/// <summary>
 	/// 
 	/// </summary>
-    [System.Serializable]
-    public class TileEvent
-    {
-        #region 定数, class, enum
+	[System.Serializable]
+	public class TileEvent
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        [SerializeField] private string _name = null;   // タイル名
-        [SerializeField] private EventTriggerType _trigger = EventTriggerType.OnEnterCollision;
-        [SerializeField] private UnityEvent _onEvent;   // イベント発行
-        [SerializeField, Tag] private string _interactibleTag = null;    // イベントを識別するタグ
-        
-
-        private TileBase _tile = null;
-        private bool _isInteractible;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        /// <summary>
-        /// タイルマップ内の座標
-        /// </summary>
-        public int PosX { get; private set; }
-        public int PosY { get; private set; }
+		[SerializeField] private string _name = null;   // タイル名
+		[SerializeField] private EventTriggerType _trigger = EventTriggerType.OnEnterCollision;
+		[SerializeField] private UnityEvent _onEvent;   // イベント発行
+		[SerializeField, Tag] private string _interactibleTag = null;    // イベントを識別するタグ
 
-        /// <summary>
-        /// world座標
-        /// </summary>
-        public float WorldX { get; private set; }
-        public float WorldY { get; private set; }
 
-        /// <summary>
-        /// world座標でCenter
-        /// </summary>
-        public float WorldCenterX { get; private set; }
-        public float WorldCenterY { get; private set; }
+		private TileBase _tile = null;
+		private bool _isInteractible;
 
-        public UnityEvent OnEvent { get { return _onEvent; } set { _onEvent = value; } }
+		#endregion
 
-        public EventTriggerType Trigger { get { return _trigger; } }
 
-        /// <summary>
-        /// イベント識別するタグ名
-        /// </summary>
-        public string InteractibleTag { get { return _interactibleTag; } }
+		#region プロパティ
 
-        /// <summary>
-        /// エディターのみ : 削除されたかどうかをみる
-        /// </summary>
-        public bool Deleted { get; set; }
+		/// <summary>
+		/// タイルマップ内の座標
+		/// </summary>
+		public int PosX { get; private set; }
+		public int PosY { get; private set; }
 
-        #endregion
+		/// <summary>
+		/// world座標
+		/// </summary>
+		public float WorldX { get; private set; }
+		public float WorldY { get; private set; }
+
+		/// <summary>
+		/// world座標でCenter
+		/// </summary>
+		public float WorldCenterX { get; private set; }
+		public float WorldCenterY { get; private set; }
+
+		public UnityEvent OnEvent { get { return _onEvent; } set { _onEvent = value; } }
+
+		public EventTriggerType Trigger { get { return _trigger; } }
+
+		/// <summary>
+		/// イベント識別するタグ名
+		/// </summary>
+		public string InteractibleTag { get { return _interactibleTag; } }
+
+		/// <summary>
+		/// エディターのみ : 削除されたかどうかをみる
+		/// </summary>
+		public bool Deleted { get; set; }
+
+		#endregion
 
 
 		#region コンストラクタ, デストラクタ
@@ -99,68 +99,68 @@ namespace Ling.Utility.TileEvent
 		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 関数
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="tile"></param>
-        /// <param name="eventsMap"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public static TileEvent CreateEvent(TileBase tile, Tilemap eventsMap, int x, int y)
-        {
-            var instance = new TileEvent { _tile = tile };
-            instance._name = "Tile " + x + ":" + y;
-            instance.SetPosition(eventsMap, x, y);
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="tile"></param>
+		/// <param name="eventsMap"></param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <returns></returns>
+		public static TileEvent CreateEvent(TileBase tile, Tilemap eventsMap, int x, int y)
+		{
+			var instance = new TileEvent { _tile = tile };
+			instance._name = "Tile " + x + ":" + y;
+			instance.SetPosition(eventsMap, x, y);
 
-            return instance;
-        }
+			return instance;
+		}
 
-        public void SetPosition(Tilemap eventsMap, int x, int y)
-        {
-            var place = eventsMap.CellToWorld(new Vector3Int(x + eventsMap.cellBounds.x, y, eventsMap.cellBounds.z));
-            var position = new Vector3(place.x/* + 1*/, place.y/* - 1*/, place.z);
+		public void SetPosition(Tilemap eventsMap, int x, int y)
+		{
+			var place = eventsMap.CellToWorld(new Vector3Int(x + eventsMap.cellBounds.x, y, eventsMap.cellBounds.z));
+			var position = new Vector3(place.x/* + 1*/, place.y/* - 1*/, place.z);
 
-            PosX = x;
-            PosY = y;
-            WorldX = position.x + eventsMap.cellSize.x;
-            WorldY = position.y;
-        }
+			PosX = x;
+			PosY = y;
+			WorldX = position.x + eventsMap.cellSize.x;
+			WorldY = position.y;
+		}
 
-        public void SetInsteractible(bool interactible = false)
-        {
-            if (_trigger != EventTriggerType.OnInteraction)
-            {
-                return;
-            }
+		public void SetInsteractible(bool interactible = false)
+		{
+			if (_trigger != EventTriggerType.OnInteraction)
+			{
+				return;
+			}
 
-            _isInteractible = interactible;
-        }
+			_isInteractible = interactible;
+		}
 
-        public void Interact()
-        { 
-            if (_trigger != EventTriggerType.OnInteraction)
-            {
-                _onEvent.Invoke();
-            }
-            else if (_isInteractible)
-            {
-                _onEvent.Invoke();
-            }
-        }
+		public void Interact()
+		{
+			if (_trigger != EventTriggerType.OnInteraction)
+			{
+				_onEvent.Invoke();
+			}
+			else if (_isInteractible)
+			{
+				_onEvent.Invoke();
+			}
+		}
 
-        public override string ToString()
-        {
-            return string.Format($"Name:{_name}, Pos:x{PosX},y{PosY}, WorldPos:x{WorldX},y{WorldY}");
-        }
+		public override string ToString()
+		{
+			return string.Format($"Name:{_name}, Pos:x{PosX},y{PosY}, WorldPos:x{WorldX},y{WorldY}");
+		}
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region private 関数
 
-        #endregion
-    }
+		#endregion
+	}
 }

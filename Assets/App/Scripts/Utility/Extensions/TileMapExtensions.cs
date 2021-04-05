@@ -19,7 +19,7 @@ namespace Ling.Utility.Extensions
 	/// <summary>
 	/// 
 	/// </summary>
-    public static class TileMapExtensions
-    { 
-    }
+	public static class TileMapExtensions
+	{
+	}
 }

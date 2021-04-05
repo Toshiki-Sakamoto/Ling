@@ -15,7 +15,7 @@ namespace Ling.Utility.Async
 	/// 外部から経過時間を設定するようにしてもいいかも
 	/// </summary>
 	public class WorkTimeAwaiter : BaseAwaiter
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

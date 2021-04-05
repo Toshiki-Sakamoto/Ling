@@ -12,59 +12,59 @@ using UnityEngine.UI;
 
 namespace Ling.Common
 {
-    /// <summary>
-    /// 描画時に小数点以下を考慮せずに、表示するときだけ座標を一時的にintにする
-    /// </summary>
-    public class PixelObjectBase : MonoBehaviour 
-    {
-        #region 定数, class, enum
+	/// <summary>
+	/// 描画時に小数点以下を考慮せずに、表示するときだけ座標を一時的にintにする
+	/// </summary>
+	public class PixelObjectBase : MonoBehaviour
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public 変数
 
-        private Vector3 _cashPosition = Vector3.zero;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		private Vector3 _cashPosition = Vector3.zero;
 
-
-        #region public, protected 関数
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region プロパティ
 
-        #endregion
+		#endregion
 
 
-        #region MonoBegaviour
+		#region public, protected 関数
 
-        private void LateUpdate()
-        {
-            _cashPosition = transform.localPosition;
-            transform.localPosition = new Vector3(
-                Mathf.RoundToInt(_cashPosition.x),
-                Mathf.RoundToInt(_cashPosition.y),
-                Mathf.RoundToInt(_cashPosition.z));
-        }
+		#endregion
 
-        private void OnRenderObject()
-        {
-            transform.localPosition = _cashPosition;
-        }
 
-        #endregion
-    }
+		#region private 関数
+
+		#endregion
+
+
+		#region MonoBegaviour
+
+		private void LateUpdate()
+		{
+			_cashPosition = transform.localPosition;
+			transform.localPosition = new Vector3(
+				Mathf.RoundToInt(_cashPosition.x),
+				Mathf.RoundToInt(_cashPosition.y),
+				Mathf.RoundToInt(_cashPosition.z));
+		}
+
+		private void OnRenderObject()
+		{
+			transform.localPosition = _cashPosition;
+		}
+
+		#endregion
+	}
 }

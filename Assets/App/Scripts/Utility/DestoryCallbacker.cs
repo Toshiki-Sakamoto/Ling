@@ -12,8 +12,8 @@ namespace Ling.Utility
 	/// <summary>
 	/// オブジェクトが削除された時を検知する
 	/// </summary>
-	public class DestoryCallbacker : MonoBehaviour 
-    {
+	public class DestoryCallbacker : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion

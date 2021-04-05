@@ -18,7 +18,7 @@ namespace Ling.Utility.Algorithm
 	/// AStartAlgorithm
 	/// </summary>
 	public class Astar
-    {
+	{
 		#region 定数, class, enum
 
 		public class Param
@@ -26,27 +26,27 @@ namespace Ling.Utility.Algorithm
 			public Vector2Int start;
 			public Vector2Int end;
 			public int width;
-			
-			public System.Func<Vector2Int, bool> onCanMove;	// 移動可能か
-			public System.Func<Vector2Int, bool> onCanDiagonalMove;	// 斜め移動可能か
-			public System.Func<Vector2Int, int> onTileCostGetter;	// 指定座標の移動コストを取得する(必要であれば)
-			public bool useDiagonal = true;	// 斜めを使用する
+
+			public System.Func<Vector2Int, bool> onCanMove; // 移動可能か
+			public System.Func<Vector2Int, bool> onCanDiagonalMove; // 斜め移動可能か
+			public System.Func<Vector2Int, int> onTileCostGetter;   // 指定座標の移動コストを取得する(必要であれば)
+			public bool useDiagonal = true; // 斜めを使用する
 
 			public Utility.Async.BaseAwaiter awaiter = null;
-			
+
 			// Debug
 			public System.Action<Node> onCreatedNode;
 		}
 
 		public class Node
 		{
-			public Node parent;	// 親ノード
+			public Node parent; // 親ノード
 
 			public Vector2Int pos;
 			public int index;
-			public int cost;	// 実コスト
-			public int estimatedCost;	// 推定コスト
-			public int score;	// スコア
+			public int cost;    // 実コスト
+			public int estimatedCost;   // 推定コスト
+			public int score;   // スコア
 			public int count;
 		}
 
@@ -65,7 +65,7 @@ namespace Ling.Utility.Algorithm
 		private Stack<Node> _unusedNodes = new Stack<Node>();
 
 		private SortedDictionary<int, List<Node>> _openedNodes = new SortedDictionary<int, List<Node>>();
-		private HashSet<int> _usedIndexes = new HashSet<int>();	// 使用済みの座標
+		private HashSet<int> _usedIndexes = new HashSet<int>(); // 使用済みの座標
 
 		private Param _param;
 		private Node _firstNode, _lastNode;
@@ -133,7 +133,7 @@ namespace Ling.Utility.Algorithm
 
 			return true;
 		}
-		
+
 		/// <summary>
 		/// 到達したルートのNodeリストを取得する
 		/// </summary>
@@ -176,12 +176,12 @@ namespace Ling.Utility.Algorithm
 			// 最初のNodeを作成する
 			_firstNode = PopNode();
 			_firstNode.pos = _param.start;
-			_firstNode.index = _param.start.y * _param.width + _param.start.x;;
+			_firstNode.index = _param.start.y * _param.width + _param.start.x; ;
 			_firstNode.count = 1;
-			
+
 			// Nodeの作成に失敗したときは何もしない
 			if (_firstNode == null)
-			{ 
+			{
 				Utility.Log.Error("開始位置のNodeの作成に失敗しました");
 				return false;
 			}
@@ -211,7 +211,7 @@ namespace Ling.Utility.Algorithm
 				if (childNode == null) continue;
 
 				CalcScore(childNode, cost);
-					
+
 				_param.onCreatedNode?.Invoke(childNode);
 
 				// もしゴール地点なら終了！
@@ -246,7 +246,7 @@ namespace Ling.Utility.Algorithm
 			var score = rootNode.score;
 
 			nodes.Remove(rootNode);
-				
+
 			// Listが空になったら元から削除
 			if (nodes.IsNullOrEmpty())
 			{
@@ -273,26 +273,26 @@ namespace Ling.Utility.Algorithm
 			// 移動できない場合は何もしない
 			// 斜めの場合は斜め移動できるかを見る
 			bool isSuccess = false;
-			bool isAddUsedIndex = true;	// 登録するか
+			bool isAddUsedIndex = true; // 登録するか
 
 			do
 			{
 				if (!_param.onCanMove(pos))
-				{ 
+				{
 					break;
 				}
-				
+
 				if (addX != 0 && addY != 0)
 				{
 					if (!_param.onCanDiagonalMove(new Vector2Int(parent.pos.x + addX, parent.pos.y)))
 					{
-						isAddUsedIndex = false;	// 斜め移動できないときは登録はしない
+						isAddUsedIndex = false; // 斜め移動できないときは登録はしない
 						break;
 					}
 
 					if (!_param.onCanDiagonalMove(new Vector2Int(parent.pos.x, parent.pos.y + addY)))
 					{
-						isAddUsedIndex = false; 	// 斜め移動できないときは登録はしない
+						isAddUsedIndex = false;     // 斜め移動できないときは登録はしない
 						break;
 					}
 				}
@@ -315,7 +315,7 @@ namespace Ling.Utility.Algorithm
 			node.pos = pos;
 			node.index = index;
 			node.count = count;
-			
+
 			// 親ノードを設定しておく
 			node.parent = parent;
 
@@ -365,7 +365,7 @@ namespace Ling.Utility.Algorithm
 			{
 				// 斜めを許可している場合比較して高い値が推定コストとなる
 				// 距離にしてみるか
-				return dx*dx + dy+dy;
+				return dx * dx + dy + dy;
 				//return Mathf.Max(dx, dy);
 			}
 			else
@@ -422,7 +422,7 @@ namespace Ling.Utility.Algorithm
 			{
 				node = _unusedNodes.Pop();
 			}
-			
+
 			_usedNodes.Push(node);
 
 			return node;

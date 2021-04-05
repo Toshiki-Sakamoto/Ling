@@ -18,26 +18,26 @@ namespace Ling.Utility
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Log
-    {
-        #region 定数, class, enum
+	public class Log
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		#endregion
+
+
+		#region プロパティ
+
+		#endregion
 
 
 		#region コンストラクタ, デストラクタ
@@ -45,34 +45,34 @@ namespace Ling.Utility
 		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 関数
 
 		[System.Diagnostics.Conditional("DEBUG")]
-        public static void Print(string format, params object[] args)
-        {
-            Debug.LogFormat(format, args);
-        }
+		public static void Print(string format, params object[] args)
+		{
+			Debug.LogFormat(format, args);
+		}
 
-        public static void Warning(string format, params object[] args)
-        {
-            Debug.LogWarningFormat(format, args);
-        }
+		public static void Warning(string format, params object[] args)
+		{
+			Debug.LogWarningFormat(format, args);
+		}
 
-        public static void Error(string format, params object[] args)
-        {
-            Debug.LogErrorFormat(format, args);
-        }
+		public static void Error(string format, params object[] args)
+		{
+			Debug.LogErrorFormat(format, args);
+		}
 
-        public static void Assert(bool condition, string format, params object[] args)
-        {
-            Debug.AssertFormat(condition, format, args);
-        }
+		public static void Assert(bool condition, string format, params object[] args)
+		{
+			Debug.AssertFormat(condition, format, args);
+		}
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region private 関数
 
-        #endregion
-    }
+		#endregion
+	}
 }

@@ -26,8 +26,8 @@ namespace Ling.Utility
 	/// <summary>
 	/// タッチ時にイベント発行
 	/// </summary>
-	public class TouchPointEventTrigger : EventTrigger 
-    {
+	public class TouchPointEventTrigger : EventTrigger
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -35,17 +35,17 @@ namespace Ling.Utility
 
 		#region public 変数
 
-		public static EventTouchPoint cacheInstance;	// キャッシュして使い回す
+		public static EventTouchPoint cacheInstance;    // キャッシュして使い回す
 
 		#endregion
 
 
 		#region private 変数
 
-		[SerializeField] private bool _isCreateNewEvent;	// イベントが発行されるたびに新しいインスタンスを作成する
-		[SerializeField] private string _stringParam;	// 特殊な文字列を贈りたいとき
+		[SerializeField] private bool _isCreateNewEvent;    // イベントが発行されるたびに新しいインスタンスを作成する
+		[SerializeField] private string _stringParam;   // 特殊な文字列を贈りたいとき
 		[SerializeField] private int _intParam;
-		[SerializeField] private GameObject _gameObject = null;	// 設定すれば送られる
+		[SerializeField] private GameObject _gameObject = null; // 設定すれば送られる
 
 		#endregion
 
@@ -88,7 +88,7 @@ namespace Ling.Utility
 		private void EventTrigger(EventTriggerType type)
 		{
 			var ev = cacheInstance;
-			if (_isCreateNewEvent) 
+			if (_isCreateNewEvent)
 			{
 				ev = new EventTouchPoint();
 			}

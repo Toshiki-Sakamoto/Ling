@@ -19,8 +19,8 @@ namespace Ling.Utility
 	/// <remark>
 	/// https://kan-kikuchi.hatenablog.com/entry/IsPointerOverGameObject
 	/// </remark>
-	public class ScreenTouchManager : MonoSingleton<ScreenTouchManager> 
-    {
+	public class ScreenTouchManager : MonoSingleton<ScreenTouchManager>
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -68,8 +68,8 @@ namespace Ling.Utility
 			// UIを優先
 			if (EventSystem.current.IsPointerOverGameObject())
 			{
-    			return;
-  			}
+				return;
+			}
 
 			Vector2 clickOrTouchPosition;
 			if (Input.GetMouseButton(0))

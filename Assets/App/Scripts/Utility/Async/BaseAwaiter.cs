@@ -13,7 +13,7 @@ namespace Ling.Utility.Async
 	/// Awaiterのベースクラス
 	/// </summary>
 	public abstract class BaseAwaiter
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -40,7 +40,7 @@ namespace Ling.Utility.Async
 
 
 		#region public, protected 関数
-		
+
 		/// <summary>
 		/// 処理実行時指定時間が過ぎていた場合awaitを行う
 		/// </summary>

@@ -18,90 +18,90 @@ namespace Ling.Utility
 	/// <summary>
 	/// 
 	/// </summary>
-    public class Singleton<T> where T : Singleton<T>, new()
-    {
-        #region 定数, class, enum
+	public class Singleton<T> where T : Singleton<T>, new()
+	{
+		#region 定数, class, enum
 
-        #endregion
-
-
-        #region public, protected 変数
-
-        #endregion
+		#endregion
 
 
-        #region private 変数
+		#region public, protected 変数
 
-        private static T _instance = null;
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        /// <summary>
-        /// インスタンスがなければ作成する
-        /// </summary>
-        /// <value>The instance.</value>
-        public static T Instance
-        {
-            get
-            {
-                Create();
+		private static T _instance = null;
 
-                return _instance;
-            }
-        }
-
-        /// <summary>
-        /// インスタンスがNullかどうか
-        /// </summary>
-        /// <value><c>true</c> if is null; otherwise, <c>false</c>.</value>
-        public static bool IsNull
-        {
-            get
-            {
-                return _instance == null;
-            }
-        }
-
-        #endregion
+		#endregion
 
 
-        #region コンストラクタ, デストラクタ
+		#region プロパティ
 
-        #endregion
+		/// <summary>
+		/// インスタンスがなければ作成する
+		/// </summary>
+		/// <value>The instance.</value>
+		public static T Instance
+		{
+			get
+			{
+				Create();
+
+				return _instance;
+			}
+		}
+
+		/// <summary>
+		/// インスタンスがNullかどうか
+		/// </summary>
+		/// <value><c>true</c> if is null; otherwise, <c>false</c>.</value>
+		public static bool IsNull
+		{
+			get
+			{
+				return _instance == null;
+			}
+		}
+
+		#endregion
 
 
-        #region public, protected 関数
+		#region コンストラクタ, デストラクタ
 
-        public static void Create()
-        {
-            if (_instance == null)
-            {
-                _instance = new T();
-            }
-        }
-
-        public static void Destroy()
-        {
-            if (_instance != null)
-            {
-                _instance.OnDestroy();
-            }
-
-            _instance = null;
-        }
-
-        public virtual void OnDestroy()
-        { 
-        }
-
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region public, protected 関数
 
-        #endregion
-    }
+		public static void Create()
+		{
+			if (_instance == null)
+			{
+				_instance = new T();
+			}
+		}
+
+		public static void Destroy()
+		{
+			if (_instance != null)
+			{
+				_instance.OnDestroy();
+			}
+
+			_instance = null;
+		}
+
+		public virtual void OnDestroy()
+		{
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		#endregion
+	}
 }

@@ -20,7 +20,7 @@ namespace Ling.Utility
 	/// 
 	/// </summary>
 	public static class Random
-    {
+	{
 		/// <summary>
 		/// Maxも範囲に含める
 		/// </summary>

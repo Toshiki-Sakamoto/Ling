@@ -12,8 +12,8 @@ namespace Ling.Utility.Algorithm
 	/// <summary>
 	/// 探索系Algorithm
 	/// </summary>
-	public class Search : Utility.MonoSingleton<Search> 
-    {
+	public class Search : Utility.MonoSingleton<Search>
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -54,7 +54,7 @@ namespace Ling.Utility.Algorithm
 		protected override void Awake()
 		{
 			base.Awake();
-			
+
 			Astar.Setup();
 		}
 

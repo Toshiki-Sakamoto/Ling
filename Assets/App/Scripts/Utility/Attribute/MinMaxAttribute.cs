@@ -21,7 +21,7 @@ namespace Ling.Utility.Attribute
 	/// 最小値と最大値を設定できる。Attribute
 	/// </summary>
 	public class MinMaxAttribute : PropertyAttribute
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

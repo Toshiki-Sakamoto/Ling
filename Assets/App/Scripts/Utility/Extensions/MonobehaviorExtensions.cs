@@ -11,6 +11,6 @@ namespace Ling.Utility.Extensions
 	/// Monobehaviour拡張機能
 	/// </summary>
 	public class MonobehaviorExtensions
-    {
+	{
 	}
 }

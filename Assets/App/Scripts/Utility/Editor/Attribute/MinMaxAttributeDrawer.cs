@@ -24,7 +24,7 @@ namespace Ling.Utility.Editor.Attribute
 	/// </summary>
 	[CustomPropertyDrawer(typeof(MinMaxAttribute))]
 	public class MinMaxAttributeDrawer : PropertyDrawer
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -61,12 +61,12 @@ namespace Ling.Utility.Editor.Attribute
 			var maxProperty = property.FindPropertyRelative(attribute.MaxPropertyName);
 
 			var sliderRect = new Rect(position) { height = position.height * 0.5f };
-			var labelRect = new Rect(sliderRect) 
-				{ 
-					x = sliderRect.x + EditorGUIUtility.labelWidth,
-					y = sliderRect.y + sliderRect.height,
-					width = sliderRect.width - EditorGUIUtility.labelWidth
-				};
+			var labelRect = new Rect(sliderRect)
+			{
+				x = sliderRect.x + EditorGUIUtility.labelWidth,
+				y = sliderRect.y + sliderRect.height,
+				width = sliderRect.width - EditorGUIUtility.labelWidth
+			};
 
 
 			bool isFloatMin = (minProperty.propertyType == SerializedPropertyType.Float);
@@ -135,9 +135,9 @@ namespace Ling.Utility.Editor.Attribute
 			}
 
 			// Min
-			DrawPropertyField(rects[0], minProperty, 
-				() => 
-				{ 
+			DrawPropertyField(rects[0], minProperty,
+				() =>
+				{
 					if (isFloatMin)
 					{
 						minProperty.floatValue = Mathf.Clamp(minProperty.floatValue, attribute.Min, maxProperty.floatValue);
@@ -149,7 +149,7 @@ namespace Ling.Utility.Editor.Attribute
 				});
 
 			// Max
-			DrawPropertyField(rects[1], maxProperty, 
+			DrawPropertyField(rects[1], maxProperty,
 				() =>
 				{
 					if (isFloatMax)
