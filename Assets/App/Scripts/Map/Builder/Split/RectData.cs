@@ -23,7 +23,7 @@ namespace Ling.Map.Builder.Split
 	/// 区画情報
 	/// </summary>
 	public class RectData
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

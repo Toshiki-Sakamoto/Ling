@@ -69,7 +69,7 @@ namespace Ling.Map
 		public void SetPos(int x, int y) =>
 			Pos = new Vector2Int(x, y);
 
-		public void SetIndex(int index) => 
+		public void SetIndex(int index) =>
 			Index = index;
 
 		public void SetRoomIndex(int roomIndex) =>

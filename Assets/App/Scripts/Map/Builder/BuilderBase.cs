@@ -60,7 +60,7 @@ namespace Ling.Map.Builder
 	/// ビルダーベースクラス
 	/// すべてのビルダーはこれを継承して使用する
 	/// </summary>
-    public abstract class BuilderBase : IBuilder
+	public abstract class BuilderBase : IBuilder
 	{
 		#region 定数, class, enum
 
@@ -74,22 +74,22 @@ namespace Ling.Map.Builder
 
 		#region private 変数
 
-		protected BuilderData _data = null;		// ビルダー情報
+		protected BuilderData _data = null;     // ビルダー情報
 
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region プロパティ
 
-        /// <summary>
-        /// 幅
-        /// </summary>
-        public int Width { get; private set; }
+		/// <summary>
+		/// 幅
+		/// </summary>
+		public int Width { get; private set; }
 
-        /// <summary>
-        /// 高さ
-        /// </summary>
-        public int Height { get; private set; }
+		/// <summary>
+		/// 高さ
+		/// </summary>
+		public int Height { get; private set; }
 
 		/// <summary>
 		/// 実行中
@@ -117,11 +117,11 @@ namespace Ling.Map.Builder
 		/// <param name="width"></param>
 		/// <param name="height"></param>
 		public void Initialize(int width, int height, int mapLevel)
-        {
+		{
 			TileDataMap.Initialize(width, height, mapLevel);
 			Width = width;
-            Height = height;
-        }
+			Height = height;
+		}
 
 		/// <summary>
 		/// ビルダー情報を設定する
@@ -129,11 +129,11 @@ namespace Ling.Map.Builder
 		/// <param name="data"></param>
 		public void SetData(BuilderData data) => _data = data;
 
-        /// <summary>
-        /// 処理を実行する
-        /// </summary>
-        public async UniTask Execute(TileDataMap prevTildeDataMap)
-        {
+		/// <summary>
+		/// 処理を実行する
+		/// </summary>
+		public async UniTask Execute(TileDataMap prevTildeDataMap)
+		{
 			// 最初はすべて壁にする
 			TileDataMap.AllTilesSetWall();
 
@@ -196,6 +196,6 @@ namespace Ling.Map.Builder
 			yield break;
 		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

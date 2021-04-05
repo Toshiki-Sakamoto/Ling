@@ -21,10 +21,10 @@ namespace Ling.Map.Route
 	/// 
 	/// </summary>
 	public class Tracking
-    {
+	{
 		#region 定数, class, enum
 
-		public readonly static int[,] DirVec = new int[4, 2] { { 0, -1 }, { -1, 0 }, { 1, 0 }, { 0, 1 } };  
+		public readonly static int[,] DirVec = new int[4, 2] { { 0, -1 }, { -1, 0 }, { 1, 0 }, { 0, 1 } };
 
 		#endregion
 
@@ -198,7 +198,7 @@ namespace Ling.Map.Route
 
 						// 再帰処理
 						ExecuteInternal(pos, expValue);
-						
+
 						continue;
 					}
 				}

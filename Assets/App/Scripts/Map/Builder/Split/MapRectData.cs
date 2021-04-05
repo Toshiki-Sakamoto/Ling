@@ -20,7 +20,7 @@ namespace Ling.Map.Builder.Split
 	/// 区画を操作する
 	/// </summary>
 	public class MapRectData
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

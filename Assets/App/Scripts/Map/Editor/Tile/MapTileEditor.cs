@@ -28,7 +28,7 @@ namespace Ling.Map.Editor.Tile
 		private bool _isFolingList;
 		private Sprite _allSetSprite;
 
-		public static readonly string[] SpriteTile = 
+		public static readonly string[] SpriteTile =
 			{
 				"Filled",
 				"Three Sides",

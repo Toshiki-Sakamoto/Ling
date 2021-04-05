@@ -20,14 +20,14 @@ namespace Ling.Map.Builder.Split
 	/// 
 	/// </summary>
 	public class SplitConst
-    {
+	{
 		#region 定数, class, enum
 
-		public const int MaxRectNum = 20;	// 最大の区画数
+		public const int MaxRectNum = 20;   // 最大の区画数
 
 		public enum RoadBuilderType
 		{
-			None	= 0,
+			None = 0,
 
 			Simple,
 		}

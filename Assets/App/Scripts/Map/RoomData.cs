@@ -17,7 +17,7 @@ namespace Ling.Map
 	/// 部屋データ
 	/// </summary>
 	public class RoomData
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -67,7 +67,7 @@ namespace Ling.Map
 			TileData.Add(tileData);
 
 			// TileData内のフラグが更新されたとき
-			tileData.onUpdateTileFlag = (tileData_, isAdded_) => 
+			tileData.onUpdateTileFlag = (tileData_, isAdded_) =>
 				{
 					if (isAdded_)
 					{

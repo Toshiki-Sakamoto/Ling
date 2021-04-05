@@ -22,8 +22,8 @@ namespace Ling.Map
 	/// 
 	/// マップにしてがなければ現在のマップを参照する
 	/// </summary>
-	public class MapManager : Utility.MonoSingleton<MapManager> 
-    {
+	public class MapManager : Utility.MonoSingleton<MapManager>
+	{
 		#region 定数, class, enum
 
 		#endregion

@@ -23,7 +23,7 @@ namespace Ling.Map.Builder.Road
 	{
 		#region 定数, class, enum
 
-		public class Factory : PlaceholderFactory<SimpleRoad> {}
+		public class Factory : PlaceholderFactory<SimpleRoad> { }
 
 		#endregion
 

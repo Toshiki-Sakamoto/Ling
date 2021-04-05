@@ -19,16 +19,16 @@ namespace Ling.Map.Builder
 	/// <summary>
 	/// 定数
 	/// </summary>
-    public class BuilderConst
-    {
+	public class BuilderConst
+	{
 		#region 定数, class, enum
 
 		/// <summary>
 		/// ビルダーの種類
 		/// </summary>
 		public enum BuilderType
-		{ 
-			None	= 0,
+		{
+			None = 0,
 
 			Split,
 		}
@@ -38,27 +38,27 @@ namespace Ling.Map.Builder
 		/// </summary>
 		public enum RoadType
 		{
-			None	= 0,
+			None = 0,
 
 			Normal,
 		}
 
-        #endregion
+		#endregion
 
 
-        #region public, protected 変数
+		#region public, protected 変数
 
-        #endregion
-
-
-        #region private 変数
-
-        #endregion
+		#endregion
 
 
-        #region プロパティ
+		#region private 変数
 
-        #endregion
+		#endregion
+
+
+		#region プロパティ
+
+		#endregion
 
 
 		#region コンストラクタ, デストラクタ
@@ -66,13 +66,13 @@ namespace Ling.Map.Builder
 		#endregion
 
 
-        #region public, protected 関数
+		#region public, protected 関数
 
-        #endregion
+		#endregion
 
 
-        #region private 関数
+		#region private 関数
 
-        #endregion
-    }
+		#endregion
+	}
 }

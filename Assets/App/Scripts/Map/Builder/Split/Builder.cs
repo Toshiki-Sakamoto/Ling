@@ -24,13 +24,13 @@ namespace Ling.Map.Builder.Split
 	/// <summary>
 	/// 
 	/// </summary>
-	public class Builder : BuilderBase 
+	public class Builder : BuilderBase
 	{
 		#region 定数, class, enum
 
 		private static readonly int[,] Dir = new int[4, 2] { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
-		public class Factory : PlaceholderFactory<Builder> {}
+		public class Factory : PlaceholderFactory<Builder> { }
 
 		#endregion
 
@@ -42,8 +42,8 @@ namespace Ling.Map.Builder.Split
 
 		#region private 変数
 
-		[Inject] private SplitBuilderFactory _splitFactory = null;		// 部屋の分割担当
-		[Inject] private Road.SplitRoadBuilderFactory _roadFactory = null;	// 道を作る担当
+		[Inject] private SplitBuilderFactory _splitFactory = null;      // 部屋の分割担当
+		[Inject] private Road.SplitRoadBuilderFactory _roadFactory = null;  // 道を作る担当
 
 		private ISplitter _splitter = null;
 		private Road.ISplitRoadBuilder _roadBuilder = null;
@@ -310,9 +310,9 @@ namespace Ling.Map.Builder.Split
 		/// </summary>
 		/// <returns></returns>
 		private IEnumerator<float> CreateRoom()
-        {
-            for (int i = 0; i < MapRect.RectCount; ++i)
-            {
+		{
+			for (int i = 0; i < MapRect.RectCount; ++i)
+			{
 				var rectData = MapRect[i];
 				var rect = rectData.rect;
 
@@ -342,12 +342,12 @@ namespace Ling.Map.Builder.Split
 
 				var room = rectData.room;
 
-                // 部屋を作る
+				// 部屋を作る
 				TileDataMap.FillRect(room.xMin, room.yMin, room.xMax, room.yMax, TileFlag.Floor);
 
 				yield return 0.5f;
 			}
-        }
+		}
 
 
 

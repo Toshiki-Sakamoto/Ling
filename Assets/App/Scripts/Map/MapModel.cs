@@ -23,7 +23,7 @@ namespace Ling.Map
 	/// 
 	/// </summary>
 	public class MapModel
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -37,7 +37,7 @@ namespace Ling.Map
 		#region private 変数
 
 		private StageMaster _stageMaster;
-		
+
 		#endregion
 
 

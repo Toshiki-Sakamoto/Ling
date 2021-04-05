@@ -22,7 +22,7 @@ namespace Ling.Map
 	/// 
 	/// </summary>
 	public class MiniMapControl : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -36,7 +36,7 @@ namespace Ling.Map
 		#region private 変数
 
 		[SerializeField] private MiniMapView _view = default;
-		
+
 		private Tile.MapTile _miniMapTile;
 
 		#endregion

@@ -23,7 +23,7 @@ namespace Ling.Map
 	/// ダンジョンマップコントロール
 	/// </summary>
 	public class MapControl : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -69,7 +69,7 @@ namespace Ling.Map
 			_model.ChangeMapByIndex(curretMapIndex);
 
 			// 見た目の更新
-			_view.OnStartGroundmapData = _view.OnUpdateItem = 
+			_view.OnStartGroundmapData = _view.OnUpdateItem =
 				(groundMap_, mapIndex_) =>
 				{
 					var mapData = _model.FindMapData(mapIndex_);
@@ -81,7 +81,7 @@ namespace Ling.Map
 
 					groundMap_.BuildMap(mapIndex_, mapData.Width, mapData.Height, mapData.MapTileRenderData);
 				};
-			
+
 			_view.Startup(_model, curretMapIndex, 40);
 		}
 
@@ -246,8 +246,8 @@ namespace Ling.Map
 		private void Awake()
 		{
 			// TileFlagの更新
-			this.AddEventListener<EventTileFlagUpdate>(ev_ => 
-				{ 
+			this.AddEventListener<EventTileFlagUpdate>(ev_ =>
+				{
 					var tileData = GetTileData(ev_.level, ev_.x, ev_.y);
 
 					switch (ev_.type)
@@ -265,7 +265,7 @@ namespace Ling.Map
 			/// <summary>
 			/// キャラを削除する
 			/// </summary>
-			this.AddEventListener<Chara.EventRemove>(ev_ => 
+			this.AddEventListener<Chara.EventRemove>(ev_ =>
 				{
 					var chara = ev_.chara;
 					var model = chara.Model;
@@ -290,7 +290,7 @@ namespace Ling.Map
 
 					// 新しい座標にTileFlagを設定する
 					var newTileData = GetTileData(ev_.mapLevel, ev_.newPos.x, ev_.newPos.y);
-					newTileData.AddFlag(tileFlag);					
+					newTileData.AddFlag(tileFlag);
 				});
 		}
 

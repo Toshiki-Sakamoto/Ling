@@ -16,13 +16,13 @@ namespace Ling.Map
 	/// <summary>
 	/// ダンジョンマップView
 	/// </summary>
-	public class MapView : MonoBehaviour 
-    {
+	public class MapView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		public enum OrderType : int
 		{
-			Map, 
+			Map,
 			Item,
 			Chara
 		}

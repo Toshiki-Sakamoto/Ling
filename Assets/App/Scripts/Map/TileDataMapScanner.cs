@@ -17,12 +17,12 @@ namespace Ling.Map
 	/// <summary>
 	/// 走査時に指定するオプション
 	/// </summary>
-	public class ScanOption 
+	public class ScanOption
 	{
-		public bool isEnemyIgnore = false;	// 敵を無視するか
-		public bool isWallIgnore = false;	// 壁を無視するか
-		public bool isHoleIgnore = false;	// 穴を無視するか
-		public bool needsSameRoom = true;	// 同じ部屋であることが必要か(部屋じゃない場合1マスしか見ない)
+		public bool isEnemyIgnore = false;  // 敵を無視するか
+		public bool isWallIgnore = false;   // 壁を無視するか
+		public bool isHoleIgnore = false;   // 穴を無視するか
+		public bool needsSameRoom = true;   // 同じ部屋であることが必要か(部屋じゃない場合1マスしか見ない)
 	}
 
 	public class CharaMoveChecker
@@ -74,7 +74,7 @@ namespace Ling.Map
 	/// マップを走査する
 	/// </summary>
 	public class TileDataMapScanner
-    {
+	{
 		public class ScoreAndRouteResult
 		{
 			public int score;
@@ -159,7 +159,7 @@ namespace Ling.Map
 				_eventSearchNodeCreated.mapLevel = _tileDataMap.MapLevel;
 				Utility.EventManager.SafeTrigger(_eventDebugUIClearAll);
 
-				param.onCreatedNode = node_ => 
+				param.onCreatedNode = node_ =>
 					{
 						_eventSearchNodeCreated.node = node_;
 
@@ -203,7 +203,7 @@ namespace Ling.Map
 			_shotestDistanceResultCache.routePositions = null;
 
 			int minScore = int.MaxValue;
-			
+
 			foreach (var target in targets)
 			{
 				var scoreAndRouteResult = await GetScoreAndRoutePositionsAsync(chara, target);
@@ -301,8 +301,8 @@ namespace Ling.Map
 				++scanNum;
 				--remCellNum;
 
-				return Utility.Map.CallDirection(posX, posY, 
-					(posX_, posY_) => 
+				return Utility.Map.CallDirection(posX, posY,
+					(posX_, posY_) =>
 					{
 						return ScanAllInternal(scanNum, remCellNum, posX_, posY_);
 					});

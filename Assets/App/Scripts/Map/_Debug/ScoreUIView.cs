@@ -15,8 +15,8 @@ namespace Ling.Map._Debug
 	/// <summary>
 	/// Debug用にTileViewの上にUIを表示させる
 	/// </summary>
-	public class ScoreUIView : MonoBehaviour 
-    {
+	public class ScoreUIView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion

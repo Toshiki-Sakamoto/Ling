@@ -19,7 +19,7 @@ namespace Ling.Map
 		public Const.TileFlag tileFlag;
 		public Type type;
 
-		public static EventTileFlagUpdate CreateAtAdd(int level, int x, int y, Const.TileFlag tileFlag) 
+		public static EventTileFlagUpdate CreateAtAdd(int level, int x, int y, Const.TileFlag tileFlag)
 		{
 			var instance = new EventTileFlagUpdate();
 			instance.level = level;
@@ -31,7 +31,7 @@ namespace Ling.Map
 			return instance;
 		}
 
-		public static EventTileFlagUpdate CreateAtRemove(int level, int x, int y, Const.TileFlag tileFlag) 
+		public static EventTileFlagUpdate CreateAtRemove(int level, int x, int y, Const.TileFlag tileFlag)
 		{
 			var instance = new EventTileFlagUpdate();
 			instance.level = level;

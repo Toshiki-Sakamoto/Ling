@@ -19,8 +19,8 @@ namespace Ling.Map.Builder
 	/// <summary>
 	/// マップ作成時に必要となるデータ
 	/// </summary>
-    public class BuilderData
-    {
+	public class BuilderData
+	{
 		#region 定数, class, enum
 
 		#endregion
