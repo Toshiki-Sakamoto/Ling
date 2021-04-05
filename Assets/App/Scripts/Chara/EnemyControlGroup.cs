@@ -133,14 +133,14 @@ namespace Ling.Chara
 
 				// 削除時
 				var subject = new Subject<EnemyControl>();
-				subject.Subscribe(enemy_ => 
+				subject.Subscribe(enemy_ =>
 					{
 						Controls.Remove(enemy_);
 						Models.Remove(enemy_.Model);
 
 						var poolItem = enemy_.GetComponent<PoolItem>();
 						poolItem?.Detach();
-						
+
 						_keyModelValueControl.Remove(enemy_.Model);
 					});
 

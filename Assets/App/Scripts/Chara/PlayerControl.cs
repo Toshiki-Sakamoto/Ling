@@ -14,8 +14,8 @@ namespace Ling.Chara
 	/// <summary>
 	/// Player Control
 	/// </summary>
-	public class PlayerControl : CharaControl<PlayerModel, PlayerView> 
-    {
+	public class PlayerControl : CharaControl<PlayerModel, PlayerView>
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -48,7 +48,7 @@ namespace Ling.Chara
 
 		public void SetFollowCameraEnable(bool enable) =>
 			_cinemaVCamera.enabled = enable;
-			//_cameraFollow.enabled = enable;
+		//_cameraFollow.enabled = enable;
 
 		protected override void DestroyProcessInternal()
 		{

@@ -264,7 +264,7 @@ namespace Ling.Chara
 		public void ExecuteMoveProcesses()
 		{
 			_playerControlGroup.ExecuteMoveProcesses();
-			
+
 			foreach (var enemyControlGroup in _enemyControlGroups)
 			{
 				enemyControlGroup.ExecuteMoveProcesses();
@@ -278,7 +278,7 @@ namespace Ling.Chara
 		public async UniTask WaitForMoveProcessAsync()
 		{
 			await _playerControlGroup.WaitForMoveProcessAsync();
-			
+
 			foreach (var enemyControlGroup in _enemyControlGroups)
 			{
 				await enemyControlGroup.WaitForMoveProcessAsync();
@@ -308,8 +308,8 @@ namespace Ling.Chara
 		private void Awake()
 		{
 			// マップが削除されたとき敵をプールに戻す
-			_eventManager.Add<Map.EventRemoveMap>(this, 
-				_ev => 
+			_eventManager.Add<Map.EventRemoveMap>(this,
+				_ev =>
 				{
 					ResetEnemyGroup(_ev.level);
 				});

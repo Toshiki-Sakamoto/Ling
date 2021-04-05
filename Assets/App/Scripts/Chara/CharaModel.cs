@@ -16,7 +16,7 @@ namespace Ling.Chara
 	/// <see cref="CharaManager"/>に管理されるデータ
 	/// </summary>
 	public class CharaModel : MonoBehaviour
-    {
+	{
 		#region 定数, class, enum
 
 		public class Param
@@ -37,9 +37,9 @@ namespace Ling.Chara
 		#region private 変数
 
 		private Param _param = null;
-        private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
+		private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
 
-        [SerializeField] private Vector2IntReactiveProperty _cellPosition = default; // マップ上の自分の位置
+		[SerializeField] private Vector2IntReactiveProperty _cellPosition = default; // マップ上の自分の位置
 		[SerializeField] private bool _isReactiveCellPosition = true;
 
 		#endregion
@@ -66,7 +66,7 @@ namespace Ling.Chara
 		/// マップ階層
 		/// </summary>
 		public int MapLevel { get; private set; }
-		
+
 		/// <summary>
 		/// 現在のセル上の座標
 		/// </summary>
@@ -92,14 +92,14 @@ namespace Ling.Chara
 		/// </summary>
 		public AI.Move.AIBase MoveAI { get; private set; }
 
-        /// <summary>
-        /// 移動することができないタイルフラグ。
-        /// これ以外は移動できるとする
-        /// </summary>
-        public virtual Const.TileFlag UnmovableTileFlag =>
-            Const.TileFlag.None | 
-			Const.TileFlag.Wall | 
-			Const.TileFlag.Hole | 
+		/// <summary>
+		/// 移動することができないタイルフラグ。
+		/// これ以外は移動できるとする
+		/// </summary>
+		public virtual Const.TileFlag UnmovableTileFlag =>
+			Const.TileFlag.None |
+			Const.TileFlag.Wall |
+			Const.TileFlag.Hole |
 			Const.TileFlag.Chara;
 
 		/// <summary>
@@ -152,7 +152,7 @@ namespace Ling.Chara
 		public void SetAttackAI(AI.Attack.AIBase attackAI) =>
 			AttackAI = attackAI;
 
-		public void SetMapLevel(int mapLevel) 
+		public void SetMapLevel(int mapLevel)
 		{
 			MapLevel = mapLevel;
 		}
@@ -163,11 +163,11 @@ namespace Ling.Chara
 			CellPosition.Value = pos;
 
 			_eventPosUpdate.prevPos = null;
-            _eventPosUpdate.newPos = pos;
-            _eventPosUpdate.charaType = CharaType;
-            _eventPosUpdate.mapLevel = MapLevel;
-			
-            // 移動したことのイベントを発行する
+			_eventPosUpdate.newPos = pos;
+			_eventPosUpdate.charaType = CharaType;
+			_eventPosUpdate.mapLevel = MapLevel;
+
+			// 移動したことのイベントを発行する
 			Utility.EventManager.SafeTrigger(_eventPosUpdate);
 		}
 
@@ -175,7 +175,7 @@ namespace Ling.Chara
 		/// 座標の設定
 		/// </summary>
 		public void SetCellPosition(in Vector2Int pos, bool reactive, bool sendEvent = true)
-        {
+		{
 			if (sendEvent)
 			{
 				_eventPosUpdate.prevPos = CellPosition.Value;
@@ -189,7 +189,7 @@ namespace Ling.Chara
 
 			_isReactiveCellPosition = reactive;
 			_cellPosition.SetValueAndForceNotify(pos);
-        }
+		}
 
 		/// <summary>
 		/// 現在の座標に指定した分を加算する
@@ -258,7 +258,7 @@ namespace Ling.Chara
 
 			return 1;
 		}
-			
+
 		#endregion
 
 

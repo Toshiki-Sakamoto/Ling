@@ -14,8 +14,8 @@ namespace Ling.Chara
 	/// <summary>
 	/// Enemy Control
 	/// </summary>
-	public class EnemyControl : CharaControl<EnemyModel, EnemyView> 
-    {
+	public class EnemyControl : CharaControl<EnemyModel, EnemyView>
+	{
 		#region 定数, class, enum
 
 		#endregion

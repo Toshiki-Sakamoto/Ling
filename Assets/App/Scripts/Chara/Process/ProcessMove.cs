@@ -15,7 +15,7 @@ namespace Ling.Chara.Process
 	/// キャラクタの移動
 	/// </summary>
 	public class ProcessMove : Common.ProcessBase
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -28,7 +28,7 @@ namespace Ling.Chara.Process
 
 		#region private 変数
 
-		private Chara.ICharaMoveController _control;	// 移動対象のキャラ
+		private Chara.ICharaMoveController _control;    // 移動対象のキャラ
 		private Vector2Int _startPos;
 		private Vector2Int _endPos;
 

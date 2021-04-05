@@ -24,7 +24,7 @@ namespace Ling.Chara
 	/// 
 	/// </summary>
 	public class EnemyFactory
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

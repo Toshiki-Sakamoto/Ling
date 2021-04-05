@@ -22,7 +22,7 @@ namespace Ling.Chara
 	/// 見た目やAIを変えれば良い。
 	/// </summary>
 	public class EnemyPoolManager : Utility.Pool.PoolManager<EnemyType, EnemyPoolManager>
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
