@@ -62,12 +62,12 @@ namespace Ling.Scenes.Battle.Phase
 			_mapManager = Resolve<Map.MapManager>();
 		}
 
-		public override void Proc() 
+		public override void Proc()
 		{
 			Change(BattleScene.Phase.PlayerAction);
 		}
 
-		public override void Term() 
+		public override void Term()
 		{
 			_isLoadFinish = false;
 		}

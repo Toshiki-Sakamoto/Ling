@@ -75,14 +75,14 @@ namespace Ling.Scenes.Battle.Phase
 			LoadAsync().Forget();
 		}
 
-		public override void Proc() 
+		public override void Proc()
 		{
 			if (!_isFinish) return;
 
 			Change(BattleScene.Phase.FloorSetup);
 		}
 
-		public override void Term() 
+		public override void Term()
 		{
 			_isFinish = false;
 		}
@@ -98,7 +98,7 @@ namespace Ling.Scenes.Battle.Phase
 			_mapManager.Setup(_model.StageMaster);
 
 			await _mapManager.BuildMapAsync(1, 2);
-			
+
 			// 1階層目を開始地点とする
 			_mapManager.SetCurrentMap(1);
 

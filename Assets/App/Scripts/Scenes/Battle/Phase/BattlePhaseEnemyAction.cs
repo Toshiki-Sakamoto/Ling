@@ -33,7 +33,7 @@ namespace Ling.Scenes.Battle.Phase
 
 
 		#region private 変数
-		
+
 		private Chara.CharaManager _charaManager;
 		private Map.MapManager _mapManager;
 
@@ -64,12 +64,12 @@ namespace Ling.Scenes.Battle.Phase
 			// のそれぞれに分類する
 		}
 
-		public override void Proc() 
+		public override void Proc()
 		{
 		}
 
-		public override void Term() 
-		{ 
+		public override void Term()
+		{
 		}
 
 		#endregion
