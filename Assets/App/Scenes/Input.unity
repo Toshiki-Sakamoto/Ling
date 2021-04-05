@@ -257,7 +257,7 @@ MonoBehaviour:
       m_Calls: []
   _parentNewObjectsUnderSceneContext: 0
   _contractNames:
-  - MoveInput
+  - Input
   _parentContractNames:
   - Manager
 --- !u!4 &1148612315
