@@ -16,8 +16,8 @@ namespace Ling.Scenes.Battle
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattleView : MonoBehaviour 
-    {
+	public class BattleView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion

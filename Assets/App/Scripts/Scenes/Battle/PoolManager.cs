@@ -23,8 +23,8 @@ namespace Ling.Scenes.Battle
 	/// バトル中に使用するプール管理者
 	/// エフェクトなど管理して使い回す
 	/// </summary>
-	public class PoolManager : Utility.Pool.PoolManager<PoolType, PoolManager> 
-    {
+	public class PoolManager : Utility.Pool.PoolManager<PoolType, PoolManager>
+	{
 		#region 定数, class, enum
 
 		[System.Serializable]

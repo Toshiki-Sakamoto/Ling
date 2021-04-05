@@ -13,8 +13,8 @@ namespace Ling.Scenes.Battle._Debug
 	/// <summary>
 	/// Battle Debug View
 	/// </summary>
-	public class BattleDebugView : MonoBehaviour 
-    {
+	public class BattleDebugView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		[SerializeField]

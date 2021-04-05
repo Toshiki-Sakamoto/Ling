@@ -13,15 +13,15 @@ namespace Ling.Scenes.Battle._Debug
 	/// <summary>
 	/// BattleDebugで使用するUI情報を集めた
 	/// </summary>
-	public class BattleDebugUI : MonoBehaviour 
-    {
+	public class BattleDebugUI : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		[System.Serializable]
 		public class ToggleData
 		{
 			public Toggle _toggle = default;
-			
+
 		}
 
 		#endregion
