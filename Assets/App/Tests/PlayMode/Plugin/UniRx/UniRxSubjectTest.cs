@@ -19,7 +19,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// UniRxのSubjectテスト
 	/// </summary>
 	public class UniRxSubjectTest
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -63,7 +63,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 				{
 					// イベントを発行
 					subject.OnNext(count--);
-					
+
 					// 1フレーム待機
 					yield return null;
 				}
@@ -73,9 +73,9 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			int totalCount = 0;
 
 			var observer = (IObservable<int>)(subject);
-			observer.Subscribe(count => 
+			observer.Subscribe(count =>
 				{
-					totalCount += count;	
+					totalCount += count;
 				});
 
 			yield return CountCoroutine();
@@ -94,12 +94,12 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			subject.Subscribe(num => count += num);
 			subject.Subscribe(num => count += num);
 			subject.Subscribe(num => count += num);
-			
+
 			// イベントメッセージ発行
 			subject.OnNext(1);
 			Assert.AreEqual(3, count, "３回購読されたはずなので値は3");
 
-			subject.OnNext(2);			
+			subject.OnNext(2);
 			Assert.AreEqual(9, count, "追加で2を３回購読されたはずなので値は9");
 		}
 
@@ -212,7 +212,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 		#endregion
 	}
 
-	
+
 	/// <summary>
 	/// フィルタリングオペレータ
 	/// </summary>
@@ -315,7 +315,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	{
 		public static IObservable<T> FilterOperator<T>(this IObservable<T> source, Func<T, bool> conditionalFunc)
 		{
-			return new MyFilter<T>(source, conditionalFunc);	
+			return new MyFilter<T>(source, conditionalFunc);
 		}
 	}
 }

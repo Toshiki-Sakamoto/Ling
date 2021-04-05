@@ -21,7 +21,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// SteremSourceテスト
 	/// </summary>
 	public class UniRxStreamTest
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -123,7 +123,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 		public void ReactiveCollectionTest()
 		{
 			int count = 0;
-			
+
 			var collection = new ReactiveCollection<int>();
 			collection
 				.ObserveAdd()
@@ -175,7 +175,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 					{
 						return reader.ReadToEnd();
 					}
-				}).ObserveOnMainThread()	// メッセージを別スレッドからUnityメインスレッドに切り替える
+				}).ObserveOnMainThread()    // メッセージを別スレッドからUnityメインスレッドに切り替える
 				.Subscribe(x => count++);
 
 			while (count == 0)
@@ -213,7 +213,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			IEnumerator TimerCoroutine(IObserver<int> observer)
 			{
 				int timer = 2;
-				while (timer-- >= 0) 
+				while (timer-- >= 0)
 				{
 					yield return null;
 				}
@@ -227,7 +227,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 				.Subscribe(num => count += num);
 
 			yield return new WaitUntil(() => count != 0);
-			
+
 			Assert.AreEqual(1, count, "コルーチンメソッドが呼び出されてOnNextが発行されて1になった");
 		}
 

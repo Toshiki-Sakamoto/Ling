@@ -16,8 +16,8 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// <summary>
 	/// 
 	/// </summary>
-	public class ConvertToCortouine : MonoBehaviour 
-    {
+	public class ConvertToCortouine : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -77,7 +77,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 				.ToYieldInstruction();
 
 			// FirstOrDefaultは条件を満たすとOnNextとOnCompletedを両方発行する
-			Finished = true;			
+			Finished = true;
 		}
 
 		#endregion

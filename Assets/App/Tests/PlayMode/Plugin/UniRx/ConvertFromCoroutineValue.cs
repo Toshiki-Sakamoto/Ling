@@ -14,8 +14,8 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// <summary>
 	/// 
 	/// </summary>
-	public class ConvertFromCoroutineValue : MonoBehaviour 
-    {
+	public class ConvertFromCoroutineValue : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion

@@ -23,14 +23,14 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// UniRxのメッセージ関するテスト
 	/// </summary>
 	public class UniRxMessageTest
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
 
 
 		#region public, protected 変数
-		
+
 		#endregion
 
 
@@ -60,7 +60,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			int count = 0;
 
 			var subject = new Subject<Unit>();
-			subject.Subscribe(_ =>  count++);
+			subject.Subscribe(_ => count++);
 
 			// Unit型はそれ自身は特に意味はない。通知を贈りたいときに利用
 			// イベントは飛ばしたいけどイベントの中身の値は何でも良いシチュエーションで使われる
@@ -81,14 +81,14 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			subject
 				.Select(str => int.Parse(str))
 				.Subscribe(
-					num => count += num,	// OnNext
-					ex => count = 0);		// OnError
+					num => count += num,    // OnNext
+					ex => count = 0);       // OnError
 
 			subject.OnNext("1");
 			subject.OnNext("1");
 			Assert.AreEqual(2, count, "OnNextがよばれて2になっている");
 
-			subject.OnNext("Hello");	
+			subject.OnNext("Hello");
 			Assert.AreEqual(0, count, "Parseエラーが発生し、countの値が0に戻っているはず");
 
 			subject.OnNext("1");
@@ -106,14 +106,14 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 			var subject = new Subject<string>();
 			subject
 				.Select(str => int.Parse(str))
-				.OnErrorRetry((FormatException ex) =>	// 例外の型指定でフィルタリング可能
+				.OnErrorRetry((FormatException ex) =>   // 例外の型指定でフィルタリング可能
 				{
 					// 例外が発生したため再購読
 					count += 1;
 				})
 				.Subscribe(
-					num => count += num,	// OnNext
-					ex => count += 1	// OnError
+					num => count += num,    // OnNext
+					ex => count += 1    // OnError
 				);
 
 			subject.OnNext("1");
@@ -145,7 +145,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 
 			count = 0;
 			subject.Subscribe(
-				num => count += num, 
+				num => count += num,
 				() => count += 1
 				);
 
@@ -198,7 +198,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 
 			// 6フレーム待機して例外でなきゃOK
 			int count = 6;
-			while (count-- >= 0) 
+			while (count-- >= 0)
 			{
 				yield return null;
 			}

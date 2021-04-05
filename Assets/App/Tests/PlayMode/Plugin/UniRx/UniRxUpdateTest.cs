@@ -22,7 +22,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// Updateをストリームに変換するテスト
 	/// </summary>
 	public class UniRxUpdateTest
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

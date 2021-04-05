@@ -30,7 +30,7 @@ namespace Ling.Tests.PlayMode.Plugin.ZenjectTest
 
 		#region private 変数
 
-		[Inject] private IExample _fieldInjection;	// フィールドへの注入
+		[Inject] private IExample _fieldInjection;  // フィールドへの注入
 		private IExample _methodInjection;          // メソッドへの注入	
 
 		#endregion
@@ -63,7 +63,7 @@ namespace Ling.Tests.PlayMode.Plugin.ZenjectTest
 		/// 依存関係を注入するのが推奨
 		/// </summary>
 		/// <param name="example"></param>
-		[Inject] 
+		[Inject]
 		public void InitializableManager(IExample example)
 		{
 			_methodInjection = example;

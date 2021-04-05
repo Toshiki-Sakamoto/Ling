@@ -21,7 +21,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// UniRx SelectManyテスト
 	/// </summary>
 	public class UniRxSelectManyTest
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion

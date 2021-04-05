@@ -21,7 +21,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// UniRxのMerge挙動テスト
 	/// </summary>
 	public class UniRxMergeTest
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -99,7 +99,7 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 
 			subject.OnNext(1);
 			subject.OnCompleted();
-			
+
 			yield return new WaitUntil(() => finished);
 
 			Assert.AreEqual(2, count, "MergeによってIObservabvle<IObservabvle<T>>からIObservavble<T>にマージされた");

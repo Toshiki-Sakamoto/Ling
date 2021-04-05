@@ -15,8 +15,8 @@ namespace Ling.Tests.PlayMode.Plugin.UniRx
 	/// <summary>
 	/// AddToテストするためのMonoBehaviourクラス
 	/// </summary>
-	public class MessageAddTo_Object : MonoBehaviour 
-    {
+	public class MessageAddTo_Object : MonoBehaviour
+	{
 		/// <summary>
 		/// AddToテストのためのTimerCounter
 		/// </summary>

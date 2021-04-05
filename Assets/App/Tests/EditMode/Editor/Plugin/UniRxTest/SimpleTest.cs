@@ -25,7 +25,7 @@ namespace Ling.Tests.Plugin.UniRxTest
 	/// 単純なテスト 
 	/// </summary>
 	public class SimpleTest
-    {
+	{
 		#region 定数, class, enum
 
 		#endregion
