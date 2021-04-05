@@ -15,8 +15,8 @@ namespace Ling._Debug.Builder
 	/// <summary>
 	/// デバッグ表示用のタイルデータ
 	/// </summary>
-	public class DebugTile : MonoBehaviour 
-    {
+	public class DebugTile : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
@@ -46,7 +46,7 @@ namespace Ling._Debug.Builder
 
 		#region public, protected 関数
 
-		public void SetTileData(Map.TileData tileData) 
+		public void SetTileData(Map.TileData tileData)
 		{
 			_touchPointEventTrigger.IntParam = tileData.Index;
 			TileData = tileData;

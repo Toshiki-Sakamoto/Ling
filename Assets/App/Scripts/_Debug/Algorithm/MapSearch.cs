@@ -17,8 +17,8 @@ namespace Ling._Debug.Algorithm
 	/// Map走査デバッグの設定
 	/// </summary>
 	[System.Serializable]
-	public class MapSearch : MonoBehaviour 
-    {
+	public class MapSearch : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		public enum SearchType
@@ -52,7 +52,7 @@ namespace Ling._Debug.Algorithm
 		private bool _isSearchMode;
 		private Builder.DebugTile _firstTileData;
 		private Builder.DebugTile _secondTileData;
-		private Map.TileDataMap _searchMapTarget;	// サーチ対象
+		private Map.TileDataMap _searchMapTarget;   // サーチ対象
 		private AStarScoreTileView[] _scoreTileView;
 
 		#endregion
@@ -118,7 +118,7 @@ namespace Ling._Debug.Algorithm
 			param.end = _secondTileData.Pos;
 			param.width = _searchMapTarget.Width;
 
-			param.onCanMove = (pos_) => 
+			param.onCanMove = (pos_) =>
 				{
 					var tileFlag = _searchMapTarget.GetTileFlag(pos_);
 					if (tileFlag.HasAny(TileFlag.Obstacle))
@@ -133,15 +133,15 @@ namespace Ling._Debug.Algorithm
 			param.onCanDiagonalMove = pos_ =>
 				{
 					var tileFlag = _searchMapTarget.GetTileFlag(pos_);
-					if (tileFlag.HasAny(TileFlag.Wall)) 
+					if (tileFlag.HasAny(TileFlag.Wall))
 					{
 						return false;
 					}
-					
+
 					return true;
 				};
 
-			param.onTileCostGetter = (pos_) => 
+			param.onTileCostGetter = (pos_) =>
 				{
 					// コストは常に１
 					return 1;
@@ -163,7 +163,7 @@ namespace Ling._Debug.Algorithm
 			foreach (var node in nodes)
 			{
 				var tileView = _scoreTileView[node.index];
-				tileView.SetTextColor(Color.red);			
+				tileView.SetTextColor(Color.red);
 			}
 		}
 
@@ -186,17 +186,17 @@ namespace Ling._Debug.Algorithm
 		/// </summary>
 		void Awake()
 		{
-			_toggleSearch.onValueChanged.AddListener(isOn_ => 
+			_toggleSearch.onValueChanged.AddListener(isOn_ =>
 				{
 					_isSearchMode = isOn_;
 				});
 
 
-			_eventManager.Add<Utility.EventTouchPoint>(this, 
-				ev_ => 
+			_eventManager.Add<Utility.EventTouchPoint>(this,
+				ev_ =>
 				{
 					if (ev_.gameObject == null) return;
-					
+
 					if (ev_.intParam >= 0 && ev_.intParam < _scoreTileView.Length)
 					{
 						var scoreTileView = _scoreTileView[ev_.intParam];

@@ -12,9 +12,9 @@ namespace Ling._Debug.Algorithm
 {
 	/// <summary>
 	/// AStarスコアをTileViewの上に表示する
-	/// </summary>
-	public class AStarScoreTileView : MonoBehaviour 
-    {
+	/// </summary>	
+	public class AStarScoreTileView : MonoBehaviour
+	{
 		#region 定数, class, enum
 
 		#endregion
