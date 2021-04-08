@@ -101,16 +101,30 @@ namespace Ling.Common.Editor.CustomScript
 
 			// namespace
 			var array = new List<string>(param.directoryPath.Split('/'));
-			int scriptIndex = array.LastIndexOf("Scripts");
-			if (scriptIndex > 0)
+
+			var pathFindNames = new string[] { "Scripts", "App" };
+			int scriptIndex = -1;
+
+			foreach (var pathFindName in pathFindNames)
+			{
+				scriptIndex = array.LastIndexOf(pathFindName); 
+				if (scriptIndex >= 0) break;
+			}
+	
+			if (scriptIndex >= 0)
 			{
 				array[scriptIndex] = PlayerSettings.productName;
 				array.RemoveRange(0, scriptIndex);
-
-				// ドットでつなげる
-				string pathBelowScripts = string.Join(".", array.ToArray());
-				scriptText = scriptText.Replace(Const.TemplateTag.NAMESPACE, pathBelowScripts);
 			}
+			else
+			{
+				// どれも存在しない場合先頭にProductNameを入れる
+				array.Insert(0, PlayerSettings.productName);
+			}
+			
+			// ドットでつなげる
+			string pathBelowScripts = string.Join(".", array.ToArray());
+			scriptText = scriptText.Replace(Const.TemplateTag.NAMESPACE, pathBelowScripts);
 
 			if (param.replacePairs != null)
 			{
