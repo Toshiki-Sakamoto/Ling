@@ -229,6 +229,13 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.utj.malioc.plugin": {
+      "version": "https://github.com/wotakuro/UnityMaliocPlugin.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "8f7a2b13cbd060fbb1ccdc7d575ec3b1a5481eef"
+    },
     "nuget.mono-cecil": {
       "version": "0.1.6-preview",
       "depth": 1,
