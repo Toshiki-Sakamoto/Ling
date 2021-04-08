@@ -58,4 +58,4 @@ crashlytics-build.properties
 .vscode/settings.json
 
 # カスタマイズ
-UserSettings
+UserSettings/
