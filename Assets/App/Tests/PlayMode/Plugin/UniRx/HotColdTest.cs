@@ -216,7 +216,7 @@ namespace Ling.Tests.EditMode.Editor.Plugin.UniRxTest
 				}
 
 				Debug.Log("--------------");
-				
+
 				// ファクトリメソッドから生成されたObservableシーケンスを使い回す
 				// Subscribeした時点から継続したObservableシーケンスの流れを購読する
 				{
@@ -259,6 +259,76 @@ namespace Ling.Tests.EditMode.Editor.Plugin.UniRxTest
 
 					disposable1.Dispose();
 					disposable2.Dispose();
+				}
+
+				Debug.Log("--------------");
+
+				// ConnectとSubscribeのDisposeの違いを理解する
+				// ConnectのIDsposableは 元のIObservableをSubscribeして出てきたもの。ソースとなるColdなIObservableへの購読が破棄される
+				// SubscribeのIDisposableは、そのままSubject自体のSubscribeが終了する
+				//
+				// ConnectをDisposeした後に再びConnect（再接続）する場合、ソースとなるColdなIObservableのObservableソースがColdかHotなのかで挙動が変わってくる
+				// Hotであればつないでれば通知が来るし、つないでなければ通知来ないだけ
+				// Coldであればつなぐ度に新しいObservableソースが生成されることになる
+				{
+					var observableInterval = Observable.Interval(TimeSpan.FromSeconds(0.1));
+					var connectableObservable = observableInterval.Publish();
+
+					connectableObservable.Subscribe(n => Debug.Log($"購読者1:{n}"));
+					connectableObservable.Subscribe(n => Debug.Log($"購読者2:{n}"));
+
+					// Observable.Intervalに接続する
+					var connectionDisposable = connectableObservable.Connect();
+
+					// 切断して再接続
+					await UniTask.Delay(500);
+
+					Debug.Log("再接続");
+
+					connectionDisposable.Dispose();
+
+					// 再接続しても新しいObservableシーケンスとなるため０からカウント
+					connectionDisposable = connectableObservable.Connect();
+
+					await UniTask.Delay(500);
+
+					connectionDisposable.Dispose();
+				}
+
+				Debug.Log("--------------");
+
+				{
+					// Hot化
+					var connectableInterval = Observable.Interval(TimeSpan.FromSeconds(0.1))
+						.Publish();
+
+					// この時点でSubscribe用のPublishをしても結果は変わらない（Coldのままなので）
+
+					// Observable.Interval自体をHot化（ObservableソースがHot化する）
+					connectableInterval.Connect();
+
+					// 再度Hot化のObservableソースを作成する
+					var connectableObservable = connectableInterval.Publish();
+
+					connectableObservable.Subscribe(n => Debug.Log($"購読者1:{n}"));
+					connectableObservable.Subscribe(n => Debug.Log($"購読者2:{n}"));
+
+					// Observable.IntervalをHot化したものに接続する
+					var connectionDisposable = connectableObservable.Connect();
+
+					// 切断して再接続
+					await UniTask.Delay(500);
+
+					Debug.Log("再接続");
+
+					connectionDisposable.Dispose();
+
+					// 再接続しても新しいObservableシーケンスとなるため０からカウント
+					connectionDisposable = connectableObservable.Connect();
+
+					await UniTask.Delay(500);
+
+					connectionDisposable.Dispose();
 				}
 			});
 
