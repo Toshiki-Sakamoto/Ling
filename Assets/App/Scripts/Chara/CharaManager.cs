@@ -1,4 +1,5 @@
-﻿// 
+﻿using System;
+// 
 // CharaManager.cs  
 // ProductName Ling
 //  

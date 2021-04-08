@@ -35,6 +35,8 @@ namespace Ling.Scenes.Status
 
 		[Inject] private Chara.CharaManager _charaManager = default;
 
+		private Chara.PlayerControl _player;
+
 		#endregion
 
 
@@ -50,9 +52,28 @@ namespace Ling.Scenes.Status
 		/// </summary>
 		public override void StartScene()
 		{
-			// PlayerのHPが変化したら反映させるようにする
-			var player = _charaManager.Player;
-			player.Status.HP
+			_player = _charaManager.Player;
+
+			if (!_player.IsSetuped)
+			{
+				// Playerの準備が整った時に通知を受ける
+				_player.OnSetuped
+					.Subscribe(_ => {}, onCompleted: () => Setup());
+			}
+			else
+			{
+				Setup();
+			}
+		}
+
+		#endregion
+
+
+		#region private 関数
+
+		private void Setup()
+		{
+			_player.Status.HP
 				.AsObservable()
 				.Subscribe(hp_ =>
 				{
@@ -60,13 +81,8 @@ namespace Ling.Scenes.Status
 				});
 
 			// Viewのセットアップ
-			_view.HP.Setup(player.Status.HP.Value);
+			_view.HP.Setup(_player.Status.HP.Value);
 		}
-
-		#endregion
-
-
-		#region private 関数
 
 		#endregion
 

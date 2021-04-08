@@ -127,7 +127,8 @@ namespace Ling.Scenes.Battle.Phase
 			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(2), 2);
 
 			// Player ステイタスUIを表示する
-			_sceneManager.AddScene(Common.Scene.SceneID.Status, argument: null);
+			// todo: シーンの依存関係に紐付けたい
+//			await _sceneManager.AddSceneAsync<Status.StatusScene>(Common.Scene.SceneID.Status, argument: null);
 
 
 			_isFinish = true;
