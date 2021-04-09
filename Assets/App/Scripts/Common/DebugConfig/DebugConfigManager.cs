@@ -200,7 +200,7 @@ namespace Ling.Common.DebugConfig
 		/// <summary>
 		/// スクロール更新
 		/// </summary>
-		public void ScrollItemUpdate(int index, GameObject obj)
+		public void ScrollItemUpdate(int index, GameObject obj, bool init)
 		{
 			var item = _currMenu[index];
 			item.DataUpdate(obj);

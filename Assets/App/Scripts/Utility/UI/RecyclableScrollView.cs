@@ -48,7 +48,7 @@ namespace Ling.Utility.UI
 			/// <summary>
 			/// スクロールアイテムの更新を行う
 			/// </summary>
-			void ScrollItemUpdate(int index, GameObject obj);
+			void ScrollItemUpdate(int index, GameObject obj, bool init);
 		}
 
 		/// <summary>
@@ -295,7 +295,7 @@ namespace Ling.Utility.UI
 			{
 				for (var i = 0; i < _instantateItemCount; ++i)
 				{
-					_items.Add(GetItem(i, null));
+					_items.Add(GetItem(i, null, true));
 				}
 			}
 			else
@@ -309,7 +309,7 @@ namespace Ling.Utility.UI
 
 				for (var i = 0; i < _instantateItemCount; ++i)
 				{
-					_items.Add(GetItem(/*_currentItemNo + */i, null));
+					_items.Add(GetItem(/*_currentItemNo + */i, null, true));
 				}
 			}
 
@@ -381,7 +381,7 @@ namespace Ling.Utility.UI
 			return _dataProvider.GetItemSize(Math.Max(0, Mathf.Min(index, _dataProvider.DataCount - 1)));
 		}
 
-		private ItemData GetItem(int index, ItemData recyclableItem)
+		private ItemData GetItem(int index, ItemData recyclableItem, bool init)
 		{
 			if (_dataProvider == null || index < 0 || _dataProvider.DataCount <= index)
 			{
@@ -443,7 +443,7 @@ namespace Ling.Utility.UI
 			recyclableItem.obj.SetActive(true);
 
 			// 更新を伝える
-			_dataProvider.ScrollItemUpdate(index, recyclableItem.obj);
+			_dataProvider.ScrollItemUpdate(index, recyclableItem.obj, init);
 
 			return recyclableItem;
 		}
@@ -533,7 +533,7 @@ namespace Ling.Utility.UI
 					break;
 				}
 
-				_items.Add(GetItem(_currentItemNo + _items.Count, null));
+				_items.Add(GetItem(_currentItemNo + _items.Count, null, false));
 
 			} while (true);
 
@@ -571,7 +571,7 @@ namespace Ling.Utility.UI
 
 				--_currentItemNo;
 
-				_items.Insert(0, GetItem(_currentItemNo, null));
+				_items.Insert(0, GetItem(_currentItemNo, null, false));
 
 			} while (true);
 		}
