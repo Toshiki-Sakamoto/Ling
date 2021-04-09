@@ -12,7 +12,7 @@ namespace Ling.Scenes.Menu
 	/// <summary>
 	/// Menu Scene
 	/// </summary>
-	public class MenuScene : MonoBehaviour
+	public class MenuScene : Common.Scene.Base
 	{
 		#region 定数, class, enum
 
@@ -25,6 +25,9 @@ namespace Ling.Scenes.Menu
 
 
 		#region private 変数
+
+		[SerializeField] private MenuModel _model = default;
+		[SerializeField] private MenuView _view = default;
 
 		#endregion
 
