@@ -430,6 +430,9 @@ namespace Ling.Utility.UI
 					// todo: ここは生成方法を選択できるようにしておくと良いかも
 					var newObject = _container.InstantiatePrefab(gameObj, ScrollRect.content);
 					recyclableItem = ItemData.Create(newObject, gameObj, index, _dataProvider.GetItemSize(index));
+
+					// 生成時には初期化フラグを強制的に立てる
+					init = true;
 				}
 			}
 
