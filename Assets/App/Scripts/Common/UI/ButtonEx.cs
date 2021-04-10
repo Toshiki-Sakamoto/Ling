@@ -33,6 +33,7 @@ namespace Ling.Common.UI
 		[SerializeField] private UnityEvent _pressedUpEvent = default;
 
 		private bool _isDown = false;
+		private Text _text;
 
 		#endregion
 
@@ -58,11 +59,17 @@ namespace Ling.Common.UI
 		public override void OnPointerUp(PointerEventData eventData)
 		{
 			base.OnPointerUp(eventData);
-
+#if false
 			if (!_isDown)
 			{
 
 			}
+#endif
+		}
+
+		public void SetText(string text)
+		{
+			_text.text = text;
 		}
 
 		#endregion
@@ -75,28 +82,14 @@ namespace Ling.Common.UI
 
 		#region MonoBegaviour
 
-		#endregion
-
-		#region private 関数
-
-		#endregion
-
-
-		#region MonoBegaviour
+		protected override void Awake()
+		{
+			base.Awake();
+			
+			_text = GetComponentInChildren<Text>();
+		}
 
 		#endregion
-
-
-
-		#region private 関数
-
-		#endregion
-
-
-		#region MonoBegaviour
-
-		#endregion
-
 
 		#region private 関数
 
