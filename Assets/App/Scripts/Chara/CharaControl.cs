@@ -69,6 +69,7 @@ namespace Ling.Chara
 
 		private List<Common.ProcessBase> _moveProcesses = new List<Common.ProcessBase>();
 		private List<Common.ProcessBase> _attackProcess = new List<Common.ProcessBase>();
+		private Subject<CharaControl<TModel, TView>> _onSetuped = new Subject<CharaControl<TModel, TView>>();
 
 		#endregion
 
@@ -92,6 +93,17 @@ namespace Ling.Chara
 		/// キャラクタを動かすヘルパクラス
 		/// </summary>
 		public CharaMover CharaMover => _charaMover;
+
+		/// <summary>
+		/// 設定済みの場合true
+		/// </summary>
+		public bool IsSetuped { get; private set; }
+
+
+		/// <summary>
+		/// 準備が整った時に通知が呼び出される
+		/// </summary>
+		public IObservable<CharaControl<TModel, TView>> OnSetuped => _onSetuped;
 
 
 		// ICharaController
@@ -139,6 +151,11 @@ namespace Ling.Chara
 				{
 					_view.SetCellPos(cellPosition_);
 				});
+
+			IsSetuped = true;
+
+			_onSetuped.OnNext(this);
+			_onSetuped.OnCompleted();
 		}
 
 		/// <summary>

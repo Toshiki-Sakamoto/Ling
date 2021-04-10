@@ -26,7 +26,8 @@ namespace Ling.Common.Scene
 
 		void ChangeScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
 
-		void AddScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
+		void AddSceneAsync(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
+		UniTask<TScene> AddSceneAsync<TScene>(SceneID scene, Argument argument = null, System.Action<DiContainer> bindAction = null) where TScene : Base;
 
 		UniTask QuickStartAsync(Base scene);
 	}
@@ -98,9 +99,14 @@ namespace Ling.Common.Scene
 		/// </summary>
 		/// <param name="scene"></param>
 		/// <param name="argument"></param>
-		public void AddScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null)
+		public async void AddSceneAsync(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null)
 		{
-			SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Additive, bindAction).Forget();
+			await SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Additive, bindAction);
+		}
+		public async UniTask<TScene> AddSceneAsync<TScene>(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null) where TScene : Base
+		{
+			var result = await SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Additive, bindAction);
+			return result as TScene;
 		}
 
 		/// <summary>
@@ -120,7 +126,7 @@ namespace Ling.Common.Scene
 
 		#region private 関数
 
-		private async UniTask SceneChangeInternalAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction = null)
+		private async UniTask<Base> SceneChangeInternalAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction = null)
 		{
 			_nextSceneID = sceneID;
 
@@ -177,7 +183,7 @@ namespace Ling.Common.Scene
 				_sceneData.Push(sceneData);
 			}
 
-			await SceneLoadProcessAsync(sceneID, argument, mode, bindAction);
+			return await SceneLoadProcessAsync(sceneID, argument, mode, bindAction);
 		}
 
 		/// <summary>

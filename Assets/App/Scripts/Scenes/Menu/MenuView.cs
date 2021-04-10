@@ -6,6 +6,7 @@
 // 
 
 using UnityEngine;
+using UniRx;
 
 namespace Ling.Scenes.Menu
 {
@@ -15,6 +16,11 @@ namespace Ling.Scenes.Menu
 	public class MenuView : MonoBehaviour
 	{
 		#region 定数, class, enum
+
+		public class Param
+		{
+			public string[] Titles;
+		}
 
 		#endregion
 
@@ -26,15 +32,24 @@ namespace Ling.Scenes.Menu
 
 		#region private 変数
 
+		[SerializeField] private MenuTitleScrollView _titleScroll = default;
+
 		#endregion
 
 
 		#region プロパティ
 
+		public MenuTitleScrollView TitleScroll => _titleScroll;
+
 		#endregion
 
 
 		#region public, protected 関数
+
+		public void Setup(Param param)
+		{
+			_titleScroll.Setup(param.Titles, index => {});
+		}
 
 		#endregion
 

@@ -12,7 +12,7 @@ namespace Ling.Scenes.Menu
 	/// <summary>
 	/// Menu Scene
 	/// </summary>
-	public class MenuScene : MonoBehaviour
+	public class MenuScene : Common.Scene.Base
 	{
 		#region 定数, class, enum
 
@@ -26,6 +26,9 @@ namespace Ling.Scenes.Menu
 
 		#region private 変数
 
+		[SerializeField] private MenuModel _model = default;
+		[SerializeField] private MenuView _view = default;
+
 		#endregion
 
 
@@ -35,6 +38,28 @@ namespace Ling.Scenes.Menu
 
 
 		#region public, protected 関数
+
+		/// <summary>
+		/// シーンが開始される時
+		/// </summary>
+		public override void StartScene() 
+		{
+			var menuArgument = Argument as MenuArgument;
+
+			_model.SetArgument(menuArgument);
+		}
+
+		/// <summary>
+		/// StartScene後呼び出される
+		/// </summary>
+		public override void UpdateScene() 
+		{ }
+
+		/// <summary>
+		/// シーン終了時
+		/// </summary>
+		public override void StopScene() 
+		{ }
 
 		#endregion
 
