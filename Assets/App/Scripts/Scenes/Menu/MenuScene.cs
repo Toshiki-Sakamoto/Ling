@@ -39,6 +39,28 @@ namespace Ling.Scenes.Menu
 
 		#region public, protected 関数
 
+		/// <summary>
+		/// シーンが開始される時
+		/// </summary>
+		public override void StartScene() 
+		{
+			var menuArgument = Argument as MenuArgument;
+
+			_model.SetArgument(menuArgument);
+		}
+
+		/// <summary>
+		/// StartScene後呼び出される
+		/// </summary>
+		public override void UpdateScene() 
+		{ }
+
+		/// <summary>
+		/// シーン終了時
+		/// </summary>
+		public override void StopScene() 
+		{ }
+
 		#endregion
 
 

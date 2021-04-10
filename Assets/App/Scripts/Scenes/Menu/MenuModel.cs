@@ -1,4 +1,5 @@
-﻿// 
+﻿using System;
+// 
 // MenuModel.cs  
 // ProductName Ling
 //  
@@ -31,10 +32,17 @@ namespace Ling.Scenes.Menu
 
 		#region プロパティ
 
+		public MenuDefine.Type Type { get; private set; }
+
 		#endregion
 
 
 		#region public, protected 関数
+
+		public void SetArgument(MenuArgument argument)
+		{
+			Type = argument.Type;
+		}
 
 		#endregion
 
