@@ -27,6 +27,8 @@ namespace Ling.Scenes.Menu
 
 		#region private 変数
 
+		private MenuCategoryDataFactory _categoryDataFactory = new MenuCategoryDataFactory();
+
 		#endregion
 
 
@@ -58,22 +60,13 @@ namespace Ling.Scenes.Menu
 			switch (Group)
 			{
 				case MenuDefine.Group.Menu:
-					CategoryData.Add(CreateBagCategoryData());
+					CategoryData.Add(_categoryDataFactory.Create(MenuDefine.Category.Bag));
+					CategoryData.Add(_categoryDataFactory.Create(MenuDefine.Category.Setting));
 					break;
 
 				case MenuDefine.Group.Shop:
 					break;
 			}
-		}
-
-		/// <summary>
-		/// 持ち物
-		/// </summary>
-		private MenuCategoryData CreateBagCategoryData()
-		{
-			var data = new MenuCategoryData(MenuDefine.Category.Bag);
-
-			return data;
 		}
 
 		#endregion

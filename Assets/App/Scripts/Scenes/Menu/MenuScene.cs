@@ -6,6 +6,7 @@
 // 
 
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Scenes.Menu
 {
@@ -47,6 +48,13 @@ namespace Ling.Scenes.Menu
 			var menuArgument = Argument as MenuArgument;
 
 			_model.SetArgument(menuArgument);
+
+			var viewParam = new MenuView.Param()
+				{
+					CategoryData = _model.CategoryData,
+				};
+
+			_view.Setup(viewParam);
 		}
 
 		/// <summary>
@@ -61,6 +69,17 @@ namespace Ling.Scenes.Menu
 		public override void StopScene() 
 		{ }
 
+		/// <summary>
+		/// 正規手順でシーンが実行されたのではなく
+		/// 直接起動された場合StartSceneよりも前に呼び出される
+		/// </summary>
+		public override UniTask QuickStartSceneAsync()
+		{
+			Argument = MenuArgument.CreateAtMenu();
+
+			return default(UniTask);
+		}
+
 		#endregion
 
 
@@ -70,34 +89,6 @@ namespace Ling.Scenes.Menu
 
 
 		#region MonoBegaviour
-
-		/// <summary>
-		/// 初期処理
-		/// </summary>
-		void Awake()
-		{
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestroy()
-		{
-		}
 
 		#endregion
 	}

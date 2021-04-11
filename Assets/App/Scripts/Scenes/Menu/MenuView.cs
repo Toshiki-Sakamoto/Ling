@@ -7,6 +7,8 @@
 
 using UnityEngine;
 using UniRx;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ling.Scenes.Menu
 {
@@ -19,7 +21,7 @@ namespace Ling.Scenes.Menu
 
 		public class Param
 		{
-			public string[] Titles;
+			public List<MenuCategoryData> CategoryData;
 		}
 
 		#endregion
@@ -48,7 +50,12 @@ namespace Ling.Scenes.Menu
 
 		public void Setup(Param param)
 		{
-			_titleScroll.Setup(param.Titles, index => {});
+			_titleScroll.Setup(param.CategoryData.Select(data => data.Title), 
+				index => 
+				{
+					// カテゴリを切り替える
+					Utility.Log.Print($"Selected Category {index}");
+				});
 		}
 
 		#endregion

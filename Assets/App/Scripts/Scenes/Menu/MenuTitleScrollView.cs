@@ -33,7 +33,7 @@ namespace Ling.Scenes.Menu
 
 		#region public 変数
 
-		[SerializeField] private MenuTitleScrollView _titleScrollView = default;
+		[SerializeField] private RecyclableScrollView _scrollView = default;
 		[SerializeField] private GameObject _titleObject = default;
 
 		#endregion
@@ -60,12 +60,14 @@ namespace Ling.Scenes.Menu
 
 		#region public, protected 関数
 
-		public void Setup(string[] titles, System.Action<int> onClicked)
+		public void Setup(IEnumerable<string> titles, System.Action<int> onClicked)
 		{
 			_onClicked = onClicked;
-		//	_titleData = titles.Select(title => new TitleData(title)).ToList();
+			_titleData = titles.Select(title => new TitleData { Title = title }).ToList();
 
 			_titleButtonSize = _titleObject.GetComponent<RectTransform>().sizeDelta.x;
+
+			_scrollView.Initialize(this);
 		}
 
 		/// <summary>
