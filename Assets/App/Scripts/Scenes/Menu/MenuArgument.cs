@@ -29,7 +29,7 @@ namespace Ling.Scenes.Menu
 
 		#region プロパティ
 
-		public MenuDefine.Type Type { get; private set; }
+		public MenuDefine.Group Group { get; private set; }
 
 		#endregion
 
@@ -46,7 +46,7 @@ namespace Ling.Scenes.Menu
 		/// </summary>
 		public static MenuArgument CreateAtMenu()
 		{
-			return new MenuArgument { Type = MenuDefine.Type.Menu };
+			return new MenuArgument { Group = MenuDefine.Group.Menu };
 		}
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace Ling.Scenes.Menu
 		/// </summary>
 		public static MenuArgument CreateAtShop()
 		{
-			return new MenuArgument { Type = MenuDefine.Type.Shop };
+			return new MenuArgument { Group = MenuDefine.Group.Shop };
 		}
 
 		#endregion
