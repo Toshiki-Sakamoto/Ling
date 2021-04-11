@@ -26,8 +26,9 @@ namespace Ling.Scenes.Menu
 		/// </summary>
 		public enum Category
 		{
-			Bag,	// 持ち物
-			Shop,	// ショップ:買う
+			Bag,		// 持ち物
+			Shop,		// ショップ:買う
+			Setting,	// 設定
 		}
 	}
 
@@ -38,7 +39,8 @@ namespace Ling.Scenes.Menu
 			switch (self)
 			{
 				case MenuDefine.Category.Bag: return "Bag";
-				case MenuDefine.Category.Shop: return "SHop";
+				case MenuDefine.Category.Shop: return "Shop";
+				case MenuDefine.Category.Setting: return "Setting";
 
 				default: return "None";
 			}
