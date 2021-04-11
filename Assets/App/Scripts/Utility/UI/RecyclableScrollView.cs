@@ -255,7 +255,7 @@ namespace Ling.Utility.UI
 			if (_autoInitItemInstantiate)
 			{
 				// 初期化時に何個生成できるかを自動で判別する
-				var rectSizeDelta = RectTransform.sizeDelta;
+				var rectSizeDelta = RectTransform.rect.size;
 
 				int currentItemIndex = 0;
 				float totalSize = 0;
