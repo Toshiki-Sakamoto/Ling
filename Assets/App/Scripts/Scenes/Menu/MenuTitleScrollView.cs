@@ -17,6 +17,7 @@ namespace Ling.Scenes.Menu
 	public class TitleData
 	{
 		public string Title;
+		public bool IsOn;
 		public int Index;
 	}
 
@@ -34,6 +35,7 @@ namespace Ling.Scenes.Menu
 		#region public 変数
 
 		[SerializeField] private RecyclableScrollView _scrollView = default;
+		[SerializeField] private ToggleGroup _toggleGroup = default;
 		[SerializeField] private GameObject _titleObject = default;
 
 		#endregion
@@ -43,7 +45,7 @@ namespace Ling.Scenes.Menu
 
 		private List<TitleData> _titleData = new List<TitleData>();
 		private float _titleButtonSize;
-		private System.Action<int> _onClicked;
+		private System.Action<int> _onValueChanged;
 
 		#endregion
 
@@ -60,14 +62,27 @@ namespace Ling.Scenes.Menu
 
 		#region public, protected 関数
 
-		public void Setup(IEnumerable<string> titles, System.Action<int> onClicked)
+		public void Setup(IEnumerable<string> titles, System.Action<int> onValueChanged)
 		{
-			_onClicked = onClicked;
+			_onValueChanged = onValueChanged;
 			_titleData = titles.Select(title => new TitleData { Title = title }).ToList();
 
 			_titleButtonSize = _titleObject.GetComponent<RectTransform>().sizeDelta.x;
 
 			_scrollView.Initialize(this);
+		}
+
+		public void SelectCategoryByIndex(int index)
+		{
+			foreach (var data in _titleData)
+			{
+				data.IsOn = false;
+			}
+
+			var titleData = _titleData[index];
+			titleData.IsOn = true;
+
+			_scrollView.UpdateAllItem();
 		}
 
 		/// <summary>
@@ -89,15 +104,19 @@ namespace Ling.Scenes.Menu
 		{
 			var titleData = _titleData[index];
 			titleData.Index = index;
-			
+
 			var item = obj.GetComponent<MenuTitleItem>();
 			item.SetTitleData(titleData);
 
 			if (init)
 			{
-				item.OnClicked = titleData => 
+				item.OnValueChanged = titleData => 
 					{
-						_onClicked?.Invoke(titleData.Index);
+						// onになったものを通知
+						if (titleData.IsOn)
+						{
+							_onValueChanged?.Invoke(titleData.Index);
+						}
 					};
 			}
 		}

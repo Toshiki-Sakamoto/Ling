@@ -43,6 +43,11 @@ namespace Ling.Scenes.Menu
 
 		public MenuTitleScrollView TitleScroll => _titleScroll;
 
+		/// <summary>
+		/// 選択されたIndex値
+		/// </summary>
+		public IntReactiveProperty SelectedIndex { get; } = new IntReactiveProperty();
+
 		#endregion
 
 
@@ -55,7 +60,20 @@ namespace Ling.Scenes.Menu
 				{
 					// カテゴリを切り替える
 					Utility.Log.Print($"Selected Category {index}");
+
+					SelectedIndex.Value = index;
 				});
+
+			// 1番目を選択状態にする
+			_titleScroll.SelectCategoryByIndex(0);
+		}
+
+		/// <summary>
+		/// 表示するCategoryDataを設定
+		/// </summary>
+		public void SetCategoryData(MenuCategoryData categoryData)
+		{
+
 		}
 
 		#endregion

@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 namespace Ling.Scenes.Menu
 {
@@ -55,6 +56,15 @@ namespace Ling.Scenes.Menu
 				};
 
 			_view.Setup(viewParam);
+
+			// カテゴリが変更された
+			_view.SelectedIndex
+				.Subscribe(index => 
+				{
+					_model.SetSelectedCategoryIndex(index);
+
+					_view.SetCategoryData(_model.SelectedCategoryData);
+				});
 		}
 
 		/// <summary>

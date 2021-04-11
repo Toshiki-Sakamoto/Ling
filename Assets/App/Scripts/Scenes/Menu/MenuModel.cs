@@ -38,6 +38,10 @@ namespace Ling.Scenes.Menu
 
 		public List<MenuCategoryData> CategoryData { get; private set; } = new List<MenuCategoryData>();
 
+		public int SelectedCategoryIndex { get; private set; }
+
+		public MenuCategoryData SelectedCategoryData => CategoryData[SelectedCategoryIndex];
+
 		#endregion
 
 
@@ -48,6 +52,11 @@ namespace Ling.Scenes.Menu
 			Group = argument.Group;
 
 			CreateMenuList();
+		}
+
+		public void SetSelectedCategoryIndex(int index)
+		{
+			SelectedCategoryIndex = index;
 		}
 
 		#endregion
