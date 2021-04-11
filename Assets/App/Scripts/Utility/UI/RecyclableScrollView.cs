@@ -211,8 +211,8 @@ namespace Ling.Utility.UI
 			get
 			{
 				return _direction == Direction.Vertical ?
-					RectTransform.sizeDelta.y :
-					RectTransform.sizeDelta.x;
+					RectTransform.rect.size.y :
+					RectTransform.rect.size.x;
 			}
 		}
 
