@@ -340,16 +340,7 @@ namespace Ling.Common.Scene
 			observer.OnNext(Unit.Default);
 			observer.OnCompleted();
 		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		private async UniTask CloseSceneProcessAsyncInternal()
-		{
-
-		}
-
+		
 		/// <summary>
 		/// シーンの終了処理
 		/// </summary>
