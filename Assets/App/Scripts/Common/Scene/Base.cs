@@ -75,6 +75,11 @@ namespace Ling.Common.Scene
 		public Argument Argument { get; set; }
 
 		/// <summary>
+		/// Scene遷移時に生成、管理されるシーンデータ
+		/// </summary>
+		public SceneData SceneData { get; set; }
+
+		/// <summary>
 		/// StartScene呼び出されるときにtrueになる
 		/// StopSceneでfalse
 		/// </summary>
@@ -133,7 +138,7 @@ namespace Ling.Common.Scene
 		/// シーン遷移前に呼び出される
 		/// </summary>
 		/// <returns></returns>
-		public virtual IObservable<Unit> SceneStopAsync(Argument nextArgument) =>
+		public virtual IObservable<Unit> StopSceneAsync() =>
 			Observable.Return(Unit.Default);
 
 

@@ -56,11 +56,9 @@ namespace Ling.Common.Scene
 
 		[Inject] private ZenjectSceneLoader _zenjectSceneLoader = default;
 
-		private SceneID _nextSceneID = SceneID.None;
 		private Base _currentScene = null;
 		private List<Base> _addScenes = new List<Base>();   // AddSceneインスタンス
 		private Stack<SceneData> _sceneData = new Stack<SceneData>();
-		private Stack<SceneData> _addSceneData = new Stack<SceneData>();
 
 
 		#endregion
@@ -95,6 +93,55 @@ namespace Ling.Common.Scene
 		}
 
 		/// <summary>
+		/// 指定したシーンを閉じる
+		/// </summary>
+		public void CloseScene(Base scene) =>
+			CloseSceneAsync(scene).Forget();
+
+		public async UniTask CloseSceneAsync(Base scene)
+		{
+			if (_currentScene == scene)
+			{
+				// CurrentSceneの場合、一つ前のシーンに戻る
+			}
+			else
+			{
+				_addScenes.Remove(scene);
+
+				// AddSceneの場合、自分を削除して終わる
+				await StopSceneAsyncInternal(scene);
+			}
+		}
+
+		/// <summary>
+		/// 指定したSceneDataを持つところまで戻る
+		/// </summary>
+		public async UniTask<Base> BackToSceneAsync(SceneData sceneData)
+		{
+			while (_sceneData.Count > 0)
+			{
+				var elm = _sceneData.Pop();
+				if (elm == sceneData) break;
+			}
+
+			// 空の場合見つからなかったのでデフォルトに戻す
+			return await SceneChangeInternalAsync(sceneData, LoadSceneMode.Single);
+		}
+
+		/// <summary>
+		/// Stack順にSceneIDからSceneDataを返す
+		/// </summary>
+		public SceneData FindSceneDataBySceneID(SceneID sceneID)
+		{
+			foreach (var sceneData in _sceneData)
+			{
+				if (sceneData.SceneID == sceneID) return sceneData;
+			}
+
+			return null;
+		}
+
+		/// <summary>
 		/// 現在のシーンの上に追加する
 		/// </summary>
 		/// <param name="scene"></param>
@@ -126,21 +173,27 @@ namespace Ling.Common.Scene
 
 		#region private 関数
 
+
 		private async UniTask<Base> SceneChangeInternalAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction = null)
 		{
-			_nextSceneID = sceneID;
-
 			// デフォルト生成
 			if (argument == null)
 			{
 				argument = Argument.Create();
 			}
 
-			var sceneData = new SceneData() { SceneID = sceneID, Argument = argument };
+			// 1シーン、１SceneData
+			var sceneData = new SceneData() { SceneID = sceneID, Argument = argument, BindAction = bindAction };
 
+			return await SceneChangeInternalAsync(sceneData, mode);
+		}
+
+		private async UniTask<Base> SceneChangeInternalAsync(SceneData sceneData, LoadSceneMode mode)
+		{
 			if (mode == LoadSceneMode.Additive)
 			{
-				_addSceneData.Push(sceneData);
+				// 現在のシーンに情報を乗せる
+				_currentScene?.SceneData.PushAddSceneData(sceneData);
 			}
 			else
 			{
@@ -149,33 +202,26 @@ namespace Ling.Common.Scene
 				// AddSceneすべて削除
 				foreach (var scene in _addScenes)
 				{
-					scene.IsStartScene = false;
-					scene.StopScene();
-
-					GameObject.Destroy(scene.gameObject);
+					await StopSceneAsyncInternal(scene);
 				}
 
 				_addScenes.Clear();
-				_addSceneData.Clear();
 
 				if (_currentScene != null)
 				{
-					_currentScene.IsStartScene = false;
-					_currentScene.StopScene();
-
-					await _currentScene.SceneStopAsync(argument);
-
-					GameObject.Destroy(_currentScene.gameObject);
+					await StopSceneAsyncInternal(_currentScene);
 				}
 
+				// todo: 差分のみUnloadするようにしたい
 				for (int i = 1; i < SceneManager.sceneCount; ++i)
 				{
 					var scene = SceneManager.GetSceneAt(i);
 
 					await SceneManager.UnloadSceneAsync(scene);
 				}
+
 				// StackClear
-				if (argument.IsStackClear)
+				if (sceneData.Argument.IsStackClear)
 				{
 					_sceneData.Clear();
 				}
@@ -183,7 +229,7 @@ namespace Ling.Common.Scene
 				_sceneData.Push(sceneData);
 			}
 
-			return await SceneLoadProcessAsync(sceneID, argument, mode, bindAction);
+			return await SceneLoadProcessAsync(sceneData.SceneID, sceneData.Argument, mode, sceneData.BindAction);
 		}
 
 		/// <summary>
@@ -293,6 +339,34 @@ namespace Ling.Common.Scene
 
 			observer.OnNext(Unit.Default);
 			observer.OnCompleted();
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <returns></returns>
+		private async UniTask CloseSceneProcessAsyncInternal()
+		{
+
+		}
+
+		/// <summary>
+		/// シーンの終了処理
+		/// </summary>
+		private async UniTask StopSceneAsyncInternal(Base scene)
+		{
+			// 現在のAddSceneに乗っている情報を持ち変える
+			_currentScene?.SceneData.MoveToCacheByAddSceceData();
+
+			scene.IsStartScene = false;
+
+			// 非同期処理の終了処理
+			await scene.StopSceneAsync();
+
+			// 同期処理の終了処理
+			scene.StopScene();
+
+			GameObject.Destroy(scene.gameObject);
 		}
 
 		#endregion
