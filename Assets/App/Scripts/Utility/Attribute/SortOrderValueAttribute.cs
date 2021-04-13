@@ -1,18 +1,18 @@
 ﻿//
-// SortOrderSettings.cs
+// SortOrderValueAttribute.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2021.04.13
 //
 
-using UnityEditor;
+using UnityEngine;
 
-namespace Ling.Utility.Editor.UI
+namespace Ling.Utility.Attribute
 {
 	/// <summary>
-	/// SortOrderの定数と、列挙値を結びつけるための設定を作成する
+	/// SortOrderの定数値を一覧表示するためのもの
 	/// </summary>
-	public class SortOrderSettings
+	public class SortOrderValueAttribute : PropertyAttribute
 	{
 		#region 定数, class, enum
 
