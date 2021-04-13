@@ -192,11 +192,11 @@ namespace Ling.Common.Scene
 		{
 			_currentScene = scene;
 
-			_currentScene.SceneData = new SceneData();
+			_currentScene.SceneData = new SceneData { SceneID = SceneID.Main, Argument = new Argument() };
 
 			// 依存しているシーンを呼び出す
 			// tood: 今めっちゃ仮で適当に起動してる
-			await SceneLoadProcessAsync(null, SceneID.Main, null, LoadSceneMode.Single, null, scene);
+			await SceneLoadProcessAsync(null, _currentScene.SceneData, LoadSceneMode.Single, scene);
 		}
 
 		#endregion
@@ -255,7 +255,7 @@ namespace Ling.Common.Scene
 			}
 
 			// シーン読み込み
-			var loadedScene = await SceneLoadProcessAsync(parent, sceneData.SceneID, sceneData.Argument, mode, sceneData.BindAction);
+			var loadedScene = await SceneLoadProcessAsync(parent, sceneData, mode);
 
 			// 前回のシーンを削除する
 			if (mode == LoadSceneMode.Single)
@@ -274,12 +274,12 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// シーン読み込みの一連の処理を行う
 		/// </summary>
-		private async UniTask<Base> SceneLoadProcessAsync(Base parent, SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction, Base loadedScene = null)
+		private async UniTask<Base> SceneLoadProcessAsync(Base parent, SceneData sceneData, LoadSceneMode mode, Base loadedScene = null)
 		{
 			// シーン遷移処理
 			if (loadedScene == null)
 			{
-				loadedScene = await LoadSceneAsync(parent, sceneID.GetName(), argument, mode, bindAction: bindAction);
+				loadedScene = await LoadSceneAsync(parent, sceneData, mode);
 			}
 
 			// 事前準備が終わったのでここで始める
@@ -290,7 +290,7 @@ namespace Ling.Common.Scene
 			{
 				foreach (var dependenceData in loadedScene.Dependences.Where(data => data.Timing.IsLoaded()))
 				{
-					await SceneLoadProcessAsync(loadedScene, dependenceData.SceneID, dependenceData.Argument, LoadSceneMode.Additive, bindAction /* todo */);
+					await SceneLoadProcessAsync(loadedScene, dependenceData.Data, LoadSceneMode.Additive);
 				}
 			}
 
@@ -310,10 +310,12 @@ namespace Ling.Common.Scene
 		/// シーン読み込み処理
 		/// 非同期で読み込み、完了後切り替える
 		/// </summary>
-		private IObservable<Base> LoadSceneAsync(Base parent, string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single, System.Action<DiContainer> bindAction = null, System.Action onLoaded = null)
+		private IObservable<Base> LoadSceneAsync(Base parent, SceneData sceneData, LoadSceneMode mode = LoadSceneMode.Single, System.Action onLoaded = null)
 		{
+			var sceneName = sceneData.SceneID.GetName();
+
 			return Observable.FromCoroutine<Unit>(observer_ =>
-				LoadSceneOperationAsync(_zenjectSceneLoader.LoadSceneAsync(sceneName, mode, bindAction), observer_))
+				LoadSceneOperationAsync(_zenjectSceneLoader.LoadSceneAsync(sceneName, mode, sceneData.BindAction), observer_))
 				.Select(scene_ =>
 				{
 					// LoadSceneOperationAsync内のOnNextが呼び出されたときに来る
@@ -338,7 +340,8 @@ namespace Ling.Common.Scene
 					}
 
 					/////	scene.transform.SetParent(_sceneRoot);
-					scene.Argument = argument;
+					scene.SceneData = sceneData;
+					scene.Argument = sceneData.Argument;
 
 					// 準備が整うまで非アクティブ
 					scene.gameObject.SetActive(false);

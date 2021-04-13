@@ -37,16 +37,14 @@ namespace Ling.Common.Scene
 			}
 
 			public TimingType Timing { get; set; }
-			public SceneID SceneID { get; set; }
-			public Argument Argument { get; set; }
-			public GameObject Owner { get; set; }
+			public SceneData Data { get; set; }
 
 
 			public static DependenceData CreateAtPrev(SceneID sceneID, Argument argument = null) =>
-				new DependenceData { Timing = TimingType.Prev, SceneID = sceneID, Argument = argument };
+				new DependenceData { Timing = TimingType.Prev, Data = new SceneData { SceneID = sceneID, Argument = argument } };
 
 			public static DependenceData CreateAtLoaded(SceneID sceneID, Argument argument = null) =>
-			   new DependenceData { Timing = TimingType.Loaded, SceneID = sceneID, Argument = argument };
+			   new DependenceData { Timing = TimingType.Loaded, Data = new SceneData { SceneID = sceneID, Argument = argument } };
 		}
 
 		#endregion
