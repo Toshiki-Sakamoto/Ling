@@ -39,6 +39,7 @@ namespace Ling.Common.Scene
 			public TimingType Timing { get; set; }
 			public SceneID SceneID { get; set; }
 			public Argument Argument { get; set; }
+			public GameObject Owner { get; set; }
 
 
 			public static DependenceData CreateAtPrev(SceneID sceneID, Argument argument = null) =>
@@ -96,6 +97,16 @@ namespace Ling.Common.Scene
 		/// </summary>
 		public virtual DependenceData[] Dependences => default(DependenceData[]);
 
+		/// <summary>
+		/// このシーンを親としてAddSceneされたもののシーンインスタンス
+		/// </summary>
+		public List<Base> Children { get; } = new List<Base>();
+
+		/// <summary>
+		/// AddSceneされた存在であれば親を持つ
+		/// </summary>
+		public Base Parent { get; set; }
+
 		#endregion
 
 
@@ -130,9 +141,14 @@ namespace Ling.Common.Scene
 		public virtual void UpdateScene() { }
 
 		/// <summary>
-		/// シーン終了時
+		/// シーンが停止/一時中断される時
 		/// </summary>
 		public virtual void StopScene() { }
+
+		/// <summary>
+		/// シーンが削除される直前
+		/// </summary>
+		public virtual void DestroyScene() { }
 
 		/// <summary>
 		/// シーン遷移前に呼び出される
@@ -141,6 +157,11 @@ namespace Ling.Common.Scene
 		public virtual IObservable<Unit> StopSceneAsync() =>
 			Observable.Return(Unit.Default);
 
+		/// <summary>
+		/// 自分を終了させる
+		/// </summary>
+		public void CloseScene() =>
+			_sceneManager.CloseScene(this);
 
 		/// <summary>
 		/// 指定したシーンを直接起動する場合、必要な手続きを踏んでからシーン開始させる

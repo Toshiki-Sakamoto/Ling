@@ -48,17 +48,17 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// このシーンでAddSceneされているもの
 		/// </summary>
-		public List<SceneData> ActiveAddSceneData { get; } = new List<SceneData>();
+		public List<SceneData> ActiveChildren { get; } = new List<SceneData>();
 
 		/// <summary>
 		/// ChangeSceneされる前に自分でAddSceneして作成していたデータ
 		/// </summary>
-		public List<SceneData> PrevAddSceneData { get; } = new List<SceneData>();
+		public List<SceneData> PrevChildren { get; } = new List<SceneData>();
 
 		/// <summary>
 		/// 自分がAddSceneで生成された場合の生成者(親)
 		/// </summary>
-		public SceneData ParentData { get; private set; }
+		public SceneData Parent { get; private set; }
 
 		#endregion
 
@@ -70,36 +70,36 @@ namespace Ling.Common.Scene
 
 		#region public, protected 関数
 
-		public void SetParent(SceneData parentData) =>
-			ParentData = parentData;
+		public void SetParent(SceneData parent) =>
+			Parent = parent;
 
 		/// <summary>
 		/// 自分が親としてAddSceneされる時に情報を保持する
 		/// </summary>
-		public void PushAddSceneData(SceneData addSceneData)
+		public void AddChild(SceneData addSceneData)
 		{
-			ActiveAddSceneData.Add(addSceneData);
+			ActiveChildren.Add(addSceneData);
 
 			// 親を自分とする
-			addSceneData.ParentData = this;
+			addSceneData.Parent = this;
 		}
 
-		public void RemoveAddSceneData(SceneData addSceneData)
+		public void RemoveChild(SceneData addSceneData)
 		{
-			addSceneData.ParentData = null
-			ActiveAddSceneData.Remove(addSceneData);
+			addSceneData.Parent = null;
+			ActiveChildren.Remove(addSceneData);
 		}
 
 		/// <summary>
 		/// AddSceneDataをキャッシュリストに情報を移動させる
 		/// その後AddSceneDataは削除
 		/// </summary>
-		public void MoveToCacheByAddSceceData()
+		public void MoveToCacheByChildData()
 		{
-			PrevAddSceneData.Clear();
-			PrevAddSceneData.AddRange(ActiveAddSceneData);
+			PrevChildren.Clear();
+			PrevChildren.AddRange(ActiveChildren);
 
-			ActiveAddSceneData.Clear();
+			ActiveChildren.Clear();
 		}
 
 		#endregion
