@@ -2,15 +2,8 @@
 // SortingLayer.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.07.26
+// Created by toshiki sakamoto on 2021.04.13
 //
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
 
 namespace Ling.Const
 {
