@@ -15,11 +15,11 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 
-namespace Ling.Common.Editor.CustomScript
+namespace Ling.Utility.Editor.CustomScript
 {
 	public class CreatorEditorWindow<T> : EditorWindow where T : EditorWindow
 	{
-		private const string UXMLPath = "Assets/App/Scripts/Common/Editor/CustomScript/CustomScriptCreatorView.uxml";
+		private const string UXMLPath = "Assets/App/Scripts/Utility/Editor/CustomScript/CustomScriptCreatorView.uxml";
 
 
 		// 作成する元のテンプレート名
@@ -67,7 +67,7 @@ namespace Ling.Common.Editor.CustomScript
 			if (string.IsNullOrEmpty(_authorName))
 			{
 				// 設定から取得
-				_authorName = Ling.Editor.View.DeveloperSetting.GetName();
+				_authorName = View.DeveloperSetting.GetName();
 			}
 
 			// ウィンドウ作成

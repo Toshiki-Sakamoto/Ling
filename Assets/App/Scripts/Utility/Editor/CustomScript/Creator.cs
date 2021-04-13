@@ -7,7 +7,7 @@ using UnityEditor;
 using System.IO;
 using Ling.Utility.Extensions;
 
-namespace Ling.Common.Editor.CustomScript
+namespace Ling.Utility.Editor.CustomScript
 {
 	public class Creator
 	{
@@ -65,7 +65,7 @@ namespace Ling.Common.Editor.CustomScript
 			if (string.IsNullOrEmpty(param.authorName))
 			{
 				// 設定から取得
-				param.authorName = Ling.Editor.View.DeveloperSetting.GetName();
+				param.authorName = View.DeveloperSetting.GetName();
 			}
 
 			// 日付がない場合は現在の日付
