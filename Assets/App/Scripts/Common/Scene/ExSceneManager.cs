@@ -113,14 +113,18 @@ namespace Ling.Common.Scene
 			}
 			else
 			{
+				// 自分を削除
 				await DestroySceneAsyncInternal(scene);
 
-				var parentScene = scene.Parent;
+				// 親をアクティブ状態にする
+				var parent = scene.Parent;
+				if (parent != null)
+				{
+					parent.RemoveChild(scene);
 
-				// 子供から削除
-				parentScene.Children.Remove(scene);
-
-				// アクティブ状態にする
+					parent.IsStartScene = true;
+					parent.StartScene();
+				}
 			}
 		}
 
@@ -259,6 +263,8 @@ namespace Ling.Common.Scene
 				if (prevScene != null)
 				{
 					await DestroySceneAsyncInternal(prevScene);
+
+					prevScene.Parent?.RemoveChild(prevScene);
 				}
 			}
 
