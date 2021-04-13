@@ -460,20 +460,21 @@ namespace Ling.Common.Scene
 		/// </summary>
 		void Update()
 		{
-			if (_currentScene == null) return;
+			UpdateInternal(_currentScene);
+		}
 
-			if (_currentScene.IsStartScene) return;
+		private void UpdateInternal(Base scene)
+		{
+			if (scene == null) return;
+
+			if (scene.IsStartScene)
 			{
-				_currentScene.UpdateScene();
+				scene.UpdateScene();
 			}
 
-			// AddScene
-			foreach (var scene in _addScenes)
+			foreach (var child in scene.Children)
 			{
-				if (scene.IsStartScene)
-				{
-					scene.UpdateScene();
-				}
+				UpdateInternal(child);
 			}
 		}
 
