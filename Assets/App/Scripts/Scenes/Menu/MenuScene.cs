@@ -64,7 +64,16 @@ namespace Ling.Scenes.Menu
 					_model.SetSelectedCategoryIndex(index);
 
 					_view.SetCategoryData(_model.SelectedCategoryData);
-				});
+				}).AddTo(this);
+
+			// 閉じるボタン
+			_view.CloseButton.OnClickAsObservable()
+				.Subscribe(_ => 
+				{
+					// 自分をクローズする
+					_sceneManager.CloseScene(this);
+
+				}).AddTo(this);
 		}
 
 		/// <summary>

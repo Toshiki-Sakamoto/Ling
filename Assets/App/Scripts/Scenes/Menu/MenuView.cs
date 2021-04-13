@@ -6,6 +6,7 @@
 // 
 
 using UnityEngine;
+using UnityEngine.UI;
 using UniRx;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace Ling.Scenes.Menu
 		#region private 変数
 
 		[SerializeField] private MenuTitleScrollView _titleScroll = default;
+		[SerializeField] private Button _closeButton = default;
 
 		#endregion
 
@@ -47,6 +49,11 @@ namespace Ling.Scenes.Menu
 		/// 選択されたIndex値
 		/// </summary>
 		public IntReactiveProperty SelectedIndex { get; } = new IntReactiveProperty();
+
+		/// <summary>
+		/// 閉じるボタン
+		/// </summary>
+		public Button CloseButton => _closeButton;
 
 		#endregion
 

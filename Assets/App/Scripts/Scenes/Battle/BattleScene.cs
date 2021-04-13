@@ -32,6 +32,9 @@ namespace Ling.Scenes.Battle
 			FloorSetup,
 			CharaSetup,
 
+			// Menu
+			MenuAction,
+
 			// Player
 			PlayerAction,
 			PlayerAttack,
@@ -136,6 +139,9 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.Load, new Battle.Phase.BattlePhaseLoad());
 			_phase.Add(Phase.FloorSetup, new Battle.Phase.BattlePhaseFloorSetup());
 
+			// Menu
+			_phase.Add(Phase.MenuAction, new Battle.Phase.BattlePhaseMenuAction());
+
 			// Player
 			_phase.Add(Phase.PlayerAction, new Battle.Phase.BattlePhasePlayerAction());
 			_phase.Add(Phase.PlayerAttack, new Battle.Phase.BattlePhasePlayerAttack());
@@ -171,7 +177,7 @@ namespace Ling.Scenes.Battle
 		}
 
 		/// <summary>
-		/// シーン終了時
+		/// シーンが停止/一時中断される時
 		/// </summary>
 		public override void StopScene() { }
 
@@ -179,7 +185,7 @@ namespace Ling.Scenes.Battle
 		/// シーン遷移前に呼び出される
 		/// </summary>
 		/// <returns></returns>
-		public override IObservable<Unit> SceneStopAsync(Argument nextArgument) =>
+		public override IObservable<Unit> StopSceneAsync() =>
 			Observable.Return(Unit.Default);
 
 

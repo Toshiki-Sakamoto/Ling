@@ -213,6 +213,14 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Menu"",
+                    ""type"": ""Button"",
+                    ""id"": ""d6cb82e6-625e-4b76-9335-5bb576703770"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -224,6 +232,17 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40d90a61-d467-44c6-842f-4a431d3da634"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -246,6 +265,7 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
         // Action
         m_Action = asset.FindActionMap("Action", throwIfNotFound: true);
         m_Action_Attack = m_Action.FindAction("Attack", throwIfNotFound: true);
+        m_Action_Menu = m_Action.FindAction("Menu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -403,11 +423,13 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Action;
     private IActionActions m_ActionActionsCallbackInterface;
     private readonly InputAction m_Action_Attack;
+    private readonly InputAction m_Action_Menu;
     public struct ActionActions
     {
         private @InputControls m_Wrapper;
         public ActionActions(@InputControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Attack => m_Wrapper.m_Action_Attack;
+        public InputAction @Menu => m_Wrapper.m_Action_Menu;
         public InputActionMap Get() { return m_Wrapper.m_Action; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -420,6 +442,9 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @Attack.started -= m_Wrapper.m_ActionActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_ActionActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_ActionActionsCallbackInterface.OnAttack;
+                @Menu.started -= m_Wrapper.m_ActionActionsCallbackInterface.OnMenu;
+                @Menu.performed -= m_Wrapper.m_ActionActionsCallbackInterface.OnMenu;
+                @Menu.canceled -= m_Wrapper.m_ActionActionsCallbackInterface.OnMenu;
             }
             m_Wrapper.m_ActionActionsCallbackInterface = instance;
             if (instance != null)
@@ -427,6 +452,9 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
+                @Menu.started += instance.OnMenu;
+                @Menu.performed += instance.OnMenu;
+                @Menu.canceled += instance.OnMenu;
             }
         }
     }
@@ -446,5 +474,6 @@ public partial class @InputControls : IInputActionCollection2, IDisposable
     public interface IActionActions
     {
         void OnAttack(InputAction.CallbackContext context);
+        void OnMenu(InputAction.CallbackContext context);
     }
 }

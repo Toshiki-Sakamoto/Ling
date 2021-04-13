@@ -149,7 +149,7 @@ namespace Ling.Common.Scene
 		public virtual void DestroyScene() { }
 
 		/// <summary>
-		/// シーン遷移前に呼び出される
+		/// シーン停止時に呼び出される
 		/// </summary>
 		/// <returns></returns>
 		public virtual IObservable<Unit> StopSceneAsync() =>

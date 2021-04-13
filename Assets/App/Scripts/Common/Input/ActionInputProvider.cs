@@ -47,6 +47,12 @@ namespace Ling.Common.Input
 		{
 		}
 
+
+        public void OnMenu(InputAction.CallbackContext context)
+		{
+
+		}
+
 		#endregion
 
 
