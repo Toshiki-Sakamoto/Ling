@@ -15,6 +15,7 @@ using UnityEngine.UI;
 using Zenject;
 using System.Linq;
 using Ling.Utility.Extensions;
+using Ling.Common.Scene.Extensions;
 
 namespace Ling.Common.Scene
 {
@@ -26,8 +27,13 @@ namespace Ling.Common.Scene
 
 		void ChangeScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
 
-		void AddSceneAsync(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
-		UniTask<TScene> AddSceneAsync<TScene>(SceneID scene, Argument argument = null, System.Action<DiContainer> bindAction = null) where TScene : Base;
+		void AddScene(Base parent, SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null);
+
+		void AddSceneAsync(Base parent, SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null);
+		UniTask<TScene> AddSceneAsync<TScene>(Base parent, SceneID scene, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null) where TScene : Base;
+
+		void CloseScene(Base scene);
+		UniTask CloseSceneAsync(Base scene);
 
 		UniTask QuickStartAsync(Base scene);
 	}
@@ -56,11 +62,8 @@ namespace Ling.Common.Scene
 
 		[Inject] private ZenjectSceneLoader _zenjectSceneLoader = default;
 
-		private SceneID _nextSceneID = SceneID.None;
 		private Base _currentScene = null;
-		private List<Base> _addScenes = new List<Base>();   // AddSceneインスタンス
 		private Stack<SceneData> _sceneData = new Stack<SceneData>();
-		private Stack<SceneData> _addSceneData = new Stack<SceneData>();
 
 
 		#endregion
@@ -91,21 +94,94 @@ namespace Ling.Common.Scene
 		/// <param name="arg"></param>
 		public void ChangeScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null)
 		{
-			SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Single, bindAction).Forget();
+			SceneChangeInternalAsync(_currentScene, sceneID, argument, LoadSceneMode.Single, isStopCurrentScene: true, bindAction).Forget();
+		}
+
+		/// <summary>
+		/// 指定したシーンを閉じる
+		/// </summary>
+		public void CloseScene(Base scene) =>
+			CloseSceneAsync(scene).Forget();
+
+		public async UniTask CloseSceneAsync(Base scene)
+		{
+			if (_currentScene == scene)
+			{
+				// CurrentSceneの場合、一つ前のシーンに戻る
+				var lastSceneData = _sceneData.Last();
+				await BackToSceneAsync(lastSceneData);
+			}
+			else
+			{
+				// 自分を削除
+				await DestroySceneAsyncInternal(scene);
+
+				// 親をアクティブ状態にする
+				var parent = scene.Parent;
+				if (parent != null)
+				{
+					parent.RemoveChild(scene);
+
+					parent.IsStartScene = true;
+					parent.StartScene();
+				}
+			}
+		}
+
+		/// <summary>
+		/// 指定したSceneDataを持つところまで戻る
+		/// </summary>
+		public async UniTask<Base> BackToSceneAsync(SceneID sceneID)
+		{
+			var sceneData = FindSceneDataBySceneID(sceneID);
+			if (sceneData == null)
+			{
+				Utility.Log.Error($"指定したSceneIDが見つからない {sceneID}");
+				return null;
+			}
+
+			return await BackToSceneAsync(sceneData);
+		}
+		public async UniTask<Base> BackToSceneAsync(SceneData sceneData)
+		{
+			while (_sceneData.Count > 0)
+			{
+				var elm = _sceneData.Pop();
+				if (elm == sceneData) break;
+			}
+
+			// 空の場合見つからなかったのでデフォルトに戻す
+			return await SceneChangeInternalAsync(_currentScene, sceneData, LoadSceneMode.Single, isStopCurrentScene: true);
+		}
+
+		/// <summary>
+		/// Stack順にSceneIDからSceneDataを返す
+		/// </summary>
+		public SceneData FindSceneDataBySceneID(SceneID sceneID)
+		{
+			foreach (var sceneData in _sceneData)
+			{
+				if (sceneData.SceneID == sceneID) return sceneData;
+			}
+
+			return null;
 		}
 
 		/// <summary>
 		/// 現在のシーンの上に追加する
 		/// </summary>
-		/// <param name="scene"></param>
-		/// <param name="argument"></param>
-		public async void AddSceneAsync(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null)
+		public void AddScene(Base parent, SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null)
 		{
-			await SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Additive, bindAction);
+			SceneChangeInternalAsync(parent, sceneID, argument, LoadSceneMode.Additive, isStopCurrentScene, bindAction).Forget();
 		}
-		public async UniTask<TScene> AddSceneAsync<TScene>(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null) where TScene : Base
+
+		public async void AddSceneAsync(Base parent, SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null)
 		{
-			var result = await SceneChangeInternalAsync(sceneID, argument, LoadSceneMode.Additive, bindAction);
+			await SceneChangeInternalAsync(parent, sceneID, argument, LoadSceneMode.Additive, isStopCurrentScene, bindAction);
+		}
+		public async UniTask<TScene> AddSceneAsync<TScene>(Base parent, SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null) where TScene : Base
+		{
+			var result = await SceneChangeInternalAsync(parent, sceneID, argument, LoadSceneMode.Additive, isStopCurrentScene, bindAction);
 			return result as TScene;
 		}
 
@@ -116,9 +192,11 @@ namespace Ling.Common.Scene
 		{
 			_currentScene = scene;
 
+			_currentScene.SceneData = new SceneData { SceneID = SceneID.Main, Argument = new Argument() };
+
 			// 依存しているシーンを呼び出す
 			// tood: 今めっちゃ仮で適当に起動してる
-			await SceneLoadProcessAsync(SceneID.Main, null, LoadSceneMode.Single, null, _currentScene);
+			await SceneLoadProcessAsync(null, _currentScene.SceneData, LoadSceneMode.Single, scene);
 		}
 
 		#endregion
@@ -126,56 +204,49 @@ namespace Ling.Common.Scene
 
 		#region private 関数
 
-		private async UniTask<Base> SceneChangeInternalAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction = null)
-		{
-			_nextSceneID = sceneID;
 
+		private async UniTask<Base> SceneChangeInternalAsync(Base parent, SceneID sceneID, Argument argument, LoadSceneMode mode, bool isStopCurrentScene, System.Action<DiContainer> bindAction = null)
+		{
 			// デフォルト生成
 			if (argument == null)
 			{
 				argument = Argument.Create();
 			}
 
-			var sceneData = new SceneData() { SceneID = sceneID, Argument = argument };
+			// 1シーン、１SceneData
+			var sceneData = new SceneData() { SceneID = sceneID, Argument = argument, BindAction = bindAction };
 
-			if (mode == LoadSceneMode.Additive)
+			return await SceneChangeInternalAsync(parent, sceneData, mode, isStopCurrentScene);
+		}
+
+		private async UniTask<Base> SceneChangeInternalAsync(Base parent, SceneData sceneData, LoadSceneMode mode, bool isStopCurrentScene)
+		{
+			var prevScene = _currentScene;
+
+			// 現在のシーンを止める
+			// 止めるかどうかは引数で判断する
+			if (isStopCurrentScene)
 			{
-				_addSceneData.Push(sceneData);
+				if (prevScene != null)
+				{
+					await StopSceneAsyncInternal(prevScene, needsChildren: true);
+				}
 			}
-			else
+
+			if (mode == LoadSceneMode.Single)
 			{
 				// 遷移前処理
 
-				// AddSceneすべて削除
-				foreach (var scene in _addScenes)
-				{
-					scene.IsStartScene = false;
-					scene.StopScene();
-
-					GameObject.Destroy(scene.gameObject);
-				}
-
-				_addScenes.Clear();
-				_addSceneData.Clear();
-
-				if (_currentScene != null)
-				{
-					_currentScene.IsStartScene = false;
-					_currentScene.StopScene();
-
-					await _currentScene.SceneStopAsync(argument);
-
-					GameObject.Destroy(_currentScene.gameObject);
-				}
-
+				// todo: 差分のみUnloadするようにしたい
 				for (int i = 1; i < SceneManager.sceneCount; ++i)
 				{
 					var scene = SceneManager.GetSceneAt(i);
 
 					await SceneManager.UnloadSceneAsync(scene);
 				}
+
 				// StackClear
-				if (argument.IsStackClear)
+				if (sceneData.Argument.IsStackClear)
 				{
 					_sceneData.Clear();
 				}
@@ -183,18 +254,32 @@ namespace Ling.Common.Scene
 				_sceneData.Push(sceneData);
 			}
 
-			return await SceneLoadProcessAsync(sceneID, argument, mode, bindAction);
+			// シーン読み込み
+			var loadedScene = await SceneLoadProcessAsync(parent, sceneData, mode);
+
+			// 前回のシーンを削除する
+			if (mode == LoadSceneMode.Single)
+			{
+				if (prevScene != null)
+				{
+					await DestroySceneAsyncInternal(prevScene);
+
+					prevScene.Parent?.RemoveChild(prevScene);
+				}
+			}
+
+			return loadedScene;
 		}
 
 		/// <summary>
 		/// シーン読み込みの一連の処理を行う
 		/// </summary>
-		private async UniTask<Base> SceneLoadProcessAsync(SceneID sceneID, Argument argument, LoadSceneMode mode, System.Action<DiContainer> bindAction, Base loadedScene = null)
+		private async UniTask<Base> SceneLoadProcessAsync(Base parent, SceneData sceneData, LoadSceneMode mode, Base loadedScene = null)
 		{
 			// シーン遷移処理
 			if (loadedScene == null)
 			{
-				loadedScene = await LoadSceneAsync(sceneID.GetName(), argument, mode, bindAction: bindAction);
+				loadedScene = await LoadSceneAsync(parent, sceneData, mode);
 			}
 
 			// 事前準備が終わったのでここで始める
@@ -205,7 +290,7 @@ namespace Ling.Common.Scene
 			{
 				foreach (var dependenceData in loadedScene.Dependences.Where(data => data.Timing.IsLoaded()))
 				{
-					await SceneLoadProcessAsync(dependenceData.SceneID, dependenceData.Argument, LoadSceneMode.Additive, bindAction /* todo */);
+					await SceneLoadProcessAsync(loadedScene, dependenceData.Data, LoadSceneMode.Additive);
 				}
 			}
 
@@ -225,10 +310,12 @@ namespace Ling.Common.Scene
 		/// シーン読み込み処理
 		/// 非同期で読み込み、完了後切り替える
 		/// </summary>
-		private IObservable<Base> LoadSceneAsync(string sceneName, Argument argument, LoadSceneMode mode = LoadSceneMode.Single, System.Action<DiContainer> bindAction = null, System.Action onLoaded = null)
+		private IObservable<Base> LoadSceneAsync(Base parent, SceneData sceneData, LoadSceneMode mode = LoadSceneMode.Single, System.Action onLoaded = null)
 		{
+			var sceneName = sceneData.SceneID.GetName();
+
 			return Observable.FromCoroutine<Unit>(observer_ =>
-				LoadSceneOperationAsync(_zenjectSceneLoader.LoadSceneAsync(sceneName, mode, bindAction), observer_))
+				LoadSceneOperationAsync(_zenjectSceneLoader.LoadSceneAsync(sceneName, mode, sceneData.BindAction), observer_))
 				.Select(scene_ =>
 				{
 					// LoadSceneOperationAsync内のOnNextが呼び出されたときに来る
@@ -253,7 +340,8 @@ namespace Ling.Common.Scene
 					}
 
 					/////	scene.transform.SetParent(_sceneRoot);
-					scene.Argument = argument;
+					scene.SceneData = sceneData;
+					scene.Argument = sceneData.Argument;
 
 					// 準備が整うまで非アクティブ
 					scene.gameObject.SetActive(false);
@@ -273,7 +361,8 @@ namespace Ling.Common.Scene
 							switch (mode)
 							{
 								case LoadSceneMode.Additive:
-									_addScenes.Add(scene_);
+									// 親に関連付ける
+									parent.AddChild(scene_);
 									break;
 
 								// AddSceneの場合は現在のシーンインスタンスとはしない　
@@ -293,6 +382,55 @@ namespace Ling.Common.Scene
 
 			observer.OnNext(Unit.Default);
 			observer.OnCompleted();
+		}
+
+		/// <summary>
+		/// シーンが一時中断/停止される時
+		/// </summary>
+		private async UniTask StopSceneAsyncInternal(Base scene, bool needsChildren)
+		{
+			if (scene.IsStartScene)
+			{
+				scene.IsStartScene = false;
+
+				// 同期処理の終了処理
+				scene.StopScene();
+
+				// 非同期処理の終了処理
+				await scene.StopSceneAsync();
+			}
+
+			if (needsChildren)
+			{
+				foreach (var child in scene.Children)
+				{
+					await StopSceneAsyncInternal(child, needsChildren);
+				}
+			}
+		}
+
+		/// <summary>
+		/// シーンの終了処理
+		/// </summary>
+		private async UniTask DestroySceneAsyncInternal(Base scene)
+		{
+			// まずは自分の上に乗っているシーンを削除する
+			foreach (var addScene in scene.Children)
+			{
+				await DestroySceneAsyncInternal(addScene);
+			}
+
+			scene.Children.Clear();
+
+			await StopSceneAsyncInternal(scene, needsChildren: true);
+
+			// 現在のAddSceneに乗っている情報を持ち変える
+			_currentScene?.SceneData.MoveToCacheByChildData();
+
+			// 削除直前
+			scene.DestroyScene();
+
+			GameObject.Destroy(scene.gameObject);
 		}
 
 		#endregion
@@ -331,20 +469,21 @@ namespace Ling.Common.Scene
 		/// </summary>
 		void Update()
 		{
-			if (_currentScene == null) return;
+			UpdateInternal(_currentScene);
+		}
 
-			if (_currentScene.IsStartScene) return;
+		private void UpdateInternal(Base scene)
+		{
+			if (scene == null) return;
+
+			if (scene.IsStartScene)
 			{
-				_currentScene.UpdateScene();
+				scene.UpdateScene();
 			}
 
-			// AddScene
-			foreach (var scene in _addScenes)
+			foreach (var child in scene.Children)
 			{
-				if (scene.IsStartScene)
-				{
-					scene.UpdateScene();
-				}
+				UpdateInternal(child);
 			}
 		}
 

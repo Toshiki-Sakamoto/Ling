@@ -41,7 +41,7 @@ namespace Ling.Scenes.Menu
 		/// <summary>
 		/// 押された時
 		/// </summary>
-		public System.Action<TitleData> OnClicked { get; set; }
+		public System.Action<TitleData> OnValueChanged { get; set; }
 
 		#endregion
 
@@ -51,6 +51,7 @@ namespace Ling.Scenes.Menu
 		public void SetTitleData(TitleData titleData)
 		{
 			TitleData = titleData;
+			_toggle.isOn = titleData.IsOn;
 		}
 
 		#endregion
@@ -72,9 +73,11 @@ namespace Ling.Scenes.Menu
 			_toggle.OnValueChangedAsObservable()
 				.Subscribe(isOn => 
 				{
-					if (!isOn) return;
+					if (TitleData == null) return;
+					
+					TitleData.IsOn = isOn;
 
-					OnClicked?.Invoke(TitleData);
+					OnValueChanged?.Invoke(TitleData);
 
 				}).AddTo(this);
 		}

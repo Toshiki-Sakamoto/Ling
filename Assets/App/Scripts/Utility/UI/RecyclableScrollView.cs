@@ -211,8 +211,8 @@ namespace Ling.Utility.UI
 			get
 			{
 				return _direction == Direction.Vertical ?
-					RectTransform.sizeDelta.y :
-					RectTransform.sizeDelta.x;
+					RectTransform.rect.size.y :
+					RectTransform.rect.size.x;
 			}
 		}
 
@@ -255,7 +255,7 @@ namespace Ling.Utility.UI
 			if (_autoInitItemInstantiate)
 			{
 				// 初期化時に何個生成できるかを自動で判別する
-				var rectSizeDelta = RectTransform.sizeDelta;
+				var rectSizeDelta = RectTransform.rect.size;
 
 				int currentItemIndex = 0;
 				float totalSize = 0;
@@ -489,6 +489,17 @@ namespace Ling.Utility.UI
 			caches.Add(itemData);
 		}
 
+		/// <summary>
+		/// 現在見えているアイテム全て更新をかける
+		/// </summary>
+		public void UpdateAllItem()
+		{
+			for (int i = 0, size = _items.Count; i < size; ++i)
+			{
+				var item = _items[i];
+				_dataProvider.ScrollItemUpdate(_currentItemNo + i, item.obj, init: false);
+			}
+		}
 
 
 		#endregion
@@ -496,13 +507,15 @@ namespace Ling.Utility.UI
 		protected void Update()
 		{
 			if (_dataProvider == null) return;
-			if (_items.Count <= 1) return;
 
 			// Yは下がプラスで上がマイナスになる
 
 			// 下にスクロール : AnchordPositionはマイナスになっていく
 			do
 			{
+				// 1以下なら削除はしない
+				if (_items.Count <= 1) break;
+
 				// 一番上のアイテムが見えなくなってれば削除
 				var item = _items[0];
 				var size = item.size;
@@ -522,6 +535,10 @@ namespace Ling.Utility.UI
 
 			do
 			{
+
+				// 1以下なら削除はしない
+				if (_items.Count <= 1) break;
+
 				// 一番下にアイテムが追加できるならば追加する
 				// 追加できるものがなければ終わり
 				if (_currentItemNo + _items.Count >= _dataProvider.DataCount)

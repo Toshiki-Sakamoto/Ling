@@ -1,5 +1,4 @@
-﻿using System;
-// 
+﻿// 
 // MenuModel.cs  
 // ProductName Ling
 //  
@@ -7,7 +6,8 @@
 // 
 
 using UnityEngine;
-
+using System;
+using System.Collections.Generic;
 namespace Ling.Scenes.Menu
 {
 	/// <summary>
@@ -27,12 +27,20 @@ namespace Ling.Scenes.Menu
 
 		#region private 変数
 
+		private MenuCategoryDataFactory _categoryDataFactory = new MenuCategoryDataFactory();
+
 		#endregion
 
 
 		#region プロパティ
 
-		public MenuDefine.Type Type { get; private set; }
+		public MenuDefine.Group Group { get; private set; }
+
+		public List<MenuCategoryData> CategoryData { get; private set; } = new List<MenuCategoryData>();
+
+		public int SelectedCategoryIndex { get; private set; }
+
+		public MenuCategoryData SelectedCategoryData => CategoryData[SelectedCategoryIndex];
 
 		#endregion
 
@@ -41,13 +49,34 @@ namespace Ling.Scenes.Menu
 
 		public void SetArgument(MenuArgument argument)
 		{
-			Type = argument.Type;
+			Group = argument.Group;
+
+			CreateMenuList();
+		}
+
+		public void SetSelectedCategoryIndex(int index)
+		{
+			SelectedCategoryIndex = index;
 		}
 
 		#endregion
 
 
 		#region private 関数
+
+		private void CreateMenuList()
+		{
+			switch (Group)
+			{
+				case MenuDefine.Group.Menu:
+					CategoryData.Add(_categoryDataFactory.Create(MenuDefine.Category.Bag));
+					CategoryData.Add(_categoryDataFactory.Create(MenuDefine.Category.Setting));
+					break;
+
+				case MenuDefine.Group.Shop:
+					break;
+			}
+		}
 
 		#endregion
 

@@ -37,15 +37,14 @@ namespace Ling.Common.Scene
 			}
 
 			public TimingType Timing { get; set; }
-			public SceneID SceneID { get; set; }
-			public Argument Argument { get; set; }
+			public SceneData Data { get; set; }
 
 
 			public static DependenceData CreateAtPrev(SceneID sceneID, Argument argument = null) =>
-				new DependenceData { Timing = TimingType.Prev, SceneID = sceneID, Argument = argument };
+				new DependenceData { Timing = TimingType.Prev, Data = new SceneData { SceneID = sceneID, Argument = argument } };
 
 			public static DependenceData CreateAtLoaded(SceneID sceneID, Argument argument = null) =>
-			   new DependenceData { Timing = TimingType.Loaded, SceneID = sceneID, Argument = argument };
+			   new DependenceData { Timing = TimingType.Loaded, Data = new SceneData { SceneID = sceneID, Argument = argument } };
 		}
 
 		#endregion
@@ -75,6 +74,11 @@ namespace Ling.Common.Scene
 		public Argument Argument { get; set; }
 
 		/// <summary>
+		/// Scene遷移時に生成、管理されるシーンデータ
+		/// </summary>
+		public SceneData SceneData { get; set; }
+
+		/// <summary>
 		/// StartScene呼び出されるときにtrueになる
 		/// StopSceneでfalse
 		/// </summary>
@@ -90,6 +94,16 @@ namespace Ling.Common.Scene
 		/// 自シーン読み込み後になければ読み込みを行う
 		/// </summary>
 		public virtual DependenceData[] Dependences => default(DependenceData[]);
+
+		/// <summary>
+		/// このシーンを親としてAddSceneされたもののシーンインスタンス
+		/// </summary>
+		public List<Base> Children { get; } = new List<Base>();
+
+		/// <summary>
+		/// AddSceneされた存在であれば親を持つ
+		/// </summary>
+		public Base Parent { get; set; }
 
 		#endregion
 
@@ -125,17 +139,27 @@ namespace Ling.Common.Scene
 		public virtual void UpdateScene() { }
 
 		/// <summary>
-		/// シーン終了時
+		/// シーンが停止/一時中断される時
 		/// </summary>
 		public virtual void StopScene() { }
 
 		/// <summary>
-		/// シーン遷移前に呼び出される
+		/// シーンが削除される直前
+		/// </summary>
+		public virtual void DestroyScene() { }
+
+		/// <summary>
+		/// シーン停止時に呼び出される
 		/// </summary>
 		/// <returns></returns>
-		public virtual IObservable<Unit> SceneStopAsync(Argument nextArgument) =>
+		public virtual IObservable<Unit> StopSceneAsync() =>
 			Observable.Return(Unit.Default);
 
+		/// <summary>
+		/// 自分を終了させる
+		/// </summary>
+		public void CloseScene() =>
+			_sceneManager.CloseScene(this);
 
 		/// <summary>
 		/// 指定したシーンを直接起動する場合、必要な手続きを踏んでからシーン開始させる
