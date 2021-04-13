@@ -7,7 +7,6 @@
 
 using UnityEngine;
 using System.Collections.Generic;
-using Ling.Utility.Attribute;
 
 namespace Ling.Utility.UI
 {

@@ -7,6 +7,9 @@
 
 using UnityEngine;
 using Ling.Utility.Attribute;
+using System;
+using UniRx;
+using Sirenix.OdinInspector;
 
 namespace Ling.Utility.UI
 {
@@ -30,13 +33,32 @@ namespace Ling.Utility.UI
 
 		private static SortOrderSettings sortOrderSettings = default;
 
-		[SerializeField, SortOrderValueAttribute]
+		[SerializeField, SortOrderValueAttribute, OnValueChanged(nameof(OnSortOrderNameChanged))]
 		private string _sortOrderName = default;
+
+		[ShowInInspector, ReadOnly] private int _value = default;
 
 		#endregion
 
 
 		#region プロパティ
+
+		public static SortOrderSettings Settings
+		{
+			get 
+			{
+				if (sortOrderSettings != null) return sortOrderSettings;
+
+				sortOrderSettings = SortOrderSettings.Load();
+				if (sortOrderSettings == null)
+				{
+					Utility.Log.Error("SortOrderの設定ファイルが存在しない");
+					return null;
+				}
+
+				return sortOrderSettings;
+			}
+		}
 
 		#endregion
 
@@ -48,6 +70,23 @@ namespace Ling.Utility.UI
 
 		#region private 関数
 
+		private void OnSortOrderNameChanged()
+		{
+			Apply();
+		}
+
+		private void Apply()
+		{
+			if (Settings == null) return;
+
+			// Canvasを取得
+			var canvas = GetComponent<Canvas>();
+
+			// 値を検索する
+			_value = Settings.Find(_sortOrderName);
+			canvas.sortingOrder = _value;
+		}
+
 		#endregion
 
 
@@ -58,23 +97,7 @@ namespace Ling.Utility.UI
 		/// </summary>
 		void Awake()
 		{
-			// 設定がない時生成する
-			if (sortOrderSettings == null)
-			{
-				sortOrderSettings = SortOrderSettings.Load();
-				if (sortOrderSettings == null)
-				{
-					Utility.Log.Error("SortOrderの設定ファイルが存在しない");
-					return;
-				}
-			}
-
-			// Canvasを取得
-			var canvas = GetComponent<Canvas>();
-
-			// 値を検索する
-			var value = sortOrderSettings.Find(_sortOrderName);
-			canvas.sortingOrder = value;
+			Apply();
 		}
 
 		#endregion
