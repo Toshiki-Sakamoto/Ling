@@ -14,7 +14,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ling.Common.Editor.DefineCreator
+namespace Ling.Utility.Editor.DefineCreator
 {
 	/// <summary>
 	/// DefineCreator内の設定

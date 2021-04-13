@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Ling.Common.Editor.CustomScript
+namespace Ling.Utility.Editor.CustomScript
 {
 	public static class Const
 	{

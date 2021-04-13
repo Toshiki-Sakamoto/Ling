@@ -4,7 +4,7 @@ using UnityEngine;
 
 using UnityEditor;
 
-namespace Ling.Common.Editor.CustomScript
+namespace Ling.Utility.Editor.CustomScript
 {
 	public class SceneCreator : CreatorEditorWindow<SceneCreator>
 	{

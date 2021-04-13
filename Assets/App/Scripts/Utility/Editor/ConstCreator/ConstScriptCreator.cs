@@ -16,7 +16,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Common.Editor.DefineCreator
+namespace Ling.Utility.Editor.DefineCreator
 {
 	/// <summary>
 	/// 定数スクリプトファイルを作成するEditor機能
