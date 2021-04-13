@@ -19,7 +19,7 @@ namespace Ling.Utility.Editor.Attribute
 	/// SortOrderValueAttributeの表示担当
 	/// ドロップダウンで切り替えられるようにする
 	/// </summary>
-	[CustomPropertyDrawer(typeof(SortingLayerAttribute))]
+	[CustomPropertyDrawer(typeof(SortOrderValueAttribute))]
 	public class SortOrderValueAttributeDrawer : PropertyDrawer 
 	{
 		#region 定数, class, enum

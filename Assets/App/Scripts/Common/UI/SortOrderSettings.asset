@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 7951923224c36481b8fdbcd7421599ae, type: 3}
   m_Name: SortOrderSettings
-  m_EditorClassIdentifier: Utility:Ling.Utility.UI:SortOrderSettings
+  m_EditorClassIdentifier: 
   _data:
   - _name: Menu
     _value: 1000
