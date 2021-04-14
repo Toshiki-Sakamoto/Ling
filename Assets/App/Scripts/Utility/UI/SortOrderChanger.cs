@@ -97,6 +97,12 @@ namespace Ling.Utility.UI
 		{
 			EditorGUIUtility.PingObject(Settings);
 		}
+
+		[Button("設定ファイルリロード")]
+		private void OnClickReloadSettings()
+		{
+			sortOrderSettings = null;
+		}
 #endif			
 
 		#endregion

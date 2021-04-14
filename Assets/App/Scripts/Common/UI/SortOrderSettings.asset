@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: SortOrderSettings
   m_EditorClassIdentifier: 
   _data:
-  - _name: Menu
-    _value: 1000
+  - _name: None
+    _value: 0
   - _name: Status
     _value: 500
+  - _name: Menu
+    _value: 1000
+  - _name: Navigation
+    _value: 2000
