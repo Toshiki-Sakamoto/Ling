@@ -11,6 +11,10 @@ using System;
 using UniRx;
 using Sirenix.OdinInspector;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Ling.Utility.UI
 {
 	/// <summary>
@@ -86,6 +90,14 @@ namespace Ling.Utility.UI
 			_value = Settings.Find(_sortOrderName);
 			canvas.sortingOrder = _value;
 		}
+
+#if UNITY_EDITOR
+		[Button("設定ファイル選択")]
+		private void OnClickOpenSettings()
+		{
+			EditorGUIUtility.PingObject(Settings);
+		}
+#endif			
 
 		#endregion
 
