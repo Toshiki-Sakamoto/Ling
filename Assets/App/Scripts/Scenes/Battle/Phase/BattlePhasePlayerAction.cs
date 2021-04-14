@@ -92,7 +92,7 @@ namespace Ling.Scenes.Battle.Phase
 //			_inputActionDict.Add(action.Attack, () => Attack());
 
 			// メニューを開く
-			_inputActionDict.Add(action.Menu, () => Menu());
+			_inputActionDict.Add(action.Menu, () => OnOpenMenu());
 
 			KeyCommandProcess();
 		}
@@ -179,7 +179,7 @@ namespace Ling.Scenes.Battle.Phase
 		/// <summary>
 		/// メニューを開く
 		/// </summary>
-		private bool Menu()
+		private bool OnOpenMenu()
 		{
 			Change(BattleScene.Phase.MenuAction);
 
