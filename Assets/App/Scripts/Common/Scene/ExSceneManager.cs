@@ -58,6 +58,8 @@ namespace Ling.Common.Scene
 
 		#region private 変数
 
+		private static UnityEngine.SceneManagement.Scene loadedScene;
+
 		[SerializeField] private Transform _sceneRoot;  // シーンインスタンスが配置されるルート
 
 		[Inject] private ZenjectSceneLoader _zenjectSceneLoader = default;
@@ -319,7 +321,7 @@ namespace Ling.Common.Scene
 				.Select(scene_ =>
 				{
 					// LoadSceneOperationAsync内のOnNextが呼び出されたときに来る
-					var activeSceneInstance = SceneManager.GetSceneByName(sceneName);
+					var activeSceneInstance = loadedScene;
 					var scene = default(Base);
 
 					// 読み込んだシーンからシーンクラスのインスタンスを取得する
@@ -338,6 +340,9 @@ namespace Ling.Common.Scene
 
 						return null;
 					}
+
+					// シーンにUnityシーン情報をもたせる
+					scene.Scene = activeSceneInstance;
 
 					/////	scene.transform.SetParent(_sceneRoot);
 					scene.SceneData = sceneData;
@@ -430,7 +435,8 @@ namespace Ling.Common.Scene
 			// 削除直前
 			scene.DestroyScene();
 
-			GameObject.Destroy(scene.gameObject);
+			// シーン破棄
+			await SceneManager.UnloadSceneAsync(scene.Scene);
 		}
 
 		#endregion
@@ -455,6 +461,12 @@ namespace Ling.Common.Scene
 			{
 				_sceneRoot = transform;
 			}
+
+			// シーン読み込み完了時
+			SceneManager.sceneLoaded += (scene, loadMode) => 
+				{
+					loadedScene = scene;
+				};
 		}
 
 		/// <summary>

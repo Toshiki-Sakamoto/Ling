@@ -59,6 +59,7 @@ namespace Ling.Utility.UI
 
 		public static SortOrderSettings Load()
 		{
+			ResourcesHelper.Load<SortOrderSettings>("UI/SortOrderSettings");
 			var instance = Utility.Editor.AssetHelper.LoadAsset<SortOrderSettings>();
 			if (instance == null)
 			{
@@ -68,6 +69,20 @@ namespace Ling.Utility.UI
 
 			return instance;
 		}
+
+#if UNITY_EDITOR
+		public static SortOrderSettings LoadAtEditor()
+		{
+			var instance = Utility.Editor.AssetHelper.LoadAsset<SortOrderSettings>();
+			if (instance == null)
+			{
+				Utility.Log.Error("指定された保存先にScriptableObjectがありません");
+				return null;
+			}
+
+			return instance;
+		}
+#endif
 
 		public int Find(string name)
 		{
