@@ -12,7 +12,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
     [StructLayout(LayoutKind.Auto)]
     public struct AsyncUniTaskVoidMethodBuilder
     {
-        internal IStateMachineRunner runner;
+        IStateMachineRunner runner;
 
         // 1. Static Create method.
         [DebuggerHidden]
@@ -41,7 +41,12 @@ namespace Cysharp.Threading.Tasks.CompilerServices
             // runner is finished, return first.
             if (runner != null)
             {
+#if ENABLE_IL2CPP
+                // workaround for IL2CPP bug.
+                PlayerLoopHelper.AddContinuation(PlayerLoopTiming.LastPostLateUpdate, runner.ReturnAction);
+#else
                 runner.Return();
+#endif
                 runner = null;
             }
 
@@ -56,7 +61,12 @@ namespace Cysharp.Threading.Tasks.CompilerServices
             // runner is finished, return.
             if (runner != null)
             {
+#if ENABLE_IL2CPP
+                // workaround for IL2CPP bug.
+                PlayerLoopHelper.AddContinuation(PlayerLoopTiming.LastPostLateUpdate, runner.ReturnAction);
+#else
                 runner.Return();
+#endif
                 runner = null;
             }
         }
@@ -70,7 +80,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
         {
             if (runner == null)
             {
-                AsyncUniTaskVoid<TStateMachine>.SetStateMachine(ref this, ref stateMachine);
+                AsyncUniTaskVoid<TStateMachine>.SetStateMachine(ref stateMachine, ref runner);
             }
 
             awaiter.OnCompleted(runner.MoveNext);
@@ -86,7 +96,7 @@ namespace Cysharp.Threading.Tasks.CompilerServices
         {
             if (runner == null)
             {
-                AsyncUniTaskVoid<TStateMachine>.SetStateMachine(ref this, ref stateMachine);
+                AsyncUniTaskVoid<TStateMachine>.SetStateMachine(ref stateMachine, ref runner);
             }
 
             awaiter.UnsafeOnCompleted(runner.MoveNext);

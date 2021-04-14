@@ -9,6 +9,56 @@ namespace Cysharp.Threading.Tasks
     public static class CancellationTokenExtensions
     {
         static readonly Action<object> cancellationTokenCallback = Callback;
+        static readonly Action<object> disposeCallback = DisposeCallback;
+
+        public static CancellationToken ToCancellationToken(this UniTask task)
+        {
+            var cts = new CancellationTokenSource();
+            ToCancellationTokenCore(task, cts).Forget();
+            return cts.Token;
+        }
+
+        public static CancellationToken ToCancellationToken(this UniTask task, CancellationToken linkToken)
+        {
+            if (linkToken.IsCancellationRequested)
+            {
+                return linkToken;
+            }
+
+            if (!linkToken.CanBeCanceled)
+            {
+                return ToCancellationToken(task);
+            }
+
+            var cts = CancellationTokenSource.CreateLinkedTokenSource(linkToken);
+            ToCancellationTokenCore(task, cts).Forget();
+
+            return cts.Token;
+        }
+
+        public static CancellationToken ToCancellationToken<T>(this UniTask<T> task)
+        {
+            return ToCancellationToken(task.AsUniTask());
+        }
+
+        public static CancellationToken ToCancellationToken<T>(this UniTask<T> task, CancellationToken linkToken)
+        {
+            return ToCancellationToken(task.AsUniTask(), linkToken);
+        }
+
+        static async UniTaskVoid ToCancellationTokenCore(UniTask task, CancellationTokenSource cts)
+        {
+            try
+            {
+                await task;
+            }
+            catch (Exception ex)
+            {
+                UniTaskScheduler.PublishUnobservedTaskException(ex);
+            }
+            cts.Cancel();
+            cts.Dispose();
+        }
 
         public static (UniTask, CancellationTokenRegistration) ToUniTask(this CancellationToken cancellationToken)
         {
@@ -74,6 +124,17 @@ namespace Cysharp.Threading.Tasks
                     ExecutionContext.RestoreFlow();
                 }
             }
+        }
+
+        public static CancellationTokenRegistration AddTo(this IDisposable disposable, CancellationToken cancellationToken)
+        {
+            return cancellationToken.RegisterWithoutCaptureExecutionContext(disposeCallback, disposable);
+        }
+
+        static void DisposeCallback(object state)
+        {
+            var d = (IDisposable)state;
+            d.Dispose();
         }
     }
 

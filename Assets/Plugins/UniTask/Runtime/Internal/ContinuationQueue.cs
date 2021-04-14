@@ -9,10 +9,10 @@ namespace Cysharp.Threading.Tasks.Internal
     {
         const int MaxArrayLength = 0X7FEFFFFF;
         const int InitialSize = 16;
-        
+
         readonly PlayerLoopTiming timing;
 
-        SpinLock gate = new SpinLock();
+        SpinLock gate = new SpinLock(false);
         bool dequing = false;
 
         int actionListCount = 0;
@@ -70,13 +70,17 @@ namespace Cysharp.Threading.Tasks.Internal
             }
         }
 
-        public void Clear()
+        public int Clear()
         {
+            var rest = actionListCount + waitingListCount;
+
             actionListCount = 0;
             actionList = new Action[InitialSize];
 
             waitingListCount = 0;
             waitingList = new Action[InitialSize];
+
+            return rest;
         }
 
         // delegate entrypoint.
@@ -128,6 +132,14 @@ namespace Cysharp.Threading.Tasks.Internal
                 case PlayerLoopTiming.LastPostLateUpdate:
                     LastPostLateUpdate();
                     break;
+#if UNITY_2020_2_OR_NEWER
+                case PlayerLoopTiming.TimeUpdate:
+                    TimeUpdate();
+                    break;
+                case PlayerLoopTiming.LastTimeUpdate:
+                    LastTimeUpdate();
+                    break;
+#endif
                 default:
                     break;
             }
@@ -150,6 +162,10 @@ namespace Cysharp.Threading.Tasks.Internal
         void LastPreLateUpdate() => RunCore();
         void PostLateUpdate() => RunCore();
         void LastPostLateUpdate() => RunCore();
+#if UNITY_2020_2_OR_NEWER
+        void TimeUpdate() => RunCore();
+        void LastTimeUpdate() => RunCore();
+#endif
 
         [System.Diagnostics.DebuggerHidden]
         void RunCore()
@@ -170,10 +186,17 @@ namespace Cysharp.Threading.Tasks.Internal
 
             for (int i = 0; i < actionListCount; i++)
             {
+
                 var action = actionList[i];
                 actionList[i] = null;
-
-                action();
+                try
+                {
+                    action();
+                }
+                catch (Exception ex)
+                {
+                    UnityEngine.Debug.LogException(ex);
+                }
             }
 
             {

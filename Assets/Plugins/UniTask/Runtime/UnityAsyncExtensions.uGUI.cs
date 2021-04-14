@@ -1,5 +1,5 @@
 ﻿#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-
+#if !UNITY_2019_1_OR_NEWER || UNITASK_UGUI_SUPPORT
 using System;
 using System.Threading;
 using UnityEngine;
@@ -296,6 +296,58 @@ namespace Cysharp.Threading.Tasks
         UniTask<T> OnEndEditAsync();
     }
 
+    // for TMP_PRO
+
+    public interface IAsyncEndTextSelectionEventHandler<T> : IDisposable
+    {
+        UniTask<T> OnEndTextSelectionAsync();
+    }
+
+    public interface IAsyncTextSelectionEventHandler<T> : IDisposable
+    {
+        UniTask<T> OnTextSelectionAsync();
+    }
+
+    public interface IAsyncDeselectEventHandler<T> : IDisposable
+    {
+        UniTask<T> OnDeselectAsync();
+    }
+
+    public interface IAsyncSelectEventHandler<T> : IDisposable
+    {
+        UniTask<T> OnSelectAsync();
+    }
+
+    public interface IAsyncSubmitEventHandler<T> : IDisposable
+    {
+        UniTask<T> OnSubmitAsync();
+    }
+
+    internal class TextSelectionEventConverter : UnityEvent<(string, int, int)>, IDisposable
+    {
+        readonly UnityEvent<string, int, int> innerEvent;
+        readonly UnityAction<string, int, int> invokeDelegate;
+
+
+        public TextSelectionEventConverter(UnityEvent<string, int, int> unityEvent)
+        {
+            this.innerEvent = unityEvent;
+            this.invokeDelegate = InvokeCore;
+
+            innerEvent.AddListener(invokeDelegate);
+        }
+
+        void InvokeCore(string item1, int item2, int item3)
+        {
+            innerEvent.Invoke(item1, item2, item3);
+        }
+
+        public void Dispose()
+        {
+            innerEvent.RemoveListener(invokeDelegate);
+        }
+    }
+
     public class AsyncUnityEventHandler : IUniTaskSource, IDisposable, IAsyncClickEventHandler
     {
         static Action<object> cancellationCallback = CancellationCallback;
@@ -312,6 +364,7 @@ namespace Cysharp.Threading.Tasks
 
         public AsyncUnityEventHandler(UnityEvent unityEvent, CancellationToken cancellationToken, bool callOnce)
         {
+            this.cancellationToken = cancellationToken;
             if (cancellationToken.IsCancellationRequested)
             {
                 isDisposed = true;
@@ -320,7 +373,6 @@ namespace Cysharp.Threading.Tasks
 
             this.action = Invoke;
             this.unityEvent = unityEvent;
-            this.cancellationToken = cancellationToken;
             this.callOnce = callOnce;
 
             unityEvent.AddListener(action);
@@ -336,6 +388,10 @@ namespace Cysharp.Threading.Tasks
         public UniTask OnInvokeAsync()
         {
             core.Reset();
+            if (isDisposed)
+            {
+                core.TrySetCanceled(this.cancellationToken);
+            }
             return new UniTask(this, core.Version);
         }
 
@@ -402,6 +458,7 @@ namespace Cysharp.Threading.Tasks
     }
 
     public class AsyncUnityEventHandler<T> : IUniTaskSource<T>, IDisposable, IAsyncValueChangedEventHandler<T>, IAsyncEndEditEventHandler<T>
+        , IAsyncEndTextSelectionEventHandler<T>, IAsyncTextSelectionEventHandler<T>, IAsyncDeselectEventHandler<T>, IAsyncSelectEventHandler<T>, IAsyncSubmitEventHandler<T>
     {
         static Action<object> cancellationCallback = CancellationCallback;
 
@@ -417,6 +474,7 @@ namespace Cysharp.Threading.Tasks
 
         public AsyncUnityEventHandler(UnityEvent<T> unityEvent, CancellationToken cancellationToken, bool callOnce)
         {
+            this.cancellationToken = cancellationToken;
             if (cancellationToken.IsCancellationRequested)
             {
                 isDisposed = true;
@@ -425,7 +483,6 @@ namespace Cysharp.Threading.Tasks
 
             this.action = Invoke;
             this.unityEvent = unityEvent;
-            this.cancellationToken = cancellationToken;
             this.callOnce = callOnce;
 
             unityEvent.AddListener(action);
@@ -441,6 +498,10 @@ namespace Cysharp.Threading.Tasks
         public UniTask<T> OnInvokeAsync()
         {
             core.Reset();
+            if (isDisposed)
+            {
+                core.TrySetCanceled(this.cancellationToken);
+            }
             return new UniTask<T>(this, core.Version);
         }
 
@@ -464,6 +525,12 @@ namespace Cysharp.Threading.Tasks
                 registration.Dispose();
                 if (unityEvent != null)
                 {
+                    // Dispose inner delegate for TextSelectionEventConverter
+                    if (unityEvent is IDisposable disp)
+                    {
+                        disp.Dispose();
+                    }
+
                     unityEvent.RemoveListener(action);
                 }
 
@@ -477,6 +544,31 @@ namespace Cysharp.Threading.Tasks
         }
 
         UniTask<T> IAsyncEndEditEventHandler<T>.OnEndEditAsync()
+        {
+            return OnInvokeAsync();
+        }
+
+        UniTask<T> IAsyncEndTextSelectionEventHandler<T>.OnEndTextSelectionAsync()
+        {
+            return OnInvokeAsync();
+        }
+
+        UniTask<T> IAsyncTextSelectionEventHandler<T>.OnTextSelectionAsync()
+        {
+            return OnInvokeAsync();
+        }
+
+        UniTask<T> IAsyncDeselectEventHandler<T>.OnDeselectAsync()
+        {
+            return OnInvokeAsync();
+        }
+
+        UniTask<T> IAsyncSelectEventHandler<T>.OnSelectAsync()
+        {
+            return OnInvokeAsync();
+        }
+
+        UniTask<T> IAsyncSubmitEventHandler<T>.OnSubmitAsync()
         {
             return OnInvokeAsync();
         }
@@ -718,6 +810,10 @@ namespace Cysharp.Threading.Tasks
                     TaskTracker.RemoveTracking(this);
                     registration1.Dispose();
                     registration2.Dispose();
+                    if (unityEvent is IDisposable disp)
+                    {
+                        disp.Dispose();
+                    }
                     unityEvent.RemoveListener(unityAction);
                 }
 
@@ -726,3 +822,5 @@ namespace Cysharp.Threading.Tasks
         }
     }
 }
+
+#endif
