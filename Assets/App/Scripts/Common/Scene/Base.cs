@@ -74,6 +74,11 @@ namespace Ling.Common.Scene
 		public Argument Argument { get; set; }
 
 		/// <summary>
+		/// Unityシーンインスタンス
+		/// </summary>
+		public UnityEngine.SceneManagement.Scene Scene { get; set; }
+
+		/// <summary>
 		/// Scene遷移時に生成、管理されるシーンデータ
 		/// </summary>
 		public SceneData SceneData { get; set; }
