@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using Ling.Utility.UI;
+using Ling.Utility.Extensions;
 
 namespace Ling.Utility.Editor.Attribute
 {
@@ -51,6 +52,8 @@ namespace Ling.Utility.Editor.Attribute
 				if (names != null) return names;
 
 				var settings = SortOrderSettings.Load();
+				if (settings == null) return null;
+
 				names = settings.Data.Select(data => data.Name).ToArray();
 
 				return names;
@@ -65,7 +68,7 @@ namespace Ling.Utility.Editor.Attribute
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
 			var names = Names;
-			if (names.Length <= 0) 
+			if (names.IsNullOrEmpty()) 
 			{
 				return;
 			}
