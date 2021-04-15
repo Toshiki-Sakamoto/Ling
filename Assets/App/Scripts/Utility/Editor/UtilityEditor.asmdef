@@ -2,7 +2,8 @@
     "name": "UtilityEditor",
     "rootNamespace": "",
     "references": [
-        "GUID:258053230626a4e92b6385b92ddefb03"
+        "GUID:258053230626a4e92b6385b92ddefb03",
+        "GUID:69448af7b92c7f342b298e06a37122aa"
     ],
     "includePlatforms": [
         "Editor"
