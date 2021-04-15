@@ -41,16 +41,6 @@ namespace Ling.Utility.Settings
 
 		#region public, protected 関数
 
-#if UNITY_EDITOR
-		public static UtilitySettings Load()
-		{
-			return Editor.AssetHelper.LoadAsset<UtilitySettings>();
-		}
-		public static UtilitySettings LoadCache()
-		{
-			return Editor.AssetHelper.LoadAsset<UtilitySettings>();
-		}
-#endif
 
 		#endregion
 
