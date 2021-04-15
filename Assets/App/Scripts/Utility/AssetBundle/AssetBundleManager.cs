@@ -59,7 +59,7 @@ namespace Ling.Utility.AssetBundle
 			owner?.OnDestroyAsObservable()
 				.Subscribe(_ => 
 				{
-					Addressables.Release(result);
+					Release(result);
 				});
 
 			return result;
@@ -100,20 +100,6 @@ namespace Ling.Utility.AssetBundle
 		void Awake()
 		{
 			_destroyToken = this.GetCancellationTokenOnDestroy();
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
 		}
 
 		/// <summary>
