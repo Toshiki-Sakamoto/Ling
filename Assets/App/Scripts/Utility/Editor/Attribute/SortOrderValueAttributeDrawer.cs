@@ -67,7 +67,6 @@ namespace Ling.Utility.Editor.Attribute
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
-			Utility.Editor.AssetBundle.AddressableHelper.LoadAsset<GameObject>("");
 			var names = Names;
 			if (names.IsNullOrEmpty()) 
 			{
