@@ -29,7 +29,7 @@ namespace Ling.Utility.Editor
 
 		#region private 変数
 
-		[SerializeField] private bool _enableCameraAutoChangeAttach = default;
+		[SerializeField] private bool _enableCanvasGroupAttach = default;
 
 		private static UtilityEditorSettings instance;
 
@@ -49,7 +49,7 @@ namespace Ling.Utility.Editor
 			}
 		}
 
-		public static bool EnableCanvasGroupAttach => Instance._enableCameraAutoChangeAttach;
+		public static bool EnableCanvasGroupAttach => Instance._enableCanvasGroupAttach;
 
 		#endregion
 
