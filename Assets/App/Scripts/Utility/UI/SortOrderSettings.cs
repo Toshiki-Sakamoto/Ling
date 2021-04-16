@@ -20,7 +20,7 @@ namespace Ling.Utility.UI
 	{
 		#region 定数, class, enum
 
-		public const string Address = "UI_SortOrderSettings";
+		public const string Address = "SortOrderSettings";
 
 		[System.Serializable]
 		public class ValueData
@@ -59,7 +59,7 @@ namespace Ling.Utility.UI
 				// Editorモードのときはローカルファイルを読み込む
 				if (settings == null)
 				{
-					settings = Utility.AssetBundle.AddressableHelper.LoadAsset<SortOrderSettings>(address: Address);
+					settings = AddressableHelper.LoadAsset<SortOrderSettings>(address: Address);
 				}
 #endif
 

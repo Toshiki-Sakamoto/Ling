@@ -59,11 +59,7 @@ namespace Ling.Utility.UI
 
 		private void OnSortOrderNameChanged()
 		{
-			// 起動時のみ値を変化させる
-			if (Application.isPlaying)
-			{
-				Apply();
-			}
+			Apply();
 		}
 
 		private void Apply()
