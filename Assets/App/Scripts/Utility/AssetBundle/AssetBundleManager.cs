@@ -19,7 +19,7 @@ namespace Ling.Utility.AssetBundle
 	/// <summary>
 	/// AddresableAssetBundleを使用した管理
 	/// </summary>
-	public class AssetBundleManager : MonoBehaviour 
+	public class AssetBundleManager : Utility.MonoSingleton<AssetBundleManager> 
 	{
 		#region 定数, class, enum
 
@@ -44,7 +44,7 @@ namespace Ling.Utility.AssetBundle
 
 
 		#region public, protected 関数
-
+		
 		/// <summary>
 		/// LoadAssetAsyncをラップしたもの
 		/// </summary>
@@ -83,7 +83,6 @@ namespace Ling.Utility.AssetBundle
 			Addressables.Release<TObject>(obj);
 		}
 
-
 		#endregion
 
 
@@ -97,16 +96,11 @@ namespace Ling.Utility.AssetBundle
 		/// <summary>
 		/// 初期処理
 		/// </summary>
-		void Awake()
+		protected override void Awake()
 		{
-			_destroyToken = this.GetCancellationTokenOnDestroy();
-		}
+			base.Awake();
 
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestroy()
-		{
+			_destroyToken = this.GetCancellationTokenOnDestroy();
 		}
 
 		#endregion

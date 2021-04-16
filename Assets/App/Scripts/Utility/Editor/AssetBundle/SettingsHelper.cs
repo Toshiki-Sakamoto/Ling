@@ -7,6 +7,7 @@
 
 using UnityEditor;
 using UnityEngine;
+using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using System.IO;
@@ -33,8 +34,6 @@ namespace Ling.Utility.Editor.AssetBundle
 
 		#region private 変数
 
-		private static AddressableAssetSettings settings;
-
 		#endregion
 
 
@@ -44,10 +43,8 @@ namespace Ling.Utility.Editor.AssetBundle
 		{
 			get 
 			{
-				if (settings != null) return settings;
-
-				settings = AssetHelper.LoadAsset<AddressableAssetSettings>();
-				return settings;
+				// 基本的に一つ措定であればこれを呼び出すだけでいい
+				return AddressableAssetSettingsDefaultObject.Settings;
 			}
 		}
 

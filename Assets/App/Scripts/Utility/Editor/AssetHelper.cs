@@ -36,5 +36,10 @@ namespace Ling.Utility.Editor
 
 			return AssetDatabase.LoadAssetAtPath<T>(filePath);
 		}
+
+		public static TObject LoadAssetByGUID<TObject>(string guid) where TObject : UnityEngine.Object
+		{
+            return AssetDatabase.LoadAssetAtPath<TObject>(AssetDatabase.GUIDToAssetPath(guid));
+		}
 	}
 }
