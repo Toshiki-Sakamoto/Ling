@@ -1,10 +1,7 @@
 {
     "name": "UniTask",
-    "references": [
-        "Unity.ResourceManager",
-        "Unity.TextMeshPro",
-        "DOTween.Modules"
-    ],
+    "rootNamespace": "",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -14,19 +11,34 @@
     "defineConstraints": [],
     "versionDefines": [
         {
-            "name": "com.unity.addressables",
+            "name": "com.unity.modules.assetbundle",
             "expression": "",
-            "define": "UNITASK_ADDRESSABLE_SUPPORT"
+            "define": "UNITASK_ASSETBUNDLE_SUPPORT"
         },
         {
-            "name": "com.unity.textmeshpro",
+            "name": "com.unity.modules.physics",
             "expression": "",
-            "define": "UNITASK_TEXTMESHPRO_SUPPORT"
+            "define": "UNITASK_PHYSICS_SUPPORT"
         },
         {
-            "name": "com.demigiant.dotween",
+            "name": "com.unity.modules.physics2d",
             "expression": "",
-            "define": "UNITASK_DOTWEEN_SUPPORT"
+            "define": "UNITASK_PHYSICS2D_SUPPORT"
+        },
+        {
+            "name": "com.unity.modules.particlesystem",
+            "expression": "",
+            "define": "UNITASK_PARTICLESYSTEM_SUPPORT"
+        },
+        {
+            "name": "com.unity.ugui",
+            "expression": "",
+            "define": "UNITASK_UGUI_SUPPORT"
+        },
+        {
+            "name": "com.unity.modules.unitywebrequest",
+            "expression": "",
+            "define": "UNITASK_WEBREQUEST_SUPPORT"
         }
     ],
     "noEngineReferences": false

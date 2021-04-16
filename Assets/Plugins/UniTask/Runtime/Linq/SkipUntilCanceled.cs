@@ -32,13 +32,17 @@ namespace Cysharp.Threading.Tasks.Linq
 
         sealed class _SkipUntilCanceled : MoveNextSource, IUniTaskAsyncEnumerator<TSource>
         {
+            static readonly Action<object> CancelDelegate1 = OnCanceled1;
+            static readonly Action<object> CancelDelegate2 = OnCanceled2;
             static readonly Action<object> MoveNextCoreDelegate = MoveNextCore;
 
             readonly IUniTaskAsyncEnumerable<TSource> source;
             CancellationToken cancellationToken1;
             CancellationToken cancellationToken2;
+            CancellationTokenRegistration cancellationTokenRegistration1;
+            CancellationTokenRegistration cancellationTokenRegistration2;
 
-            bool isCanceled;
+            int isCanceled;
             IUniTaskAsyncEnumerator<TSource> enumerator;
             UniTask<bool>.Awaiter awaiter;
             bool continueNext;
@@ -48,6 +52,14 @@ namespace Cysharp.Threading.Tasks.Linq
                 this.source = source;
                 this.cancellationToken1 = cancellationToken1;
                 this.cancellationToken2 = cancellationToken2;
+                if (cancellationToken1.CanBeCanceled)
+                {
+                    this.cancellationTokenRegistration1 = cancellationToken1.RegisterWithoutCaptureExecutionContext(CancelDelegate1, this);
+                }
+                if (cancellationToken1 != cancellationToken2 && cancellationToken2.CanBeCanceled)
+                {
+                    this.cancellationTokenRegistration2 = cancellationToken2.RegisterWithoutCaptureExecutionContext(CancelDelegate2, this);
+                }
                 TaskTracker.TrackActiveTask(this, 3);
             }
 
@@ -55,15 +67,18 @@ namespace Cysharp.Threading.Tasks.Linq
 
             public UniTask<bool> MoveNextAsync()
             {
-                if (cancellationToken1.IsCancellationRequested) isCanceled = true;
-                if (cancellationToken2.IsCancellationRequested) isCanceled = true;
-
                 if (enumerator == null)
                 {
+                    if (cancellationToken1.IsCancellationRequested) isCanceled = 1;
+                    if (cancellationToken2.IsCancellationRequested) isCanceled = 1;
                     enumerator = source.GetAsyncEnumerator(cancellationToken2); // use only AsyncEnumerator provided token.
                 }
                 completionSource.Reset();
-                SourceMoveNext();
+
+                if (isCanceled != 0)
+                {
+                    SourceMoveNext();
+                }
                 return new UniTask<bool>(this, completionSource.Version);
             }
 
@@ -102,25 +117,11 @@ namespace Cysharp.Threading.Tasks.Linq
                 {
                     if (result)
                     {
-                        AGAIN:
-
-                        if (self.isCanceled)
+                        self.Current = self.enumerator.Current;
+                        self.completionSource.TrySetResult(true);
+                        if (self.continueNext)
                         {
-                            self.continueNext = false;
-                            self.Current = self.enumerator.Current;
-                            self.completionSource.TrySetResult(true);
-                        }
-                        else
-                        {
-                            if (self.cancellationToken1.IsCancellationRequested) self.isCanceled = true;
-                            if (self.cancellationToken2.IsCancellationRequested) self.isCanceled = true;
-
-                            if (self.isCanceled) goto AGAIN;
-
-                            if (!self.continueNext)
-                            {
-                                self.SourceMoveNext();
-                            }
+                            self.SourceMoveNext();
                         }
                     }
                     else
@@ -130,9 +131,37 @@ namespace Cysharp.Threading.Tasks.Linq
                 }
             }
 
+            static void OnCanceled1(object state)
+            {
+                var self = (_SkipUntilCanceled)state;
+                if (self.isCanceled == 0)
+                {
+                    if (Interlocked.Increment(ref self.isCanceled) == 1)
+                    {
+                        self.cancellationTokenRegistration2.Dispose();
+                        self.SourceMoveNext();
+                    }
+                }
+            }
+
+            static void OnCanceled2(object state)
+            {
+                var self = (_SkipUntilCanceled)state;
+                if (self.isCanceled == 0)
+                {
+                    if (Interlocked.Increment(ref self.isCanceled) == 1)
+                    {
+                        self.cancellationTokenRegistration2.Dispose();
+                        self.SourceMoveNext();
+                    }
+                }
+            }
+
             public UniTask DisposeAsync()
             {
                 TaskTracker.RemoveTracking(this);
+                cancellationTokenRegistration1.Dispose();
+                cancellationTokenRegistration2.Dispose();
                 if (enumerator != null)
                 {
                     return enumerator.DisposeAsync();
