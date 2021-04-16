@@ -13,4 +13,13 @@ MonoBehaviour:
   m_Name: AddressableImportSettings
   m_EditorClassIdentifier: 
   allowGroupCreation: 0
-  rules: []
+  rules:
+  - path: Assets/AssetBundles/Utility/(?<name>.*)
+    matchType: 1
+    groupName: Utility
+    LabelMode: 0
+    labelRefs: []
+    groupTemplate: {fileID: 0}
+    groupTemplateApplicationMode: 0
+    simplified: 1
+    addressReplacement: ${name}
