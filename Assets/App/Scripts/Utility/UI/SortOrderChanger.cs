@@ -35,8 +35,6 @@ namespace Ling.Utility.UI
 
 		#region private 変数
 
-		private static SortOrderSettings sortOrderSettings = default;
-
 		[SerializeField, SortOrderValueAttribute, OnValueChanged(nameof(OnSortOrderNameChanged))]
 		private string _sortOrderName = default;
 
@@ -47,22 +45,7 @@ namespace Ling.Utility.UI
 
 		#region プロパティ
 
-		public static SortOrderSettings Settings
-		{
-			get 
-			{
-				if (sortOrderSettings != null) return sortOrderSettings;
-
-				sortOrderSettings = SortOrderSettings.Load();
-				if (sortOrderSettings == null)
-				{
-					Utility.Log.Error("SortOrderの設定ファイルが存在しない");
-					return null;
-				}
-
-				return sortOrderSettings;
-			}
-		}
+		public static SortOrderSettings Settings => SortOrderSettings.Settings;
 
 		#endregion
 
@@ -76,18 +59,22 @@ namespace Ling.Utility.UI
 
 		private void OnSortOrderNameChanged()
 		{
-			Apply();
+			// 起動時のみ値を変化させる
+			if (Application.isPlaying)
+			{
+				Apply();
+			}
 		}
 
 		private void Apply()
 		{
 			if (Settings == null) return;
 
-			// Canvasを取得
-			var canvas = GetComponent<Canvas>();
-
 			// 値を検索する
 			_value = Settings.Find(_sortOrderName);
+
+			// Canvasを取得
+			var canvas = GetComponent<Canvas>();
 			canvas.sortingOrder = _value;
 		}
 
@@ -96,12 +83,6 @@ namespace Ling.Utility.UI
 		private void OnClickOpenSettings()
 		{
 			EditorGUIUtility.PingObject(Settings);
-		}
-
-		[Button("設定ファイルリロード")]
-		private void OnClickReloadSettings()
-		{
-			sortOrderSettings = null;
 		}
 #endif			
 
