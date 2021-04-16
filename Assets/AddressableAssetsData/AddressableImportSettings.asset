@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4457b6e6d3304bd46a31be63dad3325c, type: 3}
   m_Name: AddressableImportSettings
   m_EditorClassIdentifier: 
-  allowGroupCreation: 0
+  allowGroupCreation: 1
   rules:
-  - path: Assets/AssetBundles/Utility/(?<name>.*)
+  - path: Assets/AssetBundles/Utility/*/(?<name>.*)
     matchType: 1
     groupName: Utility
-    LabelMode: 0
+    LabelMode: 1
     labelRefs: []
     groupTemplate: {fileID: 0}
-    groupTemplateApplicationMode: 0
+    groupTemplateApplicationMode: 1
     simplified: 1
     addressReplacement: ${name}
