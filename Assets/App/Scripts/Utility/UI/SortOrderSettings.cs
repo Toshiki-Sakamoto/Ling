@@ -7,6 +7,8 @@
 
 using UnityEngine;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Ling.Utility.AssetBundle;
 
 namespace Ling.Utility.UI
 {
@@ -17,6 +19,8 @@ namespace Ling.Utility.UI
 	public class SortOrderSettings : ScriptableObject
 	{
 		#region 定数, class, enum
+
+		public const string Address = "UI_SortOrderSettings";
 
 		[System.Serializable]
 		public class ValueData
@@ -38,12 +42,30 @@ namespace Ling.Utility.UI
 
 		#region private 変数
 
+		private static SortOrderSettings settings = null;
+
 		[SerializeField] private List<ValueData> _data = default;
 
 		#endregion
 
 
 		#region プロパティ
+
+		public static SortOrderSettings Settings
+		{
+			get
+			{
+#if UNITY_EDITOR
+				// Editorモードのときはローカルファイルを読み込む
+				if (settings == null)
+				{
+					settings = Utility.AssetBundle.AddressableHelper.LoadAsset<SortOrderSettings>(address: Address);
+				}
+#endif
+
+				return settings;
+			}
+		}
 
 		public List<ValueData> Data => _data;
 
@@ -57,19 +79,9 @@ namespace Ling.Utility.UI
 
 		#region public, protected 関数
 
-		public static SortOrderSettings Load()
+		public static async UniTask LoadAsync(Component owner)
 		{
-			return null;
-			/*
-			ResourcesHelper.Load<SortOrderSettings>("UI/SortOrderSettings");
-			var instance = Utility.Editor.AssetHelper.LoadAsset<SortOrderSettings>();
-			if (instance == null)
-			{
-				Utility.Log.Error("指定された保存先にScriptableObjectがありません");
-				return null;
-			}
-
-			return instance;*/
+			settings = await AssetBundleManager.Instance.LoadAssetAsync<SortOrderSettings>(Address, owner);
 		}
 
 		public int Find(string name)

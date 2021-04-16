@@ -51,7 +51,7 @@ namespace Ling.Utility.Editor.Attribute
 			{
 				if (names != null) return names;
 
-				var settings = SortOrderSettings.Load();
+				var settings = SortOrderSettings.Settings;
 				if (settings == null) return null;
 
 				names = settings.Data.Select(data => data.Name).ToArray();
@@ -67,6 +67,7 @@ namespace Ling.Utility.Editor.Attribute
 
 		public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 		{
+			Utility.Editor.AssetBundle.AddressableHelper.LoadAsset<GameObject>("");
 			var names = Names;
 			if (names.IsNullOrEmpty()) 
 			{
