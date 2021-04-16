@@ -49,7 +49,7 @@ namespace Ling.Utility.Editor
 			}
 		}
 
-		public static bool EnableCameraAutoChangeAttach => Instance._enableCameraAutoChangeAttach;
+		public static bool EnableCanvasGroupAttach => Instance._enableCameraAutoChangeAttach;
 
 		#endregion
 
