@@ -1,5 +1,5 @@
 ﻿// 
-// CameraAutoChanger.cs  
+// CanvasGroup.cs  
 // ProductName Ling
 //  
 // Created by toshiki sakamoto on 2021.04.16
@@ -13,7 +13,7 @@ namespace Ling.Utility.UI
 	/// 自動でカメラを切り替えるスクリプト
 	/// </summary>
 	[RequireComponent(typeof(Canvas))]
-	public class CameraAutoChanger : MonoBehaviour 
+	public class CanvasGroup : MonoBehaviour 
 	{
 		#region 定数, class, enum
 
@@ -26,6 +26,8 @@ namespace Ling.Utility.UI
 
 
 		#region private 変数
+
+		[SerializeField] private CanvasCameraType _cameraType = CanvasCameraType.UI;
 
 		#endregion
 

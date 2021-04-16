@@ -1,5 +1,5 @@
 ﻿//
-// CameraAutoChangeAttacher.cs
+// CanvasGroupAttacher.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2021.04.16
@@ -15,7 +15,7 @@ namespace Ling.Utility.Editor.UI
 	/// </summary>
 
 	[InitializeOnLoad]
-	public static class CanvasGroupControllerAttacher
+	public static class CanvasGroupAttacher
 	{
 		#region 定数, class, enum
 
@@ -39,13 +39,13 @@ namespace Ling.Utility.Editor.UI
 
 		#region コンストラクタ, デストラクタ
 
-		static CanvasGroupControllerAttacher()
+		static CanvasGroupAttacher()
 		{
 			// Component追加時に自動的に呼び出される
 			ObjectFactory.componentWasAdded += component => 
 				{
 					// 設定がOFFのときは何もしない
-					if (!UtilityEditorSettings.EnableCanvasGroupControllerAttach) return;
+					if (!UtilityEditorSettings.EnableCanvasGroupAttach) return;
 
 					// 有効の場合処理
 					var canvas = component.GetComponent<Canvas>();
@@ -53,7 +53,7 @@ namespace Ling.Utility.Editor.UI
 
 					Utility.Log.Print("Canvasが見つかったのでCanvasGroupControllerを追加します");
 
-					component.gameObject.AddComponent<Utility.UI.CanvasGroupController>();
+					component.gameObject.AddComponent<Utility.UI.CanvasGroup>();
 				};
 		}
 
