@@ -11,7 +11,7 @@ https://user-images.githubusercontent.com/9328751/97722836-73ba1880-1b0e-11eb-91
 
 ## Requirement
 
-* Unity2020.1.11f1
+* Unity2020.3.3f1
 * VisualStudio Code
 * UniRx
 * UniTask
