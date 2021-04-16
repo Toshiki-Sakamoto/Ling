@@ -39,5 +39,7 @@ EditorBuildSettings:
     path: Assets/App/Scenes/Menu.unity
     guid: 132ccd8a4f78e480a96e202f0e330c91
   m_configObjects:
+    addressableimportsettings: {fileID: 11400000, guid: 5badb146b092a4a74b790e6ea37f489b,
+      type: 2}
     com.unity.addressableassets: {fileID: 11400000, guid: d7ddfb1b3c79b4870b88b7ac23c03fc3,
       type: 2}

@@ -15,17 +15,23 @@ MonoBehaviour:
   m_GroupName: Utility
   m_Data:
     m_SerializedData: []
-  m_GUID: d9487d1be3c3c4c6ba5656cd5c3c2477
+  m_GUID: 1f48dd6dac36a4143921b3aa6c0108d7
   m_SerializeEntries:
   - m_GUID: e9a3a36493e414170861c52579b1ca67
-    m_Address: Assets/AssetBundles/Utility/UI
+    m_Address: UI
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 102900000, guid: e9a3a36493e414170861c52579b1ca67, type: 3}
-    m_TargetAsset: {fileID: 102900000, guid: e9a3a36493e414170861c52579b1ca67, type: 3}
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 357d66f9c81584b7bba66e8ca47b67a5
+    m_Address: SortOrderSettings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: aef05b59aef0747229b6ec62513fbdd8, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 94815eedfb4344b6bb9e37d362980514, type: 2}
     - {fileID: 11400000, guid: 9f21c8deec51441cca052a0b99f3c17a, type: 2}
+    - {fileID: 11400000, guid: 94815eedfb4344b6bb9e37d362980514, type: 2}
