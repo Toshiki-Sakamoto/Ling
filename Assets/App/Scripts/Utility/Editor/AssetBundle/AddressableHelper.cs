@@ -106,10 +106,12 @@ namespace Ling.Utility.Editor.AssetBundle
 
 			_assetDict = entries.ToDictionary(entry => entry.address);
 
+#if false // Address Logs
 			foreach (var entry in entries)
 			{
 				Debug.Log(entry.address);
 			}
+#endif
 		}
 
 		#endregion
