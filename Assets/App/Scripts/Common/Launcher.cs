@@ -55,6 +55,7 @@ namespace Ling.Common
 
 		[Inject] protected Common.MasterData.IMasterManager _masterManager = null;
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
+		[Inject] protected Utility.UtilityInitializer _utilityInitializer = default;
 
 #if DEBUG
 		[Inject] protected Common.DebugConfig.DebugConfigManager _debugManager = default;
@@ -97,6 +98,8 @@ namespace Ling.Common
 
 		protected virtual async UniTask QuickStartInternalAsync(Common.Scene.Base scene)
 		{
+			await _utilityInitializer.LoadAllAsync();
+
 			// マスタデータの読み込みが終わっていない場合読み込みを行う
 			if (!_masterManager.IsLoaded)
 			{

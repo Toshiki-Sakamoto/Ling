@@ -59,7 +59,10 @@ namespace Ling.Utility.UI
 				// Editorモードのときはローカルファイルを読み込む
 				if (settings == null)
 				{
-					settings = AddressableHelper.LoadAsset<SortOrderSettings>(address: Address);
+					if (!Application.isPlaying)
+					{
+						settings = AddressableHelper.LoadAsset<SortOrderSettings>(address: Address);
+					}
 				}
 #endif
 
