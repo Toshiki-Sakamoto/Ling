@@ -20,7 +20,7 @@ namespace Ling.Utility.UI
 	/// <summary>
 	/// CanvasGroupを一元管理する
 	/// </summary>
-	public class CanvasGroupManager : SerializedMonoBehaviour 
+	public class CanvasCategoryManager : SerializedMonoBehaviour 
 	{
 		#region 定数, class, enum
 
@@ -49,9 +49,15 @@ namespace Ling.Utility.UI
 		/// <summary>
 		/// CanvasGroupに値を適用する
 		/// </summary>
-		public void Apply(CanvasGroup canvasGroup)
+		public void Apply(CanvasCategory canvasCategory)
 		{
-
+			if (canvasCategory.EnableWorldCameraChange)
+			{
+				if (_canvasCameraDict.TryGetValue(canvasCategory.CameraType, out var camera))
+				{
+					canvasCategory.Target.worldCamera = camera;
+				}
+			}
 		}
 
 		#endregion

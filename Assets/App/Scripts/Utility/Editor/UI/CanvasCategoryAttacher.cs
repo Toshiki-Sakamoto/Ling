@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using UnityEditor;
+using Ling.Utility.UI;
 
 namespace Ling.Utility.Editor.UI
 {
@@ -15,7 +16,7 @@ namespace Ling.Utility.Editor.UI
 	/// </summary>
 
 	[InitializeOnLoad]
-	public static class CanvasGroupAttacher
+	public static class CanvasCategoryAttacher
 	{
 		#region 定数, class, enum
 
@@ -39,7 +40,7 @@ namespace Ling.Utility.Editor.UI
 
 		#region コンストラクタ, デストラクタ
 
-		static CanvasGroupAttacher()
+		static CanvasCategoryAttacher()
 		{
 			// Component追加時に自動的に呼び出される
 			ObjectFactory.componentWasAdded += component => 
@@ -51,9 +52,12 @@ namespace Ling.Utility.Editor.UI
 					var canvas = component.GetComponent<Canvas>();
 					if (canvas == null) return;
 
-					Utility.Log.Print("Canvasが見つかったのでCanvasGroupControllerを追加します");
+					// すでについてるなら何もしない
+					if (component.GetComponent<CanvasCategory>() != null) return;
 
-					component.gameObject.AddComponent<Utility.UI.CanvasGroup>();
+					Utility.Log.Print("Canvasが見つかったのでCanvasCategoryを追加します");
+
+					component.gameObject.AddComponent<CanvasCategory>();
 				};
 		}
 

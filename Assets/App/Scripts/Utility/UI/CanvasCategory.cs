@@ -6,6 +6,7 @@
 // 
 
 using UnityEngine;
+using Zenject;
 
 namespace Ling.Utility.UI
 {
@@ -13,7 +14,7 @@ namespace Ling.Utility.UI
 	/// 自動でカメラを切り替えるスクリプト
 	/// </summary>
 	[RequireComponent(typeof(Canvas))]
-	public class CanvasGroup : MonoBehaviour 
+	public class CanvasCategory : MonoBehaviour 
 	{
 		#region 定数, class, enum
 
@@ -28,11 +29,19 @@ namespace Ling.Utility.UI
 		#region private 変数
 
 		[SerializeField] private CanvasCameraType _cameraType = CanvasCameraType.UI;
+		[SerializeField] private bool _enableWorldCameraChange = true;	// カメラを自動で変更するか
+		
+		[Inject] private CanvasCategoryManager _canvasCategoryManager = default;
 
 		#endregion
 
 
 		#region プロパティ
+
+		public CanvasCameraType CameraType => _cameraType;
+		public bool EnableWorldCameraChange => _enableWorldCameraChange;
+
+		public Canvas Target { get; private set; }
 
 		#endregion
 
@@ -54,9 +63,9 @@ namespace Ling.Utility.UI
 		/// </summary>
 		void Awake()
 		{
-			var canvas = GetComponent<Canvas>();
+			Target = GetComponent<Canvas>();
 
-			// Canvasについているカメラを変更する
+			_canvasCategoryManager.Apply(this);
 		}
 
 		#endregion
