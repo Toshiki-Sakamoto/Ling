@@ -29,7 +29,7 @@ namespace Ling.Utility.Editor
 
 		#region private 変数
 
-		[Tooltip("Canvasが追加された時に自動的にCanvasCategoryを追加する")]
+		[Header("Canvas追加時にCanvasCategoryを追加する")]
 		[SerializeField] private bool _enableCanvasGroupAttach = default;
 
 		private static UtilityEditorSettings instance;
