@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 using Zenject;
 
@@ -20,6 +21,11 @@ namespace Ling.Utility
 
 			Container
 				.Bind<UI.CanvasCategoryManager>()
+				.FromComponentInHierarchy()
+				.AsSingle();
+
+			Container
+				.Bind<UtilityInitializer>()
 				.FromComponentInHierarchy()
 				.AsSingle();
 		}
