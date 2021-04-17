@@ -17,6 +17,11 @@ namespace Ling.Utility
 				.Bind<AssetBundle.AssetBundleManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
+
+			Container
+				.Bind<UI.CanvasCategoryManager>()
+				.FromComponentInHierarchy()
+				.AsSingle();
 		}
 	}
 }
