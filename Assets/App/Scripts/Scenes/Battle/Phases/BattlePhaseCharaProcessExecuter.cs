@@ -7,8 +7,9 @@
 
 using Cysharp.Threading.Tasks;
 using UniRx;
+using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// キャラクタの行動プロセスをすべて実行する
@@ -27,7 +28,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private Chara.CharaManager _charaManager;
+		[Inject] private Chara.CharaManager _charaManager;
 
 		#endregion
 
@@ -46,16 +47,11 @@ namespace Ling.Scenes.Battle.Phase
 
 		protected override void AwakeInternal()
 		{
-			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
-		public override void Init()
+		public override void PhaseStart()
 		{
 			ExecuteAsync().Forget();
-		}
-
-		public override void Proc()
-		{
 		}
 
 
@@ -86,7 +82,7 @@ namespace Ling.Scenes.Battle.Phase
 			}
 
 			// すべて終わったらターン終了
-			Change(BattleScene.Phase.CharaProcessEnd);
+			Change(Phase.CharaProcessEnd);
 		}
 
 		#endregion

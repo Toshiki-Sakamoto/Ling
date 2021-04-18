@@ -17,7 +17,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// 
@@ -36,8 +36,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private Map.MapManager _mapManager = null;
-		private Chara.CharaManager _charaManager = null;
+		[Inject] private Map.MapManager _mapManager = null;
+		[Inject] private Chara.CharaManager _charaManager = null;
 
 		#endregion
 
@@ -56,20 +56,18 @@ namespace Ling.Scenes.Battle.Phase
 
 		protected override void AwakeInternal()
 		{
-			_mapManager = Resolve<Map.MapManager>();
-			_charaManager = Resolve<Chara.CharaManager>();
 		}
 
-		public override void Init()
+		public override void PhaseStart()
 		{
 			BuildNextMapAsync().Forget();
 		}
 
-		public override void Proc()
+		public override void PhaseUpdate()
 		{
 		}
 
-		public override void Term()
+		public override void PhaseStop()
 		{
 		}
 
@@ -110,7 +108,7 @@ namespace Ling.Scenes.Battle.Phase
 			Scene.ApplyNextLevel();
 
 			// 次のステージ移動完了
-			Change(BattleScene.Phase.PlayerAction);
+			Change(Phase.PlayerAction);
 		}
 
 		#endregion

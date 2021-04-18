@@ -8,7 +8,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Ling.Scenes.Battle.Phase
+using Zenject;
+
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// プレイヤーの通常攻撃
@@ -27,9 +29,10 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private Chara.CharaManager _charaManager;
-		private Map.MapManager _mapManager;
+		[Inject] private Chara.CharaManager _charaManager;
+		[Inject] private Map.MapManager _mapManager;
 		private Chara.PlayerControl _player;
+		
 		private List<Chara.ICharaController> _targets = new List<Chara.ICharaController>(); // ターゲット
 
 		#endregion
@@ -49,11 +52,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		protected override void AwakeInternal()
 		{
-			_charaManager = Resolve<Chara.CharaManager>();
-			_mapManager = Resolve<Map.MapManager>();
 		}
 
-		public override void Init()
+		public override void PhaseStart()
 		{
 			_player = _charaManager.Player;
 			_player.SetFollowCameraEnable(false);
@@ -73,7 +74,7 @@ namespace Ling.Scenes.Battle.Phase
 			_player.ExecuteAttackProcess();
 		}
 
-		public override void Proc()
+		public override void PhaseUpdate()
 		{
 			if (!_player.IsAttackAllProcessEnded()) return;
 
@@ -82,14 +83,14 @@ namespace Ling.Scenes.Battle.Phase
 			//Change(BattleScene.Phase.PlayerAction);
 			// 攻撃した敵が生きている場合、最優先で行動させる
 			// 敵思考に移行する
-			var argument = new BattlePhaseEnemyThink.Argument();
+			var argument = new BattlePhaseEnemyThink.Arg();
 			argument.Targets = _targets;
-			argument.nextPhase = BattleScene.Phase.PlayerAction;
+			argument.nextPhase = Phase.PlayerAction;
 
-			Change(BattleScene.Phase.EnemyTink, argument);
+			Change(Phase.EnemyTink, argument);
 		}
 
-		public override void Term()
+		public override void PhaseStop()
 		{
 		}
 

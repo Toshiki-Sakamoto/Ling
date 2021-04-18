@@ -7,8 +7,9 @@
 
 using Ling.Const;
 using Ling.Map.TileDataMapExtensions;
+using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// キャラのプロセス終了処理
@@ -28,8 +29,8 @@ namespace Ling.Scenes.Battle.Phase
 		#region private 変数
 
 
-		private Chara.CharaManager _charaManager;
-		private Map.MapManager _mapManager;
+		[Inject] private Chara.CharaManager _charaManager;
+		[Inject] private Map.MapManager _mapManager;
 
 		#endregion
 
@@ -48,11 +49,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		protected override void AwakeInternal()
 		{
-			_charaManager = Resolve<Chara.CharaManager>();
-			_mapManager = Resolve<Map.MapManager>();
 		}
 
-		public override void Init()
+		public override void PhaseStart()
 		{
 			// 今の所何もすることないのでプレイヤー行動開始時に戻す
 			// 足元確認とか次に入れるほうが良さそう
@@ -69,7 +68,7 @@ namespace Ling.Scenes.Battle.Phase
 			}
 			else
 			{
-				Change(BattleScene.Phase.PlayerAction);
+				Change(Phase.PlayerAction);
 			}
 		}
 
@@ -92,11 +91,11 @@ namespace Ling.Scenes.Battle.Phase
 					if (selected == 0)
 					{
 						//_eventManager.Trigger(new EventChangePhase { phase = BattleScene.Phase.NextStage });
-						Change(BattleScene.Phase.NextStage);
+						Change(Phase.NextStage);
 					}
 					else
 					{
-						Change(BattleScene.Phase.PlayerAction);
+						Change(Phase.PlayerAction);
 					}
 				};
 

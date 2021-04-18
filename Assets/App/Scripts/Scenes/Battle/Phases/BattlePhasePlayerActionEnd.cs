@@ -1,11 +1,10 @@
-﻿//
+//
 // BattlePhasePlayerActionEnd.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.05.09
 //
 
-using Ling.Chara;
 using Ling.Map;
 using System;
 using System.Collections;
@@ -17,7 +16,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// 
@@ -36,8 +35,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private Chara.CharaManager _charaManager;
-		private MapManager _mapManager;
+		[Inject] private Chara.CharaManager _charaManager;
+		[Inject] private MapManager _mapManager;
 
 		#endregion
 
@@ -56,11 +55,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		protected override void AwakeInternal()
 		{
-			_charaManager = Resolve<CharaManager>();
-			_mapManager = Resolve<MapManager>();
 		}
 
-		public override void Init()
+		public override void PhaseStart()
 		{
 			// 予約済みフェーズに移動するか
 			if (Scene.MoveToResercationPhase())
@@ -68,14 +65,14 @@ namespace Ling.Scenes.Battle.Phase
 				return;
 			}
 
-			Change(BattleScene.Phase.PlayerAction);
+			Change(Phase.PlayerAction);
 		}
 
-		public override void Proc()
+		public override void PhaseUpdate()
 		{
 		}
 
-		public override void Term()
+		public override void PhaseStop()
 		{
 		}
 

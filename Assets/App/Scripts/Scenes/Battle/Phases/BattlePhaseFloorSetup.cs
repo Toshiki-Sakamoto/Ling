@@ -1,8 +1,8 @@
 ﻿//
-// BattlePhaseAdv.cs
+// BattlePhaseFloorSetup.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.04
+// Created by toshiki sakamoto on 2020.05.02
 //
 
 using System;
@@ -15,12 +15,12 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class BattlePhaseAdv : BattlePhaseBase
+	public class BattlePhaseFloorSetup : BattlePhaseBase
 	{
 		#region 定数, class, enum
 
@@ -34,7 +34,11 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		Adv.Engine.Manager _advManager = null;
+		[Inject] private Map.Builder.IManager _builderManager = null;
+		[Inject] private Map.Builder.BuilderFactory _builderFactory = null;
+		[Inject] private Map.MapManager _mapManager = null;
+
+		private bool _isLoadFinish;
 
 		#endregion
 
@@ -53,32 +57,27 @@ namespace Ling.Scenes.Battle.Phase
 
 		protected override void AwakeInternal()
 		{
-			_advManager = Resolve<Adv.Engine.Manager>();
 		}
 
-		public override void Init()
+		public override void PhaseUpdate()
 		{
-			_advManager.Load("test.txt");
-			_advManager.AdvStart();
-
-			_advManager.OnFinish = () =>
-				{
-					Change(BattleScene.Phase.PlayerAction);
-				};
+			Change(Phase.PlayerAction);
 		}
 
-		public override void Proc()
+		public override void PhaseStop()
 		{
-		}
-
-		public override void Term()
-		{
+			_isLoadFinish = false;
 		}
 
 		#endregion
 
 
 		#region private 関数
+
+		private void CreateMiniMap()
+		{
+
+		}
 
 		#endregion
 	}

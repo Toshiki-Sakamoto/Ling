@@ -6,8 +6,10 @@
 //
 
 using Ling.Common.Scene;
+using Zenject;
+using Ling.Common.Scene.Menu;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// 通常メニュー開いて閉じるまで
@@ -26,7 +28,7 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private IExSceneManager _sceneManager;
+		[Inject] private IExSceneManager _sceneManager;
 
 		#endregion
 
@@ -43,19 +45,17 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Init() 
+		public override void PhaseStart() 
 		{
 			// メニューシーンを開く
-			_sceneManager = Resolve<IExSceneManager>();
-
-			_sceneManager.AddScene(Scene, SceneID.Menu, Menu.MenuArgument.CreateAtMenu());
+			_sceneManager.AddScene(SceneID.Menu, MenuArgument.CreateAtMenu());
 		}
 
-		public override void Proc() 
+		public override void PhaseUpdate() 
 		{
 		}
 
-		public override void Term() 
+		public override void PhaseStop() 
 		{ 
 		}
 

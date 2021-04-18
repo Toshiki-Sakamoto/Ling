@@ -13,42 +13,43 @@ using Cysharp.Threading.Tasks;
 using Ling.Common.Scene;
 using Zenject;
 using Ling.MasterData.Repository;
+using Ling.Scenes.Battle.Phases;
 
 namespace Ling.Scenes.Battle
 {
+	public enum Phase
+	{
+		None,
+
+		Start,
+		Load,
+		FloorSetup,
+		CharaSetup,
+
+		// Menu
+		MenuAction,
+
+		// Player
+		PlayerAction,
+		PlayerAttack,
+		PlayerActionProcess,
+		PlayerActionEnd,
+
+			// Enemy
+		EnemyAction,
+		EnemyTink,
+		CharaProcessExecute,
+		CharaProcessEnd,
+		NextStage,
+		Adv,
+	}
+
 	/// <summary>
 	/// Battle
 	/// </summary>
-	public class BattleScene : Common.Scene.Base
+	public class BattleScene : Common.Scene.ExSceneBase<Phase>
 	{
 		#region 定数, class, enum
-
-		public enum Phase
-		{
-			None,
-
-			Start,
-			Load,
-			FloorSetup,
-			CharaSetup,
-
-			// Menu
-			MenuAction,
-
-			// Player
-			PlayerAction,
-			PlayerAttack,
-			PlayerActionProcess,
-			PlayerActionEnd,
-
-			// Enemy
-			EnemyAction,
-			EnemyTink,
-			CharaProcessExecute,
-			CharaProcessEnd,
-			NextStage,
-			Adv,
-		}
 
 		#endregion
 
@@ -69,7 +70,6 @@ namespace Ling.Scenes.Battle
 		[Inject] private MasterData.IMasterHolder _masterHolder = default;
 
 		private bool _isInitialized;
-		private Common.Scene.PhaseScene<Phase, BattleScene> _phase = new Common.Scene.PhaseScene<Phase, BattleScene>();
 
 		#endregion
 
@@ -135,6 +135,8 @@ namespace Ling.Scenes.Battle
 		{
 			if (_isInitialized) return;
 
+			AddPhase<BattlePhaseStart>(Phase.Start);
+/*
 			_phase.Add(Phase.Start, new Battle.Phase.BattlePhaseStart());
 			_phase.Add(Phase.Load, new Battle.Phase.BattlePhaseLoad());
 			_phase.Add(Phase.FloorSetup, new Battle.Phase.BattlePhaseFloorSetup());
@@ -155,6 +157,7 @@ namespace Ling.Scenes.Battle
 			_phase.Add(Phase.CharaProcessEnd, new Battle.Phase.BattlePhaseCharaProcessEnd());
 
 			_phase.Start(this, Phase.Start);
+			*/
 
 			_isInitialized = true;
 
@@ -255,10 +258,6 @@ namespace Ling.Scenes.Battle
 
 		#region MonoBegaviour
 
-		private void Update()
-		{
-			_phase.Update();
-		}
 
 		#endregion
 	}

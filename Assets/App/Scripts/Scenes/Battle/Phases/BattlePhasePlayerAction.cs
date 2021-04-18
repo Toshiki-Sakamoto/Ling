@@ -18,7 +18,7 @@ using UnityEngine.InputSystem;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// プレイヤーの行動開始
@@ -37,11 +37,12 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private Chara.CharaManager _charaManager;
-		private Map.MapManager _mapManager;
-		private IInputProvider<InputControls.IMoveActions> _moveInputProvider;
-		private IInputProvider<InputControls.IActionActions> _actionInputProvider;
-		private Dictionary<InputAction, System.Func<bool>> _inputActionDict = new Dictionary<InputAction, System.Func<bool>>();
+		[Inject] private Chara.CharaManager _charaManager;
+		[Inject] private Map.MapManager _mapManager;
+		[Inject] private IInputManager _inputManager;
+		[Inject] private IInputProvider<InputControls.IMoveActions> _moveInputProvider;
+		[Inject] private IInputProvider<InputControls.IActionActions> _actionInputProvider;
+		[Inject] private Dictionary<InputAction, System.Func<bool>> _inputActionDict = new Dictionary<InputAction, System.Func<bool>>();
 
 		#endregion
 
@@ -60,15 +61,11 @@ namespace Ling.Scenes.Battle.Phase
 
 		protected override void AwakeInternal()
 		{
-			_charaManager = Resolve<Chara.CharaManager>();
-			_mapManager = Resolve<Map.MapManager>();
-
-			var inputManager = Resolve<Common.Input.IInputManager>();
-			_moveInputProvider = inputManager.Resolve<InputControls.IMoveActions>();
-			_actionInputProvider = inputManager.Resolve<InputControls.IActionActions>();
+			_moveInputProvider = _inputManager.Resolve<InputControls.IMoveActions>();
+			_actionInputProvider = _inputManager.Resolve<InputControls.IActionActions>();
 		}
 
-		public override void Init()
+		public override void PhaseStart()
 		{
 			// マップ情報を更新する
 			_mapManager.UpdateMapData();
@@ -97,12 +94,12 @@ namespace Ling.Scenes.Battle.Phase
 			KeyCommandProcess();
 		}
 
-		public override void Proc()
+		public override void PhaseUpdate()
 		{
 			KeyCommandProcess();
 		}
 
-		public override void Term()
+		public override void PhaseStop()
 		{
 			_inputActionDict.Clear();
 		}
@@ -139,7 +136,7 @@ namespace Ling.Scenes.Battle.Phase
 			// Playerの座標を変更する(見た目は反映させない)
 			playerModel.AddCellPosition(moveDistance, reactive: false);
 
-			Change(BattleScene.Phase.EnemyTink);
+			Change(Phase.EnemyTink);
 
 			//var process = _processManager.Attach<Process.ProcessPlayerMoveStart>().Setup(moveDistance);
 
@@ -161,8 +158,8 @@ namespace Ling.Scenes.Battle.Phase
 		{
 			var process = _processManager.Attach<Process.ProcessPlayerFoot>();
 
-			var argument = new BattlePhasePlayerActionProcess.Argument { process = process };
-			Change(BattleScene.Phase.PlayerActionProcess, argument);
+			var argument = new BattlePhasePlayerActionProcess.Arg { process = process };
+			Change(Phase.PlayerActionProcess, argument);
 		}
 
 		/// <summary>
@@ -171,7 +168,7 @@ namespace Ling.Scenes.Battle.Phase
 		private bool Attack()
 		{
 			// 攻撃対象がいるかどうか関わらず攻撃に移行する
-			Change(BattleScene.Phase.PlayerAttack);
+			Change(Phase.PlayerAttack);
 
 			return true; 
 		}
@@ -181,7 +178,7 @@ namespace Ling.Scenes.Battle.Phase
 		/// </summary>
 		private bool OnOpenMenu()
 		{
-			Change(BattleScene.Phase.MenuAction);
+			Change(Phase.MenuAction);
 
 			return true;
 		}

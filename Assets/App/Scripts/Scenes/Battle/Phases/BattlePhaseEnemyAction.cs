@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// 敵の行動
@@ -34,8 +34,8 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private Chara.CharaManager _charaManager;
-		private Map.MapManager _mapManager;
+		[Inject] private Chara.CharaManager _charaManager;
+		[Inject] private Map.MapManager _mapManager;
 
 		#endregion
 
@@ -52,24 +52,13 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Init()
+		public override void PhaseStart()
 		{
-			_charaManager = Resolve<Chara.CharaManager>();
-			_mapManager = Resolve<Map.MapManager>();
-
 			// 敵全員を生成順に
 			// 「攻撃するか」
 			// 「移動するか」
 			// 「特技を使うか」
 			// のそれぞれに分類する
-		}
-
-		public override void Proc()
-		{
-		}
-
-		public override void Term()
-		{
 		}
 
 		#endregion

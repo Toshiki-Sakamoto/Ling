@@ -9,8 +9,9 @@ using Cysharp.Threading.Tasks;
 using Ling;
 using System.Collections.Generic;
 using Ling.Utility.Extensions;
+using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// 敵の思考
@@ -19,10 +20,10 @@ namespace Ling.Scenes.Battle.Phase
 	{
 		#region 定数, class, enum
 
-		public class Argument : Common.Scene.PhaseArgBase
+		public class Arg : Utility.PhaseArgument
 		{
 			public List<Chara.ICharaController> Targets; // 特定のターゲットを指定する場合
-			public BattleScene.Phase nextPhase; // 行動終了後指定した特定のフェーズに移行したい場合
+			public Phase nextPhase; // 行動終了後指定した特定のフェーズに移行したい場合
 		}
 
 		#endregion
@@ -35,10 +36,10 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private Argument _argment;
-		private Chara.CharaManager _charaManager;
-		private Map.MapManager _mapManager;
-		private Utility.Async.WorkTimeAwaiter _timeAwaiter;
+		[Inject] private Arg _argment;
+		[Inject] private Chara.CharaManager _charaManager;
+		[Inject] private Map.MapManager _mapManager;
+		[Inject] private Utility.Async.WorkTimeAwaiter _timeAwaiter;
 
 		#endregion
 
@@ -57,22 +58,16 @@ namespace Ling.Scenes.Battle.Phase
 
 		protected override void AwakeInternal()
 		{
-			_charaManager = Resolve<Chara.CharaManager>();
-			_mapManager = Resolve<Map.MapManager>();
 		}
 
-		public override void Init()
+		public override void PhaseStart()
 		{
-			_argment = Arg as Argument;
+			_argment = Argument as Arg;
 
 			_timeAwaiter = new Utility.Async.WorkTimeAwaiter();
 			_timeAwaiter.Setup(0.1f);
 
 			ThinkAIProcessesAsync().Forget();
-		}
-
-		public override void Proc()
-		{
 		}
 
 		#endregion
@@ -113,7 +108,7 @@ namespace Ling.Scenes.Battle.Phase
 				}
 
 				// すべて終わったら次に行く
-				Change(BattleScene.Phase.CharaProcessExecute);
+				Change(Phase.CharaProcessExecute);
 			}
 		}
 

@@ -5,22 +5,14 @@
 // Created by toshiki sakamoto on 2020.05.03
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
-using Ling.Common.Scene;
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// バトルシーンのPhaseベースクラス
 	/// </summary>
-	public class BattlePhaseBase : PhaseScene<BattleScene.Phase, BattleScene>.Base
+	public class BattlePhaseBase : Utility.Phase<Phase>
 	{
 		#region 定数, class, enum
 
@@ -34,16 +26,18 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		protected BattleModel _model;
-		protected GameManager _gameManager;
-		protected Utility.IEventManager _eventManager;
-		protected Common.ProcessManager _processManager;
+		[Inject] protected BattleScene _scene;
+		[Inject] protected BattleModel _model;
+		[Inject] protected GameManager _gameManager;
+		[Inject] protected Utility.IEventManager _eventManager;
+		[Inject] protected Common.ProcessManager _processManager;
 
 		#endregion
 
 
 		#region プロパティ
 
+		public BattleScene Scene => _scene;
 		public EventHolder EventHolder => _gameManager.EventHolder;
 
 		#endregion
@@ -51,13 +45,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region コンストラクタ, デストラクタ
 
-		public sealed override void Awake()
+		public void Awake()
 		{
-			_model = Resolve<BattleModel>();
-
 			_gameManager = GameManager.Instance;
-			_eventManager = _gameManager.Resolve<Utility.IEventManager>();
-			_processManager = _gameManager.Resolve<Common.ProcessManager>();
 
 			AwakeInternal();
 		}

@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// 
@@ -24,7 +24,7 @@ namespace Ling.Scenes.Battle.Phase
 	{
 		#region 定数, class, enum
 
-		public class Argument : Common.Scene.PhaseArgBase
+		public class Arg : Utility.PhaseArgument
 		{
 			public Common.ProcessBase process;   // 行動プロセス
 		}
@@ -56,9 +56,9 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Init()
+		public override void PhaseStart()
 		{
-			var arg = Arg as Argument;
+			var arg = Argument as Arg;
 
 			arg.process
 				.SetNextLast<Common.Process.ProcessCallFunc>()
@@ -68,14 +68,14 @@ namespace Ling.Scenes.Battle.Phase
 				});
 		}
 
-		public override void Proc()
+		public override void PhaseUpdate()
 		{
 			if (!_isFinish) return;
 
-			Change(BattleScene.Phase.PlayerActionEnd);
+			Change(Phase.PlayerActionEnd);
 		}
 
-		public override void Term()
+		public override void PhaseStop()
 		{
 			_isFinish = false;
 		}

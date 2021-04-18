@@ -15,7 +15,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// 
@@ -50,16 +50,16 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region public, protected 関数
 
-		public override void Init()
+		public override void PhaseStart()
 		{
 		}
 
-		public override void Proc()
+		public override void PhaseUpdate()
 		{
-			Change(BattleScene.Phase.Load);
+			Change(Phase.Load);
 		}
 
-		public override void Term()
+		public override void PhaseStop()
 		{
 		}
 

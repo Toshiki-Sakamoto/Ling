@@ -17,7 +17,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Scenes.Battle.Phase
+namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
 	/// 
@@ -36,10 +36,10 @@ namespace Ling.Scenes.Battle.Phase
 
 		#region private 変数
 
-		private PoolManager _poolManager;
-		private Map.MapManager _mapManager = null;
-		private Chara.CharaManager _charaManager = null;
-		private Common.Scene.IExSceneManager _sceneManager = default;
+		[Inject] private PoolManager _poolManager;
+		[Inject] private Map.MapManager _mapManager = null;
+		[Inject] private Chara.CharaManager _charaManager = null;
+		[Inject] private Common.Scene.IExSceneManager _sceneManager = default;
 
 		private bool _isFinish = false;
 
@@ -61,28 +61,23 @@ namespace Ling.Scenes.Battle.Phase
 
 		protected override void AwakeInternal()
 		{
-			_mapManager = Resolve<Map.MapManager>();
-			_charaManager = Resolve<Chara.CharaManager>();
-			_sceneManager = Resolve<Common.Scene.IExSceneManager>();
 		}
 
-		public override void Init()
+		public override void PhaseStart()
 		{
 			// タイルのプールを作成する
 			// とりあえず最大の数作ってみる
-			_poolManager = Resolve<PoolManager>();
-
 			LoadAsync().Forget();
 		}
 
-		public override void Proc()
+		public override void PhaseUpdate()
 		{
 			if (!_isFinish) return;
 
-			Change(BattleScene.Phase.FloorSetup);
+			Change(Phase.FloorSetup);
 		}
 
-		public override void Term()
+		public override void PhaseStop()
 		{
 			_isFinish = false;
 		}
