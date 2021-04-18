@@ -70,7 +70,7 @@ namespace Ling.Scenes.Battle.Process
 					// 次のステージに行く
 					if (selected == 0)
 					{
-						_eventManager.Trigger(new EventChangePhase { phase = BattleScene.Phase.NextStage });
+						_eventManager.Trigger(new EventChangePhase { phase = Phase.NextStage });
 					}
 
 					ProcessFinish();

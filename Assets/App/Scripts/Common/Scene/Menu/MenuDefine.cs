@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2021.04.11
 //
 
-namespace Ling.Scenes.Menu
+namespace Ling.Common.Scene.Menu
 {
 	/// <summary>
 	/// 定数

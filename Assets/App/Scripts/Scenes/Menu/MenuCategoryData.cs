@@ -4,6 +4,7 @@
 //
 // Created by toshiki sakamoto on 2021.04.11
 //
+using Ling.Common.Scene.Menu;
 
 namespace Ling.Scenes.Menu
 {
