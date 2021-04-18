@@ -8,7 +8,6 @@
 using Cysharp.Threading.Tasks;
 using Ling.Adv;
 using Ling.MasterData.Stage;
-using Ling.Scenes.Battle;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
