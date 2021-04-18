@@ -27,6 +27,7 @@ namespace Ling.Common.Scene
 
 		void ChangeScene(SceneID sceneID, Argument argument = null, System.Action<DiContainer> bindAction = null);
 
+		void AddScene(SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null);
 		void AddScene(Base parent, SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null);
 
 		void AddSceneAsync(Base parent, SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null);
@@ -172,6 +173,10 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// 現在のシーンの上に追加する
 		/// </summary>
+		public void AddScene(SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null)
+		{
+			AddScene(_currentScene, sceneID, argument, isStopCurrentScene, bindAction);
+		}
 		public void AddScene(Base parent, SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null)
 		{
 			SceneChangeInternalAsync(parent, sceneID, argument, LoadSceneMode.Additive, isStopCurrentScene, bindAction).Forget();
