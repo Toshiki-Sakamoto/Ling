@@ -1,4 +1,5 @@
-﻿//
+﻿using System.Globalization;
+//
 // Phase.cs
 // ProductName Ling
 //
@@ -15,187 +16,37 @@ using UnityEngine.UI;
 
 namespace Ling.Utility
 {
-	public class Phase<T> where T : Enum
+	public class PhaseArgument
 	{
-		#region 定数, class, enum
+	}
 
-		#endregion
+	public class Phase<T> : MonoBehaviour where T : Enum
+	{
+		public PhaseArgument Argument { get; set; }
 
-
-		#region public, protected 変数
-
-		#endregion
-
-
-		#region private 変数
-
-		private object _instance = null;
-		private Type _type;
-		private System.Action[] _inits = null;
-		private System.Action[] _procs = null;
-		private System.Action[] _terms = null;
-
-		#endregion
+		private PhaseController<T> _controller;
 
 
-		#region プロパティ
+		public void SetController(PhaseController<T> controller) =>
+			_controller = controller;
 
-		public int Current { get; private set; }
-		public int Prev { get; private set; }
-
-		#endregion
-
-
-		#region コンストラクタ, デストラクタ
-
-		private Phase(object instance, T type, int init)
-		{
-			_instance = instance;
-			_type = typeof(T);
-			Prev = -1;
-			Current = init;
-
-			var ids = Enum.GetValues(_type);
-			_inits = new System.Action[ids.Length];
-			_procs = new System.Action[ids.Length];
-			_terms = new System.Action[ids.Length];
-
-			var prefix = _type.Name;
-
-			foreach (int elm in ids)
-			{
-				var name = prefix + GetName(elm);
-				_inits[(int)elm] = CreateFunc(name + "Init");
-				_procs[(int)elm] = CreateFunc(name + "Proc");
-				_terms[(int)elm] = CreateFunc(name + "Term");
-			}
-		}
-
-		#endregion
-
-
-		#region public, protected 関数
-
-		/// <summary>
-		/// 生成
-		/// </summary>
-		/// <returns>The create.</returns>
-		/// <param name="instance">Instance.</param>
-		/// <param name="init">Init.</param>
-		/// <typeparam name="T">The 1st type parameter.</typeparam>
-		public static Phase<T> Create(object instance, T init)
-		{
-			return new Phase<T>(instance, init, (int)(ValueType)init);
-		}
+		public void Change(T type, PhaseArgument argument = null) =>
+			_controller.Change(type, argument);
 
 
 		/// <summary>
-		/// 基本的にはすぐに切り替えたほうが良いきがする
+		/// フェーズが切り替わった時に一度だけ呼び出される
 		/// </summary>
-		/// <param name="id">Identifier.</param>
-		public void Set(T id)
-		{
-			Current = (int)(ValueType)id;
-			Change();
-		}
+		public virtual void PhaseStart() { }
 
 		/// <summary>
-		/// ステータスを切り替える
+		/// フェーズがアクティブ状態の時に呼び出され続ける
 		/// </summary>
-		public void Change()
-		{
-			while (Current != Prev)
-			{
-				Term();
-				Prev = -1;
-
-				Init();
-				Prev = Current;
-			}
-		}
-
-
-		public void Update()
-		{
-			Proc();
-		}
-
-		#endregion
-
-
-		#region private 関数
+		public virtual void PhaseUpdate() { }
 
 		/// <summary>
-		/// リフレクションを指定して関数を作成。それをActionにする
+		/// フェーズが終了する時一度だけ呼び出される
 		/// </summary>
-		/// <returns>The func.</returns>
-		/// <param name="name">Name.</param>
-		private System.Action CreateFunc(string name)
-		{
-			return (System.Action)Delegate.CreateDelegate(typeof(System.Action), _instance, name);
-		}
-
-		/// <summary>
-		/// 列挙の名前を作成する
-		/// </summary>
-		/// <returns>The name.</returns>
-		/// <param name="id">Identifier.</param>
-		private string GetName(int id)
-		{
-			return Enum.GetName(_type, id);
-		}
-
-		/// <summary>
-		/// 初期化処理
-		/// </summary>
-		private void Init()
-		{
-			if (Current < 0)
-			{
-				return;
-			}
-
-			if (_inits[Current] == null)
-			{
-				return;
-			}
-
-			_inits[Current]();
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		private void Proc()
-		{
-			if (_procs[Current] == null)
-			{
-				return;
-			}
-
-			_procs[Current]();
-		}
-
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		private void Term()
-		{
-			if (Prev < 0)
-			{
-				return;
-			}
-
-			if (_terms[Prev] == null)
-			{
-				return;
-			}
-
-			_terms[Prev]();
-		}
-
-
-		#endregion
+		public virtual void PhaseStop() { }
 	}
 }

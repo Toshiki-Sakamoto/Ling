@@ -45,7 +45,7 @@ namespace Ling.Scenes.Battle
 	/// </summary>
 	public class EventChangePhase
 	{
-		public BattleScene.Phase phase;
+		public Phase phase;
 	}
 
 	/// <summary>

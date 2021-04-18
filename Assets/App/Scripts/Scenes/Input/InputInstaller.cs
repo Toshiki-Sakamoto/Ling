@@ -1,6 +1,5 @@
 using UnityEngine;
 using Zenject;
-using Ling.Common.Input;
 
 
 namespace Ling.Scenes.Input

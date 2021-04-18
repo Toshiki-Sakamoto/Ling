@@ -2,12 +2,10 @@
 // MenuArgument.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2021.04.10
+// Created by toshiki sakamoto on 2021.04.18
 //
 
-using Ling.Common.Scene.Menu;
-
-namespace Ling.Scenes.Menu
+namespace Ling.Common.Scene.Menu
 {
 	/// <summary>
 	/// Menuシーンに渡すデータ類

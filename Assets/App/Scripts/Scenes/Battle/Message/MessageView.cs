@@ -7,10 +7,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-using Zenject;
-using System;
 using UniRx;
 using Ling.Utility;
 using System.Linq;

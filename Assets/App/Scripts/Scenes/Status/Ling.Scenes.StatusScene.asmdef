@@ -1,0 +1,20 @@
+{
+    "name": "Ling.Scenes.StatusScene",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0e8b8ee60c0cc4f01a024e585c30e024",
+        "GUID:2b796359ba3a84b1999ef355af2c1b1b",
+        "GUID:258053230626a4e92b6385b92ddefb03",
+        "GUID:b34775cf8bbd444f68f5c6e25ef38af4",
+        "GUID:560b04d1a97f54a4e82edc0cbbb69285"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -8,6 +8,8 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Ling.Common.Scene.Menu;
+
 namespace Ling.Scenes.Menu
 {
 	/// <summary>
