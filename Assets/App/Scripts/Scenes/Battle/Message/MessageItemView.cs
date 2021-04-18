@@ -9,7 +9,6 @@ using Ling.Adv.Window;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
