@@ -10,7 +10,10 @@ using System.Collections.Generic;
 using Ling.Const;
 using Ling.Map.TileDataMapExtensions;
 using Cysharp.Threading.Tasks;
+
+#if DEBUG
 using Ling._Debug;
+#endif
 
 namespace Ling.Map
 {
