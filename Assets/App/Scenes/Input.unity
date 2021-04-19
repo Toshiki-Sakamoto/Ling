@@ -959,6 +959,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1631036957}
     m_Modifications:
+    - target: {fileID: 7106959643462463828, guid: 365ebf8bc509248488c44fc69bee9602,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 311
+      objectReference: {fileID: 0}
     - target: {fileID: 7106959643462463849, guid: 365ebf8bc509248488c44fc69bee9602,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1203,6 +1208,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8411614102256058170, guid: e7c464483aa5b445c9368c8726ce254f,
+        type: 3}
+      propertyPath: m_BlockingMask.m_Bits
+      value: 311
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7c464483aa5b445c9368c8726ce254f, type: 3}

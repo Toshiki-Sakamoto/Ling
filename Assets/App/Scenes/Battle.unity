@@ -1059,7 +1059,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 311
 --- !u!114 &874937139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1794,9 +1794,9 @@ GameObject:
   - component: {fileID: 1367604534}
   - component: {fileID: 1367604536}
   - component: {fileID: 1367604537}
+  - component: {fileID: 1367604539}
   - component: {fileID: 1367604538}
   - component: {fileID: 1367604535}
-  - component: {fileID: 1367604539}
   m_Layer: 0
   m_Name: TextItem
   m_TagString: Untagged
@@ -1832,7 +1832,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1367604533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47cb3e4c59a2d439d93be760226d6ced, type: 3}
+  m_Script: {fileID: 1651412495, guid: aceec2d8e94434339b2f1ada138404d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1856,7 +1856,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ssss
+  m_Text: 
 --- !u!222 &1367604536
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1877,7 +1877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbacf730863ed0e4db629d22b5578a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 1367604535}
+  _text: {fileID: 0}
   _animator: {fileID: 1367604539}
 --- !u!114 &1367604538
 MonoBehaviour:
@@ -1888,7 +1888,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1367604533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 905db319f84ce4b3fb6ab0445193ffc2, type: 3}
+  m_Script: {fileID: -658541942, guid: aceec2d8e94434339b2f1ada138404d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 1367604535}
