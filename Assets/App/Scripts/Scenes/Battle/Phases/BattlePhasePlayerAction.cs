@@ -40,9 +40,10 @@ namespace Ling.Scenes.Battle.Phases
 		[Inject] private Chara.CharaManager _charaManager;
 		[Inject] private Map.MapManager _mapManager;
 		[Inject] private IInputManager _inputManager;
-		[Inject] private IInputProvider<InputControls.IMoveActions> _moveInputProvider;
-		[Inject] private IInputProvider<InputControls.IActionActions> _actionInputProvider;
-		[Inject] private Dictionary<InputAction, System.Func<bool>> _inputActionDict = new Dictionary<InputAction, System.Func<bool>>();
+		
+		private IInputProvider<InputControls.IMoveActions> _moveInputProvider;
+		private IInputProvider<InputControls.IActionActions> _actionInputProvider;
+		private Dictionary<InputAction, System.Func<bool>> _inputActionDict = new Dictionary<InputAction, System.Func<bool>>();
 
 		#endregion
 
