@@ -22,6 +22,8 @@ namespace Ling.Common.Scene.Extensions
 		/// </summary>
 		public static void AddChild(this Base self, Base child)
 		{
+			child.Parent = self;
+
 			self.Children.Add(child);
 
 			// データとしても追加する
