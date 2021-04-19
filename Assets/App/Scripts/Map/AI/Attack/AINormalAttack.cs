@@ -48,7 +48,7 @@ namespace Ling.AI.Attack
 
 		#region public, protected 関数
 
-		protected override async UniTask ExexuteInternalAsync(Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
+		protected override async UniTask ExexuteInternalAsync(Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			// 自分の８方向のマスにターゲットが存在するか
 			// なければもう何もしない
@@ -72,7 +72,7 @@ namespace Ling.AI.Attack
 
 			// 現在の座標の周りを調べ行ける場所を目的地とする
 			var pos = _unit.Model.CellPosition.Value;
-			var dirArray = Ling.Utility.Map.GetDirArray(true);
+			var dirArray = Utility.Map.GetDirArray(true);
 			for (int i = 0, size = dirArray.GetLength(0); i < size; ++i)
 			{
 				var addX = dirArray[i, 0];

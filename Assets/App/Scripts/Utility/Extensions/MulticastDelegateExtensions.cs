@@ -7,7 +7,7 @@
 
 using System;
 
-namespace Ling.Utility.Extensions
+namespace Utility.Extensions
 {
 	/// <summary>
 	/// System.Action, System.Func 等の拡張機能

@@ -15,7 +15,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
-namespace Ling.Utility.Editor.View
+namespace Utility.Editor.View
 {
 #if false
 	public class DeveloperSettingScriptableObject : ScriptableObject

@@ -12,7 +12,7 @@ using UnityEngine.UI;
 using Zenject;
 
 
-namespace Ling.Utility.Pool
+namespace Utility.Pool
 {
 	/// <summary>
 	/// 

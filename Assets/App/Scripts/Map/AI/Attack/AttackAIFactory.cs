@@ -35,7 +35,7 @@ namespace Ling.AI.Attack
 					break;
 
 				default:
-					Ling.Utility.Log.Error("AttackAIを作成できませんでした。無効のタイプ " + _attackAIData.AttackAIType);
+					Utility.Log.Error("AttackAIを作成できませんでした。無効のタイプ " + _attackAIData.AttackAIType);
 					return;
 			}
 

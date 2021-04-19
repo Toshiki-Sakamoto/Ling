@@ -6,7 +6,7 @@
 //
 
 using UnityEngine;
-using Ling.Utility.Attribute;
+using Utility.Attribute;
 
 namespace Ling.MasterData.Item
 {

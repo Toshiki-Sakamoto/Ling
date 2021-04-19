@@ -12,7 +12,7 @@ using Ling.Map.TileDataMapExtensions;
 using Ling.Map.TileDataMapExtensionss.Chara;
 using System.Collections.Generic;
 using Ling.Const;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 
 namespace Ling.AI.Move
 {
@@ -110,7 +110,7 @@ namespace Ling.AI.Move
 			_destinationRoutes?.Clear();
 		}
 
-		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit, Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
+		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit, Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			_unit = unit;
 			_tileDataMap = null;
@@ -152,7 +152,7 @@ namespace Ling.AI.Move
 			}
 		}
 
-		protected virtual async UniTask ExexuteInternalAsync(Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
+		protected virtual async UniTask ExexuteInternalAsync(Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			// もっとも優先すべきものがあればそこに向かって歩く
 			if (await SearchMustDestinationAsync())
@@ -418,7 +418,7 @@ namespace Ling.AI.Move
 
 			// 現在の座標の周りを調べ行ける場所を目的地とする
 			var pos = _unit.Model.CellPosition.Value;
-			var dirArray = Ling.Utility.Map.GetDirArray(true);
+			var dirArray = Utility.Map.GetDirArray(true);
 			for (int i = 0, size = dirArray.GetLength(0); i < size; ++i)
 			{
 				var addX = dirArray[i, 0];

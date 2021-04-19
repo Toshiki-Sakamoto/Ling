@@ -18,7 +18,7 @@ using Zenject;
 using UniRx;
 using Cysharp.Threading.Tasks;
 
-namespace Ling.Utility.Pool
+namespace Utility.Pool
 {
 	/// <summary>
 	/// 特定のゲームオブジェクトをプールで保管する。引き出し、預け入れができる。

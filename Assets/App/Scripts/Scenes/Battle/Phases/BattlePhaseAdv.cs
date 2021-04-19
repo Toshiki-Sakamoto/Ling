@@ -34,7 +34,7 @@ namespace Ling.Scenes.Battle.Phases
 
 		#region private 変数
 
-		[Inject] private Adv.Engine.Manager _advManager = null;
+		[Inject] private Adv.Engine.AdvEngineManager _advManager = null;
 
 		#endregion
 

@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// MonoBehavierクラスを型どって作成できるベースクラス

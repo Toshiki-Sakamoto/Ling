@@ -14,7 +14,7 @@ using UnityEngine.UI;
 using UniRx.Triggers;
 using UniRx;
 
-namespace Ling.Utility.AssetBundle
+namespace Utility.AssetBundle
 {
 	/// <summary>
 	/// AddresableAssetBundleを使用した管理

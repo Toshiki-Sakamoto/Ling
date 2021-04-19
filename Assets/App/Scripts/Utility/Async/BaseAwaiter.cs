@@ -7,7 +7,7 @@
 
 using Cysharp.Threading.Tasks;
 
-namespace Ling.Utility.Async
+namespace Utility.Async
 {
 	/// <summary>
 	/// Awaiterのベースクラス

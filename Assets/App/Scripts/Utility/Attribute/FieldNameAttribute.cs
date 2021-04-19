@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Utility.Attribute
+namespace Utility.Attribute
 {
 	/// <summary>
 	/// [FieldNameAttribute("")] private int _huga;

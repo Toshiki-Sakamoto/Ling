@@ -12,7 +12,7 @@ using UnityEngine.UI;
 using Zenject;
 
 
-namespace Ling.Utility.Renderer
+namespace Utility.Renderer
 {
 	/// <summary>
 	/// コンポーネント下のSortingLayerを一度に切り替える

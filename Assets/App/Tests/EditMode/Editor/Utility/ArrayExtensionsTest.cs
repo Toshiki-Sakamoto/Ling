@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 
 using Assert = UnityEngine.Assertions.Assert;
 

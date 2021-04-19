@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace Ling.Utility.UI
+namespace Utility.UI
 {
 	/// <summary>
 	/// 指定したターゲットオブジェクトを追従する

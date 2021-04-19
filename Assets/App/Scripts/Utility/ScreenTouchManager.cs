@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// 空間にRayを飛ばして衝突したもののタッチ判定を判定

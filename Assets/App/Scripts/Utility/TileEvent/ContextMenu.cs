@@ -15,7 +15,7 @@ using UnityEditor;
 #endif
 
 
-namespace Ling.Utility.TileEvent
+namespace Utility.TileEvent
 {
 #if false
 #if UNITY_EDITOR

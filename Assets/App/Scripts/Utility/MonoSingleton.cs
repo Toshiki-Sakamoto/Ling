@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// 

@@ -12,7 +12,7 @@ using UnityEngine.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 
-namespace Ling.Utility.TileEvent
+namespace Utility.TileEvent
 {
 	/// <summary>
 	/// 

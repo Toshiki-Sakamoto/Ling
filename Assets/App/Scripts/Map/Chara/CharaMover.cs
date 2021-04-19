@@ -10,7 +10,7 @@ using UnityEngine.Tilemaps;
 using UniRx;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 
 namespace Ling.Chara
 {

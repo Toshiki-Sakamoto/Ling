@@ -14,7 +14,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Ling.Utility.Editor.AssetBundle
+namespace Utility.Editor.AssetBundle
 {
 	/// <summary>
 	/// AddressableのEditor機能ヘルパクラス

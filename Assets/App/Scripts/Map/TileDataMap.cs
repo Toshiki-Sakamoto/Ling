@@ -7,7 +7,7 @@
 
 using System.Collections;
 using System.Collections.Generic;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using UnityEngine;
 using Ling.Const;
 using Ling.Map.TileDataMapExtensions;

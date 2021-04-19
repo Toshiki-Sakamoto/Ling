@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Ling.Utility.Attribute;
+using Utility.Attribute;
 using System.Linq;
 using Ling.Const;
 

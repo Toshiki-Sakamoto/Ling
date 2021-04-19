@@ -9,7 +9,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// Utility関連の初期化を行う

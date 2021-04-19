@@ -6,7 +6,6 @@
 // Created by toshiki sakamoto on 2020.05.01
 // 
 using Cysharp.Threading.Tasks;
-using Ling.Adv;
 using Ling.MasterData.Stage;
 using System.Collections;
 using System.Collections.Generic;

@@ -14,7 +14,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 using System.Linq;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using Ling.Common.Scene.Extensions;
 
 namespace Ling.Common.Scene

@@ -8,7 +8,7 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using UnityEngine;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using System.Collections.Generic;
 using System;
 using UniRx;

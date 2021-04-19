@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Zenject;
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// Phaseを管理する

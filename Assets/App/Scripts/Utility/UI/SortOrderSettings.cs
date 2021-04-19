@@ -8,9 +8,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Ling.Utility.AssetBundle;
+using Utility.AssetBundle;
 
-namespace Ling.Utility.UI
+namespace Utility.UI
 {
 	/// <summary>
 	/// SortOrderの定数と、列挙値を結びつけるための設定を作成する

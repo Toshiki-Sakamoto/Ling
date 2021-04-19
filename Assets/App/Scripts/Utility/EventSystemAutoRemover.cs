@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using UnityEngine.EventSystems;
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// 起動時にEventSystemを一つにする。このスクリプトがついているシーン以外を破棄する

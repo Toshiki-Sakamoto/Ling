@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2021.04.16
 //
 
-namespace Ling.Utility.AssetBundle
+namespace Utility.AssetBundle
 {
 	/// <summary>
 	/// AAB関連のヘルパクラス

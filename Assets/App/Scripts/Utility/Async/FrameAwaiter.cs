@@ -7,7 +7,7 @@
 
 using Cysharp.Threading.Tasks;
 
-namespace Ling.Utility.Async
+namespace Utility.Async
 {
 	/// <summary>
 	/// 指定フレームが経過するまでawaitを呼び出す

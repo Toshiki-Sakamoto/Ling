@@ -6,7 +6,7 @@
 //
 
 
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using UnityEngine;
 
 namespace Ling.Map.Tile

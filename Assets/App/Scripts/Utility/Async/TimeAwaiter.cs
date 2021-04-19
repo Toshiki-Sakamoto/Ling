@@ -8,7 +8,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Ling.Utility.Async
+namespace Utility.Async
 {
 	/// <summary>
 	/// 一定時間awaitを呼び出し、次に処理を移す

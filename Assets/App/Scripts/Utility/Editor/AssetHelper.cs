@@ -9,7 +9,7 @@ using System;
 using System.Linq;
 using UnityEditor;
 
-namespace Ling.Utility.Editor
+namespace Utility.Editor
 {
 	/// <summary>
 	/// Asset操作ヘルパークラス

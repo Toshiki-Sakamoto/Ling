@@ -9,7 +9,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.TestTools;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 
 using NUnit.Framework;
 

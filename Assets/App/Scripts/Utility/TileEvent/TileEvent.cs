@@ -18,7 +18,7 @@ using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
 
-namespace Ling.Utility.TileEvent
+namespace Utility.TileEvent
 {
 	public enum EventTriggerType
 	{

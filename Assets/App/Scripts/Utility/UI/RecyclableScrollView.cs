@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Utility.UI
+namespace Utility.UI
 {
 	/// <summary>
 	/// 再利用可能なスクロールビュー

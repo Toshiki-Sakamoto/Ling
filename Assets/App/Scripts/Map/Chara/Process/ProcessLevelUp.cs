@@ -6,7 +6,7 @@
 //
 
 using System.Collections.Generic;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 
 namespace Ling.Chara.Process
 {

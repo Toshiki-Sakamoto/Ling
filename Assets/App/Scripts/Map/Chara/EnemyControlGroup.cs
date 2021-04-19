@@ -15,7 +15,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-using Ling.Utility.Pool;
+using Utility.Pool;
 using Zenject;
 using UniRx;
 

@@ -10,7 +10,7 @@ using DG.Tweening;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Ling.Utility;
+using Utility;
 using Ling.Chara;
 using Ling.Map.TileDataMapExtensions;
 using Ling.Map.TileDataMapExtensionss.Chara;

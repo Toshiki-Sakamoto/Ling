@@ -13,7 +13,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Ling.Utility.Editor
+namespace Utility.Editor
 {
 	/// <summary>
 	/// <see cref="UnityEditor.PropertyDrawer"/>関連の便利関数定義

@@ -9,7 +9,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 using Zenject;
-using Ling.Utility;
+using Utility;
 
 namespace Ling.Map
 {

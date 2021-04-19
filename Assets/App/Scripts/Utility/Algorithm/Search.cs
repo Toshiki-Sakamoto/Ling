@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace Ling.Utility.Algorithm
+namespace Utility.Algorithm
 {
 	/// <summary>
 	/// 探索系Algorithm

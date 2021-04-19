@@ -80,7 +80,7 @@ namespace Ling.AI.Attack
 		/// 思考処理
 		/// 非同期にしているのは、逐次処理を戻すことで１フレーム内の思考時間最大数超えていた場合次フレームに回すため
 		/// </summary>
-		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit, Ling.Utility.Async.WorkTimeAwaiter timeAwaiter)
+		public virtual async UniTask ExecuteAsync(Chara.ICharaController unit, Utility.Async.WorkTimeAwaiter timeAwaiter)
 		{
 			_unit = unit;
 			_tileDataMap = null;
@@ -97,7 +97,7 @@ namespace Ling.AI.Attack
 		}
 
 
-		protected virtual UniTask ExexuteInternalAsync(Ling.Utility.Async.WorkTimeAwaiter timeAwaiter) =>
+		protected virtual UniTask ExexuteInternalAsync(Utility.Async.WorkTimeAwaiter timeAwaiter) =>
 			default(UniTask);
 
 		#endregion

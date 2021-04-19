@@ -5,9 +5,9 @@ using System;
 
 using UnityEditor;
 using System.IO;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 
-namespace Ling.Utility.Editor.CustomScript
+namespace Utility.Editor.CustomScript
 {
 	public class Creator
 	{

@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace Ling.Utility.Attribute
+namespace Utility.Attribute
 {
 	/// <summary>
 	/// SortOrderの定数値を一覧表示するためのもの

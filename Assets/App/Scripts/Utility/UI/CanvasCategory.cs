@@ -8,7 +8,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Ling.Utility.UI
+namespace Utility.UI
 {
 	/// <summary>
 	/// 自動でカメラを切り替えるスクリプト
