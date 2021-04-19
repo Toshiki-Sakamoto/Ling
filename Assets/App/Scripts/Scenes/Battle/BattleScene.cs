@@ -189,6 +189,26 @@ namespace Ling.Scenes.Battle
 		public override IObservable<Unit> StopSceneAsync() =>
 			Observable.Return(Unit.Default);
 
+		/// <summary>
+		/// あるシーンから戻ってきた時
+		/// </summary>
+		public override void CamebackScene(Base closedScene)
+		{
+			// メニューならPhaseを変更させる
+			var sceneID = closedScene.SceneData.SceneID;
+			var result = SceneData.Result as Common.Scene.Battle.BattleResult;
+
+			switch (sceneID)
+			{
+				case SceneID.Menu:
+					// なにか使用したか
+
+					// 何も使用してないならプレイヤー行動に戻す
+					_phase.ChangePhase(Phase.PlayerAction);
+					break;
+			}
+		}
+
 
 		/// <summary>
 		/// 次のレベルに移動する
