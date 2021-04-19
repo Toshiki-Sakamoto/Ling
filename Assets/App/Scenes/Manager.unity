@@ -262,8 +262,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 677634622}
-  - component: {fileID: 677634621}
   - component: {fileID: 677634623}
+  - component: {fileID: 677634621}
   m_Layer: 0
   m_Name: AdvManager
   m_TagString: Untagged
@@ -280,11 +280,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 677634620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edea85800603997469d8c12f4c7539f3, type: 3}
+  m_Script: {fileID: -1099503339, guid: aceec2d8e94434339b2f1ada138404d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trsWindowRoot: {fileID: 1278673136}
-  _view: {fileID: 1181411405}
+  _view: {fileID: 0}
 --- !u!4 &677634622
 Transform:
   m_ObjectHideFlags: 0
@@ -309,10 +308,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 677634620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4a90c950e5814313a15e8081aba6cf3, type: 3}
+  m_Script: {fileID: -1306529910, guid: aceec2d8e94434339b2f1ada138404d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _view: {fileID: 1181411405}
+  _trsWindowRoot: {fileID: 1278673136}
+  _view: {fileID: 0}
 --- !u!1 &686459511
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,11 +613,11 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _canvasCameraDict
       Entry: 7
-      Data: 0|UnityEngine.Rendering.SerializedDictionary`2[[Ling.Utility.UI.CanvasCameraType,
-        Utility],[UnityEngine.Camera, UnityEngine.CoreModule]], Unity.RenderPipelines.Core.Runtime
+      Data: 0|System.Collections.Generic.Dictionary`2[[Utility.UI.CanvasCameraType,
+        Utility],[UnityEngine.Camera, UnityEngine.CoreModule]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Ling.Utility.UI.CanvasCameraType,
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Utility.UI.CanvasCameraType,
         Utility]], mscorlib
     - Name: 
       Entry: 12
@@ -663,18 +663,6 @@ Transform:
   m_Father: {fileID: 888781602}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1181411405 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 113542910, guid: 1ffa087f437da41cca40588456a6d04e,
-    type: 3}
-  m_PrefabInstance: {fileID: 2094159658}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ac6ae5296348467683ca770d4216c08, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1238954348
 GameObject:
   m_ObjectHideFlags: 0
