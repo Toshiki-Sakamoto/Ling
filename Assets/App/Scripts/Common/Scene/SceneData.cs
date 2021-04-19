@@ -43,6 +43,11 @@ namespace Ling.Common.Scene
 		/// </summary>
 		public Argument Argument { get; set; }
 
+		/// <summary>
+		/// あるシーンに戻る時、データを渡すために使用する
+		/// </summary>
+		public SceneResult Result { get; set; }
+
 		public System.Action<DiContainer> BindAction { get; set; }
 
 		/// <summary>
