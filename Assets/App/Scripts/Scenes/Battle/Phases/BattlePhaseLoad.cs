@@ -59,7 +59,7 @@ namespace Ling.Scenes.Battle.Phases
 
 		#region public, protected 関数
 
-		protected override void AwakeInternal()
+		public override void PhaseInit()
 		{
 		}
 

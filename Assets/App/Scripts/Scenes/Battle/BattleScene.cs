@@ -47,7 +47,7 @@ namespace Ling.Scenes.Battle
 	/// <summary>
 	/// Battle
 	/// </summary>
-	public class BattleScene : Common.Scene.ExSceneBase<Phase>
+	public class BattleScene : Common.Scene.ExSceneBase
 	{
 		#region 定数, class, enum
 
@@ -135,29 +135,24 @@ namespace Ling.Scenes.Battle
 		{
 			if (_isInitialized) return;
 
-			AddPhase<BattlePhaseStart>(Phase.Start);
-/*
-			_phase.Add(Phase.Start, new Battle.Phase.BattlePhaseStart());
-			_phase.Add(Phase.Load, new Battle.Phase.BattlePhaseLoad());
-			_phase.Add(Phase.FloorSetup, new Battle.Phase.BattlePhaseFloorSetup());
+			RegistPhase<BattlePhaseStart>(Phase.Start);
+			RegistPhase<BattlePhaseLoad>(Phase.Load);
+			RegistPhase<BattlePhaseFloorSetup>(Phase.FloorSetup);
 
 			// Menu
-			_phase.Add(Phase.MenuAction, new Battle.Phase.BattlePhaseMenuAction());
+			RegistPhase<BattlePhaseMenuAction>(Phase.MenuAction);
 
 			// Player
-			_phase.Add(Phase.PlayerAction, new Battle.Phase.BattlePhasePlayerAction());
-			_phase.Add(Phase.PlayerAttack, new Battle.Phase.BattlePhasePlayerAttack());
-			_phase.Add(Phase.PlayerActionProcess, new Battle.Phase.BattlePhasePlayerActionProcess());
-			_phase.Add(Phase.PlayerActionEnd, new Battle.Phase.BattlePhasePlayerActionEnd());
+			RegistPhase<BattlePhasePlayerAction>(Phase.PlayerAction);
+			RegistPhase<BattlePhasePlayerAttack>(Phase.PlayerAttack);
+			RegistPhase<BattlePhasePlayerActionProcess>(Phase.PlayerActionProcess);
+			RegistPhase<BattlePhasePlayerActionEnd>(Phase.PlayerActionEnd);
 
-			_phase.Add(Phase.Adv, new Battle.Phase.BattlePhaseAdv());
-			_phase.Add(Phase.NextStage, new Battle.Phase.BattlePhaseNextStage());
-			_phase.Add(Phase.EnemyTink, new Battle.Phase.BattlePhaseEnemyThink());
-			_phase.Add(Phase.CharaProcessExecute, new Battle.Phase.BattlePhaseCharaProcessExecuter());
-			_phase.Add(Phase.CharaProcessEnd, new Battle.Phase.BattlePhaseCharaProcessEnd());
-
-			_phase.Start(this, Phase.Start);
-			*/
+			RegistPhase<BattlePhaseAdv>(Phase.Adv);
+			RegistPhase<BattlePhaseNextStage>(Phase.NextStage);
+			RegistPhase<BattlePhaseEnemyThink>(Phase.EnemyTink);
+			RegistPhase<BattlePhaseCharaProcessExecuter>(Phase.CharaProcessExecute);
+			RegistPhase<BattlePhaseCharaProcessEnd>(Phase.CharaProcessEnd);
 
 			_isInitialized = true;
 
@@ -173,6 +168,9 @@ namespace Ling.Scenes.Battle
 			View.UIHeaderView.SetLevel(_model.Level);
 
 			UnityEngine.Random.InitState(1);
+
+			// Phase開始
+			StartPhase(Phase.Start);
 		}
 
 		public override void UpdateScene()
@@ -226,7 +224,7 @@ namespace Ling.Scenes.Battle
 			var nextPhase = _model.NextPhaseMoveReservation;
 			_model.NextPhaseMoveReservation = Phase.None;
 
-			_phase.Change(nextPhase, null);
+			_phase.ChangePhase(nextPhase, null);
 
 			return true;
 		}

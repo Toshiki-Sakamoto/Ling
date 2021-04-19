@@ -33,8 +33,8 @@ namespace Ling.Common.Scene
 		void AddSceneAsync(Base parent, SceneID sceneID, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null);
 		UniTask<TScene> AddSceneAsync<TScene>(Base parent, SceneID scene, Argument argument = null, bool isStopCurrentScene = true, System.Action<DiContainer> bindAction = null) where TScene : Base;
 
-		void CloseScene(Base scene);
-		UniTask CloseSceneAsync(Base scene);
+		void CloseScene(Base scene, SceneResult result = null);
+		UniTask CloseSceneAsync(Base scene, SceneResult result = null);
 
 		UniTask QuickStartAsync(Base scene);
 	}
@@ -103,31 +103,41 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// 指定したシーンを閉じる
 		/// </summary>
-		public void CloseScene(Base scene) =>
-			CloseSceneAsync(scene).Forget();
+		public void CloseScene(Base scene, SceneResult result = null) =>
+			CloseSceneAsync(scene, result).Forget();
 
-		public async UniTask CloseSceneAsync(Base scene)
+		public async UniTask CloseSceneAsync(Base scene, SceneResult result = null)
 		{
 			if (_currentScene == scene)
 			{
 				// CurrentSceneの場合、一つ前のシーンに戻る
 				var lastSceneData = _sceneData.Last();
+
+				// 結果を登録しておく
+				lastSceneData.Result = result;
+
 				await BackToSceneAsync(lastSceneData);
 			}
 			else
 			{
-				// 自分を削除
-				await DestroySceneAsyncInternal(scene);
-
 				// 親をアクティブ状態にする
 				var parent = scene.Parent;
 				if (parent != null)
 				{
+					// 結果を登録しておく
+					parent.SceneData.Result = result;
+
+					// 開始前にどのシーンから戻ってきたかを通知する
+					parent.CamebackScene(scene);
+
 					parent.RemoveChild(scene);
 
 					parent.IsStartScene = true;
 					parent.StartScene();
 				}
+
+				// 自分を削除
+				await DestroySceneAsyncInternal(scene);
 			}
 		}
 
@@ -154,7 +164,7 @@ namespace Ling.Common.Scene
 			}
 
 			// 空の場合見つからなかったのでデフォルトに戻す
-			return await SceneChangeInternalAsync(_currentScene, sceneData, LoadSceneMode.Single, isStopCurrentScene: true);
+			return await SceneChangeInternalAsync(_currentScene, sceneData, LoadSceneMode.Single, isStopCurrentScene: true, backScene: _currentScene);
 		}
 
 		/// <summary>
@@ -204,6 +214,10 @@ namespace Ling.Common.Scene
 			// 依存しているシーンを呼び出す
 			// tood: 今めっちゃ仮で適当に起動してる
 			await SceneLoadProcessAsync(null, _currentScene.SceneData, LoadSceneMode.Single, scene);
+
+			// すべてのシーンを読み込み終わったらStartSceneを呼び出す
+			scene.IsStartScene = true;
+			scene.StartScene();
 		}
 
 		#endregion
@@ -223,10 +237,10 @@ namespace Ling.Common.Scene
 			// 1シーン、１SceneData
 			var sceneData = new SceneData() { SceneID = sceneID, Argument = argument, BindAction = bindAction };
 
-			return await SceneChangeInternalAsync(parent, sceneData, mode, isStopCurrentScene);
+			return await SceneChangeInternalAsync(parent, sceneData, mode, isStopCurrentScene, backScene: null);
 		}
 
-		private async UniTask<Base> SceneChangeInternalAsync(Base parent, SceneData sceneData, LoadSceneMode mode, bool isStopCurrentScene)
+		private async UniTask<Base> SceneChangeInternalAsync(Base parent, SceneData sceneData, LoadSceneMode mode, bool isStopCurrentScene, Base backScene)
 		{
 			var prevScene = _currentScene;
 
@@ -264,6 +278,16 @@ namespace Ling.Common.Scene
 			// シーン読み込み
 			var loadedScene = await SceneLoadProcessAsync(parent, sceneData, mode);
 
+			// あるシーンから戻った場合、メソッドを呼び出す
+			if (backScene != null)
+			{
+				loadedScene.CamebackScene(backScene);
+			}
+
+			// すべてのシーンを読み込み終わったらStartSceneを呼び出す
+			loadedScene.IsStartScene = true;
+			loadedScene.StartScene();
+
 			// 前回のシーンを削除する
 			if (mode == LoadSceneMode.Single)
 			{
@@ -300,10 +324,6 @@ namespace Ling.Common.Scene
 					await SceneLoadProcessAsync(loadedScene, dependenceData.Data, LoadSceneMode.Additive);
 				}
 			}
-
-			// すべてのシーンを読み込み終わったらStartSceneを呼び出す
-			loadedScene.IsStartScene = true;
-			loadedScene.StartScene();
 
 			return loadedScene;
 		}

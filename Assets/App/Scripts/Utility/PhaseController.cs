@@ -9,14 +9,14 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using Zenject;
 
 namespace Ling.Utility
 {
 	/// <summary>
 	/// Phaseを管理する
 	/// </summary>
-	public class PhaseController<T> : MonoBehaviour
-		where T : Enum
+	public class PhaseController : MonoBehaviour
 	{
 		#region 定数, class, enum
 
@@ -30,11 +30,14 @@ namespace Ling.Utility
 
 		#region private 変数
 
-		[ShowInInspector, ReadOnly] private T _currentType = default(T);
+		[Inject] private DiContainer _container;
+
+		[Inject] protected Utility.IEventManager _eventManager = null;
+		[ShowInInspector, ReadOnly] private Enum _currentType = default(Enum);
 
 		private GameObject _owner;
-		private Dictionary<T, Phase<T>> _phaseDict = new Dictionary<T, Phase<T>>();
-		private Phase<T> _currentPhase;
+		private Dictionary<Enum, Phase> _phaseDict = new Dictionary<Enum, Phase>();
+		private Phase _currentPhase;
 
 		#endregion
 
@@ -51,25 +54,28 @@ namespace Ling.Utility
 			_owner = owner;
 		}
 
-		public void Add<TPhase>(T type) where TPhase : Phase<T>
+		public void Regist<TPhase>(Enum type) where TPhase : Phase
 		{
-			var phase = _owner.AddComponent<TPhase>();
+			var phase = _container.InstantiateComponent<TPhase>(_owner);
 
 			_phaseDict[type] = phase;
 		}
 
-		public void Start(T type, PhaseArgument argument = null)
+		public void StartPhase(Enum type, PhaseArgument argument = null)
 		{
 			foreach (var pair in _phaseDict)
 			{
 				var phase = pair.Value;
 				phase.SetController(this);
+
+				// 初期化処理を一度だけ呼び出す
+				phase.Initialize();
 			}
 			
-			Change(type, argument);
+			ChangePhase(type, argument);
 		}
 
-		public void Change(T type, PhaseArgument argument = null)
+		public void ChangePhase(Enum type, PhaseArgument argument = null)
 		{
 			if (!_phaseDict.TryGetValue(type, out var phase))
 			{

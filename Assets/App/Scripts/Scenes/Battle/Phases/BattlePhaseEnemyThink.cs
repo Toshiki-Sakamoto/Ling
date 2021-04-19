@@ -36,10 +36,11 @@ namespace Ling.Scenes.Battle.Phases
 
 		#region private 変数
 
-		[Inject] private Arg _argment;
 		[Inject] private Chara.CharaManager _charaManager;
 		[Inject] private Map.MapManager _mapManager;
-		[Inject] private Utility.Async.WorkTimeAwaiter _timeAwaiter;
+		
+		private Utility.Async.WorkTimeAwaiter _timeAwaiter;
+		private Arg _argment;
 
 		#endregion
 
@@ -56,7 +57,7 @@ namespace Ling.Scenes.Battle.Phases
 
 		#region public, protected 関数
 
-		protected override void AwakeInternal()
+		public override void PhaseInit()
 		{
 		}
 

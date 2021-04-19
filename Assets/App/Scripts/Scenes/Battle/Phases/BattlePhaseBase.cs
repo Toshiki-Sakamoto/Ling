@@ -12,7 +12,7 @@ namespace Ling.Scenes.Battle.Phases
 	/// <summary>
 	/// バトルシーンのPhaseベースクラス
 	/// </summary>
-	public class BattlePhaseBase : Utility.Phase<Phase>
+	public class BattlePhaseBase : Utility.Phase
 	{
 		#region 定数, class, enum
 
@@ -45,19 +45,10 @@ namespace Ling.Scenes.Battle.Phases
 
 		#region コンストラクタ, デストラクタ
 
-		public void Awake()
-		{
-			_gameManager = GameManager.Instance;
-
-			AwakeInternal();
-		}
-
 		#endregion
 
 
 		#region public, protected 関数
-
-		protected virtual void AwakeInternal() { }
 
 		#endregion
 

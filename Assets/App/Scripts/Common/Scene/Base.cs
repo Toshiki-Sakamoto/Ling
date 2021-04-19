@@ -154,6 +154,12 @@ namespace Ling.Common.Scene
 		public virtual void DestroyScene() { }
 
 		/// <summary>
+		/// あるシーンから戻ってきた時に呼び出される。
+		/// 引数には閉じられたシーンインスタンス
+		/// </summary>
+		public virtual void CamebackScene(Base closedScene) { }
+
+		/// <summary>
 		/// シーン停止時に呼び出される
 		/// </summary>
 		/// <returns></returns>
@@ -177,7 +183,7 @@ namespace Ling.Common.Scene
 
 		#region private 関数
 
-		private void Awake()
+		protected virtual void Awake()
 		{
 			_processManager?.SetupScene(this);
 

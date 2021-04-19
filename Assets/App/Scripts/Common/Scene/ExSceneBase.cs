@@ -16,8 +16,7 @@ namespace Ling.Common.Scene
 	/// SceneBaseを拡張したクラス
 	/// 基本的に使用されるものを内包している
 	/// </summary>
-	public class ExSceneBase<TPhaseType> : Base
-		where TPhaseType : Enum
+	public class ExSceneBase : Base
 	{
 		#region 定数, class, enum
 
@@ -31,7 +30,7 @@ namespace Ling.Common.Scene
 
 		#region private 変数
 
-		[ShowInInspector] protected PhaseController<TPhaseType> _phase = default;
+		[ShowInInspector] protected PhaseController _phase = default;
 
 		#endregion
 
@@ -48,9 +47,14 @@ namespace Ling.Common.Scene
 
 		#region public, protected 関数
 
-		public void AddPhase<TPhase>(TPhaseType phaseType) where TPhase : Phase<TPhaseType>
+		public void RegistPhase<TPhase>(Enum phaseType) where TPhase : Phase
 		{
-			_phase.Add<TPhase>(phaseType);
+			_phase.Regist<TPhase>(phaseType);
+		}
+
+		public void StartPhase(Enum phaseType)
+		{
+			_phase.StartPhase(phaseType);
 		}
 
 		#endregion
@@ -58,9 +62,12 @@ namespace Ling.Common.Scene
 
 		#region private 関数
 
-		private void Awake()
+		protected override void Awake()
 		{
-			_phase = gameObject.AddComponent<PhaseController<TPhaseType>>();
+			base.Awake();
+
+			_phase = _diContainer.InstantiateComponent<PhaseController>(gameObject);
+			_phase.SetOwner(gameObject);
 		}
 
 		#endregion

@@ -8,6 +8,7 @@
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using Ling.Common.Scene.Menu;
 
 namespace Ling.Scenes.Menu
 {

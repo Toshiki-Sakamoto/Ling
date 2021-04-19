@@ -40,9 +40,10 @@ namespace Ling.Scenes.Battle.Phases
 		[Inject] private Chara.CharaManager _charaManager;
 		[Inject] private Map.MapManager _mapManager;
 		[Inject] private IInputManager _inputManager;
-		[Inject] private IInputProvider<InputControls.IMoveActions> _moveInputProvider;
-		[Inject] private IInputProvider<InputControls.IActionActions> _actionInputProvider;
-		[Inject] private Dictionary<InputAction, System.Func<bool>> _inputActionDict = new Dictionary<InputAction, System.Func<bool>>();
+		
+		private IInputProvider<InputControls.IMoveActions> _moveInputProvider;
+		private IInputProvider<InputControls.IActionActions> _actionInputProvider;
+		private Dictionary<InputAction, System.Func<bool>> _inputActionDict = new Dictionary<InputAction, System.Func<bool>>();
 
 		#endregion
 
@@ -59,7 +60,7 @@ namespace Ling.Scenes.Battle.Phases
 
 		#region public, protected 関数
 
-		protected override void AwakeInternal()
+		public override void PhaseInit()
 		{
 			_moveInputProvider = _inputManager.Resolve<InputControls.IMoveActions>();
 			_actionInputProvider = _inputManager.Resolve<InputControls.IActionActions>();

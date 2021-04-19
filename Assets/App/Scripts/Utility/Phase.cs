@@ -20,19 +20,28 @@ namespace Ling.Utility
 	{
 	}
 
-	public class Phase<T> : MonoBehaviour where T : Enum
+	public class Phase : MonoBehaviour
 	{
 		public PhaseArgument Argument { get; set; }
 
-		private PhaseController<T> _controller;
+		private PhaseController _controller;
 
-
-		public void SetController(PhaseController<T> controller) =>
+		public void SetController(PhaseController controller) =>
 			_controller = controller;
 
-		public void Change(T type, PhaseArgument argument = null) =>
-			_controller.Change(type, argument);
+		public void Change<TType>(TType type, PhaseArgument argument = null) where TType : Enum =>
+			_controller.ChangePhase(type, argument);
 
+		public void Initialize()
+		{
+			PhaseInit();
+		}
+
+
+		/// <summary>
+		/// フェーズが生成された後一度だけ呼び出される
+		/// </summary>
+		public virtual void PhaseInit() { }
 
 		/// <summary>
 		/// フェーズが切り替わった時に一度だけ呼び出される
