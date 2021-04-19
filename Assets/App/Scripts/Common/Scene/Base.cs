@@ -177,7 +177,7 @@ namespace Ling.Common.Scene
 
 		#region private 関数
 
-		private void Awake()
+		protected virtual void Awake()
 		{
 			_processManager?.SetupScene(this);
 
