@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-//
+﻿//
 // Phase.cs
 // ProductName Ling
 //
@@ -7,13 +6,7 @@
 //
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-
-
 namespace Ling.Utility
 {
 	public class PhaseArgument
