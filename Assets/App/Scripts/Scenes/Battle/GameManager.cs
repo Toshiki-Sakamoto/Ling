@@ -34,7 +34,6 @@ namespace Ling.Scenes.Battle
 
 		#region private 変数
 
-		[Inject] private DiContainer _diContainer;
 		[Inject] private BattleModel _model;
 
 		#endregion
@@ -55,11 +54,6 @@ namespace Ling.Scenes.Battle
 
 
 		#region public, protected 関数
-
-		/// <summary>
-		/// DIContainerから指定した参照の解決
-		/// </summary>
-		public TContract Resolve<TContract>() => _diContainer.Resolve<TContract>();
 
 		#endregion
 
