@@ -8,7 +8,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace Ling.Utility.Async
+namespace Utility.Async
 {
 	/// <summary>
 	/// 指定時間が過ぎた場合、awaitを呼び出す。

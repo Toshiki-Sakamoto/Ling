@@ -7,7 +7,7 @@
 
 using UnityEngine;
 using System;
-using Ling.Utility;
+using Utility;
 using Sirenix.OdinInspector;
 
 namespace Ling.Common.Scene

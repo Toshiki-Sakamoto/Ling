@@ -9,7 +9,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
-namespace Ling.Utility.UI
+namespace Utility.UI
 {
 	public enum CanvasCameraType
 	{

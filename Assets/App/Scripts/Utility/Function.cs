@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// 

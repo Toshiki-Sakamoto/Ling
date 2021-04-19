@@ -7,7 +7,7 @@
 
 using System;
 using UnityEngine;
-namespace Ling.Utility
+namespace Utility
 {
 	public class PhaseArgument
 	{

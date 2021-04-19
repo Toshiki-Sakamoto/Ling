@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// イベントの実態

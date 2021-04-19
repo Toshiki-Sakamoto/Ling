@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using Zenject;
 using Ling.Map;
 using Ling.Map.TileDataMapExtensions;

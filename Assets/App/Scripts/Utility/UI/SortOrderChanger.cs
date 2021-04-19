@@ -6,7 +6,7 @@
 // 
 
 using UnityEngine;
-using Ling.Utility.Attribute;
+using Utility.Attribute;
 using System;
 using UniRx;
 using Sirenix.OdinInspector;
@@ -15,7 +15,7 @@ using Sirenix.OdinInspector;
 using UnityEditor;
 #endif
 
-namespace Ling.Utility.UI
+namespace Utility.UI
 {
 	/// <summary>
 	/// 決められた値にSortOrderを変更する

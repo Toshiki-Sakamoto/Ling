@@ -15,7 +15,7 @@ using UnityEditor;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 
-namespace Ling.Utility.Editor.CustomScript
+namespace Utility.Editor.CustomScript
 {
 	public class CreatorEditorWindow<T> : EditorWindow where T : EditorWindow
 	{

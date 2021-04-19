@@ -38,7 +38,7 @@ namespace Ling.AI.Move
 					break;
 
 				default:
-					Ling.Utility.Log.Error("MoveAIを作成できませんでした。無効のタイプ " + _moveAIData.MoveAIType);
+					Utility.Log.Error("MoveAIを作成できませんでした。無効のタイプ " + _moveAIData.MoveAIType);
 					return;
 			}
 

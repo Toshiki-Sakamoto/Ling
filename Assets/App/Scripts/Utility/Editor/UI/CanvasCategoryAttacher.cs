@@ -7,9 +7,9 @@
 
 using UnityEngine;
 using UnityEditor;
-using Ling.Utility.UI;
+using Utility.UI;
 
-namespace Ling.Utility.Editor.UI
+namespace Utility.Editor.UI
 {
 	/// <summary>
 	/// Canvasが追加された時、CameraAutoChangerスクリプトを自動でアタッチする機能

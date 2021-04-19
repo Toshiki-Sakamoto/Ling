@@ -1,7 +1,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace Ling.Utility.Algorithm
+namespace Utility.Algorithm
 {
 	public class AlgorithmInstaller : MonoInstaller
 	{

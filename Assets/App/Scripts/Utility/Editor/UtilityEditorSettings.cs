@@ -8,7 +8,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace Ling.Utility.Editor
+namespace Utility.Editor
 {
 	/// <summary>
 	/// UtilityのEditorに関する設定を管理する

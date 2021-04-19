@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.02
 // 
 using UnityEngine;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using System.Linq;
 
 using Ling.Map.Tile;

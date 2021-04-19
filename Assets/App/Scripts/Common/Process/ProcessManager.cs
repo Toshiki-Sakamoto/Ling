@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using Ling.Utility;
+using Utility;
 using Zenject;
 
 namespace Ling.Common

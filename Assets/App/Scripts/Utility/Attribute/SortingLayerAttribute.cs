@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Utility.Attribute
+namespace Utility.Attribute
 {
 	/// <summary>
 	/// SortingLayer名を指定できるようになる

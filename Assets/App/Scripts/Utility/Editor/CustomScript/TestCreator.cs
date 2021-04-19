@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using UnityEditor;
 
-namespace Ling.Utility.Editor.CustomScript
+namespace Utility.Editor.CustomScript
 {
 	/// <summary>
 	/// Testスクリプト作成

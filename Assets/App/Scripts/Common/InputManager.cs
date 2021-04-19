@@ -7,9 +7,9 @@
 
 #if false
 using System.Collections.Generic;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using UnityEngine;
-using Ling.Utility;
+using Utility;
 using UniRx;
 using UniRx.Triggers;
 using System.Linq;

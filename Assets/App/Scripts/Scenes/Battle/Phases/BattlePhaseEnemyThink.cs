@@ -8,7 +8,7 @@
 using Cysharp.Threading.Tasks;
 using Ling;
 using System.Collections.Generic;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using Zenject;
 
 namespace Ling.Scenes.Battle.Phases

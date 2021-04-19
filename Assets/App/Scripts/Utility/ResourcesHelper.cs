@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// Utilityフォルダ関連のResourcesに関するヘルパークラス

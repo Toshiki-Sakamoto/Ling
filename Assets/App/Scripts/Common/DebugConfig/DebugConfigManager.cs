@@ -4,7 +4,7 @@
 //  
 // Created by toshiki sakamoto on 2020.05.23
 // 
-using Ling.Utility.UI;
+using Utility.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;

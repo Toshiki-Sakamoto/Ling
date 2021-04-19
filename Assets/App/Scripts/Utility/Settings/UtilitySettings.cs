@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace Ling.Utility.Settings
+namespace Utility.Settings
 {
 	/// <summary>
 	/// Utilityフォルダ内の設定情報を管理する

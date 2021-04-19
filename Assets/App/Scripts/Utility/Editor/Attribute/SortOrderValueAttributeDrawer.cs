@@ -7,14 +7,14 @@ using System.Linq;
 // Created by toshiki sakamoto on 2021.04.13
 // 
 
-using Ling.Utility.Attribute;
+using Utility.Attribute;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Ling.Utility.UI;
-using Ling.Utility.Extensions;
+using Utility.UI;
+using Utility.Extensions;
 
-namespace Ling.Utility.Editor.Attribute
+namespace Utility.Editor.Attribute
 {
 	/// <summary>
 	/// SortOrderValueAttributeの表示担当

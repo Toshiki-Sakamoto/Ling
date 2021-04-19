@@ -6,7 +6,7 @@
 // 
 using UnityEngine;
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// 指定したカメラを自動的に追従する

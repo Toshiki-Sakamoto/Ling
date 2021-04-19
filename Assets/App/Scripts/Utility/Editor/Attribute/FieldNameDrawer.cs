@@ -15,9 +15,9 @@ using UnityEngine.UI;
 using UnityEditor;
 
 using Zenject;
-using Ling.Utility.Attribute;
+using Utility.Attribute;
 
-namespace Ling.Utility.Editor.Attribute
+namespace Utility.Editor.Attribute
 {
 	/// <summary>
 	/// <see cref="Common.Attribute.FieldNameAttribute"/>のPropertyDrawer

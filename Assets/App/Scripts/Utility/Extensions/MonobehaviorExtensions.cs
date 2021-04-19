@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.08.08
 //
 
-namespace Ling.Utility.Extensions
+namespace Utility.Extensions
 {
 	/// <summary>
 	/// Monobehaviour拡張機能

@@ -6,7 +6,7 @@
 //
 
 using UnityEngine;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using System.Linq;
 using UnityEditor;
 using System;

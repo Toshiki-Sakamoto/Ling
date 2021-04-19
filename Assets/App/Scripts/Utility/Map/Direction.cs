@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace Ling.Utility
+namespace Utility
 {
 	/// <summary>
 	/// Map走査で使用できる便利関数群

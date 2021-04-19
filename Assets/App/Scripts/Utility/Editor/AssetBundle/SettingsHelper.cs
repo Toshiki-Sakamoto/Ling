@@ -13,7 +13,7 @@ using UnityEditor.AddressableAssets.Settings.GroupSchemas;
 using System.IO;
 using System.Collections.Generic;
 
-namespace Ling.Utility.Editor.AssetBundle
+namespace Utility.Editor.AssetBundle
 {
 	/// <summary>
 	/// AddressableAssetBundleSettingsのヘルパクラス

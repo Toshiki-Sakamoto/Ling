@@ -4,7 +4,7 @@
 //  
 // Created by toshiki sakamoto on 2020.07.15
 // 
-using Ling.Utility.Attribute;
+using Utility.Attribute;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -14,7 +14,7 @@ using UnityEngine.UI;
 using Zenject;
 
 
-namespace Ling.Utility.Editor.Attribute
+namespace Utility.Editor.Attribute
 {
 	/// <summary>
 	/// <see cref="SortingLayerAttribute"/>を描画する

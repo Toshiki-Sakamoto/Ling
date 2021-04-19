@@ -16,7 +16,7 @@ using UnityEngine.UI;
 using Zenject;
 
 
-namespace Ling.Utility.Pool
+namespace Utility.Pool
 {
 	/// <summary>
 	/// プール作成時の情報

@@ -13,7 +13,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Ling;
-using Ling.Utility.Attribute;
+using Utility.Attribute;
 using Zenject;
 
 namespace Ling.MasterData.Stage

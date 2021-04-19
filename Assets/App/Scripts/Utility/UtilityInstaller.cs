@@ -2,7 +2,7 @@ using System.ComponentModel;
 using UnityEngine;
 using Zenject;
 
-namespace Ling.Utility
+namespace Utility
 {
 	public class UtilityInstaller : MonoInstaller
 	{

@@ -8,11 +8,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using Ling.Utility.Extensions;
+using Utility.Extensions;
 using System.Linq;
 
 
-namespace Ling.Utility.TileEvent
+namespace Utility.TileEvent
 {
 	/// <summary>
 	/// 
