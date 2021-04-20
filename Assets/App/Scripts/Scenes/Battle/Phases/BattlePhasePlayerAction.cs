@@ -72,8 +72,6 @@ namespace Ling.Scenes.Battle.Phases
 			_mapManager.UpdateMapData();
 
 			// キーが押されたときの処理
-
-/*
 			// 移動
 			var move = _moveInputProvider.Controls.Move;
 			_inputActionDict.Add(move.Left, () => MoveCommand(new Vector2Int(-1, 0)));
@@ -84,10 +82,10 @@ namespace Ling.Scenes.Battle.Phases
 			_inputActionDict.Add(move.RightDown, () => MoveCommand(new Vector2Int(1, -1)));
 			_inputActionDict.Add(move.Up, () => MoveCommand(new Vector2Int(0, 1)));
 			_inputActionDict.Add(move.Down, () => MoveCommand(new Vector2Int(0, -1)));
-*/
+
 			// 攻撃
 			var action = _actionInputProvider.Controls.Action;
-//			_inputActionDict.Add(action.Attack, () => Attack());
+			_inputActionDict.Add(action.Attack, () => Attack());
 
 			// メニューを開く
 			_inputActionDict.Add(action.Menu, () => OnOpenMenu());
