@@ -12,7 +12,7 @@ using Utility.Extensions;
 using System.Collections.Generic;
 using System;
 using UniRx;
-using Cysharp.Threading.Tasks;
+using Zenject;
 
 namespace Ling.Chara.Process
 {
@@ -33,7 +33,8 @@ namespace Ling.Chara.Process
 
 		#region private 変数
 
-		private Chara.CharaManager _charaManager;
+		[Inject] private Chara.CharaManager _charaManager;
+
 		private Chara.ICharaController _unit;   // 攻撃対象のキャラ
 		private List<Chara.ICharaController> _targets = new List<ICharaController>();   // ターゲット
 		private List<Chara.ICharaController> _deadChara = new List<ICharaController>();
@@ -72,8 +73,6 @@ namespace Ling.Chara.Process
 
 		protected override void ProcessStartInternal()
 		{
-			_charaManager = _diContainer.Resolve<Chara.CharaManager>();
-
 			AttackAsync().Forget();
 		}
 

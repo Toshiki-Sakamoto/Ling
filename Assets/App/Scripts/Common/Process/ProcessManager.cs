@@ -17,7 +17,7 @@ namespace Ling.Common
 	/// <summary>
 	/// Process管理者
 	/// </summary>
-	public class ProcessManager : Utility.MonoSingleton<ProcessManager>
+	public class ProcessManager : MonoBehaviour
 	{
 		#region 定数, class, enum
 
@@ -60,13 +60,13 @@ namespace Ling.Common
 		/// WorldOwnerに対してアタッチする
 		/// </summary>
 		/// <param name="process"></param>
-		public TProcess Attach<TProcess>(bool waitForStart = false) where TProcess : ProcessBase, new() =>
+		public TProcess Attach<TProcess>(bool waitForStart = false) where TProcess : ProcessBase =>
 			GetOrCreateNode(WorldOwner, WorldOwner.transform,  autoRemove: true).StartAttach<TProcess>(waitForStart);
 
-		public TProcess Attach<TProcess>(Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase, new() =>
+		public TProcess Attach<TProcess>(Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase =>
 			GetOrCreateNode(parent, parent, autoRemove).StartAttach<TProcess>(waitForStart);
 
-		public TProcess Attach<TProcess>(TProcess process, Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase, new() =>
+		public TProcess Attach<TProcess>(TProcess process, Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase =>
 			GetOrCreateNode(parent, parent, autoRemove).StartAttach(process, waitForStart);
 
 		/// <summary>
@@ -135,10 +135,8 @@ namespace Ling.Common
 			return instance;
 		}
 
-		protected override void Awake()
-		{
-			base.Awake();
-			
+		private void Awake()
+		{		
 			WorldOwner = gameObject;
 		}
 
@@ -154,18 +152,20 @@ namespace Ling
 {
 	public static class ProcessExtensions
 	{
+#if false
 		/// <summary>
 		/// 自分をProcessNodeの親としてアタッチする
 		/// </summary>
-		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, bool autoRemove = true, bool waitForStart = false) where TProcess : Common.ProcessBase, new()
+		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, bool autoRemove = true, bool waitForStart = false) where TProcess : Common.ProcessBase
 		{
 			if (Common.ProcessManager.IsNull) return null;
 			return Common.ProcessManager.Instance.Attach<TProcess>(self.transform, autoRemove, waitForStart);
 		}
-		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, TProcess process, bool autoRemove = true, bool waitForStart = false) where TProcess : Common.ProcessBase, new()
+		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, TProcess process, bool autoRemove = true, bool waitForStart = false) where TProcess : Common.ProcessBase
 		{
 			if (Common.ProcessManager.IsNull) return null;
 			return Common.ProcessManager.Instance.Attach(process, self.transform, autoRemove, waitForStart);
 		}
+#endif
 	}
 }

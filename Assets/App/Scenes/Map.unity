@@ -276,6 +276,7 @@ MonoBehaviour:
   _grid: {fileID: 109318013}
   _tilemap: {fileID: 1174814662}
   _mapLevel: 0
+  _itemRoot: {fileID: 0}
   _enemyRoot: {fileID: 669260389}
   _sortingChanger: {fileID: 109318015}
   _enemyControlGroup: {fileID: 109318016}
@@ -494,6 +495,7 @@ MonoBehaviour:
   _grid: {fileID: 143247243}
   _tilemap: {fileID: 116123184}
   _mapLevel: 0
+  _itemRoot: {fileID: 0}
   _enemyRoot: {fileID: 1481681377}
   _sortingChanger: {fileID: 143247245}
   _enemyControlGroup: {fileID: 143247246}
@@ -935,14 +937,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 678225905}
-  m_LocalRotation: {x: 0.5735764, y: 0, z: 0, w: 0.8191521}
-  m_LocalPosition: {x: 0, y: 8, z: -3.5}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 8, z: -1.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 903595410}
   m_Father: {fileID: 1143459318}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 70, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!114 &678225907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1018,6 +1020,7 @@ GameObject:
   m_Component:
   - component: {fileID: 787791239}
   - component: {fileID: 787791238}
+  - component: {fileID: 787791240}
   m_Layer: 0
   m_Name: MapManager
   m_TagString: Untagged
@@ -1055,6 +1058,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &787791240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787791237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cecd8d671f4e67a46aa5dc1216213b2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &842455954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,7 +1157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 8, z: -3.5}
+  m_FollowOffset: {x: 0, y: 8, z: -1.3}
   m_XDamping: 0
   m_YDamping: 0
   m_ZDamping: 0
@@ -1315,6 +1330,7 @@ MonoBehaviour:
   _grid: {fileID: 1017254158}
   _tilemap: {fileID: 1845025752}
   _mapLevel: 0
+  _itemRoot: {fileID: 0}
   _enemyRoot: {fileID: 776082088}
   _sortingChanger: {fileID: 1017254160}
   _enemyControlGroup: {fileID: 1017254161}
@@ -11628,6 +11644,7 @@ MonoBehaviour:
   _grid: {fileID: 2080930055}
   _tilemap: {fileID: 2058739658}
   _mapLevel: 0
+  _itemRoot: {fileID: 0}
   _enemyRoot: {fileID: 1015893937}
   _sortingChanger: {fileID: 2080930057}
   _enemyControlGroup: {fileID: 2080930058}

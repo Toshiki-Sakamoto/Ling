@@ -49,7 +49,7 @@ namespace Ling.Scenes.Battle.Phases
 
 		#region public, protected 関数
 
-		protected TProcess AttachProcess<TProcess>() where TProcess : Common.ProcessBase, new()
+		protected TProcess AttachProcess<TProcess>() where TProcess : Common.ProcessBase
 		{
 			return _scene.AttachProcess<TProcess>();			
 		}

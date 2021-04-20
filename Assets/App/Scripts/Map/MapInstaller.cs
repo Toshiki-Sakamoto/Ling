@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using UnityEngine;
 using Zenject;
 
@@ -9,6 +10,11 @@ namespace Ling.Map
 		{
 			Container
 				.Bind<MapManager>()
+				.FromComponentInHierarchy()
+				.AsSingle();
+
+			Container
+				.Bind<Common.ProcessManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
 		}

@@ -155,7 +155,7 @@ namespace Ling.Scenes.Battle.Phases
 		/// </summary>
 		private void FootConfirmCommand()
 		{
-			var process = _processManager.Attach<Process.ProcessPlayerFoot>();
+			var process = AttachProcess<Process.ProcessPlayerFoot>();
 
 			var argument = new BattlePhasePlayerActionProcess.Arg { process = process };
 			Change(Phase.PlayerActionProcess, argument);

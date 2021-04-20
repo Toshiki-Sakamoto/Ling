@@ -37,9 +37,9 @@ namespace Ling.Scenes.Battle.Process
 
 		#region private 変数
 
-		private Map.MapManager _mapManager = null;
-		private Chara.CharaManager _charaManager = null;
-		private MasterData.IMasterHolder _masterManager = null;
+		[Inject] private Map.MapManager _mapManager = null;
+		[Inject] private Chara.CharaManager _charaManager = null;
+		[Inject] private MasterData.IMasterHolder _masterManager = null;
 
 		#endregion
 
@@ -58,10 +58,6 @@ namespace Ling.Scenes.Battle.Process
 
 		protected override void ProcessStartInternal()
 		{
-			_mapManager = _diContainer.Resolve<Map.MapManager>();
-			_charaManager = _diContainer.Resolve<Chara.CharaManager>();
-			_masterManager = _diContainer.Resolve<MasterData.IMasterHolder>();
-
 			MoveAsync().Forget();
 		}
 
