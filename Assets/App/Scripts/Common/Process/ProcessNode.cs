@@ -28,12 +28,11 @@ namespace Ling.Common
 		/// <summary>
 		/// 自分にアタッチする
 		/// </summary>
-		public TProcess Attach<TProcess>() where TProcess : ProcessBase, new() =>
-			Attach(new TProcess());
+		public TProcess Attach<TProcess>() where TProcess : ProcessBase =>
+			Attach(_diContainer.Instantiate<TProcess>());
 
-		public TProcess Attach<TProcess>(TProcess process) where TProcess : ProcessBase, new()
+		public TProcess Attach<TProcess>(TProcess process) where TProcess : ProcessBase
 		{
-			process.Setup(_diContainer);
 			process.Node = this;
 
 			_processes.Add(process);
@@ -45,7 +44,7 @@ namespace Ling.Common
 		/// ProcessManagerからアタッチされたときに呼び出される
 		/// 最初のProcess
 		/// </summary>
-		public TProcess StartAttach<TProcess>(bool waitForStart = false) where TProcess : ProcessBase, new()
+		public TProcess StartAttach<TProcess>(bool waitForStart = false) where TProcess : ProcessBase
 		{
 			var process = Attach<TProcess>();
 			_startProcesses.Add(process);
@@ -56,7 +55,7 @@ namespace Ling.Common
 			return process;
 		}
 
-		public TProcess StartAttach<TProcess>(TProcess process, bool waitForStart = false) where TProcess : ProcessBase, new()
+		public TProcess StartAttach<TProcess>(TProcess process, bool waitForStart = false) where TProcess : ProcessBase
 		{
 			Attach(process);
 			_startProcesses.Add(process);

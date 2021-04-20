@@ -178,6 +178,14 @@ namespace Ling.Common.Scene
 		protected void QuickStart() =>
 			_launcher.QuickStart(this);
 
+		/// <summary>
+		/// Processのアタッチ
+		/// </summary>
+		public TProcess AttachProcess<TProcess>() where TProcess : Common.ProcessBase
+		{
+			return _processManager.Attach<TProcess>();
+		}
+
 		#endregion
 
 

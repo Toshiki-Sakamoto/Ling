@@ -95,7 +95,7 @@ namespace Ling.Scenes.Battle.Phases
 			Scene.DeployEnemyToMap(enemyModelGroup, level);
 
 			// 動きを制御
-			var process = _processManager.Attach<Process.ProcessNextStageAnim>();
+			var process = AttachProcess<Process.ProcessNextStageAnim>();
 			process.AddFinishAction(() =>
 				{
 					ApplyNextLevel();

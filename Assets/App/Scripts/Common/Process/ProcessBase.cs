@@ -29,8 +29,6 @@ namespace Ling.Common
 
 		#region public, protected 変数
 
-		protected DiContainer _diContainer;
-
 		// 終了時呼び出される
 		public System.Action _onFinish;
 
@@ -41,6 +39,8 @@ namespace Ling.Common
 
 
 		#region private 変数
+
+		[Inject] DiContainer _diContainer;
 
 		#endregion
 
@@ -75,14 +75,11 @@ namespace Ling.Common
 
 		#region public, protected 関数
 
-		public void Setup(DiContainer diContainer)
+		public TProcess SetNext<TProcess>() where TProcess : ProcessBase
 		{
-			_diContainer = diContainer;
-		}
-
-		public TProcess SetNext<TProcess>() where TProcess : ProcessBase, new()
-		{
-			var process = Node.Attach<TProcess>();
+			var process = _diContainer.Instantiate<TProcess>();
+			Node.Attach<TProcess>(process);
+			
 			process.SetEnable(false);
 
 			if (Next != null)
@@ -94,6 +91,7 @@ namespace Ling.Common
 
 			return process;
 		}
+
 
 		/// <summary>
 		/// そのプロセスが持つ連結リストの一番最後につける
@@ -172,6 +170,7 @@ namespace Ling.Common
 
 
 		#region private 関数
+
 
 		#endregion
 	}
