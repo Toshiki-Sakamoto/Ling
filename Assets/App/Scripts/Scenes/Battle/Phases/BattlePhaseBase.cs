@@ -30,7 +30,6 @@ namespace Ling.Scenes.Battle.Phases
 		[Inject] protected BattleModel _model;
 		[Inject] protected GameManager _gameManager;
 		[Inject] protected Utility.IEventManager _eventManager;
-		[Inject] protected Common.ProcessManager _processManager;
 
 		#endregion
 
@@ -49,6 +48,11 @@ namespace Ling.Scenes.Battle.Phases
 
 
 		#region public, protected 関数
+
+		protected TProcess AttachProcess<TProcess>() where TProcess : Common.ProcessBase, new()
+		{
+			return _scene.AttachProcess<TProcess>();			
+		}
 
 		#endregion
 

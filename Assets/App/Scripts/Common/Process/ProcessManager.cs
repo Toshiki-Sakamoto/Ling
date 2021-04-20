@@ -1,18 +1,13 @@
-﻿using System.Security.AccessControl;
-//
+﻿//
 // ProcessManager.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.05.04
 //
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 using Utility;
 using Zenject;
 
@@ -36,7 +31,7 @@ namespace Ling.Common
 
 		#region private 変数
 
-		[Inject] private DiContainer _diContainer;
+		[Inject] DiContainer _diContainer;
 
 		private Dictionary<object, ProcessNode> _processNodes = new Dictionary<object, ProcessNode>();
 
@@ -49,7 +44,7 @@ namespace Ling.Common
 		/// Attach時に何も指定がなかったとき使用されるOwner
 		/// シーン切替時に現在のシーンとして設定される
 		/// </summary>
-		public Common.Scene.Base OwnerScene { get; private set; }
+		public GameObject WorldOwner { get; set; }
 
 		#endregion
 
@@ -62,26 +57,17 @@ namespace Ling.Common
 		#region public, protected 関数
 
 		/// <summary>
-		/// 現在のシーンインスタンスを設定する
-		/// </summary>
-		/// <param name="ownerScene"></param>
-		public void SetupScene(Common.Scene.Base ownerScene)
-		{
-			OwnerScene = ownerScene;
-		}
-
-		/// <summary>
-		/// 現在のシーンに対してアタッチする
+		/// WorldOwnerに対してアタッチする
 		/// </summary>
 		/// <param name="process"></param>
 		public TProcess Attach<TProcess>(bool waitForStart = false) where TProcess : ProcessBase, new() =>
-			GetOrCreateNode(OwnerScene, OwnerScene.transform, OwnerScene.DiContainer, autoRemove: true).StartAttach<TProcess>(waitForStart);
+			GetOrCreateNode(WorldOwner, WorldOwner.transform,  autoRemove: true).StartAttach<TProcess>(waitForStart);
 
 		public TProcess Attach<TProcess>(Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase, new() =>
-			GetOrCreateNode(parent, parent, OwnerScene.DiContainer, autoRemove).StartAttach<TProcess>(waitForStart);
+			GetOrCreateNode(parent, parent, autoRemove).StartAttach<TProcess>(waitForStart);
 
 		public TProcess Attach<TProcess>(TProcess process, Transform parent, bool autoRemove = true, bool waitForStart = false) where TProcess : ProcessBase, new() =>
-			GetOrCreateNode(parent, parent, OwnerScene.DiContainer, autoRemove).StartAttach(process, waitForStart);
+			GetOrCreateNode(parent, parent, autoRemove).StartAttach(process, waitForStart);
 
 		/// <summary>
 		/// 指定したobjectのProcessを全て破棄する。
@@ -122,7 +108,7 @@ namespace Ling.Common
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		private ProcessNode GetOrCreateNode(object key, Transform parent, DiContainer diContainer, bool autoRemove)
+		private ProcessNode GetOrCreateNode(object key, Transform parent, bool autoRemove)
 		{
 			if (key == null) key = this;
 
@@ -134,7 +120,7 @@ namespace Ling.Common
 			var newGameObject = new GameObject("ProcessNode");
 			newGameObject.transform.SetParent(parent);
 
-			var instance = diContainer.InstantiateComponent<ProcessNode>(newGameObject);
+			var instance = _diContainer.InstantiateComponent<ProcessNode>(newGameObject);
 			_processNodes[key] = instance;
 
 			// 削除時にRemoveしてもらう
@@ -149,6 +135,12 @@ namespace Ling.Common
 			return instance;
 		}
 
+		protected override void Awake()
+		{
+			base.Awake();
+			
+			WorldOwner = gameObject;
+		}
 
 		private void Update()
 		{

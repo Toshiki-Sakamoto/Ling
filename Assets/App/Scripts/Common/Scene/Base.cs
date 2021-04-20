@@ -185,8 +185,6 @@ namespace Ling.Common.Scene
 
 		protected virtual void Awake()
 		{
-			_processManager?.SetupScene(this);
-
 			// 起動済みなら何もしない
 			if (!_launcher?.IsSceneBooted ?? false)
 			{

@@ -49,7 +49,7 @@ namespace Utility.Editor.UI
 					if (!UtilityEditorSettings.EnableCanvasGroupAttach) return;
 
 					// 有効の場合処理
-					var canvas = component.GetComponent<Canvas>();
+					var canvas = component as Canvas;
 					if (canvas == null) return;
 
 					// すでについてるなら何もしない
