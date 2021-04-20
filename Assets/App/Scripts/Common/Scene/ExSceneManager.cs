@@ -120,6 +120,9 @@ namespace Ling.Common.Scene
 			}
 			else
 			{
+				// 自分を止める
+				await StopSceneAsyncInternal(scene, needsChildren: true);
+
 				// 親をアクティブ状態にする
 				var parent = scene.Parent;
 				if (parent != null)
@@ -451,8 +454,6 @@ namespace Ling.Common.Scene
 			}
 
 			scene.Children.Clear();
-
-			await StopSceneAsyncInternal(scene, needsChildren: true);
 
 			// 現在のAddSceneに乗っている情報を持ち変える
 			_currentScene?.SceneData.MoveToCacheByChildData();
