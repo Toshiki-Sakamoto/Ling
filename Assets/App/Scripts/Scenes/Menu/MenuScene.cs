@@ -9,6 +9,9 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using Ling.Common.Scene.Menu;
+using Zenject;
+using Ling.Common.Input;
+using UnityEngine.InputSystem;
 
 namespace Ling.Scenes.Menu
 {
@@ -28,6 +31,8 @@ namespace Ling.Scenes.Menu
 
 
 		#region private 変数
+
+		[Inject] private IInputManager _inputManager;
 
 		[SerializeField] private MenuModel _model = default;
 		[SerializeField] private MenuView _view = default;
@@ -67,6 +72,10 @@ namespace Ling.Scenes.Menu
 					_view.SetCategoryData(_model.SelectedCategoryData);
 				}).AddTo(this);
 
+			// メニューボタンが押されたら閉じる
+			var actionInput = _inputManager.Resolve<InputControls.IActionActions>();
+			actionInput.Controls.Action.Menu.performed += OnMenuPerformed;
+
 			// 閉じるボタン
 			_view.CloseButton.OnClickAsObservable()
 				.Subscribe(_ => 
@@ -87,7 +96,10 @@ namespace Ling.Scenes.Menu
 		/// シーン終了時
 		/// </summary>
 		public override void StopScene() 
-		{ }
+		{ 
+			var actionInput = _inputManager.Resolve<InputControls.IActionActions>();
+			actionInput.Controls.Action.Menu.performed -= OnMenuPerformed;
+		}
 
 		/// <summary>
 		/// 正規手順でシーンが実行されたのではなく
@@ -104,6 +116,12 @@ namespace Ling.Scenes.Menu
 
 
 		#region private 関数
+
+		private void OnMenuPerformed(InputAction.CallbackContext context)
+		{
+			// メニューボタンが押されたら閉じる
+			CloseScene();
+		}
 
 		#endregion
 

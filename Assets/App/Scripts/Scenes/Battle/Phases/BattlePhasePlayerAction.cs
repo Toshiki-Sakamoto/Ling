@@ -88,7 +88,8 @@ namespace Ling.Scenes.Battle.Phases
 			_inputActionDict.Add(action.Attack, () => Attack());
 
 			// メニューを開く
-			_inputActionDict.Add(action.Menu, () => OnOpenMenu());
+			action.Menu.performed += OnMenuPerformed;
+			//_inputActionDict.Add(action.Menu, () => OnOpenMenu());
 
 			KeyCommandProcess();
 		}
@@ -101,6 +102,9 @@ namespace Ling.Scenes.Battle.Phases
 		public override void PhaseStop()
 		{
 			_inputActionDict.Clear();
+
+			var action = _actionInputProvider.Controls.Action;
+			action.Menu.performed -= OnMenuPerformed;
 		}
 
 		#endregion
@@ -175,11 +179,9 @@ namespace Ling.Scenes.Battle.Phases
 		/// <summary>
 		/// メニューを開く
 		/// </summary>
-		private bool OnOpenMenu()
+		private void OnMenuPerformed(InputAction.CallbackContext context)
 		{
 			Change(Phase.MenuAction);
-
-			return true;
 		}
 
 		/// <summary>
