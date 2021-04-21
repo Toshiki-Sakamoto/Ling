@@ -61,7 +61,10 @@ namespace Ling.Common.Scene
 		[Inject] protected Launcher _launcher;
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 		[Inject] protected Utility.IEventManager _eventManager = null;
-		[Inject] protected Common.ProcessManager _processManager = null;
+
+		[SerializeField] private bool _needsProcessManager = default;
+		
+		protected Common.ProcessManager _processManager = null;
 
 		#endregion
 
@@ -193,6 +196,18 @@ namespace Ling.Common.Scene
 
 		protected virtual void Awake()
 		{
+			if (_needsProcessManager)
+			{
+				if (GetComponent<ProcessManager>() == null)
+				{
+					_processManager = _diContainer.InstantiateComponent<ProcessManager>(gameObject);
+				}
+				else
+				{
+					_processManager = _diContainer.Resolve<Common.ProcessManager>();
+				}
+			}
+
 			// 起動済みなら何もしない
 			if (!_launcher?.IsSceneBooted ?? false)
 			{

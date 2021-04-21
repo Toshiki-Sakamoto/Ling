@@ -572,6 +572,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 207623a2e1859472690b1ebf8a293780, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debugManagerRoot: {fileID: 1882937748}
+  _debugManager: {fileID: 860410294, guid: c12ff4942d24db74e89fccd64f29609f, type: 3}
 --- !u!1 &1095344415
 GameObject:
   m_ObjectHideFlags: 0
@@ -1098,9 +1100,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c460d51fb2040b4d99bd8a9c9421928, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _debugConfigManagerRoot: {fileID: 1882937748}
-  _debugConfigManager: {fileID: 860410294, guid: c12ff4942d24db74e89fccd64f29609f,
-    type: 3}
 --- !u!114 &1877133196
 MonoBehaviour:
   m_ObjectHideFlags: 0

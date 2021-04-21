@@ -58,7 +58,11 @@ namespace Ling.Common
 		[Inject] protected Utility.UtilityInitializer _utilityInitializer = default;
 
 #if DEBUG
-		[Inject] protected Common.DebugConfig.DebugConfigManager _debugManager = default;
+		[Inject] protected DiContainer _diContainer = default;
+
+		[SerializeField] private Transform _debugManagerRoot = default;
+		[SerializeField] protected DebugConfig.DebugConfigManager _debugManager = default;
+
 #endif
 
 		#endregion
@@ -122,7 +126,13 @@ namespace Ling.Common
 		/// </summary>
 		protected virtual void Awake()
 		{
-#if false//DEBUG
+#if DEBUG
+			_debugManager = _diContainer.InstantiatePrefabForComponent<DebugConfig.DebugConfigManager>(_debugManager, _debugManagerRoot);
+			_diContainer
+				.Bind<DebugConfig.DebugConfigManager>()
+				.FromInstance(_debugManager)
+				.AsSingle();
+
 			Observable.EveryUpdate()
 				.Where(_ => Keyboard.current.leftShiftKey.isPressed && Keyboard.current.dKey.isPressed)
 				.ThrottleFirst(TimeSpan.FromSeconds(0.5))
