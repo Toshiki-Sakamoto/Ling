@@ -16,7 +16,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Ling.Editor.View
+namespace Utility.Editor.View
 {
 	/// <summary>
 	/// Project View にファイルのパスを表示する拡張機能
