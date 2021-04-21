@@ -33,7 +33,7 @@ namespace Utility
 		[Inject] private DiContainer _container;
 
 		[Inject] protected Utility.IEventManager _eventManager = null;
-		[ShowInInspector, ReadOnly] private Enum _currentType = default(Enum);
+		[ShowInInspector] private Enum _currentType = default(Enum);
 
 		private GameObject _owner;
 		private Dictionary<Enum, Phase> _phaseDict = new Dictionary<Enum, Phase>();
