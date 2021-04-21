@@ -3185,7 +3185,7 @@ MonoBehaviour:
   m_Script: {fileID: 2040891452, guid: aceec2d8e94434339b2f1ada138404d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _txtMain: {fileID: 2094159679, guid: 1ffa087f437da41cca40588456a6d04e, type: 3}
+  _txtMain: {fileID: 4498195099182568593}
   _img: {fileID: 7803877087666140246}
 --- !u!1 &8227050240938902546
 GameObject:
@@ -3245,7 +3245,7 @@ MonoBehaviour:
   m_Script: {fileID: -658541942, guid: aceec2d8e94434339b2f1ada138404d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _text: {fileID: 2094159679, guid: 1ffa087f437da41cca40588456a6d04e, type: 3}
+  _text: {fileID: 0}
   _bmpFontSize: 0
   _letterSpaceSize: 1
   _space: -1
