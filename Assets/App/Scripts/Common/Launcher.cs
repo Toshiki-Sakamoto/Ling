@@ -53,7 +53,8 @@ namespace Ling.Common
 
 		#region private 変数
 
-		[Inject] protected Common.MasterData.IMasterManager _masterManager = null;
+		[Inject] protected Utility.MasterData.IMasterManager _masterManager = null;
+		[Inject] protected Utility.UserData.IUserDataManager _userDataManager = default;
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 		[Inject] protected Utility.UtilityInitializer _utilityInitializer = default;
 
