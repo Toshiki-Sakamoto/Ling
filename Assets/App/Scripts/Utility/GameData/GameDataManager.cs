@@ -59,7 +59,7 @@ namespace Utility.GameData
 
 		#region public, protected 関数
 
-		public abstract IObservable<AsyncUnit> LoadAll();
+		public abstract UniTask LoadAll();
 
 		public TGameData GetData<TGameData>()
 			where TGameData : GameDataBase

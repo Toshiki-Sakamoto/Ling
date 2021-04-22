@@ -20,7 +20,7 @@ namespace Utility.MasterData
 		/// <summary>
 		/// 全マスタデータの読み込みを行う
 		/// </summary>
-		IObservable<AsyncUnit> LoadAll();
+		UniTask LoadAll();
 
 
 		TGaemData GetData<TGaemData>() where TGaemData : Utility.GameData.GameDataBase;

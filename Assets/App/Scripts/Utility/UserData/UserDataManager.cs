@@ -14,7 +14,7 @@ namespace Utility.UserData
 	{
 		bool IsLoaded { get; }
 
-		IObservable<AsyncUnit> LoadAll();
+		UniTask LoadAll();
 
 		TGameData GetData<TGameData>() where TGameData : Utility.GameData.GameDataBase;
 

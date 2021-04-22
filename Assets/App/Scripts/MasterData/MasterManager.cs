@@ -76,7 +76,7 @@ namespace Ling.MasterData
 		/// すべてのマスタデータを読み込む
 		/// すでに読み込んでいる場合は削除して読み込み
 		/// </summary>
-		public override IObservable<AsyncUnit> LoadAll()
+		public async override UniTask LoadAll()
 		{
 			AddLoadTask<ConstMaster>();
 			AddLoadRepositoryTask<EnemyMaster, EnemyRepository>();
@@ -85,12 +85,9 @@ namespace Ling.MasterData
 			AddLoadRepositoryTask<FoodMaster, FoodRepository>();
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
-			return UniTask.WhenAll(_loadTasks)
-				.ToObservable()
-				.Do(_ =>
-					{
-						LoadFinished();
-					});
+			await UniTask.WhenAll(_loadTasks);
+
+			LoadFinished();
 		}
 
 		#endregion

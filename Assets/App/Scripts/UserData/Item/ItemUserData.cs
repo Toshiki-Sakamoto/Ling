@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2021.04.22
 //
 
+using Ling.MasterData.Item;
+
 namespace Ling.UserData.Item
 {
 	/// <summary>
@@ -28,6 +30,8 @@ namespace Ling.UserData.Item
 
 
 		#region プロパティ
+
+		public ItemMaster Master { get; private set; }
 
 		#endregion
 
