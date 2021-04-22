@@ -111,6 +111,12 @@ namespace Ling.Common
 				await _masterManager.LoadAll();
 			}
 
+			// ユーザーデータの読み込みを行う
+			if (!_userDataManager.IsLoaded)
+			{
+				await _userDataManager.LoadAll();
+			}
+
 			// シーン固有の処理を呼び出す
 			await scene.QuickStartSceneAsync();
 
