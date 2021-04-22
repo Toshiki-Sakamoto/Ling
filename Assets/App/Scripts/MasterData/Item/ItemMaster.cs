@@ -16,7 +16,7 @@ namespace Ling.MasterData.Item
 	/// <remarks>
 	/// アイテムに関する共通処理
 	/// </remarks>
-	public abstract class ItemMaster : Common.MasterData.MasterDataBase
+	public abstract class ItemMaster : Utility.MasterData.MasterDataBase
 	{
 		#region 定数, class, enum
 

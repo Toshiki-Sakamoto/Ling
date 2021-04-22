@@ -1,20 +1,13 @@
-﻿using System.Security.AccessControl;
-//
+﻿//
 // EnemyMaster.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.07.05
 //
 
-using Utility.Attribute;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-using Ling.Common.MasterData;
+using Utility.MasterData;
+using Utility.Attribute;
 
 namespace Ling.MasterData.Chara
 {

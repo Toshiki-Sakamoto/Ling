@@ -21,7 +21,7 @@ namespace Ling.MasterData.Repository
 	/// <summary>
 	/// 
 	/// </summary>
-	public class StageRepository : Common.MasterData.MasterRepository<StageMaster>
+	public class StageRepository : Utility.MasterData.MasterRepository<StageMaster>
 	{
 		#region 定数, class, enum
 

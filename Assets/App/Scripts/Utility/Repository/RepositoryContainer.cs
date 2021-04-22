@@ -7,7 +7,7 @@
 
 using System.Collections.Generic;
 
-namespace Ling.Common.Repotitory
+namespace Utility.Repository
 {
 	/// <summary>
 	/// RepositoryをまとめるContainer

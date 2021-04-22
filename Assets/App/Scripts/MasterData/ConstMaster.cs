@@ -5,17 +5,8 @@
 // Created by toshiki sakamoto on 2020.06.24
 //
 
-using Cysharp.Threading.Tasks;
-using Utility.Attribute;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-
-using Zenject;
+using Utility.Attribute;
 
 namespace Ling.MasterData
 {
@@ -23,7 +14,7 @@ namespace Ling.MasterData
 	/// ゲーム全体の定数
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/ConstMaster", fileName = "ConstMaster")]
-	public class ConstMaster : Common.MasterData.MasterDataBase
+	public class ConstMaster : Utility.MasterData.MasterDataBase
 	{
 		#region 定数, class, enum
 

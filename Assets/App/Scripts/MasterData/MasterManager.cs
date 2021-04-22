@@ -35,7 +35,7 @@ namespace Ling.MasterData
 	/// <summary>
 	/// プロジェクト固有のマスターマネージャー
 	/// </summary>
-	public class MasterManager : Common.MasterData.MasterManager, IMasterHolder
+	public class MasterManager : Utility.MasterData.MasterManager, IMasterHolder
 	{
 		#region 定数, class, enum
 
@@ -57,7 +57,7 @@ namespace Ling.MasterData
 		/// <summary>
 		/// 定数
 		/// </summary>
-		public ConstMaster Const => GetMaster<ConstMaster>();
+		public ConstMaster Const => GetData<ConstMaster>();
 
 		public EnemyRepository EnemyRepository => GetRepository<EnemyRepository>();
 		public StageRepository StageRepository => GetRepository<StageRepository>();

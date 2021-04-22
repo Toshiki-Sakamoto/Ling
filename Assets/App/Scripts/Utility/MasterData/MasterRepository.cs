@@ -1,27 +1,19 @@
 ﻿//
-// EnemyRepository.cs
+// MasterRepository.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.07.11
 //
 
-using Ling.MasterData.Chara;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
 
-using Zenject;
-
-namespace Ling.MasterData.Repository
+namespace Utility.MasterData
 {
 	/// <summary>
-	/// <see cref="EnemyMaster"/>
+	/// 指定したMasterを配列で保持する
 	/// </summary>
-	public class EnemyRepository : Utility.MasterData.MasterRepository<EnemyMaster>
+	public class MasterRepository<T> : Utility.GameData.GameDataRepository<T>
+		where T : MasterDataBase
 	{
 		#region 定数, class, enum
 
@@ -40,6 +32,7 @@ namespace Ling.MasterData.Repository
 
 		#region プロパティ
 
+
 		#endregion
 
 
@@ -49,9 +42,6 @@ namespace Ling.MasterData.Repository
 
 
 		#region public, protected 関数
-
-		public EnemyMaster Find(Const.EnemyType enemyType) =>
-			Entities.Find(entity => entity.EnemyType == enemyType);
 
 		#endregion
 

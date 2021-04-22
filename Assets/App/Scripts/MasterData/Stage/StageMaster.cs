@@ -6,15 +6,8 @@
 //
 
 using Utility.Attribute;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-
-using Zenject;
 
 namespace Ling.MasterData.Stage
 {
@@ -23,7 +16,7 @@ namespace Ling.MasterData.Stage
 	/// <see cref="MapMaster"/>を内部で複数持つ
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/StageMaster", fileName = "StageMaster")]
-	public class StageMaster : Common.MasterData.MasterDataBase
+	public class StageMaster : Utility.MasterData.MasterDataBase
 	{
 		#region 定数, class, enum
 

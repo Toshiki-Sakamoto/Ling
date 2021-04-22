@@ -1,33 +1,24 @@
 ﻿//
-// MasterRepository.cs
+// IGameDataRepository.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.07.11
+// Created by toshiki sakamoto on 2021.04.22
 //
 
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
 
-using Zenject;
-using Ling.Common.MasterData;
-
-namespace Ling.Common.MasterData
+namespace Utility.GameData
 {
-	public interface IMasterRepository
+	public interface IGameDataRepository
 	{
 		void Clear();
 	}
 
 	/// <summary>
-	/// 指定したMasterを配列で保持する
+	/// User/Master データ管理リポジトリベース
 	/// </summary>
-	public class MasterRepository<T> : Common.Repotitory.IRepository<T>, IMasterRepository
-		where T : MasterDataBase
+	public class GameDataRepository<T> : IGameDataRepository, Utility.Repository.IRepository<T>
+		where T : GameDataBase
 	{
 		#region 定数, class, enum
 

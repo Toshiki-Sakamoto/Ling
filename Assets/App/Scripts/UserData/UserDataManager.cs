@@ -9,18 +9,26 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
+using Cysharp.Threading.Tasks;
+using UniRx;
 
 using Zenject;
 
 namespace Ling.UserData
 {
 	/// <summary>
-	/// 
+	/// 各種ユーザーデータのRepositoryを返す
 	/// </summary>
-	public class UserDataManager
+	public interface IUserDataHolder
+	{
+
+	}
+
+	/// <summary>
+	/// ユーザーごとに保持されるデータ
+	/// </summary>
+	public class UserDataManager : Utility.UserData.UserDataManager, IUserDataHolder
 	{
 		#region 定数, class, enum
 
@@ -48,6 +56,17 @@ namespace Ling.UserData
 
 
 		#region public, protected 関数
+
+		public override IObservable<AsyncUnit> LoadAll()
+		{
+			// 非同期でTaskを実行し、すべての処理が終わるまで待機
+			return UniTask.WhenAll(_loadTasks)
+				.ToObservable()
+				.Do(_ =>
+					{
+						LoadFinished();
+					});
+		}
 
 		#endregion
 
