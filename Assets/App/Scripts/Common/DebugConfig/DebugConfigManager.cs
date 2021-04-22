@@ -93,10 +93,10 @@ namespace Ling.Common.DebugConfig
 		[SerializeField] private RecyclableScrollView _scrollContent = default;
 		[SerializeField] private MenuObject[] _menuObjects = default;
 		[SerializeField] private Button _btnClose = default;
-		[SerializeField] private Text _txtTitle = default; // タイトルテキスト
+//		[SerializeField] private Text _txtTitle = default; // タイトルテキスト
 		[SerializeField] private Button _btnBack = default;
 		[SerializeField] private Button _btnSave = default;
-		[SerializeField] private Button _btnDelete = default;
+//		[SerializeField] private Button _btnDelete = default; 今使用してなかったので米アウト
 
 		[Inject] private DiContainer _diContainer = default;
 

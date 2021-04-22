@@ -32,7 +32,7 @@ namespace Ling.Common.UI
 		[SerializeField] private UnityEvent _pressedDownEvent = default;
 		[SerializeField] private UnityEvent _pressedUpEvent = default;
 
-		private bool _isDown = false;
+//		private bool _isDown = false;
 		private Text _text;
 
 		#endregion
@@ -52,7 +52,7 @@ namespace Ling.Common.UI
 		{
 			base.OnPointerDown(eventData);
 
-			_isDown = true;
+//			_isDown = true;
 			OnPressedDown.Invoke();
 		}
 
