@@ -17,7 +17,7 @@ namespace Ling.UserData._Debug
 		public DebugUserData()
 			: base("UserData")
 		{
-			enableItemDebugLoad = Common.DebugConfig.DebugCheckItem.Create(false, "アイテムをデバッグ読み込み");
+			enableItemDebugLoad = Common.DebugConfig.DebugCheckItem.Create(true, "アイテムをデバッグ読み込み");
 
 			Add(enableItemDebugLoad);
 		}
