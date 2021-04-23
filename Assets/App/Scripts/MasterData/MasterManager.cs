@@ -78,11 +78,11 @@ namespace Ling.MasterData
 		/// </summary>
 		public async override UniTask LoadAll()
 		{
-			AddLoadTask<ConstMaster>();
-			AddLoadRepositoryTask<EnemyMaster, EnemyRepository>();
-			AddLoadRepositoryTask<StageMaster, StageRepository>();
-			AddLoadRepositoryTask<BookMaster, BookRepository>();
-			AddLoadRepositoryTask<FoodMaster, FoodRepository>();
+			AddLoadTask<ConstMaster>("ConstMaster");
+			AddLoadRepositoryTask<EnemyMaster, EnemyRepository>("EnemyMaster");
+			AddLoadRepositoryTask<StageMaster, StageRepository>("StageMaster");
+			AddLoadRepositoryTask<BookMaster, BookRepository>("ItemBookMaster");
+			AddLoadRepositoryTask<FoodMaster, FoodRepository>("ItemFoodMaster");
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(_loadTasks);

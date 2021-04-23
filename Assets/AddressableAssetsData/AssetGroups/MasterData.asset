@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: MasterData
+  m_EditorClassIdentifier: 
+  m_GroupName: MasterData
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 54ed9eced0f8f4b1b9cfd26b2105eedd
+  m_SerializeEntries:
+  - m_GUID: 1b56101065b2a5b4a9d7eeb629880611
+    m_Address: Enemy
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - EnemyMaster
+    m_MainAsset: {fileID: 102900000, guid: 1b56101065b2a5b4a9d7eeb629880611, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: 1b56101065b2a5b4a9d7eeb629880611, type: 3}
+  - m_GUID: f11f0a207f73e458a825648324c9bfa7
+    m_Address: Item
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 102900000, guid: f11f0a207f73e458a825648324c9bfa7, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: f11f0a207f73e458a825648324c9bfa7, type: 3}
+  - m_GUID: d5032237ebcf30d4a8bf0c6190ffd355
+    m_Address: Stage
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - StageMaster
+    m_MainAsset: {fileID: 102900000, guid: d5032237ebcf30d4a8bf0c6190ffd355, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: d5032237ebcf30d4a8bf0c6190ffd355, type: 3}
+  - m_GUID: 424c34e44b33e48dbb662dc96edf7b2e
+    m_Address: Item/Book
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemBookMaster
+    m_MainAsset: {fileID: 102900000, guid: 424c34e44b33e48dbb662dc96edf7b2e, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: 424c34e44b33e48dbb662dc96edf7b2e, type: 3}
+  - m_GUID: 41b22da1f7d714429b22c7b39f3a9e78
+    m_Address: Item/Food
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ItemFoodMaster
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 36cb00024ce40c841ac7b14ebd422b62
+    m_Address: Stage/FirstStage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  - m_GUID: 562a5e0ee175a4c478524c5a91c04ae1
+    m_Address: ConstMaster
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: aef05b59aef0747229b6ec62513fbdd8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a4637c262c6d04421ae0a05edbb269f3, type: 2}
+    - {fileID: 11400000, guid: adbce754b60924de3b362ee891185544, type: 2}

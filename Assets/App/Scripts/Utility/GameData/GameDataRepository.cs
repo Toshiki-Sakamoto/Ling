@@ -53,6 +53,10 @@ namespace Utility.GameData
 		{
 			Entities.Add(master);
 		}
+		public void Add(IEnumerable<T> masters)
+		{
+			Entities.AddRange(masters);
+		}
 
 		public void Clear() =>
 			Entities.Clear();

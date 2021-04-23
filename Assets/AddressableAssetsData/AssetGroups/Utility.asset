@@ -27,8 +27,8 @@ MonoBehaviour:
     m_Address: SortOrderSettings
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 11400000, guid: 357d66f9c81584b7bba66e8ca47b67a5, type: 2}
+    m_TargetAsset: {fileID: 11400000, guid: 357d66f9c81584b7bba66e8ca47b67a5, type: 2}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: aef05b59aef0747229b6ec62513fbdd8, type: 2}
   m_SchemaSet:
