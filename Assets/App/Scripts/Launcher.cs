@@ -47,11 +47,12 @@ namespace Ling
 
 		protected override void Awake()
 		{
+
+			base.Awake();
+			
 #if DEBUG
 			_debugManager.Setup(new _Debug.DebugRootMenuData());
 #endif
-
-			base.Awake();
 		}
 
 		#endregion
