@@ -45,6 +45,10 @@ namespace Ling.UserData
 
 		#region private 変数
 
+#if DEBUG
+		[Inject] private Ling._Debug.DebugRootMenuData _rootDebug;
+#endif
+
 		#endregion
 
 
@@ -76,6 +80,13 @@ namespace Ling.UserData
 
 
 		#region private 関数
+
+#if DEBUG
+		private void Awake()
+		{
+			_rootDebug.CreateAndAddItem<_Debug.DebugUserData>();
+		}
+#endif
 
 		#endregion
 	}
