@@ -23,5 +23,13 @@ public class Installer : MonoInstaller
 			.Bind<Ling.UserData.IUserDataHolder>()
 			.FromComponentInHierarchy()
 			.AsSingle();
+
+#if DEBUG
+		
+		Container
+			.BindInterfacesAndSelfTo<Ling._Debug.DebugRootMenuData>()
+			.AsSingle();
+
+#endif
 	}
 }

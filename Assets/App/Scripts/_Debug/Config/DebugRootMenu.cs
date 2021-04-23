@@ -17,7 +17,7 @@ namespace Ling._Debug
 		public DebugRootMenuData()
 			: base("Root")
 		{
-			battleMenu = new _Debug.BattleMenuData();
+			battleMenu = CreateAndAddItem<_Debug.BattleMenuData>();
 
 			Add(battleMenu);
 		}

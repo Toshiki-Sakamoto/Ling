@@ -22,6 +22,8 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		public class Data : DebugItemDataBase<DebugMenuItem>
 		{
+			[Inject] DiContainer _diContainer;
+
 			public List<IDebugItemData> children = new List<IDebugItemData>();
 
 			public int Count => children.Count;
@@ -43,6 +45,23 @@ namespace Ling.Common.DebugConfig
 
 			public override Const.MenuType GetMenuType() =>
 				Const.MenuType.MenuItem;
+
+			/// <summary>
+			/// 子供のItemDataを作成する
+			/// </summary>
+			public T CreateAndAddItem<T>() where T : IDebugItemData, new()
+			{
+				var instance = new T();
+
+				_diContainer
+					.BindInterfacesAndSelfTo<T>()
+					.FromInstance(instance)
+					.AsSingle();
+
+				Add(instance);
+
+				return instance;
+			}
 
 			public void Add(IDebugItemData itemData)
 			{

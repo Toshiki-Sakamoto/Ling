@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2021.01.07
 //
 
+using Zenject;
+
 namespace Ling
 {
 	/// <summary>
@@ -24,6 +26,10 @@ namespace Ling
 
 
 		#region private 変数
+
+#if DEBUG
+		[Inject] private _Debug.DebugRootMenuData _debugRoot = default;
+#endif
 
 		#endregion
 
@@ -47,11 +53,10 @@ namespace Ling
 
 		protected override void Awake()
 		{
-
 			base.Awake();
-			
+
 #if DEBUG
-			_debugManager.Setup(new _Debug.DebugRootMenuData());
+			_debugManager.Setup(_debugRoot);
 #endif
 		}
 
