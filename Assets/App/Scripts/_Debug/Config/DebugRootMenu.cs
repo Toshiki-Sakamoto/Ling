@@ -12,7 +12,7 @@ namespace Ling._Debug
 	/// <summary>
 	/// 規定のDebugMenu
 	/// </summary>
-	public class DebugRootMenuData : Common.DebugConfig.DebugRootMenuData, IInitializable
+	public class DebugRootMenuData : Utility.DebugConfig.DebugRootMenuData, IInitializable
 	{
 		public _Debug.BattleMenuData battleMenu;
 

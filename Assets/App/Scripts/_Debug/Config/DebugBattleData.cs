@@ -7,14 +7,14 @@
 
 namespace Ling._Debug
 {
-	public class BattleMenuData : Common.DebugConfig.DebugMenuItem.Data
+	public class BattleMenuData : Utility.DebugConfig.DebugMenuItem.Data
 	{
-		public Common.DebugConfig.DebugCheckItem.Data aStarScoreShow;
+		public Utility.DebugConfig.DebugCheckItem.Data aStarScoreShow;
 
 		public BattleMenuData()
 			: base("BattleMenu")
 		{
-			aStarScoreShow = Common.DebugConfig.DebugCheckItem.Create(false, "AStarのスコアを表示する");
+			aStarScoreShow = Utility.DebugConfig.DebugCheckItem.Create(false, "AStarのスコアを表示する");
 
 			Add(aStarScoreShow);
 		}

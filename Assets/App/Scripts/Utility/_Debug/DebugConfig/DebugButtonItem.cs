@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using UniRx;
 
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 #if DEBUG
 	/// <summary>

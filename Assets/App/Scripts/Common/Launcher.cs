@@ -60,7 +60,7 @@ namespace Ling.Common
 
 #if DEBUG
 		[Inject] protected DiContainer _diContainer = default;
-		[SerializeField] protected DebugConfig.DebugConfigManager _debugManager = default;
+		[SerializeField] protected Utility.DebugConfig.DebugConfigManager _debugManager = default;
 
 		[SerializeField] private Transform _debugManagerRoot = default;
 
@@ -134,9 +134,9 @@ namespace Ling.Common
 		protected virtual void Awake()
 		{
 #if DEBUG
-			_debugManager = _diContainer.InstantiatePrefabForComponent<DebugConfig.DebugConfigManager>(_debugManager, _debugManagerRoot);
+			_debugManager = _diContainer.InstantiatePrefabForComponent<Utility.DebugConfig.DebugConfigManager>(_debugManager, _debugManagerRoot);
 			_diContainer
-				.Bind<DebugConfig.DebugConfigManager>()
+				.Bind<Utility.DebugConfig.DebugConfigManager>()
 				.FromInstance(_debugManager)
 				.AsSingle();
 

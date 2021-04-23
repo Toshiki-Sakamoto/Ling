@@ -31,7 +31,7 @@ namespace Utility.GameData
 
 
 		#region private 変数
-
+		
 		#endregion
 
 
@@ -49,13 +49,13 @@ namespace Utility.GameData
 
 		#region public, protected 関数
 
-		public void Add(T master)
+		public void Add(T entity)
 		{
-			Entities.Add(master);
+			Entities.Add(entity);
 		}
-		public void Add(IEnumerable<T> masters)
+		public void Add(IEnumerable<T> entities)
 		{
-			Entities.AddRange(masters);
+			Entities.AddRange(entities);
 		}
 
 		public void Clear() =>

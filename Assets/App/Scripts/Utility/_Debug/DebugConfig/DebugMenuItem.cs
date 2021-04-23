@@ -12,7 +12,7 @@ using UnityEngine.UI;
 using UniRx;
 
 #if DEBUG
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 	public class DebugMenuItem : MonoBehaviour
 	{

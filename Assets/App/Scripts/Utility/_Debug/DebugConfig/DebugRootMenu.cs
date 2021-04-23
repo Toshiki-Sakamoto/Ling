@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.09.06
 //
 
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 	/// <summary>
 	/// 規定のDebugMenu

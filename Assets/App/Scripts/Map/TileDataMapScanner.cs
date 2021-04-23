@@ -105,7 +105,7 @@ namespace Ling.Map
 
 		// todo: 今は DebugRootMenuData のキャストで対応する。今後はキャストではなくLing._Debug.DebugROotMenuDataを直接取得できるように
 		public DebugRootMenuData DebugRoot =>
-				_debugRoot ?? (_debugRoot = (DebugRootMenuData)Common.DebugConfig.DebugConfigManager.Instance?.Root);
+				_debugRoot ?? (_debugRoot = (DebugRootMenuData)Utility.DebugConfig.DebugConfigManager.Instance?.Root);
 #endif
 
 		public TileDataMapScanner(TileDataMap tileDataMap)

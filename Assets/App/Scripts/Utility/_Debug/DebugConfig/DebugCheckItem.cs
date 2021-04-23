@@ -14,7 +14,7 @@ using UniRx;
 using Zenject;
 
 #if DEBUG
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 	/// <summary>
 	/// チェックボックス

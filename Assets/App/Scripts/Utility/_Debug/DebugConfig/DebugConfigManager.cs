@@ -16,7 +16,7 @@ using Zenject;
 using UniRx;
 
 #if DEBUG
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 	public interface IDebugItemData
 	{
