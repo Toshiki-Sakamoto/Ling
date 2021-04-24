@@ -223,12 +223,13 @@ namespace Utility.DebugConfig
 		{
 			base.Awake();
 
+/*
 			// RootMenu
 			_diContainer
 				.Bind<DebugRootMenuData>()
 				.FromInstance(Root)
 				.AsSingle();
-
+*/
 			_menuStack.Clear();
 			_btnBack.gameObject.SetActive(false);
 

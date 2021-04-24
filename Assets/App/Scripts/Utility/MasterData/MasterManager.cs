@@ -107,6 +107,8 @@ namespace Utility.MasterData
 
 		private void Awake()
 		{
+			UnityEngine.Debug.LogWarning("Awake");
+			
 			// Loaderを生成する
 			var loader = _diContainer.Instantiate<AssetBundleLoader>();
 			SetLoader(loader);

@@ -1,9 +1,18 @@
 using Zenject;
 
-public class Installer : MonoInstaller
+public class Installer : MonoInstaller<Installer>
 {
 	public override void InstallBindings()
 	{
+#if DEBUG
+		// Debug内部のDiContainerへのInjectを通すためにToでタイプを宣言してZenjectに生成してもらう
+		Container
+			.Bind(typeof(Utility.DebugConfig.DebugRootMenuData), typeof(IInitializable))
+			.To<Ling._Debug.DebugRootMenuData>()
+			.AsSingle();
+
+#endif
+
 		Container
 			.Bind<Utility.MasterData.IMasterManager>()
 			.FromComponentInHierarchy()
@@ -23,13 +32,5 @@ public class Installer : MonoInstaller
 			.Bind<Ling.UserData.IUserDataHolder>()
 			.FromComponentInHierarchy()
 			.AsSingle();
-
-#if DEBUG
-		
-		Container
-			.BindInterfacesAndSelfTo<Ling._Debug.DebugRootMenuData>()
-			.AsSingle();
-
-#endif
 	}
 }

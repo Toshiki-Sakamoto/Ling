@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Cysharp.Threading.Tasks;
 using UniRx;
+using Zenject;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -18,6 +19,25 @@ using UnityEditor;
 
 namespace Utility.GameData
 {
+#if DEBUG
+	public class GameDataDebugMenu: Utility.DebugConfig.DebugMenuItem.Data
+	{
+		// リポジトリはかならずある
+		private List<RepositoryDebugMenu> _repositoryDebugs = new List<RepositoryDebugMenu>();
+
+		public GameDataDebugMenu(string title)
+			: base(title)
+		{
+		}
+
+		public void AddRepository<TRepository>() where TRepository : RepositoryDebugMenu, new()
+		{
+			_repositoryDebugs.Add(CreateAndAddItem<TRepository>());
+		}
+	}
+
+#endif
+
 	/// <summary>
 	/// Master/User データ管理の基礎クラス
 	/// </summary>
@@ -34,6 +54,10 @@ namespace Utility.GameData
 
 
 		#region private 変数
+
+#if DEBUG
+		[Inject] protected Utility.DebugConfig.DebugRootMenuData _rootMenuData;
+#endif
 
 		private Dictionary<Type, IGameDataRepository> _repositoryDict = new Dictionary<Type, IGameDataRepository>();
 		private Dictionary<Type, GameDataBase> _dataDict = new Dictionary<Type, GameDataBase>();

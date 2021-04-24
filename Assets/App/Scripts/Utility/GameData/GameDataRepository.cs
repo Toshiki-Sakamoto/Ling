@@ -6,9 +6,20 @@
 //
 
 using System.Collections.Generic;
+using Zenject;
 
 namespace Utility.GameData
 {
+#if DEBUG
+	public abstract class RepositoryDebugMenu : Utility.DebugConfig.DebugMenuItem.Data
+	{
+		public RepositoryDebugMenu(string title)
+			: base(title)
+		{}
+	}
+
+#endif
+
 	public interface IGameDataRepository
 	{
 		void Clear();
@@ -17,7 +28,8 @@ namespace Utility.GameData
 	/// <summary>
 	/// User/Master データ管理リポジトリベース
 	/// </summary>
-	public class GameDataRepository<T> : IGameDataRepository, Utility.Repository.IRepository<T>
+	public abstract class GameDataRepository<T> : IGameDataRepository, 
+		Utility.Repository.IRepository<T>
 		where T : GameDataBase
 	{
 		#region 定数, class, enum
@@ -31,7 +43,7 @@ namespace Utility.GameData
 
 
 		#region private 変数
-		
+
 		#endregion
 
 
@@ -49,13 +61,11 @@ namespace Utility.GameData
 
 		#region public, protected 関数
 
-		public void Add(T entity)
-		{
-			Entities.Add(entity);
-		}
 		public void Add(IEnumerable<T> entities)
 		{
 			Entities.AddRange(entities);
+
+			AddFinished();
 		}
 
 		public void Clear() =>
@@ -66,6 +76,12 @@ namespace Utility.GameData
 		/// </summary>
 		public T Find(int id) =>
 			Entities.Find(entity => entity.ID == id);
+
+
+		protected virtual void AddFinished()
+		{
+			// デバッグ処理
+		}
 
 		#endregion
 

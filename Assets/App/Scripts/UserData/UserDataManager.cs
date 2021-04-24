@@ -68,13 +68,14 @@ namespace Ling.UserData
 
 		public async override UniTask LoadAll()
 		{
-			AddLoadRepositoryTask<ItemUserData, ItemUserDataRepository>("");
+		//	AddLoadRepositoryTask<ItemUserData, ItemUserDataRepository>("");
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
-			await UniTask.WhenAll(_loadTasks);
+		//	await UniTask.WhenAll(_loadTasks);
 
 			LoadFinished();
 		}
+
 
 		#endregion
 

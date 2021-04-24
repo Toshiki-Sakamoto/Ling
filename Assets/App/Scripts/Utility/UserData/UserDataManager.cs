@@ -7,9 +7,20 @@
 
 using System;
 using Cysharp.Threading.Tasks;
+using Zenject;
 
 namespace Utility.UserData
 {
+#if DEBUG
+	public class UserDataDebugMenu : Utility.GameData.GameDataDebugMenu
+	{
+		public UserDataDebugMenu()
+			: base("UserData")
+		{
+		}
+	} 
+#endif
+
 	public interface IUserDataManager
 	{
 		bool IsLoaded { get; }
@@ -38,6 +49,11 @@ namespace Utility.UserData
 
 		#region private 変数
 
+
+#if DEBUG
+		private UserDataDebugMenu _debugMenu;
+#endif
+
 		#endregion
 
 
@@ -62,6 +78,13 @@ namespace Utility.UserData
 
 
 		#region private 関数
+
+		public void Awake()
+		{
+#if DEBUG
+			_debugMenu = _rootMenuData.CreateAndAddItem<UserDataDebugMenu>();
+#endif
+		}
 
 		#endregion
 	}

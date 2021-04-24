@@ -28,7 +28,7 @@ namespace Ling
 		#region private 変数
 
 #if DEBUG
-		[Inject] private _Debug.DebugRootMenuData _debugRoot = default;
+		[Inject] private Utility.DebugConfig.DebugRootMenuData _debugRoot = default;
 #endif
 
 		#endregion

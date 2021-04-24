@@ -12,7 +12,7 @@ namespace Ling._Debug
 	/// <summary>
 	/// 規定のDebugMenu
 	/// </summary>
-	public class DebugRootMenuData : Utility.DebugConfig.DebugRootMenuData, IInitializable
+	public class DebugRootMenuData : Utility.DebugConfig.DebugRootMenuData
 	{
 		public _Debug.BattleMenuData battleMenu;
 
@@ -21,7 +21,7 @@ namespace Ling._Debug
 		{
 		}
 
-		void IInitializable.Initialize()
+		public override void Initialize()
 		{
 			battleMenu = CreateAndAddItem<_Debug.BattleMenuData>();
 
