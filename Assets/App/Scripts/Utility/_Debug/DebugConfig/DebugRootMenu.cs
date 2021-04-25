@@ -5,7 +5,6 @@
 // Created by toshiki sakamoto on 2020.09.06
 //
 
-using Utility._Debug.Menu;
 using Zenject;
 
 namespace Utility.DebugConfig
