@@ -12,7 +12,7 @@ namespace Ling.UserData.Repository
 	/// <summary>
 	/// プレイヤーが持っている持ち物
 	/// </summary>
-	public class ItemUserDataRepository: Utility.UserData.UserDataRepository<ItemUserData>
+	public class ItemUserDataRepository : Utility.UserData.UserDataRepository<ItemUserData>
 	{
 		#region 定数, class, enum
 
@@ -31,6 +31,9 @@ namespace Ling.UserData.Repository
 
 		#region プロパティ
 
+#if DEBUG
+		protected override bool EnableDebugMode => true; // todo: 強制ON
+#endif
 
 		#endregion
 
@@ -42,6 +45,17 @@ namespace Ling.UserData.Repository
 
 		#region public, protected 関数
 
+#if DEBUG
+		protected override void DebugAddFinished()
+		{
+			var entities = new ItemUserData[]
+				{
+					new ItemUserData { ID = 1 }
+				};
+
+			Add(entities);
+		}
+#endif
 
 		#endregion
 

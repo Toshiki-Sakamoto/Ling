@@ -26,14 +26,14 @@ namespace Utility.GameData
 
 		#region private 変数
 
-		[SerializeField] private int _id = default; // 大体存在する一意なID
+		[SerializeField] protected int _id = default; // 大体存在する一意なID
 
 		#endregion
 
 
 		#region プロパティ
 
-		public int ID => _id;
+		public int ID { get => _id; set => _id = value; }
 
 		#endregion
 
