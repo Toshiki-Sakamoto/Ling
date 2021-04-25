@@ -17,7 +17,6 @@ namespace Utility.MasterData
 		public MasterDataRepositoryDebugMenu()
 			: base($"{typeof(TMasterData).Name}")
 		{
-
 		}
 	}
 

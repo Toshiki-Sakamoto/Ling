@@ -13,9 +13,16 @@ namespace Utility.GameData
 #if DEBUG
 	public abstract class RepositoryDebugMenu : Utility.DebugConfig.DebugMenuItem.Data
 	{
+		// 保存ファイルの削除
+		protected Utility.DebugConfig.DebugButtonItem.Data _fileRemovebutton;
+
 		public RepositoryDebugMenu(string title)
 			: base(title)
-		{}
+		{
+			_fileRemovebutton = new Utility.DebugConfig.DebugButtonItem.Data("ファイル削除");
+
+			Add(_fileRemovebutton);
+		}
 	}
 
 #endif
