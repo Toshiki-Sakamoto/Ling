@@ -22,6 +22,8 @@ namespace Utility.GameData
 
 	public interface IGameDataRepository
 	{
+		void Initialize();
+
 		void Clear();
 	}
 
@@ -67,6 +69,8 @@ namespace Utility.GameData
 
 			AddFinished();
 		}
+
+		public abstract void Initialize();
 
 		public void Clear() =>
 			Entities.Clear();

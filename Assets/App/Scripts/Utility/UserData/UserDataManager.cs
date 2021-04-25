@@ -51,7 +51,7 @@ namespace Utility.UserData
 
 
 #if DEBUG
-		private UserDataDebugMenu _debugMenu;
+		protected UserDataDebugMenu _debugMenu;
 #endif
 
 		#endregion

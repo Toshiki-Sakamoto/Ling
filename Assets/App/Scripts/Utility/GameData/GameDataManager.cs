@@ -20,14 +20,24 @@ using UnityEditor;
 namespace Utility.GameData
 {
 #if DEBUG
+	
+	/// <summary>
+	/// 基本的なデバッグ機能をもたせる
+	/// </summary>
 	public class GameDataDebugMenu: Utility.DebugConfig.DebugMenuItem.Data
 	{
+		// 全データ削除
+		public Utility.DebugConfig.DebugButtonItem.Data ClearAllDataButton;
+
 		// リポジトリはかならずある
 		private List<RepositoryDebugMenu> _repositoryDebugs = new List<RepositoryDebugMenu>();
 
 		public GameDataDebugMenu(string title)
 			: base(title)
 		{
+			ClearAllDataButton = new Utility.DebugConfig.DebugButtonItem.Data("全データクリア");
+
+			Add(ClearAllDataButton);
 		}
 
 		public void AddRepository<TRepository>() where TRepository : RepositoryDebugMenu, new()
@@ -56,6 +66,7 @@ namespace Utility.GameData
 		#region private 変数
 
 #if DEBUG
+		[Inject] private DiContainer _diContainer;
 		[Inject] protected Utility.DebugConfig.DebugRootMenuData _rootMenuData;
 #endif
 
@@ -137,7 +148,9 @@ namespace Utility.GameData
 			where TRepository : GameDataRepository<TGameData>, new()
 		{
 			// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
-			var repository = new TRepository();
+			var repository = _diContainer.Instantiate<TRepository>();
+			repository.Initialize();
+			
 			_repositoryDict.Add(typeof(TRepository), repository);
 
 			_loadTasks.Add(LoadRepositoryAsync<TGameData>(key, repository));

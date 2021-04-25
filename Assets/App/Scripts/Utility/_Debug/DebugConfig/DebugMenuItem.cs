@@ -51,12 +51,11 @@ namespace Utility.DebugConfig
 			/// </summary>
 			public T CreateAndAddItem<T>() where T : IDebugItemData, new()
 			{
-				var instance = new T();
-
 				_diContainer
 					.BindInterfacesAndSelfTo<T>()
-					.FromInstance(instance)
 					.AsSingle();
+
+				var instance = _diContainer.Resolve<T>();
 
 				Add(instance);
 

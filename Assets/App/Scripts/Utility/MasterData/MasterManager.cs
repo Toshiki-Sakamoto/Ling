@@ -13,6 +13,16 @@ using Utility.GameData;
 
 namespace Utility.MasterData
 {
+#if DEBUG
+	public class MasterDataDebugMenu : Utility.GameData.GameDataDebugMenu
+	{
+		public MasterDataDebugMenu()
+			: base("MasterData")
+		{
+		}
+	} 
+#endif
+
 	public interface IMasterManager
 	{
 		/// <summary>
@@ -79,6 +89,10 @@ namespace Utility.MasterData
 
 		[Inject] DiContainer _diContainer;
 
+#if DEBUG
+		protected MasterDataDebugMenu _debugMenu;
+#endif
+
 		#endregion
 
 
@@ -107,11 +121,13 @@ namespace Utility.MasterData
 
 		private void Awake()
 		{
-			UnityEngine.Debug.LogWarning("Awake");
-			
 			// Loaderを生成する
 			var loader = _diContainer.Instantiate<AssetBundleLoader>();
 			SetLoader(loader);
+
+#if DEBUG
+			_debugMenu = _rootMenuData.CreateAndAddItem<MasterDataDebugMenu>();
+#endif
 		}
 
 		#endregion

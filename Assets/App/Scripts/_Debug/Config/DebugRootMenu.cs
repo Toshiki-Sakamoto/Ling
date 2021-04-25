@@ -24,8 +24,6 @@ namespace Ling._Debug
 		public override void Initialize()
 		{
 			battleMenu = CreateAndAddItem<_Debug.BattleMenuData>();
-
-			Add(battleMenu);
 		}
 	}
 }

@@ -25,8 +25,7 @@ namespace Utility.UserData
 	/// <summary>
 	/// UserData Repository
 	/// </summary>
-	public class UserDataRepository<T> : Utility.GameData.GameDataRepository<T>,
-		IInitializable
+	public class UserDataRepository<T> : Utility.GameData.GameDataRepository<T>
 		where T : UserDataBase
 	{
 		#region 定数, class, enum
@@ -60,8 +59,7 @@ namespace Utility.UserData
 
 		#region public, protected 関数
 
-
-		void IInitializable.Initialize() 
+		public override void Initialize() 
 		{
 #if DEBUG
 			// 自分を登録
