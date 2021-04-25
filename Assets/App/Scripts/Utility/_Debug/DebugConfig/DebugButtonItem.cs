@@ -20,9 +20,12 @@ namespace Utility.DebugConfig
 	{
 		public class Data : DebugItemDataBase<DebugButtonItem>
 		{
-			public Data(string title)
+			public System.Action OnClick { get; }
+
+			public Data(string title, System.Action onClick)
 				: base(title)
 			{
+				OnClick = onClick;
 			}
 
 			protected override void DataUpdateInternal(DebugButtonItem obj)
@@ -53,6 +56,7 @@ namespace Utility.DebugConfig
 				.OnClickAsObservable()
 				.Subscribe(_ =>
 					{
+						_data.OnClick?.Invoke();
 					});
 		}
 	}

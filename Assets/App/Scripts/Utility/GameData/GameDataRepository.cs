@@ -7,22 +7,39 @@
 
 using System.Collections.Generic;
 using Zenject;
+using Utility.DebugConfig;
 
 namespace Utility.GameData
 {
 #if DEBUG
+
 	public abstract class RepositoryDebugMenu : Utility.DebugConfig.DebugMenuItem.Data
 	{
 		// 保存ファイルの削除
-		protected Utility.DebugConfig.DebugButtonItem.Data _fileRemovebutton;
+		private DebugButtonItem.Data _fileRemovebutton;
+
+		/// <summary>
+		/// デバッグ読み込みのOn/Off
+		/// </summary>
+		public DebugCheckItem.Data EnableDebugMode { get; private set; }
+
 
 		public RepositoryDebugMenu(string title)
 			: base(title)
 		{
-			_fileRemovebutton = new Utility.DebugConfig.DebugButtonItem.Data("ファイル削除");
+			_fileRemovebutton = new DebugButtonItem.Data("ファイル削除", 
+				() => 
+				{
+					RemoveFile();
+				});
+
+			EnableDebugMode = new DebugCheckItem.Data("デバッグ読み込み");
 
 			Add(_fileRemovebutton);
+			Add(EnableDebugMode);
 		}
+
+		public abstract void RemoveFile();
 	}
 
 #endif
@@ -60,6 +77,11 @@ namespace Utility.GameData
 
 		public List<T> Entities { get; } = new List<T>();
 
+
+#if DEBUG
+		protected abstract bool EnableDebugMode { get; }
+#endif
+
 		#endregion
 
 
@@ -73,8 +95,6 @@ namespace Utility.GameData
 		public void Add(IEnumerable<T> entities)
 		{
 			Entities.AddRange(entities);
-
-			AddFinished();
 		}
 
 		public abstract void Initialize();
@@ -88,11 +108,25 @@ namespace Utility.GameData
 		public T Find(int id) =>
 			Entities.Find(entity => entity.ID == id);
 
-
-		protected virtual void AddFinished()
+		/// <summary>
+		/// 読み込み終了時に呼び出される
+		/// </summary>
+		public void AddFinished()
 		{
-			// デバッグ処理
+#if DEBUG
+			// 読み込み終了時デバッグモードがONの場合、リストを削除してメソッドを呼び出す
+			if (EnableDebugMode)
+			{
+				Clear();
+				
+				DebugAddFinished();
+			}
+#endif
 		}
+
+#if DEBUG
+		protected virtual void DebugAddFinished() {}
+#endif
 
 		#endregion
 

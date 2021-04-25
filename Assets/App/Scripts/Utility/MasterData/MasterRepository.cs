@@ -18,6 +18,11 @@ namespace Utility.MasterData
 			: base($"{typeof(TMasterData).Name}")
 		{
 		}
+
+		public override void RemoveFile()
+		{
+
+		}
 	}
 
 #endif
@@ -43,13 +48,19 @@ namespace Utility.MasterData
 		#region private 変数
 
 #if DEBUG
-		[Inject] protected MasterDataDebugMenu _debugMenu;
+		[Inject] protected MasterDataDebugMenu _masterDataDebugMenu;
+
+		protected MasterDataRepositoryDebugMenu<T> _debugMenu;
 #endif
 
 		#endregion
 
 
 		#region プロパティ
+
+#if DEBUG
+		protected override bool EnableDebugMode => _debugMenu.EnableDebugMode.IsOn;
+#endif
 
 
 		#endregion
@@ -66,7 +77,7 @@ namespace Utility.MasterData
 		{
 #if DEBUG
 			// 自分を登録
-			_debugMenu.AddRepository<MasterDataRepositoryDebugMenu<T>>();
+			_debugMenu = _masterDataDebugMenu.AddRepository<MasterDataRepositoryDebugMenu<T>>();
 #endif
 		}
 

@@ -18,6 +18,11 @@ namespace Utility.UserData
 		{
 
 		}
+
+		public override void RemoveFile()
+		{
+			
+		}
 	}
 
 #endif
@@ -42,12 +47,18 @@ namespace Utility.UserData
 
 #if DEBUG
 		[Inject] protected UserDataDebugMenu _userDataDebugMenu;
+
+		protected UserDataRepositoryDebugMenu<T> _debugMenu;
 #endif
 
 		#endregion
 
 
 		#region プロパティ
+
+#if DEBUG
+		protected override bool EnableDebugMode => _debugMenu.EnableDebugMode.IsOn;
+#endif
 
 		#endregion
 
@@ -63,7 +74,7 @@ namespace Utility.UserData
 		{
 #if DEBUG
 			// 自分を登録
-			_userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<T>>();
+			_debugMenu = _userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<T>>();
 #endif
 		}
 

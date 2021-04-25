@@ -35,14 +35,21 @@ namespace Utility.GameData
 		public GameDataDebugMenu(string title)
 			: base(title)
 		{
-			ClearAllDataButton = new Utility.DebugConfig.DebugButtonItem.Data("全データクリア");
+			ClearAllDataButton = new Utility.DebugConfig.DebugButtonItem.Data("全データクリア", 
+				() => 
+				{
+
+				});
 
 			Add(ClearAllDataButton);
 		}
 
-		public void AddRepository<TRepository>() where TRepository : RepositoryDebugMenu, new()
+		public TRepository AddRepository<TRepository>() where TRepository : RepositoryDebugMenu, new()
 		{
-			_repositoryDebugs.Add(CreateAndAddItem<TRepository>());
+			var instance = CreateAndAddItem<TRepository>();
+			_repositoryDebugs.Add(instance);
+
+			return instance;
 		}
 	}
 
@@ -150,7 +157,7 @@ namespace Utility.GameData
 			// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
 			var repository = _diContainer.Instantiate<TRepository>();
 			repository.Initialize();
-			
+
 			_repositoryDict.Add(typeof(TRepository), repository);
 
 			_loadTasks.Add(LoadRepositoryAsync<TGameData>(key, repository));
@@ -173,8 +180,9 @@ namespace Utility.GameData
 		{
 			var masters = await _loader.LoadAssetsAsync<T>(key);
 			repository.Add(masters);
+			repository.AddFinished();
 
-			#if false
+#if false
 			// 指定マスタデータをすべて読み込む
 			foreach (var guid in AssetDatabase.FindAssets($"t:{typeof(T).Name}"))
 			{
@@ -188,7 +196,7 @@ namespace Utility.GameData
 
 				repository.Add(master);
 			}
-			#endif
+#endif
 		}
 
 		/// <summary>
