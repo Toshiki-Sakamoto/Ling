@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using Zenject;
 using Utility.DebugConfig;
+using Utility.Extensions;
 
 namespace Utility.GameData
 {
@@ -94,6 +95,8 @@ namespace Utility.GameData
 
 		public void Add(IEnumerable<T> entities)
 		{
+			if (entities == null) return;
+
 			Entities.AddRange(entities);
 		}
 
@@ -118,7 +121,7 @@ namespace Utility.GameData
 			if (EnableDebugMode)
 			{
 				Clear();
-				
+
 				DebugAddFinished();
 			}
 #endif

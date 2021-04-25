@@ -14,7 +14,7 @@ namespace Utility.UserData
 		where TUserData : UserDataBase
 	{
 		public UserDataRepositoryDebugMenu()
-			: base($"{nameof(TUserData)}")
+			: base($"{typeof(TUserData).Name}")
 		{
 
 		}
