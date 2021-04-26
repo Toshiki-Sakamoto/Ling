@@ -27,7 +27,7 @@ namespace Utility.Repository
 
 		#region private 変数
 
-		private Dictionary<TCategory, IRepository<TBaseEntity>> _repositoryDict = new Dictionary<TCategory, IRepository<TBaseEntity>>();
+		private Dictionary<TCategory, IRepository> _repositoryDict = new Dictionary<TCategory, IRepository>();
 
 		#endregion
 
@@ -44,10 +44,10 @@ namespace Utility.Repository
 
 		#region public, protected 関数
 
-		public void Update<TEntity>(TCategory category, IRepository<TEntity> repository) where TEntity : Utility.GameData.IGameDataBasic, TBaseEntity =>
-			_repositoryDict.Add(category, (IRepository<TBaseEntity>)repository);
+		public void Update(TCategory category, IRepository repository) =>
+			_repositoryDict.Add(category, repository);
 
-		public IRepository<TBaseEntity> FindRepository(TCategory category) =>
+		public IRepository FindRepository(TCategory category) =>
 			_repositoryDict.TryGetValue(category, out var value) ? value : null;
 
 		#endregion

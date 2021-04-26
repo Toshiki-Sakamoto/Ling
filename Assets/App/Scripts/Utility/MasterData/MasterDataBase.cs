@@ -14,7 +14,7 @@ namespace Utility.MasterData
 	/// <summary>
 	/// 基本的なデータを持つ
 	/// </summary>
-	public class MasterDataBase : IGameDataBasic
+	public class MasterDataBase : ScriptableObject, IGameDataBasic
 	{
 		#region 定数, class, enum
 

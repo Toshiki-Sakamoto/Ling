@@ -56,8 +56,7 @@ namespace Utility.GameData
 	/// User/Master データ管理リポジトリベース
 	/// </summary>
 	public abstract class GameDataRepository<T> : IGameDataRepository, 
-		Utility.Repository.IRepository<T>
-		where T : IGameDataBasic
+		Utility.Repository.IRepository
 	{
 		#region 定数, class, enum
 

@@ -10,7 +10,7 @@ namespace Utility.Repository
 	/// <summary>
 	/// Repository管理
 	/// </summary>
-	public interface IRepository<T> where T : Utility.GameData.IGameDataBasic
+	public interface IRepository
 	{
 		#region 定数, class, enum
 
