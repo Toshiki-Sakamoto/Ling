@@ -6,7 +6,8 @@
 //
 
 using Ling.MasterData.Item;
-using System.Collections.Generic;
+using Utility.MasterData;
+using Zenject;
 
 namespace Ling.MasterData.Repository.Item
 {
@@ -48,28 +49,15 @@ namespace Ling.MasterData.Repository.Item
 
 		#region public, protected 関数
 
-		public ItemRepositoryContainer()
+		public void Update(BookRepository book, FoodRepository food)
 		{
-#if false
-			Utility.EventManager.SafeAdd<MasterLoadedEvent>(this, ev =>
-				{
-					var manager = ev.Manager;
-					
-					Book = manager.BookRepository;
-					Food = manager.FoodRepository;
+			Book = book;
+			Food = food;
 
-					Update(Const.Item.Category.Book, Book);
-					Update(Const.Item.Category.Food, Food);
-				});
-#endif
+			Update(Const.Item.Category.Book, Book);
+			Update(Const.Item.Category.Food, Food);
 		}
 
-#if false
-		~ItemRepositoryContainer()
-		{
-			Utility.EventManager.SafeAllRemove(this);
-		}
-#endif
 		#endregion
 
 

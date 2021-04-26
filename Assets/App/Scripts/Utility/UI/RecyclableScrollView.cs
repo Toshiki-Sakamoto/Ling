@@ -507,6 +507,7 @@ namespace Utility.UI
 		protected void Update()
 		{
 			if (_dataProvider == null) return;
+			if (_items.Count == 0) return;
 
 			// Yは下がプラスで上がマイナスになる
 

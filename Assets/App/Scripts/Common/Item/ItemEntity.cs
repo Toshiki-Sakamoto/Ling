@@ -5,11 +5,16 @@
 // Created by toshiki sakamoto on 2021.04.26
 //
 
+using System;
+using UnityEngine;
+using Zenject;
+using Ling.MasterData.Item;
 namespace Ling.Common.Item
 {
 	/// <summary>
 	/// 基本的なアイテムデータ
 	/// </summary>
+	[System.Serializable]
 	public class ItemEntity
 	{
 		#region 定数, class, enum
@@ -24,10 +29,31 @@ namespace Ling.Common.Item
 
 		#region private 変数
 
+		[Inject] private MasterData.IMasterHolder _masterHolder = default;
+
+		[SerializeField] private int _id;
+		[SerializeField] private Const.Item.Category _category;
+
+		private ItemMaster _master;
+
 		#endregion
 
 
 		#region プロパティ
+
+		public Const.Item.Category Category => _category;
+
+		public ItemMaster Master
+		{
+			get
+			{
+				if (_master != null) return _master;
+
+//				_master = _masterHolder.ItemRespositoryContainer.Find(Category, _id);
+
+				return _master;
+			}
+		}
 
 		#endregion
 

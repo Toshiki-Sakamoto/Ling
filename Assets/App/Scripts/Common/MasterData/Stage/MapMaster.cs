@@ -73,7 +73,7 @@ namespace Ling.MasterData.Stage
 
 		#region public, protected 関数
 
-		public override void Setup()
+		public void Setup()
 		{
 			// 出現する敵をあらかじめ出現率でマッピングしておく
 			_popRateMaxParameter = _mapEnemyData.Sum(enemyData => enemyData.PopRate);

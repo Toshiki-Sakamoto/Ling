@@ -11,7 +11,7 @@ namespace Utility.UserData
 {
 #if DEBUG
 	public class UserDataRepositoryDebugMenu<TUserData> : Utility.GameData.RepositoryDebugMenu
-		where TUserData : UserDataBase
+		where TUserData : Utility.GameData.IGameDataBasic
 	{
 		public UserDataRepositoryDebugMenu()
 			: base($"{typeof(TUserData).Name}")
@@ -31,7 +31,7 @@ namespace Utility.UserData
 	/// UserData Repository
 	/// </summary>
 	public class UserDataRepository<T> : Utility.GameData.GameDataRepository<T>
-		where T : UserDataBase
+		where T : Utility.GameData.IGameDataBasic
 	{
 		#region 定数, class, enum
 

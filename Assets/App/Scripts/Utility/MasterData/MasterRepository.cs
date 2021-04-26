@@ -12,7 +12,7 @@ namespace Utility.MasterData
 {
 #if DEBUG
 	public class MasterDataRepositoryDebugMenu<TMasterData> : Utility.GameData.RepositoryDebugMenu
-		where TMasterData : MasterDataBase
+		where TMasterData : Utility.GameData.IGameDataBasic
 	{
 		public MasterDataRepositoryDebugMenu()
 			: base($"{typeof(TMasterData).Name}")
@@ -80,6 +80,14 @@ namespace Utility.MasterData
 			_debugMenu = _masterDataDebugMenu.AddRepository<MasterDataRepositoryDebugMenu<T>>();
 #endif
 		}
+
+
+		/// <summary>
+		/// IDから検索
+		/// </summary>
+		public T Find(int id) =>
+			Entities.Find(entity => entity.ID == id);
+
 
 		#endregion
 

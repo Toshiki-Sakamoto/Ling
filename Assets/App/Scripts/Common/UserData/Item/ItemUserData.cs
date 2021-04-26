@@ -7,13 +7,15 @@
 
 using Ling.MasterData.Item;
 using Ling.Common.Item;
+using Zenject;
+using UnityEngine;
 
 namespace Ling.UserData.Item
 {
 	/// <summary>
 	/// ユーザーが持っているアイテムデータ
 	/// </summary>
-	public class ItemUserData : Utility.UserData.UserDataBase
+	public class ItemUserData : Utility.GameData.IGameDataBasic
 	{
 		#region 定数, class, enum
 
@@ -27,13 +29,14 @@ namespace Ling.UserData.Item
 
 		#region private 変数
 
+		[SerializeField] private ItemEntity _entity = default;
+
 		#endregion
 
 
 		#region プロパティ
 
-		public ItemMaster Master { get; private set; }
-		public ItemEntity Entity { get; private set; } = new ItemEntity();
+		public ItemEntity Entity => _entity;
 
 		#endregion
 

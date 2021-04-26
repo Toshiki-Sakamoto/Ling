@@ -51,6 +51,7 @@ namespace Ling.Scenes.Menu.Panel
 		public void Setup(IEnumerable<Common.Item.ItemEntity> entities)
 		{
 			_entities = entities.ToList();
+			_itemSize = _itemObject.GetComponent<RectTransform>().sizeDelta.y;
 
 			_scrollView.Initialize(this);
 		}

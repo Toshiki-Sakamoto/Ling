@@ -13,7 +13,7 @@ namespace Utility.Repository
 	/// RepositoryをまとめるContainer
 	/// </summary>
 	public abstract class RepositoryContainer<TCategory, TBaseEntity>
-		where TBaseEntity : class
+		where TBaseEntity : Utility.GameData.IGameDataBasic
 	{
 		#region 定数, class, enum
 
@@ -44,19 +44,11 @@ namespace Utility.Repository
 
 		#region public, protected 関数
 
-		public void Update<TEntity>(TCategory category, IRepository<TEntity> repository) where TEntity : class, TBaseEntity =>
+		public void Update<TEntity>(TCategory category, IRepository<TEntity> repository) where TEntity : Utility.GameData.IGameDataBasic, TBaseEntity =>
 			_repositoryDict.Add(category, (IRepository<TBaseEntity>)repository);
 
 		public IRepository<TBaseEntity> FindRepository(TCategory category) =>
 			_repositoryDict.TryGetValue(category, out var value) ? value : null;
-
-		public TBaseEntity Find(TCategory category, int id)
-		{
-			var repository = FindRepository(category);
-			if (repository == null) return null;
-
-			return repository.Find(id);
-		}
 
 		#endregion
 

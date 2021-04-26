@@ -36,7 +36,7 @@ namespace Utility.MasterData
 		UniTask LoadAll();
 
 
-		TGameData GetData<TGameData>() where TGameData : Utility.GameData.GameDataBase;
+		TGameData GetData<TGameData>() where TGameData : class;
 
 		TRepository GetRepository<TRepository>();
 	}

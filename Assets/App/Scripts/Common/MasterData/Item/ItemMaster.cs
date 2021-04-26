@@ -7,6 +7,7 @@
 
 using UnityEngine;
 using Utility.Attribute;
+using Utility.MasterData;
 
 namespace Ling.MasterData.Item
 {
@@ -16,7 +17,7 @@ namespace Ling.MasterData.Item
 	/// <remarks>
 	/// アイテムに関する共通処理
 	/// </remarks>
-	public abstract class ItemMaster : Utility.MasterData.MasterDataBase
+	public abstract class ItemMaster : MasterDataBase
 	{
 		#region 定数, class, enum
 
@@ -30,10 +31,18 @@ namespace Ling.MasterData.Item
 
 		#region private 変数
 
+		[SerializeField, FieldName("名前")]
+		private string _name = default;
+
 		#endregion
 
 
 		#region プロパティ
+
+		/// <summary>
+		/// アイテム名
+		/// </summary>
+		public string Name => _name;
 
 		/// <summary>
 		/// アイテムカテゴリ

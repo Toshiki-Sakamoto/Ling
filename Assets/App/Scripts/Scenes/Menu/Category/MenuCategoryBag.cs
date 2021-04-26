@@ -67,6 +67,7 @@ namespace Ling.Scenes.Menu.Category
 		public override void Activate()
 		{
 			gameObject.SetActive(true);
+			_menuItemListView.gameObject.SetActive(true);
 		}
 
 		#endregion

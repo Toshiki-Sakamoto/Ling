@@ -41,6 +41,8 @@ namespace Ling.Scenes.Menu
 		[Header("メニューカテゴリコントロール")]
 		[SerializeField] private Category.MenuCategoryBag _bagControl = default;
 
+		private List<Category.MenuCategoryBase> _categoryControls = new List<Category.MenuCategoryBase>();
+
 		#endregion
 
 
@@ -144,7 +146,7 @@ namespace Ling.Scenes.Menu
 		}
 
 		/// <summary>
-		/// カテゴリに応じたControlクラスを生成し、自分と同じところにアタッチにする
+		/// カテゴリに応じたControlクラスのSetupを呼び出す
 		/// </summary>
 		private void SetupCategoryControl(MenuCategoryData categoryData)
 		{
@@ -152,17 +154,28 @@ namespace Ling.Scenes.Menu
 			{
 				case MenuDefine.Category.Bag:
 					_bagControl.Setup();
+					_categoryControls.Add(_bagControl);
 					break;
 			}
 		}
 
 		private void ActivateCategoryControl(MenuCategoryData categoryData)
 		{
+			InactiveAllCategory();					
+
 			switch (categoryData.Category)
 			{
 				case MenuDefine.Category.Bag:
 					_bagControl.Activate();
 					break;
+			}
+		}
+
+		private void InactiveAllCategory()
+		{
+			foreach (var control in _categoryControls)
+			{
+				control.gameObject.SetActive(false);
 			}
 		}
 

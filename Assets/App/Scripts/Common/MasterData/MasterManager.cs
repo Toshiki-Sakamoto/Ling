@@ -30,6 +30,8 @@ namespace Ling.MasterData
 		StageRepository StageRepository { get; }
 		BookRepository BookRepository { get; }
 		FoodRepository FoodRepository { get; }
+
+		ItemRepositoryContainer ItemRespositoryContainer { get; }
 	}
 
 	/// <summary>
@@ -63,8 +65,7 @@ namespace Ling.MasterData
 		public StageRepository StageRepository => GetRepository<StageRepository>();
 		public BookRepository BookRepository => GetRepository<BookRepository>();
 		public FoodRepository FoodRepository => GetRepository<FoodRepository>();
-
-		//public ItemRepositoryContainer ItemRepositoryContainer { get; } = new ItemRepositoryContainer();
+		public ItemRepositoryContainer ItemRespositoryContainer { get; } = new ItemRepositoryContainer();
 
 
 		#endregion
@@ -86,6 +87,8 @@ namespace Ling.MasterData
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(_loadTasks);
+
+			ItemRespositoryContainer.Update(BookRepository, FoodRepository);
 
 			LoadFinished();
 		}

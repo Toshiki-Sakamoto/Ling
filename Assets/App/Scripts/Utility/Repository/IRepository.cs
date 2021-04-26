@@ -10,7 +10,7 @@ namespace Utility.Repository
 	/// <summary>
 	/// Repository管理
 	/// </summary>
-	public interface IRepository<T> where T : class
+	public interface IRepository<T> where T : Utility.GameData.IGameDataBasic
 	{
 		#region 定数, class, enum
 
@@ -38,11 +38,6 @@ namespace Utility.Repository
 
 
 		#region public, protected 関数
-
-		/// <summary>
-		/// IDから検索
-		/// </summary>
-		T Find(int id);
 
 		#endregion
 

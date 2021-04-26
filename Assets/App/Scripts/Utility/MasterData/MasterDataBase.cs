@@ -2,15 +2,19 @@
 // MasterBase.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.06.24
+// Created by toshiki sakamoto on 2021.04.26
 //
+
+using UnityEngine;
+using Utility.Attribute;
+using Utility.GameData;
 
 namespace Utility.MasterData
 {
 	/// <summary>
-	/// Masterデータベースクラス
+	/// 基本的なデータを持つ
 	/// </summary>
-	public class MasterDataBase : Utility.GameData.GameDataBase
+	public class MasterDataBase : IGameDataBasic
 	{
 		#region 定数, class, enum
 
@@ -24,10 +28,16 @@ namespace Utility.MasterData
 
 		#region private 変数
 
+
+		[SerializeField, FieldName("ID")]
+		private int _id = default;
+
 		#endregion
 
 
 		#region プロパティ
+
+		public int ID => _id;
 
 		#endregion
 

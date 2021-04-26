@@ -57,7 +57,7 @@ namespace Utility.GameData
 	/// </summary>
 	public abstract class GameDataRepository<T> : IGameDataRepository, 
 		Utility.Repository.IRepository<T>
-		where T : GameDataBase
+		where T : IGameDataBasic
 	{
 		#region 定数, class, enum
 
@@ -104,13 +104,7 @@ namespace Utility.GameData
 
 		public void Clear() =>
 			Entities.Clear();
-
-		/// <summary>
-		/// IDから検索
-		/// </summary>
-		public T Find(int id) =>
-			Entities.Find(entity => entity.ID == id);
-
+			
 		/// <summary>
 		/// 読み込み終了時に呼び出される
 		/// </summary>
