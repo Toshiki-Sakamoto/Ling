@@ -9,6 +9,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using Ling.Common.Scene.Menu;
+using UniRx;
 
 namespace Ling.Scenes.Menu
 {
@@ -29,8 +30,6 @@ namespace Ling.Scenes.Menu
 
 		#region private 変数
 
-		private MenuCategoryDataFactory _categoryDataFactory = new MenuCategoryDataFactory();
-
 		#endregion
 
 
@@ -42,7 +41,10 @@ namespace Ling.Scenes.Menu
 
 		public int SelectedCategoryIndex { get; private set; }
 
-		public MenuCategoryData SelectedCategoryData => CategoryData[SelectedCategoryIndex];
+		/// <summary>
+		/// 現在選択されているカテゴリデータ
+		/// </summary>
+		public ReactiveProperty<MenuCategoryData> SelectedCategoryData { get; } = new ReactiveProperty<MenuCategoryData>();
 
 		#endregion
 
@@ -59,6 +61,8 @@ namespace Ling.Scenes.Menu
 		public void SetSelectedCategoryIndex(int index)
 		{
 			SelectedCategoryIndex = index;
+
+			SelectedCategoryData.Value = CategoryData[SelectedCategoryIndex];
 		}
 
 		#endregion
@@ -71,8 +75,8 @@ namespace Ling.Scenes.Menu
 			switch (Group)
 			{
 				case MenuDefine.Group.Menu:
-					CategoryData.Add(_categoryDataFactory.Create(MenuDefine.Category.Bag));
-					CategoryData.Add(_categoryDataFactory.Create(MenuDefine.Category.Setting));
+					CategoryData.Add(new MenuCategoryData(MenuDefine.Category.Bag));
+					CategoryData.Add(new MenuCategoryData(MenuDefine.Category.Setting));
 					break;
 
 				case MenuDefine.Group.Shop:

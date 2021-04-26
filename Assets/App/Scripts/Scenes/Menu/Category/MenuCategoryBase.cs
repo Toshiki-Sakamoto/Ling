@@ -1,19 +1,18 @@
 ﻿// 
-// MenuItemView.cs  
+// MenuCategoryBase.cs  
 // ProductName Ling
 //  
 // Created by toshiki sakamoto on 2021.04.26
 // 
 
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Ling.Scenes.Menu.View
+namespace Ling.Scenes.Menu.Category
 {
 	/// <summary>
-	/// アイテム１つの見た目
+	/// カテゴリベースクラス
 	/// </summary>
-	public class MenuItemView : MonoBehaviour 
+	public abstract class MenuCategoryBase : MonoBehaviour 
 	{
 		#region 定数, class, enum
 
@@ -27,10 +26,6 @@ namespace Ling.Scenes.Menu.View
 
 		#region private 変数
 
-		[SerializeField] private Text _titleText = default;
-
-		private Common.Item.ItemEntity _itemEntity;
-
 		#endregion
 
 
@@ -41,10 +36,10 @@ namespace Ling.Scenes.Menu.View
 
 		#region public, protected 関数
 
-		public void Setup(Common.Item.ItemEntity entity)
-		{
-			_itemEntity = entity;
-		}
+		/// <summary>
+		/// アクティブ状態にする
+		/// </summary>
+		public abstract void Activate();
 
 		#endregion
 
@@ -55,6 +50,7 @@ namespace Ling.Scenes.Menu.View
 
 
 		#region MonoBegaviour
+
 
 		#endregion
 	}

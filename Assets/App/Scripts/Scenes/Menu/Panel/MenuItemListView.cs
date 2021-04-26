@@ -8,8 +8,9 @@
 using UnityEngine;
 using Utility.UI;
 using System.Collections.Generic;
+using System.Linq;
 
-namespace Ling.Scenes.Menu.View
+namespace Ling.Scenes.Menu.Panel
 {
 	/// <summary>
 	/// アイテムリストView
@@ -47,9 +48,9 @@ namespace Ling.Scenes.Menu.View
 
 		#region public, protected 関数
 
-		public void Setup(List<Common.Item.ItemEntity> entities)
+		public void Setup(IEnumerable<Common.Item.ItemEntity> entities)
 		{
-			_entities = entities;
+			_entities = entities.ToList();
 
 			_scrollView.Initialize(this);
 		}
@@ -78,33 +79,6 @@ namespace Ling.Scenes.Menu.View
 
 		#region MonoBegaviour
 
-		/// <summary>
-		/// 初期処理
-		/// </summary>
-		void Awake()
-		{
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestroy()
-		{
-		}
 
 		#endregion
 	}
