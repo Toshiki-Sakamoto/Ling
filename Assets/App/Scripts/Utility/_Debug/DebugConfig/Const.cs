@@ -5,17 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.23
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
-
-using Zenject;
-
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 	/// <summary>
 	/// Debug定数値

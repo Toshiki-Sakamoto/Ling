@@ -13,6 +13,9 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UniRx;
 
+using Ling.UserData.Item;
+using Ling.UserData.Repository;
+
 using Zenject;
 
 namespace Ling.UserData
@@ -47,6 +50,8 @@ namespace Ling.UserData
 
 		#region プロパティ
 
+		public ItemUserDataRepository ItemRepository => GetRepository<ItemUserDataRepository>();
+
 		#endregion
 
 
@@ -57,16 +62,16 @@ namespace Ling.UserData
 
 		#region public, protected 関数
 
-		public override IObservable<AsyncUnit> LoadAll()
+		public async override UniTask LoadAll()
 		{
+			AddLoadRepositoryTask<ItemUserData, ItemUserDataRepository>("ItemUserData");
+
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
-			return UniTask.WhenAll(_loadTasks)
-				.ToObservable()
-				.Do(_ =>
-					{
-						LoadFinished();
-					});
+			await UniTask.WhenAll(_loadTasks);
+
+			LoadFinished();
 		}
+
 
 		#endregion
 

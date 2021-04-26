@@ -10,7 +10,7 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using UniRx;
 
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 #if DEBUG
 	/// <summary>
@@ -20,9 +20,12 @@ namespace Ling.Common.DebugConfig
 	{
 		public class Data : DebugItemDataBase<DebugButtonItem>
 		{
-			public Data(string title)
+			public System.Action OnClick { get; }
+
+			public Data(string title, System.Action onClick)
 				: base(title)
 			{
+				OnClick = onClick;
 			}
 
 			protected override void DataUpdateInternal(DebugButtonItem obj)
@@ -53,6 +56,7 @@ namespace Ling.Common.DebugConfig
 				.OnClickAsObservable()
 				.Subscribe(_ =>
 					{
+						_data.OnClick?.Invoke();
 					});
 		}
 	}

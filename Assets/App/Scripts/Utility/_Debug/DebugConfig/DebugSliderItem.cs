@@ -14,7 +14,7 @@ using UnityEngine.UI;
 using Zenject;
 
 #if DEBUG
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 	/// <summary>
 	/// Slider

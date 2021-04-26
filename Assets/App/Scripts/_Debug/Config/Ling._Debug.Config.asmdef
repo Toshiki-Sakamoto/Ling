@@ -1,11 +1,9 @@
 {
-    "name": "Ling.Debug.Config",
+    "name": "Ling._Debug.Config",
     "rootNamespace": "",
     "references": [
-        "GUID:2b796359ba3a84b1999ef355af2c1b1b",
-        "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:560b04d1a97f54a4e82edc0cbbb69285",
-        "GUID:258053230626a4e92b6385b92ddefb03"
+        "GUID:258053230626a4e92b6385b92ddefb03",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

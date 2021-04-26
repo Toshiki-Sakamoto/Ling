@@ -23,3 +23,21 @@ MonoBehaviour:
     groupTemplateApplicationMode: 1
     simplified: 1
     addressReplacement: ${name}
+  - path: Assets/AssetBundles/MasterData/(?<name>.*(?<!asset)$)
+    matchType: 1
+    groupName: MasterData
+    LabelMode: 0
+    labelRefs: []
+    groupTemplate: {fileID: 0}
+    groupTemplateApplicationMode: 0
+    simplified: 0
+    addressReplacement: ${name}
+  - path: Assets/AssetBundles/MasterData/(?!.*/).*$
+    matchType: 1
+    groupName: MasterData
+    LabelMode: 0
+    labelRefs: []
+    groupTemplate: {fileID: 0}
+    groupTemplateApplicationMode: 0
+    simplified: 1
+    addressReplacement: 

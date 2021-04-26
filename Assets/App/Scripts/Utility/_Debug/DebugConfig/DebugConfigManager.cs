@@ -16,7 +16,7 @@ using Zenject;
 using UniRx;
 
 #if DEBUG
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 	public interface IDebugItemData
 	{
@@ -154,9 +154,13 @@ namespace Ling.Common.DebugConfig
 		/// <summary>
 		/// 表示するMenu内容を更新する
 		/// </summary>
-		public void UpdateMenuItemData(DebugMenuItem.Data menuItemData)
+		public void UpdateMenuItemData(DebugMenuItem.Data menuItemData, bool needsPushStack = true)
 		{
-			_menuStack.Push(_currMenu);
+			if (needsPushStack)
+			{
+				_menuStack.Push(_currMenu);
+			}
+
 			_currMenu = menuItemData;
 
 			_btnBack.gameObject.SetActive(menuItemData != Root);
@@ -223,12 +227,13 @@ namespace Ling.Common.DebugConfig
 		{
 			base.Awake();
 
+/*
 			// RootMenu
 			_diContainer
 				.Bind<DebugRootMenuData>()
 				.FromInstance(Root)
 				.AsSingle();
-
+*/
 			_menuStack.Clear();
 			_btnBack.gameObject.SetActive(false);
 
@@ -253,7 +258,7 @@ namespace Ling.Common.DebugConfig
 				{
 					if (_menuStack.Count <= 0) return;
 
-					UpdateMenuItemData(_menuStack.Pop());
+					UpdateMenuItemData(_menuStack.Pop(), needsPushStack: false);
 				});
 		}
 

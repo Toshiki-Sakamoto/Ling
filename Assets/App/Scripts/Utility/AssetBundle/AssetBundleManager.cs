@@ -13,6 +13,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine.UI;
 using UniRx.Triggers;
 using UniRx;
+using System.Collections.Generic;
 
 namespace Utility.AssetBundle
 {
@@ -63,6 +64,26 @@ namespace Utility.AssetBundle
 				});
 
 			return result;
+		}
+
+		public async UniTask<IList<TObject>> LoadAssetsAsync<TObject>(string address, Component owner = null) =>
+			await LoadAssetsAsync<TObject>(address, _destroyToken, owner);
+
+		public async UniTask<IList<TObject>> LoadAssetsAsync<TObject>(string address, CancellationToken token, Component owner = null)
+		{
+			var results = await Addressables.LoadAssetsAsync<TObject>(address, null)
+				.WithCancellation(token);
+
+			owner?.OnDestroyAsObservable()
+				.Subscribe(_ => 
+				{
+					foreach (var result in results)
+					{
+						Release(result);
+					}
+				});
+
+			return results;
 		}
 
 		/// <summary>

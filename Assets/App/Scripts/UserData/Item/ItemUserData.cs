@@ -1,20 +1,18 @@
 ﻿//
-// EnemyRepository.cs
+// ItemUserData.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.07.11
+// Created by toshiki sakamoto on 2021.04.22
 //
 
-using Ling.MasterData.Chara;
+using Ling.MasterData.Item;
 
-using Zenject;
-
-namespace Ling.MasterData.Repository
+namespace Ling.UserData.Item
 {
 	/// <summary>
-	/// <see cref="EnemyMaster"/>
+	/// ユーザーが持っているアイテムデータ
 	/// </summary>
-	public class EnemyRepository : Utility.MasterData.MasterRepository<EnemyMaster>
+	public class ItemUserData : Utility.UserData.UserDataBase
 	{
 		#region 定数, class, enum
 
@@ -33,6 +31,8 @@ namespace Ling.MasterData.Repository
 
 		#region プロパティ
 
+		public ItemMaster Master { get; private set; }
+
 		#endregion
 
 
@@ -42,9 +42,6 @@ namespace Ling.MasterData.Repository
 
 
 		#region public, protected 関数
-
-		public EnemyMaster Find(Const.EnemyType enemyType) =>
-			Entities.Find(entity => entity.EnemyType == enemyType);
 
 		#endregion
 

@@ -12,7 +12,7 @@ using UnityEngine.UI;
 using UniRx;
 
 #if DEBUG
-namespace Ling.Common.DebugConfig
+namespace Utility.DebugConfig
 {
 	public class DebugMenuItem : MonoBehaviour
 	{
@@ -22,6 +22,8 @@ namespace Ling.Common.DebugConfig
 		/// </summary>
 		public class Data : DebugItemDataBase<DebugMenuItem>
 		{
+			[Inject] DiContainer _diContainer;
+
 			public List<IDebugItemData> children = new List<IDebugItemData>();
 
 			public int Count => children.Count;
@@ -43,6 +45,22 @@ namespace Ling.Common.DebugConfig
 
 			public override Const.MenuType GetMenuType() =>
 				Const.MenuType.MenuItem;
+
+			/// <summary>
+			/// 子供のItemDataを作成する
+			/// </summary>
+			public T CreateAndAddItem<T>() where T : IDebugItemData, new()
+			{
+				_diContainer
+					.BindInterfacesAndSelfTo<T>()
+					.AsSingle();
+
+				var instance = _diContainer.Resolve<T>();
+
+				Add(instance);
+
+				return instance;
+			}
 
 			public void Add(IDebugItemData itemData)
 			{

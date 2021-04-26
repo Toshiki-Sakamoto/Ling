@@ -787,6 +787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b62876ce7fae74597a7dfbfa42c94d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _needsProcessManager: 0
   _moveProvider: {fileID: 8411614102663562073}
   _actionProvider: {fileID: 959112443}
 --- !u!4 &1631036956
