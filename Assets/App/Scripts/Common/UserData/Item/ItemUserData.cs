@@ -6,6 +6,7 @@
 //
 
 using Ling.MasterData.Item;
+using Ling.Common.Item;
 
 namespace Ling.UserData.Item
 {
@@ -32,6 +33,7 @@ namespace Ling.UserData.Item
 		#region プロパティ
 
 		public ItemMaster Master { get; private set; }
+		public ItemEntity Entity { get; private set; } = new ItemEntity();
 
 		#endregion
 
@@ -42,6 +44,7 @@ namespace Ling.UserData.Item
 
 
 		#region public, protected 関数
+
 
 		#endregion
 

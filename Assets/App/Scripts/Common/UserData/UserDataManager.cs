@@ -25,8 +25,10 @@ namespace Ling.UserData
 	/// </summary>
 	public interface IUserDataHolder
 	{
-
+		ItemUserDataRepository ItemRepository { get; }
 	}
+
+	
 
 	/// <summary>
 	/// ユーザーごとに保持されるデータ
@@ -50,7 +52,7 @@ namespace Ling.UserData
 
 		#region プロパティ
 
-		public ItemUserDataRepository ItemRepository => GetRepository<ItemUserDataRepository>();
+		ItemUserDataRepository IUserDataHolder.ItemRepository => GetRepository<ItemUserDataRepository>();
 
 		#endregion
 
