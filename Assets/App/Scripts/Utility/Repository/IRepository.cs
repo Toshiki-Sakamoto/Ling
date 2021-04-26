@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.11.22
 //
 
-namespace Ling.Common.Repotitory
+namespace Utility.Repository
 {
 	/// <summary>
 	/// Repository管理

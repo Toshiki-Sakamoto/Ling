@@ -1,26 +1,18 @@
 ﻿//
-// MasterBase.cs
+// TGameDataBase.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.06.24
+// Created by toshiki sakamoto on 2021.04.22
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
-using Zenject;
-
-namespace Ling.Common.MasterData
+namespace Utility.GameData
 {
 	/// <summary>
-	/// Masterデータベースクラス
+	/// User/Master Dataのベースクラス
 	/// </summary>
-	public class MasterDataBase : ScriptableObject
+	public class GameDataBase : ScriptableObject
 	{
 		#region 定数, class, enum
 

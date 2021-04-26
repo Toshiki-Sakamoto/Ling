@@ -1,60 +1,42 @@
-﻿//
-// MasterManager.cs
+﻿// 
+// GameDataManager.cs  
 // ProductName Ling
-//
-// Created by toshiki sakamoto on 2020.06.24
-//
+//  
+// Created by toshiki sakamoto on 2021.04.22
+// 
 
-using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using UnityEditor;
-using UnityEngine;
+using Cysharp.Threading.Tasks;
 using UniRx;
 
-namespace Ling.Common.MasterData
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
+namespace Utility.GameData
 {
-	public interface IMasterManager
-	{
-		/// <summary>
-		/// マスタデータ読み込み済みの場合true
-		/// </summary>
-		bool IsLoaded { get; }
-
-		/// <summary>
-		/// 全マスタデータの読み込みを行う
-		/// </summary>
-		IObservable<AsyncUnit> LoadAll();
-
-
-		TMaster GetMaster<TMaster>() where TMaster : MasterDataBase;
-
-		TRepository GetRepository<TRepository>();
-	}
-
-
 	/// <summary>
-	/// マスタデータ管理者
+	/// Master/User データ管理の基礎クラス
 	/// </summary>
-	public abstract class MasterManager : MonoBehaviour, IMasterManager
+	public abstract class GameDataManager : MonoBehaviour 
 	{
 		#region 定数, class, enum
-
 
 		#endregion
 
 
-		#region public, protected 変数
+		#region public 変数
 
 		#endregion
 
 
 		#region private 変数
 
-		private Dictionary<Type, IMasterRepository> _repositories = new Dictionary<Type, IMasterRepository>();
-		private Dictionary<Type, MasterDataBase> _masters = new Dictionary<Type, MasterDataBase>();
+		private Dictionary<Type, IGameDataRepository> _repositoryDict = new Dictionary<Type, IGameDataRepository>();
+		private Dictionary<Type, GameDataBase> _dataDict = new Dictionary<Type, GameDataBase>();
 		protected List<UniTask> _loadTasks = new List<UniTask>();
 
 		#endregion
@@ -66,8 +48,6 @@ namespace Ling.Common.MasterData
 		/// 読み込み済みの場合true
 		/// </summary>
 		public bool IsLoaded { get; private set; }
-
-
 
 		#endregion
 
@@ -81,15 +61,15 @@ namespace Ling.Common.MasterData
 
 		public abstract IObservable<AsyncUnit> LoadAll();
 
-		public TMaster GetMaster<TMaster>()
-			where TMaster : MasterDataBase
+		public TGameData GetData<TGameData>()
+			where TGameData : GameDataBase
 		{
-			if (!_masters.TryGetValue(typeof(TMaster), out var result))
+			if (!_dataDict.TryGetValue(typeof(TGameData), out var result))
 			{
 				// todo: エラー処理
 			}
 
-			return (TMaster)result;
+			return (TGameData)result;
 		}
 
 		/// <summary>
@@ -97,7 +77,7 @@ namespace Ling.Common.MasterData
 		/// </summary>
 		public TRepository GetRepository<TRepository>()
 		{
-			if (!_repositories.TryGetValue(typeof(TRepository), out var result))
+			if (!_repositoryDict.TryGetValue(typeof(TRepository), out var result))
 			{
 				// todo: エラー処理
 			}
@@ -114,30 +94,30 @@ namespace Ling.Common.MasterData
 		/// <summary>
 		/// ロード処理リストに突っ込む
 		/// </summary>
-		protected void AddLoadTask<TMaster>() where TMaster : MasterDataBase
+		protected void AddLoadTask<TGameData>() where TGameData : GameDataBase
 		{
-			_loadTasks.Add(LoadAsync<TMaster>(master =>
+			_loadTasks.Add(LoadAsync<TGameData>(master =>
 				{
 					// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
-					_masters.Add(typeof(TMaster), master);
+					_dataDict.Add(typeof(TGameData), master);
 				}));
 		}
 
-		protected void AddLoadRepositoryTask<TMaster, TRepository>()
-			where TMaster : MasterDataBase
-			where TRepository : MasterRepository<TMaster>, new()
+		protected void AddLoadRepositoryTask<TGameData, TRepository>()
+			where TGameData : GameDataBase
+			where TRepository : GameDataRepository<TGameData>, new()
 		{
 			// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
 			var repository = new TRepository();
-			_repositories.Add(typeof(TRepository), repository);
+			_repositoryDict.Add(typeof(TRepository), repository);
 
-			_loadTasks.Add(LoadRepositoryAsync<TMaster>(repository));
+			_loadTasks.Add(LoadRepositoryAsync<TGameData>(repository));
 		}
 
 		/// <summary>
 		/// 実際の非同期読み込み処理
 		/// </summary>
-		protected async UniTask LoadAsync<T>(System.Action<T> onSuccess) where T : MasterDataBase
+		protected async UniTask LoadAsync<T>(System.Action<T> onSuccess) where T : GameDataBase
 		{
 			var master = await LoadAsyncAtPath<T>($"MasterData/{typeof(T).Name}");
 
@@ -147,7 +127,7 @@ namespace Ling.Common.MasterData
 		/// <summary>
 		/// 指定Masterを検索し、Repositoryにmasterを格納する
 		/// </summary>
-		protected async UniTask LoadRepositoryAsync<T>(MasterRepository<T> repository) where T : MasterDataBase
+		protected async UniTask LoadRepositoryAsync<T>(GameDataRepository<T> repository) where T : GameDataBase
 		{
 			// 指定マスタデータをすべて読み込む
 			foreach (var guid in AssetDatabase.FindAssets($"t:{typeof(T).Name}"))
@@ -164,24 +144,24 @@ namespace Ling.Common.MasterData
 			}
 		}
 
-		protected async UniTask<T> LoadAsyncAtPath<T>(string path) where T : MasterDataBase
+		protected async UniTask<T> LoadAsyncAtPath<T>(string path) where T : GameDataBase
 		{
-			var masterData = Resources.LoadAsync(path);//.ToUniTask();
+			var gameDataRequest = Resources.LoadAsync(path);//.ToUniTask();
 
-			await masterData;
+			await gameDataRequest;
 
-			var master = masterData.asset as T;
-			master.Setup();
+			var gameData = gameDataRequest.asset as T;
+			gameData.Setup();
 
-			return master;
+			return gameData;
 		}
 
 		/// <summary>
 		/// すべての読み込みが終了したときに呼び出す
 		/// </summary>
-		protected void LoadFinished()
+		protected void LoadFinished<TEvent>() where TEvent : class, new()
 		{
-			Utility.EventManager.SafeTrigger(new MasterLoadedEvent { });
+			Utility.EventManager.SafeTrigger(new TEvent { });
 		}
 
 		#endregion

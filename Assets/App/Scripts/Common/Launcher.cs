@@ -53,7 +53,8 @@ namespace Ling.Common
 
 		#region private 変数
 
-		[Inject] protected Common.MasterData.IMasterManager _masterManager = null;
+		[Inject] protected Utility.MasterData.IMasterManager _masterManager = null;
+		[Inject] protected Utility.UserData.IUserDataManager _userDataManager = default;
 		[Inject] protected Common.Scene.IExSceneManager _sceneManager = null;
 		[Inject] protected Utility.UtilityInitializer _utilityInitializer = default;
 
@@ -108,6 +109,12 @@ namespace Ling.Common
 			if (!_masterManager.IsLoaded)
 			{
 				await _masterManager.LoadAll();
+			}
+
+			// ユーザーデータの読み込みを行う
+			if (!_userDataManager.IsLoaded)
+			{
+				await _userDataManager.LoadAll();
 			}
 
 			// シーン固有の処理を呼び出す

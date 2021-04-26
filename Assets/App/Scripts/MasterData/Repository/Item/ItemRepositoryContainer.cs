@@ -16,7 +16,7 @@ namespace Ling.MasterData.Repository.Item
 	/// <remarks>
 	/// カテゴリごとに検索することも可能
 	/// </remarks>
-	public class ItemRepositoryContainer : Common.Repotitory.RepositoryContainer<Const.Item.Category, ItemMaster>
+	public class ItemRepositoryContainer : Utility.Repository.RepositoryContainer<Const.Item.Category, ItemMaster>
 	{
 		#region 定数, class, enum
 

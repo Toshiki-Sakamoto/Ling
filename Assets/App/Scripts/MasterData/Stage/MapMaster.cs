@@ -25,7 +25,7 @@ namespace Ling.MasterData.Stage
 	/// 　...
 	/// </summary>
 	[CreateAssetMenu(menuName = "MasterData/MapMaster", fileName = "MapMaster")]
-	public class MapMaster : Common.MasterData.MasterDataBase
+	public class MapMaster : Utility.MasterData.MasterDataBase
 	{
 		#region 定数, class, enum
 

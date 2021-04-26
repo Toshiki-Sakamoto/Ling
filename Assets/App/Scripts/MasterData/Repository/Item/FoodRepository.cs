@@ -13,7 +13,7 @@ namespace Ling.MasterData.Repository.Item
 	/// <summary>
 	/// FoodMaster Repository
 	/// </summary>
-	public class FoodRepository : Common.MasterData.MasterRepository<FoodMaster>
+	public class FoodRepository : Utility.MasterData.MasterRepository<FoodMaster>
 	{
 		#region 定数, class, enum
 
