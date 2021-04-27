@@ -15,7 +15,7 @@ namespace Ling.UserData.Item
 	/// <summary>
 	/// ユーザーが持っているアイテムデータ
 	/// </summary>
-	public class ItemUserData : Utility.GameData.IGameDataBasic
+	public class ItemUserData : ItemEntity, Utility.GameData.IGameDataBasic
 	{
 		#region 定数, class, enum
 
@@ -29,14 +29,10 @@ namespace Ling.UserData.Item
 
 		#region private 変数
 
-		[SerializeField] private ItemEntity _entity = default;
-
 		#endregion
 
 
 		#region プロパティ
-
-		public ItemEntity Entity => _entity;
 
 		#endregion
 

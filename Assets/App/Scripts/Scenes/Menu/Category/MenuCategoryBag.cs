@@ -56,7 +56,7 @@ namespace Ling.Scenes.Menu.Category
 			var itemRepository = _userDataHolder.ItemRepository;
 
 			// アイテム一覧を表示する
-			_itemEntities = itemRepository.Entities.ConvertAll(entity => entity.Entity);
+			_itemEntities = itemRepository.Entities.ConvertAll(entity => (Common.Item.ItemEntity)entity);
 			_menuItemListView.Setup(_itemEntities);
 		}
 

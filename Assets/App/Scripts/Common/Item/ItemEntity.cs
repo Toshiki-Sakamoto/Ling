@@ -41,7 +41,9 @@ namespace Ling.Common.Item
 
 		#region プロパティ
 
-		public Const.Item.Category Category => _category;
+		public int ID { get => _id; set => _id = value; }
+
+		public Const.Item.Category Category { get => _category; set => _category = value; }
 
 		public ItemMaster Master
 		{
