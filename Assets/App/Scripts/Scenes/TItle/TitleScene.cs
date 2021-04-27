@@ -36,6 +36,8 @@ namespace Ling.Scenes.TItle
 
 		#region プロパティ
 
+		public override Common.Scene.SceneID SceneID => Common.Scene.SceneID.Title;
+
 		#endregion
 
 

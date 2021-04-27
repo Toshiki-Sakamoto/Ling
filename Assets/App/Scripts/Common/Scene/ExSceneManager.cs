@@ -216,7 +216,7 @@ namespace Ling.Common.Scene
 		{
 			_currentScene = scene;
 
-			_currentScene.SceneData = new SceneData { SceneID = SceneID.Main, Argument = new Argument() };
+			_currentScene.SceneData = new SceneData { SceneID = scene.SceneID, Argument = new Argument() };
 
 			// 依存しているシーンを呼び出す
 			// tood: 今めっちゃ仮で適当に起動してる
@@ -225,6 +225,9 @@ namespace Ling.Common.Scene
 			// すべてのシーンを読み込み終わったらStartSceneを呼び出す
 			scene.IsStartScene = true;
 			scene.StartScene();
+
+			// スタックに詰める
+			_sceneData.Push(_currentScene.SceneData);
 		}
 
 		#endregion

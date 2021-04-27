@@ -71,6 +71,8 @@ namespace Ling.Common.Scene
 
 		#region プロパティ
 
+		public abstract Common.Scene.SceneID SceneID { get; }
+		
 		/// <summary>
 		/// シーン遷移時に渡される引数
 		/// </summary>

@@ -49,6 +49,8 @@ namespace Ling.Scenes.Menu
 
 		#region プロパティ
 
+		public override Common.Scene.SceneID SceneID => Common.Scene.SceneID.Menu;
+
 		#endregion
 
 
@@ -192,7 +194,7 @@ namespace Ling.Scenes.Menu
 
 			// シーンを戻る
 			var result = BattleResult.CreateAtItemUse(itemEntity);
-			_sceneManager.BackToSceneAsync(Common.Scene.SceneID.Battle, result).Forget();
+			_sceneManager.CloseSceneAsync(this, result).Forget();
 		}
 
 		#endregion

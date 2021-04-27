@@ -37,6 +37,8 @@ namespace Ling.Scenes.Input
 
 		#region プロパティ
 
+		public override Common.Scene.SceneID SceneID => Common.Scene.SceneID.Input;
+
 		#endregion
 
 
