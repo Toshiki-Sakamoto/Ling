@@ -9,6 +9,7 @@ using UnityEngine;
 using Utility.UI;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 
 namespace Ling.Scenes.Menu.Panel
 {
@@ -43,6 +44,8 @@ namespace Ling.Scenes.Menu.Panel
 
 		int RecyclableScrollView.IContentDataProvider.DataCount => _entities.Count;
 
+		public System.Action<Common.Item.ItemEntity> OnClick { get; set; }
+
 		#endregion
 
 
@@ -68,6 +71,12 @@ namespace Ling.Scenes.Menu.Panel
 
 			var item = obj.GetComponent<MenuItemView>();
 			item.Setup(itemEntity);
+
+			if (init)
+			{
+				item.OnClick
+					.Subscribe(_ => OnClick?.Invoke(item.Entity));
+			}
 		}
 
 		#endregion

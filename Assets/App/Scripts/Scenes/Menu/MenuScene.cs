@@ -13,6 +13,7 @@ using Zenject;
 using Ling.Common.Input;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using Ling.Common.Scene.Battle;
 
 namespace Ling.Scenes.Menu
 {
@@ -155,6 +156,9 @@ namespace Ling.Scenes.Menu
 				case MenuDefine.Category.Bag:
 					_bagControl.Setup();
 					_categoryControls.Add(_bagControl);
+
+					// アイテムを使用した時
+					_bagControl.OnUseItem = itemEntity => UseItem(itemEntity);
 					break;
 			}
 		}
@@ -177,6 +181,18 @@ namespace Ling.Scenes.Menu
 			{
 				control.gameObject.SetActive(false);
 			}
+		}
+
+		/// <summary>
+		/// アイテムを使用する
+		/// </summary>
+		private void UseItem(Common.Item.ItemEntity itemEntity)
+		{
+			Utility.Log.Print($"アイテムを使用する {itemEntity.ID}, {itemEntity.Name}");
+
+			// シーンを戻る
+			var result = BattleResult.CreateAtItemUse(itemEntity);
+			_sceneManager.BackToSceneAsync(Common.Scene.SceneID.Battle, result).Forget();
 		}
 
 		#endregion

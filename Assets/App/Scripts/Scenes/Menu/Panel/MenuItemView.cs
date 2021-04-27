@@ -7,6 +7,8 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using System;
+using UniRx;
 
 namespace Ling.Scenes.Menu.Panel
 {
@@ -28,6 +30,7 @@ namespace Ling.Scenes.Menu.Panel
 		#region private 変数
 
 		[SerializeField] private Text _titleText = default;
+		[SerializeField] private Button _button = default;
 
 		private Common.Item.ItemEntity _itemEntity;
 
@@ -35,6 +38,10 @@ namespace Ling.Scenes.Menu.Panel
 
 
 		#region プロパティ
+
+		public Common.Item.ItemEntity Entity => _itemEntity;
+
+		public IObservable<Unit> OnClick => _button.OnClickAsObservable();
 
 		#endregion
 

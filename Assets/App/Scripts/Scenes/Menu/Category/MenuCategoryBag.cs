@@ -41,6 +41,15 @@ namespace Ling.Scenes.Menu.Category
 
 		#region プロパティ
 
+		/// <summary>
+		/// アイテムを使用した時
+		/// </summary>
+		public System.Action<Common.Item.ItemEntity> OnUseItem { get; set; }
+
+		/// <summary>
+		/// アイテムを装備した時
+		/// </summary>
+
 		#endregion
 
 
@@ -58,6 +67,12 @@ namespace Ling.Scenes.Menu.Category
 			// アイテム一覧を表示する
 			_itemEntities = itemRepository.Entities.ConvertAll(entity => (Common.Item.ItemEntity)entity);
 			_menuItemListView.Setup(_itemEntities);
+
+			_menuItemListView.OnClick = itemEntity => 
+				{
+					// アイテムを使用したか装備したか
+					OnUseItem?.Invoke(itemEntity);
+				};
 		}
 
 
