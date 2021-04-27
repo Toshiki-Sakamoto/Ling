@@ -107,7 +107,7 @@ namespace Utility.MasterData
 	public interface IInheritenceMasterRepository<TEntity>
 		where TEntity : MasterDataBase
 	{
-		TEntity FindAtBase(int id);
+		TEntity FindBase(int id);
 	}
 
 	public abstract class InheritanceMasterRepository<TEntity, UEntity> : MasterRepository<UEntity>,
@@ -115,7 +115,7 @@ namespace Utility.MasterData
 		where TEntity : MasterDataBase
 		where UEntity : TEntity
 	{
-		TEntity IInheritenceMasterRepository<TEntity>.FindAtBase(int id) =>
+		TEntity IInheritenceMasterRepository<TEntity>.FindBase(int id) =>
 			Find(id) as TEntity;
 	}
 }
