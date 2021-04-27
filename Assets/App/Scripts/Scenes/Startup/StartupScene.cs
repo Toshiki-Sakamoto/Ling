@@ -38,6 +38,8 @@ namespace Ling.Startup
 
 		#region プロパティ
 
+		public override Common.Scene.SceneID SceneID => Common.Scene.SceneID.StartUp;
+
 		#endregion
 
 

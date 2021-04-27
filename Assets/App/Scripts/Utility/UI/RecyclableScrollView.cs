@@ -176,7 +176,7 @@ namespace Utility.UI
 			{
 				if (_scrollRect != null) return _scrollRect;
 
-				_scrollRect = GetComponentInParent<ScrollRect>();
+				_scrollRect = gameObject.GetComponentInParent<ScrollRect>(includeInactive: true);
 				if (_scrollRect == null)
 				{
 					Utility.Log.Error("ScrollRectが見つからない");
@@ -507,6 +507,7 @@ namespace Utility.UI
 		protected void Update()
 		{
 			if (_dataProvider == null) return;
+			if (_items.Count == 0) return;
 
 			// Yは下がプラスで上がマイナスになる
 

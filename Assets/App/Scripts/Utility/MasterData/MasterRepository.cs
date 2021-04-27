@@ -12,7 +12,7 @@ namespace Utility.MasterData
 {
 #if DEBUG
 	public class MasterDataRepositoryDebugMenu<TMasterData> : Utility.GameData.RepositoryDebugMenu
-		where TMasterData : MasterDataBase
+		where TMasterData : Utility.GameData.IGameDataBasic
 	{
 		public MasterDataRepositoryDebugMenu()
 			: base($"{typeof(TMasterData).Name}")
@@ -26,7 +26,6 @@ namespace Utility.MasterData
 	}
 
 #endif
-
 
 	/// <summary>
 	/// 指定したMasterを配列で保持する
@@ -81,11 +80,42 @@ namespace Utility.MasterData
 #endif
 		}
 
+
+		/// <summary>
+		/// IDから検索
+		/// </summary>
+		public T Find(int id)
+		{
+			var entity = Entities.Find(entity => entity.ID == id);
+			if (entity == null)
+			{
+				Utility.Log.Error($"IDから見つけられない {id}");
+			}
+
+			return entity;
+		}
+
+
 		#endregion
 
 
 		#region private 関数
 
 		#endregion
+	}
+
+	public interface IInheritenceMasterRepository<TEntity>
+		where TEntity : MasterDataBase
+	{
+		TEntity FindBase(int id);
+	}
+
+	public abstract class InheritanceMasterRepository<TEntity, UEntity> : MasterRepository<UEntity>,
+		IInheritenceMasterRepository<TEntity>
+		where TEntity : MasterDataBase
+		where UEntity : TEntity
+	{
+		TEntity IInheritenceMasterRepository<TEntity>.FindBase(int id) =>
+			Find(id) as TEntity;
 	}
 }

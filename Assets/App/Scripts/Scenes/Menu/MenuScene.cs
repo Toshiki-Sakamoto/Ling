@@ -12,6 +12,8 @@ using Ling.Common.Scene.Menu;
 using Zenject;
 using Ling.Common.Input;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
+using Ling.Common.Scene.Battle;
 
 namespace Ling.Scenes.Menu
 {
@@ -37,10 +39,17 @@ namespace Ling.Scenes.Menu
 		[SerializeField] private MenuModel _model = default;
 		[SerializeField] private MenuView _view = default;
 
+		[Header("メニューカテゴリコントロール")]
+		[SerializeField] private Category.MenuCategoryBag _bagControl = default;
+
+		private List<Category.MenuCategoryBase> _categoryControls = new List<Category.MenuCategoryBase>();
+
 		#endregion
 
 
 		#region プロパティ
+
+		public override Common.Scene.SceneID SceneID => Common.Scene.SceneID.Menu;
 
 		#endregion
 
@@ -56,6 +65,13 @@ namespace Ling.Scenes.Menu
 
 			_model.SetArgument(menuArgument);
 
+			// カテゴリに応じたクラスを生成する
+			foreach (var data in _model.CategoryData)
+			{
+				SetupCategoryControl(data);
+			}
+
+
 			var viewParam = new MenuView.Param()
 				{
 					CategoryData = _model.CategoryData,
@@ -63,14 +79,23 @@ namespace Ling.Scenes.Menu
 
 			_view.Setup(viewParam);
 
-			// カテゴリが変更された
+			// View上でカテゴリが変更された
 			_view.SelectedIndex
 				.Subscribe(index => 
 				{
 					_model.SetSelectedCategoryIndex(index);
 
-					_view.SetCategoryData(_model.SelectedCategoryData);
+					//_view.SetCategoryData(_model.SelectedCategoryData);
 				}).AddTo(this);
+
+			// カテゴリが切り替わった時、カテゴリコントロール上も変化させる
+			_model.SelectedCategoryData
+				.AsObservable()
+				.Subscribe(categoryData => 
+				{
+					// Controlを変更させる
+					ActivateCategoryControl(categoryData);
+				});
 
 			// メニューボタンが押されたら閉じる
 			var actionInput = _inputManager.Resolve<InputControls.IActionActions>();
@@ -121,6 +146,55 @@ namespace Ling.Scenes.Menu
 		{
 			// メニューボタンが押されたら閉じる
 			CloseScene();
+		}
+
+		/// <summary>
+		/// カテゴリに応じたControlクラスのSetupを呼び出す
+		/// </summary>
+		private void SetupCategoryControl(MenuCategoryData categoryData)
+		{
+			switch (categoryData.Category)
+			{
+				case MenuDefine.Category.Bag:
+					_bagControl.Setup();
+					_categoryControls.Add(_bagControl);
+
+					// アイテムを使用した時
+					_bagControl.OnUseItem = itemEntity => UseItem(itemEntity);
+					break;
+			}
+		}
+
+		private void ActivateCategoryControl(MenuCategoryData categoryData)
+		{
+			InactiveAllCategory();					
+
+			switch (categoryData.Category)
+			{
+				case MenuDefine.Category.Bag:
+					_bagControl.Activate();
+					break;
+			}
+		}
+
+		private void InactiveAllCategory()
+		{
+			foreach (var control in _categoryControls)
+			{
+				control.gameObject.SetActive(false);
+			}
+		}
+
+		/// <summary>
+		/// アイテムを使用する
+		/// </summary>
+		private void UseItem(Common.Item.ItemEntity itemEntity)
+		{
+			Utility.Log.Print($"アイテムを使用する {itemEntity.ID}, {itemEntity.Name}");
+
+			// シーンを戻る
+			var result = BattleResult.CreateAtItemUse(itemEntity);
+			_sceneManager.CloseSceneAsync(this, result).Forget();
 		}
 
 		#endregion

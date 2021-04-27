@@ -42,6 +42,8 @@ namespace Ling.Scenes.Status
 
 		#region プロパティ
 
+		public override Common.Scene.SceneID SceneID => Common.Scene.SceneID.Status;
+
 		#endregion
 
 

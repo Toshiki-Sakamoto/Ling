@@ -16,7 +16,7 @@ namespace Ling.Common.Scene
 	/// SceneBaseを拡張したクラス
 	/// 基本的に使用されるものを内包している
 	/// </summary>
-	public class ExSceneBase : Base
+	public abstract class ExSceneBase : Base
 	{
 		#region 定数, class, enum
 

@@ -76,6 +76,8 @@ namespace Ling.Scenes.Battle
 
 		#region プロパティ
 
+		public override Common.Scene.SceneID SceneID => Common.Scene.SceneID.Battle;
+
 		/// <summary>
 		/// 自分のシーンに必要なシーンID
 		/// 自シーン読み込み後になければ読み込みを行う

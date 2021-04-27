@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef349b9f3748149e3976a2c16575f148, type: 3}
   m_Name: FireMaster
   m_EditorClassIdentifier: 
-  _id: 0
+  _id: 1
+  _name: 
   _type: 0

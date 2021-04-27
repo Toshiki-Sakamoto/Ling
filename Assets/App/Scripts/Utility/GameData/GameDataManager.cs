@@ -77,10 +77,10 @@ namespace Utility.GameData
 		[Inject] protected Utility.DebugConfig.DebugRootMenuData _rootMenuData;
 #endif
 
-		private Dictionary<Type, IGameDataRepository> _repositoryDict = new Dictionary<Type, IGameDataRepository>();
-		private Dictionary<Type, GameDataBase> _dataDict = new Dictionary<Type, GameDataBase>();
-		private IGameDataLoader _loader;
-
+		protected Dictionary<Type, IGameDataRepository> _repositoryDict = new Dictionary<Type, IGameDataRepository>();
+		protected Dictionary<Type, System.Object> _dataDict = new Dictionary<Type, System.Object>();
+	
+		protected IGameDataLoader _loader;
 		protected List<UniTask> _loadTasks = new List<UniTask>();
 
 		#endregion
@@ -109,7 +109,7 @@ namespace Utility.GameData
 			_loader = loader;
 
 		public TGameData GetData<TGameData>()
-			where TGameData : GameDataBase
+			where TGameData : class
 		{
 			if (!_dataDict.TryGetValue(typeof(TGameData), out var result))
 			{
@@ -141,17 +141,17 @@ namespace Utility.GameData
 		/// <summary>
 		/// ロード処理リストに突っ込む
 		/// </summary>
-		protected void AddLoadTask<TGameData>(string key) where TGameData : GameDataBase
+		protected void AddLoadTask<TGameData>(string key) where TGameData : Utility.GameData.IGameDataBasic
 		{
-			_loadTasks.Add(LoadAsync<TGameData>(key, master =>
+			_loadTasks.Add(LoadAsync<TGameData>(key, data =>
 				{
 					// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
-					_dataDict.Add(typeof(TGameData), master);
+					_dataDict.Add(typeof(TGameData), data);
 				}));
 		}
 
 		protected void AddLoadRepositoryTask<TGameData, TRepository>(string key)
-			where TGameData : GameDataBase
+			where TGameData : Utility.GameData.IGameDataBasic
 			where TRepository : GameDataRepository<TGameData>, new()
 		{
 			// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
@@ -166,7 +166,7 @@ namespace Utility.GameData
 		/// <summary>
 		/// 実際の非同期読み込み処理
 		/// </summary>
-		protected async UniTask LoadAsync<T>(string key, System.Action<T> onSuccess) where T : GameDataBase
+		protected async UniTask LoadAsync<T>(string key, System.Action<T> onSuccess) where T : Utility.GameData.IGameDataBasic
 		{
 			var master = await _loader.LoadAssetAsync<T>(key);
 
@@ -176,27 +176,11 @@ namespace Utility.GameData
 		/// <summary>
 		/// 指定フォルダ以下のMasterを検索し、Repositoryにすべて格納する
 		/// </summary>
-		protected async UniTask LoadRepositoryAsync<T>(string key, GameDataRepository<T> repository) where T : GameDataBase
+		protected async UniTask LoadRepositoryAsync<T>(string key, GameDataRepository<T> repository) where T : Utility.GameData.IGameDataBasic
 		{
 			var masters = await _loader.LoadAssetsAsync<T>(key);
 			repository.Add(masters);
 			repository.AddFinished();
-
-#if false
-			// 指定マスタデータをすべて読み込む
-			foreach (var guid in AssetDatabase.FindAssets($"t:{typeof(T).Name}"))
-			{
-				var filePath = AssetDatabase.GUIDToAssetPath(guid);
-				if (string.IsNullOrEmpty(filePath)) continue;
-
-				// Resourcesファイルパス以下にする
-				filePath = Regex.Replace(filePath, ".*/Resources/(.*).asset", "$1");
-
-				var master = await LoadAsyncAtPath<T>(filePath);
-
-				repository.Add(master);
-			}
-#endif
 		}
 
 		/// <summary>

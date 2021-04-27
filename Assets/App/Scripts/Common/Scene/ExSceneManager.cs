@@ -36,6 +36,8 @@ namespace Ling.Common.Scene
 		void CloseScene(Base scene, SceneResult result = null);
 		UniTask CloseSceneAsync(Base scene, SceneResult result = null);
 
+		UniTask<Base> BackToSceneAsync(SceneID sceneID, SceneResult result = null);
+
 		UniTask QuickStartAsync(Base scene);
 	}
 
@@ -147,7 +149,7 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// 指定したSceneDataを持つところまで戻る
 		/// </summary>
-		public async UniTask<Base> BackToSceneAsync(SceneID sceneID)
+		public async UniTask<Base> BackToSceneAsync(SceneID sceneID, SceneResult result = null)
 		{
 			var sceneData = FindSceneDataBySceneID(sceneID);
 			if (sceneData == null)
@@ -155,6 +157,8 @@ namespace Ling.Common.Scene
 				Utility.Log.Error($"指定したSceneIDが見つからない {sceneID}");
 				return null;
 			}
+
+			sceneData.Result = result;
 
 			return await BackToSceneAsync(sceneData);
 		}
@@ -212,7 +216,7 @@ namespace Ling.Common.Scene
 		{
 			_currentScene = scene;
 
-			_currentScene.SceneData = new SceneData { SceneID = SceneID.Main, Argument = new Argument() };
+			_currentScene.SceneData = new SceneData { SceneID = scene.SceneID, Argument = new Argument() };
 
 			// 依存しているシーンを呼び出す
 			// tood: 今めっちゃ仮で適当に起動してる
@@ -221,6 +225,9 @@ namespace Ling.Common.Scene
 			// すべてのシーンを読み込み終わったらStartSceneを呼び出す
 			scene.IsStartScene = true;
 			scene.StartScene();
+
+			// スタックに詰める
+			_sceneData.Push(_currentScene.SceneData);
 		}
 
 		#endregion

@@ -131,33 +131,6 @@ namespace Ling.Scenes.Menu
 
 		#region MonoBegaviour
 
-		/// <summary>
-		/// 初期処理
-		/// </summary>
-		void Awake()
-		{
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestroy()
-		{
-		}
 
 		#endregion
 	}

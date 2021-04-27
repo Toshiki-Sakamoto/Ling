@@ -30,7 +30,7 @@ namespace Ling.Const
 		/// </summary>
 		public enum Food
 		{
-			Race,   // 飯
+			Onigiri,   // おにぎり
 		}
 
 		/// <summary>

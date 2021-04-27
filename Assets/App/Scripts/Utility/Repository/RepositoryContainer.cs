@@ -6,6 +6,8 @@
 //
 
 using System.Collections.Generic;
+using Utility.Repository;
+using Utility.GameData;
 
 namespace Utility.Repository
 {
@@ -13,7 +15,7 @@ namespace Utility.Repository
 	/// RepositoryをまとめるContainer
 	/// </summary>
 	public abstract class RepositoryContainer<TCategory, TBaseEntity>
-		where TBaseEntity : class
+		where TBaseEntity : Utility.GameData.IGameDataBasic
 	{
 		#region 定数, class, enum
 
@@ -27,7 +29,7 @@ namespace Utility.Repository
 
 		#region private 変数
 
-		private Dictionary<TCategory, IRepository<TBaseEntity>> _repositoryDict = new Dictionary<TCategory, IRepository<TBaseEntity>>();
+		private Dictionary<TCategory, List<TBaseEntity>> _entityDict = new Dictionary<TCategory, List<TBaseEntity>>();
 
 		#endregion
 
@@ -44,19 +46,13 @@ namespace Utility.Repository
 
 		#region public, protected 関数
 
-		public void Update<TEntity>(TCategory category, IRepository<TEntity> repository) where TEntity : class, TBaseEntity =>
-			_repositoryDict.Add(category, (IRepository<TBaseEntity>)repository);
-
-		public IRepository<TBaseEntity> FindRepository(TCategory category) =>
-			_repositoryDict.TryGetValue(category, out var value) ? value : null;
-
-		public TBaseEntity Find(TCategory category, int id)
+		public void Add<TEntity>(TCategory category, GameDataRepository<TEntity> repository) where TEntity : TBaseEntity
 		{
-			var repository = FindRepository(category);
-			if (repository == null) return null;
-
-			return repository.Find(id);
+//////			_entityDict.Add(category, repository.Entities.ConvertAll(entity => entity as TBaseEntity));
 		}
+
+		public List<TBaseEntity> FindEntities(TCategory category) =>
+			_entityDict.TryGetValue(category, out var value) ? value : default(List<TBaseEntity>);
 
 		#endregion
 

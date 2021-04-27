@@ -5,12 +5,14 @@
 // Created by toshiki sakamoto on 2020.11.22
 //
 
+using System.Collections.Generic;
+
 namespace Utility.Repository
 {
 	/// <summary>
 	/// Repository管理
 	/// </summary>
-	public interface IRepository<T> where T : class
+	public interface IRepository<TEntity>
 	{
 		#region 定数, class, enum
 
@@ -29,6 +31,8 @@ namespace Utility.Repository
 
 		#region プロパティ
 
+		List<TEntity> Entities { get; }
+
 		#endregion
 
 
@@ -39,10 +43,7 @@ namespace Utility.Repository
 
 		#region public, protected 関数
 
-		/// <summary>
-		/// IDから検索
-		/// </summary>
-		T Find(int id);
+		TEntity Find(System.Predicate<TEntity> predicate);
 
 		#endregion
 

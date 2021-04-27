@@ -57,7 +57,6 @@ namespace Utility.GameData
 	/// </summary>
 	public abstract class GameDataRepository<T> : IGameDataRepository, 
 		Utility.Repository.IRepository<T>
-		where T : GameDataBase
 	{
 		#region 定数, class, enum
 
@@ -70,6 +69,8 @@ namespace Utility.GameData
 
 
 		#region private 変数
+		
+		[Inject] private DiContainer _diContainer;
 
 		#endregion
 
@@ -100,17 +101,17 @@ namespace Utility.GameData
 			Entities.AddRange(entities);
 		}
 
+		
+		T Utility.Repository.IRepository<T>.Find(System.Predicate<T> predicate)
+		{
+			return Entities.Find(predicate);
+		}
+
 		public abstract void Initialize();
 
 		public void Clear() =>
 			Entities.Clear();
-
-		/// <summary>
-		/// IDから検索
-		/// </summary>
-		public T Find(int id) =>
-			Entities.Find(entity => entity.ID == id);
-
+			
 		/// <summary>
 		/// 読み込み終了時に呼び出される
 		/// </summary>
