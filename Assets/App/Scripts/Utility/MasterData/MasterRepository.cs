@@ -104,10 +104,18 @@ namespace Utility.MasterData
 		#endregion
 	}
 
-	public abstract class InheritanceMasterRepository<T, U> : MasterRepository<T>
-		where T : MasterDataBase
-		where U : T
+	public interface IInheritenceMasterRepository<TEntity>
+		where TEntity : MasterDataBase
 	{
+		TEntity FindAtBase(int id);
+	}
 
+	public abstract class InheritanceMasterRepository<TEntity, UEntity> : MasterRepository<UEntity>,
+		IInheritenceMasterRepository<TEntity>
+		where TEntity : MasterDataBase
+		where UEntity : TEntity
+	{
+		TEntity IInheritenceMasterRepository<TEntity>.FindAtBase(int id) =>
+			Find(id) as TEntity;
 	}
 }

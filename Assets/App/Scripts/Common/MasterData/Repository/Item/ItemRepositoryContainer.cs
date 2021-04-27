@@ -51,8 +51,8 @@ namespace Ling.MasterData.Repository.Item
 
 		public void Update(BookRepository book, FoodRepository food)
 		{
-			AddRepository(Const.Item.Category.Book, Book);
-			AddRepository(Const.Item.Category.Food, Food);
+			AddRepository(Const.Item.Category.Book, book);
+			AddRepository(Const.Item.Category.Food, food);
 		}
 
 		#endregion
