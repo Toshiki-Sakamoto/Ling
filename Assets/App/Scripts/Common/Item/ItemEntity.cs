@@ -9,6 +9,7 @@ using System;
 using UnityEngine;
 using Zenject;
 using Ling.MasterData.Item;
+
 namespace Ling.Common.Item
 {
 	/// <summary>
@@ -29,8 +30,6 @@ namespace Ling.Common.Item
 
 		#region private 変数
 
-		[Inject] private MasterData.IMasterHolder _masterHolder = default;
-
 		[SerializeField] private int _id;
 		[SerializeField] private Const.Item.Category _category;
 
@@ -45,13 +44,16 @@ namespace Ling.Common.Item
 
 		public Const.Item.Category Category { get => _category; set => _category = value; }
 
+		public string Name => Master?.Name;
+
 		public ItemMaster Master
 		{
 			get
 			{
 				if (_master != null) return _master;
 
-				_master = _masterHolder.ItemRespositoryContainer.Find(Category, _id);
+				var holder = GameManager.Instance.MasterHolder;
+				_master = holder.ItemRespositoryContainer.Find(Category, _id);
 
 				return _master;
 			}

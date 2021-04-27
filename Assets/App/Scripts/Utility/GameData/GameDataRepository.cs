@@ -69,6 +69,8 @@ namespace Utility.GameData
 
 
 		#region private 変数
+		
+		[Inject] private DiContainer _diContainer;
 
 		#endregion
 

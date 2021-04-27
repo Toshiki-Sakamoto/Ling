@@ -44,6 +44,9 @@ namespace Ling.Scenes.Menu.Panel
 		public void Setup(Common.Item.ItemEntity entity)
 		{
 			_itemEntity = entity;
+
+			// 名前の設定
+			_titleText.text = _itemEntity.Name;
 		}
 
 		#endregion
