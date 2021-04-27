@@ -82,8 +82,8 @@ namespace Ling.MasterData
 			AddLoadTask<ConstMaster>("ConstMaster");
 			AddLoadRepositoryTask<EnemyMaster, EnemyRepository>("EnemyMaster");
 			AddLoadRepositoryTask<StageMaster, StageRepository>("StageMaster");
-			AddLoadRepositoryTask<BookMaster, BookRepository>("ItemBookMaster");
-			AddLoadRepositoryTask<FoodMaster, FoodRepository>("ItemFoodMaster");
+			AddLoadRepositoryTask<BookMaster, ItemMaster, BookRepository>("ItemBookMaster");
+			AddLoadRepositoryTask<FoodMaster, ItemMaster, FoodRepository>("ItemFoodMaster");
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(_loadTasks);

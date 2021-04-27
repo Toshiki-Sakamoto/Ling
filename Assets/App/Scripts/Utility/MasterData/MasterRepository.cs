@@ -27,7 +27,6 @@ namespace Utility.MasterData
 
 #endif
 
-
 	/// <summary>
 	/// 指定したMasterを配列で保持する
 	/// </summary>
@@ -85,8 +84,16 @@ namespace Utility.MasterData
 		/// <summary>
 		/// IDから検索
 		/// </summary>
-		public T Find(int id) =>
-			Entities.Find(entity => entity.ID == id);
+		public T Find(int id)
+		{
+			var entity = Entities.Find(entity => entity.ID == id);
+			if (entity == null)
+			{
+				Utility.Log.Error($"IDから見つけられない {id}");
+			}
+
+			return entity;
+		}
 
 
 		#endregion
@@ -95,5 +102,12 @@ namespace Utility.MasterData
 		#region private 関数
 
 		#endregion
+	}
+
+	public abstract class InheritanceMasterRepository<T, U> : MasterRepository<T>
+		where T : MasterDataBase
+		where U : T
+	{
+
 	}
 }

@@ -56,7 +56,7 @@ namespace Utility.GameData
 	/// User/Master データ管理リポジトリベース
 	/// </summary>
 	public abstract class GameDataRepository<T> : IGameDataRepository, 
-		Utility.Repository.IRepository
+		Utility.Repository.IRepository<T>
 	{
 		#region 定数, class, enum
 
@@ -97,6 +97,12 @@ namespace Utility.GameData
 			if (entities == null) return;
 
 			Entities.AddRange(entities);
+		}
+
+		
+		T Utility.Repository.IRepository<T>.Find(System.Predicate<T> predicate)
+		{
+			return Entities.Find(predicate);
 		}
 
 		public abstract void Initialize();

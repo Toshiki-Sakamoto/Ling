@@ -6,6 +6,8 @@
 //
 
 using System.Collections.Generic;
+using Utility.Repository;
+using Utility.GameData;
 
 namespace Utility.Repository
 {
@@ -27,7 +29,7 @@ namespace Utility.Repository
 
 		#region private 変数
 
-		private Dictionary<TCategory, IRepository> _repositoryDict = new Dictionary<TCategory, IRepository>();
+		private Dictionary<TCategory, List<TBaseEntity>> _entityDict = new Dictionary<TCategory, List<TBaseEntity>>();
 
 		#endregion
 
@@ -44,11 +46,13 @@ namespace Utility.Repository
 
 		#region public, protected 関数
 
-		public void Update(TCategory category, IRepository repository) =>
-			_repositoryDict.Add(category, repository);
+		public void Add<TEntity>(TCategory category, GameDataRepository<TEntity> repository) where TEntity : TBaseEntity
+		{
+//////			_entityDict.Add(category, repository.Entities.ConvertAll(entity => entity as TBaseEntity));
+		}
 
-		public IRepository FindRepository(TCategory category) =>
-			_repositoryDict.TryGetValue(category, out var value) ? value : null;
+		public List<TBaseEntity> FindEntities(TCategory category) =>
+			_entityDict.TryGetValue(category, out var value) ? value : default(List<TBaseEntity>);
 
 		#endregion
 

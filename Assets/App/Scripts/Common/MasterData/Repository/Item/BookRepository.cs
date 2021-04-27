@@ -12,7 +12,7 @@ namespace Ling.MasterData.Repository.Item
 	/// <summary>
 	/// BookMaster Repository
 	/// </summary>
-	public class BookRepository : Utility.MasterData.MasterRepository<BookMaster>
+	public class BookRepository : Utility.MasterData.InheritanceMasterRepository<ItemMaster, BookMaster>
 	{
 		#region 定数, class, enum
 
@@ -42,7 +42,7 @@ namespace Ling.MasterData.Repository.Item
 		#region public, protected 関数
 
 		public BookMaster Find(Const.Item.Book type) =>
-			Entities.Find(entity => entity.Type == type);
+			(BookMaster)Entities.Find(entity => ((BookMaster)entity).Type == type);
 
 		#endregion
 

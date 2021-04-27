@@ -114,6 +114,30 @@ namespace Utility.MasterData
 			LoadFinished<MasterLoadedEvent>();
 		}
 
+
+		protected void AddLoadRepositoryTask<TGameData, TBaseData, TRepository>(string key)
+			where TGameData : TBaseData
+			where TBaseData : MasterDataBase
+			where TRepository : InheritanceMasterRepository<TBaseData, TGameData>, new()
+		{
+			// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
+			var repository = _diContainer.Instantiate<TRepository>();
+			repository.Initialize();
+
+			_repositoryDict.Add(typeof(TRepository), repository);
+
+			_loadTasks.Add(LoadRepositoryAsync<TBaseData, TGameData>(key, repository));
+		}
+
+		protected async UniTask LoadRepositoryAsync<T, U>(string key, InheritanceMasterRepository<T, U> repository) 
+			where T : MasterDataBase
+			where U : T
+		{
+			var masters = await _loader.LoadAssetsAsync<U>(key);
+			repository.Add(masters);
+			repository.AddFinished();
+		}
+
 		#endregion
 
 

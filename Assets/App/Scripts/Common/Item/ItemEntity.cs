@@ -51,7 +51,7 @@ namespace Ling.Common.Item
 			{
 				if (_master != null) return _master;
 
-//				_master = _masterHolder.ItemRespositoryContainer.Find(Category, _id);
+				_master = _masterHolder.ItemRespositoryContainer.Find(Category, _id);
 
 				return _master;
 			}

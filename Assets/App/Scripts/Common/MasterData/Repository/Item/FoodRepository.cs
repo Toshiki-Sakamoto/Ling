@@ -13,7 +13,7 @@ namespace Ling.MasterData.Repository.Item
 	/// <summary>
 	/// FoodMaster Repository
 	/// </summary>
-	public class FoodRepository : Utility.MasterData.MasterRepository<FoodMaster>
+	public class FoodRepository : Utility.MasterData.InheritanceMasterRepository<ItemMaster, FoodMaster>
 	{
 		#region 定数, class, enum
 
@@ -43,7 +43,7 @@ namespace Ling.MasterData.Repository.Item
 		#region public, protected 関数
 
 		public FoodMaster Find(Const.Item.Food type) =>
-			Entities.Find(entity => entity.Type == type);
+			(FoodMaster)Entities.Find(entity => ((FoodMaster)entity).Type == type);
 
 
 		#endregion

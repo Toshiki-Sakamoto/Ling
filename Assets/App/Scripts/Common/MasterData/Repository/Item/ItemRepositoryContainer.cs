@@ -17,7 +17,7 @@ namespace Ling.MasterData.Repository.Item
 	/// <remarks>
 	/// カテゴリごとに検索することも可能
 	/// </remarks>
-	public class ItemRepositoryContainer : Utility.Repository.RepositoryContainer<Const.Item.Category, ItemMaster>
+	public class ItemRepositoryContainer : Utility.MasterData.MasterRepositoryContainer<Const.Item.Category, ItemMaster>
 	{
 		#region 定数, class, enum
 
@@ -36,8 +36,8 @@ namespace Ling.MasterData.Repository.Item
 
 		#region プロパティ
 
-		public BookRepository Book { get; private set; }
-		public FoodRepository Food { get; private set; }
+		public BookRepository Book => FindRepository<BookRepository>(Const.Item.Category.Book);
+		public FoodRepository Food => FindRepository<FoodRepository>(Const.Item.Category.Food);
 
 		#endregion
 
@@ -51,11 +51,8 @@ namespace Ling.MasterData.Repository.Item
 
 		public void Update(BookRepository book, FoodRepository food)
 		{
-			Book = book;
-			Food = food;
-
-			Update(Const.Item.Category.Book, Book);
-			Update(Const.Item.Category.Food, Food);
+			AddRepository(Const.Item.Category.Book, Book);
+			AddRepository(Const.Item.Category.Food, Food);
 		}
 
 		#endregion

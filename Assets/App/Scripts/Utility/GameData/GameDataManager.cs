@@ -77,10 +77,10 @@ namespace Utility.GameData
 		[Inject] protected Utility.DebugConfig.DebugRootMenuData _rootMenuData;
 #endif
 
-		private Dictionary<Type, IGameDataRepository> _repositoryDict = new Dictionary<Type, IGameDataRepository>();
-		private Dictionary<Type, System.Object> _dataDict = new Dictionary<Type, System.Object>();
-		private IGameDataLoader _loader;
-
+		protected Dictionary<Type, IGameDataRepository> _repositoryDict = new Dictionary<Type, IGameDataRepository>();
+		protected Dictionary<Type, System.Object> _dataDict = new Dictionary<Type, System.Object>();
+	
+		protected IGameDataLoader _loader;
 		protected List<UniTask> _loadTasks = new List<UniTask>();
 
 		#endregion
@@ -181,22 +181,6 @@ namespace Utility.GameData
 			var masters = await _loader.LoadAssetsAsync<T>(key);
 			repository.Add(masters);
 			repository.AddFinished();
-
-#if false
-			// 指定マスタデータをすべて読み込む
-			foreach (var guid in AssetDatabase.FindAssets($"t:{typeof(T).Name}"))
-			{
-				var filePath = AssetDatabase.GUIDToAssetPath(guid);
-				if (string.IsNullOrEmpty(filePath)) continue;
-
-				// Resourcesファイルパス以下にする
-				filePath = Regex.Replace(filePath, ".*/Resources/(.*).asset", "$1");
-
-				var master = await LoadAsyncAtPath<T>(filePath);
-
-				repository.Add(master);
-			}
-#endif
 		}
 
 		/// <summary>
