@@ -83,7 +83,7 @@ namespace Ling.Scenes.Battle.Phases
 			// 選択肢を出す
 			var eventMessageSelect = _battleManager.EventHolder.MessageTextSelect;
 
-			eventMessageSelect.text = "階段を降りる?";
+			eventMessageSelect.text = "<color=#ffff00>階段を降りる?</color>";
 			eventMessageSelect.selectTexts = new string[] { "はい", "いいえ" };
 			eventMessageSelect.onSelected = selected =>
 				{

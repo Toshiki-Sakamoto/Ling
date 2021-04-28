@@ -29,6 +29,8 @@ namespace Ling.Chara
 
 		#region プロパティ
 
+		public override string Name => "プレイヤー";
+
 		#endregion
 
 
