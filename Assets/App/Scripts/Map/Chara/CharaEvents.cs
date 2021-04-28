@@ -27,4 +27,12 @@ namespace Ling.Chara
 	{
 		public ICharaController chara;
 	}
+
+	/// <summary>
+	/// キャラが死亡した時
+	/// </summary>
+	public class EventDead
+	{
+		public ICharaController chara;
+	}
 }

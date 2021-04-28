@@ -35,6 +35,7 @@ namespace Ling.Scenes.Battle
 		#region private 変数
 
 		[Inject] private BattleModel _model;
+		[Inject] private Utility.IEventManager _eventManager;
 
 		#endregion
 
@@ -54,6 +55,14 @@ namespace Ling.Scenes.Battle
 
 
 		#region public, protected 関数
+
+		public void ShowMessage(string text)
+		{
+			var message = EventHolder.MessageText;
+			message.text = text;
+
+			_eventManager.Trigger(message);
+		}
 
 		#endregion
 

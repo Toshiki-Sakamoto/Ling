@@ -67,6 +67,7 @@ namespace Ling.Chara
 
 		[Inject] private DiContainer _diContainer = default;
 		[Inject] private Common.ProcessManager _processManager = default;
+		[Inject] private Utility.IEventManager _eventManager = default;
 
 		private List<Common.ProcessBase> _moveProcesses = new List<Common.ProcessBase>();
 		private List<Common.ProcessBase> _attackProcess = new List<Common.ProcessBase>();
@@ -124,8 +125,8 @@ namespace Ling.Chara
 			_status.IsDead.Where(isDead_ => isDead_)
 				.SelectMany(_ =>
 				{
-					// Viewにも伝える
-					Utility.Log.Print("死んだ！");
+					// キャラが死亡した時
+					_eventManager.Trigger(new EventDead { chara = this });
 
 					return View.PlayDeadAnimation();
 				})

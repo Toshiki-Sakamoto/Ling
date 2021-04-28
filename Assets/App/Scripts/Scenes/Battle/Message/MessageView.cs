@@ -81,6 +81,8 @@ namespace Ling.Scenes.Battle.Message
 
 		public void SetText(string text, System.Action finish = null)
 		{
+			Utility.Log.Print($"Message : {text}");
+			
 			_textQueue.Enqueue(new TextData { text = text, onFinish = finish });
 
 			ShowTextIfNeeded();
