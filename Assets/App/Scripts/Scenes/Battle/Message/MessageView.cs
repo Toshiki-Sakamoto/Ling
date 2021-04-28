@@ -82,7 +82,7 @@ namespace Ling.Scenes.Battle.Message
 		public void SetText(string text, System.Action finish = null)
 		{
 			Utility.Log.Print($"Message : {text}");
-			
+
 			_textQueue.Enqueue(new TextData { text = text, onFinish = finish });
 
 			ShowTextIfNeeded();
@@ -94,6 +94,7 @@ namespace Ling.Scenes.Battle.Message
 			if (!_textAnimDisposable.IsDisposed)
 			{
 				_textAnimDisposable.Dispose();
+				_textAnimDisposable = new SerialDisposable();
 			}
 
 			while (!_activeTextItemQueue.IsEmpty())
