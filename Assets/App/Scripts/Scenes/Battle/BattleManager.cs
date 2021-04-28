@@ -1,5 +1,5 @@
 ﻿//
-// GameManager.cs
+// BattleManager.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.05.01
@@ -20,7 +20,7 @@ namespace Ling.Scenes.Battle
 	/// <summary>
 	/// BattleScene全体を管理する
 	/// </summary>
-	public class GameManager : Utility.MonoSingleton<GameManager>
+	public class BattleManager : Utility.MonoSingleton<BattleManager>
 	{
 		#region 定数, class, enum
 

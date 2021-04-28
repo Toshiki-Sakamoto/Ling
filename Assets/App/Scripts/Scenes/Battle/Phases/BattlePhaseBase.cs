@@ -28,7 +28,7 @@ namespace Ling.Scenes.Battle.Phases
 
 		[Inject] protected BattleScene _scene;
 		[Inject] protected BattleModel _model;
-		[Inject] protected GameManager _gameManager;
+		[Inject] protected BattleManager _battleManager;
 		[Inject] protected Utility.IEventManager _eventManager;
 
 		#endregion
@@ -37,7 +37,7 @@ namespace Ling.Scenes.Battle.Phases
 		#region プロパティ
 
 		public BattleScene Scene => _scene;
-		public EventHolder EventHolder => _gameManager.EventHolder;
+		public EventHolder EventHolder => _battleManager.EventHolder;
 
 		#endregion
 

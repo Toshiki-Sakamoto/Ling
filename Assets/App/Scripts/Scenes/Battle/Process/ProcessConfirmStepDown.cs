@@ -26,7 +26,7 @@ namespace Ling.Scenes.Battle.Process
 
 		#region private 変数
 
-		[Inject] private GameManager _gameManager = null;
+		[Inject] private BattleManager _battleManager = null;
 		[Inject] private Utility.IEventManager _eventManager = null;
 
 		#endregion
@@ -52,7 +52,7 @@ namespace Ling.Scenes.Battle.Process
 		public void Start()
 		{
 			// 選択肢を出す
-			var eventMessageSelect = _gameManager.EventHolder.MessageTextSelect;
+			var eventMessageSelect = _battleManager.EventHolder.MessageTextSelect;
 
 			eventMessageSelect.text = "階段を降りる?";
 			eventMessageSelect.selectTexts = new string[] { "はい", "いいえ" };

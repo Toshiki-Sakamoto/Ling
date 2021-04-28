@@ -81,7 +81,7 @@ namespace Ling.Scenes.Battle.Phases
 		private void ConfirmNextStage()
 		{
 			// 選択肢を出す
-			var eventMessageSelect = _gameManager.EventHolder.MessageTextSelect;
+			var eventMessageSelect = _battleManager.EventHolder.MessageTextSelect;
 
 			eventMessageSelect.text = "階段を降りる?";
 			eventMessageSelect.selectTexts = new string[] { "はい", "いいえ" };
