@@ -36,7 +36,11 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		[SerializeField] private LongReactiveProperty _hp = default;
+		[Header("HP")]
+		[SerializeField] private CharaStatusValueObject _hp = default;
+
+		[Header("スタミナ")]
+		[SerializeField] private CharaStatusValueObject _stamina = default;
 
 		#endregion
 
@@ -44,9 +48,15 @@ namespace Ling.Chara
 		#region プロパティ
 
 		/// <summary>
-		/// 現在のHP
+		/// HP
 		/// </summary>
-		public ReactiveProperty<long> HP => _hp;
+		public CharaStatusValueObject HP => _hp;
+
+		/// <summary>
+		/// スタミナ
+		/// </summary>
+		public CharaStatusValueObject Stamina => _stamina;
+
 
 		/// <summary>
 		/// 死んだとき(HPが0)に通知を受ける
@@ -58,14 +68,16 @@ namespace Ling.Chara
 
 		#region コンストラクタ, デストラクタ
 
-		public CharaStatus(long hp)
+		public CharaStatus(long hp, long maxHp, long stamina, long maxStamina)
 		{
-			_hp = new LongReactiveProperty(hp);
-			IsDead = HP.Select(hp_ => hp_ <= 0).ToReadOnlyReactiveProperty();
+			_hp = new CharaStatusValueObject(hp, maxHp);
+			IsDead = _hp.Current.Select(hp_ => hp_ <= 0).ToReadOnlyReactiveProperty();
+
+			_stamina = new CharaStatusValueObject(stamina, maxStamina);
 		}
 
 		public CharaStatus(MasterData.Chara.StatusData statusData)
-			: this(statusData.HP)
+			: this(statusData.HP, statusData.MaxHp, statusData.Stamina, statusData.MaxStamina)
 		{
 		}
 
@@ -73,24 +85,6 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
-
-		/// <summary>
-		/// HPを設定する
-		/// </summary>
-		public void SetHP(long value) =>
-			HP.SetValueAndForceNotify(value);
-
-		/// <summary>
-		/// HPに足す
-		/// </summary>
-		public void AddHP(long value) =>
-			SetHP(HP.Value + value);
-
-		/// <summary>
-		/// HPから引く
-		/// </summary>
-		public void SubHP(long value) =>
-			SetHP(HP.Value - value);
 
 		#endregion
 

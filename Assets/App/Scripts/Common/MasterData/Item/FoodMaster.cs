@@ -31,8 +31,11 @@ namespace Ling.MasterData.Item
 		[SerializeField, FieldName("種類")]
 		private Const.Item.Food _type = default;
 
-		[SerializeField, FieldName("回復量")]
-		private int _value = 0;
+		[SerializeField, FieldName("スタミナ回復量")]
+		private int _staminaValue = 0;
+
+		[SerializeField, FieldName("HP回復量")]
+		private int _hpValue = 0;
 
 		#endregion
 
@@ -45,7 +48,8 @@ namespace Ling.MasterData.Item
 		public override Const.Item.Category Category => Const.Item.Category.Food;
 
 		public Const.Item.Food Type => _type;
-		public int Value => _value;
+		public int StaminaValue => _staminaValue;
+		public int HPValue => _hpValue;
 
 		#endregion
 

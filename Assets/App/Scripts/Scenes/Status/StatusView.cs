@@ -28,6 +28,7 @@ namespace Ling.Scenes.Status
 		#region private 変数
 
 		[SerializeField] private HPView _hpView = default;
+		[SerializeField] private StaminaView _staminaView = default;
 
 		#endregion
 
@@ -35,6 +36,7 @@ namespace Ling.Scenes.Status
 		#region プロパティ
 
 		public HPView HP => _hpView;
+		public StaminaView Stamina => _staminaView;
 
 		#endregion
 

@@ -75,15 +75,17 @@ namespace Ling.Scenes.Status
 
 		private void Setup()
 		{
-			_player.Status.HP
+			// HP
+			_player.Status.HP.Current
 				.AsObservable()
 				.Subscribe(hp_ =>
 				{
 					_view.HP.SetHP(hp_);
 				});
 
-			// Viewのセットアップ
-			_view.HP.Setup(_player.Status.HP.Value);
+			_view.HP.Setup(_player.Status.HP.Max.Value);
+
+			// スタミナ
 		}
 
 		#endregion

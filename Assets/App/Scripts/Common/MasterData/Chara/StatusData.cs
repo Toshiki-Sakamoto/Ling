@@ -35,7 +35,13 @@ namespace Ling.MasterData.Chara
 
 		#region private 変数
 
+		[Header("HP")]
 		[SerializeField] private long _hp = default;
+		[SerializeField] private long _maxHp = default;
+
+		[Header("スタミナ")]
+		[SerializeField] private long _stamina = default;
+		[SerializeField] private long _maxStamina = default;
 
 		#endregion
 
@@ -43,6 +49,10 @@ namespace Ling.MasterData.Chara
 		#region プロパティ
 
 		public long HP => _hp;
+		public long MaxHp => MaxHp;
+
+		public long Stamina => _stamina;
+		public long MaxStamina => _maxStamina;
 
 		#endregion
 
