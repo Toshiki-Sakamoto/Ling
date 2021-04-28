@@ -1,5 +1,5 @@
 ﻿// 
-// HPView.cs  
+// StaminaView.cs  
 // ProductName Ling
 //  
 // Created by toshiki sakamoto on 2020.11.03
@@ -11,9 +11,9 @@ using UnityEngine.UI;
 namespace Ling.Scenes.Status
 {
 	/// <summary>
-	/// HPStatus View
+	/// Stamina View
 	/// </summary>
-	public class HPView : MonoBehaviour
+	public class StaminaView : MonoBehaviour
 	{
 		#region 定数, class, enum
 
@@ -45,12 +45,12 @@ namespace Ling.Scenes.Status
 		public void Setup(long max)
 		{
 			_max = max;
-			SetHPText(max, max);
+			SetStaminaText(max, max);
 		}
 
-		public void SetHP(long current)
+		public void SetStamina(long current)
 		{
-			SetHPText(current, _max);
+			SetStaminaText(current, _max);
 		}
 
 		#endregion
@@ -59,7 +59,7 @@ namespace Ling.Scenes.Status
 		#region private 関数
 
 
-		private void SetHPText(long current, long max)
+		private void SetStaminaText(long current, long max)
 		{
 			_text.text = current.ToString();
 			_maxText.text = max.ToString();

@@ -31,6 +31,8 @@ namespace Ling.Const
 		public enum Food
 		{
 			Onigiri,   // おにぎり
+
+			Herb,		// ハーブ
 		}
 
 		/// <summary>

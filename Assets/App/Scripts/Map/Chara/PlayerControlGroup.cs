@@ -68,7 +68,7 @@ namespace Ling.Chara
 			param.charaType = CharaType.Player;
 
 			model.Setup(param);
-			model.SetStatus(new CharaStatus(5));
+			model.SetStatus(new CharaStatus(5, 5, 100, 100));
 			model.SetMapLevel(1);
 
 			Player.Setup();

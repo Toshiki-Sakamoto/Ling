@@ -344,8 +344,8 @@ namespace Ling.Chara
 		{
 			// ダメージを受けたイベントを送る
 			_eventManager.Trigger(new EventDamage { chara = this, value = value });
-			
-			Status.SubHP(value);
+
+			Status.HP.SubCurrent(value);
 		}
 
 		#endregion

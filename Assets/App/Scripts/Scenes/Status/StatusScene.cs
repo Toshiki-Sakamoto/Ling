@@ -75,15 +75,27 @@ namespace Ling.Scenes.Status
 
 		private void Setup()
 		{
-			_player.Status.HP
+			var status = _player.Status;
+
+			// HP
+			status.HP.Current
 				.AsObservable()
 				.Subscribe(hp_ =>
 				{
 					_view.HP.SetHP(hp_);
 				});
 
-			// Viewのセットアップ
-			_view.HP.Setup(_player.Status.HP.Value);
+			_view.HP.Setup(status.HP.Max.Value);
+
+			// スタミナ
+			status.Stamina.Current
+				.AsObservable()
+				.Subscribe(stamina => 
+					{
+						_view.Stamina.SetStamina(stamina);
+					});
+
+			_view.Stamina.Setup(status.Stamina.Max.Value);
 		}
 
 		#endregion
