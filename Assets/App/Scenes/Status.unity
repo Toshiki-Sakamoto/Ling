@@ -823,6 +823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hpView: {fileID: 2056239535}
+  _staminaView: {fileID: 2126905095}
 --- !u!114 &1613319339
 MonoBehaviour:
   m_ObjectHideFlags: 0
