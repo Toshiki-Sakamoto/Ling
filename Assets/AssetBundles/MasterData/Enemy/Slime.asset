@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Slime
   m_EditorClassIdentifier: 
   _id: 0
+  _name: "\u30B9\u30E9\u30A4\u30E0"
   _enemyType: 1
   _attackAIData:
     _attackAIType: 1

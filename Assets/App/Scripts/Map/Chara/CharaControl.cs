@@ -31,11 +31,21 @@ namespace Ling.Chara
 		CharaStatus Status { get; }
 
 		ICharaMoveController MoveController { get; }
+		
+		/// <summary>
+		/// キャラ名
+		/// </summary>
+		string Name { get; }
 
 		/// <summary>
 		/// Tilemap情報を設定する
 		/// </summary>
 		void SetTilemap(Tilemap tilemap, int mapLevel);
+
+		/// <summary>
+		/// ダメージを受けた時
+		/// </summary>
+		void Damage(int value);
 
 		TProcess AddMoveProcess<TProcess>() where TProcess : Common.ProcessBase;
 		TProcess AddAttackProcess<TProcess>() where TProcess : Common.ProcessBase;
@@ -67,6 +77,7 @@ namespace Ling.Chara
 
 		[Inject] private DiContainer _diContainer = default;
 		[Inject] private Common.ProcessManager _processManager = default;
+		[Inject] private Utility.IEventManager _eventManager = default;
 
 		private List<Common.ProcessBase> _moveProcesses = new List<Common.ProcessBase>();
 		private List<Common.ProcessBase> _attackProcess = new List<Common.ProcessBase>();
@@ -83,6 +94,12 @@ namespace Ling.Chara
 		public TView View => _view;
 
 		public CharaStatus Status => _model.Status;
+
+		
+		/// <summary>
+		/// キャラ名
+		/// </summary>
+		string ICharaController.Name => _model.Name;
 
 		/// <summary>
 		/// 動きの制御を行うメソッドにアクセスするためのInterface
@@ -124,8 +141,8 @@ namespace Ling.Chara
 			_status.IsDead.Where(isDead_ => isDead_)
 				.SelectMany(_ =>
 				{
-					// Viewにも伝える
-					Utility.Log.Print("死んだ！");
+					// キャラが死亡した時
+					_eventManager.Trigger(new EventDead { chara = this });
 
 					return View.PlayDeadAnimation();
 				})
@@ -318,6 +335,17 @@ namespace Ling.Chara
 		protected virtual void DestroyProcessInternal()
 		{
 
+		}
+
+		/// <summary>
+		/// ダメージを受けた時
+		/// </summary>
+		void ICharaController.Damage(int value)
+		{
+			// ダメージを受けたイベントを送る
+			_eventManager.Trigger(new EventDamage { chara = this, value = value });
+			
+			Status.SubHP(value);
 		}
 
 		#endregion

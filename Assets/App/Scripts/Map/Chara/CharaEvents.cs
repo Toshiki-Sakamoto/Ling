@@ -27,4 +27,21 @@ namespace Ling.Chara
 	{
 		public ICharaController chara;
 	}
+
+	/// <summary>
+	/// キャラが死亡した時
+	/// </summary>
+	public class EventDead
+	{
+		public ICharaController chara;
+	}
+
+	/// <summary>
+	/// ダメージを受けた時
+	/// </summary>
+	public class EventDamage
+	{
+		public ICharaController chara;
+		public int value;	// ダメージ値
+	}
 }

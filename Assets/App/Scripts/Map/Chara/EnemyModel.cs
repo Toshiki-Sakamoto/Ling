@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2020.09.12
 //
 
+using Ling.MasterData.Chara;
+
 namespace Ling.Chara
 {
 	/// <summary>
@@ -29,6 +31,10 @@ namespace Ling.Chara
 
 		#region プロパティ
 
+		public override string Name => Master.Name;
+
+		public EnemyMaster Master { get; private set; }
+
 		#endregion
 
 
@@ -38,6 +44,11 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
+
+		public void SetMaster(EnemyMaster master)
+		{
+			Master = master;
+		}
 
 		#endregion
 

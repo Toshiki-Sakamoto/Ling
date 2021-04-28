@@ -48,6 +48,11 @@ namespace Ling.Chara
 		#region プロパティ
 
 		/// <summary>
+		/// 名前
+		/// </summary>
+		public virtual string Name { get; }
+
+		/// <summary>
 		/// ステイタス
 		/// </summary>
 		public CharaStatus Status { get; private set; }

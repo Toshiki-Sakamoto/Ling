@@ -1,5 +1,5 @@
 ﻿//
-// GameManager.cs
+// BattleManager.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.05.01
@@ -20,7 +20,7 @@ namespace Ling.Scenes.Battle
 	/// <summary>
 	/// BattleScene全体を管理する
 	/// </summary>
-	public class GameManager : Utility.MonoSingleton<GameManager>
+	public class BattleManager : Utility.MonoSingleton<BattleManager>
 	{
 		#region 定数, class, enum
 
@@ -35,6 +35,7 @@ namespace Ling.Scenes.Battle
 		#region private 変数
 
 		[Inject] private BattleModel _model;
+		[Inject] private Utility.IEventManager _eventManager;
 
 		#endregion
 
@@ -54,6 +55,14 @@ namespace Ling.Scenes.Battle
 
 
 		#region public, protected 関数
+
+		public void ShowMessage(string text)
+		{
+			var message = EventHolder.MessageText;
+			message.text = text;
+
+			_eventManager.Trigger(message);
+		}
 
 		#endregion
 

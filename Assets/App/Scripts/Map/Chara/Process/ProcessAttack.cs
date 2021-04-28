@@ -105,7 +105,7 @@ namespace Ling.Chara.Process
 				.Where(target =>
 				{
 					// HPをへらす
-					target.Status.SubHP(1);
+					target.Damage(1);
 
 					// 死亡している場合のみ先に進ませる
 					return target.Status.IsDead.Value;

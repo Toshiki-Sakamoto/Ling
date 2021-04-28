@@ -11,7 +11,7 @@ namespace Ling.Scenes.Battle
 			Container.Bind<BattleView>().FromComponentInHierarchy().AsSingle();
 			Container.Bind<BattleModel>().FromComponentInHierarchy().AsSingle();
 
-			Container.Bind<GameManager>().FromComponentInHierarchy().AsSingle();
+			Container.Bind<BattleManager>().FromComponentInHierarchy().AsSingle();
 			Container.Bind<PoolManager>().FromComponentInHierarchy().AsSingle();
 
 			Container

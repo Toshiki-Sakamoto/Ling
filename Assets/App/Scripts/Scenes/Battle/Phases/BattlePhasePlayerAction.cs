@@ -148,7 +148,7 @@ namespace Ling.Scenes.Battle.Phases
 			//Change(BattleScene.Phase.PlayerActionProcess, argument);
 
 			// 移動したイベントを投げる
-			var eventPlayerMove = _gameManager.EventHolder.PlayerMove;
+			var eventPlayerMove = _battleManager.EventHolder.PlayerMove;
 			eventPlayerMove.moveDistance = new Vector3Int(moveDistance.x, moveDistance.y, 0);
 
 			return true;
@@ -193,7 +193,7 @@ namespace Ling.Scenes.Battle.Phases
 
 			MoveCommand(move);
 
-			var eventPlayerMove = _gameManager.EventHolder.PlayerMove;
+			var eventPlayerMove = _battleManager.EventHolder.PlayerMove;
 			eventPlayerMove.moveDistance = new Vector3Int(move.x, move.y, 0);
 		}
 

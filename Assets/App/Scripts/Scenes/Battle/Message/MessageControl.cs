@@ -19,7 +19,7 @@ using Zenject;
 namespace Ling.Scenes.Battle.Message
 {
 	/// <summary>
-	/// 
+	/// メッセージ周りをコントロールする
 	/// </summary>
 	public class MessageControl : MonoBehaviour
 	{
@@ -58,6 +58,11 @@ namespace Ling.Scenes.Battle.Message
 		public void Clear()
 		{
 			_view.Clear();
+		}
+
+		public void ShowMessage(string text)
+		{
+			_view.SetText(text);
 		}
 
 		#endregion
