@@ -20,3 +20,8 @@ https://user-images.githubusercontent.com/9328751/97722836-73ba1880-1b0e-11eb-91
 ### Manual
 「調整中(今はキーボードのqあたりで移動する）」：移動<br>
 「スペース」: 一マス前に攻撃
+
+-----
+
+Play時Nullエラーが大量に出る場合は
+Plugins/Adv の中にある Adv.DLLを reimport すると治る (調査中
