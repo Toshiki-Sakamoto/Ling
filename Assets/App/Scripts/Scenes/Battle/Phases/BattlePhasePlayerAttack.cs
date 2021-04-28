@@ -7,7 +7,8 @@
 
 using UnityEngine;
 using System.Collections.Generic;
-
+using Cysharp.Threading.Tasks;
+using System.Threading;
 using Zenject;
 
 namespace Ling.Scenes.Battle.Phases
@@ -76,9 +77,12 @@ namespace Ling.Scenes.Battle.Phases
 			_player.ExecuteAttackProcess();
 		}
 
-		public override void PhaseUpdate()
+		/// <summary>
+		/// 非同期
+		/// </summary>
+		public async override UniTask PhaseStartAsync(CancellationToken token)
 		{
-			if (!_player.IsAttackAllProcessEnded()) return;
+			await _player.WaitAttackProcess();
 
 			_player.SetFollowCameraEnable(true);
 
@@ -91,7 +95,13 @@ namespace Ling.Scenes.Battle.Phases
 
 			Change(Phase.EnemyTink, argument);
 		}
+/*
+		public override void PhaseUpdate()
+		{
+			if (!_player.IsAllProcessEnded()) return;
 
+		}
+*/
 		public override void PhaseStop()
 		{
 		}

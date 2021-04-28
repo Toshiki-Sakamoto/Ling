@@ -7,6 +7,10 @@
 
 using System;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using UniRx;
+using System.Threading;
+
 namespace Utility
 {
 	public class PhaseArgument
@@ -40,6 +44,12 @@ namespace Utility
 		/// フェーズが切り替わった時に一度だけ呼び出される
 		/// </summary>
 		public virtual void PhaseStart() { }
+
+		/// <summary>
+		/// 非同期
+		/// </summary>
+		public virtual UniTask PhaseStartAsync(CancellationToken token) => 
+			UniTask.FromResult(default(Unit));
 
 		/// <summary>
 		/// フェーズがアクティブ状態の時に呼び出され続ける

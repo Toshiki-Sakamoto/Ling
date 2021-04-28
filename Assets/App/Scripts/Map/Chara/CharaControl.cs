@@ -271,15 +271,6 @@ namespace Ling.Chara
 		}
 
 		/// <summary>
-		/// すべての移動プロセスが終了したか
-		/// </summary>
-		public bool IsMoveAllProcessEnded()
-		{
-			// 終わったものは自動で削除されるので存在だけ確認
-			return _moveProcesses.Count == 0;
-		}
-
-		/// <summary>
 		/// 攻撃プロセスの実行
 		/// </summary>
 		public void ExecuteAttackProcess()
@@ -296,9 +287,24 @@ namespace Ling.Chara
 			}
 		}
 
-		public bool IsAttackAllProcessEnded()
+		public async UniTask WaitMoveProcess()
 		{
-			return _attackProcess.Count == 0;
+			if (!_moveProcesses.IsNullOrEmpty())
+			{
+				await UniTask.WaitUntil(() => _moveProcesses.IsNullOrEmpty());
+			}
+
+			await WaitPostProess();
+		}
+
+		public async UniTask WaitAttackProcess()
+		{
+			if (!_attackProcess.IsNullOrEmpty())
+			{
+				await UniTask.WaitUntil(() => _attackProcess.IsNullOrEmpty());
+			}
+
+			await WaitPostProess();
 		}
 
 		/// <summary>
@@ -364,6 +370,14 @@ namespace Ling.Chara
 			Utility.EventManager.SafeTrigger(eventRemove);
 
 			DestroyProcessInternal();
+		}
+
+		/// <summary>
+		/// 行動後、追加処理が終わるまで待機する
+		/// </summary>
+		private async UniTask WaitPostProess()
+		{
+
 		}
 
 

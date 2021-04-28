@@ -127,6 +127,7 @@ namespace Ling.Chara
 		/// </summary>
 		public async UniTask WaitForMoveProcessAsync()
 		{
+#if false
 			// 条件に達したら終了
 			// 条件は移動プロセスがすべて終わっているとき
 			bool isWait = false;
@@ -136,15 +137,16 @@ namespace Ling.Chara
 
 				foreach (var control in Controls)
 				{
-					if (!control.IsMoveAllProcessEnded())
-					{
-						isWait = true;
-						await UniTask.DelayFrame(1);
-						break;
-					}
+					await control.WaitAllProcessEnded();
 				}
 
 			} while (isWait);
+#endif
+
+			foreach (var control in Controls)
+			{
+				await control.WaitMoveProcess();
+			}
 		}
 
 		/// <summary>

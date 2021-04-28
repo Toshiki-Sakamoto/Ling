@@ -75,9 +75,7 @@ namespace Ling.Scenes.Battle.Phases
 				{
 					enemyControl.ExecuteAttackProcess();
 
-					if (enemyControl.IsAttackAllProcessEnded()) continue;
-
-					await UniTask.WaitUntil(() => enemyControl.IsAttackAllProcessEnded());
+					await enemyControl.WaitAttackProcess();
 				}
 			}
 
