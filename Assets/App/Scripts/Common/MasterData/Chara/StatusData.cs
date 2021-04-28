@@ -49,7 +49,7 @@ namespace Ling.MasterData.Chara
 		#region プロパティ
 
 		public long HP => _hp;
-		public long MaxHp => MaxHp;
+		public long MaxHp => _maxHp;
 
 		public long Stamina => _stamina;
 		public long MaxStamina => _maxStamina;
