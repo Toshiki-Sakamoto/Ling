@@ -66,6 +66,12 @@ namespace Ling.Scenes.Battle.Message
 					// キャラが死亡した
 					ShowMessage($"{ev.chara.Name} は 倒れた");
 				});
+
+			_eventManager.Add<EventDamage>(this, ev => 
+				{
+					// キャラにダメージ
+					ShowMessage($"{ev.chara.Name} は {ev.value}ダメージを受けた");
+				});
 		}
 
 		private  void OnDestroy()

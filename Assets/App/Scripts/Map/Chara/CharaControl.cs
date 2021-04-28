@@ -42,6 +42,11 @@ namespace Ling.Chara
 		/// </summary>
 		void SetTilemap(Tilemap tilemap, int mapLevel);
 
+		/// <summary>
+		/// ダメージを受けた時
+		/// </summary>
+		void Damage(int value);
+
 		TProcess AddMoveProcess<TProcess>() where TProcess : Common.ProcessBase;
 		TProcess AddAttackProcess<TProcess>() where TProcess : Common.ProcessBase;
 	}
@@ -330,6 +335,17 @@ namespace Ling.Chara
 		protected virtual void DestroyProcessInternal()
 		{
 
+		}
+
+		/// <summary>
+		/// ダメージを受けた時
+		/// </summary>
+		void ICharaController.Damage(int value)
+		{
+			// ダメージを受けたイベントを送る
+			_eventManager.Trigger(new EventDamage { chara = this, value = value });
+			
+			Status.SubHP(value);
 		}
 
 		#endregion

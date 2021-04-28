@@ -59,6 +59,8 @@ namespace Ling.Scenes.Battle.Phases
 			_player = _charaManager.Player;
 			_player.SetFollowCameraEnable(false);
 
+			_targets.Clear();
+
 			// プレイヤーの向きから攻撃先を決める
 			// (武器によって範囲変えたり)
 			var position = _player.Model.CellPosition;
