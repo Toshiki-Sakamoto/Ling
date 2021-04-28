@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3451a6d84de547549af056ca9cfdbf9, type: 3}
-  m_Name: OnigiriMaster
+  m_Name: HerbMaster
   m_EditorClassIdentifier: 
-  _id: 1
-  _name: "\u304A\u306B\u304E\u308A"
+  _id: 2
+  _name: "\u30CF\u30FC\u30D6"
   _type: 0
-  _staminaValue: 20
-  _hpValue: 0
+  _staminaValue: 0
+  _hpValue: 20
