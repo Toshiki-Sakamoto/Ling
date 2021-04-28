@@ -31,6 +31,9 @@ namespace Ling.MasterData.Chara
 
 		#region private 変数
 
+		[SerializeField, FieldName("名前")]
+		private string _name = default;
+
 		[SerializeField, FieldName("敵の種類")]
 		private Const.EnemyType _enemyType = default;
 
@@ -47,6 +50,8 @@ namespace Ling.MasterData.Chara
 
 
 		#region プロパティ
+
+		public string Name => _name;
 
 		public Const.EnemyType EnemyType => _enemyType;
 

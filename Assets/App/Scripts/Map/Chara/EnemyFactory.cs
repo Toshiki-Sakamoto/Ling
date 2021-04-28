@@ -60,6 +60,7 @@ namespace Ling.Chara
 
 			model.Setup(param);
 			model.SetStatus(enemyMaster.Status);
+			model.SetMaster(enemyMaster);
 
 			control.Setup();
 

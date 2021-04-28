@@ -31,6 +31,11 @@ namespace Ling.Chara
 		CharaStatus Status { get; }
 
 		ICharaMoveController MoveController { get; }
+		
+		/// <summary>
+		/// キャラ名
+		/// </summary>
+		string Name { get; }
 
 		/// <summary>
 		/// Tilemap情報を設定する
@@ -84,6 +89,12 @@ namespace Ling.Chara
 		public TView View => _view;
 
 		public CharaStatus Status => _model.Status;
+
+		
+		/// <summary>
+		/// キャラ名
+		/// </summary>
+		string ICharaController.Name => _model.Name;
 
 		/// <summary>
 		/// 動きの制御を行うメソッドにアクセスするためのInterface

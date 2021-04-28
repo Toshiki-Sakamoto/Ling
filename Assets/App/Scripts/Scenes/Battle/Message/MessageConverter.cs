@@ -64,7 +64,7 @@ namespace Ling.Scenes.Battle.Message
 			_eventManager.Add<EventDead>(this, ev => 
 				{
 					// キャラが死亡した
-					ShowMessage("死亡した");
+					ShowMessage($"{ev.chara.Name} は 倒れた");
 				});
 		}
 
