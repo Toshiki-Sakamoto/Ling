@@ -28,6 +28,7 @@ namespace Ling.Scenes.Status
 		#region private 変数
 
 		[SerializeField] private Text _text = default;
+		[SerializeField] private Text _maxText = default;
 
 		private long _max;
 
@@ -60,7 +61,8 @@ namespace Ling.Scenes.Status
 
 		private void SetHPText(long current, long max)
 		{
-			_text.text = $"{current}/{max}";
+			_text.text = current.ToString();
+			_maxText.text = max.ToString();
 		}
 
 		#endregion

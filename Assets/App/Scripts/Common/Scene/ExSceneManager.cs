@@ -331,7 +331,11 @@ namespace Ling.Common.Scene
 			{
 				foreach (var dependenceData in loadedScene.Dependences.Where(data => data.Timing.IsLoaded()))
 				{
-					await SceneLoadProcessAsync(loadedScene, dependenceData.Data, LoadSceneMode.Additive);
+					var scene = await SceneLoadProcessAsync(loadedScene, dependenceData.Data, LoadSceneMode.Additive);
+
+					// 依存シーンはここでStartを呼び出す
+					scene.IsStartScene = true;
+					scene.StartScene();
 				}
 			}
 
