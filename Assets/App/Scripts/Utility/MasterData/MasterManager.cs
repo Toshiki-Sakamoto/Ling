@@ -114,6 +114,17 @@ namespace Utility.MasterData
 			LoadFinished<MasterLoadedEvent>();
 		}
 
+		protected void AddLoadRepositoryTask<TGameData, TRepository>(string key)
+			where TGameData : MasterDataBase
+			where TRepository : MasterRepository<TGameData>, new()
+		{
+			var repository = _diContainer.Instantiate<TRepository>();
+			repository.Initialize();
+
+			_repositoryDict.Add(typeof(TRepository), repository);
+
+			_loadTasks.Add(LoadRepositoryAsync<TGameData>(key, repository));
+		}
 
 		protected void AddLoadRepositoryTask<TGameData, TBaseData, TRepository>(string key)
 			where TGameData : TBaseData
