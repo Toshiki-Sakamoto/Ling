@@ -8,6 +8,7 @@
 using UnityEngine;
 using UniRx;
 using Zenject;
+using System;
 
 namespace Ling.Chara.Exp
 {
