@@ -12,6 +12,7 @@ using Ling.MasterData.Stage;
 using Ling.MasterData.Item;
 using Ling.MasterData.Repository;
 using Ling.MasterData.Repository.Item;
+using Ling.MasterData.Repository.Player;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
 using UniRx;
@@ -30,6 +31,7 @@ namespace Ling.MasterData
 		StageRepository StageRepository { get; }
 		BookRepository BookRepository { get; }
 		FoodRepository FoodRepository { get; }
+		PlayerLvTableRepository PlayerLvTableRepository { get; }
 
 		ItemRepositoryContainer ItemRespositoryContainer { get; }
 	}
@@ -66,6 +68,7 @@ namespace Ling.MasterData
 		public BookRepository BookRepository => GetRepository<BookRepository>();
 		public FoodRepository FoodRepository => GetRepository<FoodRepository>();
 		public ItemRepositoryContainer ItemRespositoryContainer { get; } = new ItemRepositoryContainer();
+		public PlayerLvTableRepository PlayerLvTableRepository => GetRepository<PlayerLvTableRepository>();
 
 
 		#endregion
@@ -84,6 +87,7 @@ namespace Ling.MasterData
 			AddLoadRepositoryTask<StageMaster, StageRepository>("StageMaster");
 			AddLoadRepositoryTask<BookMaster, ItemMaster, BookRepository>("ItemBookMaster");
 			AddLoadRepositoryTask<FoodMaster, ItemMaster, FoodRepository>("ItemFoodMaster");
+			AddLoadRepositoryTask<LvTableMaster, PlayerLvTableRepository>("PlayerLvTableMaster");
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(_loadTasks);
