@@ -62,10 +62,32 @@ namespace Ling.MasterData.Chara
 
 		#region public, protected 関数
 
+		/// <summary>
+		/// 渡された経験値から現在のLvTableデータを返す
+		/// </summary>
+		public Data GetDataByExp(int exp)
+		{
+			// 次のLv-1
+			var index = GetNextDataIndexByExp(exp);
+			return _data[index - 1];
+		}
+
+		public Data GetNextDataByExp(int exp)
+		{
+			var index = GetNextDataIndexByExp(exp);
+			return _data[index];
+		}
+
 		#endregion
 
 
 		#region private 関数
+
+		private int GetNextDataIndexByExp(int exp)
+		{
+			// あるLvテーブルの経験値よりも低い場所が出てきた時終了
+			return _data.FindIndex(data => exp < data.Exp);
+		}
 
 		#endregion
 	}
