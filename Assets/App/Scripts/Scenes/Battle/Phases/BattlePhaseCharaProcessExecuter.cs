@@ -29,6 +29,7 @@ namespace Ling.Scenes.Battle.Phases
 		#region private 変数
 
 		[Inject] private Chara.CharaManager _charaManager;
+		[Inject] private BattleManager _battleManager;
 
 		#endregion
 
@@ -75,9 +76,10 @@ namespace Ling.Scenes.Battle.Phases
 				{
 					enemyControl.ExecuteAttackProcess();
 
-					if (enemyControl.IsAttackAllProcessEnded()) continue;
+					await enemyControl.WaitAttackProcess();
 
-					await UniTask.WaitUntil(() => enemyControl.IsAttackAllProcessEnded());
+					// メッセージが出ている場合は待機
+					await _battleManager.WaitMessageSending();
 				}
 			}
 

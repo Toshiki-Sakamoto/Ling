@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3244762123335931066}
   - component: {fileID: 1041008047864628833}
   - component: {fileID: 5041012265545398259}
+  - component: {fileID: 1235475959}
   m_Layer: 0
   m_Name: Player00
   m_TagString: Untagged
@@ -49,6 +50,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -170,7 +172,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _status:
     _hp:
-      value: 0
+      _current:
+        value: 0
+      _max:
+        value: 0
+    _stamina:
+      _current:
+        value: 0
+      _max:
+        value: 0
   _model: {fileID: 1041008047864628833}
   _view: {fileID: 3244762123335931066}
   _charaMover: {fileID: 5041012265545398259}
@@ -221,3 +231,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1
   _rigidBody: {fileID: 6502881826932206416}
+--- !u!114 &1235475959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6502881826932206420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29c010f8e3d114e498afc7f15842fa32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionNum: 2
+  _healValue: 1

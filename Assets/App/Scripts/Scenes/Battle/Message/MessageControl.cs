@@ -6,13 +6,8 @@
 //
 
 using Utility;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
+using UniRx;
 
 using Zenject;
 
@@ -39,6 +34,7 @@ namespace Ling.Scenes.Battle.Message
 		[SerializeField] private MessageSelect _select = null;
 
 		[Inject] private IEventManager _eventManager = null;
+		[Inject] private BattleManager _battleManager;
 
 		#endregion
 
@@ -72,6 +68,13 @@ namespace Ling.Scenes.Battle.Message
 
 		private void Start()
 		{
+			// 「メッセージ表示可能状態」と「メッセージ送信中」をリンクさせる
+			_view.CanNextTextShow
+				.Subscribe(canNextTextShow => 
+				{
+					_battleManager.IsMessageSending = !canNextTextShow;
+				});
+
 			_eventManager.Add<EventMessageText>(this,
 				ev_ =>
 				{

@@ -209,7 +209,7 @@ namespace Ling.Map
 				var builderData = new Map.Builder.BuilderData();
 
 				var builder = _builderFactory.Create(Map.Builder.BuilderConst.BuilderType.Split);
-				builder.Initialize(20, 20, mapLevel);
+				builder.Initialize(30, 30, mapLevel);
 
 				_builderManager.SetData(builderData);
 				_builderManager.SetBuilder(builder);

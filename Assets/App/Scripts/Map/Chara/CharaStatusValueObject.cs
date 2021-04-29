@@ -66,14 +66,17 @@ namespace Ling.Chara
 		/// <summary>
 		/// 現在値に足し合わせる
 		/// </summary>
-		public void AddCurrent(long value) =>
-			SetCurrent(_current.Value + value);
+		public void AddCurrent(long value)
+		{
+			// 最大値は上回らない
+			SetCurrent(System.Math.Min(_current.Value + value, _max.Value));
+		}
 			
 		/// <summary>
 		/// 現在値から引く
 		/// </summary>
 		public void SubCurrent(long value) =>
-			SetCurrent(_current.Value - value);
+			SetCurrent(System.Math.Max(_current.Value - value, 0));
 
 
 		/// <summary>
@@ -92,7 +95,7 @@ namespace Ling.Chara
 		/// 現在値から引く
 		/// </summary>
 		public void SubMax(long value) =>
-			SetMax(_max.Value - value);
+			SetMax(System.Math.Max(_max.Value - value, 0));
 
 		#endregion
 

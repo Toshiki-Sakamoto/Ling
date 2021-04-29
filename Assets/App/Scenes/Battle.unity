@@ -1043,7 +1043,7 @@ MonoBehaviour:
   _topPadding: -20
   _itemSpace: 3
   _itemUpperAnimationTime: 0.2
-  _messageDisplaySpeed: 0.05
+  _messageDisplaySpeed: 0.01
 --- !u!114 &874937138
 MonoBehaviour:
   m_ObjectHideFlags: 0

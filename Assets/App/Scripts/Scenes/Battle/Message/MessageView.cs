@@ -50,13 +50,15 @@ namespace Ling.Scenes.Battle.Message
 		private Queue<MessageItemView> _textItemQueue = new Queue<MessageItemView>();
 		private Queue<MessageItemView> _activeTextItemQueue = new Queue<MessageItemView>();
 		private Queue<TextData> _textQueue = new Queue<TextData>();
-		private bool _canNextTextShow = false;
+		private BoolReactiveProperty _canNextTextShow = new BoolReactiveProperty();
 		private SerialDisposable _textAnimDisposable = new SerialDisposable();
 
 		#endregion
 
 
 		#region プロパティ
+
+		public ReadOnlyReactiveProperty<bool> CanNextTextShow => _canNextTextShow.ToReadOnlyReactiveProperty();
 
 		#endregion
 
@@ -76,7 +78,7 @@ namespace Ling.Scenes.Battle.Message
 				_textItemQueue.Enqueue(instance);
 			}
 
-			_canNextTextShow = true;
+			_canNextTextShow.Value = true;
 		}
 
 		public void SetText(string text, System.Action finish = null)
@@ -106,7 +108,7 @@ namespace Ling.Scenes.Battle.Message
 			}
 
 			_textQueue.Clear();
-			_canNextTextShow = true;
+			_canNextTextShow.Value = true;
 		}
 
 		#endregion
@@ -121,10 +123,10 @@ namespace Ling.Scenes.Battle.Message
 		private void ShowTextIfNeeded()
 		{
 			// 表示することができるか
-			if (!_canNextTextShow) return;
+			if (!_canNextTextShow.Value) return;
 			if (_textQueue.Count <= 0) return;
 
-			_canNextTextShow = false;
+			_canNextTextShow.Value = false;
 
 			// 最大数出ている場合上にずらす
 			_textAnimDisposable.Disposable = Observable
@@ -146,7 +148,7 @@ namespace Ling.Scenes.Battle.Message
 
 							// テキスト表示終了時
 							// 次に進める
-							_canNextTextShow = true;
+							_canNextTextShow.Value = true;
 
 							ShowTextIfNeeded();
 						};

@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Zenject;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace Utility
 {
@@ -38,6 +40,7 @@ namespace Utility
 		private GameObject _owner;
 		private Dictionary<Enum, Phase> _phaseDict = new Dictionary<Enum, Phase>();
 		private Phase _currentPhase;
+		private CancellationTokenSource _cancellationTokenSource;
 
 		#endregion
 
@@ -83,6 +86,8 @@ namespace Utility
 				return;
 			}
 
+			_cancellationTokenSource?.Cancel();
+
 			_currentPhase?.PhaseStop();
 
 			phase.Argument = argument;
@@ -90,6 +95,11 @@ namespace Utility
 			_currentType = type;
 
 			phase.PhaseStart();
+
+			// 非同期を投げっぱにする
+			_cancellationTokenSource = new CancellationTokenSource();
+
+			phase.PhaseStartAsync(_cancellationTokenSource.Token).Forget();
 		}
 
 		public void Update()
