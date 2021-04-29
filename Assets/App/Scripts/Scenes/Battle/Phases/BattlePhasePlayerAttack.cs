@@ -84,6 +84,9 @@ namespace Ling.Scenes.Battle.Phases
 		{
 			await _player.WaitAttackProcess();
 
+			// メッセージが出ている場合は待機
+			await _battleManager.WaitMessageSending();
+
 			_player.SetFollowCameraEnable(true);
 
 			//Change(BattleScene.Phase.PlayerAction);

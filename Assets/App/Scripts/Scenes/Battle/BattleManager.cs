@@ -5,14 +5,7 @@
 // Created by toshiki sakamoto on 2020.05.01
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
-
+using Cysharp.Threading.Tasks;
 using Zenject;
 
 namespace Ling.Scenes.Battle
@@ -46,6 +39,11 @@ namespace Ling.Scenes.Battle
 
 		public BattleModel Model => _model;
 
+		/// <summary>
+		/// バトルメッセージ送信中の場合true
+		/// </summary>
+		public bool IsMessageSending { get; set; }
+
 		#endregion
 
 
@@ -62,6 +60,14 @@ namespace Ling.Scenes.Battle
 			message.text = text;
 
 			_eventManager.Trigger(message);
+		}
+
+		public async UniTask WaitMessageSending()
+		{
+			if (IsMessageSending)
+			{
+				await UniTask.WaitWhile(() => IsMessageSending);
+			}
 		}
 
 		#endregion
