@@ -31,6 +31,7 @@ namespace Ling.Chara
 		CharaStatus Status { get; }
 
 		ICharaMoveController MoveController { get; }
+		Exp.ICharaExpController ExpController { get; }
 		
 		/// <summary>
 		/// キャラ名
@@ -122,6 +123,12 @@ namespace Ling.Chara
 		/// 準備が整った時に通知が呼び出される
 		/// </summary>
 		public IObservable<CharaControl<TModel, TView>> OnSetuped => _onSetuped;
+
+		
+		/// <summary>
+		/// 経験値管理者
+		/// </summary>
+		public abstract Exp.ICharaExpController ExpController { get; }
 
 
 		// ICharaController

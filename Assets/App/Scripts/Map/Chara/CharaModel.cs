@@ -50,6 +50,11 @@ namespace Ling.Chara
 		#region プロパティ
 
 		/// <summary>
+		/// キャラクタID
+		/// </summary>
+		public int ID { get; }
+
+		/// <summary>
 		/// 名前
 		/// </summary>
 		public virtual string Name { get; }
@@ -123,7 +128,10 @@ namespace Ling.Chara
 			Const.TileFlag.None |
 			Const.TileFlag.Wall;
 
-
+		/// <summary>
+		/// アクション終了後に行う追加処理のリスト
+		/// </summary>
+		/// <typeparam name="ICharaPostProcesser"></typeparam>
 		public LinkedList<ICharaPostProcesser> PostProcessers { get; } = new LinkedList<ICharaPostProcesser>();
 
 		#endregion
