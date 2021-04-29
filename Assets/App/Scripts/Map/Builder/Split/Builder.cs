@@ -84,7 +84,9 @@ namespace Ling.Map.Builder.Split
 			// とマスの幅が求まり
 			// 　　for (int x = 0; x < w; ++x)
 			// とすると区画のループ処理がかける
-			MapRect.CreateRect(0, 0, Width, Height);
+
+			var extra = 3;
+			MapRect.CreateRect(0 + extra, 0 + extra, Width - extra, Height - extra);
 
 			// 区画を作る
 			var splitEnumerator = _splitter?.SplitRect(_data, MapRect);
