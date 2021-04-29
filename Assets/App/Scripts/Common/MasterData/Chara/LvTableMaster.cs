@@ -9,6 +9,7 @@ using UnityEngine;
 using Utility.MasterData;
 using Utility.Attribute;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 namespace Ling.MasterData.Chara
 {
@@ -23,14 +24,14 @@ namespace Ling.MasterData.Chara
 		[System.Serializable]
 		public class Data
 		{
-			[SerializeField, FieldName("Lv")]
-			private int _lv = 0;
+			[TableColumnWidth(20)]
+			public int Lv;
 
-			[SerializeField, FieldName("経験値")]
-			private int _exp = 0;
+			[TableColumnWidth(30)]
+			public int Exp;
 
-			[SerializeField, FieldName("ちから")]
-			private int _power = 0;
+			[TableColumnWidth(20)]
+			public int Power;
 		}
 
 		#endregion
@@ -43,10 +44,7 @@ namespace Ling.MasterData.Chara
 
 		#region private 変数
 
-		[SerializeField, FieldName("キャラクタID")]
-		private int _id = default;
-
-		[SerializeField, FieldName("テーブル")]
+		[SerializeField, TableList]
 		private List<Data> _data = default;
 
 		#endregion
