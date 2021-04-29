@@ -377,7 +377,12 @@ namespace Ling.Chara
 		/// </summary>
 		private async UniTask WaitPostProess()
 		{
+			foreach (var postProcess in _model.PostProcessers)
+			{
+				if (!postProcess.ShouldExecute) continue;
 
+				await postProcess.ExecuteAsync();
+			}
 		}
 
 

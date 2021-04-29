@@ -6,6 +6,8 @@
 // 
 
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using UniRx;
 
 namespace Ling.Chara
 {
@@ -13,7 +15,7 @@ namespace Ling.Chara
 	/// 一定間隔で自動で回復させる処理
 	/// </summary>
 	[RequireComponent(typeof(ICharaController))]
-	public class CharaAutoHeal : MonoBehaviour 
+	public class CharaAutoHeal : MonoBehaviour, ICharaPostProcesser
 	{
 		#region 定数, class, enum
 
@@ -39,6 +41,27 @@ namespace Ling.Chara
 
 		#region プロパティ
 
+
+		/// <summary>
+		/// 優先度(値が低いもの順に実行される)
+		/// </summary>
+		int ICharaPostProcesser.Order { get; } = 0;
+
+		/// <summary>
+		/// 処理する必要があるか
+		/// </summary>
+		bool ICharaPostProcesser.ShouldExecute 
+		{
+			get 
+			{
+				if (_status.IsDead.Value) return false;
+
+				Count();
+
+				return _current >= _actionNum;
+			}
+		}
+
 		#endregion
 
 
@@ -49,12 +72,7 @@ namespace Ling.Chara
 		/// </summary>
 		public void Count()
 		{
-			if (++_current >= _actionNum)
-			{
-				ExecuteHeal();
-
-				_current = 0;
-			}
+			++_current;
 		}
 
 		/// <summary>
@@ -66,6 +84,20 @@ namespace Ling.Chara
 			if (_status.IsDead.Value) return;
 
 			_status.HP.AddCurrent(_healValue);
+			_current = 0;
+
+			Utility.Log.Print($"自動回復！ +{_healValue}");
+		}
+
+
+		/// <summary>
+		/// 非同期処理を行う
+		/// </summary>
+		UniTask ICharaPostProcesser.ExecuteAsync()
+		{
+			ExecuteHeal();
+
+			return UniTask.FromResult(default(Unit));
 		}
 
 		#endregion
@@ -85,6 +117,8 @@ namespace Ling.Chara
 		{
 			_charaController = GetComponent<ICharaController>();
 			_status = _charaController.Status;
+
+			_charaController.Model.AddPostProcess(this);
 		}
 
 		#endregion

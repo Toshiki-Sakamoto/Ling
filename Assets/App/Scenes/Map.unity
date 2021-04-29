@@ -354,6 +354,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -630,6 +631,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -971,7 +973,10 @@ MonoBehaviour:
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
+    ModeOverride: 0
     LensShift: {x: 0, y: 0}
+    GateFit: 0
+    m_SensorSize: {x: 0.5, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1106,7 +1111,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1268013536}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1235475958}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 768015f3d3a0a476e8b6cdd2004c9328, type: 3}
@@ -1439,6 +1444,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -1601,6 +1607,26 @@ Transform:
   m_Father: {fileID: 109318012}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1235475958 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6502881826932206420, guid: ce543de71bf23d444a4e59a4a7e27531,
+    type: 3}
+  m_PrefabInstance: {fileID: 1268013536}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1235475959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235475958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29c010f8e3d114e498afc7f15842fa32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionNum: 0
+  _healValue: 0
 --- !u!1 &1258740617
 GameObject:
   m_ObjectHideFlags: 0
@@ -2314,6 +2340,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -6774,13 +6801,7 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 441
     m_Data: {fileID: 559786152}
-  m_TileSpriteArray:
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  m_TileSpriteArray: []
   m_TileMatrixArray:
   - m_RefCount: 441
     m_Data:
@@ -6793,60 +6814,6 @@ Tilemap:
       e12: 0
       e13: 0
       e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  - m_RefCount: 0
-    m_Data:
-      e00: 0.000000059604645
-      e01: -0.99999994
-      e02: -0
-      e03: 0
-      e10: 0.99999994
-      e11: 0.000000059604645
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: -0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  - m_RefCount: 0
-    m_Data:
-      e00: -1
-      e01: -0.00000008742278
-      e02: -0
-      e03: 0
-      e10: 0.00000008742278
-      e11: -1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: -0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  - m_RefCount: 0
-    m_Data:
-      e00: 0.000000059604645
-      e01: 0.99999994
-      e02: 0
-      e03: 0
-      e10: -0.99999994
-      e11: 0.000000059604645
-      e12: -0
-      e13: 0
-      e20: -0
       e21: 0
       e22: 1
       e23: 0
@@ -6981,6 +6948,7 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -11441,13 +11409,7 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 441
     m_Data: {fileID: 1390101144}
-  m_TileSpriteArray:
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  m_TileSpriteArray: []
   m_TileMatrixArray:
   - m_RefCount: 441
     m_Data:
@@ -11461,60 +11423,6 @@ Tilemap:
       e13: 0
       e20: 0
       e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  - m_RefCount: 0
-    m_Data:
-      e00: 0.000000059604645
-      e01: -0.99999994
-      e02: -0
-      e03: 0
-      e10: 0.99999994
-      e11: 0.000000059604645
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: -0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  - m_RefCount: 0
-    m_Data:
-      e00: 0.000000059604645
-      e01: 0.99999994
-      e02: 0
-      e03: 0
-      e10: -0.99999994
-      e11: 0.000000059604645
-      e12: -0
-      e13: 0
-      e20: -0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-  - m_RefCount: 0
-    m_Data:
-      e00: -1
-      e01: -0.00000008742278
-      e02: -0
-      e03: 0
-      e10: 0.00000008742278
-      e11: -1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: -0
       e22: 1
       e23: 0
       e30: 0

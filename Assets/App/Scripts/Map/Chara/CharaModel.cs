@@ -9,6 +9,8 @@ using UniRx;
 using UnityEngine;
 using Ling.Const;
 using Ling.Common.ReactiveProperty;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ling.Chara
 {
@@ -120,6 +122,9 @@ namespace Ling.Chara
 		public virtual Const.TileFlag UnDiagonalAttacableTileFlag =>
 			Const.TileFlag.None |
 			Const.TileFlag.Wall;
+
+
+		public LinkedList<ICharaPostProcesser> PostProcessers { get; } = new LinkedList<ICharaPostProcesser>();
 
 		#endregion
 
@@ -262,6 +267,32 @@ namespace Ling.Chara
 			}
 
 			return 1;
+		}
+
+		/// <summary>
+		/// 行動の後に追加処理を行う対象を追加する
+		/// </summary>
+		public void AddPostProcess(ICharaPostProcesser postProcesser)
+		{
+			if (PostProcessers.Count == 0)
+			{
+				PostProcessers.AddFirst(postProcesser);
+				return;
+			}
+
+			var node = PostProcessers.First;
+			while (node != null)
+			{
+				if (postProcesser.Order < node.Value.Order) break;
+
+				node = node.Next;
+			}
+
+			PostProcessers.AddBefore(node, postProcesser);
+		}
+		public void RemovePostProcess(ICharaPostProcesser postProcesser)
+		{
+			PostProcessers.Remove(postProcesser);
 		}
 
 		#endregion
