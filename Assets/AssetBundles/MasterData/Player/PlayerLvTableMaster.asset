@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31f8ee3fdd3234783ba7de8050818c1e, type: 3}
+  m_Name: PlayerLvTableMaster
+  m_EditorClassIdentifier: 
+  _id: 1
+  _data:
+  - Lv: 1
+    Exp: 0
+    Power: 5
+  - Lv: 2
+    Exp: 20
+    Power: 5
+  - Lv: 3
+    Exp: 40
+    Power: 5
+  - Lv: 4
+    Exp: 70
+    Power: 6
+  - Lv: 5
+    Exp: 100
+    Power: 6
