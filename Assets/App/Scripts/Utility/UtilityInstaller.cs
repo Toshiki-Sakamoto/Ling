@@ -28,6 +28,11 @@ namespace Utility
 				.Bind<UtilityInitializer>()
 				.FromComponentInHierarchy()
 				.AsSingle();
+
+			Container
+				.Bind<ProcessManager>()
+				.FromComponentInHierarchy()
+				.AsSingle();
 		}
 	}
 }

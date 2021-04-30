@@ -15,7 +15,7 @@ namespace Ling.Scenes.Battle
 			Container.Bind<PoolManager>().FromComponentInHierarchy().AsSingle();
 
 			Container
-				.Bind<Common.ProcessManager>()
+				.Bind<Utility.ProcessManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
 		}

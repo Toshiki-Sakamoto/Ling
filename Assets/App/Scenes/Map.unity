@@ -1111,7 +1111,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 1268013536}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235475958}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 768015f3d3a0a476e8b6cdd2004c9328, type: 3}
@@ -1607,24 +1607,6 @@ Transform:
   m_Father: {fileID: 109318012}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1235475958 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6502881826932206420, guid: ce543de71bf23d444a4e59a4a7e27531,
-    type: 3}
-  m_PrefabInstance: {fileID: 1268013536}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1235475959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235475958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a3b8d28bb2e749b6937e95eff98083c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1258740617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,11 +1739,6 @@ PrefabInstance:
       propertyPath: _cinemaVCamera
       value: 
       objectReference: {fileID: 678225907}
-    - target: {fileID: 8349078638631848763, guid: ce543de71bf23d444a4e59a4a7e27531,
-        type: 3}
-      propertyPath: _playerExpController
-      value: 
-      objectReference: {fileID: 1235475959}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce543de71bf23d444a4e59a4a7e27531, type: 3}
 --- !u!4 &1268013537 stripped

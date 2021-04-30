@@ -14,7 +14,7 @@ namespace Ling.Chara.Process
 	/// <summary>
 	/// キャラクタの移動
 	/// </summary>
-	public class ProcessMove : Common.ProcessBase
+	public class ProcessMove : Utility.ProcessBase
 	{
 		#region 定数, class, enum
 

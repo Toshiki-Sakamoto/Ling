@@ -23,11 +23,6 @@ namespace Ling.Common
 				.Bind<Input.IInputManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
-
-			Container
-				.Bind<ProcessManager>()
-				.FromComponentInHierarchy()
-				.AsSingle();
 		}
 	}
 }

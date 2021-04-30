@@ -23,7 +23,7 @@ namespace Ling.Scenes.Battle.Process
 	/// <summary>
 	/// 階層を移動するときのアニメーション
 	/// </summary>
-	public class ProcessNextStageAnim : Common.ProcessBase
+	public class ProcessNextStageAnim : Utility.ProcessBase
 	{
 		#region 定数, class, enum
 

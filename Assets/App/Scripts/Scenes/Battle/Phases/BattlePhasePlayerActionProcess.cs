@@ -26,7 +26,7 @@ namespace Ling.Scenes.Battle.Phases
 
 		public class Arg : Utility.PhaseArgument
 		{
-			public Common.ProcessBase process;   // 行動プロセス
+			public Utility.ProcessBase process;   // 行動プロセス
 		}
 
 		#endregion
@@ -61,7 +61,7 @@ namespace Ling.Scenes.Battle.Phases
 			var arg = Argument as Arg;
 
 			arg.process
-				.SetNextLast<Common.Process.ProcessCallFunc>()
+				.SetNextLast<Utility.Process.ProcessCallFunc>()
 				.Setup(() =>
 				{
 					_isFinish = true;

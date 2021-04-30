@@ -15,7 +15,7 @@ using UnityEngine.UI;
 using Utility;
 using Zenject;
 
-namespace Ling.Common.Process
+namespace Utility.Process
 {
 	/// <summary>
 	/// 指定されたメソッドを呼び出す

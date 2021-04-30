@@ -15,7 +15,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Common
+namespace Utility
 {
 	/// <summary>
 	/// 一つのタスク

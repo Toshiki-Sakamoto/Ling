@@ -12,7 +12,7 @@ namespace Ling.Scenes.Battle.Process
 	/// <summary>
 	/// 
 	/// </summary>
-	public class ProcessConfirmStepDown : Common.ProcessBase
+	public class ProcessConfirmStepDown : Utility.ProcessBase
 	{
 		#region 定数, class, enum
 
