@@ -57,4 +57,13 @@ namespace Ling.Scenes.Battle
 		public int level;
 		public UnityEngine.Tilemaps.Tilemap tilemap;
 	}
+
+	/// <summary>
+	/// ProecssContainerに処理を追加する
+	/// </summary>
+	public class EventAddProcessContainer
+	{
+		public ProcessType Type;
+		public Utility.ProcessBase Process;
+	}
 }

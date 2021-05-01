@@ -8,6 +8,7 @@
 using Cysharp.Threading.Tasks;
 using UniRx;
 using Zenject;
+using System.Threading;
 
 namespace Ling.Scenes.Battle.Phases
 {
@@ -29,7 +30,6 @@ namespace Ling.Scenes.Battle.Phases
 		#region private 変数
 
 		[Inject] private Chara.CharaManager _charaManager;
-		[Inject] private BattleManager _battleManager;
 
 		#endregion
 
@@ -52,7 +52,12 @@ namespace Ling.Scenes.Battle.Phases
 
 		public override void PhaseStart()
 		{
-			ExecuteAsync().Forget();
+			// なにもないときは終了する
+			if (!Scene.ProcessContainer.Exists(ProcessType.Action))
+			{
+				Change(Phase.Exp);
+				return;
+			}
 		}
 
 
@@ -61,19 +66,32 @@ namespace Ling.Scenes.Battle.Phases
 
 		#region private 関数
 
+		
+		/// <summary>
+		/// 非同期
+		/// </summary>
+		public override async UniTask PhaseStartAsync(CancellationToken token)
+		{
+			await Scene.ProcessContainer.UniTaskExecuteOnceAsync(ProcessType.Action, token: token);
+
+			Change(Phase.Reaction);
+		}
+
+#if false
 		public async UniTask ExecuteAsync()
 		{
-			// まずは移動Processをすべて叩く
-			_charaManager.ExecuteMoveProcesses();
-
-			// 移動が終わるまで待機
-			await _charaManager.WaitForMoveProcessAsync();
-
 			// 終わったら順番に攻撃・特技Processを叩く
+			// 特技に積まれているプロセスをすべて順番に叩いていく
+			// 積まれているものがなければ終了処理に飛ぶ
+			// キャラは自分の特技プロセスを呼び出すプロセスをContainerに追加する
+
+
 			foreach (var enemyGroupPair in _charaManager.EnemyControlDict)
 			{
 				foreach (var enemyControl in enemyGroupPair.Value)
 				{
+					// なにもないときはスルー
+
 					enemyControl.ExecuteAttackProcess();
 
 					await enemyControl.WaitAttackProcess();
@@ -83,10 +101,9 @@ namespace Ling.Scenes.Battle.Phases
 				}
 			}
 
-			// すべて終わったらターン終了
-			Change(Phase.CharaProcessEnd);
+			// すべて終わったらリアクション
 		}
-
+#endif
 		#endregion
 	}
 }

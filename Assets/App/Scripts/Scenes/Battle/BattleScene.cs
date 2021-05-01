@@ -14,6 +14,7 @@ using Ling.Common.Scene;
 using Zenject;
 using Ling.MasterData.Repository;
 using Ling.Scenes.Battle.Phases;
+using Ling.Scenes.Battle.ProcessContainer;
 
 namespace Ling.Scenes.Battle
 {
@@ -35,9 +36,13 @@ namespace Ling.Scenes.Battle
 		PlayerActionProcess,
 		PlayerActionEnd,
 
-			// Enemy
+		// Enemy
 		EnemyAction,
 		EnemyTink,
+
+		Move,
+		Reaction,
+		Exp,
 		CharaProcessExecute,
 		CharaProcessEnd,
 		NextStage,
@@ -98,6 +103,8 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		public Map.MapControl MapControl => _mapManager.MapControl;
 
+		public ProcessContainer<ProcessType> ProcessContainer { get; } = new ProcessContainer<ProcessType>();
+
 		#endregion
 
 
@@ -155,6 +162,11 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhaseEnemyThink>(Phase.EnemyTink);
 			RegistPhase<BattlePhaseCharaProcessExecuter>(Phase.CharaProcessExecute);
 			RegistPhase<BattlePhaseCharaProcessEnd>(Phase.CharaProcessEnd);
+			RegistPhase<BattlePhaseReaction>(Phase.Reaction);
+			RegistPhase<BattlePhaseExp>(Phase.Exp);
+			RegistPhase<BattlePhaseCharaMove>(Phase.Move);
+
+			ProcessContainer.Setup(_processManager, gameObject);
 
 			_isInitialized = true;
 
@@ -164,6 +176,12 @@ namespace Ling.Scenes.Battle
 				{
 					// 行動終了時のPhase切り替えの予約
 					_model.NextPhaseMoveReservation = _ev.phase;
+				});
+
+			_eventManager.Add<EventAddProcessContainer>(this,
+				ev => 
+				{
+					ProcessContainer.Add(ev.Type, ev.Process);
 				});
 
 			// 始めは１階層

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31f8ee3fdd3234783ba7de8050818c1e, type: 3}
   m_Name: PlayerLvTableMaster
   m_EditorClassIdentifier: 
-  _id: 1
+  _id: 0
   _data:
   - Lv: 1
     Exp: 0

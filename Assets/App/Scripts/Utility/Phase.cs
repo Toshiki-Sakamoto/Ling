@@ -19,9 +19,15 @@ namespace Utility
 
 	public class Phase : MonoBehaviour
 	{
-		public PhaseArgument Argument { get; set; }
 
 		private PhaseController _controller;
+
+		public PhaseArgument Argument { get; set; }
+
+		/// <summary>
+		/// 動いている場合true
+		/// </summary>
+		public bool IsPlaying { get; set; }
 
 		public void SetController(PhaseController controller) =>
 			_controller = controller;

@@ -55,7 +55,7 @@ namespace Ling.Chara
 	/// <summary>
 	/// キャラのModelとViewをつなげる役目と操作を行う
 	/// </summary>
-	public abstract partial class CharaControl<TModel, TView> : MonoBehaviour, ICharaController, ICharaMoveController
+	public abstract partial class CharaControl<TModel, TView> : MonoBehaviour, ICharaController, ICharaMoveController, ICharaActionController
 		where TModel : CharaModel
 		where TView : ViewBase
 	{
