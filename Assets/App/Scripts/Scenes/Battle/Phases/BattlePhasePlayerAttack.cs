@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using Zenject;
+using Utility.Extensions;
 
 namespace Ling.Scenes.Battle.Phases
 {
@@ -89,22 +90,24 @@ namespace Ling.Scenes.Battle.Phases
 
 			_player.SetFollowCameraEnable(true);
 
-			//Change(BattleScene.Phase.PlayerAction);
-			// 攻撃した敵が生きている場合、最優先で行動させる
-			// 敵思考に移行する
-			var argument = new BattlePhaseEnemyThink.Arg();
-			argument.Targets = _targets;
-			argument.nextPhase = Phase.PlayerAction;
+			// ターゲットがいない場合は普通に敵思考に回す
+			if (!_targets.IsNullOrEmpty())
+			{
+				//Change(BattleScene.Phase.PlayerAction);
+				// 攻撃した敵が生きている場合、最優先で行動させる
+				// 敵思考に移行する
+				var argument = new BattlePhaseEnemyThink.Arg();
+				argument.Targets = _targets;
+				argument.nextPhase = Phase.PlayerAction;
 
-			Change(Phase.EnemyTink, argument);
+				Change(Phase.EnemyTink, argument);
+			}
+			else
+			{
+				Change(Phase.EnemyTink);
+			}
 		}
-/*
-		public override void PhaseUpdate()
-		{
-			if (!_player.IsAllProcessEnded()) return;
 
-		}
-*/
 		public override void PhaseStop()
 		{
 		}
