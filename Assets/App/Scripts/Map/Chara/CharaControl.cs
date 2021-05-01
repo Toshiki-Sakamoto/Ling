@@ -31,6 +31,7 @@ namespace Ling.Chara
 		CharaStatus Status { get; }
 
 		ICharaMoveController MoveController { get; }
+		Exp.ICharaExpController ExpController { get; }
 		
 		/// <summary>
 		/// キャラ名
@@ -47,14 +48,14 @@ namespace Ling.Chara
 		/// </summary>
 		void Damage(int value);
 
-		TProcess AddMoveProcess<TProcess>() where TProcess : Common.ProcessBase;
-		TProcess AddAttackProcess<TProcess>() where TProcess : Common.ProcessBase;
+		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase;
+		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase;
 	}
 
 	/// <summary>
 	/// キャラのModelとViewをつなげる役目と操作を行う
 	/// </summary>
-	public abstract partial class CharaControl<TModel, TView> : MonoBehaviour, ICharaController, ICharaMoveController
+	public abstract partial class CharaControl<TModel, TView> : MonoBehaviour, ICharaController, ICharaMoveController, ICharaActionController
 		where TModel : CharaModel
 		where TView : ViewBase
 	{
@@ -76,11 +77,11 @@ namespace Ling.Chara
 		[SerializeField] private CharaMover _charaMover = default;
 
 		[Inject] private DiContainer _diContainer = default;
-		[Inject] private Common.ProcessManager _processManager = default;
+		[Inject] private Utility.ProcessManager _processManager = default;
 		[Inject] private Utility.IEventManager _eventManager = default;
 
-		private List<Common.ProcessBase> _moveProcesses = new List<Common.ProcessBase>();
-		private List<Common.ProcessBase> _attackProcess = new List<Common.ProcessBase>();
+		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
+		private List<Utility.ProcessBase> _attackProcess = new List<Utility.ProcessBase>();
 		private Subject<CharaControl<TModel, TView>> _onSetuped = new Subject<CharaControl<TModel, TView>>();
 
 		#endregion
@@ -122,6 +123,12 @@ namespace Ling.Chara
 		/// 準備が整った時に通知が呼び出される
 		/// </summary>
 		public IObservable<CharaControl<TModel, TView>> OnSetuped => _onSetuped;
+
+		
+		/// <summary>
+		/// 経験値管理者
+		/// </summary>
+		public abstract Exp.ICharaExpController ExpController { get; }
 
 
 		// ICharaController
@@ -230,7 +237,7 @@ namespace Ling.Chara
 		/// 移動プロセスの追加
 		/// 実行は待機する
 		/// </summary>
-		public TProcess AddMoveProcess<TProcess>() where TProcess : Common.ProcessBase
+		public TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase
 		{
 			var process = _diContainer.Instantiate<TProcess>();
 			_processManager.Attach(process, transform, waitForStart: true);
@@ -243,7 +250,7 @@ namespace Ling.Chara
 		/// 攻撃プロセスの追加
 		/// 実行は待機する
 		/// </summary>
-		public TProcess AddAttackProcess<TProcess>() where TProcess : Common.ProcessBase
+		public TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase
 		{
 			var process = _diContainer.Instantiate<TProcess>();
 			_processManager.Attach(process, transform, waitForStart: true);

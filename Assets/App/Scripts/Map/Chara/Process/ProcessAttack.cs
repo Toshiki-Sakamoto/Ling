@@ -19,7 +19,7 @@ namespace Ling.Chara.Process
 	/// <summary>
 	/// 通常攻撃プロセス
 	/// </summary>
-	public class ProcessAttack : Common.ProcessBase
+	public class ProcessAttack : Utility.ProcessBase
 	{
 		#region 定数, class, enum
 

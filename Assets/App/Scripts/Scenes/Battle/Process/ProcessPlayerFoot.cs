@@ -23,7 +23,7 @@ namespace Ling.Scenes.Battle.Process
 	/// <summary>
 	/// 足元確認
 	/// </summary>
-	public class ProcessPlayerFoot : Common.ProcessBase
+	public class ProcessPlayerFoot : Utility.ProcessBase
 	{
 		#region 定数, class, enum
 

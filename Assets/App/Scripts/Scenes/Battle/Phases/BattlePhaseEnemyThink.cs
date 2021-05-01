@@ -105,11 +105,17 @@ namespace Ling.Scenes.Battle.Phases
 					{
 						// 敵が持つAIによって行動を自由に変更する
 						await enemy.ThinkAIProcess(_timeAwaiter);
+
+						// プロセスを格納する
+						if (enemy.ExistsAttackProcess)
+						{
+							var process = new Process.ProcessCharaAction(enemy);
+							Scene.ProcessContainer.Add(ProcessType.Action, process);						}
 					}
 				}
 
 				// すべて終わったら次に行く
-				Change(Phase.CharaProcessExecute);
+				Change(Phase.Move);
 			}
 		}
 

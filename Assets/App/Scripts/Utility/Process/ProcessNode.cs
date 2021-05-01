@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using Zenject;
 using System.Linq;
 
-namespace Ling.Common
+namespace Utility
 {
 	/// <summary>
 	/// Processを管理するNode

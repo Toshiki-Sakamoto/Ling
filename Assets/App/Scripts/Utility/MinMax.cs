@@ -16,7 +16,7 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Common
+namespace Utility
 {
 	/// <summary>
 	/// MinとMax両方保持できる
@@ -74,6 +74,6 @@ namespace Ling.Common
 	public class MinMaxInt : MinMax<int>
 	{
 		public int GetRandomValue() =>
-			Utility.Random.MaxIncludedRange(Min, Max);
+			Random.MaxIncludedRange(Min, Max);
 	}
 }

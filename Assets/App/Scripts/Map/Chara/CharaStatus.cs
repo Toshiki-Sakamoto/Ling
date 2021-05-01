@@ -36,6 +36,9 @@ namespace Ling.Chara
 
 		#region private 変数
 
+		[Header("現在のLv")]
+		[SerializeField] private IntReactiveProperty _lv = default;
+
 		[Header("HP")]
 		[SerializeField] private CharaStatusValueObject _hp = default;
 
@@ -46,6 +49,11 @@ namespace Ling.Chara
 
 
 		#region プロパティ
+
+		/// <summary>
+		/// 現在のレベル
+		/// </summary>
+		public ReadOnlyReactiveProperty<int> Lv =>  _lv.ToReadOnlyReactiveProperty();
 
 		/// <summary>
 		/// HP
@@ -79,6 +87,11 @@ namespace Ling.Chara
 		public CharaStatus(MasterData.Chara.StatusData statusData)
 			: this(statusData.HP, statusData.MaxHp, statusData.Stamina, statusData.MaxStamina)
 		{
+		}
+
+		public void SetLv(int lv)
+		{
+			_lv.Value = lv;
 		}
 
 		#endregion

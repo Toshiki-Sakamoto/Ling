@@ -88,18 +88,26 @@ namespace Utility
 
 			_cancellationTokenSource?.Cancel();
 
-			_currentPhase?.PhaseStop();
+			if (_currentPhase != null)
+			{
+				_currentPhase.IsPlaying = false;
+				_currentPhase.PhaseStop();
+			}
 
 			phase.Argument = argument;
 			_currentPhase = phase;
 			_currentType = type;
 
+			phase.IsPlaying = true;
 			phase.PhaseStart();
 
-			// 非同期を投げっぱにする
-			_cancellationTokenSource = new CancellationTokenSource();
+			if (phase.IsPlaying)
+			{
+				// 非同期を投げっぱにする
+				_cancellationTokenSource = new CancellationTokenSource();
 
-			phase.PhaseStartAsync(_cancellationTokenSource.Token).Forget();
+				phase.PhaseStartAsync(_cancellationTokenSource.Token).Forget();
+			}
 		}
 
 		public void Update()

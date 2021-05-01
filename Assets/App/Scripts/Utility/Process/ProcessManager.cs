@@ -11,7 +11,7 @@ using UnityEngine;
 using Utility;
 using Zenject;
 
-namespace Ling.Common
+namespace Utility
 {
 
 	/// <summary>
@@ -156,15 +156,15 @@ namespace Ling
 		/// <summary>
 		/// 自分をProcessNodeの親としてアタッチする
 		/// </summary>
-		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, bool autoRemove = true, bool waitForStart = false) where TProcess : Common.ProcessBase
+		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, bool autoRemove = true, bool waitForStart = false) where TProcess : Utility.ProcessBase
 		{
-			if (Common.ProcessManager.IsNull) return null;
-			return Common.ProcessManager.Instance.Attach<TProcess>(self.transform, autoRemove, waitForStart);
+			if (Utility.ProcessManager.IsNull) return null;
+			return Utility.ProcessManager.Instance.Attach<TProcess>(self.transform, autoRemove, waitForStart);
 		}
-		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, TProcess process, bool autoRemove = true, bool waitForStart = false) where TProcess : Common.ProcessBase
+		public static TProcess AttachProcess<TProcess>(this MonoBehaviour self, TProcess process, bool autoRemove = true, bool waitForStart = false) where TProcess : Utility.ProcessBase
 		{
-			if (Common.ProcessManager.IsNull) return null;
-			return Common.ProcessManager.Instance.Attach(process, self.transform, autoRemove, waitForStart);
+			if (Utility.ProcessManager.IsNull) return null;
+			return Utility.ProcessManager.Instance.Attach(process, self.transform, autoRemove, waitForStart);
 		}
 #endif
 	}

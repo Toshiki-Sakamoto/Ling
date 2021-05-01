@@ -40,7 +40,7 @@ namespace Ling.MasterData.Stage
 		#region private 変数
 
 		[SerializeField, MinMax(1, 50, fieldName: "敵の初期生成数")]
-		private Common.MinMaxInt _initCreateNum = default;
+		private Utility.MinMaxInt _initCreateNum = default;
 
 		[SerializeField]
 		private MapEnemyData[] _mapEnemyData = default;
@@ -56,7 +56,7 @@ namespace Ling.MasterData.Stage
 		/// <summary>
 		/// 敵の初期生成数
 		/// </summary>
-		public Common.MinMaxInt InitCreateNum => _initCreateNum;
+		public Utility.MinMaxInt InitCreateNum => _initCreateNum;
 
 		/// <summary>
 		/// 出現する敵のデータ

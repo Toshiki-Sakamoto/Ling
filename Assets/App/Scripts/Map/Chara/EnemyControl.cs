@@ -38,6 +38,9 @@ namespace Ling.Chara
 
 		#region プロパティ
 
+		// todo: 敵用の経験値コントローラーを作る
+		public override Exp.ICharaExpController ExpController => default(Exp.ICharaExpController);
+
 		#endregion
 
 

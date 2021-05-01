@@ -14,7 +14,7 @@ namespace Ling.Map
 				.AsSingle();
 
 			Container
-				.Bind<Common.ProcessManager>()
+				.Bind<Utility.ProcessManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
 		}

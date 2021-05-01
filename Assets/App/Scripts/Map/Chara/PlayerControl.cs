@@ -35,11 +35,17 @@ namespace Ling.Chara
 
 		[SerializeField] private Utility.CameraFollow _cameraFollow = default;
 		[SerializeField] private CinemachineVirtualCamera _cinemaVCamera = default;
+		[SerializeField] private Exp.PlayerExpController _playerExpController = default;
 
 		#endregion
 
 
 		#region プロパティ
+
+		/// <summary>
+		/// 経験値管理者
+		/// </summary>
+		public override Exp.ICharaExpController ExpController => _playerExpController;
 
 		#endregion
 

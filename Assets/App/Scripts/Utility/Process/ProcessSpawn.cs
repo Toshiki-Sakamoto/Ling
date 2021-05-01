@@ -1,5 +1,5 @@
 ﻿//
-// IProcess.cs
+// ProcessSpawn.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2020.05.04
@@ -15,12 +15,12 @@ using UnityEngine.UI;
 
 using Zenject;
 
-namespace Ling.Common.Process
+namespace Utility.Process
 {
 	/// <summary>
 	/// 
 	/// </summary>
-	public class IProcess
+	public class ProcessSpawn
 	{
 		#region 定数, class, enum
 

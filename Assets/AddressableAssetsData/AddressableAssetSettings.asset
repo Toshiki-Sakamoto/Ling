@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
   m_DefaultGroup: ca061dec77e7c4d818b224e4e4855f7d
+  m_CachedHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -77,6 +80,7 @@ MonoBehaviour:
     - ItemBookMaster
     - ItemFoodMaster
     - StageFirstStageMaster
+    - PlayerLvTableMaster
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: eb803257c556840628782c461fe889eb, type: 2}

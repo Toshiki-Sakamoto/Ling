@@ -15,6 +15,7 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
+using Utility;
 
 namespace Ling.Common.Scene
 {
@@ -64,7 +65,7 @@ namespace Ling.Common.Scene
 
 		[SerializeField] private bool _needsProcessManager = default;
 		
-		protected Common.ProcessManager _processManager = null;
+		protected Utility.ProcessManager _processManager = null;
 
 		#endregion
 
@@ -186,7 +187,7 @@ namespace Ling.Common.Scene
 		/// <summary>
 		/// Processのアタッチ
 		/// </summary>
-		public TProcess AttachProcess<TProcess>() where TProcess : Common.ProcessBase
+		public TProcess AttachProcess<TProcess>() where TProcess : Utility.ProcessBase
 		{
 			return _processManager.Attach<TProcess>();
 		}
@@ -206,7 +207,7 @@ namespace Ling.Common.Scene
 				}
 				else
 				{
-					_processManager = _diContainer.Resolve<Common.ProcessManager>();
+					_processManager = _diContainer.Resolve<Utility.ProcessManager>();
 				}
 			}
 

@@ -1,26 +1,18 @@
 ﻿//
-// ProcessSequence.cs
+// PlayerLvTableRepository.cs
 // ProductName Ling
 //
-// Created by toshiki sakamoto on 2020.05.04
+// Created by toshiki sakamoto on 2021.04.29
 //
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.UI;
+using Ling.MasterData.Chara;
 
-using Zenject;
-
-namespace Ling.Common.Process
+namespace Ling.MasterData.Repository.Player
 {
 	/// <summary>
-	/// 
+	/// Lvテーブルを管理する
 	/// </summary>
-	public class ProcessSequence
+	public class PlayerLvTableRepository : Utility.MasterData.MasterRepository<LvTableMaster>
 	{
 		#region 定数, class, enum
 
@@ -44,11 +36,13 @@ namespace Ling.Common.Process
 
 		#region コンストラクタ, デストラクタ
 
-
 		#endregion
 
 
 		#region public, protected 関数
+
+//		public EnemyMaster Find(Const.EnemyType enemyType) =>
+//			Entities.Find(entity => entity.EnemyType == enemyType);
 
 		#endregion
 
