@@ -33,6 +33,11 @@ namespace Ling.Chara
 
 		public override string Name => Master.Name;
 
+		/// <summary>
+		/// 獲得経験値
+		/// </summary>
+		public override int Exp => Master.Exp;
+
 		public EnemyMaster Master { get; private set; }
 
 		#endregion
@@ -48,8 +53,6 @@ namespace Ling.Chara
 		public void SetMaster(EnemyMaster master)
 		{
 			Master = master;
-
-			Exp = Master.Exp;
 		}
 
 		#endregion
