@@ -37,11 +37,29 @@ namespace Ling.Chara
 	}
 
 	/// <summary>
+	/// 倒した時
+	/// </summary>
+	public class EventKilled
+	{
+		public ICharaController unit;		// 倒した人
+		public ICharaController opponent;	// 倒された相手
+	}
+
+	/// <summary>
 	/// ダメージを受けた時
 	/// </summary>
 	public class EventDamage
 	{
 		public ICharaController chara;
 		public int value;	// ダメージ値
+	}
+
+	/// <summary>
+	/// 経験値獲得した時
+	/// </summary>
+	public class EventAddedExp
+	{
+		public ICharaController Chara;
+		public int Exp;
 	}
 }

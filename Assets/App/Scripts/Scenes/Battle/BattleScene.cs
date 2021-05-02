@@ -184,6 +184,29 @@ namespace Ling.Scenes.Battle
 					ProcessContainer.Add(ev.Type, ev.Process);
 				});
 
+			// 経験値獲得処理
+			_eventManager.Add<Chara.EventKilled>(this, 
+				ev => 
+				{
+					if (ev.unit == null || ev.opponent == null) return;
+					if (ev.unit == ev.opponent) return;
+
+					// 獲得量
+					var exp = ev.opponent.Model.Exp;
+
+					var expProcess = ProcessContainer.Find<Process.ProcessAddExp>(ProcessType.Exp, process => ev.unit == process.Chara);
+					if (expProcess != null)
+					{
+						expProcess.Add(exp);
+					}
+					else
+					{
+						expProcess = _diContainer.Instantiate<Process.ProcessAddExp>();
+						expProcess.Setup(ev.unit, exp);
+						ProcessContainer.Add(ProcessType.Exp, expProcess);
+					}
+				});
+
 			// 始めは１階層
 			View.UIHeaderView.SetLevel(_model.Level);
 

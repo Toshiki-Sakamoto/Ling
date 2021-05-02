@@ -17,7 +17,7 @@ namespace Ling.Chara
 	/// <summary>
 	/// <see cref="CharaManager"/>に管理されるデータ
 	/// </summary>
-	public class CharaModel : MonoBehaviour
+	public abstract class CharaModel : MonoBehaviour
 	{
 		#region 定数, class, enum
 
@@ -133,6 +133,11 @@ namespace Ling.Chara
 		/// </summary>
 		/// <typeparam name="ICharaPostProcesser"></typeparam>
 		public LinkedList<ICharaPostProcesser> PostProcessers { get; } = new LinkedList<ICharaPostProcesser>();
+
+		/// <summary>
+		/// 獲得経験値
+		/// </summary>
+		public abstract int Exp { get; }
 
 		#endregion
 

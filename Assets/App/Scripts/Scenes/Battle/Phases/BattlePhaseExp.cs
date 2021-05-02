@@ -5,6 +5,10 @@
 // Created by toshiki sakamoto on 2021.04.30
 //
 
+using Cysharp.Threading.Tasks;
+using Zenject;
+using System.Threading;
+
 namespace Ling.Scenes.Battle.Phases
 {
 	/// <summary>
@@ -47,6 +51,13 @@ namespace Ling.Scenes.Battle.Phases
 				Change(Phase.CharaProcessEnd);
 				return;
 			}
+		}
+
+		public override async UniTask PhaseStartAsync(CancellationToken token)
+		{
+			await Scene.ProcessContainer.UniTaskExecuteOnceAsync(ProcessType.Exp, token: token);
+
+			Change(Phase.CharaProcessEnd);
 		}
 
 		#endregion

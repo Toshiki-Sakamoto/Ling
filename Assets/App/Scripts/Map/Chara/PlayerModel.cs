@@ -31,6 +31,8 @@ namespace Ling.Chara
 
 		public override string Name => "プレイヤー";
 
+		public override int Exp => 1;
+
 		#endregion
 
 
