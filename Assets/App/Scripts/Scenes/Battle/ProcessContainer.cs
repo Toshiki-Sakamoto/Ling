@@ -156,6 +156,25 @@ namespace Ling.Scenes.Battle.ProcessContainer
 			return list.Count > 0;
 		}
 
+		public TProcess Find<TProcess>(TType type, System.Predicate<TProcess> predicate) where TProcess : ProcessBase
+		{
+			if (!_nodesDict.TryGetValue(type, out var list))
+			{
+				return null;
+			}
+
+			foreach (var process in list)
+			{
+				var result = process as TProcess;
+
+				if (predicate(result))
+				{
+					return result;
+				}
+			}
+
+			return null;
+		}
 
 
 		#endregion
