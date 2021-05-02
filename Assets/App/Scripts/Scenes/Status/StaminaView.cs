@@ -45,12 +45,18 @@ namespace Ling.Scenes.Status
 		public void Setup(long max)
 		{
 			_max = max;
-			SetStaminaText(max, max);
+			SetStaminaText(max);
+			SetStaminaMaxText(max);
 		}
 
 		public void SetStamina(long current)
 		{
-			SetStaminaText(current, _max);
+			SetStaminaText(current);
+		}
+		public void SetStaminaMax(long max)
+		{
+			_max = max;
+			SetStaminaMaxText(max);
 		}
 
 		#endregion
@@ -59,9 +65,12 @@ namespace Ling.Scenes.Status
 		#region private 関数
 
 
-		private void SetStaminaText(long current, long max)
+		private void SetStaminaText(long current)
 		{
 			_text.text = current.ToString();
+		}
+		private void SetStaminaMaxText(long max)
+		{
 			_maxText.text = max.ToString();
 		}
 

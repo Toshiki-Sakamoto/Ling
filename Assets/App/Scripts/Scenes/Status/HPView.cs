@@ -45,12 +45,18 @@ namespace Ling.Scenes.Status
 		public void Setup(long max)
 		{
 			_max = max;
-			SetHPText(max, max);
+			SetHPText(max);
+			SetHPMaxText(max);
 		}
 
 		public void SetHP(long current)
 		{
-			SetHPText(current, _max);
+			SetHPText(current);
+		}
+		public void SetHPMax(long max)
+		{
+			_max = max;
+			SetHPMaxText(max);
 		}
 
 		#endregion
@@ -59,9 +65,12 @@ namespace Ling.Scenes.Status
 		#region private 関数
 
 
-		private void SetHPText(long current, long max)
+		private void SetHPText(long current)
 		{
 			_text.text = current.ToString();
+		}
+		private void SetHPMaxText(long max)
+		{
 			_maxText.text = max.ToString();
 		}
 

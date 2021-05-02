@@ -17,15 +17,20 @@ MonoBehaviour:
   - Lv: 1
     Exp: 0
     Power: 5
+    Hp: 5
   - Lv: 2
-    Exp: 20
-    Power: 5
+    Exp: 5
+    Power: 6
+    Hp: 7
   - Lv: 3
-    Exp: 40
-    Power: 5
+    Exp: 10
+    Power: 7
+    Hp: 9
   - Lv: 4
-    Exp: 70
-    Power: 6
+    Exp: 20
+    Power: 8
+    Hp: 11
   - Lv: 5
-    Exp: 100
-    Power: 6
+    Exp: 30
+    Power: 9
+    Hp: 13

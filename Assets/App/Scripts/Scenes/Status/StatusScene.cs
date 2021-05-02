@@ -85,6 +85,13 @@ namespace Ling.Scenes.Status
 					_view.HP.SetHP(hp_);
 				});
 
+			status.HP.Max
+				.AsObservable()
+				.Subscribe(hp_ =>
+				{
+					_view.HP.SetHPMax(hp_);
+				});
+
 			_view.HP.Setup(status.HP.Max.Value);
 
 			// スタミナ

@@ -62,4 +62,13 @@ namespace Ling.Chara
 		public ICharaController Chara;
 		public int Exp;
 	}
+
+	/// <summary>
+	/// レベルアップした時
+	/// </summary>
+	public class EventLevelUp
+	{
+		public ICharaController Chara;
+		public int Lv;
+	}
 }

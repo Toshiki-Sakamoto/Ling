@@ -78,6 +78,12 @@ namespace Ling.Scenes.Battle.Message
 					// 経験値ゲット
 					ShowMessage($"{ev.Chara.Name} は {ev.Exp}経験値獲得");
 				});
+
+			_eventManager.Add<Chara.EventLevelUp>(this, ev => 
+				{
+					// レベルアップ
+					ShowMessage($"<color=#ffa500ff>{ev.Chara.Name} は レベルが{ev.Lv}になった</color>");
+				});
 		}
 
 		private  void OnDestroy()
