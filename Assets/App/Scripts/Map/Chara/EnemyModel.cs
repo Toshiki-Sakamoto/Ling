@@ -48,6 +48,8 @@ namespace Ling.Chara
 		public void SetMaster(EnemyMaster master)
 		{
 			Master = master;
+
+			Exp = Master.Exp;
 		}
 
 		#endregion
