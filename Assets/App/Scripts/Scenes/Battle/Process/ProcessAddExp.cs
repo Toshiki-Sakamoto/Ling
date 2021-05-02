@@ -68,6 +68,8 @@ namespace Ling.Scenes.Battle.Process
 				{
 					// Lv Up
 					Utility.Log.Print($"LvUp! {_chara.Name} {lv}");
+
+					_eventManager.Trigger(new Chara.EventLevelUp { Chara = _chara, Lv = lv });
 				});
 
 			// 経験値量を表示

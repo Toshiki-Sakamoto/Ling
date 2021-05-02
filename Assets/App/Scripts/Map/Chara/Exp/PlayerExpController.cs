@@ -87,6 +87,19 @@ namespace Ling.Chara.Exp
 			// 次必要な経験値量
 			_nextExp = _lvTableMaster.GetNextDataByExp(_totalExp).Exp;
 
+			// レベルアップ処理
+			var status = _chara.Status;
+			
+			status.SetLv(_currentLv);
+
+			// HP
+			status.HP.SetMax(expData.Hp);
+			status.HP.SetCurrent(expData.Hp);
+
+			// ちから
+			status.Power.SetMax(expData.Power);
+			status.Power.SetCurrent(expData.Power);
+
 			// 現在のレベルを渡す
 			_subject.OnNext(_currentLv);
 		}

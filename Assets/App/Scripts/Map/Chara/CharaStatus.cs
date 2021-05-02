@@ -45,6 +45,9 @@ namespace Ling.Chara
 		[Header("スタミナ")]
 		[SerializeField] private CharaStatusValueObject _stamina = default;
 
+		[Header("ちから")]
+		[SerializeField] private CharaStatusValueObject _power = default;
+
 		#endregion
 
 
@@ -65,6 +68,11 @@ namespace Ling.Chara
 		/// </summary>
 		public CharaStatusValueObject Stamina => _stamina;
 
+		/// <summary>
+		/// ちから
+		/// </summary>
+		public CharaStatusValueObject Power => _power;
+
 
 		/// <summary>
 		/// 死んだとき(HPが0)に通知を受ける
@@ -76,16 +84,19 @@ namespace Ling.Chara
 
 		#region コンストラクタ, デストラクタ
 
-		public CharaStatus(long hp, long maxHp, long stamina, long maxStamina)
+		public CharaStatus(long hp, long stamina, int power)
 		{
-			_hp = new CharaStatusValueObject(hp, maxHp);
+			_lv = new IntReactiveProperty(1);
+
+			_hp = new CharaStatusValueObject(hp, hp);
+			_power = new CharaStatusValueObject(power, power);
 			IsDead = _hp.Current.Select(hp_ => hp_ <= 0).ToReadOnlyReactiveProperty();
 
-			_stamina = new CharaStatusValueObject(stamina, maxStamina);
+			_stamina = new CharaStatusValueObject(stamina, stamina);
 		}
 
 		public CharaStatus(MasterData.Chara.StatusData statusData)
-			: this(statusData.HP, statusData.MaxHp, statusData.Stamina, statusData.MaxStamina)
+			: this(statusData.HP, statusData.Stamina, statusData.Power)
 		{
 		}
 

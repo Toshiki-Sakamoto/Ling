@@ -24,14 +24,17 @@ namespace Ling.MasterData.Chara
 		[System.Serializable]
 		public class Data
 		{
-			[TableColumnWidth(20)]
+			[TableColumnWidth(10)]
 			public int Lv;
 
-			[TableColumnWidth(30)]
+			[TableColumnWidth(10)]
 			public int Exp;
 
-			[TableColumnWidth(20)]
-			public int Power;
+			[TableColumnWidth(10)]
+			public long Power;
+
+			[TableColumnWidth(10)]
+			public long Hp;
 		}
 
 		#endregion
