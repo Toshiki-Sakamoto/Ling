@@ -37,6 +37,9 @@ namespace Ling.MasterData.Chara
 		[SerializeField, FieldName("敵の種類")]
 		private Const.EnemyType _enemyType = default;
 
+		[SerializeField, FieldName("取得経験値")]
+		private int _exp = default;
+
 		[SerializeField]
 		private AttackAIData _attackAIData = default;
 
@@ -54,6 +57,8 @@ namespace Ling.MasterData.Chara
 		public string Name => _name;
 
 		public Const.EnemyType EnemyType => _enemyType;
+
+		public int Exp => _exp;
 
 		public AttackAIData AttackAIData => _attackAIData;
 

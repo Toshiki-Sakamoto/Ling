@@ -134,6 +134,11 @@ namespace Ling.Chara
 		/// <typeparam name="ICharaPostProcesser"></typeparam>
 		public LinkedList<ICharaPostProcesser> PostProcessers { get; } = new LinkedList<ICharaPostProcesser>();
 
+		/// <summary>
+		/// 獲得経験値
+		/// </summary>
+		public int Exp { get; }
+
 		#endregion
 
 

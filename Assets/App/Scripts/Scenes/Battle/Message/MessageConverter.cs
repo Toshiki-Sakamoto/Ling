@@ -72,6 +72,12 @@ namespace Ling.Scenes.Battle.Message
 					// キャラにダメージ
 					ShowMessage($"{ev.chara.Name} は {ev.value}ダメージを受けた");
 				});
+
+			_eventManager.Add<Chara.EventAddedExp>(this, ev => 
+				{
+					// 経験値ゲット
+					ShowMessage($"{ev.Chara.Name} は {ev.Exp}経験値獲得");
+				});
 		}
 
 		private  void OnDestroy()

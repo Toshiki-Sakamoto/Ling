@@ -34,6 +34,7 @@ namespace Ling.Chara.Process
 		#region private 変数
 
 		[Inject] private Chara.CharaManager _charaManager;
+		[Inject] private Utility.IEventManager _eventManager;
 
 		private Chara.ICharaController _unit;   // 攻撃対象のキャラ
 		private List<Chara.ICharaController> _targets = new List<ICharaController>();   // ターゲット
@@ -109,7 +110,14 @@ namespace Ling.Chara.Process
 
 					// 死亡している場合のみ先に進ませる
 					return target.Status.IsDead.Value;
-				}).Subscribe(target => _deadChara.Add(target));
+				})
+				.Subscribe(target => 
+				{
+					// 倒した情報を送る
+					_eventManager.Trigger(new Chara.EventKilled { unit = _unit, opponent = target });
+
+					_deadChara.Add(target);
+				});
 
 			foreach (var target in _targets)
 			{
