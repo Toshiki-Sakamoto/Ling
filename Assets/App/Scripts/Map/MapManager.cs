@@ -130,20 +130,36 @@ namespace Ling.Map
 		public bool CanMoveChara(int mapIndex, Chara.CharaModel charaModel, in Vector2Int addMoveDir)
 		{
 			var tileDataMap = _mapModel.FindTileDataMap(mapIndex);
-			var destPos = charaModel.CellPosition.Value + addMoveDir;
+			var pos = charaModel.CellPosition.Value;
 
-			// 範囲外なら移動できない
-			if (!tileDataMap.InRange(destPos.x, destPos.y))
+			System.Func<int, int, Const.TileFlag, bool> canMove = (x, y, checkFlag) =>
+				{
+					// 範囲外なら移動できない
+					if (!tileDataMap.InRange(x, y))
+					{
+						return false;
+					}
+
+					var tileFlag = tileDataMap.GetTileFlag(x, y);
+
+					// 移動できないフラグ
+					// 斜めの場合、上下左右も問題ない時のみ移動できる
+					if (tileFlag.HasAny(checkFlag))
+					{
+						return false;
+					}
+
+					return true;
+				};
+
+			// 移動先
+			if (!canMove(pos.x + addMoveDir.x, pos.y + addMoveDir.y, charaModel.UnmovableTileFlag)) return false;
+
+			// 斜めの場合
+			if (addMoveDir.x != 0 && addMoveDir.y != 0)
 			{
-				return false;
-			}
-
-			var tileFlag = tileDataMap.GetTileFlag(destPos.x, destPos.y);
-
-			// 移動できないフラグ
-			if (tileFlag.HasAny(charaModel.UnmovableTileFlag))
-			{
-				return false;
+				if (!canMove(pos.x + addMoveDir.x, pos.y, charaModel.UnDiagonalMovableTileFlag)) return false;
+				if (!canMove(pos.x, pos.y + addMoveDir.y, charaModel.UnDiagonalMovableTileFlag)) return false;
 			}
 
 			return true;
