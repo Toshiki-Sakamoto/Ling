@@ -6,6 +6,8 @@
 //
 
 using Ling.MasterData.Skill;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace Ling.Scenes.Battle.Skill
 {
@@ -17,21 +19,6 @@ namespace Ling.Scenes.Battle.Skill
 	public class SkillProcess : Utility.ProcessBase
 	{
 		#region 定数, class, enum
-
-		public class Data
-		{
-			public string EffectName;	// 演出名
-
-			// 回復系
-			public HealData HealData;
-
-			// ダメージ系
-		}
-
-		public class HealData
-		{
-			public int HP;	// HP回復値
-		}
 
 		#endregion
 
@@ -70,6 +57,14 @@ namespace Ling.Scenes.Battle.Skill
 		protected override void ProcessStartInternal()
 		{
 			AttachProcess();
+
+			Execute().Forget();
+		}
+
+		public async UniTask Execute()
+		{
+			// 演出開始
+			await UniTask.Delay(100); // todo: ちょっとまつだけ
 
 			ProcessFinish();
 		}

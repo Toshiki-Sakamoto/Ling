@@ -110,7 +110,8 @@ namespace Ling.Scenes.Battle.Phases
 						if (enemy.ExistsAttackProcess)
 						{
 							var process = new Process.ProcessCharaAction(enemy);
-							Scene.ProcessContainer.Add(ProcessType.Action, process);						}
+							Scene.ProcessContainer.Add(ProcessType.Action, process);
+						}
 					}
 				}
 

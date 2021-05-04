@@ -71,4 +71,13 @@ namespace Ling.Chara
 		public ICharaController Chara;
 		public int Lv;
 	}
+
+	/// <summary>
+	/// HP回復
+	/// </summary>
+	public class EventHealHP
+	{
+		public ICharaController Chara;
+		public long Value;
+	}
 }

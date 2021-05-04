@@ -139,7 +139,7 @@ namespace Utility
 			{
 				Next.AddAllFinishAction(_onAllFinish);
 				Next.SetEnable(true);
-				Next.ProcessStart();
+//				Next.ProcessStart();
 			}
 			else
 			{

@@ -35,6 +35,7 @@ namespace Ling.Scenes.Battle
 		PlayerAttack,
 		PlayerActionProcess,
 		PlayerActionEnd,
+		PlayerSkill,
 
 		// Enemy
 		EnemyAction,
@@ -157,6 +158,7 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhasePlayerAttack>(Phase.PlayerAttack);
 			RegistPhase<BattlePhasePlayerActionProcess>(Phase.PlayerActionProcess);
 			RegistPhase<BattlePhasePlayerActionEnd>(Phase.PlayerActionEnd);
+			RegistPhase<BattlePhasePlayerSkill>(Phase.PlayerSkill);
 
 			RegistPhase<BattlePhaseAdv>(Phase.Adv);
 			RegistPhase<BattlePhaseNextStage>(Phase.NextStage);
@@ -247,7 +249,7 @@ namespace Ling.Scenes.Battle
 			{
 				case SceneID.Menu:
 					// なにか使用したか
-					if (result.UseItemEntity == null)
+					if (result?.UseItemEntity == null)
 					{
 						// 何も使用してないならプレイヤー行動に戻す
 						_phase.ChangePhase(Phase.PlayerAction);

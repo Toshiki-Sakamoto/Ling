@@ -36,6 +36,8 @@ namespace Ling.Scenes.Battle.Phases
 
 		#region private 変数
 
+		[Inject] private Chara.CharaManager _charaManager = default;
+
 		#endregion
 
 
@@ -58,14 +60,15 @@ namespace Ling.Scenes.Battle.Phases
 
 			// スキル
 			var skill = arg.Item.Skill;
-		}
+			var player = _charaManager.Player;
+			var skillProcess = player.AddAttackProcess<Skill.SkillProcess>();
+			skillProcess.Setup(player, skill);
 
-		/// <summary>
-		/// 非同期
-		/// </summary>
-		public override async UniTask PhaseStartAsync(CancellationToken token)
-		{
-			await Scene.ProcessContainer.ExecuteAsync(ProcessType.Reaction, token);
+			// キャラアクションに移動する
+			var process = new Process.ProcessCharaAction(player);
+			Scene.ProcessContainer.Add(ProcessType.PlayerSkill, process);
+
+			Change(Phase.PlayerSkill);
 		}
 
 		public override void PhaseUpdate()

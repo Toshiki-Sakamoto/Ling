@@ -6,6 +6,7 @@
 //
 
 using Ling.MasterData.Skill;
+using Zenject;
 
 namespace Ling.Scenes.Battle.Skill
 {
@@ -25,6 +26,8 @@ namespace Ling.Scenes.Battle.Skill
 
 
 		#region private 変数
+
+		[Inject] private Utility.IEventManager _eventManager;
 
 		private Chara.ICharaController _chara;
 		private SkillHealEntity _entity;
@@ -53,6 +56,10 @@ namespace Ling.Scenes.Battle.Skill
 		protected override void ProcessStartInternal()
 		{
 			_chara.Status.HP.AddCurrent(_entity.HP);
+
+			// 回復イベント
+			_eventManager.Trigger(new Chara.EventHealHP { Chara = _chara, Value = _entity.HP });
+
 			ProcessFinish();
 		}
 

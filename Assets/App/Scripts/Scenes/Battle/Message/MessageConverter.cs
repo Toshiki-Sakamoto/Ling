@@ -84,6 +84,12 @@ namespace Ling.Scenes.Battle.Message
 					// レベルアップ
 					ShowMessage($"<color=#ffa500ff>{ev.Chara.Name} は レベルが{ev.Lv}になった</color>");
 				});
+
+			_eventManager.Add<Chara.EventHealHP>(this, ev => 
+				{
+					// HP回復
+					ShowMessage($"<color=#90ee90>{ev.Chara.Name} は HP{ev.Value}回復した</Color>");
+				});
 		}
 
 		private  void OnDestroy()
