@@ -67,6 +67,9 @@ namespace Ling.MasterData.Skill
 
 		#region public, protected 関数
 
+		public SkillHealEntity Heal => _enableHeal ? _heal : null;
+		public SkillDamageEntity Damage => _enableDamage ? _damage : null;
+
 		#endregion
 
 
