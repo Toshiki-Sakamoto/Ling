@@ -287,7 +287,7 @@ namespace Ling.Chara
 				// 終了時、攻撃プロセスリストから削除する
 				process.AddAllFinishAction(action_ =>
 					{
-						_attackProcess.Remove(action_);
+						_attackProcess.Remove(process);
 					});
 
 				process.SetEnable(true);
