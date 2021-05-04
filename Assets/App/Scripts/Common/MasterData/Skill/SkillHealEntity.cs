@@ -30,15 +30,18 @@ namespace Ling.MasterData.Skill
 		#region private 変数
 
 		[SerializeField, FieldName("HP")]
-		private int _hp = default;
+		private long _hp = default;
 
 		[SerializeField, FieldName("スタミナ")]
-		private int _stamina = default;
+		private long _stamina = default;
 
 		#endregion
 
 
 		#region プロパティ
+
+		public long HP => _hp;
+		public long Stamina => _stamina;
 
 		#endregion
 

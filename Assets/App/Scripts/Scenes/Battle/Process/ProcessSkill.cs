@@ -8,9 +8,9 @@
 namespace Ling.Scenes.Battle.Process
 {
 	/// <summary>
-	/// 
+	/// スキル実行プロセス
 	/// </summary>
-	public class ProcessUseFoodItem : Utility.ProcessBase
+	public class ProcessSkill: Utility.ProcessBase
 	{
 		#region 定数, class, enum
 
@@ -38,6 +38,11 @@ namespace Ling.Scenes.Battle.Process
 
 
 		#region public, protected 関数
+
+		protected override void ProcessStartInternal()
+		{
+			// スキル内容によってプロセスを後ろにつけ合わす
+		}
 
 		#endregion
 

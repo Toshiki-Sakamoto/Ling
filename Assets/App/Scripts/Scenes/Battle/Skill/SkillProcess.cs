@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2021.05.03
 //
 
+using Ling.MasterData.Skill;
+
 namespace Ling.Scenes.Battle.Skill
 {
 	/// <summary>
@@ -41,6 +43,9 @@ namespace Ling.Scenes.Battle.Skill
 
 		#region private 変数
 
+		private Chara.ICharaController _chara;
+		private SkillMaster _skill;
+
 		#endregion
 
 
@@ -56,15 +61,37 @@ namespace Ling.Scenes.Battle.Skill
 
 		#region public, protected 関数
 
-		public void Setup(string effectName)
+		public void Setup(Chara.ICharaController chara, SkillMaster skill)
 		{
+			_chara = chara;
+			_skill = skill;
+		}
 
+		protected override void ProcessStartInternal()
+		{
+			AttachProcess();
+
+			ProcessFinish();
 		}
 
 		#endregion
 
 
 		#region private 関数
+
+		private void AttachProcess()
+		{
+			// スキル内容によってプロセスを後ろにつけ合わす
+			if (_skill.Heal != null)
+			{
+				SetNext<HealSkillProcess>().Setup(_chara, _skill.Heal);
+			}
+
+			if (_skill.Damage != null)
+			{
+
+			}
+		}
 
 		#endregion
 	}

@@ -56,12 +56,8 @@ namespace Ling.Scenes.Battle.Phases
 			// アイテムによって処理を変更する
 			var arg = Argument as Arg;
 
-			switch (arg.Item.Category)
-			{
-				// 食べ物
-				case Const.Item.Category.Food:
-					break;
-			}
+			// スキル
+			var skill = arg.Item.Skill;
 		}
 
 		/// <summary>

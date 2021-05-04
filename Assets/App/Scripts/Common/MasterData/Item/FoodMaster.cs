@@ -31,9 +31,6 @@ namespace Ling.MasterData.Item
 		[SerializeField, FieldName("種類")]
 		private Const.Item.Food _type = default;
 
-		[SerializeField]
-		private Skill.SkillMaster _skill = default;
-
 		#endregion
 
 
