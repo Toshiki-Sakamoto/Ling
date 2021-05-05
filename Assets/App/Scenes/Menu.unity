@@ -278,26 +278,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 457215106}
   m_CullTransparentMesh: 1
---- !u!1 &662643682 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3799418421381160607, guid: 552bcfed4982e41cdb17c82bf1a8d845,
-    type: 3}
-  m_PrefabInstance: {fileID: 4999761735360342759}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &662643684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 662643682}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
 --- !u!1 &705245391
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,18 +569,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &949319309 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8156952932524838190, guid: 552bcfed4982e41cdb17c82bf1a8d845,
-    type: 3}
-  m_PrefabInstance: {fileID: 4999761735360342759}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1035014565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,11 +1372,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BagMenuControl
       objectReference: {fileID: 0}
-    - target: {fileID: 3799418422841165893, guid: 552bcfed4982e41cdb17c82bf1a8d845,
-        type: 3}
-      propertyPath: _button
-      value: 
-      objectReference: {fileID: 949319309}
     - target: {fileID: 3799418422841165895, guid: 552bcfed4982e41cdb17c82bf1a8d845,
         type: 3}
       propertyPath: m_IsActive

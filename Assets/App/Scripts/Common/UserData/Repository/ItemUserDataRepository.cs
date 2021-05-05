@@ -51,6 +51,7 @@ namespace Ling.UserData.Repository
 			var entities = new ItemUserData[]
 				{
 					new ItemUserData { ID = 1, Category = Const.Item.Category.Food },
+					new ItemUserData { ID = 2, Category = Const.Item.Category.Food },
 				};
 
 			Add(entities);
