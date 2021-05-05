@@ -26,7 +26,8 @@ namespace Ling.Common.Scene.Menu
 		/// </summary>
 		public enum Category
 		{
-			Bag,		// 持ち物
+			Bag,		// 持ち物(今はアイテムのみとする)
+			Equip,		// 装備一覧
 			Shop,		// ショップ:買う
 			Setting,	// 設定
 		}

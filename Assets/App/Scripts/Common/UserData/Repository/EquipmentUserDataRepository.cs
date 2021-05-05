@@ -7,7 +7,7 @@
 
 using Ling.UserData.Equipment;
 
-namespace Ling.Common.UserData.Repository
+namespace Ling.UserData.Repository
 {
 	/// <summary>
 	/// 装備ユーザーデータ
