@@ -270,7 +270,7 @@ namespace Ling.Chara
 				// 終了時、移動プロセスリストから削除する
 				process.AddAllFinishAction(action_ =>
 					{
-						_moveProcesses.Remove(action_);
+						_moveProcesses.Remove(process);
 					});
 
 				process.SetEnable(true);
@@ -287,7 +287,7 @@ namespace Ling.Chara
 				// 終了時、攻撃プロセスリストから削除する
 				process.AddAllFinishAction(action_ =>
 					{
-						_attackProcess.Remove(action_);
+						_attackProcess.Remove(process);
 					});
 
 				process.SetEnable(true);

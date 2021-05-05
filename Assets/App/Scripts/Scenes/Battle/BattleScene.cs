@@ -35,6 +35,7 @@ namespace Ling.Scenes.Battle
 		PlayerAttack,
 		PlayerActionProcess,
 		PlayerActionEnd,
+		PlayerSkill,
 
 		// Enemy
 		EnemyAction,
@@ -47,6 +48,7 @@ namespace Ling.Scenes.Battle
 		CharaProcessEnd,
 		NextStage,
 		Adv,
+		UseItem,
 	}
 
 	/// <summary>
@@ -156,6 +158,7 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhasePlayerAttack>(Phase.PlayerAttack);
 			RegistPhase<BattlePhasePlayerActionProcess>(Phase.PlayerActionProcess);
 			RegistPhase<BattlePhasePlayerActionEnd>(Phase.PlayerActionEnd);
+			RegistPhase<BattlePhasePlayerSkill>(Phase.PlayerSkill);
 
 			RegistPhase<BattlePhaseAdv>(Phase.Adv);
 			RegistPhase<BattlePhaseNextStage>(Phase.NextStage);
@@ -165,6 +168,7 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhaseReaction>(Phase.Reaction);
 			RegistPhase<BattlePhaseExp>(Phase.Exp);
 			RegistPhase<BattlePhaseCharaMove>(Phase.Move);
+			RegistPhase<BattlePhaseUseItem>(Phase.UseItem);
 
 			ProcessContainer.Setup(_processManager, gameObject);
 
@@ -245,9 +249,16 @@ namespace Ling.Scenes.Battle
 			{
 				case SceneID.Menu:
 					// なにか使用したか
-
-					// 何も使用してないならプレイヤー行動に戻す
-					_phase.ChangePhase(Phase.PlayerAction);
+					if (result?.UseItemEntity == null)
+					{
+						// 何も使用してないならプレイヤー行動に戻す
+						_phase.ChangePhase(Phase.PlayerAction);
+					}
+					else
+					{
+						var useItemArg = new BattlePhaseUseItem.Arg { Item = result.UseItemEntity };
+						_phase.ChangePhase(Phase.UseItem, useItemArg);
+					}
 					break;
 			}
 		}

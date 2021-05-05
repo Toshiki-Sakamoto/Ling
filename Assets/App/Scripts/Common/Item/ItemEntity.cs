@@ -9,6 +9,7 @@ using System;
 using UnityEngine;
 using Zenject;
 using Ling.MasterData.Item;
+using Ling.MasterData.Skill;
 
 namespace Ling.Common.Item
 {
@@ -58,6 +59,8 @@ namespace Ling.Common.Item
 				return _master;
 			}
 		}
+
+		public SkillMaster Skill => Master?.Skill;
 
 		#endregion
 

@@ -34,6 +34,9 @@ namespace Ling.MasterData.Item
 		[SerializeField, FieldName("名前")]
 		private string _name = default;
 
+		[SerializeField]
+		private Skill.SkillMaster _skill = default;
+
 		#endregion
 
 
@@ -48,6 +51,11 @@ namespace Ling.MasterData.Item
 		/// アイテムカテゴリ
 		/// </summary>
 		public abstract Const.Item.Category Category { get; }
+
+		/// <summary>
+		/// スキル
+		/// </summary>
+		public Skill.SkillMaster Skill => _skill;
 
 		#endregion
 
