@@ -34,6 +34,9 @@ namespace Ling.MasterData.Item
 		[SerializeField, FieldName("名前")]
 		private string _name = default;
 
+		[SerializeField, FieldName("説明")]
+		private string _desc = default;
+
 		[SerializeField]
 		private Skill.SkillMaster _skill = default;
 
