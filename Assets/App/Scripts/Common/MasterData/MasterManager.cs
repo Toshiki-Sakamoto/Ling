@@ -34,6 +34,7 @@ namespace Ling.MasterData
 		PlayerLvTableRepository PlayerLvTableRepository { get; }
 
 		ItemRepositoryContainer ItemRespositoryContainer { get; }
+		EquipRepositoryContainer EquipRepositoryContainer { get; }
 	}
 
 	/// <summary>
@@ -68,6 +69,7 @@ namespace Ling.MasterData
 		public BookRepository BookRepository => GetRepository<BookRepository>();
 		public FoodRepository FoodRepository => GetRepository<FoodRepository>();
 		public ItemRepositoryContainer ItemRespositoryContainer { get; } = new ItemRepositoryContainer();
+		public EquipRepositoryContainer EquipRepositoryContainer { get; } = new EquipRepositoryContainer();
 		public PlayerLvTableRepository PlayerLvTableRepository => GetRepository<PlayerLvTableRepository>();
 
 

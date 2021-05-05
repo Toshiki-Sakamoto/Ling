@@ -6,6 +6,7 @@
 //
 
 using UnityEngine;
+using Ling.MasterData.Skill;
 
 namespace Ling.UserData.Equipment
 {
@@ -29,6 +30,8 @@ namespace Ling.UserData.Equipment
 		[SerializeField] private int _id;
 		[SerializeField] private Const.Equipment.Category _category;
 
+		private MasterData.Equipment.EquipmentMaster _master;
+
 		#endregion
 
 
@@ -37,6 +40,19 @@ namespace Ling.UserData.Equipment
 		public int ID { get => _id; set => _id = value; }
 
 		public Const.Equipment.Category Category { get => _category; set => _category = value; }
+
+		public MasterData.Equipment.EquipmentMaster Master 
+		{
+			get 
+			{
+				if (_master != null) return _master;
+
+				var holder = Common.GameManager.Instance.MasterHolder;
+				_master = holder.ItemRespositoryContainer.Find(Category, _id);
+
+				return _master;
+			}
+		}
 
 		#endregion
 

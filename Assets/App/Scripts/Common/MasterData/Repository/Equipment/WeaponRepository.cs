@@ -1,20 +1,18 @@
 ﻿//
-// ShieldMaster.cs
+// WeaponRepository.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2021.05.05
 //
 
-using UnityEngine;
-using Utility.Attribute;
+using Ling.MasterData.Equipment;
 
-namespace Ling.MasterData.Equipment
+namespace Ling.MasterData.Repository.Equipment
 {
 	/// <summary>
-	/// 盾マスタ
+	/// 武器マスタ
 	/// </summary>
-	[CreateAssetMenu(menuName = "MasterData/ShieldMaster", fileName = "ShieldMaster")]
-	public class ShieldMaster : EquipmentMaster
+	public class WeaponRepository : Utility.MasterData.InheritanceMasterRepository<EquipmentMaster, WeaponMaster>
 	{
 		#region 定数, class, enum
 
@@ -32,8 +30,6 @@ namespace Ling.MasterData.Equipment
 
 
 		#region プロパティ
-
-		public override Const.Equipment.Category Type => Const.Equipment.Category.Shield;
 
 		#endregion
 

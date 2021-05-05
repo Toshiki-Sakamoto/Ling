@@ -33,7 +33,7 @@ namespace Ling.MasterData.Equipment
 
 		#region プロパティ
 
-		public override Const.Equipment.Type Type => Const.Equipment.Type.Weapon;
+		public override Const.Equipment.Category Type => Const.Equipment.Category.Weapon;
 
 		#endregion
 

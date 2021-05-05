@@ -39,7 +39,7 @@ namespace Ling.MasterData.Equipment
 
 		#region プロパティ
 
-		public abstract Const.Equipment.Type Type { get; }
+		public abstract Const.Equipment.Category Type { get; }
 
 		/// <summary>
 		/// アイテム名
