@@ -12,7 +12,7 @@ namespace Ling.Const
 	/// </summary>
 	public static class Equipment
 	{
-		public enum Type
+		public enum Category
 		{
 			Weapon, 	// 武器
 			Shield,		// 盾
