@@ -22,6 +22,9 @@ https://user-images.githubusercontent.com/9328751/97722836-73ba1880-1b0e-11eb-91
 「スペース」: 一マス前に攻撃
 
 -----
-
+### その他
 Play時Nullエラーが大量に出る場合は
 Plugins/Adv の中にある Adv.DLLを reimport すると治る (調査中
+
+Bootシーンから起動するのは現在保障していないので、直接BattleSceneを開いて実行して下さい
+BattleSceneに必要なシーンは起動時に自動で読み込まれるので実行に問題ありません
