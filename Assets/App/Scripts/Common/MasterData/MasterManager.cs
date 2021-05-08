@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Ling.MasterData.Chara;
 using Ling.MasterData.Stage;
 using Ling.MasterData.Item;
+using Ling.MasterData.Equipment;
 using Ling.MasterData.Repository;
 using Ling.MasterData.Repository.Item;
 using Ling.MasterData.Repository.Player;
@@ -69,9 +70,12 @@ namespace Ling.MasterData
 		public StageRepository StageRepository => GetRepository<StageRepository>();
 		public BookRepository BookRepository => GetRepository<BookRepository>();
 		public FoodRepository FoodRepository => GetRepository<FoodRepository>();
+		public PlayerLvTableRepository PlayerLvTableRepository => GetRepository<PlayerLvTableRepository>();
+		public WeaponRepository WeaponRepository => GetRepository<WeaponRepository>();
+		public ShieldRepository ShieldRepository => GetRepository<ShieldRepository>();
+
 		public ItemRepositoryContainer ItemRespositoryContainer { get; } = new ItemRepositoryContainer();
 		public EquipRepositoryContainer EquipRepositoryContainer { get; } = new EquipRepositoryContainer();
-		public PlayerLvTableRepository PlayerLvTableRepository => GetRepository<PlayerLvTableRepository>();
 
 
 		#endregion
@@ -91,11 +95,14 @@ namespace Ling.MasterData
 			AddLoadRepositoryTask<BookMaster, ItemMaster, BookRepository>("ItemBookMaster");
 			AddLoadRepositoryTask<FoodMaster, ItemMaster, FoodRepository>("ItemFoodMaster");
 			AddLoadRepositoryTask<LvTableMaster, PlayerLvTableRepository>("PlayerLvTableMaster");
+			AddLoadRepositoryTask<WeaponMaster, EquipmentMaster, WeaponRepository>("WeaponMaster");
+			AddLoadRepositoryTask<ShieldMaster, EquipmentMaster, ShieldRepository>("ShieldMaster");
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(_loadTasks);
 
 			ItemRespositoryContainer.Update(BookRepository, FoodRepository);
+			EquipRepositoryContainer.Update(WeaponRepository, ShieldRepository);
 
 			LoadFinished();
 		}
