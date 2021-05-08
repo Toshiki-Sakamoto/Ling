@@ -81,6 +81,8 @@ MonoBehaviour:
     - ItemFoodMaster
     - StageFirstStageMaster
     - PlayerLvTableMaster
+    - WeaponMaster
+    - ShieldMaster
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: eb803257c556840628782c461fe889eb, type: 2}

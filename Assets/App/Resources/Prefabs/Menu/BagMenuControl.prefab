@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6623540542039002393}
-  - component: {fileID: 7405478066656933632}
+  - component: {fileID: 384646472144051875}
   m_Layer: 5
   m_Name: BagMenuControl
   m_TagString: Untagged
@@ -37,7 +37,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7405478066656933632
+--- !u!114 &384646472144051875
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +219,7 @@ PrefabInstance:
     - target: {fileID: 797401048878199540, guid: fc3620a610a844d6895d12ef2da1e187,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7624282499312169060, guid: fc3620a610a844d6895d12ef2da1e187,
         type: 3}

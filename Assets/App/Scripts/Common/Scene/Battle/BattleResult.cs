@@ -14,6 +14,13 @@ namespace Ling.Common.Scene.Battle
 	{
 		#region 定数, class, enum
 
+		// メニューシーンから戻ってきた時
+		public enum MenuCategory
+		{
+			UseItem,	// アイテム使用
+			Equip,		// アイテム装備
+		}
+
 		#endregion
 
 
@@ -29,10 +36,17 @@ namespace Ling.Common.Scene.Battle
 
 		#region プロパティ
 
+		public MenuCategory Menu { get; set; }
+
 		/// <summary>
 		/// 使用したアイテム情報
 		/// </summary>
 		public Common.Item.ItemEntity UseItemEntity { get; set; }
+
+		/// <summary>
+		/// 装備or外す
+		/// </summary>
+		public UserData.Equipment.EquipmentUserData EquipEntity { get; set; }
 
 		#endregion
 
@@ -48,7 +62,10 @@ namespace Ling.Common.Scene.Battle
 		/// アイテムを使用した時
 		/// </summary>
 		public static BattleResult CreateAtItemUse(Common.Item.ItemEntity itemEntity) =>
-			new BattleResult { UseItemEntity = itemEntity };
+			new BattleResult { Menu = MenuCategory.UseItem, UseItemEntity = itemEntity };
+
+		public static BattleResult CreateAtEquip(UserData.Equipment.EquipmentUserData entity) =>
+			new BattleResult { Menu = MenuCategory.Equip, EquipEntity = entity };
 
 		#endregion
 

@@ -29,6 +29,8 @@ namespace Ling.Scenes.Menu
 
 		#region private 変数
 
+		[SerializeField] private Text _text = default;
+
 		private Toggle _toggle = default;
 
 		#endregion
@@ -52,6 +54,7 @@ namespace Ling.Scenes.Menu
 		{
 			TitleData = titleData;
 			_toggle.isOn = titleData.IsOn;
+			_text.text = titleData.Title;
 		}
 
 		#endregion

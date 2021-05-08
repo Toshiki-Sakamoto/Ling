@@ -14,6 +14,7 @@ using Cysharp.Threading.Tasks;
 using UniRx;
 
 using Ling.UserData.Item;
+using Ling.UserData.Equipment;
 using Ling.UserData.Repository;
 
 using Zenject;
@@ -26,6 +27,7 @@ namespace Ling.UserData
 	public interface IUserDataHolder
 	{
 		ItemUserDataRepository ItemRepository { get; }
+		EquipmentUserDataRepository EquipmentRepository { get; }
 	}
 
 	
@@ -53,6 +55,7 @@ namespace Ling.UserData
 		#region プロパティ
 
 		ItemUserDataRepository IUserDataHolder.ItemRepository => GetRepository<ItemUserDataRepository>();
+		EquipmentUserDataRepository IUserDataHolder.EquipmentRepository => GetRepository<EquipmentUserDataRepository>();
 
 		#endregion
 
@@ -67,6 +70,7 @@ namespace Ling.UserData
 		public async override UniTask LoadAll()
 		{
 			AddLoadRepositoryTask<ItemUserData, ItemUserDataRepository>("ItemUserData");
+			AddLoadRepositoryTask<EquipmentUserData, EquipmentUserDataRepository>("EquipmentUserData");
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(_loadTasks);

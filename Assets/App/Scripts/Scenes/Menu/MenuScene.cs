@@ -41,6 +41,7 @@ namespace Ling.Scenes.Menu
 
 		[Header("メニューカテゴリコントロール")]
 		[SerializeField] private Category.MenuCategoryBag _bagControl = default;
+		[SerializeField] private Category.MenuCategoryEquip _equipControl = default;
 
 		private List<Category.MenuCategoryBase> _categoryControls = new List<Category.MenuCategoryBase>();
 
@@ -162,6 +163,16 @@ namespace Ling.Scenes.Menu
 					// アイテムを使用した時
 					_bagControl.OnUseItem = itemEntity => UseItem(itemEntity);
 					break;
+
+				// 装備一覧
+				case MenuDefine.Category.Equip:
+					_equipControl.Setup();
+					_categoryControls.Add(_equipControl);
+
+					// 装備したことを伝える
+					_equipControl.OnEquipped = entity => Equip(entity);
+
+					break;
 			}
 		}
 
@@ -173,6 +184,10 @@ namespace Ling.Scenes.Menu
 			{
 				case MenuDefine.Category.Bag:
 					_bagControl.Activate();
+					break;
+
+				case MenuDefine.Category.Equip:
+					_equipControl.Activate();
 					break;
 			}
 		}
@@ -194,6 +209,18 @@ namespace Ling.Scenes.Menu
 
 			// シーンを戻る
 			var result = BattleResult.CreateAtItemUse(itemEntity);
+			_sceneManager.CloseSceneAsync(this, result).Forget();
+		}
+
+		/// <summary>
+		/// 装備した
+		/// </summary>
+		private void Equip(UserData.Equipment.EquipmentUserData entity)
+		{
+			Utility.Log.Print($"アイテムを装備or外す {entity.ID}, {entity.Name}");
+
+			// シーンを戻る
+			var result = BattleResult.CreateAtEquip(entity);
 			_sceneManager.CloseSceneAsync(this, result).Forget();
 		}
 

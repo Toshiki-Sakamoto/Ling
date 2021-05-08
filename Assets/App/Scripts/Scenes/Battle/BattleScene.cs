@@ -15,6 +15,7 @@ using Zenject;
 using Ling.MasterData.Repository;
 using Ling.Scenes.Battle.Phases;
 using Ling.Scenes.Battle.ProcessContainer;
+using Ling.Common.Scene.Battle;
 
 namespace Ling.Scenes.Battle
 {
@@ -49,6 +50,7 @@ namespace Ling.Scenes.Battle
 		NextStage,
 		Adv,
 		UseItem,
+		Equip,	// 装備着脱
 	}
 
 	/// <summary>
@@ -169,6 +171,7 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhaseExp>(Phase.Exp);
 			RegistPhase<BattlePhaseCharaMove>(Phase.Move);
 			RegistPhase<BattlePhaseUseItem>(Phase.UseItem);
+			RegistPhase<BattlePhaseEquip>(Phase.Equip);
 
 			ProcessContainer.Setup(_processManager, gameObject);
 
@@ -194,6 +197,9 @@ namespace Ling.Scenes.Battle
 				{
 					if (ev.unit == null || ev.opponent == null) return;
 					if (ev.unit == ev.opponent) return;
+
+					// プレイヤーが死んだ場合は何もしない
+					if (ev.opponent == _charaManager.Player) return;
 
 					// 獲得量
 					var exp = ev.opponent.Model.Exp;
@@ -248,17 +254,7 @@ namespace Ling.Scenes.Battle
 			switch (sceneID)
 			{
 				case SceneID.Menu:
-					// なにか使用したか
-					if (result?.UseItemEntity == null)
-					{
-						// 何も使用してないならプレイヤー行動に戻す
-						_phase.ChangePhase(Phase.PlayerAction);
-					}
-					else
-					{
-						var useItemArg = new BattlePhaseUseItem.Arg { Item = result.UseItemEntity };
-						_phase.ChangePhase(Phase.UseItem, useItemArg);
-					}
+					OnCamebackByMenu(result);
 					break;
 			}
 		}
@@ -324,6 +320,34 @@ namespace Ling.Scenes.Battle
 
 		#region private 関数
 
+		private void OnCamebackByMenu(BattleResult result)
+		{
+			if (result == null) return;
+
+			switch (result.Menu)
+			{
+				case BattleResult.MenuCategory.UseItem:
+					// なにか使用したか
+					if (result.UseItemEntity != null)
+					{
+						var useItemArg = new BattlePhaseUseItem.Arg { Item = result.UseItemEntity };
+						_phase.ChangePhase(Phase.UseItem, useItemArg);
+					}
+					break;
+
+				case BattleResult.MenuCategory.Equip:
+					if (result.EquipEntity != null)
+					{
+						var arg = new BattlePhaseEquip.Arg { Entity = result.EquipEntity };
+						_phase.ChangePhase(Phase.Equip, arg);
+					}
+					break;
+			}
+
+
+			// 何も使用してないならプレイヤー行動に戻す
+			_phase.ChangePhase(Phase.PlayerAction);
+		}
 
 		#endregion
 

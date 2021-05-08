@@ -126,6 +126,7 @@ namespace Utility.GameData
 				DebugAddFinished();
 			}
 #endif
+			AddFinishedInternal();
 		}
 
 #if DEBUG
@@ -136,6 +137,8 @@ namespace Utility.GameData
 
 
 		#region private 関数
+
+		protected virtual void AddFinishedInternal() {}
 
 		#endregion
 	}

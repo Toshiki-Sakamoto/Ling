@@ -22,47 +22,47 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - EnemyMaster
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 102900000, guid: 1b56101065b2a5b4a9d7eeb629880611, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: 1b56101065b2a5b4a9d7eeb629880611, type: 3}
   - m_GUID: f11f0a207f73e458a825648324c9bfa7
     m_Address: Item
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 102900000, guid: f11f0a207f73e458a825648324c9bfa7, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: f11f0a207f73e458a825648324c9bfa7, type: 3}
   - m_GUID: d5032237ebcf30d4a8bf0c6190ffd355
     m_Address: Stage
     m_ReadOnly: 0
     m_SerializedLabels:
     - StageMaster
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 102900000, guid: d5032237ebcf30d4a8bf0c6190ffd355, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: d5032237ebcf30d4a8bf0c6190ffd355, type: 3}
   - m_GUID: 424c34e44b33e48dbb662dc96edf7b2e
     m_Address: Item/Book
     m_ReadOnly: 0
     m_SerializedLabels:
     - ItemBookMaster
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 102900000, guid: 424c34e44b33e48dbb662dc96edf7b2e, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: 424c34e44b33e48dbb662dc96edf7b2e, type: 3}
   - m_GUID: 41b22da1f7d714429b22c7b39f3a9e78
     m_Address: Item/Food
     m_ReadOnly: 0
     m_SerializedLabels:
     - ItemFoodMaster
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 102900000, guid: 41b22da1f7d714429b22c7b39f3a9e78, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: 41b22da1f7d714429b22c7b39f3a9e78, type: 3}
   - m_GUID: 36cb00024ce40c841ac7b14ebd422b62
     m_Address: Stage/FirstStage
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 102900000, guid: 36cb00024ce40c841ac7b14ebd422b62, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: 36cb00024ce40c841ac7b14ebd422b62, type: 3}
   - m_GUID: 562a5e0ee175a4c478524c5a91c04ae1
     m_Address: ConstMaster
     m_ReadOnly: 0
     m_SerializedLabels: []
-    m_MainAsset: {fileID: 0}
-    m_TargetAsset: {fileID: 0}
+    m_MainAsset: {fileID: 11400000, guid: 562a5e0ee175a4c478524c5a91c04ae1, type: 2}
+    m_TargetAsset: {fileID: 11400000, guid: 562a5e0ee175a4c478524c5a91c04ae1, type: 2}
   - m_GUID: b0b6b182dcae54110b83e10f4a646292
     m_Address: Player
     m_ReadOnly: 0
@@ -70,6 +70,26 @@ MonoBehaviour:
     - PlayerLvTableMaster
     m_MainAsset: {fileID: 102900000, guid: b0b6b182dcae54110b83e10f4a646292, type: 3}
     m_TargetAsset: {fileID: 102900000, guid: b0b6b182dcae54110b83e10f4a646292, type: 3}
+  - m_GUID: 492f53155458646569f61de3386ed21d
+    m_Address: Equipment
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 102900000, guid: 492f53155458646569f61de3386ed21d, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: 492f53155458646569f61de3386ed21d, type: 3}
+  - m_GUID: f48942022755c428cb4e394de2e5e915
+    m_Address: Equipment/Weapon
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - WeaponMaster
+    m_MainAsset: {fileID: 102900000, guid: f48942022755c428cb4e394de2e5e915, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: f48942022755c428cb4e394de2e5e915, type: 3}
+  - m_GUID: b7871491884b04e128f59ba8dbe109a4
+    m_Address: Equipment/Shield
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - ShieldMaster
+    m_MainAsset: {fileID: 102900000, guid: b7871491884b04e128f59ba8dbe109a4, type: 3}
+    m_TargetAsset: {fileID: 102900000, guid: b7871491884b04e128f59ba8dbe109a4, type: 3}
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: aef05b59aef0747229b6ec62513fbdd8, type: 2}
   m_SchemaSet:
