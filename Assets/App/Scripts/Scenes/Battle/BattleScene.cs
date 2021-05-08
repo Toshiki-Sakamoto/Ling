@@ -198,6 +198,9 @@ namespace Ling.Scenes.Battle
 					if (ev.unit == null || ev.opponent == null) return;
 					if (ev.unit == ev.opponent) return;
 
+					// プレイヤーが死んだ場合は何もしない
+					if (ev.opponent == _charaManager.Player) return;
+
 					// 獲得量
 					var exp = ev.opponent.Model.Exp;
 
