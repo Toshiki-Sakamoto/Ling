@@ -10,6 +10,7 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using Zenject;
 using Utility.Extensions;
+using Ling.UserData;
 
 namespace Ling.Scenes.Battle.Phases
 {
@@ -36,6 +37,7 @@ namespace Ling.Scenes.Battle.Phases
 		#region private 変数
 
 		[Inject] private Chara.CharaManager _charaManager = default;
+		[Inject] private IUserDataHolder _userDataHolder = default;
 
 		#endregion
 
@@ -71,6 +73,36 @@ namespace Ling.Scenes.Battle.Phases
 			Change(Phase.PlayerSkill);*/
 		}
 
+		public override async UniTask PhaseStartAsync(CancellationToken token)
+		{
+			var arg = Argument as Arg;
+			var battleManager = BattleManager.Instance;
+
+			// 装備処理を呼び出す
+			var equipRepository = _userDataHolder.EquipmentRepository;
+			var equipResult = equipRepository.Equip(arg.Entity);
+
+			// 外す処理から
+			if (equipResult.detach != null)
+			{
+				// todo: 仮
+				battleManager.ShowMessage($"{equipResult.detach.Name} を 外した");
+			}
+
+			// 装着
+			if (equipResult.attach != null)
+			{
+				// todo: 仮
+				battleManager.ShowMessage($"{equipResult.attach.Name} を 装着した");
+			}
+
+			// メッセージ終了まで待機
+			await battleManager.WaitMessageSending();
+
+			// 終わったら敵の思考に移動する
+			Change(Phase.EnemyTink);
+		}
+
 		public override void PhaseUpdate()
 		{
 		}
@@ -83,6 +115,7 @@ namespace Ling.Scenes.Battle.Phases
 
 
 		#region private 関数
+
 
 		#endregion
 	}

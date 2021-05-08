@@ -70,6 +70,22 @@ namespace Ling.UserData.Equipment
 
 		#region public, protected 関数
 
+		/// <summary>
+		/// 装備を外す
+		/// </summary>
+		public void Detach()
+		{
+			_equipped = false;
+		}
+
+		/// <summary>
+		/// 装着
+		/// </summary>
+		public void Attach()
+		{
+			_equipped = true;
+		}
+
 		#endregion
 
 

@@ -50,6 +50,7 @@ namespace Ling.Scenes.Battle
 		NextStage,
 		Adv,
 		UseItem,
+		Equip,	// 装備着脱
 	}
 
 	/// <summary>
@@ -170,6 +171,7 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhaseExp>(Phase.Exp);
 			RegistPhase<BattlePhaseCharaMove>(Phase.Move);
 			RegistPhase<BattlePhaseUseItem>(Phase.UseItem);
+			RegistPhase<BattlePhaseEquip>(Phase.Equip);
 
 			ProcessContainer.Setup(_processManager, gameObject);
 
@@ -333,7 +335,8 @@ namespace Ling.Scenes.Battle
 				case BattleResult.MenuCategory.Equip:
 					if (result.EquipEntity != null)
 					{
-
+						var arg = new BattlePhaseEquip.Arg { Entity = result.EquipEntity };
+						_phase.ChangePhase(Phase.Equip, arg);
 					}
 					break;
 			}
