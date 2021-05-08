@@ -64,10 +64,10 @@ namespace Ling.Scenes.Menu.Category
 			_entities = repository.Entities;
 			_menuEquipmentListView.Setup(_entities);
 
-			_menuEquipmentListView.OnClick = itemEntity => 
+			_menuEquipmentListView.OnClick = entity => 
 				{
 					// アイテムを使用したか装備したか
-					OnEquipped?.Invoke(itemEntity);
+					OnEquipped?.Invoke(entity);
 				};
 		}
 

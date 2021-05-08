@@ -13,6 +13,7 @@ namespace Ling.UserData.Equipment
 	/// <summary>
 	/// 装備データ
 	/// </summary>
+	[System.Serializable]
 	public class EquipmentUserData : Utility.GameData.IGameDataBasic
 	{
 		#region 定数, class, enum
@@ -29,6 +30,7 @@ namespace Ling.UserData.Equipment
 
 		[SerializeField] private int _id;
 		[SerializeField] private Const.Equipment.Category _category;
+		[SerializeField] private bool _equipped = false;	// 装備中
 
 		private MasterData.Equipment.EquipmentMaster _master;
 
@@ -42,6 +44,8 @@ namespace Ling.UserData.Equipment
 		public string Name => Master.Name;
 
 		public Const.Equipment.Category Category { get => _category; set => _category = value; }
+
+		public bool Equipped => _equipped;
 
 		public MasterData.Equipment.EquipmentMaster Master 
 		{

@@ -169,6 +169,9 @@ namespace Ling.Scenes.Menu
 					_equipControl.Setup();
 					_categoryControls.Add(_equipControl);
 
+					// 装備したことを伝える
+					_equipControl.OnEquipped = entity => Equip(entity);
+
 					break;
 			}
 		}
@@ -206,6 +209,18 @@ namespace Ling.Scenes.Menu
 
 			// シーンを戻る
 			var result = BattleResult.CreateAtItemUse(itemEntity);
+			_sceneManager.CloseSceneAsync(this, result).Forget();
+		}
+
+		/// <summary>
+		/// 装備した
+		/// </summary>
+		private void Equip(UserData.Equipment.EquipmentUserData entity)
+		{
+			Utility.Log.Print($"アイテムを装備or外す {entity.ID}, {entity.Name}");
+
+			// シーンを戻る
+			var result = BattleResult.CreateAtEquip(entity);
 			_sceneManager.CloseSceneAsync(this, result).Forget();
 		}
 

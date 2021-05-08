@@ -15,6 +15,7 @@ using Zenject;
 using Ling.MasterData.Repository;
 using Ling.Scenes.Battle.Phases;
 using Ling.Scenes.Battle.ProcessContainer;
+using Ling.Common.Scene.Battle;
 
 namespace Ling.Scenes.Battle
 {
@@ -248,17 +249,7 @@ namespace Ling.Scenes.Battle
 			switch (sceneID)
 			{
 				case SceneID.Menu:
-					// なにか使用したか
-					if (result?.UseItemEntity == null)
-					{
-						// 何も使用してないならプレイヤー行動に戻す
-						_phase.ChangePhase(Phase.PlayerAction);
-					}
-					else
-					{
-						var useItemArg = new BattlePhaseUseItem.Arg { Item = result.UseItemEntity };
-						_phase.ChangePhase(Phase.UseItem, useItemArg);
-					}
+					OnCamebackByMenu(result);
 					break;
 			}
 		}
@@ -324,6 +315,33 @@ namespace Ling.Scenes.Battle
 
 		#region private 関数
 
+		private void OnCamebackByMenu(BattleResult result)
+		{
+			if (result == null) return;
+
+			switch (result.Menu)
+			{
+				case BattleResult.MenuCategory.UseItem:
+					// なにか使用したか
+					if (result.UseItemEntity != null)
+					{
+						var useItemArg = new BattlePhaseUseItem.Arg { Item = result.UseItemEntity };
+						_phase.ChangePhase(Phase.UseItem, useItemArg);
+					}
+					break;
+
+				case BattleResult.MenuCategory.Equip:
+					if (result.EquipEntity != null)
+					{
+
+					}
+					break;
+			}
+
+
+			// 何も使用してないならプレイヤー行動に戻す
+			_phase.ChangePhase(Phase.PlayerAction);
+		}
 
 		#endregion
 
