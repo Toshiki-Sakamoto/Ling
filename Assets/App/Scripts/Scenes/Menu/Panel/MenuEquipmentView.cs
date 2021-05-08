@@ -31,6 +31,7 @@ namespace Ling.Scenes.Menu.Panel
 
 		[SerializeField] private Text _titleText = default;
 		[SerializeField] private Button _button = default;
+		[SerializeField] private Text _buttonText = default;
 
 		private UserData.Equipment.EquipmentUserData _entity;
 
@@ -54,6 +55,11 @@ namespace Ling.Scenes.Menu.Panel
 
 			// 名前の設定
 			_titleText.text = _entity.Name;
+
+			// 「装備」に名前を変える
+			_buttonText.text = "装備";
+
+			// 現在装備中のものには「装備」ボタンは出さない
 		}
 
 		#endregion
