@@ -48,7 +48,7 @@ namespace Ling.UserData.Equipment
 				if (_master != null) return _master;
 
 				var holder = Common.GameManager.Instance.MasterHolder;
-				_master = holder.ItemRespositoryContainer.Find(Category, _id);
+				_master = holder.EquipRepositoryContainer.Find(Category, _id);
 
 				return _master;
 			}

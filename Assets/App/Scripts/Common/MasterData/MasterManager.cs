@@ -13,6 +13,7 @@ using Ling.MasterData.Item;
 using Ling.MasterData.Repository;
 using Ling.MasterData.Repository.Item;
 using Ling.MasterData.Repository.Player;
+using Ling.MasterData.Repository.Equipment;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
 using UniRx;
