@@ -39,9 +39,10 @@ namespace Ling.Common.Scene.Menu
 		{
 			switch (self)
 			{
-				case MenuDefine.Category.Bag: return "Bag";
-				case MenuDefine.Category.Shop: return "Shop";
-				case MenuDefine.Category.Setting: return "Setting";
+				case MenuDefine.Category.Bag: return "もちもの";
+				case MenuDefine.Category.Equip: return "装備";
+				case MenuDefine.Category.Shop: return "ショップ";
+				case MenuDefine.Category.Setting: return "設定";
 
 				default: return "None";
 			}

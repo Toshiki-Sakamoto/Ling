@@ -182,6 +182,10 @@ namespace Ling.Scenes.Menu
 				case MenuDefine.Category.Bag:
 					_bagControl.Activate();
 					break;
+
+				case MenuDefine.Category.Equip:
+					_equipControl.Activate();
+					break;
 			}
 		}
 

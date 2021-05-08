@@ -570,6 +570,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &879586711 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7859694166149296445, guid: c6c885c8bde124d6a9686896e6adedcc,
+    type: 3}
+  m_PrefabInstance: {fileID: 4377029771098050515}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1035014565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,6 +1222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f8359427c9a42e188f5c862041a578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _text: {fileID: 457215108}
 --- !u!1 &2106119296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1362,6 +1369,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EquipMenuControl
       objectReference: {fileID: 0}
+    - target: {fileID: 2988731076915673364, guid: c6c885c8bde124d6a9686896e6adedcc,
+        type: 3}
+      propertyPath: _itemObject
+      value: 
+      objectReference: {fileID: 879586711}
     - target: {fileID: 6211493806772389741, guid: c6c885c8bde124d6a9686896e6adedcc,
         type: 3}
       propertyPath: m_Pivot.x
