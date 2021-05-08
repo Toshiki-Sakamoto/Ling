@@ -34,6 +34,12 @@ namespace Ling.MasterData.Equipment
 		[SerializeField, FieldName("説明")]
 		private string _desc = default;
 
+		[SerializeField, FieldName("攻撃力")]
+		private int _attack = default;
+
+		[SerializeField, FieldName("防御力")]
+		private int _defense = default;
+
 		#endregion
 
 
@@ -50,6 +56,9 @@ namespace Ling.MasterData.Equipment
 		/// 詳細
 		/// </summary>
 		public string Desc => _desc;
+
+		public int Attack => _attack;
+		public int Defense => _defense;
 
 		#endregion
 

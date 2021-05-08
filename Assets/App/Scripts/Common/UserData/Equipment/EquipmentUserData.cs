@@ -39,6 +39,8 @@ namespace Ling.UserData.Equipment
 
 		public int ID { get => _id; set => _id = value; }
 
+		public string Name => Master.Name;
+
 		public Const.Equipment.Category Category { get => _category; set => _category = value; }
 
 		public MasterData.Equipment.EquipmentMaster Master 
