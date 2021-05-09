@@ -77,21 +77,42 @@ namespace Ling.Scenes.Battle.Phases
 		{
 			var arg = Argument as Arg;
 			var battleManager = BattleManager.Instance;
+			var player = _charaManager.Player;
 
 			// 装備処理を呼び出す
 			var equipRepository = _userDataHolder.EquipmentRepository;
 			var equipResult = equipRepository.Equip(arg.Entity);
 
 			// 外す処理から
-			if (equipResult.detach != null)
+			var detachEquipment = equipResult.detach;
+			if (detachEquipment != null)
 			{
+				if (detachEquipment.Category == Const.Equipment.Category.Weapon)
+				{
+					player.EquipControl.DetachWeapon();
+				}
+				else
+				{
+					player.EquipControl.DetachShield();
+				}
+
 				// todo: 仮
 				battleManager.ShowMessage($"{equipResult.detach.Name} を 外した");
 			}
 
 			// 装着
-			if (equipResult.attach != null)
+			var attachEquipment = equipResult.attach;
+			if (attachEquipment != null)
 			{
+				if (attachEquipment.Category == Const.Equipment.Category.Weapon)
+				{
+					player.EquipControl.AttachWeapon(attachEquipment.WeaponMaster);
+				}
+				else
+				{
+					player.EquipControl.AttachShield(attachEquipment.ShieldMaster);
+				}
+
 				// todo: 仮
 				battleManager.ShowMessage($"{equipResult.attach.Name} を 装着した");
 			}
