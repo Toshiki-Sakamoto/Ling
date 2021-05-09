@@ -127,6 +127,9 @@ namespace Ling.Chara
 			_defence = new CharaStatusValueObject(defence, defence);
 			IsDead = _hp.Current.Select(hp_ => hp_ <= 0).ToReadOnlyReactiveProperty();
 
+			_equipAttack = new CharaStatusValueObject(0, 999);
+			_equipDefence = new CharaStatusValueObject(0, 999);
+
 			_stamina = new CharaStatusValueObject(stamina, stamina);
 		}
 
