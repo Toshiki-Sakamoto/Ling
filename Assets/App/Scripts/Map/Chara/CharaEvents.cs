@@ -51,7 +51,7 @@ namespace Ling.Chara
 	public class EventDamage
 	{
 		public ICharaController chara;
-		public int value;	// ダメージ値
+		public long value;	// ダメージ値
 	}
 
 	/// <summary>

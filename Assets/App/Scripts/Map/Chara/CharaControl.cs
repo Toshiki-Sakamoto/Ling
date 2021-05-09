@@ -48,7 +48,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// ダメージを受けた時
 		/// </summary>
-		void Damage(int value);
+		void Damage(long value);
 
 		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase;
 		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase;
@@ -363,7 +363,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// ダメージを受けた時
 		/// </summary>
-		void ICharaController.Damage(int value)
+		void ICharaController.Damage(long value)
 		{
 			// ダメージを受けたイベントを送る
 			_eventManager.Trigger(new EventDamage { chara = this, value = value });
