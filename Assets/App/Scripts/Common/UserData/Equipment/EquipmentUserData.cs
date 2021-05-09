@@ -33,6 +33,8 @@ namespace Ling.UserData.Equipment
 		[SerializeField] private bool _equipped = false;	// 装備中
 
 		private MasterData.Equipment.EquipmentMaster _master;
+		private MasterData.Equipment.WeaponMaster _weaponMaster;
+		private MasterData.Equipment.ShieldMaster _shieldMaster;
 
 		#endregion
 
@@ -57,6 +59,32 @@ namespace Ling.UserData.Equipment
 				_master = holder.EquipRepositoryContainer.Find(Category, _id);
 
 				return _master;
+			}
+		}
+
+		public MasterData.Equipment.WeaponMaster WeaponMaster
+		{
+			get
+			{
+				if (_weaponMaster != null) return _weaponMaster;
+
+				var holder = Common.GameManager.Instance.MasterHolder;
+				_weaponMaster = holder.EquipRepositoryContainer.Weapon.Find(_id);
+
+				return _weaponMaster;
+			}
+		}
+
+		public MasterData.Equipment.ShieldMaster ShieldMaster
+		{
+			get
+			{
+				if (_shieldMaster != null) return _shieldMaster;
+
+				var holder = Common.GameManager.Instance.MasterHolder;
+				_shieldMaster = holder.EquipRepositoryContainer.Shield.Find(_id);
+
+				return _shieldMaster;
 			}
 		}
 

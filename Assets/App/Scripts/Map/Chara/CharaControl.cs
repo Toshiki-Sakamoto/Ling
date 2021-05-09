@@ -32,6 +32,8 @@ namespace Ling.Chara
 
 		ICharaMoveController MoveController { get; }
 		Exp.ICharaExpController ExpController { get; }
+
+		CharaEquipControl EquipControl { get; }
 		
 		/// <summary>
 		/// キャラ名
@@ -46,7 +48,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// ダメージを受けた時
 		/// </summary>
-		void Damage(int value);
+		void Damage(long value);
 
 		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase;
 		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase;
@@ -83,6 +85,7 @@ namespace Ling.Chara
 		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
 		private List<Utility.ProcessBase> _attackProcess = new List<Utility.ProcessBase>();
 		private Subject<CharaControl<TModel, TView>> _onSetuped = new Subject<CharaControl<TModel, TView>>();
+		private CharaEquipControl _equipControl = new CharaEquipControl();
 
 		#endregion
 
@@ -130,6 +133,11 @@ namespace Ling.Chara
 		/// </summary>
 		public abstract Exp.ICharaExpController ExpController { get; }
 
+		/// <summary>
+		/// 装備関連の操作
+		/// </summary>
+		public CharaEquipControl EquipControl => _equipControl;
+
 
 		// ICharaController
 		CharaModel ICharaController.Model => _model;
@@ -143,6 +151,7 @@ namespace Ling.Chara
 		public void Setup()
 		{
 			_status = _model.Status;
+			_equipControl.Setup(_status);
 
 			// 死亡時
 			_status.IsDead.Where(isDead_ => isDead_)
@@ -345,6 +354,7 @@ namespace Ling.Chara
 			return false;
 		}
 
+
 		protected virtual void DestroyProcessInternal()
 		{
 
@@ -353,7 +363,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// ダメージを受けた時
 		/// </summary>
-		void ICharaController.Damage(int value)
+		void ICharaController.Damage(long value)
 		{
 			// ダメージを受けたイベントを送る
 			_eventManager.Trigger(new EventDamage { chara = this, value = value });

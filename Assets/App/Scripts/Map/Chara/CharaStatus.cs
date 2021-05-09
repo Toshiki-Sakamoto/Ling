@@ -48,6 +48,15 @@ namespace Ling.Chara
 		[Header("ちから")]
 		[SerializeField] private CharaStatusValueObject _power = default;
 
+		[Header("まもり")]
+		[SerializeField] private CharaStatusValueObject _defence = default;
+
+		[Header("装備攻撃力")]
+		[SerializeField] private CharaStatusValueObject _equipAttack = default;
+
+		[Header("装備防御力")]
+		[SerializeField] private CharaStatusValueObject _equipDefence = default;
+
 		#endregion
 
 
@@ -73,6 +82,31 @@ namespace Ling.Chara
 		/// </summary>
 		public CharaStatusValueObject Power => _power;
 
+		/// <summary>
+		/// 防御力
+		/// </summary>
+		public CharaStatusValueObject Defence => _defence;
+
+		/// <summary>
+		/// 装備攻撃力
+		/// </summary>
+		public CharaStatusValueObject EquipAttack => _equipAttack;
+
+		/// <summary>
+		/// 装備防御力
+		/// </summary>
+		public CharaStatusValueObject EquipDefence => _equipDefence;
+
+		/// <summary>
+		/// 合計攻撃力 (ちから＋装備攻撃力)
+		/// </summary>
+		public long TotalAttack => _power.Current.Value + _equipAttack.Current.Value;
+
+		/// <summary>
+		/// 合計防御力 (まもり＋装備防御力)
+		/// </summary>
+		public long TotalDefence => _defence.Current.Value + _equipDefence.Current.Value;
+
 
 		/// <summary>
 		/// 死んだとき(HPが0)に通知を受ける
@@ -84,19 +118,23 @@ namespace Ling.Chara
 
 		#region コンストラクタ, デストラクタ
 
-		public CharaStatus(long hp, long stamina, int power)
+		public CharaStatus(long hp, long stamina, int power, int defence)
 		{
 			_lv = new IntReactiveProperty(1);
 
 			_hp = new CharaStatusValueObject(hp, hp);
 			_power = new CharaStatusValueObject(power, power);
+			_defence = new CharaStatusValueObject(defence, defence);
 			IsDead = _hp.Current.Select(hp_ => hp_ <= 0).ToReadOnlyReactiveProperty();
+
+			_equipAttack = new CharaStatusValueObject(0, 999);
+			_equipDefence = new CharaStatusValueObject(0, 999);
 
 			_stamina = new CharaStatusValueObject(stamina, stamina);
 		}
 
 		public CharaStatus(MasterData.Chara.StatusData statusData)
-			: this(statusData.HP, statusData.Stamina, statusData.Power)
+			: this(statusData.HP, statusData.Stamina, statusData.Power, statusData.Defence)
 		{
 		}
 

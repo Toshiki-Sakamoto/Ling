@@ -100,6 +100,10 @@ namespace Ling.Chara.Exp
 			status.Power.SetMax(expData.Power);
 			status.Power.SetCurrent(expData.Power);
 
+			// まもり
+			status.Defence.SetMax(expData.Defence);
+			status.Defence.SetCurrent(expData.Defence);
+
 			// 現在のレベルを渡す
 			_subject.OnNext(_currentLv);
 		}

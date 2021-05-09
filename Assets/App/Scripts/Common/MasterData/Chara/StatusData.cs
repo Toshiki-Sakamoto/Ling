@@ -44,6 +44,9 @@ namespace Ling.MasterData.Chara
 		[Header("ちから")]
 		[SerializeField] private int _power = default;
 
+		[Header("まもり")]
+		[SerializeField] private int _defence = default;
+
 		#endregion
 
 
@@ -54,6 +57,8 @@ namespace Ling.MasterData.Chara
 		public long Stamina => _stamina;
 
 		public int Power => _power;
+
+		public int Defence => _defence;
 
 		#endregion
 

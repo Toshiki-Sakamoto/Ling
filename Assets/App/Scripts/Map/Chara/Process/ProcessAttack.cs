@@ -106,7 +106,9 @@ namespace Ling.Chara.Process
 				.Where(target =>
 				{
 					// HPをへらす
-					target.Damage(1);
+					// Note: 今は計算処理をここに書くが、別の場所に逃がすかどうか
+					var damage = Chara.Calculator.CharaAttackCalculator.Calculate(_unit, target);
+					target.Damage(damage);
 
 					// 死亡している場合のみ先に進ませる
 					return target.Status.IsDead.Value;

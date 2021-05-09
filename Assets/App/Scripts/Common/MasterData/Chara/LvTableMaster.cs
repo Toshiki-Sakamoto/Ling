@@ -34,6 +34,9 @@ namespace Ling.MasterData.Chara
 			public long Power;
 
 			[TableColumnWidth(10)]
+			public long Defence;
+
+			[TableColumnWidth(10)]
 			public long Hp;
 		}
 
