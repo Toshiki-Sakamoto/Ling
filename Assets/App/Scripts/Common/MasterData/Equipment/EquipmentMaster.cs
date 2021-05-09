@@ -13,8 +13,9 @@ namespace Ling.MasterData.Equipment
 {
 	/// <summary>
 	/// 装備マスタの基本
+	/// アイテムであることにするのでItemMasterを継承している
 	/// </summary>
-	public abstract class EquipmentMaster : MasterDataBase
+	public abstract class EquipmentMaster : Item.ItemMaster
 	{
 		#region 定数, class, enum
 
@@ -28,12 +29,6 @@ namespace Ling.MasterData.Equipment
 
 		#region private 変数
 
-		[SerializeField, FieldName("名前")]
-		private string _name = default;
-
-		[SerializeField, FieldName("説明")]
-		private string _desc = default;
-
 		[SerializeField, FieldName("攻撃力")]
 		private int _attack = default;
 
@@ -46,16 +41,6 @@ namespace Ling.MasterData.Equipment
 		#region プロパティ
 
 		public abstract Const.Equipment.Category Type { get; }
-
-		/// <summary>
-		/// アイテム名
-		/// </summary>
-		public string Name => _name;
-
-		/// <summary>
-		/// 詳細
-		/// </summary>
-		public string Desc => _desc;
 
 		public int Attack => _attack;
 		public int Defense => _defense;

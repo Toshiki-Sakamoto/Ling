@@ -21,8 +21,8 @@ namespace Ling.Const
 
 			Food,   // 食べ物
 			Book,   // 本 (読むと効果が発揮するもの)
-			//Weapon, // 武器
-			//Shield, // 盾
+			Weapon, // 武器
+			Shield, // 盾
 		}
 
 		/// <summary>

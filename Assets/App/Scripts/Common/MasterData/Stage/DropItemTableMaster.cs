@@ -10,6 +10,7 @@ using Utility.MasterData;
 using Utility.Attribute;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using System.Linq;
 
 namespace Ling.MasterData.Stage
 {
@@ -56,6 +57,9 @@ namespace Ling.MasterData.Stage
 		[SerializeField, TableList]
 		private List<Data> _data = default;
 
+		private bool _isInitialized;
+		private int _totalRate;
+
 		#endregion
 
 
@@ -71,10 +75,47 @@ namespace Ling.MasterData.Stage
 
 		#region public, protected 関数
 
+		/// <summary>
+		/// 落とし物の数を取得する
+		/// </summary>
+		public int GetRandomDropNum() =>
+			Utility.Random.MaxIncludedRange(_min, _max);
+
+		/// <summary>
+		/// ランダムに落とし物を取得する
+		/// </summary>
+		/// <returns></returns>
+		public Item.ItemMaster GetRandomItem()
+		{
+			Initialize();
+
+			var index = Utility.Random.Range(_totalRate);
+
+			foreach (var data in _data)
+			{
+				if (index < data.Rate)
+				{
+					return data.ItemMaster;
+				}
+			}
+
+			Utility.Log.Error("確率が狂ってる");
+			return null;
+		}
+
 		#endregion
 
 
 		#region private 関数
+
+		private void Initialize()
+		{
+			if (_isInitialized) return;
+
+			_totalRate = _data.Sum(data => data.Rate);
+
+			_isInitialized = true;
+		}
 
 		#endregion
 	}
