@@ -33,39 +33,39 @@ MonoBehaviour:
     _tileFlag: 0
   - _isValid: 0
     _sprites:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
+    - {fileID: 21300000, guid: 543d919e88d6b4216b4bfa2c4ec7be22, type: 3}
     _tileFlag: 2
   - _isValid: 0
     _sprites:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
+    - {fileID: 21300000, guid: 83a70a7e6c1194146b4a0752446bd94a, type: 3}
     _tileFlag: 4
   - _isValid: 0
     _sprites:
@@ -105,20 +105,20 @@ MonoBehaviour:
     _tileFlag: 16
   - _isValid: 0
     _sprites:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
+    - {fileID: 21300000, guid: 78a8948d0451142d7bfb135f7be5fc09, type: 3}
     _tileFlag: 32
   _color: {r: 1, g: 1, b: 1, a: 0.50980395}
