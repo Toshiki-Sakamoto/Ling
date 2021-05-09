@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 2
   _name: "\u304D\u305A\u3050\u3059\u308A"
+  _desc: 
+  _prefab: {fileID: 1003912244658023900, guid: e85f527c1b96b4219a0a43bb29217f15, type: 3}
   _skill:
     _filename: 
     _hitMin: 1

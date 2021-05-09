@@ -37,6 +37,9 @@ namespace Ling.MasterData.Item
 		[SerializeField, FieldName("説明")]
 		private string _desc = default;
 
+		[SerializeField, FieldName("アイテムPrefab")]
+		private GameObject _prefab = default;
+
 		[SerializeField]
 		private Skill.SkillMaster _skill = default;
 
@@ -54,6 +57,11 @@ namespace Ling.MasterData.Item
 		/// アイテムカテゴリ
 		/// </summary>
 		public abstract Const.Item.Category Category { get; }
+
+		/// <summary>
+		/// アイテムPrefab
+		/// </summary>
+		public GameObject Prefab => _prefab;
 
 		/// <summary>
 		/// スキル
