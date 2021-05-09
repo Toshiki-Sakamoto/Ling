@@ -155,17 +155,6 @@ namespace Ling.Scenes.Battle.Phases
 		}
 
 		/// <summary>
-		/// 足元確認コマンド
-		/// </summary>
-		private void FootConfirmCommand()
-		{
-			var process = AttachProcess<Process.ProcessPlayerFoot>();
-
-			var argument = new BattlePhasePlayerActionProcess.Arg { process = process };
-			Change(Phase.PlayerActionProcess, argument);
-		}
-
-		/// <summary>
 		/// 通常攻撃
 		/// </summary>
 		private bool Attack()

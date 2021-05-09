@@ -18,6 +18,36 @@ namespace Ling.Scenes.Battle.Phases
 	{
 		#region 定数, class, enum
 
+		public class Arg : Utility.PhaseArgument
+		{
+			public Phase NextPhase;
+			public BattlePhaseEnemyThink.Arg EnemyThinkArg;
+
+			/// <summary>
+			/// 終了後、敵の行動に移動する
+			/// </summary>
+			public static Arg CreateAtEnemyThink(BattlePhaseEnemyThink.Arg enemyThinkArg) =>
+				new Arg { NextPhase = Phase.EnemyTink, EnemyThinkArg = enemyThinkArg };
+
+			/// <summary>
+			/// 終了後、再度キャラの行動処理に移す
+			/// </summary>
+			public static Arg CreateAtCharaProcessExecuter() =>
+				new Arg { NextPhase = Phase.CharaProcessEnd };
+
+			public Utility.PhaseArgument GetNextArgument()
+			{
+				switch (NextPhase)
+				{
+					case Phase.EnemyTink:
+						return EnemyThinkArg;
+
+					default:
+						return null;
+				}
+			}
+		}
+
 		#endregion
 
 
@@ -48,7 +78,7 @@ namespace Ling.Scenes.Battle.Phases
 			// なにもないときは終了する
 			if (!Scene.ProcessContainer.Exists(ProcessType.Exp))
 			{
-				Change(Phase.CharaProcessEnd);
+				ChangeByArgument();
 				return;
 			}
 		}
@@ -57,13 +87,20 @@ namespace Ling.Scenes.Battle.Phases
 		{
 			await Scene.ProcessContainer.UniTaskExecuteOnceAsync(ProcessType.Exp, token: token);
 
-			Change(Phase.CharaProcessEnd);
+			ChangeByArgument();
 		}
 
 		#endregion
 
 
 		#region private 関数
+
+		private void ChangeByArgument()
+		{
+			var arg = Argument as Arg;
+
+			Change(arg.NextPhase, arg.GetNextArgument());
+		}
 
 		#endregion
 	}
