@@ -151,6 +151,7 @@ namespace Ling.Chara
 		public void Setup()
 		{
 			_status = _model.Status;
+			_equipControl.Setup(_status);
 
 			// 死亡時
 			_status.IsDead.Where(isDead_ => isDead_)
