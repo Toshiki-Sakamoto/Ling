@@ -32,6 +32,8 @@ namespace Ling.Chara
 
 		ICharaMoveController MoveController { get; }
 		Exp.ICharaExpController ExpController { get; }
+
+		CharaEquipControl EquipControl { get; }
 		
 		/// <summary>
 		/// キャラ名
@@ -83,6 +85,7 @@ namespace Ling.Chara
 		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
 		private List<Utility.ProcessBase> _attackProcess = new List<Utility.ProcessBase>();
 		private Subject<CharaControl<TModel, TView>> _onSetuped = new Subject<CharaControl<TModel, TView>>();
+		private CharaEquipControl _equipControl = new CharaEquipControl();
 
 		#endregion
 
@@ -129,6 +132,11 @@ namespace Ling.Chara
 		/// 経験値管理者
 		/// </summary>
 		public abstract Exp.ICharaExpController ExpController { get; }
+
+		/// <summary>
+		/// 装備関連の操作
+		/// </summary>
+		public CharaEquipControl EquipControl => _equipControl;
 
 
 		// ICharaController
@@ -344,6 +352,7 @@ namespace Ling.Chara
 		{
 			return false;
 		}
+
 
 		protected virtual void DestroyProcessInternal()
 		{
