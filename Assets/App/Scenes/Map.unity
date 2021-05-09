@@ -599,7 +599,7 @@ GameObject:
   - component: {fileID: 237590609}
   - component: {fileID: 237590611}
   - component: {fileID: 237590610}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1618,7 +1618,7 @@ GameObject:
   - component: {fileID: 1258740618}
   - component: {fileID: 1258740620}
   - component: {fileID: 1258740619}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MiniMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1633,8 +1633,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1258740617}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalPosition: {x: 0, y: 3.5, z: 0}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_Children:
   - {fileID: 1491470948}
   m_Father: {fileID: 787791239}
@@ -2035,7 +2035,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1491470948}
   - component: {fileID: 1491470949}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}

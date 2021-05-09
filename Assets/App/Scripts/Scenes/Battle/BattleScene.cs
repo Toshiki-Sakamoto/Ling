@@ -43,7 +43,6 @@ namespace Ling.Scenes.Battle
 		EnemyTink,
 
 		Move,
-		Reaction,
 		Exp,
 		CharaProcessExecute,
 		CharaProcessEnd,
@@ -158,8 +157,6 @@ namespace Ling.Scenes.Battle
 			// Player
 			RegistPhase<BattlePhasePlayerAction>(Phase.PlayerAction);
 			RegistPhase<BattlePhasePlayerAttack>(Phase.PlayerAttack);
-			RegistPhase<BattlePhasePlayerActionProcess>(Phase.PlayerActionProcess);
-			RegistPhase<BattlePhasePlayerActionEnd>(Phase.PlayerActionEnd);
 			RegistPhase<BattlePhasePlayerSkill>(Phase.PlayerSkill);
 
 			RegistPhase<BattlePhaseAdv>(Phase.Adv);
@@ -167,7 +164,6 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhaseEnemyThink>(Phase.EnemyTink);
 			RegistPhase<BattlePhaseCharaProcessExecuter>(Phase.CharaProcessExecute);
 			RegistPhase<BattlePhaseCharaProcessEnd>(Phase.CharaProcessEnd);
-			RegistPhase<BattlePhaseReaction>(Phase.Reaction);
 			RegistPhase<BattlePhaseExp>(Phase.Exp);
 			RegistPhase<BattlePhaseCharaMove>(Phase.Move);
 			RegistPhase<BattlePhaseUseItem>(Phase.UseItem);

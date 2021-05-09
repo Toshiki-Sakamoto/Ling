@@ -52,10 +52,10 @@ namespace Ling.Scenes.Battle.Phases
 
 		public override void PhaseStart()
 		{
-			// なにもないときは終了する
+			// なにもないときは即時終了する
 			if (!Scene.ProcessContainer.Exists(ProcessType.Action))
 			{
-				Change(Phase.Exp);
+				Change(Phase.CharaProcessEnd);
 				return;
 			}
 		}
@@ -74,7 +74,8 @@ namespace Ling.Scenes.Battle.Phases
 		{
 			await Scene.ProcessContainer.UniTaskExecuteOnceAsync(ProcessType.Action, token: token);
 
-			Change(Phase.Reaction);
+			// 一回ごとに経験値の確認を入れる
+			Change(Phase.Exp, BattlePhaseExp.Arg.CreateAtCharaProcessExecuter());
 		}
 
 #if false
