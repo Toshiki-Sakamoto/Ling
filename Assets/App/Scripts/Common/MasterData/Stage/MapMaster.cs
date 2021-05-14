@@ -65,6 +65,11 @@ namespace Ling.MasterData.Stage
 		/// </summary>
 		public MapEnemyData[] MapEnemyData => _mapEnemyData;
 
+		/// <summary>
+		/// 落とし物テーブルマスタ
+		/// </summary>
+		public DropItemTableMaster DropItemTableMaster => _dropItemTableMaster;
+
 		#endregion
 
 

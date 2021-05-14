@@ -58,5 +58,17 @@ namespace Ling.Const
 		{
 			WoodShield,
 		}
+
+		/// <summary>
+		/// 見た目を表すもの
+		/// </summary>
+		public enum PrefabType
+		{
+			None,
+
+			Food,
+			Weapon,
+			Shild,
+		}
 	}
 }
