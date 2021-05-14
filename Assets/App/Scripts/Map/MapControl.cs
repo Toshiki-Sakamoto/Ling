@@ -14,6 +14,8 @@ using Utility;
 using Ling.Chara;
 using Ling.Map.TileDataMapExtensions;
 using Ling.Map.TileDataMapExtensionss.Chara;
+using System.Linq;
+using System.Collections.Generic;
 
 using Zenject;
 
@@ -238,6 +240,23 @@ namespace Ling.Map
 			return pos;
 		}
 
+		/// <summary>
+		/// 新しく生成されたMapDataを設定する
+		/// </summary>
+		public void SetMapData(int level, MapData mapData)
+		{
+			_model.SetMapData(level, mapData);
+
+			// 新しく生成する
+
+			// 落とし物の生成
+			// アイテムの配置を行う
+			var mapMaster = _model.StageMaster.GetMapMasterByLevel(level);
+
+			var dropItemController = _view.FindDropItemController(level);
+			dropItemController.Apply(mapMaster, mapData);
+		}
+
 		#endregion
 
 
@@ -292,7 +311,22 @@ namespace Ling.Map
 					var newTileData = GetTileData(ev_.mapLevel, ev_.newPos.x, ev_.newPos.y);
 					newTileData.AddFlag(tileFlag);
 				});
+
+			// Mapが破棄された
+			// todo: このイベント、Viewからきてるが、そもそも階層管理はControl側に任せるべきで改修しなければ
+			this.AddEventListener<EventRemoveMap>(ev_ => 
+				{
+//					var elmenet = FindElement(ev_.level);
+//					elmenet.Reset();
+				});
 		}
+
+		/*
+		private Element FindElement(int mapIndex)
+		{
+//			return System.Array.Find(_elements, element => element.MapIndex == mapIndex);
+		}
+*/
 
 		#endregion
 	}

@@ -223,6 +223,7 @@ GameObject:
   - component: {fileID: 109318014}
   - component: {fileID: 109318015}
   - component: {fileID: 109318016}
+  - component: {fileID: 109318017}
   m_Layer: 0
   m_Name: GroundGrid_4
   m_TagString: Untagged
@@ -311,6 +312,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPoolManager: {fileID: 466553240}
+--- !u!114 &109318017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109318011}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35246b799faae42d98b5a4dda6df1840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pool: {fileID: 1859548536}
 --- !u!1 &116123181
 GameObject:
   m_ObjectHideFlags: 0
@@ -443,6 +457,7 @@ GameObject:
   - component: {fileID: 143247244}
   - component: {fileID: 143247245}
   - component: {fileID: 143247246}
+  - component: {fileID: 143247247}
   m_Layer: 0
   m_Name: GroundGrid_3
   m_TagString: Untagged
@@ -531,6 +546,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPoolManager: {fileID: 106639242}
+--- !u!114 &143247247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143247241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35246b799faae42d98b5a4dda6df1840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pool: {fileID: 1859548536}
 --- !u!1 &232729814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1282,6 +1310,7 @@ GameObject:
   - component: {fileID: 1017254159}
   - component: {fileID: 1017254160}
   - component: {fileID: 1017254161}
+  - component: {fileID: 1017254162}
   m_Layer: 0
   m_Name: GroundGrid_1
   m_TagString: Untagged
@@ -1370,6 +1399,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPoolManager: {fileID: 993213071}
+--- !u!114 &1017254162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1017254156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35246b799faae42d98b5a4dda6df1840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pool: {fileID: 1859548536}
 --- !u!1 &1143459317
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,6 +1881,7 @@ Transform:
   - {fileID: 109318012}
   - {fileID: 1682298783}
   - {fileID: 55514715}
+  - {fileID: 1859548535}
   m_Father: {fileID: 787791239}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -6828,6 +6871,61 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1859548534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1859548535}
+  - component: {fileID: 1859548536}
+  m_Layer: 0
+  m_Name: ItemPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1859548535
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859548534}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1378394484}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1859548536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1859548534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c9287acc73e42f1b9c96eb57bd360c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultPoolRoot: {fileID: 0}
+  _createItems:
+  - key: 1
+    id: 
+    isUsedCreator: 0
+    creator: {fileID: 0}
+    createInfo:
+      poolRoot: {fileID: 1859548535}
+      poolObject: {fileID: 0}
+      initCreateNum: 0
+      isAutoCreate: 1
+      onceCreatingNum: 20
 --- !u!1 &1907254083
 GameObject:
   m_ObjectHideFlags: 0
@@ -11479,6 +11577,7 @@ GameObject:
   - component: {fileID: 2080930056}
   - component: {fileID: 2080930057}
   - component: {fileID: 2080930058}
+  - component: {fileID: 2080930059}
   m_Layer: 0
   m_Name: GroundGrid_2
   m_TagString: Untagged
@@ -11567,6 +11666,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyPoolManager: {fileID: 1607016458}
+--- !u!114 &2080930059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2080930053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35246b799faae42d98b5a4dda6df1840, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pool: {fileID: 1859548536}
 --- !u!1 &2112815755
 GameObject:
   m_ObjectHideFlags: 0
