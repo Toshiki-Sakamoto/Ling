@@ -43,6 +43,8 @@ namespace Ling.Map
 
 		#region プロパティ
 
+		public StageMaster StageMaster => _stageMaster;
+
 		public int AddMap { get; private set; }
 
 		/// <summary>

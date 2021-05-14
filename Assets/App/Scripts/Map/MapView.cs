@@ -222,9 +222,19 @@ namespace Ling.Map
 				// 削除する
 				PushUnusedItem(tilemap);
 
+				// todo: 落とし物もここで破棄
+				ResetDropItemController(tilemap);
+
 				// 削除したことを伝える
 				_eventManager.Trigger(new EventRemoveMap { level = tilemap.Level });
 			}
+		}
+
+		public DropItemController FindDropItemController(int index)
+		{
+			var groundTilemap = FindGroundTilemap(index);
+
+			return GetDropItemController(groundTilemap);
 		}
 
 		#endregion
@@ -278,6 +288,21 @@ namespace Ling.Map
 			_usedItems.RemoveAt(0);
 
 			return result;
+		}
+
+
+		/// <summary>
+		/// todo: 現状はここで落とし物の管理を行う
+		/// </summary>
+		private void ResetDropItemController(Map.GroundTilemap groundTilemap)
+		{
+			var controller = GetDropItemController(groundTilemap);
+			controller.Release();
+		}
+
+		private DropItemController GetDropItemController(Map.GroundTilemap groundTilemap)
+		{
+			return groundTilemap.GetComponent<DropItemController>();
 		}
 
 		#endregion

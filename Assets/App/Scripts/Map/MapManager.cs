@@ -43,7 +43,7 @@ namespace Ling.Map
 		[Inject] private Builder.BuilderFactory _builderFactory = default;
 
 		private MapModel _mapModel;
-
+		
 		#endregion
 
 
@@ -242,8 +242,7 @@ namespace Ling.Map
 				var mapData = new Map.MapData();
 				mapData.Setup(builder, builder.TileDataMap);
 
-				// すでに存在する場合も上書きする
-				_mapModel.SetMapData(mapLevel, mapData);
+				_control.SetMapData(mapLevel, mapData);
 			}
 		}
 
