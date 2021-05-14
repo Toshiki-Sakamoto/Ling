@@ -5,12 +5,14 @@
 // Created by toshiki sakamoto on 2021.05.10
 //
 
+using Ling.Const;
+
 namespace Ling.Map
 {
 	/// <summary>
 	/// 落とし物をマップに配置する
 	/// </summary>
-	public class DropItemBuilder
+	public class ItemPool : Utility.Pool.PoolManager<Item.PrefabType, ItemPool>
 	{
 		#region 定数, class, enum
 
@@ -38,6 +40,7 @@ namespace Ling.Map
 
 
 		#region public, protected 関数
+
 
 		#endregion
 
