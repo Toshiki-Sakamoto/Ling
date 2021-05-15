@@ -11,7 +11,7 @@ using System.Linq;
 using UnityEditor;
 using System;
 
-namespace Ling.Item.Editor
+namespace Ling.Map.Item.Editor
 {
 	/// <summary>
 	/// アイテムの種類と画像を紐付けるDataMapを生成するEditor
