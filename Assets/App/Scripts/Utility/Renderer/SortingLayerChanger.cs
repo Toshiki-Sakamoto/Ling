@@ -41,6 +41,9 @@ namespace Utility.Renderer
 		[SerializeField]
 		private bool _isIncludeChildren = default;
 
+		[SerializeField]
+		private bool _isExecuteWhenAwake = true;
+
 		#endregion
 
 
@@ -77,6 +80,19 @@ namespace Utility.Renderer
 
 		#region public, protected 関数
 
+		public void SetLayerNameAndOrder(string layerName, int orderInLayer)
+		{
+			_layerName = layerName;
+			_orderInLayer = orderInLayer;
+
+			// todo: キャッシュを有効にするかフラグ追加しよう
+			foreach (var renderer in GetComponentsInChildren<UnityEngine.Renderer>(includeInactive: true))
+			{
+				renderer.sortingLayerName = _layerName;
+				renderer.sortingOrder = _orderInLayer;
+			}
+		}
+
 		#endregion
 
 
@@ -89,8 +105,11 @@ namespace Utility.Renderer
 
 		private void Awake()
 		{
-			LayerName = _layerName;
-			OrderInLayer = _orderInLayer;
+			if (_isExecuteWhenAwake)
+			{
+				LayerName = _layerName;
+				OrderInLayer = _orderInLayer;
+			}
 		}
 
 		private void OnValidate()
