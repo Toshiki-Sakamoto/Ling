@@ -20,13 +20,6 @@ namespace Ling.Map
 	{
 		#region 定数, class, enum
 
-		public enum OrderType : int
-		{
-			Map,
-			Item,
-			Chara
-		}
-
 		#endregion
 
 
@@ -163,6 +156,34 @@ namespace Ling.Map
 			// 親とsortingLayerの設定
 			enemy.transform.SetParent(root, worldPositionStays: false);
 			enemy.SetSortingLayerAndOrder(groundTilemap.LayerName, (int)OrderType.Chara);
+		}
+
+		public void SetSortingLayerAndOrder(GameObject gameObject, int level, OrderType orderType = OrderType.Chara)
+		{
+			var sortingLayerChanger = gameObject.GetComponent<Utility.Renderer.SortingLayerChanger>();
+			if (sortingLayerChanger == null)
+			{
+				Utility.Log.Error("SortingLayerChangerがアタッチされていない");
+				return;
+			}
+
+			// 親の設定
+			var root = default(Transform);
+			switch (orderType)
+			{
+				case OrderType.Item:
+					root = GetItemRoot(level);
+					break;
+
+				default:
+					Utility.Log.Error($"指定されたタイプの親がいない {orderType}");
+					return;
+			}
+
+			gameObject.transform.SetParent(root, worldPositionStays: true);
+
+			var groundTilemap = FindGroundTilemap(level);
+			sortingLayerChanger.SetLayerNameAndOrder(groundTilemap.LayerName, (int)orderType);
 		}
 
 		/// <summary>

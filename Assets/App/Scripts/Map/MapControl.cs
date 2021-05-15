@@ -16,15 +16,38 @@ using Ling.Map.TileDataMapExtensions;
 using Ling.Map.TileDataMapExtensionss.Chara;
 using System.Linq;
 using System.Collections.Generic;
+using Utility.Extensions;
 
 using Zenject;
 
 namespace Ling.Map
 {
+	public enum OrderType : int
+	{
+		None,
+			
+		Map,
+		Item,
+		Chara
+	}
+
+
+	/// <summary>
+	/// マップにオブジェクトの配置をする物
+	/// </summary>
+	public interface IMapObjectInstaller
+	{
+		/// <summary>
+		/// マップにオブジェクトを配置する
+		/// </summary>
+		void PlaceObject(GameObject gameObject, int level, in Vector2Int cellPos, OrderType orderType = OrderType.Chara);
+	}
+
+
 	/// <summary>
 	/// ダンジョンマップコントロール
 	/// </summary>
-	public class MapControl : MonoBehaviour
+	public class MapControl : MonoBehaviour, IMapObjectInstaller
 	{
 		#region 定数, class, enum
 
@@ -248,13 +271,38 @@ namespace Ling.Map
 			_model.SetMapData(level, mapData);
 
 			// 新しく生成する
+		}
+
+		/// <summary>
+		/// 引数のObjectをマップに配置する
+		/// </summary>
+		public void PlaceObject(GameObject gameObject, int level, in Vector2Int cellPos, OrderType orderType = OrderType.Chara)
+		{
+			var tilemap = FindTilemap(level);
+
+			var worldPos = tilemap.GetCellCenterWorld(cellPos.ToVector3Int());
+			gameObject.transform.position = worldPos;
+			gameObject.transform.localRotation = Quaternion.identity;
+
+			// SortingLayerとOrderを設定する
+			_view.SetSortingLayerAndOrder(gameObject, level, orderType);
+		}
+
+		/// <summary>
+		/// 指定したマップにアイテムをばらまく
+		/// </summary>
+		public void CreateItemObjectToMap(int level)
+		{
+			var mapData = _model.FindMapData(level);
 
 			// 落とし物の生成
 			// アイテムの配置を行う
 			var mapMaster = _model.StageMaster.GetMapMasterByLevel(level);
 
 			var dropItemController = _view.FindDropItemController(level);
-			dropItemController.Apply(mapMaster, mapData);
+			dropItemController.Setup(this);
+					
+			dropItemController.CreateAtBuild(level, mapMaster, mapData, FindTilemap(level));
 		}
 
 		#endregion

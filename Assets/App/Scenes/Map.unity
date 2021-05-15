@@ -277,7 +277,7 @@ MonoBehaviour:
   _grid: {fileID: 109318013}
   _tilemap: {fileID: 1174814662}
   _mapLevel: 0
-  _itemRoot: {fileID: 0}
+  _itemRoot: {fileID: 1229234876}
   _enemyRoot: {fileID: 669260389}
   _sortingChanger: {fileID: 109318015}
   _enemyControlGroup: {fileID: 109318016}
@@ -299,6 +299,7 @@ MonoBehaviour:
   _layerName: Default
   _orderInLayer: 0
   _isIncludeChildren: 1
+  _isExecuteWhenAwake: 1
 --- !u!114 &109318016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,7 +512,7 @@ MonoBehaviour:
   _grid: {fileID: 143247243}
   _tilemap: {fileID: 116123184}
   _mapLevel: 0
-  _itemRoot: {fileID: 0}
+  _itemRoot: {fileID: 1693005563}
   _enemyRoot: {fileID: 1481681377}
   _sortingChanger: {fileID: 143247245}
   _enemyControlGroup: {fileID: 143247246}
@@ -533,6 +534,7 @@ MonoBehaviour:
   _layerName: Default
   _orderInLayer: 0
   _isIncludeChildren: 1
+  _isExecuteWhenAwake: 1
 --- !u!114 &143247246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1364,7 +1366,7 @@ MonoBehaviour:
   _grid: {fileID: 1017254158}
   _tilemap: {fileID: 1845025752}
   _mapLevel: 0
-  _itemRoot: {fileID: 0}
+  _itemRoot: {fileID: 2059301893}
   _enemyRoot: {fileID: 776082088}
   _sortingChanger: {fileID: 1017254160}
   _enemyControlGroup: {fileID: 1017254161}
@@ -1386,6 +1388,7 @@ MonoBehaviour:
   _layerName: Default
   _orderInLayer: 0
   _isIncludeChildren: 1
+  _isExecuteWhenAwake: 1
 --- !u!114 &1017254161
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6922,7 +6925,41 @@ MonoBehaviour:
     creator: {fileID: 0}
     createInfo:
       poolRoot: {fileID: 1859548535}
-      poolObject: {fileID: 0}
+      poolObject: {fileID: 1003912244658023900, guid: 7a8a5b425a61c467c91d27eace0376fd,
+        type: 3}
+      initCreateNum: 10
+      isAutoCreate: 1
+      onceCreatingNum: 20
+  - key: 2
+    id: 
+    isUsedCreator: 0
+    creator: {fileID: 0}
+    createInfo:
+      poolRoot: {fileID: 1859548535}
+      poolObject: {fileID: 1003912244658023900, guid: 7a8a5b425a61c467c91d27eace0376fd,
+        type: 3}
+      initCreateNum: 0
+      isAutoCreate: 1
+      onceCreatingNum: 20
+  - key: 3
+    id: 
+    isUsedCreator: 0
+    creator: {fileID: 0}
+    createInfo:
+      poolRoot: {fileID: 1859548535}
+      poolObject: {fileID: 1003912244658023900, guid: 7a8a5b425a61c467c91d27eace0376fd,
+        type: 3}
+      initCreateNum: 0
+      isAutoCreate: 1
+      onceCreatingNum: 20
+  - key: 0
+    id: 
+    isUsedCreator: 0
+    creator: {fileID: 0}
+    createInfo:
+      poolRoot: {fileID: 1859548535}
+      poolObject: {fileID: 1003912244658023900, guid: 7a8a5b425a61c467c91d27eace0376fd,
+        type: 3}
       initCreateNum: 0
       isAutoCreate: 1
       onceCreatingNum: 20
@@ -11631,7 +11668,7 @@ MonoBehaviour:
   _grid: {fileID: 2080930055}
   _tilemap: {fileID: 2058739658}
   _mapLevel: 0
-  _itemRoot: {fileID: 0}
+  _itemRoot: {fileID: 842455955}
   _enemyRoot: {fileID: 1015893937}
   _sortingChanger: {fileID: 2080930057}
   _enemyControlGroup: {fileID: 2080930058}
@@ -11653,6 +11690,7 @@ MonoBehaviour:
   _layerName: Default
   _orderInLayer: 0
   _isIncludeChildren: 1
+  _isExecuteWhenAwake: 1
 --- !u!114 &2080930058
 MonoBehaviour:
   m_ObjectHideFlags: 0

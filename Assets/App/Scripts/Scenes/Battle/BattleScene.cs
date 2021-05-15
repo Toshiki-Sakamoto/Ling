@@ -297,9 +297,9 @@ namespace Ling.Scenes.Battle
 
 
 		/// <summary>
-		/// 敵グループをマップに配置する
+		/// 敵やアイテムなど必要なオブジェクトをマップに配置する
 		/// </summary>
-		public void DeployEnemyToMap(Chara.EnemyControlGroup enemyGroup, int level)
+		public void DeployObjectToMap(Chara.EnemyControlGroup enemyGroup, int level)
 		{
 			foreach (var enemy in enemyGroup)
 			{
@@ -309,6 +309,9 @@ namespace Ling.Scenes.Battle
 				MapControl.SetChara(enemy, level);
 				enemy.Model.InitPos(pos);
 			}
+
+			// アイテムを配置する
+			MapControl.CreateItemObjectToMap(level);
 		}
 
 		#endregion

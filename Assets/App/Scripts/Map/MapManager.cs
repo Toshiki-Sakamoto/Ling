@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Ling.Map.TileDataMapExtensions;
 using Ling.Const;
+using Utility.Extensions;
 
 using Zenject;
 
@@ -120,6 +121,9 @@ namespace Ling.Map
 
 		public Vector3 GetCellCenterWorldByMap(int mapIndex, int x, int y) =>
 			MapControl.GetCellCenterWorld(mapIndex, x, y);
+
+		public Vector3 GetCellCenterWorldByMap(int mapIndex, in Vector2Int cellPos) =>
+			GetCellCenterWorldByMap(mapIndex, cellPos.x, cellPos.y);
 
 		/// <summary>
 		/// キャラが移動できるか

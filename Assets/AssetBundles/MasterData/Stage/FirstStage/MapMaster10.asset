@@ -19,3 +19,5 @@ MonoBehaviour:
   _mapEnemyData:
   - _enemyType: 1
     _popRate: 100
+  _dropItemTableMaster: {fileID: 11400000, guid: 6296c3a762f18448296c6b91559e46f7,
+    type: 2}

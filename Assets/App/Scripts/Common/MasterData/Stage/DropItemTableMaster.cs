@@ -90,10 +90,12 @@ namespace Ling.MasterData.Stage
 			Initialize();
 
 			var index = Utility.Random.Range(_totalRate);
+			var count = 0;
 
 			foreach (var data in _data)
 			{
-				if (index < data.Rate)
+				count += data.Rate;
+				if (index < count)
 				{
 					return data.ItemMaster;
 				}

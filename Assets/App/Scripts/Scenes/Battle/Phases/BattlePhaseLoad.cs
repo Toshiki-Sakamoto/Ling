@@ -118,8 +118,8 @@ namespace Ling.Scenes.Battle.Phases
 			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindGroundTilemap(2));
 
 			// 敵をマップに配置する
-			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(1), 1);
-			Scene.DeployEnemyToMap(_charaManager.FindEnemyControlGroup(2), 2);
+			Scene.DeployObjectToMap(_charaManager.FindEnemyControlGroup(1), 1);
+			Scene.DeployObjectToMap(_charaManager.FindEnemyControlGroup(2), 2);
 
 			// Player ステイタスUIを表示する
 			// todo: シーンの依存関係に紐付けたい
