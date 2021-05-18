@@ -46,7 +46,7 @@ namespace Utility.Pool
 		/// <summary>
 		/// プールに戻した時に呼び出される
 		/// </summary>
-		public System.Action<PoolItem> OnRelease { get; set; }
+		public Utility.IFunction OnRelease { get; set; }
 
 		#endregion
 
