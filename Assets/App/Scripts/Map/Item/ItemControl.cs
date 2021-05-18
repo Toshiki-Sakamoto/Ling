@@ -64,7 +64,7 @@ namespace Ling.Map.Item
 		/// <summary>
 		/// マップから自分の情報を剥がす
 		/// </summary>
-		public void DetachByMap()
+		public void RemoveFlag()
 		{
 			TileData.RemoveFlag(Const.TileFlag.Item);
 		}
@@ -80,6 +80,9 @@ namespace Ling.Map.Item
 				Utility.Log.Error("プール管理されていない");
 				return;
 			}
+
+			// プールに戻る時にフラグを削除する
+			RemoveFlag();
 
 			pool.Detach();
 		}
