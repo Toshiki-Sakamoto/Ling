@@ -69,7 +69,7 @@ namespace Ling.Chara
 
 			model.Setup(param);
 			model.SetStatus(new CharaStatus(5, 100, 5, 0));
-			model.SetMapLevel(1);
+//			model.SetMapLevel(1);
 
 			Player.Setup();
 

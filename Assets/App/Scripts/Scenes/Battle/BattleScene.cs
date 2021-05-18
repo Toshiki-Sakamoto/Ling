@@ -50,6 +50,7 @@ namespace Ling.Scenes.Battle
 		Adv,
 		UseItem,
 		Equip,	// 装備着脱
+		ItemGet,	// アイテムを拾う
 	}
 
 	/// <summary>
@@ -158,6 +159,7 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhasePlayerAction>(Phase.PlayerAction);
 			RegistPhase<BattlePhasePlayerAttack>(Phase.PlayerAttack);
 			RegistPhase<BattlePhasePlayerSkill>(Phase.PlayerSkill);
+			RegistPhase<BattlePhaseItemGet>(Phase.ItemGet);
 
 			RegistPhase<BattlePhaseAdv>(Phase.Adv);
 			RegistPhase<BattlePhaseNextStage>(Phase.NextStage);
@@ -267,7 +269,7 @@ namespace Ling.Scenes.Battle
 			_mapManager.ChangeNextLevel(_model.Level);
 
 			// キャラクタ管理者
-			_charaManager.ChangeNextLevel(_mapManager.CurrentTilemap, _model.Level);
+			_charaManager.ChangeNextLevel(_mapManager.CurrentTilemap, _mapManager.CurrentMapData, _model.Level);
 
 			// 次の階層に行った
 			View.UIHeaderView.SetLevel(_model.Level);
@@ -305,7 +307,6 @@ namespace Ling.Scenes.Battle
 			{
 				var pos = MapControl.GetRandomPosInRoom(level);
 
-				enemy.Model.SetMapLevel(level);
 				MapControl.SetChara(enemy, level);
 				enemy.Model.InitPos(pos);
 			}

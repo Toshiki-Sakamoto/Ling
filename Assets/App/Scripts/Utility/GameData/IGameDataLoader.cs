@@ -15,7 +15,7 @@ namespace Utility.GameData
 	/// </summary>
 	public interface IGameDataLoader
 	{
-		UniTask<T> LoadAssetAsync<T>(string key) where T : Utility.GameData.IGameDataBasic;
-		UniTask<IList<T>> LoadAssetsAsync<T>(string key) where T : Utility.GameData.IGameDataBasic;
+		UniTask<T> LoadAssetAsync<T>(string key);
+		UniTask<IList<T>> LoadAssetsAsync<T>(string key);
 	}
 }

@@ -90,6 +90,12 @@ namespace Ling.Scenes.Battle.Message
 					// HP回復
 					ShowMessage($"<color=#90ee90>{ev.Chara.Name} は HP{ev.Value}回復した</Color>");
 				});
+
+			_eventManager.Add<Chara.EventItemGet>(this, ev => 
+				{
+					// アイテムを手に入れた
+					ShowMessage($"{ev.ItemMaster.Name} を 拾った");
+				});
 		}
 
 		private  void OnDestroy()

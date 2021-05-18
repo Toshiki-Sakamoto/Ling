@@ -12,6 +12,7 @@ using Ling.MasterData.Item;
 using Zenject;
 using UnityEngine.Tilemaps;
 using Utility.Extensions;
+using Sirenix.OdinInspector;
 
 namespace Ling.Map
 {
@@ -23,13 +24,13 @@ namespace Ling.Map
 		private Const.TileFlag BlockTileFlag = Const.TileFlag.Hole | Const.TileFlag.Item;
 
 		[SerializeField] private ItemPool _pool = default;
+		[ShowInInspector] private Dictionary<int, Item.ItemControl> _itemObjectDict = new Dictionary<int, Item.ItemControl>();
 
 
 		private IMapObjectInstaller _mapObjectInstaller;
 		private int _level;
 		private MapData _mapData;
 		private Tilemap _tileMap;
-		private List<Item.ItemControl> _itemObjects = new List<Item.ItemControl>();
 
 		// 生成されたアイテムを保持する
 
@@ -81,12 +82,12 @@ namespace Ling.Map
 		public void Release()
 		{
 			// すべてプールに戻す
-			foreach (var itemObject in _itemObjects)
+			foreach (var pair in _itemObjectDict)
 			{
-				_pool.Push(itemObject.gameObject);
+				pair.Value.Release();
 			}
 
-			_itemObjects.Clear();
+			_itemObjectDict.Clear();
 		}
 
 		public Item.ItemControl CreateItemObject(TileData tileData, ItemMaster itemMaster)
@@ -98,9 +99,16 @@ namespace Ling.Map
 
 			// アイテムを作成する
 			var item = _pool.Pop<Item.ItemControl>(itemMaster.PrefabType);
-			item.Setup(itemMaster);
+			item.Setup(itemMaster, tileData);
+			
+			// Poolに戻った時を検知する
+			var poolItem = item.GetComponent<Utility.Pool.PoolItem>();
+			poolItem.OnRelease = _ => 
+				{
+					_itemObjectDict.Remove(item.TileData.Index);
+				};
 
-			_itemObjects.Add(item);
+			_itemObjectDict.Add(tileData.Index, item);
 
 			// マップに配置する
 			_mapObjectInstaller.PlaceObject(item.gameObject, _level, tileData.Pos, OrderType.Item);
@@ -116,6 +124,19 @@ namespace Ling.Map
 			if (tileData.HasFlag(BlockTileFlag)) return false;
 
 			return true;
+		}
+
+		public bool TryGetItemObject(int index, out Item.ItemControl itemControl)
+		{
+			itemControl = null;
+
+			if (_itemObjectDict.TryGetValue(index, out var result))
+			{
+				itemControl = result;
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

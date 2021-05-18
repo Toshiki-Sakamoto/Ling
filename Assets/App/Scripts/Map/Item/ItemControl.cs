@@ -29,10 +29,19 @@ namespace Ling.Map.Item
 
 		[SerializeField] private ItemView _view = default;
 
+		private DropItemController _dropItemController;
+
 		#endregion
 
 
 		#region プロパティ
+
+		public ItemMaster Master { get; private set; }
+
+		/// <summary>
+		/// 現在配置されてるTileData
+		/// </summary>
+		public TileData TileData { get; set; }
 
 		#endregion
 
@@ -44,9 +53,35 @@ namespace Ling.Map.Item
 
 		#region public, protected 関数
 
-		public void Setup(ItemMaster itemMaster)
+		public void Setup(ItemMaster itemMaster, TileData tileData)
 		{
+			Master = itemMaster;
+			TileData = tileData;
+
 			_view.Setup();
+		}
+
+		/// <summary>
+		/// マップから自分の情報を剥がす
+		/// </summary>
+		public void DetachByMap()
+		{
+			TileData.RemoveFlag(Const.TileFlag.Item);
+		}
+
+		/// <summary>
+		/// 自分を削除してプールに戻す
+		/// </summary>
+		public void Release()
+		{
+			var pool = GetComponent<Utility.Pool.PoolItem>();
+			if (pool == null)
+			{
+				Utility.Log.Error("プール管理されていない");
+				return;
+			}
+
+			pool.Detach();
 		}
 
 		#endregion

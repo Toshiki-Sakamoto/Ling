@@ -105,6 +105,12 @@ namespace Ling.Map
 			return pos.GetRandom();
 		}
 
+		public int GetIndex(int x, int y) =>
+			y * Width + x;
+
+		public int GetIndex(in Vector2Int pos) =>
+			GetIndex(pos.x, pos.y);
+
 		#endregion
 
 

@@ -116,9 +116,12 @@ namespace Ling.Map
 		public void SetChara(Chara.ICharaController chara, int level)
 		{
 			var tilemap = FindTilemap(level);
+			var mapData = _model.FindMapData(level);
 
 			var charaModel = chara.Model;
 			var charaView = chara.View;
+
+			charaModel.SetMapLevel(level, mapData);
 			charaView.gameObject.SetActive(true);
 
 			switch (charaModel.CharaType)
@@ -288,6 +291,9 @@ namespace Ling.Map
 			_view.SetSortingLayerAndOrder(gameObject, level, orderType);
 		}
 
+		public DropItemController FindDropItemController(int level) =>
+			_view.FindDropItemController(level);
+
 		/// <summary>
 		/// 指定したマップにアイテムをばらまく
 		/// </summary>
@@ -299,7 +305,7 @@ namespace Ling.Map
 			// アイテムの配置を行う
 			var mapMaster = _model.StageMaster.GetMapMasterByLevel(level);
 
-			var dropItemController = _view.FindDropItemController(level);
+			var dropItemController = FindDropItemController(level);
 			dropItemController.Setup(this);
 					
 			dropItemController.CreateAtBuild(level, mapMaster, mapData, FindTilemap(level));
