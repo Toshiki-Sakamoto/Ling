@@ -103,10 +103,11 @@ namespace Ling.Map
 			
 			// Poolに戻った時を検知する
 			var poolItem = item.GetComponent<Utility.Pool.PoolItem>();
-			poolItem.OnRelease = _ => 
+			poolItem.OnRelease = new Utility.FunctionParam1<Item.ItemControl>(item, 
+				item_ => 
 				{
-					_itemObjectDict.Remove(item.TileData.Index);
-				};
+					_itemObjectDict.Remove(item_.TileData.Index);
+				});
 
 			_itemObjectDict.Add(tileData.Index, item);
 

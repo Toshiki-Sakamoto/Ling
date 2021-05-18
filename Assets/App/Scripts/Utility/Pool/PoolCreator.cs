@@ -154,6 +154,7 @@ namespace Utility.Pool
 
 				// 自動生成
 				result = CreatePoolAdditional();
+				_unusedPoolItems.Pop();
 			}
 			else
 			{
@@ -192,8 +193,7 @@ namespace Utility.Pool
 			_usedPoolItems.Remove(poolItem);
 			_unusedPoolItems.Push(poolItem);
 
-			poolItem.OnRelease?.Invoke(poolItem);
-			poolItem.OnRelease = null;
+			poolItem.OnRelease?.Execute();
 		}
 
 		/// <summary>
