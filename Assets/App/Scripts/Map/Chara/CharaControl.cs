@@ -291,7 +291,8 @@ namespace Ling.Chara
 		/// </summary>
 		public void ExecuteAttackProcess()
 		{
-			foreach (var process in _attackProcess)
+			var tmp = _attackProcess.ToArray();
+			foreach (var process in tmp)
 			{
 				// 終了時、攻撃プロセスリストから削除する
 				process.AddAllFinishAction(action_ =>
