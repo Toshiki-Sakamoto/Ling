@@ -191,6 +191,9 @@ namespace Utility.Pool
 
 			_usedPoolItems.Remove(poolItem);
 			_unusedPoolItems.Push(poolItem);
+
+			poolItem.OnRelease?.Invoke(poolItem);
+			poolItem.OnRelease = null;
 		}
 
 		/// <summary>
