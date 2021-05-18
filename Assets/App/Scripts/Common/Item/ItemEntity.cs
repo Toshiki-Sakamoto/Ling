@@ -34,7 +34,7 @@ namespace Ling.Common.Item
 		[SerializeField] private int _id;
 		[SerializeField] private Const.Item.Category _category;
 
-		private ItemMaster _master;
+		protected ItemMaster _master;
 
 		#endregion
 

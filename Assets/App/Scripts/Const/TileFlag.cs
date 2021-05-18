@@ -57,6 +57,9 @@ namespace Ling.Const
 		public static bool HasWall(this TileFlag flag) =>
 			flag.HasAny(TileFlag.Wall);
 
+		public static bool HasItem(this TileFlag flag) =>
+			flag.HasAny(TileFlag.Item);
+
 		public static void GetFlags(this TileFlag flag, System.Action<TileFlag> action)
 		{
 			if (action == null) return;

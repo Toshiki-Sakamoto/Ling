@@ -45,6 +45,8 @@ namespace Ling.MasterData.Stage
 		[SerializeField]
 		private MapEnemyData[] _mapEnemyData = default;
 
+		[SerializeField, FieldName("落とし物テーブル")] private DropItemTableMaster _dropItemTableMaster = default;
+
 
 		private int _popRateMaxParameter;   // 最大出現率の母数
 
@@ -62,6 +64,11 @@ namespace Ling.MasterData.Stage
 		/// 出現する敵のデータ
 		/// </summary>
 		public MapEnemyData[] MapEnemyData => _mapEnemyData;
+
+		/// <summary>
+		/// 落とし物テーブルマスタ
+		/// </summary>
+		public DropItemTableMaster DropItemTableMaster => _dropItemTableMaster;
 
 		#endregion
 

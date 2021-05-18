@@ -20,13 +20,6 @@ namespace Ling.Map
 	{
 		#region 定数, class, enum
 
-		public enum OrderType : int
-		{
-			Map,
-			Item,
-			Chara
-		}
-
 		#endregion
 
 
@@ -165,6 +158,34 @@ namespace Ling.Map
 			enemy.SetSortingLayerAndOrder(groundTilemap.LayerName, (int)OrderType.Chara);
 		}
 
+		public void SetSortingLayerAndOrder(GameObject gameObject, int level, OrderType orderType = OrderType.Chara)
+		{
+			var sortingLayerChanger = gameObject.GetComponent<Utility.Renderer.SortingLayerChanger>();
+			if (sortingLayerChanger == null)
+			{
+				Utility.Log.Error("SortingLayerChangerがアタッチされていない");
+				return;
+			}
+
+			// 親の設定
+			var root = default(Transform);
+			switch (orderType)
+			{
+				case OrderType.Item:
+					root = GetItemRoot(level);
+					break;
+
+				default:
+					Utility.Log.Error($"指定されたタイプの親がいない {orderType}");
+					return;
+			}
+
+			gameObject.transform.SetParent(root, worldPositionStays: true);
+
+			var groundTilemap = FindGroundTilemap(level);
+			sortingLayerChanger.SetLayerNameAndOrder(groundTilemap.LayerName, (int)orderType);
+		}
+
 		/// <summary>
 		/// 指定階層のアイテムルートを取得する
 		/// </summary>
@@ -222,9 +243,19 @@ namespace Ling.Map
 				// 削除する
 				PushUnusedItem(tilemap);
 
+				// todo: 落とし物もここで破棄
+				ResetDropItemController(tilemap);
+
 				// 削除したことを伝える
 				_eventManager.Trigger(new EventRemoveMap { level = tilemap.Level });
 			}
+		}
+
+		public DropItemController FindDropItemController(int index)
+		{
+			var groundTilemap = FindGroundTilemap(index);
+
+			return GetDropItemController(groundTilemap);
 		}
 
 		#endregion
@@ -278,6 +309,21 @@ namespace Ling.Map
 			_usedItems.RemoveAt(0);
 
 			return result;
+		}
+
+
+		/// <summary>
+		/// todo: 現状はここで落とし物の管理を行う
+		/// </summary>
+		private void ResetDropItemController(Map.GroundTilemap groundTilemap)
+		{
+			var controller = GetDropItemController(groundTilemap);
+			controller.Release();
+		}
+
+		private DropItemController GetDropItemController(Map.GroundTilemap groundTilemap)
+		{
+			return groundTilemap.GetComponent<DropItemController>();
 		}
 
 		#endregion

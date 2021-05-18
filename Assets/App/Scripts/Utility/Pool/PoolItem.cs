@@ -43,6 +43,11 @@ namespace Utility.Pool
 		/// </summary>
 		public bool IsUsed { get; private set; }
 
+		/// <summary>
+		/// プールに戻した時に呼び出される
+		/// </summary>
+		public System.Action<PoolItem> OnRelease { get; set; }
+
 		#endregion
 
 

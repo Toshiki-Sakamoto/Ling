@@ -140,7 +140,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 次のレベルに移動する
 		/// </summary>
-		public void ChangeNextLevel(UnityEngine.Tilemaps.Tilemap tilemap, int level)
+		public void ChangeNextLevel(UnityEngine.Tilemaps.Tilemap tilemap, Map.MapData mapData, int level)
 		{
 			// 元のマップからPlayerを削除する
 			var playerPos = PlayerModel.CellPosition.Value;
@@ -149,7 +149,7 @@ namespace Ling.Chara
 			// 座標をもとに戻す
 			ResetPlayerUpPosition();
 
-			PlayerModel.SetMapLevel(level);
+			PlayerModel.SetMapLevel(level, mapData);
 
 			// 移動後のTilemapをPlayerに登録し直す
 			Player.SetTilemap(tilemap, level);

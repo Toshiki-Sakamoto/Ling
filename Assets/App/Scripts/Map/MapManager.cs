@@ -10,6 +10,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Ling.Map.TileDataMapExtensions;
 using Ling.Const;
+using Utility.Extensions;
 
 using Zenject;
 
@@ -43,7 +44,7 @@ namespace Ling.Map
 		[Inject] private Builder.BuilderFactory _builderFactory = default;
 
 		private MapModel _mapModel;
-
+		
 		#endregion
 
 
@@ -120,6 +121,9 @@ namespace Ling.Map
 
 		public Vector3 GetCellCenterWorldByMap(int mapIndex, int x, int y) =>
 			MapControl.GetCellCenterWorld(mapIndex, x, y);
+
+		public Vector3 GetCellCenterWorldByMap(int mapIndex, in Vector2Int cellPos) =>
+			GetCellCenterWorldByMap(mapIndex, cellPos.x, cellPos.y);
 
 		/// <summary>
 		/// キャラが移動できるか
@@ -242,8 +246,7 @@ namespace Ling.Map
 				var mapData = new Map.MapData();
 				mapData.Setup(builder, builder.TileDataMap);
 
-				// すでに存在する場合も上書きする
-				_mapModel.SetMapData(mapLevel, mapData);
+				_control.SetMapData(mapLevel, mapData);
 			}
 		}
 

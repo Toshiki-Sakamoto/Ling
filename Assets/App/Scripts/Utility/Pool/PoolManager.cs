@@ -151,6 +151,17 @@ namespace Utility.Pool
 		}
 
 		/// <summary>
+		/// プールに戻す
+		/// </summary>
+		public void Push(GameObject obj)
+		{
+			var poolItem = obj.GetComponent<PoolItem>();
+			if (poolItem == null) return;
+
+			poolItem.Detach();
+		}
+
+		/// <summary>
 		/// すべてのアイテムをプールに戻す
 		/// 初期値には戻さない
 		/// </summary>

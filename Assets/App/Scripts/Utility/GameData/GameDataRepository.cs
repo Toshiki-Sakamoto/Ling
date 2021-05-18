@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Zenject;
 using Utility.DebugConfig;
 using Utility.Extensions;
+using UnityEngine;
 
 namespace Utility.GameData
 {
@@ -55,7 +56,9 @@ namespace Utility.GameData
 	/// <summary>
 	/// User/Master データ管理リポジトリベース
 	/// </summary>
-	public abstract class GameDataRepository<T> : IGameDataRepository, 
+	[System.Serializable]
+	public abstract class GameDataRepository<T> : ScriptableObject,
+		IGameDataRepository,
 		Utility.Repository.IRepository<T>
 	{
 		#region 定数, class, enum
@@ -69,15 +72,15 @@ namespace Utility.GameData
 
 
 		#region private 変数
-		
-		[Inject] private DiContainer _diContainer;
+
+		[SerializeField] private List<T> _entities = new List<T>();
 
 		#endregion
 
 
 		#region プロパティ
 
-		public List<T> Entities { get; } = new List<T>();
+		public List<T> Entities => _entities;
 
 
 #if DEBUG
@@ -93,6 +96,13 @@ namespace Utility.GameData
 
 
 		#region public, protected 関数
+
+		public void Add(T entity)
+		{
+			if (entity == null) return;
+
+			Entities.Add(entity);
+		}
 
 		public void Add(IEnumerable<T> entities)
 		{

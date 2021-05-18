@@ -21,8 +21,8 @@ namespace Ling.Const
 
 			Food,   // 食べ物
 			Book,   // 本 (読むと効果が発揮するもの)
-			//Weapon, // 武器
-			//Shield, // 盾
+			Weapon, // 武器
+			Shield, // 盾
 		}
 
 		/// <summary>
@@ -57,6 +57,18 @@ namespace Ling.Const
 		public enum Shield
 		{
 			WoodShield,
+		}
+
+		/// <summary>
+		/// 見た目を表すもの
+		/// </summary>
+		public enum PrefabType
+		{
+			None,
+
+			Food,
+			Weapon,
+			Shild,
 		}
 	}
 }

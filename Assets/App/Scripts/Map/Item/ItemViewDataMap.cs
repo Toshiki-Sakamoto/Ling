@@ -9,7 +9,7 @@
 using UnityEngine;
 using System;
 
-namespace Ling.Item
+namespace Ling.Map.Item
 {
 	/// <summary>
 	/// Itemの種類に応じて見た目を変えるための情報を持つクラス

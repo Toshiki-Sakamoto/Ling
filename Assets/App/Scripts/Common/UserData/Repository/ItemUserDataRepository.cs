@@ -6,6 +6,7 @@
 //
 
 using Ling.UserData.Item;
+using UnityEngine;
 
 namespace Ling.UserData.Repository
 {
@@ -26,6 +27,8 @@ namespace Ling.UserData.Repository
 
 		#region private 変数
 
+		[SerializeField] private int _maxCapacity = 15;	// 最大容量 : todo:生成時マスタデータから初期値を決めるようにする
+
 		#endregion
 
 
@@ -44,6 +47,24 @@ namespace Ling.UserData.Repository
 
 
 		#region public, protected 関数
+
+		/// <summary>
+		/// 容量確認後追加する
+		/// </summary>
+		public bool ConfirmAndAdd(MasterData.Item.ItemMaster item)
+		{
+			if (Entities.Count >= _maxCapacity)
+			{
+				// 容量いっぱいなので追加できなかった
+				return false;
+			}
+
+			// マスタからユーザーデータを作成する
+			var userData = Item.ItemUserData.Create(item);
+
+			Add(userData);
+			return true;
+		}
 
 #if DEBUG
 		protected override void DebugAddFinished()

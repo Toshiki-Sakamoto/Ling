@@ -33,6 +33,15 @@ namespace Ling.MasterData.Equipment
 
 		#region プロパティ
 
+
+		/// <summary>
+		/// アイテムカテゴリ
+		/// </summary>
+		public override Const.Item.Category Category => Const.Item.Category.Weapon;
+
+		/// <summary>
+		/// 装備カテゴリ
+		/// </summary>
 		public override Const.Equipment.Category Type => Const.Equipment.Category.Weapon;
 
 		#endregion

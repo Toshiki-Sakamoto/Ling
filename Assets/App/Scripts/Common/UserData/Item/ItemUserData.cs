@@ -44,6 +44,13 @@ namespace Ling.UserData.Item
 
 		#region public, protected 関数
 
+		public static ItemUserData Create(MasterData.Item.ItemMaster item)
+		{
+			var instance = new ItemUserData();
+			instance._master = item;
+
+			return instance;
+		}
 
 		#endregion
 

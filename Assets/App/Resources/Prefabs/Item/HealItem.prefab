@@ -11,10 +11,8 @@ GameObject:
   - component: {fileID: 1003912244658023902}
   - component: {fileID: 1003912244658023903}
   - component: {fileID: 1735221514}
-  - component: {fileID: 707607799496577437}
-  - component: {fileID: 4091214953372542140}
   m_Layer: 0
-  m_Name: Item
+  m_Name: HealItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -99,32 +97,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _category: 0
---- !u!114 &707607799496577437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1003912244658023900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: caec2c4ee9bea4524baad3b0c237f374, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _view: {fileID: 1735221514}
---- !u!114 &4091214953372542140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1003912244658023900}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ebb994736fc2f43b4f84dd2386427e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _layerName: Default
-  _orderInLayer: 0
-  _isIncludeChildren: 0
-  _isExecuteWhenAwake: 0

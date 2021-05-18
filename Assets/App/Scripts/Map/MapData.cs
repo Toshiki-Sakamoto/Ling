@@ -91,11 +91,25 @@ namespace Ling.Map
 		/// </summary>
 		public Vector2Int GetRandomPosInRoom()
 		{
+			return GetRandomTileDataInRoom().Pos;
+		}
+
+		/// <summary>
+		/// 部屋のランダムな座標のTileDataを取得する
+		/// </summary>
+		public TileData GetRandomTileDataInRoom()
+		{
 			var values = TileDataMap.Rooms.Values;
 			var pos = values.ElementAt(Utility.Random.Range(values.Count));
 
-			return pos.GetRandom().Pos;
+			return pos.GetRandom();
 		}
+
+		public int GetIndex(int x, int y) =>
+			y * Width + x;
+
+		public int GetIndex(in Vector2Int pos) =>
+			GetIndex(pos.x, pos.y);
 
 		#endregion
 

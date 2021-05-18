@@ -164,6 +164,12 @@ namespace Ling.Map
 		}
 
 		/// <summary>
+		/// ランダムに部屋データを取得する
+		/// </summary>
+		public RoomData GetRandomRoom() =>
+			Rooms.GetRandomValue();
+
+		/// <summary>
 		/// 道のマップを作成する
 		/// </summary>
 		//public void BuildRoadMap() =>

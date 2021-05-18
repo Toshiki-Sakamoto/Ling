@@ -33,6 +33,11 @@ namespace Ling.MasterData.Equipment
 
 		#region プロパティ
 
+		/// <summary>
+		/// アイテムカテゴリ
+		/// </summary>
+		public override Const.Item.Category Category => Const.Item.Category.Shield;
+
 		public override Const.Equipment.Category Type => Const.Equipment.Category.Shield;
 
 		#endregion

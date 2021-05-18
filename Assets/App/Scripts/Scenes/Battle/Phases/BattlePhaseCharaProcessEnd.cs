@@ -61,8 +61,13 @@ namespace Ling.Scenes.Battle.Phases
 			var tileDataMap = _mapManager.CurrentTileDataMap;
 			var tileFlag = tileDataMap.GetTileFlag(player.Model.CellPosition.Value);
 
+			// アイテム確認
+			if (tileFlag.HasItem())
+			{
+				Change(Phase.ItemGet, new BattlePhaseItemGet.Arg { NextPhase = Phase.CharaProcessEnd });
+			}
 			// 下り階段
-			if (tileFlag.HasStepDown())
+			else if (tileFlag.HasStepDown())
 			{
 				ConfirmNextStage();
 			}

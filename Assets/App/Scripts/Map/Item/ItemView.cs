@@ -7,7 +7,7 @@
 
 using UnityEngine;
 
-namespace Ling.Item
+namespace Ling.Map.Item
 {
 	/// <summary>
 	/// アイテムの見た目を管理

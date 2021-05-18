@@ -80,4 +80,13 @@ namespace Ling.Chara
 		public ICharaController Chara;
 		public long Value;
 	}
+
+	/// <summary>
+	/// アイテムを手に入れた
+	/// </summary>
+	public class EventItemGet
+	{
+		public MasterData.Item.ItemMaster ItemMaster;	// 取得したアイテム
+		public Chara.ICharaController Chara;
+	}
 }

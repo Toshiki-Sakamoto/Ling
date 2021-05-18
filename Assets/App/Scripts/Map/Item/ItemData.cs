@@ -5,7 +5,7 @@
 // Created by toshiki sakamoto on 2020.11.07
 //
 
-namespace Ling.Item
+namespace Ling.Map.Item
 {
 	/// <summary>
 	/// 

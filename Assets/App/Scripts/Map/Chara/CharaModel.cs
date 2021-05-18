@@ -38,11 +38,13 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		private Param _param = null;
-		private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
-
 		[SerializeField] private Vector2IntReactiveProperty _cellPosition = default; // マップ上の自分の位置
 		[SerializeField] private bool _isReactiveCellPosition = true;
+
+		private Param _param = null;
+		private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
+		private Map.MapData _mapData;	// 現在自分が配置されているマップ情報
+		
 
 		#endregion
 
@@ -83,6 +85,11 @@ namespace Ling.Chara
 		/// 現在のセル上の座標
 		/// </summary>
 		public Vector2IntReactiveProperty CellPosition => _cellPosition;
+
+		/// <summary>
+		/// セル上のインデックス値
+		/// </summary>
+		public int CellIndex { get; private set; }
 
 		/// <summary>
 		/// CellPositionを反映させるか
@@ -175,15 +182,18 @@ namespace Ling.Chara
 		public void SetAttackAI(AI.Attack.AIBase attackAI) =>
 			AttackAI = attackAI;
 
-		public void SetMapLevel(int mapLevel)
+		public void SetMapLevel(int mapLevel, Map.MapData mapData)
 		{
 			MapLevel = mapLevel;
+			_mapData = mapData;
 		}
 
 		public void InitPos(in Vector2Int pos)
 		{
 			_isReactiveCellPosition = true;
 			CellPosition.Value = pos;
+
+			CellIndex = _mapData.GetIndex(pos);
 
 			_eventPosUpdate.prevPos = null;
 			_eventPosUpdate.newPos = pos;
@@ -212,6 +222,8 @@ namespace Ling.Chara
 
 			_isReactiveCellPosition = reactive;
 			_cellPosition.SetValueAndForceNotify(pos);
+
+			CellIndex = _mapData.GetIndex(pos);
 		}
 
 		/// <summary>

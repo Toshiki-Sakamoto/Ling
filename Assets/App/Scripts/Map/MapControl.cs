@@ -14,15 +14,40 @@ using Utility;
 using Ling.Chara;
 using Ling.Map.TileDataMapExtensions;
 using Ling.Map.TileDataMapExtensionss.Chara;
+using System.Linq;
+using System.Collections.Generic;
+using Utility.Extensions;
 
 using Zenject;
 
 namespace Ling.Map
 {
+	public enum OrderType : int
+	{
+		None,
+			
+		Map,
+		Item,
+		Chara
+	}
+
+
+	/// <summary>
+	/// マップにオブジェクトの配置をする物
+	/// </summary>
+	public interface IMapObjectInstaller
+	{
+		/// <summary>
+		/// マップにオブジェクトを配置する
+		/// </summary>
+		void PlaceObject(GameObject gameObject, int level, in Vector2Int cellPos, OrderType orderType = OrderType.Chara);
+	}
+
+
 	/// <summary>
 	/// ダンジョンマップコントロール
 	/// </summary>
-	public class MapControl : MonoBehaviour
+	public class MapControl : MonoBehaviour, IMapObjectInstaller
 	{
 		#region 定数, class, enum
 
@@ -91,9 +116,12 @@ namespace Ling.Map
 		public void SetChara(Chara.ICharaController chara, int level)
 		{
 			var tilemap = FindTilemap(level);
+			var mapData = _model.FindMapData(level);
 
 			var charaModel = chara.Model;
 			var charaView = chara.View;
+
+			charaModel.SetMapLevel(level, mapData);
 			charaView.gameObject.SetActive(true);
 
 			switch (charaModel.CharaType)
@@ -238,6 +266,51 @@ namespace Ling.Map
 			return pos;
 		}
 
+		/// <summary>
+		/// 新しく生成されたMapDataを設定する
+		/// </summary>
+		public void SetMapData(int level, MapData mapData)
+		{
+			_model.SetMapData(level, mapData);
+
+			// 新しく生成する
+		}
+
+		/// <summary>
+		/// 引数のObjectをマップに配置する
+		/// </summary>
+		public void PlaceObject(GameObject gameObject, int level, in Vector2Int cellPos, OrderType orderType = OrderType.Chara)
+		{
+			var tilemap = FindTilemap(level);
+
+			var worldPos = tilemap.GetCellCenterWorld(cellPos.ToVector3Int());
+			gameObject.transform.position = worldPos;
+			gameObject.transform.localRotation = Quaternion.identity;
+
+			// SortingLayerとOrderを設定する
+			_view.SetSortingLayerAndOrder(gameObject, level, orderType);
+		}
+
+		public DropItemController FindDropItemController(int level) =>
+			_view.FindDropItemController(level);
+
+		/// <summary>
+		/// 指定したマップにアイテムをばらまく
+		/// </summary>
+		public void CreateItemObjectToMap(int level)
+		{
+			var mapData = _model.FindMapData(level);
+
+			// 落とし物の生成
+			// アイテムの配置を行う
+			var mapMaster = _model.StageMaster.GetMapMasterByLevel(level);
+
+			var dropItemController = FindDropItemController(level);
+			dropItemController.Setup(this);
+					
+			dropItemController.CreateAtBuild(level, mapMaster, mapData, FindTilemap(level));
+		}
+
 		#endregion
 
 
@@ -292,7 +365,22 @@ namespace Ling.Map
 					var newTileData = GetTileData(ev_.mapLevel, ev_.newPos.x, ev_.newPos.y);
 					newTileData.AddFlag(tileFlag);
 				});
+
+			// Mapが破棄された
+			// todo: このイベント、Viewからきてるが、そもそも階層管理はControl側に任せるべきで改修しなければ
+			this.AddEventListener<EventRemoveMap>(ev_ => 
+				{
+//					var elmenet = FindElement(ev_.level);
+//					elmenet.Reset();
+				});
 		}
+
+		/*
+		private Element FindElement(int mapIndex)
+		{
+//			return System.Array.Find(_elements, element => element.MapIndex == mapIndex);
+		}
+*/
 
 		#endregion
 	}
