@@ -6,6 +6,7 @@
 //
 
 using Zenject;
+using UnityEngine;
 
 namespace Utility.UserData
 {
@@ -30,8 +31,12 @@ namespace Utility.UserData
 	/// <summary>
 	/// UserData Repository
 	/// </summary>
-	public class UserDataRepository<T> : Utility.GameData.GameDataRepository<T>
-		where T : Utility.GameData.IGameDataBasic
+	[System.Serializable]
+	public class UserDataRepository<TGameData> : Utility.GameData.GameDataRepository<TGameData>
+#if DEBUG
+		, IUserDataDebuggable
+#endif
+		where TGameData : Utility.GameData.IGameDataBasic
 	{
 		#region 定数, class, enum
 
@@ -45,10 +50,11 @@ namespace Utility.UserData
 
 		#region private 変数
 
-#if DEBUG
-		[Inject] protected UserDataDebugMenu _userDataDebugMenu;
+		[SerializeField] protected bool _isInitialized = false;	// 初期化済み()
 
-		protected UserDataRepositoryDebugMenu<T> _debugMenu;
+#if DEBUG
+		protected UserDataDebugMenu _userDataDebugMenu;
+		protected UserDataRepositoryDebugMenu<TGameData> _debugMenu;
 #endif
 
 		#endregion
@@ -70,11 +76,18 @@ namespace Utility.UserData
 
 		#region public, protected 関数
 
+#if DEBUG
+		public void SetDebugMenu(UserDataDebugMenu userDataDebugMenu)
+		{
+			_userDataDebugMenu = userDataDebugMenu;
+		}
+#endif
+
 		public override void Initialize() 
 		{
 #if DEBUG
 			// 自分を登録
-			_debugMenu = _userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<T>>();
+			_debugMenu = _userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<TGameData>>();
 #endif
 		}
 

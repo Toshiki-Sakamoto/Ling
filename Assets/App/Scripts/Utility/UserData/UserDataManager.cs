@@ -10,6 +10,7 @@ using Cysharp.Threading.Tasks;
 using Zenject;
 using Utility.GameData;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Utility.UserData
 {
@@ -23,19 +24,88 @@ namespace Utility.UserData
 	} 
 #endif
 
+
+#if DEBUG
+	/// <summary>
+	/// UserDataデバッガ
+	/// </summary>
+	public interface IUserDataDebuggable
+	{
+		void SetDebugMenu(UserDataDebugMenu userDataDebugMenu);
+	}
+#endif
+
+	public interface IUserDataInitializable
+	{
+		/// <summary>
+		/// 初回読み込み時
+		/// </summary>
+		void OnFirstLoad();
+	}
+
+
 	/// <summary>
 	/// UserDataはローカルファイルとして保存/読み込みする
 	/// </summary>
 	public class LocalFileLoader : IGameDataLoader
 	{
+		[Inject] private UserDataDebugMenu _userDataDebugMenu;
+		[Inject] private Utility.SaveData.ISaveDataHelper _saveDataHelper;
+
+
 		async UniTask<T> IGameDataLoader.LoadAssetAsync<T>(string key)
+			where T : class
 		{
-			return default(T);
+			var instance = default(T);
+
+			// あれば読み込む。なければ作成
+			if (!Exists<T>(key))
+			{
+				instance = Save<T>(key);
+			}
+			else
+			{
+				instance = _saveDataHelper.Load<T>("UserData.save", $"{key}");
+			}
+
+#if DEBUG
+			// IUserDataDebuggerを継承していたら
+			if (instance is IUserDataDebuggable debuggable)
+			{
+				debuggable.SetDebugMenu(_userDataDebugMenu);
+			}
+#endif
+
+			return instance;
 		}
 
 		async UniTask<IList<T>> IGameDataLoader.LoadAssetsAsync<T>(string key)
+			where T : class
 		{
 			return default(IList<T>);
+		}
+
+
+		/// <summary>
+		/// ユーザーデータが存在するか
+		/// </summary>
+		protected bool Exists<T>(string key)
+		{
+			return _saveDataHelper.Exists("UserData.save", $"{key}");
+		}
+
+		public T Save<T>(string key)
+			where T : class
+		{
+			var instance = ScriptableObject.CreateInstance(typeof(T)) as T;
+			if (instance is IUserDataInitializable initializable)
+			{
+				initializable.OnFirstLoad();
+			}
+
+			_saveDataHelper.Save("UserData.save", $"{key}", instance);
+
+			return instance as T;
 		}
 	}
 
@@ -69,6 +139,7 @@ namespace Utility.UserData
 		#region private 変数
 
 		[Inject] DiContainer _diContainer;
+		[Inject] Utility.SaveData.ISaveDataHelper _saveDataHelper;
 
 #if DEBUG
 		protected UserDataDebugMenu _debugMenu;
@@ -88,7 +159,7 @@ namespace Utility.UserData
 
 
 		#region public, protected 関数
-
+		
 		protected void LoadFinished()
 		{
 			LoadFinished<UserDataLoadedEvent>();
@@ -101,13 +172,13 @@ namespace Utility.UserData
 
 		public void Awake()
 		{
-			// Loaderを生成する
-			var loader = _diContainer.Instantiate<LocalFileLoader>();
-			SetLoader(loader);
-
 #if DEBUG
 			_debugMenu = _rootMenuData.CreateAndAddItem<UserDataDebugMenu>();
 #endif
+
+			// Loaderを生成する
+			var loader = _diContainer.Instantiate<LocalFileLoader>();
+			SetLoader(loader);
 		}
 
 		#endregion

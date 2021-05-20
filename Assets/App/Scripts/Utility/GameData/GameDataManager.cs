@@ -141,7 +141,7 @@ namespace Utility.GameData
 		/// <summary>
 		/// ロード処理リストに突っ込む
 		/// </summary>
-		protected void AddLoadTask<TGameData>(string key) where TGameData : Utility.GameData.IGameDataBasic
+		protected void AddLoadTask<TGameData>(string key) where TGameData : class, Utility.GameData.IGameDataBasic
 		{
 			_loadTasks.Add(LoadAsync<TGameData>(key, data =>
 				{
@@ -154,7 +154,7 @@ namespace Utility.GameData
 		/// 指定したデータのアセットを複数読み込んでリポジトリに格納する
 		/// </summary>
 		protected void AddLoadRepositoryTask<TGameData, TRepository>(string key)
-			where TGameData : Utility.GameData.IGameDataBasic
+			where TGameData : class, Utility.GameData.IGameDataBasic
 			where TRepository : GameDataRepository<TGameData>, new()
 		{
 			// todo: 以前のデータが存在する場合、削除するかClearするだけにするか決めること
@@ -169,7 +169,7 @@ namespace Utility.GameData
 		/// <summary>
 		/// リポジトリ自体のアセットを読み込む
 		/// </summary>
-		protected void AddLoadRepositoryInstanceTask<TGameData, TRepository>(string key)
+		protected void LoadSaveDataRepositoryTask<TGameData, TRepository>(string key)
 			where TGameData : Utility.GameData.IGameDataBasic
 			where TRepository : GameDataRepository<TGameData>, new()
 		{
@@ -180,6 +180,7 @@ namespace Utility.GameData
 		/// 実際の非同期読み込み処理
 		/// </summary>
 		protected async UniTask LoadAsync<T>(string key, System.Action<T> onSuccess)
+			where T : class
 		{
 			var master = await _loader.LoadAssetAsync<T>(key);
 
@@ -190,6 +191,7 @@ namespace Utility.GameData
 		/// 指定フォルダ以下のMasterを検索し、Repositoryにすべて格納する
 		/// </summary>
 		protected async UniTask LoadRepositoryAsync<T>(string key, GameDataRepository<T> repository)
+			where T : class
 		{
 			var masters = await _loader.LoadAssetsAsync<T>(key);
 			repository.Add(masters);
