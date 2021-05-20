@@ -9,6 +9,12 @@ namespace Utility
 		public override void InstallBindings()
 		{
 			Container
+				.Bind<SaveData.ISaveDataHelper>()
+				.To<SaveData.SaveHelper>()
+				.FromComponentInHierarchy()
+				.AsSingle();
+
+			Container
 				.Bind<IEventManager>()
 				.To<EventManager>()
 				.FromComponentInHierarchy()
