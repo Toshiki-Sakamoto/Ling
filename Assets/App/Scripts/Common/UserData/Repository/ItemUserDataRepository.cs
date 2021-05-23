@@ -13,7 +13,7 @@ namespace Ling.UserData.Repository
 	/// <summary>
 	/// プレイヤーが持っている持ち物
 	/// </summary>
-	public class ItemUserDataRepository : Utility.UserData.UserDataRepository<ItemUserData>
+	public class ItemUserDataRepository : Utility.UserData.UserDataRepository<ItemUserDataRepository, ItemUserData>
 	{
 		#region 定数, class, enum
 

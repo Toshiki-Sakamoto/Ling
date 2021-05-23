@@ -16,7 +16,7 @@ namespace Ling.UserData.Repository
 	/// <summary>
 	/// 装備ユーザーデータ
 	/// </summary>
-	public class EquipmentUserDataRepository : Utility.UserData.UserDataRepository<EquipmentUserData>
+	public class EquipmentUserDataRepository : Utility.UserData.UserDataRepository<EquipmentUserDataRepository, EquipmentUserData>
 	{
 		#region 定数, class, enum
 

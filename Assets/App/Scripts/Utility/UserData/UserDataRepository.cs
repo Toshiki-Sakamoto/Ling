@@ -32,11 +32,12 @@ namespace Utility.UserData
 	/// <summary>
 	/// UserData Repository
 	/// </summary>
-	public abstract class UserDataRepository<TGameData> : Utility.GameData.GameDataRepository<TGameData>
+	public abstract class UserDataRepository<T, TGameData> : Utility.GameData.GameDataRepository<TGameData>
 		, IGameDataSavable
 #if DEBUG
 		, IUserDataDebuggable
 #endif
+		where T : Utility.GameData.GameDataRepository<TGameData>
 		where TGameData : Utility.GameData.IGameDataBasic
 	{
 		#region 定数, class, enum
@@ -103,7 +104,7 @@ namespace Utility.UserData
 		bool IGameDataSavable.Save(Utility.GameData.IGameDataSaver saver)
 		{
 			var savable = (IGameDataSavable)this;
-			saver.Save(savable.SaveDataKey, this);
+			saver.Save(savable.SaveDataKey, this as T);
 
 			return true;
 		}
