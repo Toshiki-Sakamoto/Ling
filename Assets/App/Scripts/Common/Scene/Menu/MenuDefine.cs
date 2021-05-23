@@ -29,7 +29,7 @@ namespace Ling.Common.Scene.Menu
 			Bag,		// 持ち物(今はアイテムのみとする)
 			Equip,		// 装備一覧
 			Shop,		// ショップ:買う
-			Setting,	// 設定
+			Other,		// その他
 		}
 	}
 
@@ -42,7 +42,7 @@ namespace Ling.Common.Scene.Menu
 				case MenuDefine.Category.Bag: return "もちもの";
 				case MenuDefine.Category.Equip: return "装備";
 				case MenuDefine.Category.Shop: return "ショップ";
-				case MenuDefine.Category.Setting: return "設定";
+				case MenuDefine.Category.Other: return "その他";
 
 				default: return "None";
 			}

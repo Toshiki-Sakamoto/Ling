@@ -77,7 +77,7 @@ namespace Ling.Scenes.Menu
 				case MenuDefine.Group.Menu:
 					CategoryData.Add(new MenuCategoryData(MenuDefine.Category.Bag));
 					CategoryData.Add(new MenuCategoryData(MenuDefine.Category.Equip));
-					CategoryData.Add(new MenuCategoryData(MenuDefine.Category.Setting));
+					CategoryData.Add(new MenuCategoryData(MenuDefine.Category.Other));
 					break;
 
 				case MenuDefine.Group.Shop:
