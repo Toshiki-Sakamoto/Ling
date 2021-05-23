@@ -57,6 +57,12 @@ namespace Utility.MasterData
 		public TBaseEntity Find(TCategory category, int id)
 		{
 			var repository = FindRepository(category);
+			if (repository == null)
+			{
+				Utility.Log.Error($"Categoryがnull {category} {id}");
+				return default(TBaseEntity);
+			}
+
 			var data = repository.FindBase(id);
 
 			if (data == null)

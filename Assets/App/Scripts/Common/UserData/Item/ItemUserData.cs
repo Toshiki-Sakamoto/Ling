@@ -47,7 +47,7 @@ namespace Ling.UserData.Item
 		public static ItemUserData Create(MasterData.Item.ItemMaster item)
 		{
 			var instance = new ItemUserData();
-			instance._master = item;
+			instance.SetMaster(item);
 
 			return instance;
 		}

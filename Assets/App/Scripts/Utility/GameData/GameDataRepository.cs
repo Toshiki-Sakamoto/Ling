@@ -96,14 +96,14 @@ namespace Utility.GameData
 
 		#region public, protected 関数
 
-		public void Add(T entity)
+		public virtual void Add(T entity)
 		{
 			if (entity == null) return;
 
 			Entities.Add(entity);
 		}
 
-		public void Add(IEnumerable<T> entities)
+		public virtual void Add(IEnumerable<T> entities)
 		{
 			if (entities == null) return;
 
