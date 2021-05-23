@@ -35,7 +35,7 @@ namespace Ling.UserData.Repository
 		#region プロパティ
 
 #if DEBUG
-		protected override bool EnableDebugMode => true; // todo: 強制ON
+		protected override bool EnableDebugMode => false;
 #endif
 
 		#endregion
