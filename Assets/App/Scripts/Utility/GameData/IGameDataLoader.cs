@@ -21,4 +21,24 @@ namespace Utility.GameData
 		UniTask<IList<T>> LoadAssetsAsync<T>(string key)
 			where T : class;
 	}
+
+	/// <summary>
+	/// 保存の役目
+	/// </summary>
+	public interface IGameDataSaver
+	{
+		T Save<T>(string key, T value)
+			where T : class;
+	}
+
+	/// <summary>
+	/// セーブ可能であること
+	/// </summary>
+	public interface IGameDataSavable
+	{
+		string SaveDataKey { get; set; }
+
+		bool Save(IGameDataSaver saver);
+	}
+
 }

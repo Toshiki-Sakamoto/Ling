@@ -7,6 +7,7 @@
 
 using Zenject;
 using UnityEngine;
+using Utility.GameData;
 
 namespace Utility.UserData
 {
@@ -31,8 +32,8 @@ namespace Utility.UserData
 	/// <summary>
 	/// UserData Repository
 	/// </summary>
-	[System.Serializable]
-	public class UserDataRepository<TGameData> : Utility.GameData.GameDataRepository<TGameData>
+	public abstract class UserDataRepository<TGameData> : Utility.GameData.GameDataRepository<TGameData>
+		, IGameDataSavable
 #if DEBUG
 		, IUserDataDebuggable
 #endif
@@ -66,6 +67,11 @@ namespace Utility.UserData
 		protected override bool EnableDebugMode => _debugMenu.EnableDebugMode.IsOn;
 #endif
 
+		/// <summary>
+		/// セーブデータの保存読み込みに必要なKey
+		/// </summary>
+		string IGameDataSavable.SaveDataKey { get; set; }
+
 		#endregion
 
 
@@ -89,6 +95,17 @@ namespace Utility.UserData
 			// 自分を登録
 			_debugMenu = _userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<TGameData>>();
 #endif
+		}
+
+		/// <summary>
+		/// 自分自身を保存する
+		/// </summary>
+		bool IGameDataSavable.Save(Utility.GameData.IGameDataSaver saver)
+		{
+			var savable = (IGameDataSavable)this;
+			saver.Save(savable.SaveDataKey, this);
+
+			return true;
 		}
 
 		#endregion

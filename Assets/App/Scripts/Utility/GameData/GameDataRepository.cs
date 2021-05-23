@@ -81,8 +81,7 @@ namespace Utility.GameData
 		#region プロパティ
 
 		public List<T> Entities => _entities;
-
-
+		
 #if DEBUG
 		protected abstract bool EnableDebugMode { get; }
 #endif
