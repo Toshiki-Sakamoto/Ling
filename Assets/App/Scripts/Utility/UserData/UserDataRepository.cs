@@ -34,6 +34,7 @@ namespace Utility.UserData
 	/// </summary>
 	public abstract class UserDataRepository<T, TGameData> : Utility.GameData.GameDataRepository<TGameData>
 		, IGameDataSavable
+		, IUserDataInitializable
 #if DEBUG
 		, IUserDataDebuggable
 #endif
@@ -96,6 +97,13 @@ namespace Utility.UserData
 			// 自分を登録
 			_debugMenu = _userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<TGameData>>();
 #endif
+		}
+
+		/// <summary>
+		/// 最初の読み込み時に一度だけ呼び出される
+		/// </summary>
+		public virtual void OnFirstLoad()
+		{
 		}
 
 		/// <summary>
