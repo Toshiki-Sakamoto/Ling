@@ -188,6 +188,8 @@ namespace Utility.GameData
 				savable.SaveDataKey = key;
 			}
 
+			Utility.Log.Print($"[{key}] を読み込みました");
+
 			onSuccess?.Invoke(data);
 		}
 
@@ -200,6 +202,8 @@ namespace Utility.GameData
 			var data = await _loader.LoadAssetsAsync<T>(key);
 			repository.Add(data);
 			repository.AddFinished();
+
+			Utility.Log.Print($"[{key}] を読み込みました");
 		}
 
 		protected async UniTask<GameDataRepository<T>> LoadRepositoryAsync<T, TRepository>(string key) where TRepository : GameDataRepository<T>
@@ -209,6 +213,8 @@ namespace Utility.GameData
 			{
 				savable.SaveDataKey = key;
 			}
+
+			Utility.Log.Print($"[{key}] リポジトリを読み込みました");
 
 			repository.AddFinished();
 

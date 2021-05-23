@@ -177,6 +177,8 @@ namespace Utility.UserData
 				if (!(pair.Value is IGameDataSavable savable)) continue;
 
 				savable.Save(_saver);
+
+				Utility.Log.Print($"[{pair.Key}] を保存しました");
 			}
 		}
 		
