@@ -43,11 +43,10 @@ namespace Utility.UserData
 		void OnFirstLoad();
 	}
 
-
 	/// <summary>
 	/// UserDataはローカルファイルとして保存/読み込みする
 	/// </summary>
-	public class LocalFileLoader : IGameDataLoader
+	public class LocalFileLoader : IGameDataLoader, IGameDataSaver
 	{
 		[Inject] private UserDataDebugMenu _userDataDebugMenu;
 		[Inject] private Utility.SaveData.ISaveDataHelper _saveDataHelper;
@@ -61,7 +60,8 @@ namespace Utility.UserData
 			// あれば読み込む。なければ作成
 			if (!Exists<T>(key))
 			{
-				instance = Save<T>(key);
+				var saver = (IGameDataSaver)this;
+				instance = saver.Save(key, default(T));
 			}
 			else
 			{
@@ -86,26 +86,31 @@ namespace Utility.UserData
 		}
 
 
+		T IGameDataSaver.Save<T>(string key, T value)
+			where T : class
+		{
+			if (value == null)
+			{
+				value = ScriptableObject.CreateInstance(typeof(T)) as T;
+
+				if (value is IUserDataInitializable initializable)
+				{
+					initializable.OnFirstLoad();
+				}
+			}
+
+			_saveDataHelper.Save("UserData.save", $"{key}", value);
+
+			return value as T;
+		}
+
+
 		/// <summary>
 		/// ユーザーデータが存在するか
 		/// </summary>
 		protected bool Exists<T>(string key)
 		{
 			return _saveDataHelper.Exists("UserData.save", $"{key}");
-		}
-
-		public T Save<T>(string key)
-			where T : class
-		{
-			var instance = ScriptableObject.CreateInstance(typeof(T)) as T;
-			if (instance is IUserDataInitializable initializable)
-			{
-				initializable.OnFirstLoad();
-			}
-
-			_saveDataHelper.Save("UserData.save", $"{key}", instance);
-
-			return instance as T;
 		}
 	}
 
@@ -115,6 +120,7 @@ namespace Utility.UserData
 		bool IsLoaded { get; }
 
 		UniTask LoadAll();
+		void SaveAll();
 
 		TGameData GetData<TGameData>() where TGameData : class;
 
@@ -141,6 +147,8 @@ namespace Utility.UserData
 		[Inject] DiContainer _diContainer;
 		[Inject] Utility.SaveData.ISaveDataHelper _saveDataHelper;
 
+		private IGameDataSaver _saver;
+
 #if DEBUG
 		protected UserDataDebugMenu _debugMenu;
 #endif
@@ -159,6 +167,20 @@ namespace Utility.UserData
 
 
 		#region public, protected 関数
+
+
+		void IUserDataManager.SaveAll()
+		{
+			// リポジトリの保存
+			foreach (var pair in _repositoryDict)
+			{
+				if (!(pair.Value is IGameDataSavable savable)) continue;
+
+				savable.Save(_saver);
+
+				Utility.Log.Print($"[{pair.Key}] を保存しました");
+			}
+		}
 		
 		protected void LoadFinished()
 		{
@@ -178,6 +200,8 @@ namespace Utility.UserData
 
 			// Loaderを生成する
 			var loader = _diContainer.Instantiate<LocalFileLoader>();
+			_saver = loader;
+
 			SetLoader(loader);
 		}
 

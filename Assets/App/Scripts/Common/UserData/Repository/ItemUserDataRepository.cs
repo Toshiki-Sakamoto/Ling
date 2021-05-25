@@ -13,7 +13,7 @@ namespace Ling.UserData.Repository
 	/// <summary>
 	/// プレイヤーが持っている持ち物
 	/// </summary>
-	public class ItemUserDataRepository : Utility.UserData.UserDataRepository<ItemUserData>
+	public class ItemUserDataRepository : Utility.UserData.UserDataRepository<ItemUserDataRepository, ItemUserData>
 	{
 		#region 定数, class, enum
 
@@ -35,7 +35,7 @@ namespace Ling.UserData.Repository
 		#region プロパティ
 
 #if DEBUG
-		protected override bool EnableDebugMode => true; // todo: 強制ON
+		protected override bool EnableDebugMode => false;
 #endif
 
 		#endregion
@@ -66,13 +66,28 @@ namespace Ling.UserData.Repository
 			return true;
 		}
 
+		public override void OnFirstLoad()
+		{
+			var entities = new ItemUserData[]
+				{
+					new ItemUserData { ID = 1, Category = Const.Item.Category.Food, Uniq = Utility.UniqKey.Create() },
+					new ItemUserData { ID = 2, Category = Const.Item.Category.Food, Uniq = Utility.UniqKey.Create() },
+				};
+
+			Add(entities);
+		}
+
+		protected override void AddFinishedInternal()
+		{
+		}
+
 #if DEBUG
 		protected override void DebugAddFinished()
 		{
 			var entities = new ItemUserData[]
 				{
-					new ItemUserData { ID = 1, Category = Const.Item.Category.Food },
-					new ItemUserData { ID = 2, Category = Const.Item.Category.Food },
+					new ItemUserData { ID = 1, Category = Const.Item.Category.Food, Uniq = Utility.UniqKey.Create() },
+					new ItemUserData { ID = 2, Category = Const.Item.Category.Food, Uniq = Utility.UniqKey.Create() },
 				};
 
 			Add(entities);

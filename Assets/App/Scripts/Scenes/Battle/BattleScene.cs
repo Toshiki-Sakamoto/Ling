@@ -322,7 +322,12 @@ namespace Ling.Scenes.Battle
 
 		private void OnCamebackByMenu(BattleResult result)
 		{
-			if (result == null) return;
+			if (result == null)
+			{
+				// 何も選択されなかった
+				_phase.ChangePhase(Phase.PlayerAction);
+				return;
+			}
 
 			switch (result.Menu)
 			{

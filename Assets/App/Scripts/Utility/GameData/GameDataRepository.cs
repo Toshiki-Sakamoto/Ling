@@ -58,7 +58,8 @@ namespace Utility.GameData
 	/// </summary>
 	[System.Serializable]
 	public abstract class GameDataRepository<T> : ScriptableObject,
-		IGameDataRepository,
+		IGameDataRepository, 
+		ISerializationCallbackReceiver,
 		Utility.Repository.IRepository<T>
 	{
 		#region 定数, class, enum
@@ -81,8 +82,7 @@ namespace Utility.GameData
 		#region プロパティ
 
 		public List<T> Entities => _entities;
-
-
+		
 #if DEBUG
 		protected abstract bool EnableDebugMode { get; }
 #endif
@@ -97,18 +97,25 @@ namespace Utility.GameData
 
 		#region public, protected 関数
 
-		public void Add(T entity)
+		public virtual void Add(T entity)
 		{
 			if (entity == null) return;
 
 			Entities.Add(entity);
 		}
 
-		public void Add(IEnumerable<T> entities)
+		public virtual void Add(IEnumerable<T> entities)
 		{
 			if (entities == null) return;
 
 			Entities.AddRange(entities);
+		}
+
+		public virtual void Remove(T entity)
+		{
+			if (entity == null) return;
+
+			Entities.Remove(entity);
 		}
 
 		
@@ -142,6 +149,15 @@ namespace Utility.GameData
 #if DEBUG
 		protected virtual void DebugAddFinished() {}
 #endif
+
+		public void OnAfterDeserialize()
+		{
+		}
+ 
+		public void OnBeforeSerialize() 
+		{
+		}
+
 
 		#endregion
 

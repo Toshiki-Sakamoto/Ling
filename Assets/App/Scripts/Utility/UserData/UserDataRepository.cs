@@ -7,6 +7,7 @@
 
 using Zenject;
 using UnityEngine;
+using Utility.GameData;
 
 namespace Utility.UserData
 {
@@ -31,12 +32,14 @@ namespace Utility.UserData
 	/// <summary>
 	/// UserData Repository
 	/// </summary>
-	[System.Serializable]
-	public class UserDataRepository<TGameData> : Utility.GameData.GameDataRepository<TGameData>
+	public abstract class UserDataRepository<T, TUserData> : Utility.GameData.GameDataRepository<TUserData>
+		, IGameDataSavable
+		, IUserDataInitializable
 #if DEBUG
 		, IUserDataDebuggable
 #endif
-		where TGameData : Utility.GameData.IGameDataBasic
+		where T : Utility.GameData.GameDataRepository<TUserData>
+		where TUserData : Utility.UserData.UserDataBase
 	{
 		#region 定数, class, enum
 
@@ -54,7 +57,7 @@ namespace Utility.UserData
 
 #if DEBUG
 		protected UserDataDebugMenu _userDataDebugMenu;
-		protected UserDataRepositoryDebugMenu<TGameData> _debugMenu;
+		protected UserDataRepositoryDebugMenu<TUserData> _debugMenu;
 #endif
 
 		#endregion
@@ -65,6 +68,11 @@ namespace Utility.UserData
 #if DEBUG
 		protected override bool EnableDebugMode => _debugMenu.EnableDebugMode.IsOn;
 #endif
+
+		/// <summary>
+		/// セーブデータの保存読み込みに必要なKey
+		/// </summary>
+		string IGameDataSavable.SaveDataKey { get; set; }
 
 		#endregion
 
@@ -87,8 +95,34 @@ namespace Utility.UserData
 		{
 #if DEBUG
 			// 自分を登録
-			_debugMenu = _userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<TGameData>>();
+			_debugMenu = _userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<TUserData>>();
 #endif
+		}
+
+		/// <summary>
+		/// ユニークKeyで検索をする
+		/// </summary>
+		public TUserData FindByUniq(Utility.UniqKey uniq)
+		{
+			return Entities.Find(userData => userData.Uniq == uniq);
+		}
+
+		/// <summary>
+		/// 最初の読み込み時に一度だけ呼び出される
+		/// </summary>
+		public virtual void OnFirstLoad()
+		{
+		}
+
+		/// <summary>
+		/// 自分自身を保存する
+		/// </summary>
+		bool IGameDataSavable.Save(Utility.GameData.IGameDataSaver saver)
+		{
+			var savable = (IGameDataSavable)this;
+			saver.Save(savable.SaveDataKey, this as T);
+
+			return true;
 		}
 
 		#endregion

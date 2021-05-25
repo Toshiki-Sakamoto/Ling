@@ -42,6 +42,7 @@ namespace Ling.Scenes.Menu
 		[Header("メニューカテゴリコントロール")]
 		[SerializeField] private Category.MenuCategoryBag _bagControl = default;
 		[SerializeField] private Category.MenuCategoryEquip _equipControl = default;
+		[SerializeField] private Category.MenuCategoryOther _otherControl = default;
 
 		private List<Category.MenuCategoryBase> _categoryControls = new List<Category.MenuCategoryBase>();
 
@@ -173,6 +174,13 @@ namespace Ling.Scenes.Menu
 					_equipControl.OnEquipped = entity => Equip(entity);
 
 					break;
+
+				// その他
+				case MenuDefine.Category.Other:
+					_otherControl.Setup();
+					_categoryControls.Add(_otherControl);
+
+					break;
 			}
 		}
 
@@ -188,6 +196,10 @@ namespace Ling.Scenes.Menu
 
 				case MenuDefine.Category.Equip:
 					_equipControl.Activate();
+					break;
+
+				case MenuDefine.Category.Other:
+					_otherControl.Activate();
 					break;
 			}
 		}

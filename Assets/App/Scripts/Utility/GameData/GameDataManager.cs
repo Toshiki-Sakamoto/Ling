@@ -182,9 +182,15 @@ namespace Utility.GameData
 		protected async UniTask LoadAsync<T>(string key, System.Action<T> onSuccess)
 			where T : class
 		{
-			var master = await _loader.LoadAssetAsync<T>(key);
+			var data = await _loader.LoadAssetAsync<T>(key);
+			if (data is IGameDataSavable savable)
+			{
+				savable.SaveDataKey = key;
+			}
 
-			onSuccess?.Invoke(master);
+			Utility.Log.Print($"[{key}] を読み込みました");
+
+			onSuccess?.Invoke(data);
 		}
 
 		/// <summary>
@@ -193,14 +199,23 @@ namespace Utility.GameData
 		protected async UniTask LoadRepositoryAsync<T>(string key, GameDataRepository<T> repository)
 			where T : class
 		{
-			var masters = await _loader.LoadAssetsAsync<T>(key);
-			repository.Add(masters);
+			var data = await _loader.LoadAssetsAsync<T>(key);
+			repository.Add(data);
 			repository.AddFinished();
+
+			Utility.Log.Print($"[{key}] を読み込みました");
 		}
 
 		protected async UniTask<GameDataRepository<T>> LoadRepositoryAsync<T, TRepository>(string key) where TRepository : GameDataRepository<T>
 		{
 			var repository = await _loader.LoadAssetAsync<TRepository>(key);
+			if (repository is IGameDataSavable savable)
+			{
+				savable.SaveDataKey = key;
+			}
+
+			Utility.Log.Print($"[{key}] リポジトリを読み込みました");
+
 			repository.AddFinished();
 
 			// リポジトリに追加する

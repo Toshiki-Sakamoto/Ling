@@ -17,7 +17,7 @@ namespace Ling.Common.Item
 	/// 基本的なアイテムデータ
 	/// </summary>
 	[System.Serializable]
-	public class ItemEntity
+	public class ItemEntity : Utility.UserData.UserDataBase, ISerializationCallbackReceiver
 	{
 		#region 定数, class, enum
 
@@ -31,8 +31,8 @@ namespace Ling.Common.Item
 
 		#region private 変数
 
-		[SerializeField] private int _id;
-		[SerializeField] private Const.Item.Category _category;
+		[SerializeField] private int _id = default;
+		[SerializeField] private Const.Item.Category _category = default;
 
 		protected ItemMaster _master;
 
@@ -71,6 +71,20 @@ namespace Ling.Common.Item
 
 
 		#region public, protected 関数
+
+		public void SetMaster(ItemMaster master)
+		{
+			ID = master.ID;
+			Category = master.Category;
+		}
+		
+		public void OnAfterDeserialize()
+		{
+		}
+ 
+		public void OnBeforeSerialize() 
+		{
+		}
 
 		#endregion
 
