@@ -58,7 +58,8 @@ namespace Utility.GameData
 	/// </summary>
 	[System.Serializable]
 	public abstract class GameDataRepository<T> : ScriptableObject,
-		IGameDataRepository,
+		IGameDataRepository, 
+		ISerializationCallbackReceiver,
 		Utility.Repository.IRepository<T>
 	{
 		#region 定数, class, enum
@@ -110,6 +111,13 @@ namespace Utility.GameData
 			Entities.AddRange(entities);
 		}
 
+		public virtual void Remove(T entity)
+		{
+			if (entity == null) return;
+
+			Entities.Remove(entity);
+		}
+
 		
 		T Utility.Repository.IRepository<T>.Find(System.Predicate<T> predicate)
 		{
@@ -141,6 +149,15 @@ namespace Utility.GameData
 #if DEBUG
 		protected virtual void DebugAddFinished() {}
 #endif
+
+		public void OnAfterDeserialize()
+		{
+		}
+ 
+		public void OnBeforeSerialize() 
+		{
+		}
+
 
 		#endregion
 

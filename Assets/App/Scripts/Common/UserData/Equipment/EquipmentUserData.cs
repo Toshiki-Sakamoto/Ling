@@ -14,7 +14,7 @@ namespace Ling.UserData.Equipment
 	/// 装備データ
 	/// </summary>
 	[System.Serializable]
-	public class EquipmentUserData : Utility.GameData.IGameDataBasic
+	public class EquipmentUserData : Utility.UserData.UserDataBase
 	{
 		#region 定数, class, enum
 

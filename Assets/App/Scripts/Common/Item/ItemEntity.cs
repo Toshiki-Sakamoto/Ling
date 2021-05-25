@@ -17,7 +17,7 @@ namespace Ling.Common.Item
 	/// 基本的なアイテムデータ
 	/// </summary>
 	[System.Serializable]
-	public class ItemEntity
+	public class ItemEntity : Utility.UserData.UserDataBase, ISerializationCallbackReceiver
 	{
 		#region 定数, class, enum
 
@@ -76,6 +76,14 @@ namespace Ling.Common.Item
 		{
 			ID = master.ID;
 			Category = master.Category;
+		}
+		
+		public void OnAfterDeserialize()
+		{
+		}
+ 
+		public void OnBeforeSerialize() 
+		{
 		}
 
 		#endregion

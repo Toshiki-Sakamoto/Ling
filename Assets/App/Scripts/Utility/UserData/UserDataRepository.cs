@@ -32,14 +32,14 @@ namespace Utility.UserData
 	/// <summary>
 	/// UserData Repository
 	/// </summary>
-	public abstract class UserDataRepository<T, TGameData> : Utility.GameData.GameDataRepository<TGameData>
+	public abstract class UserDataRepository<T, TUserData> : Utility.GameData.GameDataRepository<TUserData>
 		, IGameDataSavable
 		, IUserDataInitializable
 #if DEBUG
 		, IUserDataDebuggable
 #endif
-		where T : Utility.GameData.GameDataRepository<TGameData>
-		where TGameData : Utility.GameData.IGameDataBasic
+		where T : Utility.GameData.GameDataRepository<TUserData>
+		where TUserData : Utility.UserData.UserDataBase
 	{
 		#region 定数, class, enum
 
@@ -57,7 +57,7 @@ namespace Utility.UserData
 
 #if DEBUG
 		protected UserDataDebugMenu _userDataDebugMenu;
-		protected UserDataRepositoryDebugMenu<TGameData> _debugMenu;
+		protected UserDataRepositoryDebugMenu<TUserData> _debugMenu;
 #endif
 
 		#endregion
@@ -95,8 +95,16 @@ namespace Utility.UserData
 		{
 #if DEBUG
 			// 自分を登録
-			_debugMenu = _userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<TGameData>>();
+			_debugMenu = _userDataDebugMenu.AddRepository<UserDataRepositoryDebugMenu<TUserData>>();
 #endif
+		}
+
+		/// <summary>
+		/// ユニークKeyで検索をする
+		/// </summary>
+		public TUserData FindByUniq(Utility.UniqKey uniq)
+		{
+			return Entities.Find(userData => userData.Uniq == uniq);
 		}
 
 		/// <summary>

@@ -47,6 +47,7 @@ namespace Ling.UserData.Item
 		public static ItemUserData Create(MasterData.Item.ItemMaster item)
 		{
 			var instance = new ItemUserData();
+			instance.Uniq = Utility.UniqKey.Create();
 			instance.SetMaster(item);
 
 			return instance;

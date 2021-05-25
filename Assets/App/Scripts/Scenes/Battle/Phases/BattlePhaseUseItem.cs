@@ -37,6 +37,7 @@ namespace Ling.Scenes.Battle.Phases
 		#region private 変数
 
 		[Inject] private Chara.CharaManager _charaManager = default;
+		[Inject] private UserData.IUserDataHolder _userDataHolder = default;
 
 		#endregion
 
@@ -57,6 +58,9 @@ namespace Ling.Scenes.Battle.Phases
 		{
 			// アイテムによって処理を変更する
 			var arg = Argument as Arg;
+
+			// 手持ちから使ったらアイテムを減らす
+//			_userDataHolder.ItemRepository.Remove(arg.Item);
 
 			// スキル
 			var skill = arg.Item.Skill;
