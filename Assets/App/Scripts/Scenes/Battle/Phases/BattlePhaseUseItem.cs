@@ -60,7 +60,7 @@ namespace Ling.Scenes.Battle.Phases
 			var arg = Argument as Arg;
 
 			// 手持ちから使ったらアイテムを減らす
-//			_userDataHolder.ItemRepository.Remove(arg.Item);
+			_userDataHolder.ItemRepository.RemoveByUniq(arg.Item.Uniq);
 
 			// スキル
 			var skill = arg.Item.Skill;
