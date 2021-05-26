@@ -108,6 +108,17 @@ namespace Utility.UserData
 		}
 
 		/// <summary>
+		/// ユニークKeyから削除する
+		/// </summary>
+		public virtual void RemoveByUniq(Utility.UniqKey uniq)
+		{
+			var entity = Entities.Find(entity => entity.Uniq == uniq);
+			if (entity == null) return;
+		
+			Entities.Remove(entity);
+		}
+
+		/// <summary>
 		/// 最初の読み込み時に一度だけ呼び出される
 		/// </summary>
 		public virtual void OnFirstLoad()

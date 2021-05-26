@@ -39,6 +39,18 @@ namespace Utility
 
 		public string Value => _value;
 
+		public Guid Guid 
+		{
+			get 
+			{
+				if (_guid != Guid.Empty) return _guid;
+
+				TryParse();
+				
+				return _guid;
+			}
+		}
+
 		#endregion
 
 
@@ -86,24 +98,37 @@ namespace Utility
 
 		public override bool Equals(object obj)
 		{
-			return obj is UniqKey guid && _guid.Equals(guid._guid);
+			return obj is UniqKey guid && Guid.Equals(guid.Guid);
 		}
 
 		public override int GetHashCode()
 		{
-			return _guid.GetHashCode();
+			return Guid.GetHashCode();
 		}
 
-		public override string ToString() => _guid.ToString();
+		public override string ToString() => Guid.ToString();
 
 
-		public static bool operator ==(UniqKey a, UniqKey b) => a._guid == b._guid;
+		public static bool operator ==(UniqKey a, UniqKey b) => a.Guid == b.Guid;
 		public static bool operator !=(UniqKey a, UniqKey b) => !(a == b);
 
 		#endregion
 
 
 		#region private 関数
+
+		public void TryParse()
+		{
+			try 
+			{
+				_guid = Guid.Parse(_value);
+			} 
+			catch 
+			{
+				_guid = Guid.Empty;
+				Debug.LogWarning($"Attempted to parse invalid GUID string '{_value}'. GUID will set to System.Guid.Empty");
+			}
+		}
 
 		#endregion
 	}
