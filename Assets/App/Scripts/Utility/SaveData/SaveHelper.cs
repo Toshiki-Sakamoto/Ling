@@ -72,11 +72,23 @@ namespace Utility.SaveData
 
 		T ISaveDataHelper.Load<T>(string key)
 		{
-			return ES3.Load<T>(key);
+			var helper = (ISaveDataHelper)this;
+			return helper.Load<T>(null, key);
 		}
 		T ISaveDataHelper.Load<T>(string path, string key)
 		{
-			return ES3.Load<T>(key, GetOrCreateSettings(path));
+			T result = default(T);
+
+			if (string.IsNullOrEmpty(path))
+			{
+				result = ES3.Load<T>(key);
+			}
+			else
+			{
+				result = ES3.Load<T>(key, GetOrCreateSettings(path));
+			}
+
+			return result;
 		}
 
 		bool ISaveDataHelper.Exists(string key)
