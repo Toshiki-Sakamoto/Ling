@@ -39,7 +39,7 @@ namespace Ling.UserData.Repository
 		#region プロパティ
 
 #if DEBUG
-		protected override bool EnableDebugMode => true; // todo: 強制ON
+		protected override bool EnableDebugMode => false;
 #endif
 
 		#endregion
@@ -105,11 +105,21 @@ namespace Ling.UserData.Repository
 		public EquipmentUserData GetEquippedShield() =>
 			_shileds.FirstOrDefault(entity => entity.Equipped);
 
+		public override void OnFirstLoad()
+		{
+			var entities = new EquipmentUserData[]
+				{
+					new EquipmentUserData { ID = 1, Category = Const.Equipment.Category.Weapon, Uniq = Utility.UniqKey.Create() },
+					new EquipmentUserData { ID = 1, Category = Const.Equipment.Category.Shield, Uniq = Utility.UniqKey.Create() },
+				};
+
+			Add(entities);
+		}
+
 		#endregion
 
 
 		#region private 関数
-
 		protected override void AddFinishedInternal()
 		{
 			// 武器と盾に分ける
