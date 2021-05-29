@@ -55,31 +55,40 @@ namespace Ling.Map
 
 
 		#region プロパティ
-
+		
+		[ES3Serializable]
 		public int Width { get; private set; }
+		
+		[ES3Serializable]
 		public int Height { get; private set; }
 
 		public int Size => Width * Height;
 
+		[ES3Serializable]
 		public int MapLevel { get; private set; }
 
+		[ES3Serializable]
 		public TileData[] Tiles { get; private set; }
 
 		/// <summary>
 		/// 部屋MAP
 		/// つながってる部屋は同じ値が入る 1～
 		/// </summary>
-		public Dictionary<int, RoomData> Rooms { get; } = new Dictionary<int, RoomData>();
+		public Dictionary<int, RoomData> Rooms { get; private set; } = new Dictionary<int, RoomData>();
 
 		/// <summary>
 		/// 道Map
 		/// </summary>
+		[ES3Serializable]
 		public int[] RoadMapArray { get; private set; }
-		public Dictionary<int, List<Vector2Int>> RoadMap { get; } = new Dictionary<int, List<Vector2Int>>();
+		
+		[ES3Serializable]
+		public Dictionary<int, List<Vector2Int>> RoadMap { get; private set; } = new Dictionary<int, List<Vector2Int>>();
 
 		/// <summary>
 		/// 下り階段の場所
 		/// </summary>
+		[ES3Serializable]
 		public Vector2Int StepDownPos { get; private set; }
 
 		/// <summary>
@@ -277,7 +286,7 @@ namespace Ling.Map
 		/// 指定した座標の部屋番号を取得する
 		/// </summary>
 		public int GetRoomIndex(int x, int y) =>
-			GetTileData(x, y)?.RoomIndex ?? -1;
+			GetTileData(x, y)?.RoomIndex.Value ?? -1;
 
 		public bool TryGetRoomIndex(int x, int y, out int roomIndex)
 		{

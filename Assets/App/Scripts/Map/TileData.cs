@@ -13,6 +13,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using Ling.Const;
+using Utility;
 
 
 namespace Ling.Map
@@ -29,21 +30,25 @@ namespace Ling.Map
 		/// <summary>
 		/// タイルデータがもつフラグ
 		/// </summary>
+		[ES3Serializable]
 		public TileFlag Flag { get; private set; }
 
 		/// <summary>
 		/// タイルデータの座標
 		/// </summary>
+		[ES3Serializable]
 		public Vector2Int Pos { get; private set; }
 		public int X => Pos.x;
 		public int Y => Pos.y;
 
+		[ES3Serializable]
 		public int Index { get; private set; }
 
 		/// <summary>
 		/// 部屋の場合、各部屋のIndexを割り当てる
 		/// </summary>
-		public int? RoomIndex { get; private set; }
+		[ES3Serializable]
+		public Utility.ValueObject<int> RoomIndex { get; private set; }
 
 		/// <summary>
 		/// 壁ならtrue
@@ -73,7 +78,7 @@ namespace Ling.Map
 			Index = index;
 
 		public void SetRoomIndex(int roomIndex) =>
-			RoomIndex = roomIndex;
+			RoomIndex = new Utility.ValueObject<int>(roomIndex);
 
 		/// <summary>
 		/// フラグとして情報を追加する

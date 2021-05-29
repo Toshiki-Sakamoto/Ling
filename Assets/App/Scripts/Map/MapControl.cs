@@ -47,6 +47,8 @@ namespace Ling.Map
 	/// <summary>
 	/// ダンジョンマップコントロール
 	/// </summary>
+	/// 
+	[System.Serializable]
 	public class MapControl : MonoBehaviour, IMapObjectInstaller
 	{
 		#region 定数, class, enum
@@ -62,6 +64,7 @@ namespace Ling.Map
 		#region private 変数
 
 		[SerializeField] private MapView _view = default;
+		[SerializeField] private int a;
 
 		[Inject] private MasterData.IMasterHolder _masterManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;

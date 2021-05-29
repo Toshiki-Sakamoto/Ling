@@ -20,7 +20,7 @@ using Zenject;
 namespace Ling.Map
 {
 	/// <summary>
-	/// 
+	/// Mapのデータを集める構造
 	/// </summary>
 	public class MapModel
 	{
@@ -44,33 +44,39 @@ namespace Ling.Map
 		#region プロパティ
 
 		public StageMaster StageMaster => _stageMaster;
-
+		
+		[ES3Serializable] 
 		public int AddMap { get; private set; }
 
 		/// <summary>
 		/// 現在のマップID(階層)
 		/// </summary>
+		[ES3Serializable]
 		public int CurrentMapIndex { get; private set; }
 
 		/// <summary>
 		/// 現在のマップデータ
 		/// </summary>
+		[ES3Serializable]
 		public MapData CurrentMapData { get; private set; }
 
 		/// <summary>
 		/// 現在のタイルデータ
 		/// </summary>
+		[ES3Serializable]
 		public Map.TileDataMap CurrentTileDataMap { get; private set; }
 
 		/// <summary>
 		/// 現在見えているマップIndexリスト
 		/// </summary>
-		public List<int> ShowMapIndexes { get; } = new List<int>();
+		[ES3Serializable]
+		public List<int> ShowMapIndexes { get; private set;  } = new List<int>();
 
 		/// <summary>
 		/// 全体のMapData
 		/// </summary>
-		public Dictionary<int, MapData> MapData { get; } = new Dictionary<int, MapData>();
+		[ES3Serializable]
+		public Dictionary<int, MapData> MapData { get; private set; } = new Dictionary<int, MapData>();
 
 		#endregion
 

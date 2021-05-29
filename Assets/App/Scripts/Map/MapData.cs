@@ -39,13 +39,14 @@ namespace Ling.Map
 
 
 		#region プロパティ
-
+		
 		public int Width => TileDataMap.Width;
 		public int Height => TileDataMap.Height;
 
 		/// <summary>
 		/// マップデータ
 		/// </summary>
+		[ES3Serializable]
 		public Map.TileDataMap TileDataMap { get; private set; }
 
 		/// <summary>

@@ -42,6 +42,8 @@ namespace Ling.Map
 
 		[Inject] private Builder.IManager _builderManager = default;
 		[Inject] private Builder.BuilderFactory _builderFactory = default;
+		[Inject] private Utility.IEventManager _eventManager = default;
+		[Inject] private Utility.SaveData.ISaveDataHelper _saveHelper = default;
 
 		private MapModel _mapModel;
 		
@@ -274,6 +276,19 @@ namespace Ling.Map
 			_mapModel = new Map.MapModel();
 
 			MapControl.SetModel(_mapModel);
+			
+			_eventManager.Add<Utility.SaveData.EventSaveCall>(this, ev =>
+				{
+					_saveHelper.Save("Map", "MapModel", _mapModel);
+				});
+
+			_eventManager.Add<Utility.SaveData.EventLoadCall>(this, ev =>
+				{
+					if (_saveHelper.Exists("Map", "MapModel"))
+					{
+						var mapModel = _saveHelper.Load<MapModel>("Map", "MapModel");
+					}
+				});
 		}
 
 		#endregion
