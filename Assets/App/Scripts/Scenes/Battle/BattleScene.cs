@@ -16,6 +16,7 @@ using Ling.MasterData.Repository;
 using Ling.Scenes.Battle.Phases;
 using Ling.Scenes.Battle.ProcessContainer;
 using Ling.Common.Scene.Battle;
+using Ling.Main;
 
 namespace Ling.Scenes.Battle
 {
@@ -51,6 +52,12 @@ namespace Ling.Scenes.Battle
 		UseItem,
 		Equip,	// 装備着脱
 		ItemGet,	// アイテムを拾う
+	}
+
+	public class BattleSceneArgument : Argument
+	{
+		// セーブデータから再開する
+		public bool IsResume;
 	}
 
 	/// <summary>
@@ -214,11 +221,21 @@ namespace Ling.Scenes.Battle
 						ProcessContainer.Add(ProcessType.Exp, expProcess);
 					}
 				});
+			
+			
+			// 中断データから再開する場合
+			var battleArgument = Argument as BattleSceneArgument;
+			if ((battleArgument?.IsResume) ?? false)
+			{
+				
+			}
+			else
+			{
+				// 始めは１階層
+				View.UIHeaderView.SetLevel(_model.Level);
 
-			// 始めは１階層
-			View.UIHeaderView.SetLevel(_model.Level);
-
-			UnityEngine.Random.InitState(1);
+				UnityEngine.Random.InitState(1);
+			}
 
 			// Phase開始
 			StartPhase(Phase.Start);
