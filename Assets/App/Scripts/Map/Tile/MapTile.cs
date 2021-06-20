@@ -180,7 +180,8 @@ namespace Ling.Map.Tile
 			var tileFlag = TileDataMap.GetTileFlag(position.x, position.y);
 
 			// Spriteデータがない場合は何もしない
-			var miniMapData = System.Array.Find(_spriteData, miniMapData_ => miniMapData_.HasFlag(tileFlag));
+			// todo:優先度を決めたい。
+			var miniMapData = System.Array.FindLast(_spriteData, data => data.HasFlag(tileFlag));
 			if (miniMapData == null)
 			{
 				tileData.sprite = null;

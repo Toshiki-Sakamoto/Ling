@@ -21,7 +21,7 @@ namespace Ling.AI.Move
 			_moveAIData = moveAIData;
 		}
 
-		public void Attach<TModel, TView>(Chara.CharaControl<TModel, TView> charaControl)
+		public void Attach<TModel, TView>(Chara.CharaControl<TModel, TView> charaControl, bool isResume)
 			where TModel : Chara.CharaModel
 			where TView : Chara.ViewBase
 		{
@@ -30,11 +30,11 @@ namespace Ling.AI.Move
 			switch (_moveAIData.MoveAIType)
 			{
 				case Const.MoveAIType.Random:
-					moveAI = charaControl.AttachMoveAI<AIRandom>();
+					moveAI = charaControl.AttachMoveAI<AIRandom>(isResume);
 					break;
 
 				case Const.MoveAIType.NormalTracking:
-					moveAI = charaControl.AttachMoveAI<AINormalTracking>();
+					moveAI = charaControl.AttachMoveAI<AINormalTracking>(isResume);
 					break;
 
 				default:

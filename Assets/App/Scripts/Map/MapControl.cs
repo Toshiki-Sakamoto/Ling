@@ -47,6 +47,8 @@ namespace Ling.Map
 	/// <summary>
 	/// ダンジョンマップコントロール
 	/// </summary>
+	/// 
+	[System.Serializable]
 	public class MapControl : MonoBehaviour, IMapObjectInstaller
 	{
 		#region 定数, class, enum
@@ -62,6 +64,7 @@ namespace Ling.Map
 		#region private 変数
 
 		[SerializeField] private MapView _view = default;
+		[SerializeField] private int a;
 
 		[Inject] private MasterData.IMasterHolder _masterManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
@@ -108,6 +111,15 @@ namespace Ling.Map
 				};
 
 			_view.Startup(_model, curretMapIndex, 40);
+		}
+
+		public void Resume()
+		{
+			foreach (var pair in _model.MapData)
+			{
+				var mapData = pair.Value;
+				mapData.Resume();
+			}
 		}
 
 		public void SetChara(Chara.ICharaController chara) =>
@@ -299,6 +311,22 @@ namespace Ling.Map
 		/// </summary>
 		public void CreateItemObjectToMap(int level)
 		{
+			DeployItemObjectToMapInternal(level, isResume: false);
+		}
+
+		public void ResumeItemObjectToMap(int level)
+		{
+			DeployItemObjectToMapInternal(level, isResume: true);
+		}
+
+
+		#endregion
+
+
+		#region private 関数
+
+		private void DeployItemObjectToMapInternal(int level, bool isResume)
+		{
 			var mapData = _model.FindMapData(level);
 
 			// 落とし物の生成
@@ -307,15 +335,18 @@ namespace Ling.Map
 
 			var dropItemController = FindDropItemController(level);
 			dropItemController.Setup(this);
-					
-			dropItemController.CreateAtBuild(level, mapMaster, mapData, FindTilemap(level));
+			dropItemController.SetMapInfo(level, mapMaster, mapData, FindTilemap(level));
+
+			if (isResume)
+			{
+				dropItemController.Resume();
+			}
+			else
+			{
+				dropItemController.CreateAtBuild();
+			}
 		}
-
-		#endregion
-
-
-		#region private 関数
-
+		
 		private void Awake()
 		{
 			// TileFlagの更新

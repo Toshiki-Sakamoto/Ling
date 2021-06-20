@@ -38,9 +38,12 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		[SerializeField] private Chara.EnemyPoolManager _enemyPoolManager = null;
+		[SerializeField, ES3NonSerializable] private Chara.EnemyPoolManager _enemyPoolManager = null;
+		[SerializeField] private int _mapLevel = 0;
+		[ES3Serializable] private int _enemyCount = 0;
 
-		[Inject] MasterData.IMasterHolder _masterHolder = default;
+		[Inject] private MasterData.IMasterHolder _masterHolder = default;
+		[Inject] private Utility.IEventManager _eventManager = default;
 
 		private Dictionary<CharaModel, EnemyControl> _keyModelValueControl = new Dictionary<CharaModel, EnemyControl>();
 		private MapMaster _mapMaster;
@@ -54,6 +57,8 @@ namespace Ling.Chara
 		/// EnemyViewPool管理者
 		/// </summary>
 		public Chara.EnemyPoolManager EnemyPoolManager => _enemyPoolManager;
+
+		public int MapLevel => _mapLevel;
 
 		#endregion
 
@@ -87,9 +92,14 @@ namespace Ling.Chara
 		/// <summary>
 		/// 指定したModelのViewを削除(プールに戻す)
 		/// </summary>
-		public void RemoveChara(CharaModel charaModel)
+		public void RemoveChara(EnemyControl chara)
 		{
-			if (!_keyModelValueControl.TryGetValue(charaModel, out var enemy))
+			var model = chara.Model; 
+			
+			Controls.Remove(chara);
+			Models.Remove(model);
+
+			if (!_keyModelValueControl.TryGetValue(model, out var enemy))
 			{
 				// 存在しない
 				return;
@@ -98,7 +108,9 @@ namespace Ling.Chara
 			var poolItem = enemy.GetComponent<PoolItem>();
 			poolItem?.Detach();
 
-			_keyModelValueControl.Remove(charaModel);
+			_keyModelValueControl.Remove(model);
+
+			_enemyCount = _keyModelValueControl.Count;
 		}
 
 		public void ReturnViewAll()
@@ -110,14 +122,16 @@ namespace Ling.Chara
 			}
 
 			_keyModelValueControl.Clear();
+			_enemyCount = 0;
 		}
 
 		/// <summary>
 		/// MapMasterを指定して敵Viewの生成等、開始処理を行う
 		/// </summary>
-		public void Startup(MapMaster mapMaster)
+		public void Startup(MapMaster mapMaster, int mapLevel)
 		{
 			_mapMaster = mapMaster;
+			_mapLevel = mapLevel;
 
 			for (int i = 0, size = _mapMaster.InitCreateNum.GetRandomValue(); i < size; ++i)
 			{
@@ -134,20 +148,16 @@ namespace Ling.Chara
 				var subject = new Subject<EnemyControl>();
 				subject.Subscribe(enemy_ =>
 					{
-						Controls.Remove(enemy_);
-						Models.Remove(enemy_.Model);
-
-						var poolItem = enemy_.GetComponent<PoolItem>();
-						poolItem?.Detach();
-
-						_keyModelValueControl.Remove(enemy_.Model);
+						RemoveChara(enemy_);
 					});
 
 				enemyControl.OnDestroyed = subject;
+
+				++_enemyCount;
 			}
 		}
 
-		protected override async UniTask SetupAsyncInternal()
+		public override async UniTask SetupAsync()
 		{
 			// プール情報から敵Viewを生成する
 			await EnemyPoolManager.CreateObjectsAsync();
@@ -161,6 +171,35 @@ namespace Ling.Chara
 			return Models.Exists(model => model.CellPosition.Value == pos);
 		}
 
+		public override async UniTask ResumeAsync()
+		{
+			for (int i = 0; i < _enemyCount; ++i)
+			{
+				// プールから敵を生成する
+				var filename = $"Chara/Enemy {_mapLevel}.save";
+				
+				var enemyControl = GetEnemyByPool();
+				_saveDataHelper.LoadInto(filename, $"Enemy {i}", enemyControl.gameObject);
+
+				enemyControl.Resume();
+				
+				var enemyMaster = _masterHolder.EnemyRepository.Find(enemyControl.Model.Type);
+				EnemyFactory.Resume(this, enemyControl, enemyMaster);
+				
+				Models.Add(enemyControl.Model);
+				_keyModelValueControl.Add(enemyControl.Model, enemyControl);
+
+				// 削除時
+				var subject = new Subject<EnemyControl>();
+				subject.Subscribe(enemy_ =>
+					{
+						RemoveChara(enemy_);
+					});
+
+				enemyControl.OnDestroyed = subject;
+			}
+		}
+
 		#endregion
 
 
@@ -170,6 +209,21 @@ namespace Ling.Chara
 		{
 			// ViewをすべてPoolに戻す
 			ReturnViewAll();
+		}
+
+		
+		private void Awake()
+		{
+			_eventManager.Add<Utility.SaveData.EventSaveCall>(this, ev =>
+				{
+					for (int i = 0; i < _enemyCount; ++i)
+					{
+						var control = Controls[i];
+						var filename = $"Chara/Enemy {_mapLevel}.save";
+						
+						_saveDataHelper.Save(filename, $"Enemy {i}", control.gameObject);
+					}
+				});
 		}
 
 		#endregion

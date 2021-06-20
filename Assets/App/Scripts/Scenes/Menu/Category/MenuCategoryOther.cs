@@ -31,6 +31,7 @@ namespace Ling.Scenes.Menu.Category
 		#region private 変数
 
 		[Inject] private Utility.UserData.IUserDataManager _userDataManager = default;
+		[Inject] private Utility.IEventManager _eventManager = default;
 
 		[SerializeField] private Panel.MenuOtherView _view = default;
 
@@ -65,6 +66,8 @@ namespace Ling.Scenes.Menu.Category
 				{
 					// 現在のUserDataすべてを保存する
 					_userDataManager.SaveAll();
+					
+					_eventManager.Trigger(new Utility.SaveData.EventSaveCall());
 				})
 				.AddTo(this);;
 		}

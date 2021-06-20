@@ -42,6 +42,8 @@ namespace Ling.Map
 
 		[Inject] private Builder.IManager _builderManager = default;
 		[Inject] private Builder.BuilderFactory _builderFactory = default;
+		[Inject] private Utility.IEventManager _eventManager = default;
+		[Inject] private Utility.SaveData.ISaveDataHelper _saveHelper = default;
 
 		private MapModel _mapModel;
 		
@@ -89,9 +91,40 @@ namespace Ling.Map
 
 		#region public, protected 関数
 
-		public void Setup(StageMaster stageMaster)
+
+		public async UniTask Setup(StageMaster stageMaster, bool isResume)
 		{
+			if (isResume)
+			{
+				if (_saveHelper.Exists("Map", "MapModel"))
+				{
+					_mapModel = _saveHelper.Load<MapModel>("Map", "MapModel");
+				}
+				else
+				{
+					// todo: エラー処理
+				}
+			}
+			else
+			{
+				_mapModel = new MapModel();
+			}
+
+			MapControl.SetModel(_mapModel);
+
 			_mapModel.Setup(stageMaster, 1);
+			
+			// 中断データから再開しているときはマップを作らない
+			if (isResume)
+			{
+				await ResumeAsync();
+			}
+			else
+			{
+				await BuildMapAsync(1, 2);
+			}
+
+			SetCurrentMap(_mapModel.CurrentMapIndex);
 		}
 
 		/// <summary>
@@ -250,6 +283,12 @@ namespace Ling.Map
 			}
 		}
 
+		
+		private async UniTask ResumeAsync()
+		{
+			_control.Resume();
+		}
+
 		/// <summary>
 		/// 各マップの部屋情報を更新する
 		/// </summary>
@@ -271,9 +310,10 @@ namespace Ling.Map
 		{
 			base.Awake();
 
-			_mapModel = new Map.MapModel();
-
-			MapControl.SetModel(_mapModel);
+			_eventManager.Add<Utility.SaveData.EventSaveCall>(this, ev =>
+				{
+					_saveHelper.Save("Map", "MapModel", _mapModel);
+				});
 		}
 
 		#endregion

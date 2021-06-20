@@ -11,7 +11,9 @@ using Zenject;
 using Ling.Map.TileDataMapExtensions;
 using Ling.Map.TileDataMapExtensionss.Chara;
 using System.Collections.Generic;
+using ES3Types;
 using Ling.Const;
+using Utility;
 using Utility.Extensions;
 
 namespace Ling.AI.Move
@@ -39,14 +41,16 @@ namespace Ling.AI.Move
 		[Inject] private Chara.CharaManager _charaManager = default;
 
 		private CharaMaster.MoveAIData _masterAIData;
-		private Vector2Int? _destination;   // 目的地
-		private List<Vector2Int> _destinationRoutes;
-		private Vector2Int? _nextMovePos;   // 次に移動する座標
 		private Chara.ICharaController _unit;
 		private Map.TileDataMap _tileDataMap;
 		private Map.RoomData _roomData;
-		private Vector2Int? _prevPos;   // 一つ前にいた座標
-		private int _waitCount; // 何回動けずに待機したか
+		
+		// ここらへんも保存する必要あるなー
+		[ES3Serializable] private Utility.ValueObject<Vector2Int> _destination;   // 目的地
+		[ES3Serializable] private List<Vector2Int> _destinationRoutes;
+		[ES3Serializable] private Utility.ValueObject<Vector2Int> _nextMovePos;   // 次に移動する座標
+		[ES3Serializable] private Utility.ValueObject<Vector2Int> _prevPos;   // 一つ前にいた座標
+		[ES3Serializable] private int _waitCount; // 何回動けずに待機したか
 
 		#endregion
 
@@ -57,11 +61,6 @@ namespace Ling.AI.Move
 		/// AIの種類
 		/// </summary>
 		public abstract Const.MoveAIType AIType { get; }
-
-		/// <summary>
-		/// 汎用パラメータ
-		/// </summary>
-		public int Param1 { get; set; }
 
 		public Map.TileDataMap TileDataMap
 		{
@@ -126,7 +125,7 @@ namespace Ling.AI.Move
 		{
 			ResetDestination();
 
-			_destination = pos;
+			_destination = new ValueObject<Vector2Int>(pos);
 		}
 
 		#endregion
@@ -245,7 +244,7 @@ namespace Ling.AI.Move
 			}
 
 			// すでに目的地にいる場合は何もしない
-			if (_destination == _unit.Model.CellPosition.Value)
+			if (_destination.Value == _unit.Model.CellPosition.Value)
 			{
 				ResetDestination();
 
@@ -332,7 +331,7 @@ namespace Ling.AI.Move
 			}
 
 			_destinationRoutes = shotestDistanceResult.routePositions;
-			_destination = shotestDistanceResult.targetPos;
+			_destination = new ValueObject<Vector2Int>(shotestDistanceResult.targetPos);
 
 			return true;
 		}
@@ -348,7 +347,7 @@ namespace Ling.AI.Move
 				// 部屋
 				if (TryGetRoomExitPosition(out var targetPos))
 				{
-					_destination = targetPos;
+					_destination = new ValueObject<Vector2Int>(targetPos);
 					return true;
 				}
 			}
@@ -357,7 +356,7 @@ namespace Ling.AI.Move
 				// 部屋以外
 				if (TryGetNextMovePositionOutRoom(out var targetPos))
 				{
-					_destination = targetPos;
+					_destination = new ValueObject<Vector2Int>(targetPos);
 					return true;
 				}
 			}
@@ -493,11 +492,11 @@ namespace Ling.AI.Move
 		/// </summary>
 		protected void SetNextMovePos(in Vector2Int movePos)
 		{
-			_nextMovePos = movePos;
+			_nextMovePos = new ValueObject<Vector2Int>(movePos);
 			_waitCount = 0;
 
 			// 移動したことをキャラに伝え、アニメーションも設定させる
-			_prevPos = _unit.Model.CellPosition.Value;  // 以前の座標を保持しておく
+			_prevPos = new ValueObject<Vector2Int>(_unit.Model.CellPosition.Value);  // 以前の座標を保持しておく
 			_unit.Model.SetCellPosition(movePos, reactive: false);
 
 			// 移動プロセスの設定

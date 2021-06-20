@@ -23,6 +23,7 @@ namespace Ling.Common.Scene
 		Map,
 		StartUp,
 		Title,
+		DataLoad,
 		Main,
 		Battle,
 		Status,

@@ -117,6 +117,8 @@ namespace Ling.Chara
 
 
 		#region コンストラクタ, デストラクタ
+		
+		public CharaStatus() {}
 
 		public CharaStatus(long hp, long stamina, int power, int defence)
 		{
@@ -125,7 +127,6 @@ namespace Ling.Chara
 			_hp = new CharaStatusValueObject(hp, hp);
 			_power = new CharaStatusValueObject(power, power);
 			_defence = new CharaStatusValueObject(defence, defence);
-			IsDead = _hp.Current.Select(hp_ => hp_ <= 0).ToReadOnlyReactiveProperty();
 
 			_equipAttack = new CharaStatusValueObject(0, 999);
 			_equipDefence = new CharaStatusValueObject(0, 999);
@@ -138,15 +139,21 @@ namespace Ling.Chara
 		{
 		}
 
-		public void SetLv(int lv)
-		{
-			_lv.Value = lv;
-		}
 
 		#endregion
 
 
 		#region public, protected 関数
+
+		public void Setup()
+		{
+			IsDead = _hp.Current.Select(hp_ => hp_ <= 0).ToReadOnlyReactiveProperty();
+		}
+		
+		public void SetLv(int lv)
+		{
+			_lv.Value = lv;
+		}
 
 		#endregion
 

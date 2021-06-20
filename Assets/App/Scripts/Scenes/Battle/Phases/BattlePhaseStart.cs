@@ -52,6 +52,10 @@ namespace Ling.Scenes.Battle.Phases
 
 		public override void PhaseStart()
 		{
+			// 始めは１階層
+			Scene.View.UIHeaderView.SetLevel(_model.Level);
+
+			UnityEngine.Random.InitState(1);
 		}
 
 		public override void PhaseUpdate()

@@ -40,8 +40,8 @@ namespace Ling.Chara
 
 		[SerializeField] private Vector2IntReactiveProperty _cellPosition = default; // マップ上の自分の位置
 		[SerializeField] private bool _isReactiveCellPosition = true;
-
-		private Param _param = null;
+		
+		[ES3Serializable] private Param _param = null;
 		private EventPosUpdate _eventPosUpdate = new EventPosUpdate();
 		private Map.MapData _mapData;	// 現在自分が配置されているマップ情報
 		
@@ -64,7 +64,8 @@ namespace Ling.Chara
 		/// <summary>
 		/// ステイタス
 		/// </summary>
-		public CharaStatus Status { get; private set; }
+		[ES3Serializable]
+		public CharaStatus Status { get; protected set; }
 
 		/// <summary>
 		/// 死んでいる場合true
@@ -89,7 +90,8 @@ namespace Ling.Chara
 		/// <summary>
 		/// セル上のインデックス値
 		/// </summary>
-		public int CellIndex { get; private set; }
+		[ES3Serializable]
+		public int CellIndex { get; protected set; }
 
 		/// <summary>
 		/// CellPositionを反映させるか
@@ -99,7 +101,8 @@ namespace Ling.Chara
 		/// <summary>
 		/// 向き
 		/// </summary>
-		public Vector2IntReactiveProperty Dir { get; private set; } = new Vector2IntReactiveProperty(new Vector2Int(0, -1));
+		[ES3Serializable]
+		public Vector2IntReactiveProperty Dir { get; protected set; } = new Vector2IntReactiveProperty(new Vector2Int(0, -1));
 
 		/// <summary>
 		/// 攻撃AI
@@ -318,6 +321,14 @@ namespace Ling.Chara
 		public void RemovePostProcess(ICharaPostProcesser postProcesser)
 		{
 			PostProcessers.Remove(postProcesser);
+		}
+
+		/// <summary>
+		/// セーブデータをロードされた時の情報をセットする
+		/// </summary>
+		public void ApplySaveData(CharaModel model)
+		{
+			_cellPosition.Value = model._cellPosition.Value;
 		}
 
 		#endregion

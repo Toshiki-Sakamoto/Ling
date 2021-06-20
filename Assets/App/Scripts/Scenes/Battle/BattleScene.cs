@@ -9,20 +9,22 @@ using System;
 using UniRx;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
-
+using Ling.Chara;
 using Ling.Common.Scene;
 using Zenject;
 using Ling.MasterData.Repository;
 using Ling.Scenes.Battle.Phases;
 using Ling.Scenes.Battle.ProcessContainer;
 using Ling.Common.Scene.Battle;
+using Ling.Main;
 
 namespace Ling.Scenes.Battle
 {
 	public enum Phase
 	{
 		None,
-
+		
+		DataLoad,
 		Start,
 		Load,
 		FloorSetup,
@@ -53,6 +55,12 @@ namespace Ling.Scenes.Battle
 		ItemGet,	// アイテムを拾う
 	}
 
+	public class BattleSceneArgument : Argument
+	{
+		// セーブデータから再開する
+		public bool IsResume = true;
+	}
+
 	/// <summary>
 	/// Battle
 	/// </summary>
@@ -79,6 +87,7 @@ namespace Ling.Scenes.Battle
 		[Inject] private MasterData.IMasterHolder _masterHolder = default;
 
 		private bool _isInitialized;
+		private bool _isResume;
 
 		#endregion
 
@@ -128,13 +137,25 @@ namespace Ling.Scenes.Battle
 		/// </summary>
 		public override UniTask QuickStartSceneAsync()
 		{
+			var battleArgument = Argument as BattleSceneArgument;
+			
 			// デバッグ用のコード直指定でバトルを始める
 			var stageMaster = _masterHolder.StageRepository.FindByStageType(Const.StageType.First);
 
+			// コンパイルは知らせずに値を切り替える方法
+			// 案1. EditorPrefs
+			// 案2. Menu.GetChecked(menuPath);
+#if UNITY_EDITOR
+			_isResume = battleArgument?.IsResume ?? Common._Debug.Editor.CommonDebugMenu.IsForceResumeChecked;
+#else
+			_isResume = battleArgument?.IsResume ?? false;
+#endif
+
 			var param = new BattleModel.Param
-			{
-				stageMaster = stageMaster
-			};
+				{
+					stageMaster = stageMaster,
+					IsResume = _isResume,
+				};
 
 			_model.Setup(param);
 
@@ -148,6 +169,7 @@ namespace Ling.Scenes.Battle
 		{
 			if (_isInitialized) return;
 
+			RegistPhase<BattlePhaseDataLoad>(Phase.DataLoad);
 			RegistPhase<BattlePhaseStart>(Phase.Start);
 			RegistPhase<BattlePhaseLoad>(Phase.Load);
 			RegistPhase<BattlePhaseFloorSetup>(Phase.FloorSetup);
@@ -214,14 +236,18 @@ namespace Ling.Scenes.Battle
 						ProcessContainer.Add(ProcessType.Exp, expProcess);
 					}
 				});
-
-			// 始めは１階層
-			View.UIHeaderView.SetLevel(_model.Level);
-
-			UnityEngine.Random.InitState(1);
-
-			// Phase開始
-			StartPhase(Phase.Start);
+			
+			
+			// 中断データから再開する場合
+			if (_isResume)
+			{
+				StartPhase(Phase.DataLoad);
+			}
+			else
+			{
+				// Phase開始
+				StartPhase(Phase.Start);
+			}
 		}
 
 		public override void UpdateScene()
@@ -301,18 +327,37 @@ namespace Ling.Scenes.Battle
 		/// <summary>
 		/// 敵やアイテムなど必要なオブジェクトをマップに配置する
 		/// </summary>
-		public void DeployObjectToMap(Chara.EnemyControlGroup enemyGroup, int level)
+		public void DeployObjectToMap(bool isResume)
 		{
-			foreach (var enemy in enemyGroup)
+			foreach (var pair in _charaManager.EnemyControlDict)
 			{
-				var pos = MapControl.GetRandomPosInRoom(level);
-
+				var level = pair.Key;
+				DeployObjectToMap(pair.Value, level, isResume);
+			}
+		}
+		
+		public void DeployObjectToMap(EnemyControlGroup enemyControlGroup, int level, bool isReume)
+		{
+			foreach (var enemy in enemyControlGroup)
+			{
 				MapControl.SetChara(enemy, level);
-				enemy.Model.InitPos(pos);
+
+				if (!isReume)
+				{
+					var pos = MapControl.GetRandomPosInRoom(level);
+					enemy.Model.InitPos(pos);
+				}
 			}
 
 			// アイテムを配置する
-			MapControl.CreateItemObjectToMap(level);
+			if (isReume)
+			{
+				MapControl.ResumeItemObjectToMap(level);
+			}
+			else
+			{
+				MapControl.CreateItemObjectToMap(level);
+			}
 		}
 
 		#endregion

@@ -318,7 +318,7 @@ namespace Ling.Map
 		private void ResetDropItemController(Map.GroundTilemap groundTilemap)
 		{
 			var controller = GetDropItemController(groundTilemap);
-			controller.Release();
+			controller.ReleaseAll();
 		}
 
 		private DropItemController GetDropItemController(Map.GroundTilemap groundTilemap)

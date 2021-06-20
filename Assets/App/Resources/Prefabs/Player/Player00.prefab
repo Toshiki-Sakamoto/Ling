@@ -184,6 +184,26 @@ MonoBehaviour:
         value: 0
       _max:
         value: 0
+    _power:
+      _current:
+        value: 0
+      _max:
+        value: 0
+    _defence:
+      _current:
+        value: 0
+      _max:
+        value: 0
+    _equipAttack:
+      _current:
+        value: 0
+      _max:
+        value: 0
+    _equipDefence:
+      _current:
+        value: 0
+      _max:
+        value: 0
   _model: {fileID: 1041008047864628833}
   _view: {fileID: 3244762123335931066}
   _charaMover: {fileID: 5041012265545398259}

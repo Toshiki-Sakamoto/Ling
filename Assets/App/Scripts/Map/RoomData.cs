@@ -30,6 +30,7 @@ namespace Ling.Map
 
 		#region private 変数
 
+		[ES3Serializable]
 		private Dictionary<Const.TileFlag, List<TileData>> _tileFlagAndData = new Dictionary<Const.TileFlag, List<TileData>>();
 
 		#endregion
@@ -37,13 +38,16 @@ namespace Ling.Map
 
 		#region プロパティ
 
-		public List<TileData> TileData { get; } = new List<TileData>();
+		[ES3Serializable]
+		public List<TileData> TileData { get; private set; } = new List<TileData>();
 
+		[ES3Serializable]
 		public int RoomIndex { get; private set; }
 
 		/// <summary>
 		/// 出口座標
 		/// </summary>
+		[ES3Serializable]
 		public List<Vector2Int> ExitPositions { get; } = new List<Vector2Int>();
 
 		#endregion

@@ -89,21 +89,20 @@ namespace Ling.Scenes.Battle.Phases
 
 		private async UniTask LoadAsync()
 		{
-			// 最初のマップ作成
-			_mapManager.Setup(_model.StageMaster);
+			// マップ情報の構築
+			await _mapManager.Setup(_model.StageMaster, _model.IsResume);
 
-			await _mapManager.BuildMapAsync(1, 2);
-
-			// 1階層目を開始地点とする
-			_mapManager.SetCurrentMap(1);
-
-			// キャラクタのセットアップ処理
-			await _charaManager.InitializeAsync();
+			if (_model.IsResume)
+			{
+				await _charaManager.ResumeAsync();
+			}
+			else
+			{
+				// キャラクタのセットアップ処理
+				await _charaManager.InitializeAsync();
+			}
 
 			_charaManager.SetStageMaster(_model.StageMaster);
-
-			var builder = _mapManager.CurrentMapData.Builder;
-			var playerPos = builder.GetPlayerInitPosition();
 
 			// プレイヤーにMap情報を初期座標を設定
 			var mapControl = Scene.MapControl;
@@ -111,15 +110,24 @@ namespace Ling.Scenes.Battle.Phases
 			var player = _charaManager.Player;
 			mapControl.SetChara(player);
 
-			player.Model.InitPos(playerPos);
-
-			// 初期マップの敵を生成する
-			await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindGroundTilemap(1));
-			await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindGroundTilemap(2));
-
-			// 敵をマップに配置する
-			Scene.DeployObjectToMap(_charaManager.FindEnemyControlGroup(1), 1);
-			Scene.DeployObjectToMap(_charaManager.FindEnemyControlGroup(2), 2);
+			if (_model.IsResume)
+			{
+				Scene.DeployObjectToMap(isResume: true);
+			}
+			else
+			{
+				var builder = _mapManager.CurrentMapData.Builder;
+				var playerPos = builder.GetPlayerInitPosition();
+				
+				player.Model.InitPos(playerPos);
+				
+				// 初期マップの敵を生成する
+				await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindGroundTilemap(1));
+				await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindGroundTilemap(2));
+				
+				// 敵をマップに配置する
+				Scene.DeployObjectToMap(isResume: false);
+			}
 
 			// Player ステイタスUIを表示する
 			// todo: シーンの依存関係に紐付けたい

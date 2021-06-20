@@ -46,7 +46,7 @@ namespace Utility.UserData
 	/// <summary>
 	/// UserDataはローカルファイルとして保存/読み込みする
 	/// </summary>
-	public class LocalFileLoader : IGameDataLoader, IGameDataSaver
+	public class LocalFileLoader : IGameDataLoader, IGameDataSaver, IGameDataCreator
 	{
 		[Inject] private UserDataDebugMenu _userDataDebugMenu;
 		[Inject] private Utility.SaveData.ISaveDataHelper _saveDataHelper;
@@ -72,6 +72,7 @@ namespace Utility.UserData
 			// IUserDataDebuggerを継承していたら
 			if (instance is IUserDataDebuggable debuggable)
 			{
+				// todo: すでに存在していたら何もしないようにする
 				debuggable.SetDebugMenu(_userDataDebugMenu);
 			}
 #endif
@@ -84,19 +85,13 @@ namespace Utility.UserData
 		{
 			return default(IList<T>);
 		}
-
-
+		
 		T IGameDataSaver.Save<T>(string key, T value)
 			where T : class
 		{
 			if (value == null)
 			{
-				value = ScriptableObject.CreateInstance(typeof(T)) as T;
-
-				if (value is IUserDataInitializable initializable)
-				{
-					initializable.OnFirstLoad();
-				}
+				value = CreateInternal<T>();
 			}
 
 			_saveDataHelper.Save("UserData.save", $"{key}", value);
@@ -104,6 +99,21 @@ namespace Utility.UserData
 			return value as T;
 		}
 
+		T IGameDataCreator.Create<T>()
+			where T : class
+		{
+			var instance = CreateInternal<T>();
+		
+#if DEBUG
+			// IUserDataDebuggerを継承していたら
+			if (instance is IUserDataDebuggable debuggable)
+			{
+				// todo: すでに存在していたら何もしないようにする
+				debuggable.SetDebugMenu(_userDataDebugMenu);
+			}
+#endif
+			return instance;
+		}
 
 		/// <summary>
 		/// ユーザーデータが存在するか
@@ -111,6 +121,28 @@ namespace Utility.UserData
 		protected bool Exists<T>(string key)
 		{
 			return _saveDataHelper.Exists("UserData.save", $"{key}");
+		}
+
+		private T CreateInternal<T>()
+			where T : class
+		{
+			var instance = default(T);
+			
+			if (typeof(T).IsSubclassOf(typeof(ScriptableObject)))
+			{
+				instance = ScriptableObject.CreateInstance(typeof(T)) as T;
+			}
+			else
+			{
+				//instance = new T();
+			}
+			
+			if (instance is IUserDataInitializable initializable)
+			{
+				initializable.OnFirstLoad();
+			}
+			
+			return instance;
 		}
 	}
 
@@ -203,6 +235,7 @@ namespace Utility.UserData
 			_saver = loader;
 
 			SetLoader(loader);
+			SetCreator(loader);
 		}
 
 		#endregion

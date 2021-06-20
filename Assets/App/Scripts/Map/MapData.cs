@@ -39,13 +39,14 @@ namespace Ling.Map
 
 
 		#region プロパティ
-
+		
 		public int Width => TileDataMap.Width;
 		public int Height => TileDataMap.Height;
 
 		/// <summary>
 		/// マップデータ
 		/// </summary>
+		[ES3Serializable]
 		public Map.TileDataMap TileDataMap { get; private set; }
 
 		/// <summary>
@@ -72,18 +73,16 @@ namespace Ling.Map
 		{
 			Builder = builder;
 			TileDataMap = tileDataMap;
+			
+			ApplyTileData();
+		}
 
-			var mapTile = Resources.Load<Tile.MapTile>("Tiles/SimpleMapTile");
-			if (mapTile == null)
-			{
-				Utility.Log.Error("MapTileリソースが見つかりません");
-			}
-
-			// 複製を作成する
-			MapTileRenderData = UnityEngine.Object.Instantiate(mapTile) as Tile.MapTile;
-
-			// タイル情報の再設定
-			MapTileRenderData.SetTileDataMap(tileDataMap);
+		public void Resume()
+		{
+			// 自分が持っているTileDataMapのResume処理を呼び出す
+			TileDataMap.Resume();
+			
+			ApplyTileData();
 		}
 
 		/// <summary>
@@ -115,6 +114,21 @@ namespace Ling.Map
 
 
 		#region private 関数
+
+		private void ApplyTileData()
+		{
+			var mapTile = Resources.Load<Tile.MapTile>("Tiles/SimpleMapTile");
+			if (mapTile == null)
+			{
+				Utility.Log.Error("MapTileリソースが見つかりません");
+			}
+
+			// 複製を作成する
+			MapTileRenderData = UnityEngine.Object.Instantiate(mapTile) as Tile.MapTile;
+
+			// タイル情報の再設定
+			MapTileRenderData.SetTileDataMap(TileDataMap);
+		}
 
 		#endregion
 	}

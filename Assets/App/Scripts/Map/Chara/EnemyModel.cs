@@ -37,6 +37,9 @@ namespace Ling.Chara
 		/// 獲得経験値
 		/// </summary>
 		public override int Exp => Master.Exp;
+		
+		[ES3Serializable]
+		public Const.EnemyType Type { get; private set; }
 
 		public EnemyMaster Master { get; private set; }
 
@@ -53,6 +56,7 @@ namespace Ling.Chara
 		public void SetMaster(EnemyMaster master)
 		{
 			Master = master;
+			Type = master.EnemyType;
 		}
 
 		#endregion
