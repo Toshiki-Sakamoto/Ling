@@ -30,8 +30,8 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		[SerializeField] private LongReactiveProperty _current = default;
-		[SerializeField] private LongReactiveProperty _max = default;
+		[SerializeField, ES3Serializable] private LongReactiveProperty _current = default;
+		[SerializeField, ES3Serializable] private LongReactiveProperty _max = default;
 
 		#endregion
 
@@ -45,6 +45,11 @@ namespace Ling.Chara
 
 
 		#region コンストラクタ, デストラクタ
+
+		public CharaStatusValueObject()
+			: base()
+		{
+		}
 
 		public CharaStatusValueObject(long value, long maxValue)
 		{

@@ -57,10 +57,12 @@ namespace Ling.Chara
 			var model = control.Model;
 			var param = new CharaModel.Param();
 			param.charaType = CharaType.Enemy;
-
+			
 			model.Setup(param);
 			model.SetStatus(enemyMaster.Status);
 			model.SetMaster(enemyMaster);
+
+			model.Status.Setup();
 
 			control.Setup();
 
@@ -68,8 +70,23 @@ namespace Ling.Chara
 			var attackAIFactory = new AI.Attack.AttackAIFactory(enemyMaster.AttackAIData);
 			var moveAIFactory = new AI.Move.MoveAIFactory(enemyMaster.MoveAIData);
 
-			attackAIFactory.Attach(control);
-			moveAIFactory.Attach(control);
+			attackAIFactory.Attach(control, isResume: false);
+			moveAIFactory.Attach(control, isResume: false);
+		}
+
+		public static void Resume(EnemyControlGroup controlGroup, EnemyControl control, MasterData.Chara.EnemyMaster enemyMaster)
+		{
+			var model = control.Model;
+			model.SetMaster(enemyMaster);
+			model.Status.Setup();
+			control.Setup();
+
+			// AIの設定
+			var attackAIFactory = new AI.Attack.AttackAIFactory(enemyMaster.AttackAIData);
+			var moveAIFactory = new AI.Move.MoveAIFactory(enemyMaster.MoveAIData);
+
+			attackAIFactory.Attach(control, isResume: true);
+			moveAIFactory.Attach(control, isResume: true);
 		}
 
 		#endregion

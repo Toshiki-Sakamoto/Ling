@@ -41,7 +41,6 @@ namespace Ling.Chara
 
 		#region プロパティ
 
-
 		/// <summary>
 		/// 優先度(値が低いもの順に実行される)
 		/// </summary>
@@ -54,11 +53,22 @@ namespace Ling.Chara
 		{
 			get 
 			{
-				if (_status.IsDead.Value) return false;
+				if (Status.IsDead.Value) return false;
 
 				Count();
 
 				return _current >= _actionNum;
+			}
+		}
+
+		private CharaStatus Status
+		{
+			get
+			{
+				if (_status != null) return _status;
+
+				_status = _charaController.Status;
+				return _status;
 			}
 		}
 
@@ -81,9 +91,9 @@ namespace Ling.Chara
 		public void ExecuteHeal()
 		{
 			// 死んでたら何もしない
-			if (_status.IsDead.Value) return;
+			if (Status.IsDead.Value) return;
 
-			_status.HP.AddCurrent(_healValue);
+			Status.HP.AddCurrent(_healValue);
 			_current = 0;
 
 			Utility.Log.Print($"自動回復！ +{_healValue}");
@@ -116,8 +126,6 @@ namespace Ling.Chara
 		void Awake()
 		{
 			_charaController = GetComponent<ICharaController>();
-			_status = _charaController.Status;
-
 			_charaController.Model.AddPostProcess(this);
 		}
 

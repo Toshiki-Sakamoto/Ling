@@ -61,6 +61,14 @@ namespace Ling.Chara.Exp
 
 		#region public, protected 関数
 
+		public void Setup()
+		{
+			_chara = GetComponent<ICharaController>();
+			
+			// 初回実行
+			Apply();
+		}
+
 		void ICharaExpController.Add(int exp)
 		{
 			_totalExp += exp;
@@ -79,6 +87,10 @@ namespace Ling.Chara.Exp
 
 		private void Apply()
 		{
+			// キャラクタIDから経験値テーブルを引っ張ってくる
+			var lvTableRepository = _masterHolder.PlayerLvTableRepository;
+			_lvTableMaster = lvTableRepository.Find(_chara.Model.ID);
+			
 			var expData = _lvTableMaster.GetDataByExp(_totalExp);
 
 			// 現在のレベル
@@ -110,14 +122,6 @@ namespace Ling.Chara.Exp
 
 		private void Awake()
 		{
-			_chara = GetComponent<ICharaController>();
-
-			// キャラクタIDから経験値テーブルを引っ張ってくる
-			var lvTableRepository = _masterHolder.PlayerLvTableRepository;
-			_lvTableMaster = lvTableRepository.Find(_chara.Model.ID);
-
-			// 現在のレベルと次に必要な経験値量を決める
-			Apply();
 		}
 
 		#endregion

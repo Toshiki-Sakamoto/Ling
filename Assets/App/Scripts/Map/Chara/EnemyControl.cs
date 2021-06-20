@@ -52,6 +52,16 @@ namespace Ling.Chara
 			OnDestroyed?.OnCompleted();
 		}
 
+		public void Resume()
+		{
+			// 自分のGameOobject全体をInjectする
+			_diContainer.InjectGameObject(gameObject);
+			
+			// データから読み込み時、プールオブジェクトに対してLoadIntoしているのでセーブ時のGameObjectインスタンスではない。
+			// そのためModelインスタンスは取り直す必要がある
+			_model = GetComponent<EnemyModel>();
+		}
+
 		#endregion
 
 

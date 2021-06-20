@@ -52,6 +52,11 @@ namespace Ling.Chara
 
 		#region public, protected 関数
 
+		protected override void SetupInternal()
+		{
+			_playerExpController.Setup();
+		}
+
 		public void SetFollowCameraEnable(bool enable) =>
 			_cinemaVCamera.enabled = enable;
 		//_cameraFollow.enabled = enable;

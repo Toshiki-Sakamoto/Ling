@@ -73,14 +73,14 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		[SerializeField] private CharaStatus _status = default;
-		[SerializeField] private TModel _model = default;
-		[SerializeField] private TView _view = default;
+		[SerializeField] protected TModel _model = default;
+		[SerializeField] protected TView _view = default;
 		[SerializeField] private CharaMover _charaMover = default;
 
-		[Inject] private DiContainer _diContainer = default;
+		[Inject] protected DiContainer _diContainer = default;
 		[Inject] private Utility.ProcessManager _processManager = default;
 		[Inject] private Utility.IEventManager _eventManager = default;
+		[Inject] private Utility.SaveData.ISaveDataHelper _saveDataHelper = default;
 
 		private List<Utility.ProcessBase> _moveProcesses = new List<Utility.ProcessBase>();
 		private List<Utility.ProcessBase> _attackProcess = new List<Utility.ProcessBase>();
@@ -150,11 +150,10 @@ namespace Ling.Chara
 
 		public void Setup()
 		{
-			_status = _model.Status;
-			_equipControl.Setup(_status);
+			_equipControl.Setup(_model.Status);
 
 			// 死亡時
-			_status.IsDead.Where(isDead_ => isDead_)
+			Status.IsDead.Where(isDead_ => isDead_)
 				.SelectMany(_ =>
 				{
 					// キャラが死亡した時
@@ -185,6 +184,8 @@ namespace Ling.Chara
 				{
 					_view.SetCellPos(cellPosition_);
 				});
+
+			SetupInternal();
 
 			IsSetuped = true;
 
@@ -226,17 +227,34 @@ namespace Ling.Chara
 		/// <summary>
 		/// AIを設定する
 		/// </summary>
-		public TMoveAI AttachMoveAI<TMoveAI>() where TMoveAI : AI.Move.AIBase
+		public TMoveAI AttachMoveAI<TMoveAI>(bool isResume) where TMoveAI : AI.Move.AIBase
 		{
-			var moveAI = _diContainer.InstantiateComponent<TMoveAI>(gameObject);
+			var moveAI = default(TMoveAI);
+			if (isResume)
+			{
+				moveAI = GetComponent<TMoveAI>();
+			}
+			else
+			{
+				moveAI = _diContainer.InstantiateComponent<TMoveAI>(gameObject);
+			}
+			
 			_model.SetMoveAI(moveAI);
 
 			return moveAI;
 		}
 
-		public TAttackAI AttachAttackAI<TAttackAI>() where TAttackAI : AI.Attack.AIBase
+		public TAttackAI AttachAttackAI<TAttackAI>(bool isResume) where TAttackAI : AI.Attack.AIBase
 		{
-			var attackAI = _diContainer.InstantiateComponent<TAttackAI>(gameObject);
+			var attackAI = default(TAttackAI);
+			if (isResume)
+			{
+				attackAI = GetComponent<TAttackAI>();
+			}
+			else
+			{
+				attackAI = _diContainer.InstantiateComponent<TAttackAI>(gameObject);
+			}
 			_model.SetAttackAI(attackAI);
 
 			return attackAI;
@@ -343,6 +361,7 @@ namespace Ling.Chara
 			{
 				return false;
 			}
+			
 
 			return true;
 		}
@@ -355,6 +374,7 @@ namespace Ling.Chara
 			return false;
 		}
 
+		protected  virtual void SetupInternal() {}
 
 		protected virtual void DestroyProcessInternal()
 		{

@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
+using UnityEditor.Playables;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
@@ -37,11 +38,12 @@ namespace Ling.Chara
 
 		#region private 変数
 
-		[SerializeField] private PlayerControlGroup _playerControlGroup = default;
-		[SerializeField] private List<EnemyControlGroup> _enemyControlGroups = default;
+		[SerializeField, ES3NonSerializable] private PlayerControlGroup _playerControlGroup = default;
+		[SerializeField, ES3NonSerializable] private List<EnemyControlGroup> _enemyControlGroups = default;
 
 		[Inject] private Utility.IEventManager _eventManager = default;
 		[Inject] private DiContainer _diContainer = default;
+		[Inject] protected Utility.SaveData.ISaveDataHelper _saveDataHelper;
 
 		private bool _isInitialized = false;    // 初期化済みであればtrue
 		private StageMaster _stageMaster = null;
@@ -96,7 +98,8 @@ namespace Ling.Chara
 			if (_isInitialized) return;
 
 			// プレイヤー情報の生成
-			await PlayerControlGroup.SetupAsync();
+			var status = new CharaStatus(5, 100, 5, 0);
+			await PlayerControlGroup.SetupAsync(status);
 
 			foreach (var enemyControlGroup in _enemyControlGroups)
 			{
@@ -104,6 +107,26 @@ namespace Ling.Chara
 				await enemyControlGroup.SetupAsync();
 			}
 
+			_isInitialized = true;
+		}
+
+		/// <summary>
+		/// 復帰時の処理
+		/// </summary>
+		/// <returns></returns>
+		public async UniTask ResumeAsync()
+		{
+			// 既に初期化済みであれば何もしない
+			if (_isInitialized) return;
+			
+			await PlayerControlGroup.ResumeAsync();
+			
+			foreach (var enemyControlGroup in _enemyControlGroups)
+			{
+				// プール情報から敵モデルを生成する
+				await enemyControlGroup.ResumeAsync();
+			}
+			
 			_isInitialized = true;
 		}
 
@@ -172,7 +195,7 @@ namespace Ling.Chara
 
 			var enemyControlGroup = groundTilemap.EnemyControlGroup;
 
-			enemyControlGroup.Startup(mapMaster);
+			enemyControlGroup.Startup(mapMaster, level);
 
 			_enemyControlDict.Add(level, enemyControlGroup);
 
@@ -311,6 +334,44 @@ namespace Ling.Chara
 				_ev =>
 				{
 					ResetEnemyGroup(_ev.level);
+				});
+
+			_eventManager.Add<Utility.SaveData.EventSaveCall>(this, ev =>
+				{
+					// 現在のPlayerとEnemyを保存する
+					_saveDataHelper.Save("Chara/CharaManager.save", "CharaManager", this);
+					
+					_saveDataHelper.Save("Chara/PlayerControlGroup.save", "PlayerControlGroup", _playerControlGroup);
+
+					for (int i = 0, size = _enemyControlGroups.Count; i < size; ++i)
+					{
+						_saveDataHelper.Save("Chara/EnemyControlGroup.save", $"EnemyControlGroup {i}", _enemyControlGroups[i]);
+					}
+				});
+			
+			_eventManager.Add<Utility.SaveData.EventLoadCall>(this, ev =>
+				{
+					ev.Add(UniTask.Create((async () =>
+						{
+							// ロード時にDictionaryを復元する
+							for (int i = 0, size = _enemyControlGroups.Count; i < size; ++i)
+							{
+								var enemyControlGroup = _enemyControlGroups[i];
+								if (_saveDataHelper.Exists("Chara/EnemyControlGroup.save", $"EnemyControlGroup {i}"))
+								{
+									_saveDataHelper.LoadInto("Chara/EnemyControlGroup.save", $"EnemyControlGroup {i}", enemyControlGroup);
+								}
+								else
+								{
+									// エラー処理
+								}
+								
+								if (enemyControlGroup.MapLevel > 0)
+								{
+									_enemyControlDict.Add(enemyControlGroup.MapLevel, enemyControlGroup);
+								}
+							}
+						})));
 				});
 		}
 

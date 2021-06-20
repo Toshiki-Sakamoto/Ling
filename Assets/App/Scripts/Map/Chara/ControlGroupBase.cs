@@ -62,6 +62,8 @@ namespace Ling.Chara
 
 		#region private 変数
 
+		[Inject] protected Utility.SaveData.ISaveDataHelper _saveDataHelper;
+
 		private Tilemap _tilemap;
 
 		#endregion
@@ -95,9 +97,15 @@ namespace Ling.Chara
 			_tilemap = tilemap;
 		}
 
-		public async UniTask SetupAsync()
+		public async virtual UniTask SetupAsync()
 		{
-			await SetupAsyncInternal();
+		}
+
+		/// <summary>
+		/// 復帰時の処理
+		/// </summary>
+		public async virtual UniTask ResumeAsync()
+		{
 		}
 
 		/// <summary>
@@ -169,10 +177,7 @@ namespace Ling.Chara
 
 
 		#region private 関数
-
-		protected virtual UniTask SetupAsyncInternal() =>
-			UniTask.FromResult(default(object));
-
+		
 		protected virtual void ResetInternal() { }
 
 		#endregion
