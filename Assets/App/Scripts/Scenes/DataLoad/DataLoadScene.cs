@@ -38,6 +38,8 @@ namespace Ling.Scenes.DataLoad
 
 		#region プロパティ
 
+		public override Common.Scene.SceneID SceneID => Common.Scene.SceneID.DataLoad;
+		
 		#endregion
 
 

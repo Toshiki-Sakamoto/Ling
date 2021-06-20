@@ -69,8 +69,21 @@ namespace Ling.UserData
 
 		public async override UniTask LoadAll()
 		{
-			LoadSaveDataRepositoryTask<ItemUserData, ItemUserDataRepository>("ItemUserData");
-			LoadSaveDataRepositoryTask<EquipmentUserData, EquipmentUserDataRepository>("EquipmentUserData");
+			// Todo:読み込むか作成するか
+#if UNITY_EDITOR
+			var isForceResume = Common._Debug.Editor.CommonDebugMenu.IsForceResumeChecked;
+			if (isForceResume)
+			{
+				LoadSaveDataRepositoryTask<ItemUserData, ItemUserDataRepository>("ItemUserData");
+				LoadSaveDataRepositoryTask<EquipmentUserData, EquipmentUserDataRepository>("EquipmentUserData");
+			}
+			else
+			{
+				CreateRepository<ItemUserData, ItemUserDataRepository>("ItemUserData");
+				CreateRepository<EquipmentUserData, EquipmentUserDataRepository>("EquipmentUserData");
+			}
+#else
+#endif
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(_loadTasks);
