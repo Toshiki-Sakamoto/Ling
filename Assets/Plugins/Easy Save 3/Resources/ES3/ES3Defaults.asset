@@ -37,12 +37,13 @@ MonoBehaviour:
     - Utility
     - UniTask.Linq
     - Cinemachine
-    - Ling.Scenes.MenuScene
     - Ling.Scenes
+    - Ling.Scenes.MenuScene
     - ZString
     - Ling.Map
     - Ling.Scenes.BattleScene
     - Common
+    - Assembly-CSharp
     - Const
     - UniTask.DOTween
     - Purchasing.Common
@@ -51,9 +52,9 @@ MonoBehaviour:
     - UniRx.Examples
     - Ling.Debug
     - DOTween.Modules
-    - Assembly-CSharp
     - Ling.Scenes.StatusScene
     - UniTask.TextMeshPro
+    - Ling.Scenes.DataLoad
     - Ling.Scenes.InputScene
     - Ling.Scenes.TitleScene
     - UniTask.Addressables
