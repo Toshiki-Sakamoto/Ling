@@ -34,7 +34,7 @@ namespace Utility
 
 		#region プロパティ
 
-		public T Value => _value;
+		public T Value { get => _value; set { _value = value; } }
 
 		#endregion
 
@@ -54,6 +54,7 @@ namespace Utility
 
 
 		#region public, protected 関数
+		
 
 		#endregion
 
