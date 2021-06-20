@@ -31,8 +31,6 @@ namespace Utility.UserData
 
 
 		[SerializeField] protected Utility.UniqKey _uniq = default;
-		[SerializeField] protected int _aa = 3;
-		[SerializeField] protected Vector2 _test;
 
 		#endregion
 
