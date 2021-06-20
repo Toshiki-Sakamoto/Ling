@@ -20,6 +20,8 @@ namespace Utility.SaveData
 
 		T Load<T>(string key);
 		T Load<T>(string path, string key);
+		void Load(string path, string key);
+		void LoadInto<T>(string path, string key, T obj) where T : class;
 
 		bool Exists(string key);
 		bool Exists(string path, string key);
@@ -89,6 +91,28 @@ namespace Utility.SaveData
 			}
 
 			return result;
+		}
+		void ISaveDataHelper.Load(string path, string key)
+		{
+			if (string.IsNullOrEmpty(path))
+			{
+				ES3.Load(key);
+			}
+			else
+			{
+				ES3.Load(key, GetOrCreateSettings(path));
+			}
+		}
+		void ISaveDataHelper.LoadInto<T>(string path, string key, T obj) where T : class
+		{
+			if (string.IsNullOrEmpty(path))
+			{
+				ES3.LoadInto<T>(key, obj);
+			}
+			else
+			{
+				ES3.LoadInto<T>(key, obj, GetOrCreateSettings(path));
+			}
 		}
 
 		bool ISaveDataHelper.Exists(string key)
