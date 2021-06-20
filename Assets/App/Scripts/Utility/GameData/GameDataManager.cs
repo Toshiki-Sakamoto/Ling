@@ -81,6 +81,7 @@ namespace Utility.GameData
 		protected Dictionary<Type, System.Object> _dataDict = new Dictionary<Type, System.Object>();
 	
 		protected IGameDataLoader _loader;
+		protected IGameDataCreator _creator;
 		protected List<UniTask> _loadTasks = new List<UniTask>();
 
 		#endregion
@@ -107,6 +108,9 @@ namespace Utility.GameData
 
 		public void SetLoader(IGameDataLoader loader) =>
 			_loader = loader;
+			
+		public void SetCreator(IGameDataCreator creator) =>
+			_creator = creator;
 
 		public TGameData GetData<TGameData>()
 			where TGameData : class
@@ -149,6 +153,24 @@ namespace Utility.GameData
 					_dataDict.Add(typeof(TGameData), data);
 				}));
 		}
+		#if false
+		/// <summary>
+		/// 読み込むのではなく新規に作成する
+		/// </summary>
+		protected void Create<TGameData>(string key)
+			where TGameData : class, new()
+		{
+			var data = _creator.Create<TGameData>();
+			if (data is IGameDataSavable savable)
+			{
+				savable.SaveDataKey = key;
+			}
+
+			Utility.Log.Print($"[{key}] を作成しました");
+
+			_dataDict.Add(typeof(TGameData), data);
+		}
+		#endif
 
 		/// <summary>
 		/// 指定したデータのアセットを複数読み込んでリポジトリに格納する
@@ -174,6 +196,24 @@ namespace Utility.GameData
 			where TRepository : GameDataRepository<TGameData>, new()
 		{
 			_loadTasks.Add(LoadRepositoryAsync<TGameData, TRepository>(key));
+		}
+		
+		protected void CreateRepository<TGameData, TRepository>(string key)
+			where TGameData : Utility.GameData.IGameDataBasic
+			where TRepository : GameDataRepository<TGameData>, new()
+		{
+			var repository = _creator.Create<TRepository>();
+			if (repository is IGameDataSavable savable)
+			{
+				savable.SaveDataKey = key;
+			}
+
+			Utility.Log.Print($"[{key}] リポジトリを作成しました");
+
+			repository.AddFinished();
+
+			// リポジトリに追加する
+			_repositoryDict.Add(typeof(TRepository), repository);
 		}
 
 		/// <summary>

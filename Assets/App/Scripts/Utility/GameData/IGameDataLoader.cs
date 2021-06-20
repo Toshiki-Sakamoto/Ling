@@ -7,6 +7,7 @@
 
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Utility.GameData
 {
@@ -20,6 +21,11 @@ namespace Utility.GameData
 
 		UniTask<IList<T>> LoadAssetsAsync<T>(string key)
 			where T : class;
+	}
+
+	public interface IGameDataCreator
+	{
+		T Create<T>() where T : class;
 	}
 
 	/// <summary>
