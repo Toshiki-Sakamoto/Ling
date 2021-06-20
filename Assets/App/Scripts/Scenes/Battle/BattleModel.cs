@@ -28,6 +28,7 @@ namespace Ling.Scenes.Battle
 		public class Param
 		{
 			public StageMaster stageMaster; // バトルステージ情報
+			public bool IsResume;
 		}
 
 		#endregion
@@ -43,6 +44,7 @@ namespace Ling.Scenes.Battle
 		#region private 変数
 
 		private Param _param;
+		private BattleSceneArgument _argument;
 
 		#endregion
 
@@ -63,6 +65,11 @@ namespace Ling.Scenes.Battle
 		/// 次のフェーズ移動の予約
 		/// </summary>
 		public Phase NextPhaseMoveReservation { get; set; }
+
+		/// <summary>
+		/// 再開している場合true
+		/// </summary>
+		public bool IsResume => param.IsResume;
 
 		#endregion
 

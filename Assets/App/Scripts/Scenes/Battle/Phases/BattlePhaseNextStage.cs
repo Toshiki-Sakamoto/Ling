@@ -92,7 +92,7 @@ namespace Ling.Scenes.Battle.Phases
 				return;
 			}
 
-			Scene.DeployObjectToMap(enemyModelGroup, level);
+			Scene.DeployObjectToMap(enemyModelGroup, level, isReume: false);
 
 			// 動きを制御
 			var process = AttachProcess<Process.ProcessNextStageAnim>();

@@ -59,10 +59,10 @@ namespace Ling.Scenes.Battle.Phases
 		public override void PhaseStart()
 		{
 			var player = _charaManager.Player;
-			var pos = player.Model.CellPosition.Value;
+			var index = player.Model.CellIndex;
 
 			var dropItemController = _mapManager.MapControl.FindDropItemController(_mapManager.CurrentMapIndex);
-			if (!dropItemController.TryGetItemObject(player.Model.CellIndex, out var itemControl))
+			if (!dropItemController.TryGetItemObject(index, out var itemControl))
 			{
 				// ないので終了
 				ChangeNextPhase();
@@ -77,7 +77,7 @@ namespace Ling.Scenes.Battle.Phases
 			_eventManager.Trigger(new Chara.EventItemGet { ItemMaster = itemControl.Master });
 
 			// 入れ替えたらオブジェクトを削除
-			itemControl.Release();
+			dropItemController.Release(index);
 
 			// 終了
 			ChangeNextPhase();
