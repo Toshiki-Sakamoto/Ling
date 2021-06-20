@@ -11,11 +11,12 @@ https://user-images.githubusercontent.com/9328751/97722836-73ba1880-1b0e-11eb-91
 
 ## Requirement
 
-* Unity2020.3.3f1
+* Unity2020.3.12f1
 * VisualStudio Code
 * UniRx
 * UniTask
-* Zenject
+* Zenject v9.2.0
+* MessagePipe v1.6.1
 
 ### Manual
 「調整中(今はキーボードのqあたりで移動する）」：移動<br>
