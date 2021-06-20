@@ -79,11 +79,11 @@ namespace Ling.Map
 		/// <summary>
 		/// 道Map
 		/// </summary>
-		[ES3Serializable]
-		public int[] RoadMapArray { get; private set; }
+//		[ES3Serializable]
+//		public int[] RoadMapArray { get; private set; }
 		
-		[ES3Serializable]
-		public Dictionary<int, List<Vector2Int>> RoadMap { get; private set; } = new Dictionary<int, List<Vector2Int>>();
+//		[ES3Serializable]
+//		public Dictionary<int, List<Vector2Int>> RoadMap { get; private set; } = new Dictionary<int, List<Vector2Int>>();
 
 		/// <summary>
 		/// 下り階段の場所
@@ -132,6 +132,14 @@ namespace Ling.Map
 			}
 
 			Scanner = new TileDataMapScanner(this);
+		}
+		
+		public void Resume()
+		{
+			Scanner = new TileDataMapScanner(this);
+			
+			// 部屋を作り直す
+			 BuildRoomMap();
 		}
 
 		public void AllTilesSetWall()

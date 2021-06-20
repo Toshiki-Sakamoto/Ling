@@ -5,7 +5,9 @@
 // Created by toshiki sakamoto on 2021.05.10
 //
 
+using System;
 using System.Collections.Generic;
+using Ling.Common.Item;
 using Ling.Const;
 using UnityEngine;
 using Ling.MasterData.Item;
@@ -13,6 +15,7 @@ using Zenject;
 using UnityEngine.Tilemaps;
 using Utility.Extensions;
 using Sirenix.OdinInspector;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Map
 {
@@ -23,14 +26,20 @@ namespace Ling.Map
 	{
 		private Const.TileFlag BlockTileFlag = Const.TileFlag.Hole | Const.TileFlag.Item;
 
+		[Inject] private Utility.SaveData.ISaveDataHelper _saveHelper;
+		[Inject] private Utility.IEventManager _eventManager;
+		
 		[SerializeField] private ItemPool _pool = default;
 		[ShowInInspector] private Dictionary<int, Item.ItemControl> _itemObjectDict = new Dictionary<int, Item.ItemControl>();
+		
+		private Dictionary<int, Common.Item.ItemEntity> _itemEntityDict = new Dictionary<int, ItemEntity>();
 
 
 		private IMapObjectInstaller _mapObjectInstaller;
 		private int _level;
 		private MapData _mapData;
 		private Tilemap _tileMap;
+		private MasterData.Stage.MapMaster _mapMaster;
 
 		// 生成されたアイテムを保持する
 
@@ -38,21 +47,33 @@ namespace Ling.Map
 		{
 			_mapObjectInstaller = mapObjectInstaller;
 		}
-
+		
 		/// <summary>
-		/// マップに配置する
+		/// アイテム情報を保存する
 		/// </summary>
-		public void CreateAtBuild(int level, MasterData.Stage.MapMaster mapMaster, MapData mapData, Tilemap tilemap)
+		public void Save()
+		{
+			_saveHelper.Save("Item.save", $"ItemEntities{_level}", _itemEntityDict);
+		}
+
+		public void SetMapInfo(int level, MasterData.Stage.MapMaster mapMaster, MapData mapData, Tilemap tilemap)
 		{
 			_level = level;
 			_mapData = mapData;
 			_tileMap = tilemap;
+			_mapMaster = mapMaster;
+		}
 
+		/// <summary>
+		/// マップに配置する
+		/// </summary>
+		public void CreateAtBuild()
+		{
 			// アイテム生成数を決める
-			var dropTableMaster = mapMaster.DropItemTableMaster;
+			var dropTableMaster = _mapMaster.DropItemTableMaster;
 			var num = dropTableMaster.GetRandomDropNum();
 
-			var tileDataMap = mapData.TileDataMap;
+			var tileDataMap = _mapData.TileDataMap;
 
 			// 回数分配置
 			for (int i = 0; i < num; ++i)
@@ -70,16 +91,46 @@ namespace Ling.Map
 				{
 					var tileData = roomData.GetRandom();
 					
-					var itemObject = CreateItemObject(tileData, itemMaster);
+					// 配置できる箇所か
+					if (!CanPlaced(tileData)) continue;
+
+					// 配置
+					tileData.AddFlag(Const.TileFlag.Item);
+					
+					var itemEntity = new Common.Item.ItemEntity();
+					itemEntity.CreateUniqKey();
+					itemEntity.SetMaster(itemMaster);
+					
+					_itemEntityDict.Add(tileData.Index, itemEntity);
+					
+					var itemObject = CreateItemObject(tileData, itemEntity);
 					if (itemObject == null) continue;
 				}
+			}
+		}
+		
+		/// <summary>
+		/// 指定したマップにあるアイテムに対して配置を行う
+		/// </summary>
+		public void Resume()
+		{
+			_itemEntityDict = _saveHelper.Load<Dictionary<int, Common.Item.ItemEntity>>("Item.save", $"ItemEntities{_level}");
+			
+			var tileDataMap = _mapData.TileDataMap;
+			
+			foreach (var pair in _itemEntityDict)
+			{
+				var tile = tileDataMap.Tiles[pair.Key];
+				
+				var itemObject = CreateItemObject(tile, pair.Value);
+				if (itemObject == null) continue;
 			}
 		}
 
 		/// <summary>
 		/// アイテム情報を破棄する
 		/// </summary>
-		public void Release()
+		public void ReleaseAll()
 		{
 			// すべてプールに戻す
 			foreach (var pair in _itemObjectDict)
@@ -89,24 +140,28 @@ namespace Ling.Map
 
 			_itemObjectDict.Clear();
 		}
-
-		public Item.ItemControl CreateItemObject(TileData tileData, ItemMaster itemMaster)
+		
+		public void Release(int index)
 		{
-			if (!CanPlaced(tileData)) return null;
+			if (!TryGetItemObject(index, out var itemControl)) return;
+			
+			itemControl.Release();
+		}
 
-			// 配置
-			tileData.AddFlag(Const.TileFlag.Item);
-
+		public Item.ItemControl CreateItemObject(TileData tileData, Common.Item.ItemEntity itemEntity)
+		{
 			// アイテムを作成する
-			var item = _pool.Pop<Item.ItemControl>(itemMaster.PrefabType);
-			item.Setup(itemMaster, tileData);
+			var item = _pool.Pop<Item.ItemControl>(itemEntity.Master.PrefabType);
+			item.Setup(itemEntity, tileData);
 			
 			// Poolに戻った時を検知する
 			var poolItem = item.GetComponent<Utility.Pool.PoolItem>();
 			poolItem.OnRelease = new Utility.FunctionParam1<Item.ItemControl>(item, 
 				item_ => 
 				{
-					_itemObjectDict.Remove(item_.TileData.Index);
+					var releaseIndex = item_.TileData.Index;
+					_itemObjectDict.Remove(releaseIndex);
+					_itemEntityDict.Remove(releaseIndex);
 				});
 
 			_itemObjectDict.Add(tileData.Index, item);
@@ -138,6 +193,19 @@ namespace Ling.Map
 			}
 
 			return false;
+		}
+		
+		private void Awake()
+		{
+			_eventManager.Add<Utility.SaveData.EventSaveCall>(this, ev =>
+				{
+					Save();
+				});
+		}
+
+		private void OnDestroy()
+		{
+			_eventManager.RemoveAll(this);
 		}
 	}
 }

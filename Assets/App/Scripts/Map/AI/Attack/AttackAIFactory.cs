@@ -22,7 +22,7 @@ namespace Ling.AI.Attack
 			_attackAIData = attackAIData;
 		}
 
-		public void Attach<TModel, TView>(Chara.CharaControl<TModel, TView> charaControl)
+		public void Attach<TModel, TView>(Chara.CharaControl<TModel, TView> charaControl, bool isResume)
 			where TModel : Chara.CharaModel
 			where TView : Chara.ViewBase
 		{
@@ -31,12 +31,12 @@ namespace Ling.AI.Attack
 			switch (_attackAIData.AttackAIType)
 			{
 				case Const.AttackAIType.Normal:
-					attackAI = charaControl.AttachAttackAI<AINormalAttack>();
+					attackAI = charaControl.AttachAttackAI<AINormalAttack>(isResume);
 					break;
 
 				default:
 					Utility.Log.Error("AttackAIを作成できませんでした。無効のタイプ " + _attackAIData.AttackAIType);
-					return;
+					return; 
 			}
 
 			attackAI.Setup(_attackAIData);

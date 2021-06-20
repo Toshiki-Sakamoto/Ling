@@ -6,6 +6,7 @@
 //
 
 
+using Ling.Const;
 using Utility.Extensions;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ namespace Ling.Map.Tile
 		}
 
 		public bool HasFlag(Const.TileFlag tileFlag) =>
-			TileFlag.HasFlag(tileFlag);
+			TileFlag.HasAny(tileFlag);
 
 		public string GetTileFlagString() =>
 			TileFlag.ToString();

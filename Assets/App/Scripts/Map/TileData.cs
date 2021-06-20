@@ -47,7 +47,6 @@ namespace Ling.Map
 		/// <summary>
 		/// 部屋の場合、各部屋のIndexを割り当てる
 		/// </summary>
-		[ES3Serializable]
 		public Utility.ValueObject<int> RoomIndex { get; private set; }
 
 		/// <summary>

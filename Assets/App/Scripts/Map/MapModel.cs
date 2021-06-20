@@ -52,13 +52,12 @@ namespace Ling.Map
 		/// 現在のマップID(階層)
 		/// </summary>
 		[ES3Serializable]
-		public int CurrentMapIndex { get; private set; }
+		public int CurrentMapIndex { get; private set; } = 1;
 
 		/// <summary>
 		/// 現在のマップデータ
 		/// </summary>
-		[ES3Serializable]
-		public MapData CurrentMapData { get; private set; }
+		public MapData CurrentMapData => MapData[CurrentMapIndex];
 
 		/// <summary>
 		/// 現在のタイルデータ
@@ -109,8 +108,6 @@ namespace Ling.Map
 			}
 
 			CurrentMapIndex = level;
-
-			CurrentMapData = MapData[level];
 			CurrentTileDataMap = CurrentMapData.TileDataMap;
 
 			BuildShowMapIndexList();

@@ -37,6 +37,8 @@ namespace Ling.Map.Item
 		#region プロパティ
 
 		public ItemMaster Master { get; private set; }
+		
+		public Common.Item.ItemEntity Entity { get; private set; }
 
 		/// <summary>
 		/// 現在配置されてるTileData
@@ -53,9 +55,10 @@ namespace Ling.Map.Item
 
 		#region public, protected 関数
 
-		public void Setup(ItemMaster itemMaster, TileData tileData)
+		public void Setup(Common.Item.ItemEntity itemEntity, TileData tileData)
 		{
-			Master = itemMaster;
+			Entity = itemEntity;
+			Master = itemEntity.Master;
 			TileData = tileData;
 
 			_view.Setup();
