@@ -38,6 +38,11 @@ namespace Ling.Common
 		#region プロパティ
 
 		public MasterData.IMasterHolder MasterHolder => _masterHolder;
+		
+		/// <summary>
+		/// 中断データから再開している場合true
+		/// </summary>
+		public bool IsResume { get; set; }
 
 		#endregion
 

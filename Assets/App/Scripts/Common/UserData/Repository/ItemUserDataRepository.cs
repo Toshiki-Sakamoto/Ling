@@ -7,6 +7,7 @@
 
 using Ling.UserData.Item;
 using UnityEngine;
+using Utility;
 
 namespace Ling.UserData.Repository
 {

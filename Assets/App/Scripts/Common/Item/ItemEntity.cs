@@ -10,6 +10,7 @@ using UnityEngine;
 using Zenject;
 using Ling.MasterData.Item;
 using Ling.MasterData.Skill;
+using Utility;
 
 namespace Ling.Common.Item
 {
@@ -77,7 +78,12 @@ namespace Ling.Common.Item
 			ID = master.ID;
 			Category = master.Category;
 		}
-		
+
+		public void CreateUniqKey()
+		{
+			Uniq = UniqKey.Create();
+		}
+
 		public void OnAfterDeserialize()
 		{
 		}
