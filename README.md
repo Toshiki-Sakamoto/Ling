@@ -7,7 +7,7 @@
 また、UniRx, UniTask, Zenject といったUnity開発に利用できる便利なライブラリを使用した実験的なゲーム開発を行うプロジェクト
 
 ## Demo
-https://user-images.githubusercontent.com/9328751/97722836-73ba1880-1b0e-11eb-91d6-b9ae988fddf9.gif
+https://user-images.githubusercontent.com/9328751/123117505-c28d3780-d47c-11eb-9170-17844b971533.gif
 
 ## Requirement
 
