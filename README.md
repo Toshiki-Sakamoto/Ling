@@ -1,4 +1,5 @@
 ![UnityTestRunner](https://github.com/SakaToshi/Ling/workflows/UnityTestRunner/badge.svg?branch=master)
+[![gitlocalized ](https://gitlocalize.com/repo/6223/en/badge.svg)](https://gitlocalize.com/repo/6223/en?utm_source=badge)
 
 # Ling
 風来のシレンのようなローグライクゲーム開発
