@@ -2,7 +2,7 @@
 
 # Ling
 
-風来のシレンのようなローグライクゲーム開発
+Roguelike game development like Furai Shiren
 
 The genre is old-fashioned roguelike games. Also, a project to develop experimental games using convenient libraries such as UniRx, UniTask, and Zenject that can be used for Unity development.
 
