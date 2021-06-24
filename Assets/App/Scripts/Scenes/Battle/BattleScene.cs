@@ -88,6 +88,9 @@ namespace Ling.Scenes.Battle
 
 		private bool _isInitialized;
 		private bool _isResume;
+		private bool _isApppple;
+		private bool _issModel;
+		private bool _isModell;
 
 		#endregion
 
