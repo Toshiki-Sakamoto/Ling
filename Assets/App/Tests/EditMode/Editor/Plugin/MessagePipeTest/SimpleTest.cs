@@ -14,7 +14,7 @@ using UnityEngine;
 namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 {
 	/// <summary>
-	/// 
+	/// MessageTestの簡単なテスト
 	/// </summary>
 	public class SimpleTest
 	{
@@ -118,7 +118,7 @@ namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 		{
 			var options = builder.BindMessagePipe();
 
-			// 使用するためにはDIContainerにバインドをしなければならない
+			// 使用するためにSetProviderはDIContainerにバインドをしなければならない
 			builder.BindMessageBroker<string>(options);
 		}
 
