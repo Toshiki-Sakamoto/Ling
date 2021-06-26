@@ -22,12 +22,8 @@ namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 
 		public class MessageService
 		{
-			private IPublisher<string> _pubLisher;
-
-			public MessageService(IPublisher<string> publisher)
-			{
-				_pubLisher = publisher;
-			}
+			// Zenjectによって自動的にInject
+			[Inject] private IPublisher<string> _pubLisher;
 
 			public void Send(string message)
 			{
@@ -37,13 +33,16 @@ namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 
 		public class MessageHub : System.IDisposable
 		{
-			private readonly System.IDisposable disposable;
-		
-			public MessageHub(ISubscriber<string> subscriber)
+			// Zenjectによって自動的にInject
+			[Inject] private ISubscriber<string> _subscriber;
+			
+			private System.IDisposable disposable;
+
+			public void Setup()
 			{
 				var bag = DisposableBag.CreateBuilder();
 				
-				subscriber.Subscribe(x => Debug.Log(x)).AddTo(bag);
+				_subscriber.Subscribe(x => Debug.Log(x)).AddTo(bag);
 				
 				disposable = bag.Build();
 			}
@@ -85,7 +84,7 @@ namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 		public void Setup()
 		{
 			_contaier = new DiContainer();
-			Configure(_contaier);
+			//Configure(_contaier);
 		}
 
 		#endregion
@@ -96,7 +95,11 @@ namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 		[Test]
 		public void Test1()
 		{
+			InstallBindings(_contaier);
+			
 			var hub = _contaier.Instantiate<MessageHub>();
+			hub.Setup();
+			
 			var service = _contaier.Instantiate<MessageService>();
 			
 			service.Send("Test");
@@ -106,11 +109,17 @@ namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 		{
 			var options = builder.BindMessagePipe();
 			
-			builder.BindMessageBroker<string>(options);
-			
 			//builder.BindMessageHandlerFilter<MyFilter<int>>();
 			
-			GlobalMessagePipe.SetProvider(builder.AsServiceProvider());
+			//GlobalMessagePipe.SetProvider(builder.AsServiceProvider());
+		}
+
+		private void InstallBindings(DiContainer builder)
+		{
+			var options = builder.BindMessagePipe();
+
+			// 使用するためにはDIContainerにバインドをしなければならない
+			builder.BindMessageBroker<string>(options);
 		}
 
 		#endregion
