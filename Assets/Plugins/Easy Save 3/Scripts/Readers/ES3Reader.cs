@@ -443,7 +443,8 @@ public abstract class ES3Reader : System.IDisposable
 
                 reader.ReadKeySuffix();
 
-				yield return new KeyValuePair<string,ES3Data>(key, new ES3Data(type, bytes));
+                if(type != null)
+				    yield return new KeyValuePair<string,ES3Data>(key, new ES3Data(type, bytes));
 			}
 		}
 	}
