@@ -34,6 +34,34 @@ namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 				_subscriber.Subscribe(x => Debug.Log($"{name} {x}"));
 		}
 
+		// 通知用
+		public class NoticeEvent
+		{
+			public string Message;
+		}
+
+		/// <summary>
+		/// 通知を送る
+		/// </summary>
+		public class NoticePublisher
+		{
+			[Inject] private IPublisher<NoticeEvent> _publisher;
+
+			public void Send(NoticeEvent message) =>
+				_publisher.Publish(message);
+		}
+
+		/// <summary>
+		/// 通知を受ける
+		/// </summary>
+		public class NoticeSubscriber
+		{
+			[Inject] private ISubscriber<NoticeEvent> _subscriber;
+
+			public void Setup() =>
+				_subscriber.Subscribe(x => Debug.Log($"{x.Message}"));
+		}
+
 		#endregion
 
 
@@ -44,8 +72,8 @@ namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 
 		#region private 変数
 
-		private DiContainer _contaier1;
-		private DiContainer _contaier2;
+		private DiContainer _container1;
+		private DiContainer _container2;
 
 		#endregion
 
@@ -73,24 +101,73 @@ namespace Ling.Tests.EditMode.Plugin.MessagePipeTest
 		#region private 関数
 		
 		[Test]
-		public void Test1()
+		public void LocalScope()
 		{
-			_contaier1 = new DiContainer();
-			_contaier2 = new DiContainer();
+			_container1 = new DiContainer();
+			_container2 = new DiContainer();
 			
-			_contaier1.BindMessageBroker<string>(_contaier1.BindMessagePipe());
-			_contaier2.BindMessageBroker<string>(_contaier2.BindMessagePipe());
+			_container1.BindMessageBroker<string>(_container1.BindMessagePipe());
+			_container2.BindMessageBroker<string>(_container2.BindMessagePipe());
 
 			// イベントを受ける方
-			var service1 = _contaier1.Instantiate<Subscriber>();
+			var service1 = _container1.Instantiate<Subscriber>();
 			service1.Setup("Container1");
 			
-			var service2 = _contaier2.Instantiate<Subscriber>();
+			var service2 = _container2.Instantiate<Subscriber>();
 			service2.Setup("Container2");
 			
 			// イベントを投げる方
-			var publisher1 = _contaier1.Instantiate<Publisher>();
+			var publisher1 = _container1.Instantiate<Publisher>();
 			publisher1.Send("Test");
+		}
+
+		/// <summary>
+		/// 環境全体にイベントを投げる場合
+		/// </summary>
+		[Test]
+		public void GrobalScope()
+		{
+			_container1 = new DiContainer();
+			_container2 = new DiContainer();
+			
+			// Grobalに設定する前に必要
+			var option = _container1.BindMessagePipe();
+			_container1.BindMessageBroker<string>(option);
+			_container2.BindMessageBroker<string>(_container2.BindMessagePipe());
+			
+			// GlobalMessagePipeを使用する前にSetProviderに設定する必要がある
+			GlobalMessagePipe.SetProvider(_container1.AsServiceProvider());
+			
+			var p = GlobalMessagePipe.GetPublisher<string>();
+			var s = GlobalMessagePipe.GetSubscriber<string>();
+			
+			var d = s.Subscribe(x => Debug.Log(x));
+
+			var service2 = _container2.Instantiate<Subscriber>();
+			service2.Setup("Container2");
+
+			p.Publish("10");
+			p.Publish("20");
+
+			// Disposeしたら購読ができなくなる
+			d.Dispose();
+
+			p.Publish("30");
+
+			/*
+			_container1.BindMessageBroker<string>(_container1.BindMessagePipe());
+			_container2.BindMessageBroker<string>(_container2.BindMessagePipe());
+
+			// イベントを受ける方
+			var service1 = _container1.Instantiate<Subscriber>();
+			service1.Setup("Container1");
+			
+			var service2 = _container2.Instantiate<Subscriber>();
+			service2.Setup("Container2");
+			
+			// イベントを投げる方
+			var publisher1 = _container1.Instantiate<Publisher>();
+			publisher1.Send("Test");*/
 		}
 
 		#endregion
