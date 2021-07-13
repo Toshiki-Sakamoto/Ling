@@ -51,7 +51,7 @@ TextureImporter:
       213: 5552264596495716517
     second: owl01_15
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -71,6 +71,8 @@ TextureImporter:
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -80,11 +82,11 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-    aniso: -1
-    mipBias: -100
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -102,9 +104,13 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -479,6 +485,23 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      owl01_13: -4279665502832774795
+      owl01_14: 3958739172755499608
+      owl01_15: 5552264596495716517
+      owl01_8: 127921221509136048
+      owl01_5: 3415941856924496782
+      owl01_3: -4156688659259462867
+      owl01_4: -9146636167858911260
+      owl01_6: -9198019069698872719
+      owl01_7: -871978112443963375
+      owl01_10: -1266925073743983514
+      owl01_9: 3427712826257986800
+      owl01_11: 3341799702044095427
+      owl01_0: -2394346196037722465
+      owl01_2: -8951193794048363865
+      owl01_1: -6623200145839569201
+      owl01_12: 136448912448457545
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
