@@ -1,54 +1,56 @@
 name: UnityTestRunner
 
-on:
+on: 
   push:
     branches: master
   pull_request:
    types: [opened, synchronize]
-
-env:
-  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  PROJECT_ROOT: .
-
+ 
 jobs:
   testAllModes:
-    name: Test in ${{ matrix.testMode }} on version ${{ matrix.unityVersion }}
+    name: Test in ${{ matrix.testMode }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        unityVersion:
-          - 2020.1.11f1
+        projectPath:
+          - test-project
         testMode:
           - playmode
           - editmode
-
     steps:
       # Checkout
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
         with:
+          # todo:ref必要か確認
           ref: ${{ github.event.pull_request.head.sha }}
           lfs: true
-    
+          
       # Cache
-      - uses: actions/cache@v2.1.2
+      - uses: actions/cache@v2
         with:
-          path: ${{ env.PROJECT_ROOT }}/Library
-          key: Library-${{ env.PROJECT_ROOT }}
-
+          path: ${{ matrix.projectPath }}/Library
+          key: Library-${{ matrix.projectPath }}
+          restore-keys: |
+            Library-
+            
       # Test
-      - uses: webbertakken/unity-test-runner@v1.7
+      - uses: game-ci/unity-test-runner@v2
         id: tests
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
-          customParameters: '-nographics'
-          projectPath: ${{ env.PROJECT_ROOT }}
-          unityVersion: ${{ matrix.unityVersion }}
+          customParameters: '-nographics' # 追加
+          projectPath: ${{ matrix.projectPath }}
           testMode: ${{ matrix.testMode }}
           artifactsPath: ${{ matrix.testMode }}-artifacts
-        
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          checkName: ${{ matrix.testMode }} Test Results
+          unityVersion: ${{ matrix.unityVersion }}
+          
       # Output
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2
+        if: always()
         with:
           name: Test results for ${{ matrix.testMode }}
           path: ${{ steps.tests.outputs.artifactsPath }}
