@@ -6,7 +6,9 @@
         "UniRx",
         "Zenject",
         "UniTask",
-        "UnityEditor.TestRunner"
+        "UnityEditor.TestRunner",
+        "MessagePipe",
+        "MessagePipe.Zenject"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
