@@ -46,7 +46,7 @@ jobs:
           artifactsPath: ${{ matrix.testMode }}-artifacts
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           checkName: ${{ matrix.testMode }} Test Results
-          #unityVersion: ${{ matrix.unityVersion }} : デフォルトauto
+          unityVersion: 2021.1.15f1 # デフォルトauto
           
       # Output
       - uses: actions/upload-artifact@v2
