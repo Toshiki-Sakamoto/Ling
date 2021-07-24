@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using Assert = UnityEngine.Assertions.Assert;
 
 
-namespace Ling.Tests.EditMode.Script
+namespace Ling.Tests.Script
 {
 	/// <summary>
 	/// C#8
@@ -60,11 +60,38 @@ namespace Ling.Tests.EditMode.Script
 			Assert.AreEqual("Test", str, "文字列が一致する");
 		}
 
-		#endregion
+		[Test]
+		public void Null許容参照型()
+		{
+			//string str = null;  // 通常はOK
+
+#nullable enable
+
+			//string str = null;	// null非許容参照型なのでnull入れると警告が出る
+			//string? str = null;		// これはnull許容参照型なので問題ない
+
+#nullable disable
+		}
+
+		[Test]
+		public void 静的ローカル関数()
+		{
+			int v = 0;
+
+			static int Add(int x1, int x2)
+			{
+				// v += x1; 静的ローカル関数ではキャプチャができない
+				return x1 + x2;
+			}
+
+			Add(v, 1);
+		}
+
+#endregion
 
 
-		#region private 関数
+#region private 関数
 
-		#endregion
+#endregion
 	}
 }
