@@ -16,8 +16,6 @@ namespace Ling.Common
 		{
 			var option = Container.BindMessagePipe();
 
-			Container.BindMessageBroker<NoticeEvent>(option);
-			
 			// GlobalMessagePipeを使用する前にSetProviderに設定する必要がある
 			GlobalMessagePipe.SetProvider(Container.AsServiceProvider());
 		}
