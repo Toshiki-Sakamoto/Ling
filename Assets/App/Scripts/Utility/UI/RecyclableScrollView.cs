@@ -52,6 +52,14 @@ namespace Utility.UI
 		}
 
 		/// <summary>
+        /// スクロール内のコンテンツ生成方法を提供する
+        /// </summary>
+		public interface IContentCreater
+		{
+			GameObject CreateScrollItem(int index, GameObject obj, Transform parent);
+		}
+
+		/// <summary>
 		/// パディング
 		/// </summary>
 		[System.Serializable]
@@ -125,6 +133,7 @@ namespace Utility.UI
 		private List<ItemData> _items = new List<ItemData>();
 		private List<float> _positionCaches = new List<float>();
 		private IContentDataProvider _dataProvider = null;
+		private IContentCreater _creator;
 		private Dictionary<GameObject, List<ItemData>> _itemDataCaches = new Dictionary<GameObject, List<ItemData>>();
 		private RectTransform _rectTransform;
 		private RectTransform _contentRectTransform;
@@ -366,6 +375,11 @@ namespace Utility.UI
 			Initialize(_dataProvider);
 		}
 
+		public void SetCreator(IContentCreater creator)
+        {
+			_creator = creator;
+        }
+
 		#endregion
 
 
@@ -428,7 +442,18 @@ namespace Utility.UI
 				{
 					// なければ生成
 					// todo: ここは生成方法を選択できるようにしておくと良いかも
-					var newObject = _container.InstantiatePrefab(gameObj, ScrollRect.content);
+					GameObject newObject = default;
+					if (_creator != null)
+					{
+						newObject = _creator.CreateScrollItem(index, gameObj, ScrollRect.content);
+					}
+
+					// nullの場合はデフォルトの生成方法を使用する
+					if (newObject == null)
+					{
+						newObject = _container.InstantiatePrefab(gameObj, ScrollRect.content);
+					}
+
 					recyclableItem = ItemData.Create(newObject, gameObj, index, _dataProvider.GetItemSize(index));
 
 					// 生成時には初期化フラグを強制的に立てる
