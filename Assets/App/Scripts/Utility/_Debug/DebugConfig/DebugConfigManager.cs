@@ -66,7 +66,8 @@ namespace Utility.DebugConfig
 	/// </summary>
 	public class DebugConfigManager :
 		Utility.MonoSingleton<DebugConfigManager>,
-		Utility.UI.RecyclableScrollView.IContentDataProvider
+		Utility.UI.RecyclableScrollView.IContentDataProvider,
+		Utility.UI.RecyclableScrollView.IContentCreater
 	{
 		#region 定数, class, enum
 
@@ -168,9 +169,9 @@ namespace Utility.DebugConfig
 			_scrollContent.Refresh(needRemoveCache: false);
 		}
 
-		public void AddItemDataByRootMenu(IDebugItemData itemData)
+		public IDisposable AddItemDataByRootMenu(IDebugItemData itemData)
 		{
-			Root.Add(itemData);
+			return Root.Add(itemData);
 		}
 
 		public void RemoveItemDataByRootMenu(IDebugItemData itemData)
@@ -193,9 +194,23 @@ namespace Utility.DebugConfig
 		{
 			var item = _currMenu[index];
 
-			if (_menuObjectCaches.TryGetValue(item.GetMenuType(), out MenuObject value))
-			{
-				return value.Obj;
+			// Prefabは直接中身を返す
+			var menuType = item.GetMenuType();
+			switch (menuType)
+            {
+				case Const.MenuType.Prefab:
+					if (item is DebugPrefabData prefabItem)
+                    {
+						return prefabItem.Prefab;
+					}
+					break;
+
+				default:
+					if (_menuObjectCaches.TryGetValue(item.GetMenuType(), out MenuObject value))
+					{
+						return value.Obj;
+					}
+					break;
 			}
 
 			return null;
@@ -208,6 +223,30 @@ namespace Utility.DebugConfig
 		{
 			var item = _currMenu[index];
 			item.DataUpdate(obj);
+		}
+
+
+		/// <summary>
+        /// 生成方法を決める
+        /// </summary>
+		public GameObject CreateScrollItem(int index, GameObject obj, Transform parent)
+		{
+			// Prefabの場合は何もせずにそのまま帰す
+			var item = _currMenu[index];
+
+			// Prefabは直接中身を返す
+			var menuType = item.GetMenuType();
+			switch (menuType)
+			{
+				case Const.MenuType.Prefab:
+					if (item is DebugPrefabData prefabItem)
+					{
+						return prefabItem.Creator(obj, parent);
+					}
+					break;
+			}
+
+			return null;
 		}
 
 		#endregion
@@ -241,6 +280,7 @@ namespace Utility.DebugConfig
 			_menuObjectCaches = _menuObjects.ToDictionary(_menuObject => _menuObject.Type);
 
 			_scrollContent.Initialize(this);
+			_scrollContent.SetCreator(this);
 		}
 
 		/// <summary>

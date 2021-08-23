@@ -14,7 +14,7 @@ namespace Utility.DebugConfig
 	{
 		public enum MenuType
 		{
-			None, Slider, Check, MenuItem, Button,
+			None, Slider, Check, MenuItem, Button, Prefab,
 		}
 
 	}

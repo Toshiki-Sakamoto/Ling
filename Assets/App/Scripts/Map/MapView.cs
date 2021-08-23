@@ -34,6 +34,7 @@ namespace Ling.Map
 		#region private 変数
 
 		[SerializeField] private Transform _playerRoot = default;
+		[SerializeField] private Transform _effectRoot = default;
 		[SerializeField] private List<Map.GroundTilemap> _groundMaps = default;
 
 		[Inject] private MasterData.IMasterHolder _masterHolder = default;
@@ -56,6 +57,7 @@ namespace Ling.Map
 		#region プロパティ
 
 		public Transform PlayerRoot => _playerRoot;
+		public Transform EffectRoot => _effectRoot;
 
 		/// <summary>
 		/// 現在のTilemap

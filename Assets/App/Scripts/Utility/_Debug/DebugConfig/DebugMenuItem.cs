@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Zenject;
 using UnityEngine.UI;
 using UniRx;
+using System;
 
 #if DEBUG
 namespace Utility.DebugConfig
@@ -62,9 +63,14 @@ namespace Utility.DebugConfig
 				return instance;
 			}
 
-			public void Add(IDebugItemData itemData)
+			public IDisposable Add(IDebugItemData itemData)
 			{
 				children.Add(itemData);
+
+				return Disposable.Create(() =>
+					{
+						children.Remove(itemData);
+					});
 			}
 
 			public void Remove(IDebugItemData itemData)
@@ -112,6 +118,13 @@ namespace Utility.DebugConfig
 			}
 
 			_dataList.Remove(item);
+		}
+
+		/// <summary>
+        /// デバッグを開いたときに引数のPrefabを表示する
+        /// </summary>
+		public void ShowPrefab()
+		{
 		}
 
 		public void Awake()
