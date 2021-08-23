@@ -6,40 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/App/Scenes/Startup.unity
-    guid: 2a7b22ade4fbe45aebff296f03ec5988
-  - enabled: 1
-    path: Assets/App/Scenes/Main.unity
-    guid: 6eb712ef296d043baa082a7bfc8802f0
-  - enabled: 1
-    path: Assets/App/Tests/PlayMode/Plugin/Zenject/ZenjectTestScene.unity
-    guid: 14b978bd384dcbe4985ccbab9df17e71
-  - enabled: 1
-    path: Assets/App/Scenes/Title.unity
-    guid: d98993ce2a0ce6a4d9b13969ae170e49
-  - enabled: 1
-    path: Assets/App/Scenes/Battle.unity
-    guid: 780b7ee3b1c994849a7f49602a3687f1
-  - enabled: 1
-    path: Assets/App/Tests/PlayMode/Plugin/UniRx/UniRxAddToTestScene.unity
-    guid: 2e7b9734eef4e4f3fb2a8f6215cf8c45
-  - enabled: 1
     path: Assets/App/Scenes/Status.unity
     guid: b337acad6d35f48729b97846d299e75d
-  - enabled: 1
-    path: Assets/App/Scenes/Manager.unity
-    guid: ece88fdce12b6de40b433766f3e18bf7
-  - enabled: 1
-    path: Assets/App/Scenes/Map.unity
-    guid: d448b27e179d4482c8f28d549bc28804
-  - enabled: 1
-    path: Assets/App/Scenes/Input.unity
-    guid: 1052d275babf14f78a3256dcfec9bbd1
-  - enabled: 1
-    path: Assets/App/Scenes/Menu.unity
-    guid: 132ccd8a4f78e480a96e202f0e330c91
-  m_configObjects:
-    addressableimportsettings: {fileID: 11400000, guid: 5badb146b092a4a74b790e6ea37f489b,
-      type: 2}
-    com.unity.addressableassets: {fileID: 11400000, guid: d7ddfb1b3c79b4870b88b7ac23c03fc3,
-      type: 2}
+  m_configObjects: {}
