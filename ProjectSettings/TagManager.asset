@@ -4,8 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Fire
-  - EventTileNormal
+  - Shootable
   layers:
   - Default
   - TransparentFX
@@ -13,11 +12,11 @@ TagManager:
   - 
   - Water
   - UI
-  - MiniMap
-  - 
-  - PostProcessing
   - 
   - 
+  - Lighting
+  - Ground
+  - Postprocessing
   - 
   - 
   - 
@@ -40,27 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Fire
+    uniqueID: 3804908061
+    locked: 0
   - name: Default
     uniqueID: 0
-    locked: 0
-  - name: TileMap01
-    uniqueID: 896133625
-    locked: 0
-  - name: TileMap02
-    uniqueID: 3016118391
-    locked: 0
-  - name: TileMap03
-    uniqueID: 3555648481
-    locked: 0
-  - name: TileMap04
-    uniqueID: 16896697
-    locked: 0
-  - name: Player
-    uniqueID: 2227776659
-    locked: 0
-  - name: TileMapFront
-    uniqueID: 608214077
-    locked: 0
-  - name: EditorTileEvents
-    uniqueID: 2589904777
     locked: 0

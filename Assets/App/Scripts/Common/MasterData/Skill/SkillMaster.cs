@@ -11,6 +11,11 @@ using Utility.Attribute;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using Sirenix.OdinInspector.Editor;
+#endif
+
 namespace Ling.MasterData.Skill
 {
 	/// <summary>
@@ -31,6 +36,7 @@ namespace Ling.MasterData.Skill
 
 		#region private 変数
 
+
 		[SerializeField, FieldName("詠唱演出ファイル名")]
 		private string _filename = default;
 
@@ -40,16 +46,16 @@ namespace Ling.MasterData.Skill
 		[SerializeField, FieldName("ヒット回数(最大)")]
 		private int _hitMax = 1;
 
-		[SerializeField, FieldName("回復")]
+		[SerializeField, ToggleGroup("_enableHeal", "回復")]
 		private bool _enableHeal = false;
 
-		[SerializeField, HideLabel, ShowIf("_enableHeal")]
+		[SerializeField, ToggleGroup("_enableHeal")]
 		private SkillHealEntity _heal = default;
 
-		[SerializeField, FieldName("ダメージ")]
+		[SerializeField, ToggleGroup("_enableDamage", "ダメージ")]
 		private bool _enableDamage = false;
 
-		[SerializeField, HideLabel, ShowIf("_enableDamage")]
+		[SerializeField, ToggleGroup("_enableDamage")]
 		private SkillDamageEntity _damage = default;
 
 		#endregion
@@ -76,5 +82,8 @@ namespace Ling.MasterData.Skill
 		#region private 関数
 
 		#endregion
+
+
+
 	}
 }

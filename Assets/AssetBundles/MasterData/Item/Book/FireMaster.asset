@@ -13,5 +13,21 @@ MonoBehaviour:
   m_Name: FireMaster
   m_EditorClassIdentifier: 
   _id: 1
-  _name: 
+  _name: "\u30D5\u30A1\u30A4\u30E4"
+  _desc: 
+  _prefabType: 0
+  _imageName: 
+  _skill:
+    _filename: 
+    _hitMin: 1
+    _hitMax: 1
+    _enableHeal: 0
+    _heal:
+      _hp: 0
+      _stamina: 0
+    _enableDamage: 1
+    _damage:
+      _power: 10
+      _fixedDamage: 0
+      _rangeType: 0
   _type: 0

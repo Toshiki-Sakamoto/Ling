@@ -86,6 +86,10 @@ namespace Ling.Scenes.Battle
 		[Inject] private Chara.CharaManager _charaManager = null;
 		[Inject] private MasterData.IMasterHolder _masterHolder = default;
 
+#if DEBUG
+		[Inject] private Utility.DebugConfig.DebugConfigManager _debugConfigManager;
+#endif
+
 		private bool _isInitialized;
 		private bool _isResume;
 
@@ -248,6 +252,20 @@ namespace Ling.Scenes.Battle
 				// Phase開始
 				StartPhase(Phase.Start);
 			}
+
+			// デバッグ登録
+#if DEBUG
+			var battleDebug = new Utility.DebugConfig.DebugMenuItem.Data("バトルデバッグ");
+			var debugPrefabItem = Utility.DebugConfig.DebugPrefabData.CreateAtPath("Prefabs/_Debug/Battle/DebugBattleSkillTest",
+				(gameObj, parent) =>
+				{
+					return _diContainer.InstantiatePrefab(gameObj, parent);
+				});
+
+			battleDebug.Add(debugPrefabItem);
+
+			_debugConfigManager.AddItemDataByRootMenu(battleDebug).AddTo(this);
+#endif
 		}
 
 		public override void UpdateScene()
