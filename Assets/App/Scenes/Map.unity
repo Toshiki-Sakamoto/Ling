@@ -1061,6 +1061,7 @@ GameObject:
   - component: {fileID: 787791240}
   - component: {fileID: 787791242}
   - component: {fileID: 787791241}
+  - component: {fileID: 787791243}
   m_Layer: 0
   m_Name: MapManager
   m_TagString: Untagged
@@ -1141,6 +1142,19 @@ MonoBehaviour:
   - {fileID: 2080930058}
   - {fileID: 143247246}
   - {fileID: 109318016}
+--- !u!114 &787791243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787791237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03c9e466d1f694b68994e9c15daeae32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolManager: {fileID: 1659523105}
 --- !u!1 &842455954
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,6 +2922,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1659523104}
+  - component: {fileID: 1659523105}
   m_Layer: 0
   m_Name: EffectRoot
   m_TagString: Untagged
@@ -2929,6 +2944,20 @@ Transform:
   m_Father: {fileID: 1378394484}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1659523105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659523103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7ef72ca9845e4599a03adcd5f992617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultPoolRoot: {fileID: 1659523104}
+  _createItems: []
 --- !u!1 &1682298782
 GameObject:
   m_ObjectHideFlags: 0
@@ -7585,7 +7614,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _defaultPoolRoot: {fileID: 0}
   _createItems:
-  - key: 1
+  - key: 0
     id: 
     isUsedCreator: 0
     creator: {fileID: 0}
@@ -7596,7 +7625,7 @@ MonoBehaviour:
       initCreateNum: 10
       isAutoCreate: 1
       onceCreatingNum: 20
-  - key: 2
+  - key: 0
     id: 
     isUsedCreator: 0
     creator: {fileID: 0}
@@ -7607,7 +7636,7 @@ MonoBehaviour:
       initCreateNum: 0
       isAutoCreate: 1
       onceCreatingNum: 20
-  - key: 3
+  - key: 0
     id: 
     isUsedCreator: 0
     creator: {fileID: 0}
