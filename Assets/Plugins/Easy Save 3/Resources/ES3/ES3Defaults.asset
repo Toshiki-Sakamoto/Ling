@@ -36,20 +36,22 @@ MonoBehaviour:
     - DOTweenPro.Scripts
     - EZ3
     - Utility
+    - Common
     - UniTask.Linq
+    - Assembly-CSharp
     - Cinemachine
     - Ling.Scenes.MenuScene
     - Ling.Scenes
     - ZString
     - Ling.Map
     - Ling.Scenes.BattleScene
-    - Common
-    - Assembly-CSharp
     - MessagePipe.Zenject
     - Const
     - UniTask.DOTween
     - Purchasing.Common
     - PlayModeTest
+    - Sirenix.OdinInspector.CompatibilityLayer
+    - jp.keijiro.klak.timeline.particlesystemcontrol.Runtime
     - Ling._Debug.Config
     - UniRx.Examples
     - Ling.Debug
@@ -60,6 +62,7 @@ MonoBehaviour:
     - Ling.Scenes.InputScene
     - Ling.Scenes.TitleScene
     - UniTask.Addressables
+    - Adv
     - Sirenix.OdinInspector.CompatibilityLayer.Editor
     - CsprojModifier.Editor
     - EZ3.Editor
@@ -68,6 +71,7 @@ MonoBehaviour:
     - Zenject-TestFramework
     - MessagePipe.Editor
     - DOTweenPro.EditorScripts
+    - jp.keijiro.klak.timeline.particlesystemcontrol.Editor
     - CommonEditor
     - Analytics
     showAdvancedSettings: 0
