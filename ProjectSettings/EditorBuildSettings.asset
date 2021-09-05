@@ -8,4 +8,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/App/Scenes/Status.unity
     guid: b337acad6d35f48729b97846d299e75d
+  - enabled: 1
+    path: Assets/App/Scenes/Menu.unity
+    guid: 132ccd8a4f78e480a96e202f0e330c91
+  - enabled: 1
+    path: Assets/App/Scenes/Title.unity
+    guid: d98993ce2a0ce6a4d9b13969ae170e49
+  - enabled: 1
+    path: Assets/App/Scenes/Startup.unity
+    guid: 2a7b22ade4fbe45aebff296f03ec5988
   m_configObjects: {}
