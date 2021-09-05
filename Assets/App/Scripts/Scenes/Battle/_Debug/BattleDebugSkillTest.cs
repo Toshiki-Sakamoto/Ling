@@ -5,7 +5,7 @@
 // Created by  on 2021.08.14
 // 
 
-using Ling.Common.Skill;
+using Ling.Common.Effect;
 using UnityEngine;
 using UnityEngine.UI;
 using UniRx;
@@ -57,6 +57,7 @@ namespace Ling.Scenes.Battle._Debug
 
 		public void PlaySkill(EffectPlayer player)
 		{
+#if false
 			var trans = player.GetCustom<Utility.Timeline.TransformTweenSetter>();
 
 			// 座標から取得する
@@ -75,6 +76,7 @@ namespace Ling.Scenes.Battle._Debug
 				{
 					player.Play();
 				});
+#endif
 		}
 
         #endregion
