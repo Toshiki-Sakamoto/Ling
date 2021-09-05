@@ -77,8 +77,11 @@ namespace Utility.CustomBehaviour
 			if (Owner == null)
 			{
 				Owner = gameObject.GetOrAddComponent<CustomBehaviourCollection>();
+				Owner.Register(this);
+
+				Owner.Initialize();
 			}
-        }
+		}
 
 		#endregion
 	}

@@ -8,6 +8,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace Utility.Timeline
 {
@@ -40,6 +42,11 @@ namespace Utility.Timeline
 
 
 		#region public, protected 関数
+
+		UniTask ICustomTimeline.PlayAsync(CancellationToken token)
+		{
+			return default(UniTask);
+		}
 
 		/// <summary>
 		/// スキル再生位置
@@ -76,7 +83,7 @@ namespace Utility.Timeline
 			var player = transform.GetComponentInParent<TimelinePlayer>();
 			if (player != null)
 			{
-				player.AddCustom(this);
+//				player.AddCustom(this);
 			}
 		}
 

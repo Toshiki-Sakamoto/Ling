@@ -11,10 +11,10 @@ using System;
 using System.Collections.Generic;
 using Utility.Timeline;
 
-namespace Ling.Common.Skill
+namespace Ling.Common.Effect
 {
 	/// <summary>
-	/// 
+	/// エフェクトの再生を担う
 	/// </summary>
 	public class EffectPlayer : TimelinePlayer
 	{
@@ -45,18 +45,30 @@ namespace Ling.Common.Skill
 
 		#region プロパティ
 
+		// 移動はよく使うのでデフォルト化
+		public IEffectMover Mover { get; private set; }
 
 		#endregion
 
 
 		#region public, protected 関数
 
+		public override void Initialize()
+		{
+			var mover = gameObject.AddComponent<EffectMover>();
+			Mover = mover;
+
+			Owner.Register(mover);
+		}
+
 		public void Setup()
 		{
 			// スキルの情報を適用
+			
 		}
 
 		#endregion
+
 
 
 		#region private 関数

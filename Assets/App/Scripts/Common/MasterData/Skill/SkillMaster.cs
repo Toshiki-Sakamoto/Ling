@@ -63,6 +63,23 @@ namespace Ling.MasterData.Skill
 
 		#region プロパティ
 
+		public string Filename => _filename;
+		public int HitMin => _hitMin;
+		public int HitMax => _hitMax;
+		public SkillHealEntity Heal => _enableHeal ? _heal : null;
+		public SkillDamageEntity Damage => _enableDamage ? _damage : null;
+
+		public Const.EffectType EffectType
+		{
+			get
+			{
+				if (_enableDamage) return Const.EffectType.Damage;
+				if (_enableDamage) return Const.EffectType.Heal;
+
+				return Const.EffectType.None;
+			}
+		}
+
 		#endregion
 
 
@@ -72,9 +89,6 @@ namespace Ling.MasterData.Skill
 
 
 		#region public, protected 関数
-
-		public SkillHealEntity Heal => _enableHeal ? _heal : null;
-		public SkillDamageEntity Damage => _enableDamage ? _damage : null;
 
 		#endregion
 

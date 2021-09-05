@@ -56,7 +56,10 @@ namespace Utility.CustomBehaviour
 
 		void ICustomBehaviourCollection.AddCustomComponent<T>(T component) => _core.AddCustomComponent<T>(component);
 		T ICustomBehaviourCollection.GetCustomComponent<T>() => _core.GetCustomComponent<T>();
-		List<T> ICustomBehaviourCollection.GetCustomComponents<T>() => _core.GetCustomComponents<T>();
+		IEnumerable<T> ICustomBehaviourCollection.GetCustomComponents<T>() => _core.GetCustomComponents<T>();
+
+		void ICustomBehaviourCollection.ForEach<T>(System.Func<T, bool> func) => _core.ForEach(func);
+		void ICustomBehaviourCollection.ForEach<T>(System.Action<T> action) => _core.ForEach(action);
 
 		void IDisposable.Dispose() => _core.Dispose();
 

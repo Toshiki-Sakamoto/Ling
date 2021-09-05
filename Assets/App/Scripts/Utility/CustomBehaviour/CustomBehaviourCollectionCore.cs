@@ -30,7 +30,8 @@ namespace Utility.CustomBehaviour
 
 		#region private 変数
 
-		private Dictionary<Type, List<ICustomComponent>> _components = new Dictionary<Type, List<ICustomComponent>>();
+		//private Dictionary<Type, List<ICustomComponent>> _components = new Dictionary<Type, List<ICustomComponent>>();
+		private List<ICustomComponent> _components = new List<ICustomComponent>();
 		private List<ICustomBehaviour> _behaviours = new List<ICustomBehaviour>();
 
 		#endregion
@@ -88,6 +89,8 @@ namespace Utility.CustomBehaviour
 
 		public void AddCustomComponent<T>(T component) where T : ICustomComponent
 		{
+			_components.Add(component);
+#if false
 			var type = typeof(T);
 
 			if (!_components.TryGetValue(type, out var list))
@@ -97,15 +100,20 @@ namespace Utility.CustomBehaviour
 			}
 
 			list.Add(component);
+#endif
 		}
 
 		public T GetCustomComponent<T>() where T : ICustomComponent
 		{
-			return GetCustomComponents<T>()?.FirstOrDefault();
+			return GetCustomComponents<T>().FirstOrDefault();
 		}
 
-		public List<T> GetCustomComponents<T>() where T : ICustomComponent
+		public IEnumerable<T> GetCustomComponents<T>() where T : ICustomComponent
 		{
+			return _components
+				.Where(component => component is T)
+				.Select(component => (T)component);
+#if false
 			var type = typeof(T);
 			if (_components.TryGetValue(type, out var list))
 			{
@@ -113,6 +121,23 @@ namespace Utility.CustomBehaviour
 			}
 
 			return list as List<T>;
+#endif
+		}
+
+		public void ForEach<T>(System.Func<T, bool> func) where T : ICustomComponent
+		{
+			foreach (var component in GetCustomComponents<T>())
+			{
+				if (func(component)) return;
+			}
+		}
+		public void ForEach<T>(System.Action<T> action) where T : ICustomComponent
+		{
+			ForEach<T>(elm =>
+				{
+					action(elm);
+					return false;
+				});
 		}
 
 		public void Dispose()
@@ -122,11 +147,11 @@ namespace Utility.CustomBehaviour
 			_components.Clear();
 		}
 
-		#endregion
+#endregion
 
 
-		#region private 関数
+#region private 関数
 
-		#endregion
+#endregion
 	}
 }

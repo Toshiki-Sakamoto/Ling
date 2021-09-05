@@ -6,13 +6,14 @@
 //
 
 using Ling;
+using Utility.Pool;
 
 namespace Ling.Map
 {
 	/// <summary>
 	/// 落とし物をマップに配置する
 	/// </summary>
-	public class ItemPool : Utility.Pool.PoolManager<Const.Item.PrefabType, ItemPool>
+	public class ItemPool : PoolManager<Const.Item.PrefabType, ItemPool>
 	{
 		#region 定数, class, enum
 

@@ -17,6 +17,11 @@ namespace Ling.Map
 				.Bind<Utility.ProcessManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
+
+			Container
+				.Bind<Common.Effect.IEffectManager>()
+				.FromComponentInHierarchy()
+				.AsSingle();
 		}
 	}
 }

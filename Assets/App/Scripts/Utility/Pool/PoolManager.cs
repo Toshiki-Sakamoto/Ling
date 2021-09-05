@@ -140,9 +140,14 @@ namespace Utility.Pool
 			var poolItemData = _createItems.Find(itemData_ => itemData_.Equal(key, id));
 			if (poolItemData == null)
 			{
-				Utility.Log.Error($"プール内に存在しません Type:{key.ToString()} ID:{id}");
+				CallNotExistsPool(key, id);
 
-				return default(T);
+				poolItemData = _createItems.Find(itemData_ => itemData_.Equal(key, id));
+				if (poolItemData == null)
+				{
+					Utility.Log.Error($"プール内に存在しません Type:{key.ToString()} ID:{id}");
+					return default(T);
+				}
 			}
 
 			var popItem = poolItemData.creator.Pop();
@@ -171,6 +176,14 @@ namespace Utility.Pool
 			{
 				item.creator.ReturnAllItems();
 			}
+		}
+
+		/// <summary>
+        /// Pop時にプール情報が見つからなかった時に呼び出される
+        /// ここで生成を行うこともできる
+        /// </summary>
+		protected virtual void CallNotExistsPool(TEnum key, string id)
+		{
 		}
 
 		#endregion

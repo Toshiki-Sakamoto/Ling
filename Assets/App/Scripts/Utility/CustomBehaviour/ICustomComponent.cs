@@ -10,7 +10,7 @@ namespace Utility.CustomBehaviour
 	/// <summary>
 	/// 1機能を表す
 	/// </summary>
-	public class ICustomComponent
+	public interface ICustomComponent
 	{
 	}
 }

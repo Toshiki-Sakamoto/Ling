@@ -23,6 +23,9 @@ namespace Utility.CustomBehaviour
 
 		void AddCustomComponent<T>(T component) where T : ICustomComponent;
 		T GetCustomComponent<T>() where T : ICustomComponent;
-		List<T> GetCustomComponents<T>() where T : ICustomComponent;
+		IEnumerable<T> GetCustomComponents<T>() where T : ICustomComponent;
+
+		void ForEach<T>(System.Func<T, bool> func) where T : ICustomComponent;
+		void ForEach<T>(System.Action<T> func) where T : ICustomComponent;
 	}
 }

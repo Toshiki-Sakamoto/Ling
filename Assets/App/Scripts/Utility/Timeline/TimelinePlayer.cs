@@ -8,15 +8,23 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.Playables;
+using Utility.CustomBehaviour;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace Utility.Timeline
 {
+	public interface ITimelinePlayer : ICustomComponent
+	{
+	}
+
 	/// <summary>
 	/// タイムラインを再生するために必要なものを持つクラス
     /// 汎用的に作る
 	/// </summary>
     [RequireComponent(typeof(CustomTimelineCollections))]
-	public class TimelinePlayer : MonoBehaviour 
+	public class TimelinePlayer : Utility.CustomBehaviour.AbstractCustomBehaviour, ITimelinePlayer
 	{
 		#region 定数, class, enum
 
@@ -32,8 +40,6 @@ namespace Utility.Timeline
 
 		[SerializeField] private PlayableDirector _skillTimeline;
 
-		private CustomTimelineCollections _timelineCollections;
-
 		#endregion
 
 
@@ -41,20 +47,36 @@ namespace Utility.Timeline
 
 		public PlayableDirector PlayableDirector => _skillTimeline;
 
-		#endregion
+        #endregion
 
 
-		#region public, protected 関数
+        #region public, protected 関数
 
-		public void AddCustom<T>(T instance) where T : ICustomTimeline =>
-			_timelineCollections.AddCustom<T>(instance);
+        public override void Register(ICustomBehaviourCollection owner)
+        {
+            base.Register(owner);
 
-		public T GetCustom<T>() where T : ICustomTimeline =>
-			_timelineCollections.GetCustom<T>();
+			owner.AddCustomComponent<ITimelinePlayer>(this);
+        }
 
-		public void Play()
+        public void Play()
 		{
+			PlayAsync().Forget();
+		}
+
+		public async UniTask PlayAsync()
+		{
+			var cts = new CancellationTokenSource();
+			var list = new List<UniTask>();
+
+			Owner.ForEach<ICustomTimeline>(elm =>
+				{
+					list.Add(elm.PlayAsync(cts.Token));
+				});
+
 			_skillTimeline.Play();
+
+			await UniTask.WhenAll(list);
 		}
 
 		#endregion
@@ -70,35 +92,14 @@ namespace Utility.Timeline
 		/// <summary>
 		/// 初期処理
 		/// </summary>
-		void Awake()
+		protected override void Awake()
 		{
-			_timelineCollections = GetComponent<CustomTimelineCollections>();
+			base.Awake();
 
 			if (_skillTimeline == null)
 			{
 				_skillTimeline = GetComponent<PlayableDirector>();
 			}
-		}
-
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
-		void OnDestroy()
-		{
 		}
 
 		#endregion
