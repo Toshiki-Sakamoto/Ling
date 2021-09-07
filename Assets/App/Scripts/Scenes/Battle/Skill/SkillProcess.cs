@@ -8,6 +8,9 @@
 using Ling.MasterData.Skill;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using Zenject;
+using Ling.Map;
+using Utility.Extensions;
 
 namespace Ling.Scenes.Battle.Skill
 {
@@ -30,8 +33,12 @@ namespace Ling.Scenes.Battle.Skill
 
 		#region private 変数
 
-		private Chara.ICharaController _chara;
+		[Inject] private Map.MapManager _mapManager;
+		[Inject] private Common.Effect.IEffectManager _effectManager;
+
+		private Chara.ICharaController _chara, _target;
 		private SkillMaster _skill;
+		private CancellationTokenSource _cts;
 
 		#endregion
 
@@ -54,6 +61,11 @@ namespace Ling.Scenes.Battle.Skill
 			_skill = skill;
 		}
 
+		public void SetTarget(Chara.ICharaController target)
+		{
+			_target = target;
+		}
+
 		protected override void ProcessStartInternal()
 		{
 			AttachProcess();
@@ -63,6 +75,23 @@ namespace Ling.Scenes.Battle.Skill
 
 		public async UniTask Execute()
 		{
+			_cts = new CancellationTokenSource();
+
+			// キャラの向き直線にスキルを放つ
+			// 壁にぶつかるまで直進する
+			var searcher = _chara.FindTileDataMap(_mapManager).Seacher;
+			var tileData = searcher.SearchLine(_chara.CellPos, _chara.Model.Dir.Value, Const.TileFlag.Wall);
+
+			Common.Effect.IEffectMoveCore move = new Common.Effect.EffectMoveCoreConstantLiner();
+			move.SetStartPos(_chara.CellToWorld(_mapManager));
+			move.SetEndPos(_chara.CellToWorld(tileData.Pos, _mapManager));
+
+			var effect = _effectManager.CreatePlayer(_skill);
+
+			effect.Mover.RegisterCore(move);
+			await effect.Mover.PlayAsync(_cts.Token);
+			
+
 			// 演出開始
 			await UniTask.Delay(100); // todo: ちょっとまつだけ
 
