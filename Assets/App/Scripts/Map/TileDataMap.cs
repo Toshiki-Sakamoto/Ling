@@ -96,6 +96,11 @@ namespace Ling.Map
 		/// </summary>
 		public TileDataMapScanner Scanner { get; private set; }
 
+		/// <summary>
+		/// マップから条件にあった座標を検索
+		/// </summary>
+		public TileDataMapSearcher Seacher { get; private set; }
+
 		#endregion
 
 
@@ -132,11 +137,13 @@ namespace Ling.Map
 			}
 
 			Scanner = new TileDataMapScanner(this);
+			Seacher = new TileDataMapSearcher(this);
 		}
 		
 		public void Resume()
 		{
 			Scanner = new TileDataMapScanner(this);
+			Seacher = new TileDataMapSearcher(this);
 			
 			// 部屋を作り直す
 			 BuildRoomMap();

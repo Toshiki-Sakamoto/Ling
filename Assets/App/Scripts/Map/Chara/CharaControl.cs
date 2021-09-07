@@ -22,7 +22,7 @@ namespace Ling.Chara
 	/// <summary>
 	/// 簡易Controller参照用インターフェース
 	/// </summary>
-	public interface ICharaController
+	public interface ICharaController : Map.IMapObject
 	{
 		CharaModel Model { get; }
 
@@ -142,6 +142,9 @@ namespace Ling.Chara
 		// ICharaController
 		CharaModel ICharaController.Model => _model;
 		ViewBase ICharaController.View => _view;
+
+		int Map.IMapObject.Level => _model.MapLevel;
+		Vector2Int Map.IMapObject.CellPos => _model.CellPosition.Value;
 
 		#endregion
 
