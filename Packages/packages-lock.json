@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.cysharp.zstring": {
+      "version": "https://github.com/Cysharp/ZString.git?path=src/ZString.Unity/Assets/Scripts/ZString",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "eecc20fda06514987070ddbbe24c69bbd41dfad4"
+    },
     "com.littlebigfun.addressable-importer": {
       "version": "https://github.com/favoyang/unity-addressable-importer.git",
       "depth": 0,
@@ -39,7 +46,7 @@
       "hash": "4eff73f468142907629f09b4a88bceb2f0148dc5"
     },
     "com.unity.addressables": {
-      "version": "1.18.13",
+      "version": "1.18.15",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -62,7 +69,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.analytics": {
-      "version": "3.5.3",
+      "version": "3.6.11",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -71,7 +78,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.cinemachine": {
-      "version": "2.8.0-pre.1",
+      "version": "2.8.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -140,7 +147,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.performance.profile-analyzer": {
-      "version": "1.0.3",
+      "version": "1.1.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -203,7 +210,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.6.1",
+      "version": "1.6.2",
       "depth": 0,
       "source": "registry",
       "dependencies": {
