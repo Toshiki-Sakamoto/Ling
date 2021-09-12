@@ -16,6 +16,7 @@ using UnityEngine.Tilemaps;
 using Utility.Extensions;
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
+using System.Linq;
 
 namespace Ling.Map
 {
@@ -133,9 +134,10 @@ namespace Ling.Map
 		public void ReleaseAll()
 		{
 			// すべてプールに戻す
-			foreach (var pair in _itemObjectDict)
+			var tmps = _itemObjectDict.Values.ToArray();
+			foreach (var value in tmps)
 			{
-				pair.Value.Release();
+				value.Release();
 			}
 
 			_itemObjectDict.Clear();
