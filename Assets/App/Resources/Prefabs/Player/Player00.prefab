@@ -36,6 +36,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -2067190637
+  m_SortingLayerID: -1177996369
   m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -2394346196037722465, guid: b50cc53c9a2dce24eb53873c5b812f9b,
@@ -95,7 +96,7 @@ SpriteRenderer:
   m_SpriteSortPoint: 0
 --- !u!95 &6502881826932206419
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -108,6 +109,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -171,39 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 768015f3d3a0a476e8b6cdd2004c9328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _status:
-    _lv:
-      value: 0
-    _hp:
-      _current:
-        value: 0
-      _max:
-        value: 0
-    _stamina:
-      _current:
-        value: 0
-      _max:
-        value: 0
-    _power:
-      _current:
-        value: 0
-      _max:
-        value: 0
-    _defence:
-      _current:
-        value: 0
-      _max:
-        value: 0
-    _equipAttack:
-      _current:
-        value: 0
-      _max:
-        value: 0
-    _equipDefence:
-      _current:
-        value: 0
-      _max:
-        value: 0
   _model: {fileID: 1041008047864628833}
   _view: {fileID: 3244762123335931066}
   _charaMover: {fileID: 5041012265545398259}
