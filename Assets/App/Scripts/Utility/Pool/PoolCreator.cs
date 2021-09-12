@@ -233,6 +233,10 @@ namespace Utility.Pool
 
 		#region MonoBegaviour
 
+		private void Awake()
+        {
+			_info = _info ?? new PoolCreateInfo();
+		}
 
 		#endregion
 	}
