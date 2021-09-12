@@ -8,8 +8,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 using Zenject;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 
 namespace Utility.Renderer
@@ -32,17 +37,10 @@ namespace Utility.Renderer
 
 		#region private 変数
 
-		[SerializeField, Attribute.SortingLayer]
-		private string _layerName = "Default";
-
-		[SerializeField]
-		private int _orderInLayer = default;
-
-		[SerializeField]
-		private bool _isIncludeChildren = default;
-
-		[SerializeField]
-		private bool _isExecuteWhenAwake = true;
+		[SerializeField, Attribute.SortingLayer] private string _layerName = "Default";
+		[SerializeField] private int _orderInLayer = default;
+		[SerializeField] private bool _isIncludeChildren = default;
+		[SerializeField] private bool _isExecuteWhenAwake = true;
 
 		#endregion
 
@@ -97,6 +95,18 @@ namespace Utility.Renderer
 
 
 		#region private 関数
+
+
+#if UNITY_EDITOR
+
+		[Button( ButtonSizes.Medium )]
+    	private void 適用する()
+		{
+			LayerName = _layerName;
+			OrderInLayer = _orderInLayer;
+		}
+
+#endif
 
 		#endregion
 
