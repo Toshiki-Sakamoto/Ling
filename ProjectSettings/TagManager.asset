@@ -39,9 +39,27 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Fire
-    uniqueID: 3804908061
-    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: TileMap01
+    uniqueID: 4286125631
+    locked: 0
+  - name: TileMap02
+    uniqueID: 4097204485
+    locked: 0
+  - name: TileMap03
+    uniqueID: 3835038351
+    locked: 0
+  - name: TileMap04
+    uniqueID: 188039671
+    locked: 0
+  - name: Player
+    uniqueID: 3116970927
+    locked: 0
+  - name: TileMapFront
+    uniqueID: 2228032209
+    locked: 0
+  - name: EditorTileEvents
+    uniqueID: 1339985107
     locked: 0

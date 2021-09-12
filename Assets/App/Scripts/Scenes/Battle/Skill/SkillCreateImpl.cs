@@ -15,6 +15,7 @@ using UniRx;
 using System;
 using System.Linq;
 using Ling.Chara;
+using Utility;
 
 namespace Ling.Scenes.Battle.Skill
 {
@@ -78,6 +79,8 @@ namespace Ling.Scenes.Battle.Skill
 			{
 				_onTargetSubject.OnNext(_chara);
 			}
+
+			ApplySortingLayer(effect);
 
 			return effect;
 		}
@@ -164,6 +167,16 @@ namespace Ling.Scenes.Battle.Skill
 				}
 				break;
 			}
+		}
+
+		private void ApplySortingLayer(Common.Effect.EffectPlayer player)
+		{
+			if (player == null) return;
+
+			var changer = player.gameObject.GetOrAddComponent<Utility.Renderer.SortingLayerChanger>();
+			var groundTilemap = _mapManager.FindGroundTilemap(_chara.Level);
+
+			changer.LayerName = groundTilemap.LayerName;
 		}
 
 		#endregion
