@@ -57,7 +57,7 @@ namespace Ling.Common.Effect
 
     public interface IEffectMover : ICustomTimeline
     {
-        void RegistrCore(IEffectMoveCore core);
+        void RegisterCore(IEffectMoveCore core);
     }
 
 	/// <summary>
@@ -103,7 +103,7 @@ namespace Ling.Common.Effect
 		}
 
 
-        void IEffectMover.RegistrCore(IEffectMoveCore core)
+        void IEffectMover.RegisterCore(IEffectMoveCore core)
         {
             _core = core;
         }

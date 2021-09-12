@@ -69,6 +69,7 @@ namespace Ling.Const
 			Food,
 			Weapon,
 			Shild,
+			Book,
 		}
 	}
 }

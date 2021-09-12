@@ -31,7 +31,7 @@ namespace Utility.CustomBehaviour
 
 		#region private 変数
 
-		[SerializeField] private CustomBehaviourCollectionCore _core;
+		[SerializeField] private CustomBehaviourCollectionCore _core = new CustomBehaviourCollectionCore();
 
 		#endregion
 
@@ -50,8 +50,8 @@ namespace Utility.CustomBehaviour
 
 		#region public, protected 関数
 
-		void ICustomBehaviourCollection.Register(IEnumerable<ICustomBehaviour> behaviours) => _core.Register(this, behaviours);
-		void ICustomBehaviourCollection.Register(ICustomBehaviour behaviour) => _core.Register(this, behaviour);
+		void ICustomBehaviourCollection.Register(IEnumerable<ICustomBehaviour> behaviours) => _core.Register(this, behaviours, true);
+		void ICustomBehaviourCollection.Register(ICustomBehaviour behaviour) => _core.Register(this, behaviour, true);
 		void ICustomBehaviourCollection.Initialize() => _core.Initialize();
 
 		void ICustomBehaviourCollection.AddCustomComponent<T>(T component) => _core.AddCustomComponent<T>(component);
@@ -67,6 +67,12 @@ namespace Utility.CustomBehaviour
 
 
 		#region private 関数
+
+		/*
+		private void Start()
+		{
+			_core.Initialize();
+		}*/
 
 		#endregion
 	}

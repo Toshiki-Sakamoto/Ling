@@ -168,5 +168,18 @@ namespace Utility.Extensions
 				yield return items[i];
 			}
 		}
+		
+		/// <summary>
+		/// 最後から二番目の要素を返す
+		/// </summary>
+		public static T SecondLast<T>(this IList<T> self)
+		{
+			if (self.Count >= 2)
+			{
+				return self[self.Count - 2];
+			}
+			
+			return default(T);
+		}
 	}
 }

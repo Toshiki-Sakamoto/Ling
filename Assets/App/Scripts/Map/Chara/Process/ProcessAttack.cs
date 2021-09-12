@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System;
 using UniRx;
 using Zenject;
+using MessagePipe;
 
 namespace Ling.Chara.Process
 {
@@ -35,12 +36,14 @@ namespace Ling.Chara.Process
 
 		[Inject] private Chara.CharaManager _charaManager;
 		[Inject] private Utility.IEventManager _eventManager;
+		[Inject] private IPublisher<Chara.EventKilled> _killedEvent;
 
 		private Chara.ICharaController _unit;   // 攻撃対象のキャラ
 		private List<Chara.ICharaController> _targets = new List<ICharaController>();   // ターゲット
 		private List<Chara.ICharaController> _deadChara = new List<ICharaController>();
 		private Vector2Int _targetPos;
 		private bool _ignoreIfNoTarget;
+		
 
 		#endregion
 
@@ -116,7 +119,8 @@ namespace Ling.Chara.Process
 				.Subscribe(target => 
 				{
 					// 倒した情報を送る
-					_eventManager.Trigger(new Chara.EventKilled { unit = _unit, opponent = target });
+					_killedEvent.Publish(new EventKilled { unit = _unit, opponent = target });
+//					_eventManager.Trigger(new Chara.EventKilled { unit = _unit, opponent = target });
 
 					_deadChara.Add(target);
 				});

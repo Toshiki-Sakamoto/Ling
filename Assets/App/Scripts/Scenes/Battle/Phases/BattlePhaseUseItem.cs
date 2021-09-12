@@ -72,7 +72,11 @@ namespace Ling.Scenes.Battle.Phases
 			var process = new Process.ProcessCharaAction(player);
 			Scene.ProcessContainer.Add(ProcessType.PlayerSkill, process);
 
-			Change(Phase.PlayerSkill);
+			Change(Phase.PlayerActionProcess, new BattlePhasePlayerAction.Arg 
+				{ 
+					ActionProcessType = ProcessType.PlayerSkill, 
+					TargetGetter = skillProcess 
+				});
 		}
 
 		public override void PhaseUpdate()

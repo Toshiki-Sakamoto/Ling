@@ -78,8 +78,6 @@ namespace Utility.CustomBehaviour
 			{
 				Owner = gameObject.GetOrAddComponent<CustomBehaviourCollection>();
 				Owner.Register(this);
-
-				Owner.Initialize();
 			}
 		}
 

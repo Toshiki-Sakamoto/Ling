@@ -331,6 +331,25 @@ namespace Ling.Chara
 			_cellPosition.Value = model._cellPosition.Value;
 		}
 
+		/// <summary>
+		/// 自分から見たターゲットにあったCharaTypeを返す
+		/// </summary>
+		public Chara.CharaType ConvertTargetCharaType(Const.TargetType targetType)
+		{
+			switch (targetType)
+			{
+				case Const.TargetType.Ally:
+					return CharaType;
+
+				case Const.TargetType.Enemy:
+					if (CharaType == Chara.CharaType.Player) return Chara.CharaType.Enemy;
+					if (CharaType == Chara.CharaType.Enemy) return Chara.CharaType.Player;
+					break;
+			}
+
+			throw new System.ArgumentException("");
+		}
+
 		#endregion
 
 

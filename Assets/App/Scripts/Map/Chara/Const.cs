@@ -50,8 +50,7 @@ namespace Ling.Chara
 					return Const.TileFlag.None;
 			}
 		}
-
-
+		
 		/// <summary>
 		/// 通常の敵か
 		/// </summary>

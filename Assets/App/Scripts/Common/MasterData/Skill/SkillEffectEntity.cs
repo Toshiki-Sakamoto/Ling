@@ -1,5 +1,5 @@
 ﻿//
-// SkillDamageEntity.cs
+// SkillHealEntity.cs
 // ProductName Ling
 //
 // Created by toshiki sakamoto on 2021.05.03
@@ -12,13 +12,13 @@ using Sirenix.OdinInspector;
 namespace Ling.MasterData.Skill
 {
 	/// <summary>
-	/// よくあるダメージ
+	/// 演出に必要なファイル
 	/// </summary>
 	[System.Serializable, InlineProperty]
-	public class SkillDamageEntity
+	public class SkillEffectEntity
 	{
 		#region 定数, class, enum
-		
+
 		#endregion
 
 
@@ -29,17 +29,23 @@ namespace Ling.MasterData.Skill
 
 		#region private 変数
 
-		[SerializeField, LabelText("威力")]
-		private int _power;
+		[SerializeField, LabelText("範囲")]
+		private RangeType _rangeType;
 
-		[SerializeField, LabelText("固定ダメージ")]
-		private bool _fixedDamage;
+		[SerializeField, LabelText("スピード係数")]
+		private float _speed = 1f;
 
+		[SerializeField, LabelText("ターゲット")]
+		private Const.TargetType _targetType;
 
 		#endregion
 
 
 		#region プロパティ
+
+		public RangeType Range => _rangeType;
+		public float Speed => _speed;
+		public Const.TargetType Target => _targetType;
 
 		#endregion
 
@@ -50,9 +56,6 @@ namespace Ling.MasterData.Skill
 
 
 		#region public, protected 関数
-
-		public int Power => _power;
-		public bool FixedDamage => _fixedDamage;
 
 		#endregion
 

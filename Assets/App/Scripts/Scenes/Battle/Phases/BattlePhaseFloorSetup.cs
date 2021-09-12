@@ -61,7 +61,7 @@ namespace Ling.Scenes.Battle.Phases
 
 		public override void PhaseUpdate()
 		{
-			Change(Phase.PlayerAction);
+			Change(Phase.PlayerActionStart);
 		}
 
 		public override void PhaseStop()

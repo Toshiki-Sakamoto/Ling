@@ -46,6 +46,9 @@ namespace Ling.MasterData.Skill
 		[SerializeField, FieldName("ヒット回数(最大)")]
 		private int _hitMax = 1;
 
+		[SerializeField, LabelText("演出"), InlineProperty]
+		private SkillEffectEntity _effect;
+
 		[SerializeField, ToggleGroup("_enableHeal", "回復")]
 		private bool _enableHeal = false;
 
@@ -66,6 +69,7 @@ namespace Ling.MasterData.Skill
 		public string Filename => _filename;
 		public int HitMin => _hitMin;
 		public int HitMax => _hitMax;
+		public SkillEffectEntity Effect => _effect;
 		public SkillHealEntity Heal => _enableHeal ? _heal : null;
 		public SkillDamageEntity Damage => _enableDamage ? _damage : null;
 

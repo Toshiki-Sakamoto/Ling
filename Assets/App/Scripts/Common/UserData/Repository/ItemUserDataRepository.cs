@@ -73,6 +73,7 @@ namespace Ling.UserData.Repository
 				{
 					new ItemUserData { ID = 1, Category = Const.Item.Category.Food, Uniq = Utility.UniqKey.Create() },
 					new ItemUserData { ID = 2, Category = Const.Item.Category.Food, Uniq = Utility.UniqKey.Create() },
+					new ItemUserData { ID = 1, Category = Const.Item.Category.Book, Uniq = Utility.UniqKey.Create() },
 				};
 
 			Add(entities);
@@ -89,6 +90,7 @@ namespace Ling.UserData.Repository
 				{
 					new ItemUserData { ID = 1, Category = Const.Item.Category.Food, Uniq = Utility.UniqKey.Create() },
 					new ItemUserData { ID = 2, Category = Const.Item.Category.Food, Uniq = Utility.UniqKey.Create() },
+					new ItemUserData { ID = 1, Category = Const.Item.Category.Book, Uniq = Utility.UniqKey.Create() },
 				};
 
 			Add(entities);

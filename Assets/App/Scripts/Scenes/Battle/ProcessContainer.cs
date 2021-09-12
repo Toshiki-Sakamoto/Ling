@@ -18,12 +18,16 @@ namespace Ling.Scenes.Battle.ProcessContainer
 {
 	public interface INodeExecuter
 	{
+		ProcessBase Process { get; }
+
 		UniTask Execute(CancellationToken token);
 	}
 
 	public class ProcessNodeExecuter : INodeExecuter
 	{
 		private ProcessBase _process;
+
+		public ProcessBase Process => _process;
 
 		public ProcessNodeExecuter(ProcessBase process)
 		{
@@ -163,9 +167,9 @@ namespace Ling.Scenes.Battle.ProcessContainer
 				return null;
 			}
 
-			foreach (var process in list)
+			foreach (var executer in list)
 			{
-				var result = process as TProcess;
+				var result = executer.Process as TProcess;
 
 				if (predicate(result))
 				{

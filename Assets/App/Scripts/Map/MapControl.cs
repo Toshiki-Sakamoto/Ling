@@ -64,7 +64,6 @@ namespace Ling.Map
 		#region private 変数
 
 		[SerializeField] private MapView _view = default;
-		[SerializeField] private int a;
 
 		[Inject] private MasterData.IMasterHolder _masterManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
@@ -232,6 +231,9 @@ namespace Ling.Map
 		/// </summary>
 		public Map.TileDataMap FindTileDataMap(int level) =>
 			_model.FindTileDataMap(level);
+
+		public Map.TileDataMap FindTileDataMap(IMapObject mapObject) =>
+			FindTileDataMap(mapObject.Level);
 
 		/// <summary>
 		/// 次のフロアに移動させる

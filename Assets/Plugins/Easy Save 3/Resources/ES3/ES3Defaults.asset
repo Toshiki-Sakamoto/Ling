@@ -37,6 +37,7 @@ MonoBehaviour:
     - EZ3
     - Utility
     - Common
+    - Adv
     - UniTask.Linq
     - Assembly-CSharp
     - Cinemachine
@@ -62,7 +63,6 @@ MonoBehaviour:
     - Ling.Scenes.InputScene
     - Ling.Scenes.TitleScene
     - UniTask.Addressables
-    - Adv
     - Sirenix.OdinInspector.CompatibilityLayer.Editor
     - CsprojModifier.Editor
     - EZ3.Editor

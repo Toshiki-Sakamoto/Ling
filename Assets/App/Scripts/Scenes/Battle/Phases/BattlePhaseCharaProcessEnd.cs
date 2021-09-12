@@ -73,7 +73,7 @@ namespace Ling.Scenes.Battle.Phases
 			}
 			else
 			{
-				Change(Phase.PlayerAction);
+				Change(Phase.PlayerActionStart);
 			}
 		}
 
@@ -100,7 +100,7 @@ namespace Ling.Scenes.Battle.Phases
 					}
 					else
 					{
-						Change(Phase.PlayerAction);
+						Change(Phase.PlayerActionStart);
 					}
 				};
 

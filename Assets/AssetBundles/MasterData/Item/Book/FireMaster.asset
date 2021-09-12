@@ -15,12 +15,16 @@ MonoBehaviour:
   _id: 1
   _name: "\u30D5\u30A1\u30A4\u30E4"
   _desc: 
-  _prefabType: 0
+  _prefabType: 4
   _imageName: 
   _skill:
-    _filename: 
+    _filename: SkillFire
     _hitMin: 1
     _hitMax: 1
+    _effect:
+      _rangeType: 2
+      _speed: 3
+      _targetType: 3
     _enableHeal: 0
     _heal:
       _hp: 0
@@ -29,5 +33,4 @@ MonoBehaviour:
     _damage:
       _power: 10
       _fixedDamage: 0
-      _rangeType: 0
   _type: 0

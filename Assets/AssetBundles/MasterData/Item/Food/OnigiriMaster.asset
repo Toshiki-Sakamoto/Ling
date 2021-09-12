@@ -15,11 +15,16 @@ MonoBehaviour:
   _id: 1
   _name: "\u304A\u306B\u304E\u308A"
   _desc: 
-  _prefab: {fileID: 1003912244658023900, guid: dd3e49a0da37242eb821755a0c0cf0c5, type: 3}
+  _prefabType: 0
+  _imageName: 
   _skill:
     _filename: 
     _hitMin: 1
     _hitMax: 1
+    _effect:
+      _rangeType: 0
+      _speed: 1
+      _targetType: 1
     _enableHeal: 1
     _heal:
       _hp: 2
@@ -27,4 +32,5 @@ MonoBehaviour:
     _enableDamage: 0
     _damage:
       _power: 0
+      _fixedDamage: 0
   _type: 0

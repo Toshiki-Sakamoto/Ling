@@ -51,6 +51,9 @@ namespace Ling.Common.Effect
         /// </summary>
 		EffectPlayer IEffectManager.CreatePlayer(MasterData.Skill.SkillMaster master)
 		{
+			// todo 存在するかチェックする
+			if (string.IsNullOrEmpty(master.Filename)) return null;
+
 			var player = _poolManager.Pop<EffectPlayer>(master.EffectType, master.Filename);
 			if (player == null)
 			{

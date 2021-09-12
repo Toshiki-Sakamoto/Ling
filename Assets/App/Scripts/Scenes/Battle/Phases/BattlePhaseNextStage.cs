@@ -108,7 +108,7 @@ namespace Ling.Scenes.Battle.Phases
 			Scene.ApplyNextLevel();
 
 			// 次のステージ移動完了
-			Change(Phase.PlayerAction);
+			Change(Phase.PlayerActionStart);
 		}
 
 		#endregion

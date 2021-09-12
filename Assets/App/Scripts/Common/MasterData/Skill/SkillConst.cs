@@ -10,10 +10,13 @@ using Sirenix.OdinInspector;
 namespace Ling.MasterData.Skill
 {
     /// <summary>
-    /// スキルの範
+    /// スキルの範囲
     /// </summary>
     public enum RangeType
     {
+		[LabelText("足元")]
+		Foot,
+
         [LabelText("直線")]
         Line,
 
