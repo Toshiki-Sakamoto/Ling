@@ -79,7 +79,7 @@ namespace Ling.Scenes.Battle.Skill
 
 		public async UniTask Execute()
 		{
-			await UniTask.Delay(1000); // todo: ちょっとまつだけ
+			await UniTask.Delay(500); // todo: ちょっとまつだけ
 
 			_impl.OnTarget
 				.Subscribe(target => 
