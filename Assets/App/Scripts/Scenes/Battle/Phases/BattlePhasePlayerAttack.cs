@@ -90,6 +90,9 @@ namespace Ling.Scenes.Battle.Phases
 
 			_player.SetFollowCameraEnable(true);
 
+			// 死んでいる敵は除外する
+			_targets.RemoveAll(target => target.Status.IsDead.Value);
+
 			// ターゲットがいない場合は普通に敵思考に回す
 			if (!_targets.IsNullOrEmpty())
 			{
@@ -97,7 +100,7 @@ namespace Ling.Scenes.Battle.Phases
 				// 敵思考に移行する
 				var argument = new BattlePhaseEnemyThink.Arg();
 				argument.Targets = _targets;
-				argument.nextPhase = Phase.PlayerAction;
+				argument.nextPhase = Phase.PlayerActionStart;
 
 				// 経験値処理に移動
 				Change(Phase.Exp, BattlePhaseExp.Arg.CreateAtEnemyThink(argument));

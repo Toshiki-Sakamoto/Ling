@@ -43,6 +43,6 @@ namespace Ling.Map
 			self.CellToWorld(self.CellPos, manager);
 
 		public static Vector3 CellToWorld(this IMapObject self, Vector2Int pos, MapManager manager) =>
-			self.FindTilemap(manager)?.CellToWorld(pos.ToVector3Int()) ?? Vector3.zero;
+			self.FindTilemap(manager)?.GetCellCenterWorld(pos.ToVector3Int()) ?? Vector3.zero;
 	}
 }

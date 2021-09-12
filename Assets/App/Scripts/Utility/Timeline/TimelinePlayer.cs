@@ -38,14 +38,15 @@ namespace Utility.Timeline
 
 		#region private 変数
 
-		[SerializeField] private PlayableDirector _skillTimeline;
+		[SerializeField] private PlayableDirectorCustom _skillTimeline;
+		[SerializeField] private bool _isAutoDestroy;
 
 		#endregion
 
 
 		#region プロパティ
 
-		public PlayableDirector PlayableDirector => _skillTimeline;
+		public PlayableDirectorCustom PlayableDirector => _skillTimeline;
 
         #endregion
 
@@ -66,6 +67,8 @@ namespace Utility.Timeline
 
 		public async UniTask PlayAsync()
 		{
+			gameObject.SetActive(true);
+
 			var cts = new CancellationTokenSource();
 			var list = new List<UniTask>();
 
@@ -77,6 +80,12 @@ namespace Utility.Timeline
 			_skillTimeline.Play();
 
 			await UniTask.WhenAll(list);
+
+			if (_isAutoDestroy)
+			{
+				// 自動削除
+				Destroy(gameObject);
+			}
 		}
 
 		#endregion
@@ -96,10 +105,7 @@ namespace Utility.Timeline
 		{
 			base.Awake();
 
-			if (_skillTimeline == null)
-			{
-				_skillTimeline = GetComponent<PlayableDirector>();
-			}
+			_skillTimeline ??= GetComponent<PlayableDirectorCustom>();
 		}
 
 		#endregion

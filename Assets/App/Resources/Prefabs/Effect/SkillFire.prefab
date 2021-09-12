@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8636382983125541095}
   - component: {fileID: 1153581796415776734}
   - component: {fileID: 4232369429780776391}
+  - component: {fileID: 2717553674372874664}
   m_Layer: 0
   m_Name: SkillFire
   m_TagString: Untagged
@@ -29,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 660256432554523480}
   - {fileID: 6125927915804592641}
@@ -99,26 +101,6 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
-    - Name: _customss
-      Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[System.Int32,
-        mscorlib]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 3|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 0
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
 --- !u!114 &4232369429780776391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,7 +114,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillTimeline: {fileID: 0}
+  _isAutoDestroy: 1
   _type: 0
+--- !u!114 &2717553674372874664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 659573937497779508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d1277b49f7c40d99232320a79a32de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _director: {fileID: 0}
 --- !u!1001 &659573937153792842
 PrefabInstance:
   m_ObjectHideFlags: 0

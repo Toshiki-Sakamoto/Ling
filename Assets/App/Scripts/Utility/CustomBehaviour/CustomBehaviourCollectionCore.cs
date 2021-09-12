@@ -57,21 +57,26 @@ namespace Utility.CustomBehaviour
 		/// <summary>
         /// 機能の登録
         /// </summary>
-		public void Register(ICustomBehaviourCollection collection, IEnumerable<ICustomBehaviour> behaviours)
+		public void Register(ICustomBehaviourCollection collection, IEnumerable<ICustomBehaviour> behaviours, bool isInitialize)
 		{
 			foreach (var behaviour in behaviours)
             {
-				Register(collection, behaviour);
+				Register(collection, behaviour, isInitialize);
             }
 		}
 
-		public void Register(ICustomBehaviourCollection collection, ICustomBehaviour behaviour)
+		public void Register(ICustomBehaviourCollection collection, ICustomBehaviour behaviour, bool isInitialize)
 		{
 			behaviour.Register(collection);
 
 			_behaviours.Add(behaviour);
 
 			behaviour.AddTo(CompositeDisposable);
+
+			if (isInitialize)
+			{
+				behaviour.Initialize();
+			}
 		}
 
 		/// <summary>
@@ -79,6 +84,10 @@ namespace Utility.CustomBehaviour
 		/// </summary>
 		public void Initialize()
 		{
+			if (IsInitialized) return;
+
+			IsInitialized = true;
+
 			foreach (var behaviour in _behaviours)
 			{
 				behaviour.Initialize();

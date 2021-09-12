@@ -6,6 +6,7 @@
 //
 
 using Ling.Const;
+using UnityEngine;
 
 namespace Ling.Common.Effect
 {
@@ -44,6 +45,8 @@ namespace Ling.Common.Effect
         protected override void CallNotExistsPool(EffectType key, string id)
         {
             // idがファイル名なのでそのまま生成する
+			var prefab = Resources.Load<GameObject>($"Prefabs/Effect/{id}");
+            AddPoolItem(key, id, prefab, 1);
         }
 
         #endregion

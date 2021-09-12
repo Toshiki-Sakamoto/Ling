@@ -62,7 +62,7 @@ namespace Ling.Scenes.Battle.Phases
 
 			_advManager.OnFinish = () =>
 				{
-					Change(Phase.PlayerAction);
+					Change(Phase.PlayerActionStart);
 				};
 		}
 

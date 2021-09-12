@@ -61,6 +61,7 @@ namespace Ling.Scenes.Battle
 
 	public enum ProcessType
 	{
+		PlayerAttack,	// プレイヤーのアタック
 		PlayerSkill,	// プレイヤースキル
 		Action,		// キャラの行動
 		Exp,		// 経験値加算処理

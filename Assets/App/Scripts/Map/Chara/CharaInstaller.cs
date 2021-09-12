@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Zenject;
+using MessagePipe;
 
 namespace Ling.Chara
 {
@@ -7,7 +8,15 @@ namespace Ling.Chara
 	{
 		public override void InstallBindings()
 		{
-			Container.Bind<Chara.CharaManager>().FromComponentInHierarchy().AsSingle();
+			Container
+				.Bind<Chara.CharaManager>()
+				.FromComponentInHierarchy().AsSingle();
+
+			// イベント登録
+			var option = Container.BindMessagePipe();
+
+			Container
+				.BindMessageBroker<Chara.EventKilled>(option);
 		}
 	}
 }

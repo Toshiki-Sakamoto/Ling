@@ -5,6 +5,8 @@
 // Created by  on 2021.09.06
 //
 
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Ling.Map.TileDataMapExtensions;
 
@@ -52,21 +54,21 @@ namespace Ling.Map
 		/// <summary>
 		/// 直線を検索する
 		/// </summary>
-		public Map.TileData SearchLine(in Vector2Int srcPos, in Vector2Int dir, Const.TileFlag flag)
+		public Map.TileData SearchLine(in Vector2Int srcPos, in Vector2Int dir, Const.TileFlag flag) =>
+			SearchLines(srcPos, dir, flag).LastOrDefault();
+
+		public List<Map.TileData> SearchLines(in Vector2Int srcPos, in Vector2Int dir, Const.TileFlag flag, List<Map.TileData> result = null)
 		{
-			if (_tileDataMap.InRange(srcPos.x, srcPos.y)) 
-			{
-				// 範囲外に出たときは最後のマスを返す
-				return _tileDataMap.GetTileData(srcPos.x, srcPos.y);
-			}
+			result = result ?? new List<TileData>();
+			
+			if (!_tileDataMap.InRange(srcPos.x, srcPos.y)) return result;
+			
+			result.Add(_tileDataMap.GetTileData(srcPos.x, srcPos.y));
 
-			if (_tileDataMap.HasFlag(srcPos, flag))
-			{
-				// 終了
-				return _tileDataMap.GetTileData(srcPos.x, srcPos.y);
-			}
+			// 見つかったら終わり
+			if (_tileDataMap.HasFlag(srcPos, flag)) return result;
 
-			return SearchLine(srcPos + dir, dir, flag);
+			return SearchLines(srcPos + dir, dir, flag, result);
 		}
 
 		#endregion

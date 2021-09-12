@@ -51,6 +51,21 @@ namespace Ling.Chara
 			}
 		}
 
+		/// <summary>
+		/// スキルのターゲットタイプと一致するか
+		/// </summary>
+		public static bool MatchSkillTarget(this CharaType self, MasterData.Skill.TargetType targetType)
+		{
+			switch (self)
+			{
+				case CharaType.Player: return targetType == MasterData.Skill.TargetType.Player;
+				case CharaType.Enemy: return targetType == MasterData.Skill.TargetType.Enemy;
+				
+				default:
+					return false;
+			}
+		}
+
 
 		/// <summary>
 		/// 通常の敵か

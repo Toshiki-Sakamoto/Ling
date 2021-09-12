@@ -17,6 +17,7 @@ using Ling.Scenes.Battle.Phases;
 using Ling.Scenes.Battle.ProcessContainer;
 using Ling.Common.Scene.Battle;
 using Ling.Main;
+using MessagePipe;
 
 namespace Ling.Scenes.Battle
 {
@@ -34,11 +35,9 @@ namespace Ling.Scenes.Battle
 		MenuAction,
 
 		// Player
-		PlayerAction,
-		PlayerAttack,
+		PlayerActionStart,
 		PlayerActionProcess,
 		PlayerActionEnd,
-		PlayerSkill,
 
 		// Enemy
 		EnemyAction,
@@ -85,6 +84,9 @@ namespace Ling.Scenes.Battle
 		[Inject] private Map.MapManager _mapManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
 		[Inject] private MasterData.IMasterHolder _masterHolder = default;
+
+		// イベント
+		[Inject] private ISubscriber<Chara.EventKilled> _killedEvent;
 
 #if DEBUG
 		[Inject] private Utility.DebugConfig.DebugConfigManager _debugConfigManager;
@@ -182,9 +184,8 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhaseMenuAction>(Phase.MenuAction);
 
 			// Player
-			RegistPhase<BattlePhasePlayerAction>(Phase.PlayerAction);
-			RegistPhase<BattlePhasePlayerAttack>(Phase.PlayerAttack);
-			RegistPhase<BattlePhasePlayerSkill>(Phase.PlayerSkill);
+			RegistPhase<BattlePhasePlayerActionStart>(Phase.PlayerActionStart);
+			RegistPhase<BattlePhasePlayerAction>(Phase.PlayerActionProcess);
 			RegistPhase<BattlePhaseItemGet>(Phase.ItemGet);
 
 			RegistPhase<BattlePhaseAdv>(Phase.Adv);
@@ -216,8 +217,8 @@ namespace Ling.Scenes.Battle
 				});
 
 			// 経験値獲得処理
-			_eventManager.Add<Chara.EventKilled>(this, 
-				ev => 
+			_killedEvent
+				.Subscribe(ev => 
 				{
 					if (ev.unit == null || ev.opponent == null) return;
 					if (ev.unit == ev.opponent) return;
@@ -239,7 +240,7 @@ namespace Ling.Scenes.Battle
 						expProcess.Setup(ev.unit, exp);
 						ProcessContainer.Add(ProcessType.Exp, expProcess);
 					}
-				});
+				}).AddTo(this);
 			
 			
 			// 中断データから再開する場合
@@ -388,7 +389,7 @@ namespace Ling.Scenes.Battle
 			if (result == null)
 			{
 				// 何も選択されなかった
-				_phase.ChangePhase(Phase.PlayerAction);
+				_phase.ChangePhase(Phase.PlayerActionStart);
 				return;
 			}
 
@@ -414,7 +415,7 @@ namespace Ling.Scenes.Battle
 
 
 			// 何も使用してないならプレイヤー行動に戻す
-			_phase.ChangePhase(Phase.PlayerAction);
+			_phase.ChangePhase(Phase.PlayerActionStart);
 		}
 
 		#endregion
