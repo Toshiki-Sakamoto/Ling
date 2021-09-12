@@ -22,9 +22,9 @@ MonoBehaviour:
     _hitMin: 1
     _hitMax: 1
     _effect:
-      _rangeType: 1
+      _rangeType: 2
       _speed: 1
-      _targetType: 2
+      _targetType: 3
     _enableHeal: 0
     _heal:
       _hp: 0
