@@ -46,7 +46,7 @@ namespace Ling.Scenes.Battle.Skill
 
 		#region プロパティ
 
-		public List<Chara.ICharaController> Targets => new List<Chara.ICharaController>();
+		public List<Chara.ICharaController> Targets { get; } = new List<Chara.ICharaController>();
 
 		#endregion
 
@@ -88,7 +88,10 @@ namespace Ling.Scenes.Battle.Skill
 				});
 
 			var effectPlayer = _impl.Build();
-			await effectPlayer.PlayAsync();
+			if (effectPlayer != null)
+			{
+				await effectPlayer.PlayAsync();
+			}
 			
 			// 演出開始
 			await UniTask.Delay(500); // todo: ちょっとまつだけ

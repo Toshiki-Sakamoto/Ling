@@ -48,7 +48,7 @@ namespace Ling.Scenes.Battle.Process
 
 		#region プロパティ
 
-		public List<Chara.ICharaController> Targets => new List<Chara.ICharaController>();
+		public List<Chara.ICharaController> Targets { get; } = new List<Chara.ICharaController>();
 
 		#endregion
 

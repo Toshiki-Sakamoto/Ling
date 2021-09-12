@@ -36,7 +36,7 @@ namespace Ling.MasterData.Skill
 		private float _speed = 1f;
 
 		[SerializeField, LabelText("ターゲット")]
-		private TargetType _targetType;
+		private Const.TargetType _targetType;
 
 		#endregion
 
@@ -45,7 +45,7 @@ namespace Ling.MasterData.Skill
 
 		public RangeType Range => _rangeType;
 		public float Speed => _speed;
-		public TargetType Target => _targetType;
+		public Const.TargetType Target => _targetType;
 
 		#endregion
 

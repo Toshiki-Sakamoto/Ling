@@ -73,6 +73,12 @@ namespace Ling.Scenes.Battle.Skill
 
 			ApplyMove(effect);
 
+			var effectEntity = _skill.Effect;
+			if (effectEntity.Target == Const.TargetType.Self)
+			{
+				_onTargetSubject.OnNext(_chara);
+			}
+
 			return effect;
 		}
 
@@ -88,6 +94,13 @@ namespace Ling.Scenes.Battle.Skill
 
 			switch (effectEntity.Range)
 			{
+				// 足元
+				case RangeType.Foot:
+				{
+					// エフェクトには特に何もしない
+				}
+				break;
+
 				case RangeType.Line:
 				case RangeType.LinePnt:	// 貫通
 				{
@@ -112,9 +125,9 @@ namespace Ling.Scenes.Battle.Skill
 					{
 						var target = _charaManager.FindCharaInPos(_chara.Level, tile.Pos);
 						if (target == null) continue;
-						if (!target.Model.CharaType.MatchSkillTarget(_skill.Effect.Target)) continue;
 
-						_onTargetSubject.OnNext(target);
+						// ターゲットが全てなら関係なく登録
+						ApplyTarget(target);
 					}
 					
 					Common.Effect.IEffectMoveCore move = new Common.Effect.EffectMoveCoreConstantLiner();
@@ -123,6 +136,31 @@ namespace Ling.Scenes.Battle.Skill
 					move.SetSpeed(effectEntity.Speed);
 					
 					player.Mover.RegisterCore(move);
+				}
+				break;
+			}
+		}
+
+		public void ApplyTarget(Chara.ICharaController target)
+		{
+			var effectEntity = _skill.Effect;
+
+			switch (effectEntity.Target)
+			{
+				// 関係なく登録
+				case Const.TargetType.All:
+				{
+					_onTargetSubject.OnNext(target);
+				}
+				break;
+
+				case Const.TargetType.Ally:
+				case Const.TargetType.Enemy:
+				{
+					var targetCharaType = _chara.Model.ConvertTargetCharaType(effectEntity.Target);
+					if (targetCharaType != target.Model.CharaType) break;
+
+					_onTargetSubject.OnNext(target);
 				}
 				break;
 			}

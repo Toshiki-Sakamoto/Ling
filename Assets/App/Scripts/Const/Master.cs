@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
+using Sirenix.OdinInspector;
 
 using Zenject;
 
@@ -55,5 +56,25 @@ namespace Ling.Const
 		None,
 
 		Normal, // 通常の攻撃しかしない
+	}
+
+	/// <summary>
+	/// 対象
+	/// </summary>
+	public enum TargetType
+	{
+		None,
+
+		[LabelText("自分")]
+		Self,
+
+		[LabelText("味方")]
+		Ally,
+
+		[LabelText("敵")]
+		Enemy,
+
+		[LabelText("全員")]
+		All,
 	}
 }
