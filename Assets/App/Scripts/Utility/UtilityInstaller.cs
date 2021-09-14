@@ -39,6 +39,11 @@ namespace Utility
 				.Bind<ProcessManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
+
+			Container
+				.Bind<ShaderEx.IShaderContainer>()
+				.FromInstance(new ShaderEx.ShaderContainer())
+				.AsSingle();
 		}
 	}
 }
