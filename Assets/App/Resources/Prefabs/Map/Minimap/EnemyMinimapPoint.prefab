@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4298329480424096561}
   - component: {fileID: 1270791834}
   m_Layer: 6
-  m_Name: PlayerMinimapPoint
+  m_Name: EnemyMinimapPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,4 +96,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f28bee43113874f0aab738436e7d606f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _color: {r: 0.9716981, g: 0.9205562, b: 0, a: 0}
+  _color: {r: 0.8962264, g: 0.25787643, b: 0.32304552, a: 0}
