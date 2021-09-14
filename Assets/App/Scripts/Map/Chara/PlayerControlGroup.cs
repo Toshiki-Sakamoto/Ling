@@ -35,7 +35,6 @@ namespace Ling.Chara
 		#region private 変数
 
 		[SerializeField, ES3NonSerializable] private PlayerControl _player = default;
-		[ES3Serializable] private int aaaa;
 
 		[Inject] private DiContainer _diContainer;
 		[Inject] private Utility.IEventManager _eventManager;
