@@ -84,7 +84,6 @@ namespace Ling.Map
 		public Map.MapView MapView => MapControl.View;
 
 		public Map.MiniMapControl MiniMapControl => _minimapControl;
-		public Map.MiniMapView MiniMapView => _minimapControl.View;
 
 		#endregion
 
@@ -113,6 +112,8 @@ namespace Ling.Map
 			MapControl.SetModel(_mapModel);
 
 			_mapModel.Setup(stageMaster, 1);
+
+			MiniMapControl.Setup();
 			
 			// 中断データから再開しているときはマップを作らない
 			if (isResume)
@@ -137,14 +138,16 @@ namespace Ling.Map
 			MapControl.Startup(mapIndex);
 
 			// ミニマップの設定
-			MiniMapControl.Setup(_mapModel.CurrentTileDataMap);
+			MiniMapControl.Show(mapIndex);
 		}
 
 		/// <summary>
 		/// 次のマップViewを作成する
 		/// </summary>
-		public void CreateMapView(int level) =>
+		public void CreateMapView(int level)
+		{
 			MapControl.CreateMapView(level);
+		}
 
 		/// <summary>
 		/// マップから指定したセルのワールド座標を取得する
@@ -223,7 +226,13 @@ namespace Ling.Map
 		/// </summary>
 		public void ChangeNextLevel(int level)
 		{
-			_control.ChangeMap(level);
+			var removeLevels = _control.ChangeMap(level);
+
+			// 要らなくなったマップはミニマップControlからも削除する
+			foreach (var removeLevel in removeLevels)
+			{
+				MiniMapControl.ClearView(removeLevel);
+			}
 
 			// 座標をもとに戻す
 			_control.ResetViewUpPosition();
@@ -280,6 +289,9 @@ namespace Ling.Map
 				mapData.Setup(builder, builder.TileDataMap);
 
 				_control.SetMapData(mapLevel, mapData);
+
+				// ミニマップを設定する
+				MiniMapControl.ApplyMinimap(mapLevel, builder.TileDataMap);
 			}
 		}
 

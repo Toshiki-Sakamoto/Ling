@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using UnityEngine;
 using Zenject;
+using MessagePipe;
 
 namespace Ling.Map
 {
@@ -22,6 +23,15 @@ namespace Ling.Map
 				.Bind<Common.Effect.IEffectManager>()
 				.FromComponentInHierarchy()
 				.AsSingle();
+
+			// イベント登録
+			var option = Container.Resolve<MessagePipeOptions>();
+
+			Container
+				.BindMessageBroker<EventSpawnMapObject>(option);
+
+			Container
+				.BindMessageBroker<EventDestroyMapObject>(option);
 		}
 	}
 }

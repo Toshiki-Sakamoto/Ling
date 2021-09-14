@@ -7,12 +7,15 @@
 
 using UnityEngine;
 using Utility;
+using Zenject;
+using Utility.ShaderEx;
 
 namespace Ling.Map
 {
 	/// <summary>
 	/// ミニマップ上のオブジェクト
 	/// </summary>
+	[RequireComponent(typeof(MeshRenderer))]
 	public class MiniMapPointObject : MonoBehaviour 
 	{
 		#region 定数, class, enum
@@ -26,6 +29,10 @@ namespace Ling.Map
 
 
 		#region private 変数
+
+		[Inject] private Utility.ShaderEx.IShaderContainer _shaderContainer;
+
+		[SerializeField] private Color _color;
 
 		#endregion
 
@@ -48,6 +55,7 @@ namespace Ling.Map
 		#region private 関数
 
 		private MiniMapObjectFollower _follower;
+		private Material _material;
 
 		#endregion
 
@@ -60,27 +68,17 @@ namespace Ling.Map
 		void Awake()
 		{
 			_follower = gameObject.GetOrAddComponent<MiniMapObjectFollower>();
+
+			var meshRenderer = GetComponent<MeshRenderer>();
+			_material = new Material(_shaderContainer.GetOrCreateCache(ShaderName.SurfaceLightOff));
+			_material.SetColor(ShaderProperty.Color, _color);
+
+			meshRenderer.material = _material;
 		}
 
-		/// <summary>
-		/// 更新前処理
-		/// </summary>
-		void Start()
-		{
-		}
-
-		/// <summary>
-		/// 更新処理
-		/// </summary>
-		void Update()
-		{
-		}
-
-		/// <summary>
-		/// 終了処理
-		/// </summary>
 		void OnDestroy()
 		{
+			GameObject.Destroy(_material);
 		}
 
 		#endregion
