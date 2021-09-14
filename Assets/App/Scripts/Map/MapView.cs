@@ -233,8 +233,10 @@ namespace Ling.Map
 		/// <summary>
 		/// 指定した配列に存在しない余分なMapを削除する
 		/// </summary>
-		public void RemoveExtraTilemap(List<int> indexes)
+		public List<int> RemoveExtraTilemap(List<int> indexes)
 		{
+			var result = new List<int>();
+
 			foreach (var tilemap in _usedItems.ToArray())
 			{
 				if (indexes.Exists(index_ => index_ == tilemap.Level))
@@ -250,7 +252,11 @@ namespace Ling.Map
 
 				// 削除したことを伝える
 				_eventManager.Trigger(new EventRemoveMap { level = tilemap.Level });
+
+				result.Add(tilemap.Level);
 			}
+
+			return result;
 		}
 
 		public DropItemController FindDropItemController(int index)

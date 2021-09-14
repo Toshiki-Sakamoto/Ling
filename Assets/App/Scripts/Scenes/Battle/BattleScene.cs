@@ -87,6 +87,7 @@ namespace Ling.Scenes.Battle
 
 		// イベント
 		[Inject] private ISubscriber<Chara.EventKilled> _killedEvent;
+		[Inject] private IPublisher<Map.EventSpawnMapObject> _eventSpawn;
 
 #if DEBUG
 		[Inject] private Utility.DebugConfig.DebugConfigManager _debugConfigManager;
@@ -365,6 +366,14 @@ namespace Ling.Scenes.Battle
 				{
 					var pos = MapControl.GetRandomPosInRoom(level);
 					enemy.Model.InitPos(pos);
+
+					// プレイヤーが生成されたイベントを投げる
+					_eventSpawn.Publish(new Map.EventSpawnMapObject 
+						{ 
+							Flag = Const.TileFlag.Enemy, 
+							MapLevel = enemy.Model.MapLevel, 
+							followObj = enemy.gameObject 
+						});
 				}
 			}
 

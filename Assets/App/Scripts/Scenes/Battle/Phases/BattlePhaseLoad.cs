@@ -6,14 +6,8 @@
 //
 
 using Cysharp.Threading.Tasks;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UniRx;
-using UnityEngine;
-using UnityEngine.UI;
+using MessagePipe;
+using Ling.Map;
 
 using Zenject;
 
@@ -40,6 +34,8 @@ namespace Ling.Scenes.Battle.Phases
 		[Inject] private Map.MapManager _mapManager = null;
 		[Inject] private Chara.CharaManager _charaManager = null;
 		[Inject] private Common.Scene.IExSceneManager _sceneManager = default;
+
+		[Inject] private IPublisher<EventSpawnMapObject> _eventSpawn;
 
 		private bool _isFinish = false;
 
@@ -120,6 +116,14 @@ namespace Ling.Scenes.Battle.Phases
 				var playerPos = builder.GetPlayerInitPosition();
 				
 				player.Model.InitPos(playerPos);
+
+				// プレイヤーが生成されたイベントを投げる
+				_eventSpawn.Publish(new EventSpawnMapObject 
+					{ 
+						Flag = Const.TileFlag.Player, 
+						MapLevel = player.Model.MapLevel, 
+						followObj = player.gameObject 
+					});
 				
 				// 初期マップの敵を生成する
 				await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindGroundTilemap(1));

@@ -168,7 +168,7 @@ namespace Ling.Map
 		/// <summary>
 		/// 現在のマップを一つ進め、変更する
 		/// </summary>
-		public void ChangeMap(int nextMapIndex)
+		public List<int> ChangeMap(int nextMapIndex)
 		{
 			// 現在のMapIndexを変更する
 			_model.ChangeMapByIndex(nextMapIndex);
@@ -176,12 +176,14 @@ namespace Ling.Map
 			_view.SetMapIndex(nextMapIndex);
 
 			// もう見えないMapを削除する
-			_view.RemoveExtraTilemap(_model.ShowMapIndexes);
+			var removeIndexes = _view.RemoveExtraTilemap(_model.ShowMapIndexes);
 
 			// 変化先のマップを中心とする
 			_view.ForceTransformAdjustment(nextMapIndex);
 
 			// プレイヤーの座標も初期化する
+
+			return removeIndexes;
 		}
 
 		/// <summary>

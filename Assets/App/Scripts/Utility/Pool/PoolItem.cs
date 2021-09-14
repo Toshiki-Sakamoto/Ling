@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UniRx;
 
 using Zenject;
 
@@ -32,6 +33,7 @@ namespace Utility.Pool
 		#region private 変数
 
 		private PoolCreator _poolCreator;   // 自分を生成したPoolCreator
+		private PoolCallbacker _callbacker;
 
 		#endregion
 
@@ -64,6 +66,8 @@ namespace Utility.Pool
 		public void Detach()
 		{
 			_poolCreator.Push(this);
+
+			_callbacker?.CallDetach(this);
 		}
 
 		public void Used() => IsUsed = true;
@@ -79,6 +83,11 @@ namespace Utility.Pool
 
 
 		#region MonoBegaviour
+
+		private void Awake()
+		{
+			_callbacker = gameObject.GetOrAddComponent<PoolCallbacker>();
+		}
 
 		#endregion
 	}

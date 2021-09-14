@@ -5,6 +5,8 @@
 // Created by toshiki sakamoto on 2020.08.08
 //
 
+using UnityEngine;
+
 namespace Ling.Map
 {
 	/// <summary>
@@ -50,5 +52,24 @@ namespace Ling.Map
 	public class EventRemoveMap
 	{
 		public int level;
+	}
+
+	/// <summary>
+	/// マップオブジェクトが配置された時のイベント
+	/// </summary>
+	public class EventSpawnMapObject
+	{
+		public Const.TileFlag Flag;
+		public int MapLevel;
+		public GameObject followObj;
+	}
+
+	/// <summary>
+	/// マップオブジェクトから削除された時のイベント
+	/// </summary>
+	public class EventDestroyMapObject
+	{
+		public int MapLevel;
+		public GameObject followObj;
 	}
 }
