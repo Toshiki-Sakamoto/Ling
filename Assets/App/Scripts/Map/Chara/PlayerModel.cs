@@ -33,6 +33,8 @@ namespace Ling.Chara
 
 		public override int Exp => 1;
 
+		public override Const.TileFlag TileFlag => Const.TileFlag.Player;
+
 		#endregion
 
 

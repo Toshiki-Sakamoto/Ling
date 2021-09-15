@@ -366,15 +366,10 @@ namespace Ling.Scenes.Battle
 				{
 					var pos = MapControl.GetRandomPosInRoom(level);
 					enemy.Model.InitPos(pos);
-
-					// プレイヤーが生成されたイベントを投げる
-					_eventSpawn.Publish(new Map.EventSpawnMapObject 
-						{ 
-							Flag = Const.TileFlag.Enemy, 
-							MapLevel = enemy.Model.MapLevel, 
-							followObj = enemy.gameObject 
-						});
 				}
+
+				// 敵が生成されたイベントを投げる
+				_eventSpawn.Publish(Map.EventSpawnMapObject.CreateAtChara(enemy));
 			}
 
 			// アイテムを配置する

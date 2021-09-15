@@ -149,6 +149,11 @@ namespace Ling.Chara
 		/// </summary>
 		public abstract int Exp { get; }
 
+		/// <summary>
+		/// キャラが持つタイル上のフラグ
+		/// </summary>
+		public abstract Const.TileFlag TileFlag { get; }
+
 		#endregion
 
 

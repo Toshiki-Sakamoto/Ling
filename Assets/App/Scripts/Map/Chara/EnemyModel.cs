@@ -38,6 +38,8 @@ namespace Ling.Chara
 		/// </summary>
 		public override int Exp => Master.Exp;
 		
+		public override Const.TileFlag TileFlag => Const.TileFlag.Enemy;
+		
 		[ES3Serializable]
 		public Const.EnemyType Type { get; private set; }
 
