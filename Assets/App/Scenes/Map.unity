@@ -2327,7 +2327,7 @@ MonoBehaviour:
   - {fileID: 160674412}
   - {fileID: 1975805854}
   _poolManager: {fileID: 1258740621}
-  _viewInfos: []
+  _models: []
 --- !u!114 &1258740621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2360,6 +2360,17 @@ MonoBehaviour:
     createInfo:
       poolRoot: {fileID: 1654881964}
       poolObject: {fileID: 4298329480424096572, guid: 48cf093790da64eedbe390aede9ba4f2,
+        type: 3}
+      initCreateNum: 1
+      isAutoCreate: 1
+      onceCreatingNum: 20
+  - key: 64
+    id: 
+    isUsedCreator: 0
+    creator: {fileID: 0}
+    createInfo:
+      poolRoot: {fileID: 1654881964}
+      poolObject: {fileID: 4298329480424096572, guid: f1a37f057914b40c1b1886046caa021c,
         type: 3}
       initCreateNum: 1
       isAutoCreate: 1
