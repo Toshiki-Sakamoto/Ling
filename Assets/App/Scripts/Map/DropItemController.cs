@@ -17,6 +17,7 @@ using Utility.Extensions;
 using Sirenix.OdinInspector;
 using Cysharp.Threading.Tasks;
 using System.Linq;
+using MessagePipe;
 
 namespace Ling.Map
 {
@@ -29,6 +30,7 @@ namespace Ling.Map
 
 		[Inject] private Utility.SaveData.ISaveDataHelper _saveHelper;
 		[Inject] private Utility.IEventManager _eventManager;
+		[Inject] private IPublisher<EventSpawnMapObject> _eventSpawnMapObject;
 		
 		[SerializeField] private ItemPool _pool = default;
 		[ShowInInspector] private Dictionary<int, Item.ItemControl> _itemObjectDict = new Dictionary<int, Item.ItemControl>();
@@ -170,6 +172,14 @@ namespace Ling.Map
 
 			// マップに配置する
 			_mapObjectInstaller.PlaceObject(item.gameObject, _level, tileData.Pos, OrderType.Item);
+
+			// 生成したことを伝える
+			_eventSpawnMapObject.Publish(new EventSpawnMapObject 
+				{ 
+					Flag = Const.TileFlag.Item, 
+					MapLevel = _level, 
+					followObj = item.gameObject 
+				});
 
 			return item;
 		}
