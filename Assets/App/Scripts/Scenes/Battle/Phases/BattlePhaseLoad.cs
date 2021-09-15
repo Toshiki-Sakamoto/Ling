@@ -106,6 +106,10 @@ namespace Ling.Scenes.Battle.Phases
 			var player = _charaManager.Player;
 			mapControl.SetChara(player);
 
+
+			// プレイヤーが生成されたイベントを投げる
+			_eventSpawn.Publish(EventSpawnMapObject.CreateAtChara(player));
+
 			if (_model.IsResume)
 			{
 				Scene.DeployObjectToMap(isResume: true);
@@ -117,14 +121,6 @@ namespace Ling.Scenes.Battle.Phases
 				
 				player.Model.InitPos(playerPos);
 
-				// プレイヤーが生成されたイベントを投げる
-				_eventSpawn.Publish(new EventSpawnMapObject 
-					{ 
-						Flag = Const.TileFlag.Player, 
-						MapLevel = player.Model.MapLevel, 
-						followObj = player.gameObject 
-					});
-				
 				// 初期マップの敵を生成する
 				await _charaManager.BuildEnemyGroupAsync(1, _mapManager.FindGroundTilemap(1));
 				await _charaManager.BuildEnemyGroupAsync(2, _mapManager.FindGroundTilemap(2));

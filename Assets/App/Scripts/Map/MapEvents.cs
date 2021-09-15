@@ -62,6 +62,20 @@ namespace Ling.Map
 		public Const.TileFlag Flag;
 		public int MapLevel;
 		public GameObject followObj;
+
+
+		/// <summary>
+		/// キャラクタを指定して生成
+		/// </summary>
+		public static EventSpawnMapObject CreateAtChara<TChara>(TChara chara) where TChara : MonoBehaviour, Chara.ICharaController
+		{
+			var instance = new EventSpawnMapObject();
+			instance.MapLevel = chara.Model.MapLevel;
+			instance.followObj = chara.gameObject;
+			instance.Flag = chara.Model.TileFlag;
+
+			return instance;
+		}
 	}
 
 	/// <summary>
