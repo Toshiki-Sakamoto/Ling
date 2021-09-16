@@ -16,6 +16,7 @@ using Ling.Const;
 using UnityEngine.Tilemaps;
 using Utility.Extensions;
 using System;
+using Utility;
 
 namespace Ling.Chara
 {
@@ -34,6 +35,7 @@ namespace Ling.Chara
 		Exp.ICharaExpController ExpController { get; }
 
 		CharaEquipControl EquipControl { get; }
+
 		
 		/// <summary>
 		/// キャラ名
@@ -48,7 +50,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// ダメージを受けた時
 		/// </summary>
-		void Damage(long value);
+		UniTask Damage(long value);
 
 		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase;
 		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase;
@@ -137,8 +139,7 @@ namespace Ling.Chara
 		/// 装備関連の操作
 		/// </summary>
 		public CharaEquipControl EquipControl => _equipControl;
-
-
+		
 		// ICharaController
 		CharaModel ICharaController.Model => _model;
 		ViewBase ICharaController.View => _view;
@@ -156,8 +157,10 @@ namespace Ling.Chara
 			_equipControl.Setup(_model.Status);
 
 			// 死亡時
-			Status.IsDead.Where(isDead_ => isDead_)
-				.SelectMany(_ =>
+#if false
+			Status.IsDead
+				.Where(isDead_ => isDead_)
+				.SelectMany(async _ =>
 				{
 					// キャラが死亡した時
 					_eventManager.Trigger(new EventDead { chara = this });
@@ -173,6 +176,7 @@ namespace Ling.Chara
 				{
 					Utility.Log.Print("死にアニメーション終わり");
 				}).AddTo(gameObject);
+#endif
 
 			// 向きが変わったとき
 			_model.Dir.Subscribe(dir_ =>
@@ -387,12 +391,35 @@ namespace Ling.Chara
 		/// <summary>
 		/// ダメージを受けた時
 		/// </summary>
-		void ICharaController.Damage(long value)
+		/// <remarks>
+		/// 一旦アニメーションも込にする
+		/// </remarks>
+		async UniTask ICharaController.Damage(long value)
 		{
+			Status.HP.SubCurrent(value);
+
 			// ダメージを受けたイベントを送る
 			_eventManager.Trigger(new EventDamage { chara = this, value = value });
+			
+			// ダメージアニメーション再生
+			View.PlayDamageAnimation();
 
-			Status.HP.SubCurrent(value);
+			// アニメーションが終わるまで待機
+			await View.AnimationObserver
+				.OnDamage
+				.Where(state => state == AnimationState.Exit)
+				.First();
+
+			// 死亡していたらアニメーションを流す
+			if (_model.IsDead)
+			{
+				View.PlayDeadAnimation();
+
+				// todo アニメーション待機
+
+				// 死亡処理
+				DestroyProcess();
+			}
 		}
 
 		#endregion
@@ -405,10 +432,13 @@ namespace Ling.Chara
 		/// </summary>
 		private void DestroyProcess()
 		{
+			// キャラが死亡した時のイベントを投げる
+			_eventManager.Trigger(new EventDead { chara = this });
+
 			// 削除イベントを投げる
 			var eventRemove = _model.EventRemove;
 			eventRemove.chara = this;
-			Utility.EventManager.SafeTrigger(eventRemove);
+			_eventManager.Trigger(eventRemove);
 
 			DestroyProcessInternal();
 		}

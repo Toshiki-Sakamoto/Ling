@@ -77,11 +77,9 @@ namespace Ling.Scenes.Battle.Skill
 		{
 			foreach (var target in _targets)
 			{
-				// todo ダメージ演出
-
 				// HPをへらす
 				var damage = Chara.Calculator.CharaSkillCalculator.Calculate(_chara, target);
-				target.Damage(damage);
+				await target.Damage(damage);
 
 				// 死亡しているか
 				if (target.Status.IsDead.Value)

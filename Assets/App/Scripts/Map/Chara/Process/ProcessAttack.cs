@@ -101,37 +101,25 @@ namespace Ling.Chara.Process
 			var dir = _unit.Model.Dir.Value;
 			var movePos = new Vector3(dir.x * 0.3f, 0f, dir.y * 0.3f);
 
-			await view.transform.DOMove(movePos, 0.1f).SetRelative(true);
+			var moveSequence = DOTween.Sequence()
+				.Append(view.transform.DOMove(movePos, 0.1f).SetRelative(true))
+				.Append(view.transform.DOMove(movePos * -1, 0.1f).SetRelative(true));
 
 			// ダメージ計算
-			var subject = new Subject<Chara.ICharaController>();
-			subject.Where(_ => ExistsTarget)
-				.Where(target =>
-				{
-					// HPをへらす
-					// Note: 今は計算処理をここに書くが、別の場所に逃がすかどうか
-					var damage = Chara.Calculator.CharaAttackCalculator.Calculate(_unit, target);
-					target.Damage(damage);
-
-					// 死亡している場合のみ先に進ませる
-					return target.Status.IsDead.Value;
-				})
-				.Subscribe(target => 
-				{
-					// 倒した情報を送る
-					_killedEvent.Publish(new EventKilled { unit = _unit, opponent = target });
-//					_eventManager.Trigger(new Chara.EventKilled { unit = _unit, opponent = target });
-
-					_deadChara.Add(target);
-				});
-
 			foreach (var target in _targets)
-			{
-				subject.OnNext(target);
-			}
-			subject.OnCompleted();
+			{	
+				// HPをへらす
+				// Note: 今は計算処理をここに書くが、別の場所に逃がすかどうか
+				var damage = Chara.Calculator.CharaAttackCalculator.Calculate(_unit, target);
+				await target.Damage(damage);
 
-			await view.transform.DOMove(movePos * -1, 0.1f).SetRelative(true);
+				if (target.Status.IsDead.Value)
+				{
+					_deadChara.Add(target);
+				}
+			}
+
+			await moveSequence;
 
 			// 主人公が死んだ場合、ゲームオーバー処理となる
 			if (_charaManager.IsPlayerDead)
@@ -139,12 +127,17 @@ namespace Ling.Chara.Process
 				return;
 			}
 
-			foreach (var chara in _deadChara)
+			foreach (var target in _deadChara)
 			{
-				if (!chara.View.IsAnimationPlaying) continue;
+#if false
+				if (!target.View.IsAnimationPlaying) continue;
 
 				// 1フレーム必ず待機する
-				await UniTask.WaitUntil(() => chara.View.IsAnimationPlaying);
+				await UniTask.WaitUntil(() => target.View.IsAnimationPlaying);
+#endif
+
+				// 倒した情報を送る
+				_killedEvent.Publish(new EventKilled { unit = _unit, opponent = target });
 			}
 
 			if (!_deadChara.IsNullOrEmpty())
