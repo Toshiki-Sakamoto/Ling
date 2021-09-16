@@ -9,6 +9,7 @@ using UnityEngine.Tilemaps;
 using Cysharp.Threading.Tasks;
 using UniRx;
 using System;
+using Utility;
 
 
 namespace Ling.Chara
@@ -51,6 +52,11 @@ namespace Ling.Chara
 		/// アニメーション再生中の場合true
 		/// </summary>
 		public bool IsAnimationPlaying { get; private set; }
+		
+		/// <summary>
+		/// アニメーションオブサーバー
+		/// </summary>
+		public CharaAnimatonObserver AnimationObserver { get; private set; }
 
 		#endregion
 
@@ -113,14 +119,17 @@ namespace Ling.Chara
 		/// <summary>
 		/// 死亡アニメーションを再生する
 		/// </summary>
-		public IObservable<AsyncUnit> PlayDeadAnimation()
+		public void PlayDeadAnimation()
 		{
-			return UniTask.Create(async () =>
-				{
-					IsAnimationPlaying = false;
-
-				}).ToObservable();
+//			await UniTask.Delay(100);
+//			IsAnimationPlaying = false;
 		}
+
+		public void PlayDamageAnimation()
+		{
+			_animator.SetTrigger("Damage");
+		}
+
 
 
 		/// <summary>
@@ -164,6 +173,8 @@ namespace Ling.Chara
 		void Awake()
 		{
 			_renderers = GetComponentsInChildren<Renderer>();
+
+			AnimationObserver = gameObject.GetOrAddComponent<CharaAnimatonObserver>();
 		}
 
 		/// <summary>
