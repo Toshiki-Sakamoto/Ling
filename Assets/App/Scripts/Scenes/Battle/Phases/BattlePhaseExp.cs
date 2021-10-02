@@ -33,7 +33,7 @@ namespace Ling.Scenes.Battle.Phases
 			/// 終了後、再度キャラの行動処理に移す
 			/// </summary>
 			public static Arg CreateAtCharaProcessExecuter() =>
-				new Arg { NextPhase = Phase.CharaProcessEnd };
+				new Arg { NextPhase = Phase.CharaProcessExecute };
 
 			public Utility.PhaseArgument GetNextArgument()
 			{

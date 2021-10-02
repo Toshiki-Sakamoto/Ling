@@ -37,7 +37,7 @@ namespace Ling.Scenes.Battle
 		// Player
 		PlayerActionStart,
 		PlayerActionProcess,
-		PlayerActionEnd,
+		PlayerProcessEnd,
 
 		// Enemy
 		EnemyAction,
@@ -188,6 +188,7 @@ namespace Ling.Scenes.Battle
 			RegistPhase<BattlePhasePlayerActionStart>(Phase.PlayerActionStart);
 			RegistPhase<BattlePhasePlayerAction>(Phase.PlayerActionProcess);
 			RegistPhase<BattlePhaseItemGet>(Phase.ItemGet);
+			RegistPhase<BattlePhasePlayerProcessEnd>(Phase.PlayerProcessEnd);
 
 			RegistPhase<BattlePhaseAdv>(Phase.Adv);
 			RegistPhase<BattlePhaseNextStage>(Phase.NextStage);

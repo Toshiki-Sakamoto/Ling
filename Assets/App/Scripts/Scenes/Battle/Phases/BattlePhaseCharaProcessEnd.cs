@@ -53,6 +53,12 @@ namespace Ling.Scenes.Battle.Phases
 
 		public override void PhaseStart()
 		{
+			// CharaActionが残っているときは終わるまで繰り返す
+			if (Scene.ProcessContainer.Exists(ProcessType.Action))
+			{
+				// todo: Executerに戻す処理入れたほうが良ければ入れる
+			}
+
 			// 今の所何もすることないのでプレイヤー行動開始時に戻す
 			// 足元確認とか次に入れるほうが良さそう
 
