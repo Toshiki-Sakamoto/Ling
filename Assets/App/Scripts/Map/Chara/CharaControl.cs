@@ -17,45 +17,10 @@ using UnityEngine.Tilemaps;
 using Utility.Extensions;
 using System;
 using Utility;
+using Unity.VisualScripting;
 
 namespace Ling.Chara
 {
-	/// <summary>
-	/// 簡易Controller参照用インターフェース
-	/// </summary>
-	public interface ICharaController : Map.IMapObject
-	{
-		CharaModel Model { get; }
-
-		ViewBase View { get; }
-
-		CharaStatus Status { get; }
-
-		ICharaMoveController MoveController { get; }
-		Exp.ICharaExpController ExpController { get; }
-
-		CharaEquipControl EquipControl { get; }
-
-		
-		/// <summary>
-		/// キャラ名
-		/// </summary>
-		string Name { get; }
-
-		/// <summary>
-		/// Tilemap情報を設定する
-		/// </summary>
-		void SetTilemap(Tilemap tilemap, int mapLevel);
-
-		/// <summary>
-		/// ダメージを受けた時
-		/// </summary>
-		UniTask Damage(long value);
-
-		TProcess AddMoveProcess<TProcess>() where TProcess : Utility.ProcessBase;
-		TProcess AddAttackProcess<TProcess>() where TProcess : Utility.ProcessBase;
-	}
-
 	/// <summary>
 	/// キャラのModelとViewをつなげる役目と操作を行う
 	/// </summary>
@@ -78,6 +43,7 @@ namespace Ling.Chara
 		[SerializeField] protected TModel _model = default;
 		[SerializeField] protected TView _view = default;
 		[SerializeField] private CharaMover _charaMover = default;
+//		[SerializeField] private VisualScripting _a;
 
 		[Inject] protected DiContainer _diContainer = default;
 		[Inject] private Utility.ProcessManager _processManager = default;
