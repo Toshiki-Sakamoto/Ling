@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Ling.Const;
 using UnityEngine;
 using Ling.Map.TileDataMapExtensions;
 
@@ -43,20 +44,37 @@ namespace Ling.Map
 		/// 斜め検索無効フラグ
 		/// </summary>
 		public Const.TileFlag DiagonalInvalidFlag { get; set; }
+
+		/// <summary>
+		/// ターゲット最大数
+		/// </summary>
+		public int TargetMaxNum { get; set; } = 1;
 	}
 
 	public class SearchResult
 	{
+		public class Entity
+		{
+			public Const.TileFlag Flag;
+			public Vector2Int Pos;
+		}
+
 		/// <summary>
-		/// 見つけたターゲット座標
+		/// 見つけたターゲット情報
 		/// </summary>
-		public Vector2Int TargetPos { get; set; }
+		public List<Entity> Entities { get; } = new List<Entity>();
+
+
+		public void Add(in Vector2Int pos, Const.TileFlag flag) =>
+			Entities.Add(new Entity { Flag = flag, Pos = pos });
+
+		public int Count() => Entities.Count();
 	}
 
 	/// <summary>
 	/// マップの検索
 	/// </summary>
-	public class TileDataMapSearcher
+	public partial class TileDataMapSearcher
 	{
 		#region 定数, class, enum
 
@@ -71,11 +89,18 @@ namespace Ling.Map
 		#region private 変数
 
 		private TileDataMap _tileDataMap;
+		private SearchOption _option;
+		private SearchResult _result = null;
+
+		private int _remTargetNum;
 
 		#endregion
 
 
 		#region プロパティ
+
+		private bool FoundMaxCount => Result.Count() == _option.TargetMaxNum;
+		private SearchResult Result => _result ?? (_result = new SearchResult());
 
 
 		#endregion
@@ -93,104 +118,54 @@ namespace Ling.Map
 			_tileDataMap = tileDataMap;
 		}
 
-		/// <summary>
-		/// 直線を検索する
-		/// </summary>
-		public Map.TileData SearchLine(in Vector2Int srcPos, in Vector2Int dir, Const.TileFlag flag) =>
-			SearchLines(srcPos, dir, flag).LastOrDefault();
-
-		public List<Map.TileData> SearchLines(in Vector2Int srcPos, in Vector2Int dir, Const.TileFlag flag, List<Map.TileData> result = null)
-		{
-			result = result ?? new List<TileData>();
-			
-			if (!_tileDataMap.InRange(srcPos.x, srcPos.y)) return result;
-			
-			result.Add(_tileDataMap.GetTileData(srcPos.x, srcPos.y));
-
-			// 見つかったら終わり
-			if (_tileDataMap.HasFlag(srcPos, flag)) return result;
-
-			return SearchLines(srcPos + dir, dir, flag, result);
-		}
-
-		/// <summary>
-		/// オプションから直線でターゲットフラグを検索する
-		/// </summary>
-		public SearchResult SearchStraightLine(Vector2Int srcPos, Const.TileFlag targetFlag, SearchOption option)
-		{
-			var searchLimitNum = option.TileLimitNum;
-
-			// ターゲットと同じ部屋にいるか確認する
-			if (option.NeedsSameRoom)
-			{
-				// 自分が部屋の中じゃない場合周り１マス以内にいなければ何もしない
-				if (!_tileDataMap.TryGetRoomData(srcPos.x, srcPos.y, out var roomData))
-				{
-					searchLimitNum = 1;
-				}
-				else
-				{
-					// 同じ部屋じゃない場合1マス以内にいなければ何もしない
-					if (!roomData.ExistsTileFlags(targetFlag))
-					{
-						searchLimitNum = 1;
-					}
-				}
-			}
-
-			SearchResult result = null;
-
-			DirectionTypeUtility.CallDirection(dir => 
-				{
-					result = SearchInternal(srcPos, targetFlag, dir, option, searchLimitNum);
-					return result != null;
-				});
-
-			return result;
-		}
 
 		/// <summary>
 		/// 1マス以内にターゲットがいるか検索
 		/// </summary>
-		public SearchResult SearchWithin1Square(Vector2Int srcPos, Const.TileFlag targetFlag, SearchOption option)
+		public bool SearchWithin1Square(Vector2Int srcPos, Const.TileFlag targetFlag)
 		{
 			var result = Vector2Int.zero;
+			var resultFlag = Const.TileFlag.None;
 
 			var exists = DirectionTypeUtility.CallDirection(dir => 
 				{
 					result = srcPos + dir.ToVec2Int();
-					return ExistsTargetInDirection(srcPos, targetFlag, dir, option);
+					return ExistsTargetInDirection(srcPos, targetFlag, dir, out var resultFlag);
 				});
 
 			if (exists)
 			{
-				return new SearchResult { TargetPos = result };
+				Result.Add(result, resultFlag);
+				return true;
 			}
 
-			return null;
+			return false;
 		}
 
 		/// <summary>
 		/// 指定した方向1マスを検索して存在すればtrue
 		/// </summary>
-		public bool ExistsTargetInDirection(in Vector2Int srcPos, Const.TileFlag targetFlag, DirectionType dirType, SearchOption option)
+		public bool ExistsTargetInDirection(in Vector2Int srcPos, Const.TileFlag targetFlag, DirectionType dirType, out Const.TileFlag resultFlag)
 		{
+			resultFlag = Const.TileFlag.None;
+
 			var pos = srcPos + dirType.ToVec2Int();
 
-			if (CanSearch(pos.x, pos.y, dirType, option)) return false;
+			if (CanSearch(pos.x, pos.y, dirType)) return false;
 
-			return _tileDataMap.HasFlag(pos.x, pos.y, targetFlag);
+			resultFlag = _tileDataMap.GetTileFlag(pos.x, pos.y);
+			return resultFlag.HasAny(targetFlag);
 		}
 
 		/// <summary>
 		/// サーチ可能の場合true
 		/// </summary>
-		public bool CanSearch(int x, int y, DirectionType dirType, SearchOption option)
+		public bool CanSearch(int x, int y, DirectionType dirType)
 		{
 			if (dirType.IsDiagonal())
 			{
-				if (_tileDataMap.HasFlag(0, y, option.DiagonalInvalidFlag)) return false;
-				if (_tileDataMap.HasFlag(x, 0, option.DiagonalInvalidFlag)) return false;
+				if (_tileDataMap.HasFlag(0, y, _option.DiagonalInvalidFlag)) return false;
+				if (_tileDataMap.HasFlag(x, 0, _option.DiagonalInvalidFlag)) return false;
  			}
 
 			var addPos = dirType.ToVec2Int();
@@ -198,7 +173,7 @@ namespace Ling.Map
 			var dstY = y + addPos.y;
 			
 			// 壁を無視できない時
-			if (!option.IsWallIgnore)
+			if (!_option.IsWallIgnore)
 			{
 				if (_tileDataMap.HasFlag(dstX, dstY, Const.TileFlag.Wall)) return false;
 			}
@@ -211,19 +186,29 @@ namespace Ling.Map
 
 		#region private 関数
 
+		private void Setup(SearchOption option)
+		{
+			_option = option;
+			_remTargetNum = _option.TargetMaxNum;
+
+			_result = null;
+		}
+
 		/// <summary>
 		/// 再帰呼び出して特定の方向を調べていく
 		/// </summary>
-		private SearchResult SearchInternal(in Vector2Int srcPos, Const.TileFlag targetFlag, DirectionType dirType, SearchOption option, int searchLimitNum)
+		private bool SearchInternal(in Vector2Int srcPos, Const.TileFlag targetFlag, DirectionType dirType, int searchLimitNum)
 		{
-			if (searchLimitNum <= 0) return null;
+			if (searchLimitNum <= 0) return false;
 
-			if (ExistsTargetInDirection(srcPos, targetFlag, dirType, option))
+			if (ExistsTargetInDirection(srcPos, targetFlag, dirType, out var resultFlag))
 			{
-				return new SearchResult { TargetPos = srcPos + dirType.ToVec2Int() };
+				Result.Add(srcPos + dirType.ToVec2Int(), resultFlag);
+
+				if (FoundMaxCount) return true;
 			}
 
-			return SearchInternal(srcPos, targetFlag, dirType, option, --searchLimitNum);
+			return SearchInternal(srcPos, targetFlag, dirType, --searchLimitNum);
 		}
 
 		#endregion
