@@ -154,6 +154,11 @@ namespace Ling.Chara
 		/// </summary>
 		public abstract Const.TileFlag TileFlag { get; }
 
+		/// <summary>
+		/// 行動思考部分を切り離し
+		/// </summary>
+		public CharaActionThinkCore ThinkCore { get; } = new CharaActionThinkCore();
+
 		#endregion
 
 

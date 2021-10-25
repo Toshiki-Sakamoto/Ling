@@ -7,6 +7,7 @@
 
 using Cysharp.Threading.Tasks;
 using Utility.Extensions;
+using Unity.VisualScripting;
 
 namespace Ling.Chara
 {
@@ -60,6 +61,7 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
+
 
 		#endregion
 

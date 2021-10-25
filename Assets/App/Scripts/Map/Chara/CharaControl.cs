@@ -43,7 +43,7 @@ namespace Ling.Chara
 		[SerializeField] protected TModel _model = default;
 		[SerializeField] protected TView _view = default;
 		[SerializeField] private CharaMover _charaMover = default;
-//		[SerializeField] private VisualScripting _a;
+
 
 		[Inject] protected DiContainer _diContainer = default;
 		[Inject] private Utility.ProcessManager _processManager = default;
@@ -158,6 +158,8 @@ namespace Ling.Chara
 					_view.SetCellPos(cellPosition_);
 				});
 
+			_model.ThinkCore.SetTarget(gameObject);
+
 			SetupInternal();
 
 			IsSetuped = true;
@@ -184,6 +186,8 @@ namespace Ling.Chara
 			// 自分が状態異常で行動できない場合はスキップ
 
 			// 第一優先として、自分が「特技」「攻撃」ができるか。
+			// 特技の思考
+			await ThinkActionStartAsync();
 
 			// 攻撃
 			await _model.AttackAI.ExecuteAsync(this, timeAwaiter);
@@ -347,12 +351,14 @@ namespace Ling.Chara
 			return false;
 		}
 
-		protected  virtual void SetupInternal() {}
+		/// <summary>
+		/// AIの行動思考
+		/// </summary>
+		protected virtual async UniTask ThinkActionStartAsync() {}
 
-		protected virtual void DestroyProcessInternal()
-		{
+		protected virtual void SetupInternal() {}
 
-		}
+		protected virtual void DestroyProcessInternal() {}
 
 		/// <summary>
 		/// ダメージを受けた時
