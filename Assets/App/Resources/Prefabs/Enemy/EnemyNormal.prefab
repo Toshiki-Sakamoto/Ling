@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 1529985993504369042}
   - component: {fileID: 130432264557164191}
   - component: {fileID: 4903053820824908404}
+  - component: {fileID: 5690677249120779671}
+  - component: {fileID: 6056698379067479819}
   m_Layer: 0
   m_Name: EnemyNormal
   m_TagString: Untagged
@@ -219,3 +221,37 @@ MonoBehaviour:
   _cellPosition:
     value: {x: 0, y: 0}
   _isReactiveCellPosition: 1
+--- !u!114 &5690677249120779671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512035358522948216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e741851cba3ad425c91ecf922cc6b379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"declarations":{"collection":{"$content":[{"name":"Enemy","value":{"$content":0,"$type":"UnityEngine.Object"},"typeHandle":{"Identification":"Ling.Chara.EnemyControl,
+      Ling.Map, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"},{"name":"SkillMaster","value":null,"typeHandle":{"Identification":"Ling.MasterData.Skill.SkillMaster,
+      Common, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null","$version":"A"},"$version":"A"}],"$version":"A"},"$version":"A"}}'
+    _objectReferences:
+    - {fileID: 1836035001706704608}
+--- !u!114 &6056698379067479819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2512035358522948216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efe58df89b5b74a97a123b5ed2b70422, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"nest":{"source":"Macro","macro":0,"embed":null}}'
+    _objectReferences:
+    - {fileID: 11400000, guid: dd63c53d39252401bbc75b32c53c31ca, type: 2}
