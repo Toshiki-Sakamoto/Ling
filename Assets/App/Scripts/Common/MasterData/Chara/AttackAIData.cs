@@ -38,6 +38,9 @@ namespace Ling.MasterData.Chara
 		[SerializeField, FieldName("攻撃AIの最も優先すべきターゲット")]
 		private Const.TileFlag _firstTarget = default;
 
+		[SerializeField]
+		private Skill.SkillMaster[] _skillMasters = default;
+
 		#endregion
 
 
@@ -48,6 +51,10 @@ namespace Ling.MasterData.Chara
 		public string AttackAIParam1 => _attackAIParam1;
 
 		public Const.TileFlag FirstTarget => _firstTarget;
+
+		public Skill.SkillMaster[] SkillMasters => _skillMasters;
+
+		public Skill.SkillMaster FirstSkillMaster => SkillMasters[0];
 
 		#endregion
 

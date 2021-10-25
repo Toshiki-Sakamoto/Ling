@@ -63,9 +63,8 @@ namespace Ling.MasterData.Chara
 		public AttackAIData AttackAIData => _attackAIData;
 
 		public MoveAIData MoveAIData => _moveAIData;
-
+		
 		public StatusData Status => _status;
-
 
 		#endregion
 
@@ -76,7 +75,6 @@ namespace Ling.MasterData.Chara
 
 
 		#region public, protected 関数
-
 
 		#endregion
 

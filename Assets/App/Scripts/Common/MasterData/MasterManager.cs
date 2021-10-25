@@ -10,11 +10,13 @@ using System.Collections.Generic;
 using Ling.MasterData.Chara;
 using Ling.MasterData.Stage;
 using Ling.MasterData.Item;
+using Ling.MasterData.Skill;
 using Ling.MasterData.Equipment;
 using Ling.MasterData.Repository;
 using Ling.MasterData.Repository.Item;
 using Ling.MasterData.Repository.Player;
 using Ling.MasterData.Repository.Equipment;
+using Ling.MasterData.Repository.Skill;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
 using UniRx;
@@ -73,6 +75,7 @@ namespace Ling.MasterData
 		public PlayerLvTableRepository PlayerLvTableRepository => GetRepository<PlayerLvTableRepository>();
 		public WeaponRepository WeaponRepository => GetRepository<WeaponRepository>();
 		public ShieldRepository ShieldRepository => GetRepository<ShieldRepository>();
+		public SkillRepository SkillRepository => GetRepository<SkillRepository>();
 
 		public ItemRepositoryContainer ItemRespositoryContainer { get; } = new ItemRepositoryContainer();
 		public EquipRepositoryContainer EquipRepositoryContainer { get; } = new EquipRepositoryContainer();
@@ -97,6 +100,7 @@ namespace Ling.MasterData
 			AddLoadRepositoryTask<LvTableMaster, PlayerLvTableRepository>("PlayerLvTableMaster");
 			AddLoadRepositoryTask<WeaponMaster, EquipmentMaster, WeaponRepository>("WeaponMaster");
 			AddLoadRepositoryTask<ShieldMaster, EquipmentMaster, ShieldRepository>("ShieldMaster");
+			AddLoadRepositoryTask<SkillMaster, SkillRepository>("SkillMaster");
 
 			// 非同期でTaskを実行し、すべての処理が終わるまで待機
 			await UniTask.WhenAll(_loadTasks);
