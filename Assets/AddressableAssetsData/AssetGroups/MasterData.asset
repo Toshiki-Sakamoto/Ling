@@ -68,6 +68,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - ShieldMaster
+  - m_GUID: dc221e0d6e06a4d7fb2c3f96f63cb734
+    m_Address: Skill
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SkillMaster
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: aef05b59aef0747229b6ec62513fbdd8, type: 2}
   m_SchemaSet:
