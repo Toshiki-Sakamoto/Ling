@@ -60,7 +60,10 @@ namespace Ling.Chara
 
 			CustomEvent.Trigger(_target, "SkillActionThink", skillMaster);
 
-			await UniTask.WaitUntil(() => _isFinished);
+			if (!_isFinished)
+			{
+				await UniTask.WaitUntil(() => _isFinished);
+			}
 		}
 
 		public void SetResult(Map.SearchResult result)
