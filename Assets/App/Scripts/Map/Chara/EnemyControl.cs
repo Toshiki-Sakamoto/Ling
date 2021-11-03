@@ -56,7 +56,7 @@ namespace Ling.Chara
 			
 			// 帰ってくるまで待機する
 
-			await _model.ThinkCore.ThinkStartAsync(skillMaster);
+			await _model.ActionThinkCore.ThinkStartAsync(skillMaster);
 		}
 
 		protected override void DestroyProcessInternal()

@@ -42,6 +42,7 @@ namespace Ling.Scenes.Battle.Skill
 
 		private Chara.ICharaController _chara, _target;
 		private SkillMaster _skill;
+		private Map.SearchResult _searchResult;
 
 		private Subject<Chara.ICharaController> _onTargetSubject = new Subject<Chara.ICharaController>();
 
@@ -62,10 +63,11 @@ namespace Ling.Scenes.Battle.Skill
 
 		#region public, protected 関数
 
-		public void Setup(Chara.ICharaController chara, SkillMaster skill)
+		public void Setup(Chara.ICharaController chara, SkillMaster skill, Map.SearchResult result)
 		{
 			_chara = chara;
 			_skill = skill;
+			_searchResult = result;
 		}
 
 		public Common.Effect.EffectPlayer Build()
@@ -139,6 +141,7 @@ namespace Ling.Scenes.Battle.Skill
 					move.SetSpeed(effectEntity.Speed);
 					
 					player.Mover.RegisterCore(move);
+					player.Mover.SetEase(effectEntity.Ease);
 				}
 				break;
 			}

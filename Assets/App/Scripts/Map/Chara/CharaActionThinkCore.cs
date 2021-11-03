@@ -36,6 +36,8 @@ namespace Ling.Chara
 
 		#region プロパティ
 
+		public MasterData.Skill.SkillMaster SkillMaster { get; private set; }
+
 		public Map.SearchResult Result { get; private set; }
 
 		public System.Action OnEnded { get; set; }
@@ -57,6 +59,7 @@ namespace Ling.Chara
 		public async UniTask ThinkStartAsync(MasterData.Skill.SkillMaster skillMaster)
 		{
 			_isFinished = false;
+			SkillMaster = skillMaster;
 
 			CustomEvent.Trigger(_target, "SkillActionThink", skillMaster);
 

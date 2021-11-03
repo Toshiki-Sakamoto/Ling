@@ -105,6 +105,12 @@ namespace Ling.Chara
 		/// 装備関連の操作
 		/// </summary>
 		public CharaEquipControl EquipControl => _equipControl;
+
+		/// <summary>
+		/// 行動思考部分を切り離し
+		/// </summary>
+		public CharaActionThinkCore ActionThinkCore => _model.ActionThinkCore;
+
 		
 		// ICharaController
 		CharaModel ICharaController.Model => _model;
@@ -158,7 +164,7 @@ namespace Ling.Chara
 					_view.SetCellPos(cellPosition_);
 				});
 
-			_model.ThinkCore.SetTarget(gameObject);
+			_model.ActionThinkCore.SetTarget(gameObject);
 
 			SetupInternal();
 
@@ -188,6 +194,12 @@ namespace Ling.Chara
 			// 第一優先として、自分が「特技」「攻撃」ができるか。
 			// 特技の思考
 			await ThinkActionStartAsync();
+
+			// 特技が使える場合はその処理に進む
+			if (_model.ActionThinkCore.Result != null)
+			{
+				return;
+			}
 
 			// 攻撃
 			await _model.AttackAI.ExecuteAsync(this, timeAwaiter);

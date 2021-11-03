@@ -24,7 +24,7 @@ namespace Ling.Common.Effect
 
         void SetSpeed(float speed);
 
-        UniTask PlayAsync(Transform transform, CancellationToken token);
+        UniTask PlayAsync(Transform transform, Ease ease, CancellationToken token);
     }
 
     /// <summary>
@@ -34,6 +34,7 @@ namespace Ling.Common.Effect
     {
 		private Vector3 _startPos, _endPos;
 		private float _speed;
+        private Ease _ease = Ease.Linear;
 
         void IEffectMoveCore.SetStartPos(in Vector3 pos) =>
             _startPos = pos;
@@ -45,12 +46,14 @@ namespace Ling.Common.Effect
             _speed = speed;
 
 
-        async UniTask IEffectMoveCore.PlayAsync(Transform transform, CancellationToken token)
+        async UniTask IEffectMoveCore.PlayAsync(Transform transform, Ease ease, CancellationToken token)
         {
-			var duration = Vector3.Distance(_endPos, _startPos) / _speed;
+            // 予めデフォルト係数を割っておく
+            var distance = Vector3.Distance(_endPos, _startPos) / 5;
+            var duration = distance / _speed;
 
 			transform.position = _startPos;
-			await transform.DOMove(_endPos, duration).WithCancellation(token);
+			await transform.DOMove(_endPos, duration).SetEase(ease).WithCancellation(token);
         }
     }
 
@@ -58,6 +61,8 @@ namespace Ling.Common.Effect
     public interface IEffectMover : ICustomTimeline
     {
         void RegisterCore(IEffectMoveCore core);
+
+        void SetEase(Ease ease);
     }
 
 	/// <summary>
@@ -79,6 +84,7 @@ namespace Ling.Common.Effect
         #region private 変数
 
         private IEffectMoveCore _core;
+        private Ease _ease = Ease.Linear;
 
         #endregion
 
@@ -99,13 +105,18 @@ namespace Ling.Common.Effect
 
         async UniTask ICustomTimeline.PlayAsync(CancellationToken token)
 		{
-            await _core.PlayAsync(transform, token);
+            await _core.PlayAsync(transform, _ease, token);
 		}
 
 
         void IEffectMover.RegisterCore(IEffectMoveCore core)
         {
             _core = core;
+        }
+
+        void IEffectMover.SetEase(Ease ease)
+        {
+            _ease = ease;
         }
 
         #endregion

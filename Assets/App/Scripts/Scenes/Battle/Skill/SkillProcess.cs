@@ -40,6 +40,7 @@ namespace Ling.Scenes.Battle.Skill
 		private Chara.ICharaController _chara, _target;
 		private SkillMaster _skill;
 		private SkillCreateImpl _impl;
+		private Map.SearchResult _searchResult;
 
 		#endregion
 
@@ -60,11 +61,20 @@ namespace Ling.Scenes.Battle.Skill
 
 		public void Setup(Chara.ICharaController chara, SkillMaster skill)
 		{
+			Setup(chara, skill, null);
+		}
+
+		public void Setup(Chara.ICharaController chara, SkillMaster skill, Map.SearchResult result)
+		{
 			_chara = chara;
 			_skill = skill;
+			_searchResult = result;
+
+			// ターゲットの方を向く
+			chara.Model.SetDirection(result.Dir.ToVec2Int());
 
 			_impl = _diContainer.Instantiate<SkillCreateImpl>();
-			_impl.Setup(chara, skill);
+			_impl.Setup(chara, skill, _searchResult);
 		}
 
 		public void SetTarget(Chara.ICharaController target)

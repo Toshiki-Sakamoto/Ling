@@ -64,6 +64,11 @@ namespace Ling.Map
 		/// </summary>
 		public List<Entity> Entities { get; } = new List<Entity>();
 
+		/// <summary>
+        /// 向き
+        /// </summary>
+		public DirectionType Dir { get; set; }
+
 
 		public void Add(in Vector2Int pos, Const.TileFlag flag) =>
 			Entities.Add(new Entity { Flag = flag, Pos = pos });
@@ -126,15 +131,18 @@ namespace Ling.Map
 		{
 			var result = Vector2Int.zero;
 			var resultFlag = Const.TileFlag.None;
+			var dirType = default(DirectionType);
 
 			var exists = DirectionTypeUtility.CallDirection(dir => 
 				{
+					dirType = dir;
 					result = srcPos + dir.ToVec2Int();
 					return ExistsTargetInDirection(srcPos, targetFlag, dir, out var resultFlag);
 				});
 
 			if (exists)
 			{
+				Result.Dir = dirType;
 				Result.Add(result, resultFlag);
 				return true;
 			}
@@ -149,9 +157,9 @@ namespace Ling.Map
 		{
 			resultFlag = Const.TileFlag.None;
 
-			var pos = srcPos + dirType.ToVec2Int();
+			if (!CanSearch(srcPos.x, srcPos.y, dirType)) return false;
 
-			if (CanSearch(pos.x, pos.y, dirType)) return false;
+			var pos = srcPos + dirType.ToVec2Int();
 
 			resultFlag = _tileDataMap.GetTileFlag(pos.x, pos.y);
 			return resultFlag.HasAny(targetFlag);
@@ -203,6 +211,7 @@ namespace Ling.Map
 
 			if (ExistsTargetInDirection(srcPos, targetFlag, dirType, out var resultFlag))
 			{
+				Result.Dir = dirType;
 				Result.Add(srcPos + dirType.ToVec2Int(), resultFlag);
 
 				if (FoundMaxCount) return true;

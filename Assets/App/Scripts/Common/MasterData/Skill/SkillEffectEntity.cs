@@ -8,6 +8,7 @@
 using UnityEngine;
 using Utility.Attribute;
 using Sirenix.OdinInspector;
+using DG.Tweening;
 
 namespace Ling.MasterData.Skill
 {
@@ -35,6 +36,9 @@ namespace Ling.MasterData.Skill
 		[SerializeField, LabelText("スピード係数")]
 		private float _speed = 1f;
 
+		[SerializeField, LabelText("")]
+		private Ease _ease = Ease.Linear;
+
 		[SerializeField, LabelText("ターゲット")]
 		private Const.TargetType _targetType;
 
@@ -44,7 +48,11 @@ namespace Ling.MasterData.Skill
 		#region プロパティ
 
 		public RangeType Range => _rangeType;
+
 		public float Speed => _speed;
+
+		public Ease Ease => _ease;
+
 		public Const.TargetType Target => _targetType;
 
 		#endregion

@@ -10,6 +10,7 @@ using UnityEngine.Playables;
 using System;
 using System.Collections.Generic;
 using Utility.Timeline;
+using DG.Tweening;
 
 namespace Ling.Common.Effect
 {
@@ -39,6 +40,8 @@ namespace Ling.Common.Effect
 		#region private 変数
 
 		[SerializeField] private Type _type = Type.StartToEnd;
+
+		private Ease _ease;
 
 		#endregion
 

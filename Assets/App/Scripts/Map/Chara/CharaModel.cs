@@ -157,7 +157,7 @@ namespace Ling.Chara
 		/// <summary>
 		/// 行動思考部分を切り離し
 		/// </summary>
-		public CharaActionThinkCore ThinkCore { get; } = new CharaActionThinkCore();
+		public CharaActionThinkCore ActionThinkCore { get; } = new CharaActionThinkCore();
 
 		#endregion
 
