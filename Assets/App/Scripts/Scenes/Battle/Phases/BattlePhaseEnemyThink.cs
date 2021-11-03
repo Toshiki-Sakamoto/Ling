@@ -89,6 +89,13 @@ namespace Ling.Scenes.Battle.Phases
 					if (target is Chara.EnemyControl enemy)
 					{
 						await enemy.ThinkAIProcess(_timeAwaiter);
+
+						// スキルプロセスを引っ付ける
+						if (enemy.ActionThinkCore.Result != null)
+						{
+							var skillProcess = enemy.AddAttackProcess<Skill.SkillProcess>();
+							skillProcess.Setup(enemy, enemy.ActionThinkCore.SkillMaster);
+						}
 					}
 				}
 
@@ -105,6 +112,13 @@ namespace Ling.Scenes.Battle.Phases
 					{
 						// 敵が持つAIによって行動を自由に変更する
 						await enemy.ThinkAIProcess(_timeAwaiter);
+
+						// スキルプロセスを引っ付ける
+						if (enemy.ActionThinkCore.Result != null)
+						{
+							var skillProcess = enemy.AddAttackProcess<Skill.SkillProcess>();
+							skillProcess.Setup(enemy, enemy.ActionThinkCore.SkillMaster, enemy.ActionThinkCore.Result);
+						}
 
 						// プロセスを格納する
 						if (enemy.ExistsAttackProcess)

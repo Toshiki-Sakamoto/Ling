@@ -17,20 +17,5 @@ MonoBehaviour:
   _desc: 
   _prefabType: 4
   _imageName: 
-  _skill:
-    _filename: SkillFire
-    _hitMin: 1
-    _hitMax: 1
-    _effect:
-      _rangeType: 2
-      _speed: 4
-      _targetType: 3
-    _enableHeal: 0
-    _heal:
-      _hp: 0
-      _stamina: 0
-    _enableDamage: 1
-    _damage:
-      _power: 10
-      _fixedDamage: 0
+  _skill: {fileID: 11400000, guid: fc3641e4237bb4f7dafe7078ffb08329, type: 2}
   _type: 0

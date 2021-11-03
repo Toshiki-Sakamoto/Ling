@@ -43,6 +43,8 @@ namespace Ling.MasterData.Item
 		[SerializeField, FieldName("見た目の名前")]
 		private string _imageName = default;
 
+		private int _skillId;
+
 		[SerializeField]
 		private Skill.SkillMaster _skill = default;
 

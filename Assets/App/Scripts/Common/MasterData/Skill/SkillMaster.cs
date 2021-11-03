@@ -21,8 +21,8 @@ namespace Ling.MasterData.Skill
 	/// <summary>
 	/// スキル情報マスタ
 	/// </summary>
-	[System.Serializable]
-	public class SkillMaster
+	[CreateAssetMenu(menuName = "MasterData/SkillMaster", fileName = "SkillMaster")]
+	public class SkillMaster : MasterDataBase
 	{
 		#region 定数, class, enum
 

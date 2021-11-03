@@ -8,6 +8,8 @@
 using UnityEngine;
 using UniRx;
 using System;
+using Unity.VisualScripting;
+using Cysharp.Threading.Tasks;
 
 namespace Ling.Chara
 {
@@ -45,6 +47,17 @@ namespace Ling.Chara
 
 
 		#region public, protected 関数
+
+		protected override async UniTask ThinkActionStartAsync()
+		{
+			// データ内からどのスキルを選択するか選ばせて良いかも
+			// 今は最初のもの
+			var skillMaster = _model.Master.AttackAIData.FirstSkillMaster;
+			
+			// 帰ってくるまで待機する
+
+			await _model.ActionThinkCore.ThinkStartAsync(skillMaster);
+		}
 
 		protected override void DestroyProcessInternal()
 		{

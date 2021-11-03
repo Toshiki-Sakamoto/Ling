@@ -22,7 +22,7 @@ namespace Ling.Map
 	/// </summary>
 	public class ScanOption
 	{
-		public bool isEnemyIgnore = false;  // 敵を無視するか
+		public bool isCharaIgnore = false;  // キャラを無視するか
 		public bool isWallIgnore = false;   // 壁を無視するか
 		public bool isHoleIgnore = false;   // 穴を無視するか
 		public bool needsSameRoom = true;   // 同じ部屋であることが必要か(部屋じゃない場合1マスしか見ない)
