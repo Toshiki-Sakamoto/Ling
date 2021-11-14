@@ -19,12 +19,14 @@ MonoBehaviour:
   _effect:
     _rangeType: 1
     _speed: 1
+    _ease: 1
     _targetType: 3
+    _isInvolve: 1
   _enableHeal: 0
   _heal:
     _hp: 0
     _stamina: 0
   _enableDamage: 1
   _damage:
-    _power: 1
-    _fixedDamage: 0
+    _power: 10
+    _fixedDamage: 1
