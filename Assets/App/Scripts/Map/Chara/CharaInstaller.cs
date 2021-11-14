@@ -21,7 +21,7 @@ namespace Ling.Chara
 
 			Container
 				.Bind<Skill.ISkillCalculater>()
-				.To<Skill.SkillCalculater>()
+				.FromComponentInHierarchy()
 				.AsSingle();
 		}
 	}

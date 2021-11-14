@@ -2287,6 +2287,7 @@ GameObject:
   - component: {fileID: 1197921849}
   - component: {fileID: 1197921851}
   - component: {fileID: 1197921850}
+  - component: {fileID: 1197921852}
   m_Layer: 0
   m_Name: SkillCaclulate
   m_TagString: Untagged
@@ -2340,6 +2341,18 @@ MonoBehaviour:
   _data:
     _json: '{"declarations":{"collection":{"$content":[],"$version":"A"},"$version":"A"}}'
     _objectReferences: []
+--- !u!114 &1197921852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197921848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67bc165c9978b4141bd6fb70c5ccb978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1214860178
 GameObject:
   m_ObjectHideFlags: 0
