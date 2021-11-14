@@ -118,7 +118,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.11",
+      "version": "2.0.12",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -143,7 +143,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.memoryprofiler": {
-      "version": "0.2.9-preview.3",
+      "version": "0.4.2-preview.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -182,7 +182,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.purchasing": {
-      "version": "4.0.3",
+      "version": "4.1.0",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -212,7 +212,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.1.29",
+      "version": "1.1.30",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -232,7 +232,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.timeline": {
-      "version": "1.6.2",
+      "version": "1.7.0-pre.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -253,7 +253,7 @@
       }
     },
     "com.unity.visualscripting": {
-      "version": "1.7.3",
+      "version": "1.7.6",
       "depth": 0,
       "source": "registry",
       "dependencies": {
