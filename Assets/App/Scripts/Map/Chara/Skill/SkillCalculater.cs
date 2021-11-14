@@ -39,7 +39,10 @@ namespace Ling.Chara.Skill
 			CustomEvent.Trigger(gameObject, "Execute", this, entity, unit, target);
 
 			// 終了するまで待機する
-			await UniTask.WaitUntil(() => _isFinish);
+			if (!_isFinish)
+			{
+				await UniTask.WaitUntil(() => _isFinish);
+			}
 
 			return _value;
 		}

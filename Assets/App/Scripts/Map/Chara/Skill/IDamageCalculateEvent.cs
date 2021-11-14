@@ -8,13 +8,13 @@
 namespace Ling.Chara.Skill
 {
 	/// <summary>
-    /// ダメージスキル計算のイベント
-    /// </summary>
+	/// ダメージスキル計算のイベント
+	/// </summary>
 	public interface IDamageCalculateEvent
 	{
 		/// <summary>
-        /// 与えるダメージ量
-        /// </summary>
+		/// 与えるダメージ量
+		/// </summary>
 		void SetCalcDamageValue(int damage);
 	}
 }
