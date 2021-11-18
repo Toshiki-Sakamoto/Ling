@@ -31,8 +31,6 @@ MonoBehaviour:
     assemblyNames:
     - Zenject
     - UniTask
-    - UniRx
-    - MessagePipe
     - DOTweenPro.Scripts
     - EZ3
     - Utility
@@ -40,40 +38,42 @@ MonoBehaviour:
     - Adv
     - UniTask.Linq
     - Assembly-CSharp
-    - Cinemachine
-    - Ling.Scenes.MenuScene
-    - Ling.Scenes
-    - ZString
+    - UniRx
     - Ling.Map
+    - Ling.Scenes
+    - Cinemachine
     - Ling.Scenes.BattleScene
     - MessagePipe.Zenject
     - Const
     - UniTask.DOTween
-    - Purchasing.Common
     - PlayModeTest
-    - Sirenix.OdinInspector.CompatibilityLayer
-    - jp.keijiro.klak.timeline.particlesystemcontrol.Runtime
-    - Ling._Debug.Config
-    - UniRx.Examples
-    - Ling.Debug
+    - Ling.Scenes.MenuScene
+    - ZString
+    - MessagePipe
     - DOTween.Modules
     - Ling.Scenes.StatusScene
+    - UniRx.Examples
+    - Ling.Debug
+    - jp.keijiro.klak.timeline.particlesystemcontrol.Runtime
+    - Purchasing.Common
+    - Ling.Scenes.TitleScene
+    - Ling.Scenes.InputScene
+    - UniTask.Addressables
+    - Sirenix.OdinInspector.CompatibilityLayer
+    - Ling._Debug.Config
     - UniTask.TextMeshPro
     - Ling.Scenes.DataLoad
-    - Ling.Scenes.InputScene
-    - Ling.Scenes.TitleScene
-    - UniTask.Addressables
-    - Sirenix.OdinInspector.CompatibilityLayer.Editor
     - CsprojModifier.Editor
-    - EZ3.Editor
     - UtilityEditor
-    - UniTask.Editor
     - Zenject-TestFramework
+    - EZ3.Editor
     - MessagePipe.Editor
+    - Sirenix.OdinInspector.CompatibilityLayer.Editor
+    - UniTask.Editor
     - DOTweenPro.EditorScripts
+    - Analytics
     - jp.keijiro.klak.timeline.particlesystemcontrol.Editor
     - CommonEditor
-    - Analytics
     showAdvancedSettings: 0
   addMgrToSceneAutomatically: 0
   autoUpdateReferences: 1
