@@ -42,6 +42,9 @@ namespace Ling.MasterData.Skill
 		[SerializeField, LabelText("ターゲット")]
 		private Const.TargetType _targetType;
 
+		[SerializeField, LabelText("範囲に入ったキャラを関係なく巻き込む")]
+		private bool _isInvolve = true;
+
 		#endregion
 
 
@@ -54,6 +57,8 @@ namespace Ling.MasterData.Skill
 		public Ease Ease => _ease;
 
 		public Const.TargetType Target => _targetType;
+
+		public bool IsInvolve => _isInvolve;
 
 		#endregion
 

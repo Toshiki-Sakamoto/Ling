@@ -131,8 +131,7 @@ namespace Ling.Scenes.Battle.Skill
 						var target = _charaManager.FindCharaInPos(_chara.Level, tile.Pos);
 						if (target == null) continue;
 
-						// ターゲットが全てなら関係なく登録
-						ApplyTarget(target);
+						ApplyTarget(target, effectEntity.IsInvolve);
 					}
 					
 					Common.Effect.IEffectMoveCore move = new Common.Effect.EffectMoveCoreConstantLiner();
@@ -147,7 +146,11 @@ namespace Ling.Scenes.Battle.Skill
 			}
 		}
 
-		public void ApplyTarget(Chara.ICharaController target)
+		/// <summary>
+        /// ターゲットを保存する
+        /// </summary>
+        /// <param name="isInvolve">ターゲットが指定されていても巻き込み設定がtrueの場合ターゲットに加える</param>
+		public void ApplyTarget(Chara.ICharaController target, bool isInvolve)
 		{
 			var effectEntity = _skill.Effect;
 
@@ -163,8 +166,11 @@ namespace Ling.Scenes.Battle.Skill
 				case Const.TargetType.Ally:
 				case Const.TargetType.Enemy:
 				{
-					var targetCharaType = _chara.Model.ConvertTargetCharaType(effectEntity.Target);
-					if (targetCharaType != target.Model.CharaType) break;
+					if (!isInvolve)
+					{ 
+						var targetCharaType = _chara.Model.ConvertTargetCharaType(effectEntity.Target);
+						if (targetCharaType != target.Model.CharaType) break;
+					}
 
 					_onTargetSubject.OnNext(target);
 				}

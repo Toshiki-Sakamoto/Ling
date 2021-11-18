@@ -17,6 +17,12 @@ namespace Ling.Chara
 
 			Container
 				.BindMessageBroker<Chara.EventKilled>(option);
+
+
+			Container
+				.Bind<Skill.ISkillCalculater>()
+				.FromComponentInHierarchy()
+				.AsSingle();
 		}
 	}
 }

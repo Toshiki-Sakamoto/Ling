@@ -33,6 +33,7 @@ namespace Ling.Scenes.Battle.Skill
 
 		[Inject] private Utility.IEventManager _eventManager;
 		[Inject] private IPublisher<Chara.EventKilled> _killedEvent;
+		[Inject] private Chara.Skill.ISkillCalculater _skillCalculater;
 
 
 		private Chara.ICharaController _chara;
@@ -78,7 +79,7 @@ namespace Ling.Scenes.Battle.Skill
 			foreach (var target in _targets)
 			{
 				// HPをへらす
-				var damage = Chara.Calculator.CharaSkillCalculator.Calculate(_chara, target);
+				var damage = await _skillCalculater.ExecuteAsync(_chara, target, _entity);
 				await target.Damage(damage);
 
 				// 死亡しているか

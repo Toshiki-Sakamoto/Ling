@@ -54,15 +54,17 @@ namespace Ling.Map
 		public List<Map.TileData> SearchLines(in Vector2Int srcPos, in Vector2Int dir, Const.TileFlag flag, List<Map.TileData> result = null)
 		{
 			result = result ?? new List<TileData>();
+
+			var dstPos = srcPos + dir;
+
+			if (!_tileDataMap.InRange(dstPos.x, dstPos.y)) return result;
 			
-			if (!_tileDataMap.InRange(srcPos.x, srcPos.y)) return result;
-			
-			result.Add(_tileDataMap.GetTileData(srcPos.x, srcPos.y));
+			result.Add(_tileDataMap.GetTileData(dstPos.x, dstPos.y));
 
 			// 見つかったら終わり
-			if (_tileDataMap.HasFlag(srcPos, flag)) return result;
+			if (_tileDataMap.HasFlag(dstPos, flag)) return result;
 
-			return SearchLines(srcPos + dir, dir, flag, result);
+			return SearchLines(dstPos, dir, flag, result);
 		}
 
 		/// <summary>

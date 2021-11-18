@@ -6,6 +6,7 @@
 //
 
 using System;
+using Ling.MasterData.Skill;
 
 namespace Ling.Chara.Calculator
 {
