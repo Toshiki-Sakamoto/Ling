@@ -89,4 +89,12 @@ namespace Ling.Chara
 		public MasterData.Item.ItemMaster ItemMaster;	// 取得したアイテム
 		public Chara.ICharaController Chara;
 	}
+
+	/// <summary>
+    /// 敵がレベルアップしたとき
+    /// </summary>
+	public class EnemyLevelUp
+	{
+		public EnemyControl Enemy;
+	}
 }
