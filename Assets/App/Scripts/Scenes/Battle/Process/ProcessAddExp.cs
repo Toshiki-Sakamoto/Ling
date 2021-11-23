@@ -70,17 +70,26 @@ namespace Ling.Scenes.Battle.Process
 					Utility.Log.Print($"LvUp! {_chara.Name} {lv}");
 
 					_eventManager.Trigger(new Chara.EventLevelUp { Chara = _chara, Lv = lv });
+
+					// 敵の場合敵レベルアップ演出を入れる
+					if (_chara.Model.CharaType == Ling.Chara.CharaType.Enemy)
+					{
+						var levelUpProcess = SetNext<ProcessEnemyLevelUp>();
+						levelUpProcess.Setup(_chara);
+					}
 				});
 
 			// 経験値量を表示
 			Utility.Log.Print($"経験値ゲット {_chara.Name} exp:{_exp}");
 
-			_eventManager.Trigger(new Chara.EventAddedExp { Chara = _chara, Exp = _exp });
-
 			_chara.ExpController.Add(_exp);
 
 			disposable.Dispose();
 
+			if (_chara.Model.CharaType == Ling.Chara.CharaType.Player)
+			{
+				_eventManager.Trigger(new Chara.EventAddedExp { Chara = _chara, Exp = _exp });
+			}
 
 			ProcessFinish();
 		}

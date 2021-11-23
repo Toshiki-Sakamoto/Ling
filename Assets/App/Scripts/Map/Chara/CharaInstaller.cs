@@ -18,6 +18,9 @@ namespace Ling.Chara
 			Container
 				.BindMessageBroker<Chara.EventKilled>(option);
 
+			Container
+				.BindMessageBroker<Chara.EnemyLevelUp>(option);
+
 
 			Container
 				.Bind<Skill.ISkillCalculater>()
