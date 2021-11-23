@@ -40,14 +40,10 @@ namespace Ling.MasterData.Chara
 		[SerializeField, FieldName("取得経験値")]
 		private int _exp = default;
 
-		[SerializeField]
-		private AttackAIData _attackAIData = default;
-
-		[SerializeField]
-		private MoveAIData _moveAIData = default;
-
-		[SerializeField]
-		private StatusData _status = default;
+		[SerializeField] private AttackAIData _attackAIData = default;
+		[SerializeField] private MoveAIData _moveAIData = default;
+		[SerializeField] private StatusData _status = default;
+		[SerializeField, FieldName("進化先")] private Const.EnemyType _next = default;
 
 		#endregion
 
@@ -65,6 +61,14 @@ namespace Ling.MasterData.Chara
 		public MoveAIData MoveAIData => _moveAIData;
 		
 		public StatusData Status => _status;
+
+		public Const.EnemyType Next => _next;
+
+
+		/// <summary>
+        /// 進化先がいる場合true
+        /// </summary>
+		public bool HasNext => Next != Const.EnemyType.None;
 
 		#endregion
 
